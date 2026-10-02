@@ -1,5 +1,5 @@
 {
-  "allowlist": "current backend .py/vendor R+licenses;config templates;runtime6;reviewed frontend;16-row evaluation+definitions;publicdocs",
+  "allowlist": "current backend .py/vendor R+licenses;config templates;runtime6;reviewed frontend;16-row evaluation+definitions;publicdocs;closed NFCorpus/MoleculeACE metrics+saved predictions+recalculation+official source pins",
   "files": [
     {
       "path": ".gitignore",
@@ -13,8 +13,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 4229,
-      "sha256": "db65bb22b249c27408b4499bcf608a6721f27fde1b35d797889200ef887b8b86"
+      "bytes": 5082,
+      "sha256": "4ae4a77ace513fc60885b2cecb7e902624173696cdf11bf24e01dab88d289a06"
     },
     {
       "path": "RUNTIME_SOURCE_MANIFEST.json",
@@ -108,8 +108,93 @@
     },
     {
       "path": "evaluation/README.md",
-      "bytes": 2421,
-      "sha256": "4b7da21ca15629bdea3a3232df1575d22c98777ef40c195311217dbd79b59d45"
+      "bytes": 2684,
+      "sha256": "805be6a24bd9ebfa7d47b06c2b195e748640e4ff3d045d96e41a2f2aa5ceff52"
+    },
+    {
+      "path": "evaluation/components-20261002/README.md",
+      "bytes": 6512,
+      "sha256": "aed0c213e9742f5ee6d7a6bd0b7b0ec15fced32dd5d1b26251d4edd7b953cf32"
+    },
+    {
+      "path": "evaluation/components-20261002/methods-summary-stage1.json",
+      "bytes": 7193,
+      "sha256": "460c9dda44cbe4d2cef044a6aa61ca79f0a18b9a802ac9859fe5152796537bc9"
+    },
+    {
+      "path": "evaluation/components-20261002/moleculeace-per-task-metrics.csv",
+      "bytes": 8986,
+      "sha256": "b6ff5cb1abdb96c40d70c7d38e9b4b5de3a0b14eda563162f2b7bf52fa126a8d"
+    },
+    {
+      "path": "evaluation/components-20261002/moleculeace-rf-summary.pdf",
+      "bytes": 34772,
+      "sha256": "338151c68b027e4268f05a2b72639003495c153ac3e5cd5a89fc43bb04424bca"
+    },
+    {
+      "path": "evaluation/components-20261002/moleculeace-rf-summary.png",
+      "bytes": 229252,
+      "sha256": "f428f0894796352eb48c14713ccbf3625b6d923464b7d25a51e6e7df382bfe76"
+    },
+    {
+      "path": "evaluation/components-20261002/moleculeace-rf-summary.svg",
+      "bytes": 21903,
+      "sha256": "ce59cb3f0c32c8190994b76bc546537786f68c70b4d1d680fa7f70509170b3cd"
+    },
+    {
+      "path": "evaluation/components-20261002/moleculeace-test-predictions.csv.gz",
+      "bytes": 128250,
+      "sha256": "2c4b2203af830bdb1d20683d3552bf244371ac95a325a319c148f277482e2337"
+    },
+    {
+      "path": "evaluation/components-20261002/nfcorpus-per-query-metrics.csv",
+      "bytes": 35579,
+      "sha256": "0441e8bf6101bc8632a43b862b3f307ec2569954c43f8233b01f88c9b6f53a92"
+    },
+    {
+      "path": "evaluation/components-20261002/nfcorpus-rankings-top100.json.gz",
+      "bytes": 128553,
+      "sha256": "122d9d9fb41f9d87734d13a175107c30212a9498d708f8966ea12a3b1fb4583f"
+    },
+    {
+      "path": "evaluation/components-20261002/nfcorpus-summary.pdf",
+      "bytes": 33048,
+      "sha256": "047258bfc2cb1db3c7854ec93e73ac080172f246e873f98c709993af032717e4"
+    },
+    {
+      "path": "evaluation/components-20261002/nfcorpus-summary.png",
+      "bytes": 202571,
+      "sha256": "3ccaa37511e60002882fb084db2859a1657fffff848a3df6c5637adff606ea2b"
+    },
+    {
+      "path": "evaluation/components-20261002/nfcorpus-summary.svg",
+      "bytes": 22665,
+      "sha256": "6876e3b1d703b56e68950e43cbd5e2c6d8f2220f9316c2913895a748ac43a15d"
+    },
+    {
+      "path": "evaluation/components-20261002/prediction-sources.json",
+      "bytes": 784,
+      "sha256": "6a87571e1a9b8d7654712b4e9b0b3b2277d3ad85a0a6e99011ca75f49e5ff115"
+    },
+    {
+      "path": "evaluation/components-20261002/public-protocol-stage1.json",
+      "bytes": 25849,
+      "sha256": "cd5f369e9c735a892fd83232bfeb5b71b74d0936405ca4c525d367e96b51a652"
+    },
+    {
+      "path": "evaluation/components-20261002/reproduce_metrics.py",
+      "bytes": 2754,
+      "sha256": "9812ab5acba410986509fe2288470e00976a2b23b00234a941381b74943ebfb8"
+    },
+    {
+      "path": "evaluation/components-20261002/verification.json",
+      "bytes": 556,
+      "sha256": "7e4d849a96e7811f4b15e90c81709459031716faabca6b45bc837dc1dc740a58"
+    },
+    {
+      "path": "evaluation/components-20261002/verify_saved_predictions.py",
+      "bytes": 5448,
+      "sha256": "ed0235cd0306e566e35eb5e4602dcd10c208baefb912e241d989fb24bfb7a7f1"
     },
     {
       "path": "evaluation/efficiency.json",
@@ -1066,10 +1151,5 @@
       "bytes": 617970,
       "sha256": "4c67cd8d5eff35c253a3fd9ad06f3f779771177d1e13818e50e75bb5886e160c"
     }
-  ],
-  "syntax_files_checked": 152,
-  "secret_pattern_match_filenames": [],
-  "model_calls": 0,
-  "contains_databases_credentials_original_inputs": false,
-  "source_is_not_a_portable_authenticated_runtime": true
+  ]
 }

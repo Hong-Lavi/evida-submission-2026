@@ -1,0 +1,185 @@
+{
+  "version": "stage1-two-completed-components",
+  "date": "2026-10-02",
+  "status": "COMPLETED_COMPONENTS_ONLY",
+  "new_evidence_vs_previous": "NFCorpus adds a separate retrieval dataset to previous SciFact188; MoleculeACE adds30 official tasks to previous LPAR1/PDE4B input-repair evaluation. No rerun of the previous experiments.",
+  "retrieval": {
+    "dataset": "BEIR NFCorpus",
+    "documents": 3633,
+    "test_queries": 323,
+    "completed": 323,
+    "rejected": 0,
+    "relevance_rows": 12334,
+    "metrics": {
+      "ndcg_at_10": {
+        "bm25": 0.30718129622442364,
+        "medcpt": 0.36547700057404703,
+        "difference": 0.058295704349623396,
+        "paired_query_bootstrap95": [
+          0.038128391504156145,
+          0.07965460872454212
+        ]
+      },
+      "recall_at_10": {
+        "bm25": 0.1492219858588948,
+        "medcpt": 0.18278101709661929,
+        "difference": 0.033559031237724475,
+        "paired_query_bootstrap95": [
+          0.019368274347360118,
+          0.04908901909415591
+        ]
+      },
+      "recall_at_100": {
+        "bm25": 0.23718948335878892,
+        "medcpt": 0.34939215186736117,
+        "difference": 0.11220266850857225,
+        "paired_query_bootstrap95": [
+          0.08958477405249145,
+          0.13669879317268646
+        ]
+      },
+      "mrr_at_10": {
+        "bm25": 0.5155646469113961,
+        "medcpt": 0.5487689812767211,
+        "difference": 0.03320433436532508,
+        "paired_query_bootstrap95": [
+          -0.0032356012580470822,
+          0.07211702663521548
+        ]
+      }
+    },
+    "method": "Adopted MedCPT bi-encoder representations and exact dot scores; unchanged native token and source validation rules. Native CPU workers copied with explicit CUDA placement for this offline evaluation, two chunks merged globally.",
+    "baseline": "Fixed BM25 k1=1.2,b=0.75,lowercase alphanumeric tokens,unique query terms,positive Lucene IDF; not a Pyserini leaderboard reproduction.",
+    "ci": "Paired bootstrap over323 queries,2000 repetitions,seed20261002; related queries may be dependent.",
+    "runtime_seconds": 131.5621958160773,
+    "runtime_scope": "Offline GPU0 evaluation, not deployed CPU search latency; allocator cap2GiB, actual total GPU peak not measured.",
+    "adopted_role": "Optional semantic relevance ordering of retained source documents; scientific strength and efficacy ranking remain separate.",
+    "limits": [
+      "MRR@10 difference interval includes zero.",
+      "Relevance labels do not assess truth, clinical efficacy or end-to-end answer accuracy.",
+      "Author pretraining exposure to benchmark documents is not excluded.",
+      "Full author cross-encoder reranker is not evaluated."
+    ]
+  },
+  "activity_prediction": {
+    "dataset": "MoleculeACE official current train/test CSVs",
+    "official_tasks": 30,
+    "unique_target_ids": 29,
+    "endpoints": {
+      "EC50": 7,
+      "Ki": 23
+    },
+    "denominators": {
+      "official_train": 38912,
+      "official_test": 9802,
+      "inner_training": 29198,
+      "inner_validation": 9714,
+      "external_predictions": 9802,
+      "operationally_scored": 9802,
+      "cliff_test": 3790
+    },
+    "execution": {
+      "completed": 30
+    },
+    "native_gate_accepted_tasks": 30,
+    "native_gate_rejected_tasks": 0,
+    "metrics": {
+      "tasks": 30,
+      "test_compounds": 9802,
+      "macro": {
+        "rmse": 0.7461245108110833,
+        "mae": 0.5553191338299222,
+        "spearman": 0.758238865612593,
+        "training_mean_rmse": 1.214809708729273,
+        "training_mean_mae": 1.010552314606408,
+        "cliff_rmse": 0.8222055034030438
+      },
+      "tasks_lower_mae_than_training_mean": 30,
+      "tasks_external_spearman_at_least_0_3": 30,
+      "paired_task_bootstrap": {
+        "mae_improvement_over_mean": {
+          "mean": 0.4552331807764857,
+          "ci95": [
+            0.38707940052112383,
+            0.5368604246413737
+          ],
+          "repetitions": 2000,
+          "seed": 20261002,
+          "rng": "numpy.default_rng/PCG64"
+        },
+        "rmse_improvement_over_mean": {
+          "mean": 0.46868519791819013,
+          "ci95": [
+            0.39785203215297554,
+            0.5500709512932654
+          ],
+          "repetitions": 2000,
+          "seed": 20261002,
+          "rng": "numpy.default_rng/PCG64"
+        }
+      }
+    },
+    "scale": "pKi/pEC50 =9-log10(nM), each task separate; native training labels rounded to3 decimal places, external gold unrounded.",
+    "estimator": "RF300,min_samples_leaf2,seed20260930,Morgan radius2/2048bits/chirality; native scaffold split inside official train; no tuning.",
+    "baseline": "Mean of actual native inner-training labels, separately for every task.",
+    "split_scope": {
+      "official_train": 38912,
+      "official_test": 9802,
+      "invalid_structures": 0,
+      "native_inner_train": 29198,
+      "native_inner_hold": 9714,
+      "native_inner_scaffold_overlap": 0,
+      "test_exact_isomeric_seen_in_official_train": 0,
+      "test_connectivity_seen_in_official_train": 0,
+      "test_murcko_scaffold_seen_in_official_train": 6296,
+      "test_exact_isomeric_seen_in_native_inner_train": 0,
+      "test_connectivity_seen_in_native_inner_train": 0,
+      "test_murcko_scaffold_seen_in_native_inner_train": 5429
+    },
+    "adopted_role": "Conditioned activity predictions only when the native inner-scaffold gate passes; generated structures remain unmeasured.",
+    "limits": [
+      "Official test is not entirely new scaffold chemistry.",
+      "Benchmark aggregate means do not establish equivalence of original assays/species/protocols.",
+      "Fixed one-seed evaluation against a training-mean baseline; not a SOTA comparison.",
+      "Two official tasks share one ChEMBL target ID; other targets may also be related.",
+      "Measured activity prediction does not validate generated-compound activity, safety or clinical benefit."
+    ]
+  },
+  "generation_component": {
+    "status": "SEPARATE_EVALUATION_IN_PROGRESS_NOT_INCLUDED_IN_COMPLETED_CLAIMS"
+  },
+  "primary_sources": [
+    {
+      "title": "NFCorpus author dataset",
+      "url": "https://webserver.cl.uni-heidelberg.de/statnlpgroup/nfcorpus/"
+    },
+    {
+      "title": "BEIR official datasets",
+      "url": "https://github.com/beir-cellar/beir/wiki/Datasets-available"
+    },
+    {
+      "title": "MedCPT primary paper",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10627406/"
+    },
+    {
+      "title": "MoleculeACE author repository",
+      "url": "https://github.com/molML/MoleculeACE"
+    },
+    {
+      "title": "MoleculeACE primary paper",
+      "url": "https://doi.org/10.1021/acs.jcim.2c01073"
+    },
+    {
+      "title": "TREC nDCG implementation",
+      "url": "https://github.com/usnistgov/trec_eval/blob/master/m_ndcg_cut.c"
+    }
+  ],
+  "source_hashes": {
+    "nfcorpus_result": "f2c2623f4028a182c76f95e83ff075d0de59472ef6e6c52ee5f54fd8df97ec15",
+    "moleculeace_result": "b073fda662be378ea532b66f9dc488bf7f054c25db07ace2c70286fc6099a4ed",
+    "frozen_protocol": "d352709dbf4fcc2d814d54bd77f5e58e2842ea9c2103dadc12ca6f8838caeacf"
+  },
+  "provider_calls": 0,
+  "operational_changes": 0,
+  "docking_calls": 0
+}
