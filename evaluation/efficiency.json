@@ -1,0 +1,187 @@
+{
+  "status": "PASS",
+  "model": "gpt-6-sol",
+  "effort": "medium",
+  "route": "existing competition Responses API",
+  "wire_transport": "SSE",
+  "comparison": "four fixed questions, two starts per question per arm; frozen original results only",
+  "arm_labels": {
+    "A": "competent general assistant",
+    "B": "EVIDA current procedure"
+  },
+  "definitions": {
+    "reported_input_tokens": "Provider usage.input_tokens, including cached input; cached tokens are a subset and must not be added again.",
+    "reported_cached_input_tokens": "usage.input_tokens_details.cached_tokens; cache_write_tokens is not cache reuse and is not added to input.",
+    "reported_output_tokens": "usage.output_tokens; includes reasoning detail when reported, not added again.",
+    "api_requests": "Receipt count, including format correction responses; not study count or scientific job count.",
+    "science_jobs_failed": "Failed non-planner tool jobs; not provider response failure or unanswered study.",
+    "no_published_answer": "Original started study without a published final decision; W007 publication-reference schema failure.",
+    "quality_denominator": "Original 8 starts per arm, including all failures and unpublished outputs."
+  },
+  "arms": {
+    "A": {
+      "science_jobs_succeeded": 54,
+      "science_jobs_failed": 0,
+      "api_requests": 117,
+      "requests_with_usage": 117,
+      "reported_input_tokens": 11625335,
+      "reported_output_tokens": 114320,
+      "reported_cached_input_tokens": 4592200,
+      "published_answer": 7,
+      "question_all_four_traceable": 1,
+      "action_all_six": 6,
+      "new_measurement_card_with_six_elements_and_links": 3,
+      "original_started_denominator": 8,
+      "no_published_answer": 1,
+      "provider_returned_receipts": 117,
+      "provider_nonreturned_receipts": 0,
+      "provider_receipt_status_counts": {
+        "RETURNED": 117
+      },
+      "noncached_input_tokens_derived": 7033135
+    },
+    "B": {
+      "science_jobs_succeeded": 60,
+      "science_jobs_failed": 3,
+      "api_requests": 101,
+      "requests_with_usage": 101,
+      "reported_input_tokens": 11534710,
+      "reported_output_tokens": 100126,
+      "reported_cached_input_tokens": 6008740,
+      "published_answer": 8,
+      "question_all_four_traceable": 4,
+      "action_all_six": 7,
+      "new_measurement_card_with_six_elements_and_links": 3,
+      "original_started_denominator": 8,
+      "no_published_answer": 0,
+      "provider_returned_receipts": 101,
+      "provider_nonreturned_receipts": 0,
+      "provider_receipt_status_counts": {
+        "RETURNED": 101
+      },
+      "noncached_input_tokens_derived": 5525970
+    }
+  },
+  "checks": {
+    "A_csv_equals_frozen_summary": true,
+    "B_csv_equals_frozen_summary": true,
+    "all_16_runs_receipts_equal_csv": true,
+    "exact_receipt_count": true,
+    "same_model_effort_transport_all_receipts": true,
+    "cache_subset_and_total_token_arithmetic_all_receipts": true
+  },
+  "run_checks": [
+    {
+      "output_id": "W001",
+      "run_path": "audit/evida-final-evaluation-20261002/fresh-workflow-comparison-01/runs/ipf-r1-a",
+      "receipts": 14,
+      "original_receipt_vs_csv": "PASS"
+    },
+    {
+      "output_id": "W006",
+      "run_path": "audit/evida-final-evaluation-20261002/fresh-workflow-comparison-01/runs/pde4b-r2-a",
+      "receipts": 15,
+      "original_receipt_vs_csv": "PASS"
+    },
+    {
+      "output_id": "W007",
+      "run_path": "audit/evida-final-evaluation-20261002/fresh-workflow-comparison-01/runs/pde4b-r1-a",
+      "receipts": 16,
+      "original_receipt_vs_csv": "PASS"
+    },
+    {
+      "output_id": "W008",
+      "run_path": "audit/evida-final-evaluation-20261002/fresh-workflow-comparison-01/runs/ttr_sirna-r1-a",
+      "receipts": 16,
+      "original_receipt_vs_csv": "PASS"
+    },
+    {
+      "output_id": "W011",
+      "run_path": "audit/evida-final-evaluation-20261002/fresh-workflow-comparison-01/runs/alzheimers-r2-a",
+      "receipts": 14,
+      "original_receipt_vs_csv": "PASS"
+    },
+    {
+      "output_id": "W012",
+      "run_path": "audit/evida-final-evaluation-20261002/fresh-workflow-comparison-01/runs/ipf-r2-a",
+      "receipts": 14,
+      "original_receipt_vs_csv": "PASS"
+    },
+    {
+      "output_id": "W013",
+      "run_path": "audit/evida-final-evaluation-20261002/fresh-workflow-comparison-01/runs/alzheimers-r1-a",
+      "receipts": 14,
+      "original_receipt_vs_csv": "PASS"
+    },
+    {
+      "output_id": "W014",
+      "run_path": "audit/evida-final-evaluation-20261002/fresh-workflow-comparison-01/runs/ttr_sirna-r2-a",
+      "receipts": 14,
+      "original_receipt_vs_csv": "PASS"
+    },
+    {
+      "output_id": "W002",
+      "run_path": "audit/evida-final-evaluation-20261002/fresh-workflow-comparison-01/runs/ttr_sirna-r1-b",
+      "receipts": 14,
+      "original_receipt_vs_csv": "PASS"
+    },
+    {
+      "output_id": "W003",
+      "run_path": "audit/evida-final-evaluation-20261002/fresh-workflow-comparison-01/runs/ttr_sirna-r2-b",
+      "receipts": 14,
+      "original_receipt_vs_csv": "PASS"
+    },
+    {
+      "output_id": "W004",
+      "run_path": "audit/evida-final-evaluation-20261002/fresh-workflow-comparison-01/runs/ipf-r1-b",
+      "receipts": 2,
+      "original_receipt_vs_csv": "PASS"
+    },
+    {
+      "output_id": "W005",
+      "run_path": "audit/evida-final-evaluation-20261002/fresh-workflow-comparison-01/runs/pde4b-r2-b",
+      "receipts": 14,
+      "original_receipt_vs_csv": "PASS"
+    },
+    {
+      "output_id": "W009",
+      "run_path": "audit/evida-final-evaluation-20261002/fresh-workflow-comparison-01/runs/ipf-r2-b",
+      "receipts": 15,
+      "original_receipt_vs_csv": "PASS"
+    },
+    {
+      "output_id": "W010",
+      "run_path": "audit/evida-final-evaluation-20261002/fresh-workflow-comparison-01/runs/alzheimers-r1-b",
+      "receipts": 14,
+      "original_receipt_vs_csv": "PASS"
+    },
+    {
+      "output_id": "W015",
+      "run_path": "audit/evida-final-evaluation-20261002/fresh-workflow-comparison-01/runs/pde4b-r1-b",
+      "receipts": 14,
+      "original_receipt_vs_csv": "PASS"
+    },
+    {
+      "output_id": "W016",
+      "run_path": "audit/evida-final-evaluation-20261002/fresh-workflow-comparison-01/runs/alzheimers-r2-b",
+      "receipts": 14,
+      "original_receipt_vs_csv": "PASS"
+    }
+  ],
+  "sources": {
+    "docs/verification/data/fresh-workflow-comparison-20261002/summary.json": "397cb23de70649a1d8111633890dc18e57c6e4e422e635374e3488ecfedc47af",
+    "docs/verification/data/fresh-workflow-comparison-20261002/rows.csv": "4ba1d614cd68327a1f8456000c134f80daa2a09a06b1c2d4a80ce8e9b6b53831",
+    "docs/verification/data/fresh-workflow-comparison-20261002/export-manifest.json": "146ca8da6cf289122f3e56241736949169950441f745107f2d0519fb9916dc04"
+  },
+  "receipt_set": {
+    "count": 218,
+    "path_and_sha256_sorted_digest": "748899e2c7a828a97e8a5b6e8c633ae6e3b8f4ce142a34583a25567aa67ec431",
+    "pattern": "audit/evida-final-evaluation-20261002/fresh-workflow-comparison-01/runs/*/api-calls/*/receipt.json"
+  },
+  "limitations": [
+    "No price/credit conversion; current subscription runs excluded.",
+    "Small fixed question sample; shared host/cache/network; no causal efficiency advantage.",
+    "All model calls and science trials are original completed calls; no new dispatch."
+  ],
+  "new_model_API_scientific_execution": 0
+}

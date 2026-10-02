@@ -1,0 +1,39 @@
+/* The workbench inherits the active EVIDA palette and typeface. */
+.evidence-workbench{min-width:0;color:var(--ink);font-size:15px;line-height:1.65}
+.ew-heading{padding:0 0 18px;border-bottom:1px solid var(--line)}
+.ew-heading h3{font-size:19px;line-height:1.45;margin:0 0 6px}.ew-heading p{max-width:70ch;margin:0;color:var(--ink-3)}
+.ew-scope{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:20px 0}
+.ew-scope>div{min-width:0;padding:14px 16px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.ew-scope span,.ew-scope strong,.ew-scope small{display:block;overflow-wrap:anywhere}
+.ew-scope span{font-size:13px;color:var(--ink-3)}.ew-scope strong{font-size:17px;line-height:1.45;margin:6px 0;font-weight:650}
+.ew-scope small{font-size:12px;color:var(--ink-3);line-height:1.55}
+.ew-search{padding:4px 0 16px;border-bottom:1px solid var(--line)}.ew-search>summary{cursor:pointer;font-weight:600;padding:8px 0;color:var(--primary)}
+.ew-search>p{max-width:70ch;font-size:13px;color:var(--ink-3)}.ew-search ul{list-style:none;padding:0;margin:10px 0 0}
+.ew-search li{padding:12px 0;border-top:1px solid var(--line);overflow-wrap:anywhere}
+.ew-search li strong,.ew-search li span,.ew-search li small{display:block}.ew-search li strong{font-size:14px}.ew-search li span{font-size:13px}.ew-search li small{font-size:12px;color:var(--ink-3)}
+.ew-claims{margin-top:24px}.ew-claims>h4{font-size:17px;margin:0 0 4px}.ew-claims>p{font-size:14px;color:var(--ink-3);margin-bottom:16px;max-width:70ch}
+.ew-claim{border-top:1px solid var(--line)}.ew-claim:last-of-type{border-bottom:1px solid var(--line)}
+.ew-claim>summary{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:baseline;gap:12px;cursor:pointer;padding:17px 0;line-height:1.55}
+.ew-claim>summary strong{font-size:15px;overflow-wrap:anywhere;font-weight:620}.ew-kind,.ew-state{font-size:12px;color:var(--ink-3)}
+.ew-claim>summary:focus-visible,.ew-search>summary:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:4px}
+.ew-claim-body{padding:4px 0 20px}.ew-id{font-size:12px;color:var(--ink-3);overflow-wrap:anywhere}
+.ew-claim-context{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0 20px}
+.ew-claim-context>div{border-top:1px solid var(--line);padding-top:11px}.ew-claim-context dt,.ew-row dt{font-size:13px;color:var(--ink-3);font-weight:600}
+.ew-claim-context dd,.ew-row dd{margin:5px 0 0;overflow-wrap:anywhere;font-size:14px;line-height:1.65}
+.ew-uncertainty{padding:12px 16px;background:var(--surface-sunken);border-radius:7px}.ew-uncertainty h4{font-size:14px;margin:0 0 6px!important}.ew-uncertainty ul{margin:0;padding-left:18px}.ew-uncertainty li{font-size:14px;line-height:1.6;margin-top:4px}
+.ew-claim-body h4{font-size:15px;margin:20px 0 12px}.ew-row{padding:15px 0;border-top:1px solid var(--line)}
+.ew-row header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}.ew-row header strong{font-size:14px}
+.ew-row header .ew-source{font-size:13px;overflow-wrap:anywhere}.ew-row header .source-links{display:inline-flex;margin:0}
+.ew-row dl{display:grid;grid-template-columns:1fr 1.3fr;gap:18px;margin:12px 0}.ew-row dl>div{min-width:0}
+.ew-row blockquote{background:var(--surface-sunken);border-left:3px solid var(--primary);padding:12px 16px;margin:10px 0;font-size:14px;overflow-wrap:anywhere}
+.ew-gap,.ew-locator{font-size:13px;color:var(--ink-3);line-height:1.6}.ew-foot{border-top:1px solid var(--line);padding:16px 0;margin-top:24px;color:var(--ink-3);font-size:13px}
+@media(max-width:800px){
+ .ew-scope{grid-template-columns:1fr;gap:0;border-block:1px solid var(--line)}
+ .ew-scope>div{display:grid;grid-template-columns:minmax(0,105px) minmax(0,1fr);gap:0 10px;align-items:baseline;padding:10px 0;border:0;border-radius:0;background:transparent}
+ .ew-scope>div+div{border-top:1px solid var(--line)}.ew-scope strong{font-size:15px;margin:0}.ew-scope small{grid-column:2;font-size:12px}
+ .ew-claim>summary{grid-template-columns:1fr;gap:3px}.ew-claim-context,.ew-row dl{grid-template-columns:1fr;gap:10px}
+}
+
+.ew-search>label{display:block;margin:16px 0 6px;font-size:13px;font-weight:600}
+.ew-search>input[type="search"]{display:block;box-sizing:border-box;width:100%;max-width:660px;min-height:42px;padding:9px 12px;border:1px solid var(--line);border-radius:7px;background:var(--surface);color:var(--ink);font:inherit}
+.ew-search>input[type="search"]:focus-visible{outline:3px solid var(--focus);outline-offset:2px}

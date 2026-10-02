@@ -1,0 +1,66 @@
+Package: SeedMatchR
+Title: Find siRNA Matches in Genomic Features
+Version: 2.0.0
+Authors@R: 
+    c(person("Tareian", "Cazares", email = "tareian.cazares@lilly.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-4624-6156")),
+      person("Gulcin", "Ozer", email = "ozer_gulcin@lilly.com", role = c("aut"), comment = c(ORCID = "0000-0002-8315-8051")),
+      person("Pradeep", "Varathan Pugalenthi", email = "pradeepvarathan.pugalenthi@lilly.com", role = c("aut")),
+      person("Jibo", "Wang", role = c("aut")),
+      person("Rick", "Higgs", role = c("aut")),
+      person("Eli Lilly and Company", role = c("cph")))
+Description: On-target siRNA silencing of mRNA results from binding to
+    fully complementary regions in transcripts to induce cleavage. 
+    Off-target siRNA gene knockdown can occur through several modes, one being 
+    a seed-mediated mechanism mimicking miRNA gene regulation. Seed-mediated 
+    off-target effects occur when the ~8 nucleotides at the 5’ end of the guide 
+    strand, called a seed region, bind the 3’ untranslated regions of mRNA, 
+    causing reduced translation. Experiments using siRNA knockdown paired with 
+    RNA-seq can be used to detect siRNA sequences with potential off-target 
+    effects driven by the seed region. 'SeedMatchR' provides tools for exploring 
+    and detecting potential seed-mediated off-target effects of siRNA in RNA-seq 
+    experiments. 'SeedMatchR' is designed to extend current differential 
+    expression analysis tools, such as 'DESeq2', by annotating results with 
+    predicted seed matches. Using publicly available data, we demonstrate the 
+    ability of 'SeedMatchR' to detect cumulative changes in differential gene 
+    expression attributed to siRNA seed regions. 
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+biocViews:
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0),
+    ggseqlogo,
+    PRROC, 
+    igraph, 
+    STRINGdb, 
+    biomaRt
+Imports: 
+    AnnotationHub (>= 3.6.0),
+    Biostrings,
+    BiocGenerics,
+    dplyr,
+    GenomicFeatures,
+    GenomicRanges,
+    ggplot2,
+    ensembldb,
+    methods,
+    tibble,
+    S4Vectors,
+    stringr,
+    stats,
+    XVector,
+    utils,
+    AnnotationFilter,
+    gt,
+    twosamples,
+    IRanges,
+    gtools,
+    Matrix,
+    caTools
+VignetteBuilder: knitr
+Depends: 
+    R (>= 4.3.0)
+Config/testthat/edition: 3

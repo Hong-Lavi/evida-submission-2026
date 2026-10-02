@@ -1,0 +1,146 @@
+{
+  "cache": {
+    "title": "CACHE · 기존 분자 후보 검토",
+    "description": "73개 공개 후보의 물성과 ADMET 예측을 실행하고, 원래 결합 관측과 구분해서 확인합니다.",
+    "request": "공개 CACHE의 기존 후보 자료를 검토하고 싶습니다. 원래 관측과 계산 물성·ADMET 예측을 구별해서 정리하고, 다음 검토에 필요한 정보와 불확실성을 알려주세요. 효능이나 치료 성공 확률로 바꾸지 말고, 나중에 관측이 추가되면 어떤 판단을 다시 볼지 제안해 주세요. 이 요청은 제품 개발 확인용 예시이며 실제 연구자의 측정 결과를 추가로 가정하지 않습니다.",
+    "sources": [
+      {
+        "title": "CACHE advanced 후보 · 73행",
+        "filename": "Round1_hits_advanced_to_Round2.csv",
+        "url": "https://zenodo.org/api/records/13820554/files/Round1_hits_advanced_to_Round2.csv/content",
+        "sha256": "011758ef48b62b85cd381009f91b5179047f8de9a479a4ea03f5c39ff10d3f66",
+        "kind": "molecule_csv",
+        "media_type": "text/csv",
+        "rights": "Zenodo record 13820554; file-specific source attribution and redistribution terms require review before submission bundle.",
+        "meta": {
+          "encoding": "cp1252",
+          "delimiter": ";",
+          "header_record": 1,
+          "smiles_column": "smiles",
+          "id_column": "cid",
+          "context": "CACHE published binding-focused candidate set; not matched human ATTR or rat RNA outcomes."
+        }
+      }
+    ]
+  },
+  "rna": {
+    "title": "Ttr · 기존 RNA 관측 검토",
+    "description": "공개 랫드 처리표 3개를 읽어 결측, 비교 조건, 공유 대조군을 확인합니다. 새 서열을 설계하거나 실험 조건을 제안하지 않습니다.",
+    "request": "공개 GSE184929의 기존 랫드 Ttr 관련 처리표 세 개를 검토해 주세요. 각 표의 관측과 결측·대조군 관계를 정리하고, 이 자료만으로 비교할 수 있는 것과 더 확인해야 하는 것을 구별해 주세요. 표를 독립 반복처럼 합치거나 인간 치료 효능으로 바꾸지 말아 주세요. 이 요청은 제품 개발 확인용 예시입니다.",
+    "sources": [
+      {
+        "title": "GSE184929_Fig3-TTR-2_groupD1_30mkg.vs.Mock.DESeq2.txt.gz",
+        "filename": "GSE184929_Fig3-TTR-2_groupD1_30mkg.vs.Mock.DESeq2.txt.gz",
+        "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE184nnn/GSE184929/suppl/GSE184929_Fig3-TTR-2_groupD1_30mkg.vs.Mock.DESeq2.txt.gz",
+        "sha256": "c418c8aebd2138b892d91a0ca0a99952b083dd71f1043533d2c35045b2551142",
+        "kind": "rna_table",
+        "media_type": "application/gzip",
+        "rights": "SeedMatchR code MIT; GEO public access and third-party article/data/reference terms are distinct. Exact data redistribution terms and reference/guide attribution require file-level confirmation; not blanket MIT.",
+        "meta": {
+          "encoding": "utf-8",
+          "delimiter": "\t",
+          "context": "Rat liver Ttr observation analysis; not matched human ATTR-CM efficacy evidence.",
+          "contrast": {
+            "candidate_label": "D1",
+            "cohort": "Fig3-TTR-2",
+            "dose_value": 30,
+            "dose_unit": "mg/kg",
+            "file": "GSE184929_Fig3-TTR-2_groupD1_30mkg.vs.Mock.DESeq2.txt.gz",
+            "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE184nnn/GSE184929/suppl/GSE184929_Fig3-TTR-2_groupD1_30mkg.vs.Mock.DESeq2.txt.gz",
+            "treatment_samples": [
+              "GSM6209329",
+              "GSM6209330",
+              "GSM6209331",
+              "GSM6209332"
+            ],
+            "control_samples": [
+              "GSM6209349",
+              "GSM6209350",
+              "GSM6209351",
+              "GSM6209352"
+            ],
+            "membership_basis": "GEO registration titles; coordinator independently inspected local SOFT metadata",
+            "fit_membership_verified": false,
+            "sha256": "c418c8aebd2138b892d91a0ca0a99952b083dd71f1043533d2c35045b2551142"
+          },
+          "fit_membership_verified": false
+        }
+      },
+      {
+        "title": "GSE184929_Fig3-TTR-2_groupD4_30mkg.vs.Mock.DESeq2.txt.gz",
+        "filename": "GSE184929_Fig3-TTR-2_groupD4_30mkg.vs.Mock.DESeq2.txt.gz",
+        "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE184nnn/GSE184929/suppl/GSE184929_Fig3-TTR-2_groupD4_30mkg.vs.Mock.DESeq2.txt.gz",
+        "sha256": "a2e39fb9215aa647ffd8b6e7e4e491fffccf438e8f706e826e24c88313624696",
+        "kind": "rna_table",
+        "media_type": "application/gzip",
+        "rights": "SeedMatchR code MIT; GEO public access and third-party article/data/reference terms are distinct. Exact data redistribution terms and reference/guide attribution require file-level confirmation; not blanket MIT.",
+        "meta": {
+          "encoding": "utf-8",
+          "delimiter": "\t",
+          "context": "Rat liver Ttr observation analysis; not matched human ATTR-CM efficacy evidence.",
+          "contrast": {
+            "candidate_label": "D4",
+            "cohort": "Fig3-TTR-2",
+            "dose_value": 30,
+            "dose_unit": "mg/kg",
+            "file": "GSE184929_Fig3-TTR-2_groupD4_30mkg.vs.Mock.DESeq2.txt.gz",
+            "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE184nnn/GSE184929/suppl/GSE184929_Fig3-TTR-2_groupD4_30mkg.vs.Mock.DESeq2.txt.gz",
+            "treatment_samples": [
+              "GSM6209341",
+              "GSM6209342",
+              "GSM6209343",
+              "GSM6209344"
+            ],
+            "control_samples": [
+              "GSM6209349",
+              "GSM6209350",
+              "GSM6209351",
+              "GSM6209352"
+            ],
+            "membership_basis": "GEO registration titles; coordinator independently inspected local SOFT metadata",
+            "fit_membership_verified": false,
+            "sha256": "a2e39fb9215aa647ffd8b6e7e4e491fffccf438e8f706e826e24c88313624696"
+          },
+          "fit_membership_verified": false
+        }
+      },
+      {
+        "title": "GSE184929_Fig3-TTR-1_groupD1_10mkg.vs.Mock.DESeq2.txt.gz",
+        "filename": "GSE184929_Fig3-TTR-1_groupD1_10mkg.vs.Mock.DESeq2.txt.gz",
+        "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE184nnn/GSE184929/suppl/GSE184929_Fig3-TTR-1_groupD1_10mkg.vs.Mock.DESeq2.txt.gz",
+        "sha256": "97598daf5670d94875149cca0a3afebb7309758e41c99c35bb10274498186248",
+        "kind": "rna_table",
+        "media_type": "application/gzip",
+        "rights": "SeedMatchR code MIT; GEO public access and third-party article/data/reference terms are distinct. Exact data redistribution terms and reference/guide attribution require file-level confirmation; not blanket MIT.",
+        "meta": {
+          "encoding": "utf-8",
+          "delimiter": "\t",
+          "context": "Rat liver Ttr observation analysis; not matched human ATTR-CM efficacy evidence.",
+          "contrast": {
+            "candidate_label": "D1",
+            "cohort": "Fig3-TTR-1",
+            "dose_value": 10,
+            "dose_unit": "mg/kg",
+            "file": "GSE184929_Fig3-TTR-1_groupD1_10mkg.vs.Mock.DESeq2.txt.gz",
+            "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE184nnn/GSE184929/suppl/GSE184929_Fig3-TTR-1_groupD1_10mkg.vs.Mock.DESeq2.txt.gz",
+            "treatment_samples": [
+              "GSM6209307",
+              "GSM6209308",
+              "GSM6209309"
+            ],
+            "control_samples": [
+              "GSM6209321",
+              "GSM6209322",
+              "GSM6209323",
+              "GSM6209324"
+            ],
+            "membership_basis": "GEO registration titles; coordinator independently inspected local SOFT metadata",
+            "fit_membership_verified": false,
+            "sha256": "97598daf5670d94875149cca0a3afebb7309758e41c99c35bb10274498186248"
+          },
+          "fit_membership_verified": false
+        }
+      }
+    ]
+  }
+}

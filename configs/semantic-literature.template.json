@@ -1,0 +1,25 @@
+{
+  "schema": "evida-semantic-literature-config-v1",
+  "enabled": true,
+  "python": "/ABSOLUTE/PATH/TO/REQUIRED_RESOURCE/python",
+  "query_assets": "/ABSOLUTE/PATH/TO/REQUIRED_RESOURCE/query",
+  "query_assets_receipt": "/ABSOLUTE/PATH/TO/REQUIRED_RESOURCE/receipt.json",
+  "indexes": {
+    "ws_3c8fe9df9cd14339": {
+      "manifest": "semantic-literature-data/ipf/manifest.json",
+      "manifest_sha256": "88bb91163bb63f9f6354fdd68483952f6c7c8b803083de893784387d385a6eaa"
+    },
+    "ws_4475545a286541b2": {
+      "manifest": "semantic-literature-data/als/manifest.json",
+      "manifest_sha256": "fdeeb93d0aad38fbdbed31e67e8321ffff77c4cbb4d5343c6251d2d414f7dd63"
+    }
+  },
+  "incremental": {
+    "enabled": true,
+    "article_assets": "/ABSOLUTE/PATH/TO/REQUIRED_RESOURCE/article",
+    "timeout_seconds": 120,
+    "max_documents": 2000,
+    "legacy_article_model_signature": "6981c4acb9aa72083eb735a1cb01dc98da486bde1dd44b76ca8267946f9cf633"
+  },
+  "_submission_template": "Deployment paths are placeholders. Supply independently licensed resources and verify hashes before enabling this capability."
+}

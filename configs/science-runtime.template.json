@@ -1,0 +1,73 @@
+{
+  "python": "3.12.14",
+  "packages": {
+    "ViennaRNA": "2.7.2",
+    "admet-ai": "2.0.1",
+    "chemprop": "2.3.1",
+    "gemmi": "0.7.3",
+    "jsonschema": "4.26.0",
+    "meeko": "0.7.1",
+    "posebusters": "0.6.5",
+    "rdkit": "2026.3.6",
+    "torch": "2.8.0+cpu",
+    "vina": "1.2.7",
+    "crem": "0.3.2"
+  },
+  "weights": [
+    {
+      "relative_path": "resources/models/admet_classification/model_0.pt",
+      "sha256": "9a5fb298a6564e8ef739890c90b02e831521073f49eefd2310fb56cdb61a2378"
+    },
+    {
+      "relative_path": "resources/models/admet_classification/model_1.pt",
+      "sha256": "2bf047553eef397060af376e78dd4e990114df8428e05f734c4e4aca284280ca"
+    },
+    {
+      "relative_path": "resources/models/admet_classification/model_2.pt",
+      "sha256": "0e9d7eb3ff0b53bd2f20e43a75e0872c682b0ee27059dd50735c416d97a3fd24"
+    },
+    {
+      "relative_path": "resources/models/admet_classification/model_3.pt",
+      "sha256": "4b35cb5686f23c6e3e5a4c587a5c4dd79b7f1f46be26684260c0b78366145d58"
+    },
+    {
+      "relative_path": "resources/models/admet_classification/model_4.pt",
+      "sha256": "9fdac559e3058b5f7b03780f9c696223d27adb94c78f9eb9aba6154e2dbff492"
+    },
+    {
+      "relative_path": "resources/models/admet_regression/model_0.pt",
+      "sha256": "c709dc4526dc7f6cf39cea64190f63adbb2b95e280d34582c492fc53da64a1a4"
+    },
+    {
+      "relative_path": "resources/models/admet_regression/model_1.pt",
+      "sha256": "57e8011a180cddf8acf66f94f5b123023c3fed503e3870a2f3f6f5300a7f3c82"
+    },
+    {
+      "relative_path": "resources/models/admet_regression/model_2.pt",
+      "sha256": "05e8509fea4ddc4686c521d75ee2fe770113cb93f09a849a6378b0a0e3ce113e"
+    },
+    {
+      "relative_path": "resources/models/admet_regression/model_3.pt",
+      "sha256": "04b265ff444190247b159932ab2225afc844bae9552299bf1ddf99b336c28d71"
+    },
+    {
+      "relative_path": "resources/models/admet_regression/model_4.pt",
+      "sha256": "b58c76493744edfb022e50e531a8ad82453bdf543c2195d878ecfd248795c7c8"
+    }
+  ],
+  "device": "cpu",
+  "threads": 2,
+  "drugbank_reference": "disabled",
+  "third_party_reference_redistribution_review": "pending",
+  "native_libraries": {
+    "directory": "/ABSOLUTE/PATH/TO/REQUIRED_RESOURCE/lib",
+    "files": [
+      {
+        "name": "libexpat.so.1",
+        "sha256": "c995a80395904d85c4d35f4a185c3bae2fcdc562141dd6106c8ebe29571d33b3"
+      }
+    ],
+    "reason": "Copied interpreter uses the original Python extensions; pair them with the same native Expat library rather than the older system Expat."
+  },
+  "_submission_template": "Deployment paths are placeholders. Supply independently licensed resources and verify hashes before enabling this capability."
+}

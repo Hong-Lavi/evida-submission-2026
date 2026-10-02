@@ -1,0 +1,37 @@
+{
+  "rscript": "/ABSOLUTE/PATH/TO/REQUIRED_RESOURCE/Rscript",
+  "rscript_sha256": "c18cdad91dee89e311c6c92b870c7ce008dc371be5ebd20dbe5892214696a028",
+  "required_versions": {
+    "R": "4.4.3",
+    "decoupleR": "2.12.0"
+  },
+  "runtime_files": {
+    "lib/R/library/decoupleR/R/decoupleR.rdb": {
+      "path": "/ABSOLUTE/PATH/TO/REQUIRED_RESOURCE/decoupleR.rdb",
+      "sha256": "e9a361964851caac18692984a40760b377fa85529845a24172aa4c6998e0de16"
+    },
+    "lib/R/library/decoupleR/R/decoupleR.rdx": {
+      "path": "/ABSOLUTE/PATH/TO/REQUIRED_RESOURCE/decoupleR.rdx",
+      "sha256": "328b94e7cfbf20ef47041386e6aeb525c95cbe02a1ec5ed5cfa492bd7b95b59f"
+    },
+    "lib/R/library/decoupleR/DESCRIPTION": {
+      "path": "/ABSOLUTE/PATH/TO/REQUIRED_RESOURCE/DESCRIPTION",
+      "sha256": "08c577788f0a75a79e1584b0a389175ab19bde41e7831bd011935ce61a793804"
+    }
+  },
+  "resources": {
+    "dorothea": {
+      "path": "/ABSOLUTE/PATH/TO/REQUIRED_RESOURCE/get_dorothea-network.tsv",
+      "sha256": "a50a2692d7ac21f316d19856b6fd4e92810e9996803a128e55e33d2bf752c520",
+      "provenance": "Frozen public OmniPath TSV, author decoupleR get_dorothea transformation with transport-only adaptation; prior source/manifests preserved. Human mRNA interactions; TF-miRNA omitted."
+    },
+    "collectri": {
+      "path": "/ABSOLUTE/PATH/TO/REQUIRED_RESOURCE/get_collectri-network.tsv",
+      "sha256": "39f7eef18dedcfa318469fe62875c50a994c0fdf0d335d194fa8ef5c22216e90",
+      "provenance": "Frozen public OmniPath TSV, author decoupleR get_collectri transformation with transport-only adaptation; prior source/manifests preserved. Human mRNA interactions; TF-miRNA omitted."
+    }
+  },
+  "licensing": "Existing public academic-research resources. Preserve author attribution and separate commercial/redistribution review before public release.",
+  "runtime_condition": "Current development runtime is isolated in /tmp. Missing or changed runtime is reported explicitly; no automatic install or fallback.",
+  "_submission_template": "Deployment paths are placeholders. Supply independently licensed resources and verify hashes before enabling this capability."
+}

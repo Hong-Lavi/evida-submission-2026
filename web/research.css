@@ -1,0 +1,184 @@
+.research-sheet{max-width:900px;margin:0 auto;padding-bottom:40px}
+.context-line{display:flex;justify-content:space-between;align-items:center;gap:15px;font-size:12px;color:var(--muted)}
+.context-drawer{font-size:12px;color:var(--muted);margin:4px 0 26px}
+.context-drawer summary,.research-details>summary,.research-explanation summary,.outcome-details summary,.further-check>summary{cursor:pointer;padding:10px 0}
+.context-drawer dl{padding:18px 0 0;margin:0;max-width:680px}
+.research-sheet .notice-inline{margin-bottom:20px}
+.next-research{padding:8px 0 24px;border-bottom:1px solid var(--line)}
+.next-research>.section-mark{margin:0 0 15px}
+.primary-check h3,.further-check h3{font-size:23px;font-weight:560;letter-spacing:-.5px;line-height:1.45;margin:0 0 13px;overflow-wrap:anywhere}
+.check-purpose,.check-request{font-size:14px;line-height:1.85;white-space:pre-wrap;max-width:760px;margin:0 0 16px;color:#505965}
+.check-controls{margin:19px 0 8px}
+.check-status{font-size:13px;line-height:1.7;color:var(--muted)}
+.check-controls .primary{padding:10px 17px}
+.outcome-details{font-size:12px;margin-top:13px;color:var(--muted)}
+.outcome{padding:10px 0 5px 14px;border-left:2px solid var(--line);margin:6px 0}
+.outcome strong{font-size:13px;font-weight:500;color:var(--ink)}
+.outcome p{font-size:13px;line-height:1.7;margin-top:5px}
+.further-check{font-size:14px;border-top:1px solid var(--line);margin-top:18px;padding-top:7px}
+.further-check h3{font-size:18px;margin-top:12px}
+.research-explanation{padding:18px 0;border-bottom:1px solid var(--line)}
+.research-explanation>details>summary{font-size:14px;font-weight:550}
+.research-sheet .decision-title{font-size:16px;line-height:1.85;font-weight:450;margin:15px 0}
+.uncertainty-note{color:#766348;font-size:13px;margin-top:6px}
+.uncertainty-note .list{margin-top:8px}
+.section-heading{display:flex;justify-content:space-between;gap:15px;align-items:baseline;margin-bottom:9px}
+.section-heading h2{font-size:15px;font-weight:550;margin:0}
+.section-heading>span{font-size:11px}
+.hypotheses-section{margin:26px 0}
+.hypothesis{border-bottom:1px solid var(--line);padding:0}
+.hypothesis>summary{cursor:pointer;display:flex;align-items:baseline;justify-content:space-between;gap:20px;padding:15px 0;font-size:14px;line-height:1.75}
+.hypothesis>summary>span:first-child{flex:1}
+.assessment{font-size:11px;color:#68727c;flex:none;white-space:nowrap}
+.assessment.challenged{color:#8b5d34}
+.assessment.consistent_in_context{color:#49675e}
+.hypothesis[open]>summary{font-weight:550}
+.hypothesis-expectation{font-size:14px;line-height:1.75;padding:10px 14px;background:#f0f2f1}
+.hypothesis-expectation>span{display:block;color:var(--muted);font-size:11px;margin-bottom:5px}
+.evidence-relation{margin:17px 0;padding-left:14px;border-left:2px solid #d1d8d3;font-size:13px;line-height:1.8}
+.evidence-label{color:var(--muted);font-size:11px;margin-bottom:6px}
+.evidence-relation p{margin-bottom:7px}
+.evidence-relation .source-links{margin-top:5px}
+.research-details{border-bottom:1px solid var(--line);font-size:13px;padding:4px 0}
+.research-details>summary{color:#4e5965}
+.research-details[open]{padding-bottom:15px}
+.research-composer{margin-top:35px;padding:0}
+.research-composer h2{font-size:17px;margin-bottom:18px;font-weight:550}
+.research-composer textarea{border-color:#c4cacd;min-height:115px;background:#fff}
+.research-request{padding:8px 0 20px;border-bottom:1px solid var(--line)}
+.research-request>.prose{font-size:16px;line-height:1.9}
+.feedback-question{font-size:16px;line-height:1.65;font-weight:550;margin-bottom:14px}
+.article-block{padding:18px 0;border-bottom:1px solid var(--line)}
+.article-block .prose{line-height:1.8;margin:10px 0}
+.research-sheet+.panel{margin-top:20px}
+.assessment-parts{margin:18px 0;padding:14px 0;border-block:1px solid var(--line)}
+.assessment-part{padding:12px 0 18px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+.assessment-part h4{font-size:15px;line-height:1.75;margin:0 0 8px;font-weight:550}
+.assessment-part:last-of-type{border-bottom:0}
+@media(min-width:851px){.research-sheet{padding-top:3px}.page:has(.research-sheet){max-width:1210px}.page:has(.research-sheet) .page-heading h1{font-size:23px}.page:has(.research-sheet) .page-heading .description{font-size:13px}}
+@media(max-width:600px){.primary-check h3{font-size:20px}.section-heading{display:block}.section-heading>span{display:block;margin-top:5px}.hypothesis>summary{display:block}.assessment{display:block;margin-top:5px}.check-purpose,.check-request{font-size:14px;line-height:1.75}.research-composer{margin-top:25px}.context-drawer{margin-bottom:15px}.research-sheet .notice-inline{font-size:12px}}
+
+.replanning-summary{margin:1.2rem 0;padding:1.2rem;border:1px solid var(--line,#d5ddd8);border-radius:14px;background:var(--panel,#fff)}
+.replanning-summary h3{font-size:1rem;margin:.7rem 0}.replanning-summary li{margin:.55rem 0;line-height:1.65}.replanning-summary details{margin-top:.6rem}
+.synthetic-notice{background:#fff5dc;border:1px solid #e8cd85;border-radius:12px;padding:1rem;margin:1rem 0;color:#604615}.synthetic-notice p{font-size:.9rem;line-height:1.6;margin:.5rem 0}
+@media(max-width:720px){.replanning-summary .change-grid{grid-template-columns:1fr}.replanning-summary{padding:1rem}}
+
+.source-evidence-row{padding:1rem 0;border-top:1px solid #e5e9ee}.source-evidence-row h4{margin:0 0 .5rem}.evidence-review details{margin:1rem 0}
+
+.source-original-image{display:block;max-width:100%;height:auto;margin:1rem auto}
+
+.inline-source-link { display:inline; padding:0 2px; border:0; background:transparent; color:var(--accent,#2455ba); font:inherit; font-size:.88em; text-decoration:underline; cursor:pointer; }
+.inline-source-link:focus-visible { outline:2px solid currentColor; outline-offset:2px; }
+.latest-explanation > summary { line-height:1.6; margin-top:12px; }
+
+.workflow-complete { margin:12px auto; max-width:900px; padding:10px 14px; }
+.workflow-complete>summary { font-size:12px; cursor:pointer; color:#345c4c; }
+.workflow-complete[open] .workflow-steps { margin-top:15px; }
+.synthetic-compact { padding:10px 13px; margin:10px 0 4px; border-radius:8px; }
+.synthetic-compact>summary { cursor:pointer; font-size:12px; font-weight:550; line-height:1.7; }
+.research-background { margin:18px 0; }
+.research-background .context-drawer { margin-bottom:8px; }
+
+.history-evidence-decision{margin:1rem 0;border-top:1px solid var(--line,#ddd);padding-top:.8rem}.history-evidence-decision summary{cursor:pointer;font-weight:600}.history-evidence-decision .detail-actions{flex-wrap:wrap}
+
+/* Reported trial results: registry values, shown as recorded. */
+.trial-results{margin:14px 0}
+.trial-outcome{border-top:1px solid var(--line);padding-top:14px;margin-top:14px}
+.trial-outcome h4{font-size:14px;margin:0 0 4px;font-weight:650}
+.trial-outcome .table-scroll{margin-top:10px}
+.trial-analyses{margin:10px 0 0;padding-left:18px;font-size:12px;color:var(--muted)}
+.trial-analyses li{margin-bottom:5px}
+.trial-adverse{border-top:1px solid var(--line);padding-top:14px;margin-top:16px}
+.trial-adverse h4{font-size:14px;margin:0 0 8px;font-weight:650}
+.trial-adverse details{margin-top:12px;font-size:12px}
+.trial-adverse summary{cursor:pointer;color:var(--blue)}
+
+/* Figures of an article already read; the caption and source anchor are the evidence. */
+.article-figures{margin:14px 0;border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px}
+.article-figures>summary{cursor:pointer;font-size:13px;font-weight:550;color:var(--blue)}
+.article-figure-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-top:12px}
+.article-figure{margin:0;border:1px solid var(--line);border-radius:4px;padding:10px;background:var(--paper)}
+.article-figure-image{display:block;width:100%;height:auto;background:#fff;border-radius:3px}
+.article-figure figcaption{font-size:12px;line-height:1.65;margin-top:8px;overflow-wrap:anywhere}
+.article-figure figcaption .muted{display:block;margin-top:4px}
+.article-figure figcaption a{display:inline-block;margin-top:5px}
+
+/* Registry sections stay available in full, folded under the reported results. */
+.source-raw-sections{margin-top:16px;border-top:1px solid var(--line);padding-top:12px}
+.source-raw-sections>summary{cursor:pointer;font-size:13px;color:var(--muted)}
+.source-raw-sections>summary:hover{color:var(--blue)}
+
+/* The 자료 tab keeps the tool-by-tool workbench in a drawer: open it when a lookup is needed,
+   closed it is one line instead of a tab that looked like a separate product. */
+.tool-drawer{border:1px solid var(--line);border-radius:10px;background:white;margin-top:14px}
+.tool-drawer>summary{cursor:pointer;padding:12px 14px;font-size:13px;font-weight:600;display:flex;flex-direction:column;gap:3px;list-style:none}
+.tool-drawer>summary::-webkit-details-marker{display:none}
+.tool-drawer>summary::before{content:'＋ ';font-weight:600;color:var(--blue)}
+.tool-drawer[open]>summary::before{content:'− '}
+.tool-drawer>summary small{font-weight:400;color:var(--muted);font-size:11.5px;line-height:1.55}
+.tool-drawer[open]{padding:0 14px 14px}
+.tool-drawer>summary{margin:0 -14px}
+.tool-drawer .panel{margin-top:10px}
+
+/* Stage 5 reads as the experiment it recommends: the three fields the request must carry, and
+   what each possible result would change, side by side rather than folded away. */
+.check-kind{display:inline-block;font-size:11.5px;font-weight:600;padding:2px 7px;border-radius:999px;margin-right:7px;vertical-align:middle;background:var(--idle-tint);color:var(--idle)}
+.check-kind.external_observation{background:var(--settled-tint);color:var(--settled)}
+.check-kind.tool{background:var(--running-tint);color:var(--running)}
+.check-kind.unconnected_method{background:var(--stale-tint);color:var(--stale)}
+.check-kind.researcher_input{background:var(--human-tint);color:var(--human)}
+.experiment-fields{display:grid;grid-template-columns:96px minmax(0,1fr);gap:6px 14px;margin:10px 0;font-size:13.5px}
+.experiment-fields dt{color:var(--ink-3);font-weight:600}
+.experiment-fields dd{margin:0;overflow-wrap:anywhere}
+.outcome-branches{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:12px}
+.outcome-branch{border:1px solid var(--line);border-radius:var(--radius-m);padding:11px 13px;background:var(--surface)}
+.outcome-branch .branch-mark{display:block;font-size:11.5px;font-weight:600;color:var(--ink-3);margin-bottom:4px}
+.outcome-branch strong{display:block;font-size:13.5px;margin-bottom:5px}
+.outcome-branch p{margin:0;font-size:13px;color:var(--ink-2)}
+
+/* A6: the human record this candidate already has, before any newly designed experiment. */
+.existing-drug{border:1px solid var(--line);border-left:3px solid var(--human);border-radius:0 var(--radius-m) var(--radius-m) 0;padding:12px 14px;margin-bottom:14px;background:var(--surface)}
+.existing-drug h4{margin:0 0 4px;font-size:14px}
+.existing-drug-list{margin:8px 0;padding-left:18px;font-size:13px;display:grid;gap:4px}
+
+/* Proposed structures: untested by construction, so the screen leans on what each column means. */
+.proposal-result .notice-inline{border-left:3px solid var(--stale);background:var(--stale-tint)}
+.proposal-table{font-size:13px}
+.proposal-table th{text-align:left;white-space:nowrap}
+.proposal-table td{vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+.proposal-table small{display:block;color:var(--ink-3);font-size:11.5px;margin-top:2px}
+.proposal-smiles{display:block;font-family:ui-monospace,Menlo,monospace;font-size:11.5px;overflow-wrap:anywhere;max-width:280px;color:var(--ink-2)}
+.proposal-outside{color:var(--stale);font-weight:600}
+.proposal-model{border:1px solid var(--settled-line);background:var(--settled-tint);border-radius:var(--radius-m);padding:10px 12px;margin:10px 0;font-size:13px}
+.proposal-refusal{border-left:3px solid var(--idle)}
+.proposal-search>summary,.proposal-limits>summary{cursor:pointer;font-size:13px;font-weight:550;margin-top:10px}
+
+/* The instruction line for a recommended experiment: what is measured, against what, read how.
+   It sits directly under the question because the question alone is not something to act on. */
+.check-lead{margin:6px 0 10px;font-size:14px;line-height:1.7;color:var(--ink);font-weight:550;
+  padding:9px 13px;background:var(--blue-tint);border-left:3px solid var(--blue);border-radius:0 5px 5px 0}
+.further-check>summary{line-height:1.65}
+
+/* A result that is not wired to what it changes. Stated rather than left to look complete. */
+.outcome-unlinked{margin:9px 0 0;padding:9px 12px;font-size:12.5px;line-height:1.65;
+  color:var(--amber,#8a5a00);background:#fff8e8;border-left:3px solid var(--amber,#c07800);
+  border-radius:0 5px 5px 0}
+
+/* An experiment recommendation's sources, and the amber note when it named none. Same treatment as
+   an outcome with nothing linked to it: not an error, but not something to read past either. */
+.experiment-grounded{margin:9px 0 0;font-size:12.5px;line-height:1.65;color:var(--muted,#5a6672)}
+.experiment-grounded code{font-size:11.5px;padding:1px 5px;border-radius:4px;
+  background:var(--chip,#eef2f6);color:var(--ink,#1d2530)}
+.experiment-ungrounded{margin:9px 0 0;padding:9px 12px;font-size:12.5px;line-height:1.65;
+  color:var(--amber,#8a5a00);background:#fff8e8;border-left:3px solid var(--amber,#c07800);
+  border-radius:0 5px 5px 0}
+
+/* The completed research this server actually holds. The panel above it offers to open two
+   workspaces named in the source, so wherever those are not mounted it showed nothing, and the
+   catalog's newest-first order puts the rebuilt fixtures ahead of the real cases. */
+.finished-research{margin-top:14px;padding:12px 14px;background:var(--tint,#f4f7fa);
+  border-radius:7px}
+.finished-research h3{margin:0 0 7px;font-size:13.5px}
+.finished-research ul{margin:0;padding-left:17px}
+.finished-research li{margin:3px 0;font-size:13px;line-height:1.55}
+.finished-research p{margin:7px 0 0}

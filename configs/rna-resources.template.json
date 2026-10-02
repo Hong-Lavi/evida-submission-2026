@@ -1,0 +1,89 @@
+{
+  "reference": {
+    "url": "https://ftp.ensembl.org/pub/release-115/fasta/homo_sapiens/cdna/Homo_sapiens.GRCh38.cdna.all.fa.gz",
+    "release": 115,
+    "organism": "homo_sapiens",
+    "assembly": "GRCh38",
+    "sequence_scope": "all Ensembl annotated spliced cDNA; not genome/pre-mRNA/tissue abundance",
+    "compressed_bytes": 118451093,
+    "compressed_sha256": "93af088ed22a46daa9645fc6292fb120c1e4ffe791d24abbcbd35062666c03f1",
+    "fasta_bytes": 838806064,
+    "fasta_sha256": "fe97570e964ec07f065aa057e5c29ac98ec0e882073995c2a3f1b8b6d75524d4",
+    "transcripts": 328868,
+    "fasta": "/ABSOLUTE/PATH/TO/REQUIRED_RESOURCE/Homo_sapiens.GRCh38.cdna.all.fa",
+    "annotations": "/ABSOLUTE/PATH/TO/REQUIRED_RESOURCE/human-115-index.sqlite3",
+    "annotations_sha256": "f2ef8e113b896066f1cca835b99579ea9facce01303dfba4123b3955d6ad82a3"
+  },
+  "risearch": {
+    "binary": "/ABSOLUTE/PATH/TO/REQUIRED_RESOURCE/risearch2.x",
+    "index": "/ABSOLUTE/PATH/TO/REQUIRED_RESOURCE/human-115.pksuf",
+    "commit": "e0bdf8a065ea8ec638cf06a2569a9c828cc4b789",
+    "binary_sha256": "fa846e9e45f28fb501f8d08272648d753083cbc45fb6ebd3654e11b57ec2e5cc",
+    "index_sha256": "ec1ca88154197ae267998729a72d36a007d95b7fc3f6bfa4c0c18e5fe4746dfc",
+    "index_bytes": 11905907688
+  },
+  "activity": {
+    "python": "/ABSOLUTE/PATH/TO/REQUIRED_RESOURCE/python",
+    "weights": "/ABSOLUTE/PATH/TO/REQUIRED_RESOURCE/RNA-FM_pretrained.pth",
+    "rna_fm_head": "/ABSOLUTE/PATH/TO/REQUIRED_RESOURCE/rna_fm-head.joblib",
+    "sequence3mer_head": "/ABSOLUTE/PATH/TO/REQUIRED_RESOURCE/sequence3mer-head.joblib",
+    "trial_result": "/ABSOLUTE/PATH/TO/REQUIRED_RESOURCE/result.json",
+    "weights_sha256": "5b5d7d87b37c291ef42c140ef9edf7aea29f255fa2a4fd435f776c52e93d5e99",
+    "rna_fm_head_sha256": "ab00d98acd3658c5beac6c3a7ddce88461dd4b6da7993ca4bcf5562e15125cf6",
+    "sequence3mer_head_sha256": "4796d0526dee8fcbbedab7fdaa9aa93fa3a83d9e478f4e1c392019079d337fa4"
+  },
+  "seed_sites": {
+    "database": "/ABSOLUTE/PATH/TO/REQUIRED_RESOURCE/utr-reference.sqlite3",
+    "database_sha256": "d277417e0a9f53cdcfa8cf625b51c2a4ab30f594955e54681dd9be3ed672c00a",
+    "fasta": "/ABSOLUTE/PATH/TO/REQUIRED_RESOURCE/utr.fa",
+    "fasta_sha256": "4d96de19240ff921afcb07aae9002c0d51ddbc4d9974390db7918df72e337edf",
+    "expression": "/ABSOLUTE/PATH/TO/REQUIRED_RESOURCE/liver-expression.json",
+    "expression_sha256": "f602ba292851c345a4d38e17ced9d62aefb85534cec15301e489cb231680aa9d",
+    "author_get_seed_sha256": "49688b9700275199b43af08b4e5ce3b915c79ff638e243bb9f455a24551262d1",
+    "coverage": {
+      "eligible_transcripts": 211742,
+      "gtf_transcripts": 509650,
+      "exclusion_counts": {
+        "missing_CDS_or_annotated_stop": 73978,
+        "exact_transcript_version_not_in_cdna": 200414,
+        "annotated_incomplete_end": 21271,
+        "no_annotated_3UTR": 2240,
+        "ambiguous_matched_cdna_comparison": 3,
+        "stop_codon_sequence_mismatch": 2
+      }
+    },
+    "gtf_url": "https://ftp.ensembl.org/pub/release-115/gtf/homo_sapiens/Homo_sapiens.GRCh38.115.gtf.gz"
+  },
+  "genomic_annotation": {
+    "path": "/ABSOLUTE/PATH/TO/REQUIRED_RESOURCE/Homo_sapiens.GRCh38.115.gtf.gz",
+    "sha256": "2f8e31578c3aa2f35646927c4a3b3b0dcf0321e57c0ebd3ecc81afcbc836d1a8",
+    "release": 115,
+    "assembly": "GRCh38",
+    "url": "https://ftp.ensembl.org/pub/release-115/gtf/homo_sapiens/Homo_sapiens.GRCh38.115.gtf.gz"
+  },
+  "chemical_evidence": {
+    "path": "/ABSOLUTE/PATH/TO/REQUIRED_RESOURCE/CMsiRNA_data_update.tsv",
+    "sha256": "dfddf5c7829a036029a59e822dc4faa73cded9c8ec6aafe1a74361c43831722b",
+    "url": "https://cellknowledge.com.cn/CMsiRNAdb/download/CMsiRNA_data_update.tsv",
+    "retrieved_at": "2026-09-26",
+    "scope": "frozen public research table; source fields retained; not an efficacy model"
+  },
+  "additional_references": {
+    "116": {
+      "url": "https://ftp.ensembl.org/pub/release-116/fasta/homo_sapiens/cdna/Homo_sapiens.GRCh38.cdna.all.fa.gz",
+      "release": 116,
+      "organism": "homo_sapiens",
+      "assembly": "GRCh38",
+      "sequence_scope": "all Ensembl116 annotated spliced cDNA, not genome/pre-mRNA/abundance",
+      "compressed_bytes": 183898799,
+      "compressed_sha256": "683eb19310c40bf1396e4718f45afa2ce86755717c0990f47a171f535d248ea1",
+      "fasta": "/ABSOLUTE/PATH/TO/REQUIRED_RESOURCE/Homo_sapiens.GRCh38.cdna.all.fa",
+      "fasta_bytes": 1416494395,
+      "fasta_sha256": "bd85494fb64766200ec18bae873f3196b451c6eecbcfbedadd72684f19692ff8",
+      "annotations": "/ABSOLUTE/PATH/TO/REQUIRED_RESOURCE/human-116-index.sqlite3",
+      "annotations_sha256": "c61e25b2969d2a5fc79878419600090196cc16358425fce10441c91461fc47a8",
+      "transcripts": 465769
+    }
+  },
+  "_submission_template": "Deployment paths are placeholders. Supply independently licensed resources and verify hashes before enabling this capability."
+}

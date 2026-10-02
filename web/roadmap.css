@@ -1,0 +1,477 @@
+/* Research path: a quiet rail of five reading stages beside one stable detail pane.
+   Status is carried by symbol + word, never by colour alone. No progress bars,
+   completion ticks or branch graphs. */
+.roadmap-workspace{max-width:1060px;padding-top:0}
+.research-roadmap{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:22px 24px 0;margin:0 0 22px}
+.roadmap-heading{display:flex;align-items:end;justify-content:space-between;gap:24px;padding-bottom:18px}
+.roadmap-heading .section-mark{font-size:10px;letter-spacing:1.3px;display:block;margin-bottom:7px}
+.roadmap-heading h2{font-size:20px;letter-spacing:-.45px;margin:0;font-weight:620}
+.roadmap-revision{font-size:12px;line-height:1.65;color:var(--muted);text-align:right;max-width:290px}
+
+/* Rail and inspector sit side by side so the reader keeps their place. */
+.roadmap-layout{display:grid;grid-template-columns:minmax(0,304px) minmax(0,1fr);border-top:1px solid var(--line)}
+.roadmap-track{list-style:none;margin:0;padding:14px 20px 16px 0;border-right:1px solid var(--line)}
+.roadmap-node{min-width:0;position:relative}
+.roadmap-node:before{content:'';position:absolute;left:17px;top:0;bottom:0;width:1px;background:#d7dde6;z-index:1}
+.roadmap-node:first-child:before{top:25px}
+.roadmap-node:last-child:before{bottom:calc(100% - 25px)}
+.roadmap-node>button{display:grid;grid-template-columns:27px minmax(0,1fr) 14px;grid-template-rows:auto auto auto;gap:4px 11px;width:100%;text-align:left;border:0;background:transparent;border-radius:6px;padding:11px 6px 13px 4px;font-weight:450;position:relative}
+.roadmap-node>button:hover:not(:disabled){background:#f3f6fa}
+.roadmap-step{grid-column:1;grid-row:1/4;align-self:start;position:relative;z-index:2;display:flex;align-items:center;justify-content:center;width:27px;height:27px;background:var(--paper);border:1px solid #c3ccd8;border-radius:50%;font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.roadmap-node-title{grid-column:2;grid-row:1;align-self:center;min-height:27px;display:flex;align-items:center;font-size:14px;font-weight:620;letter-spacing:-.25px}
+.roadmap-preview{grid-column:2;grid-row:2;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;font-size:12px;line-height:1.65;color:var(--muted);overflow-wrap:anywhere;font-weight:400}
+.roadmap-state{grid-column:2;grid-row:3;font-size:11px;line-height:1.55;color:#5d6a7d}
+.roadmap-mark{display:inline-block}
+.roadmap-change-mark{display:inline-block;margin-left:9px;font-weight:550;color:#7b5321}
+.roadmap-open-sign{grid-column:3;grid-row:1;align-self:center;min-height:27px;display:flex;align-items:center;justify-content:end;font-size:14px;color:var(--muted)}
+.roadmap-node.is-open>button{background:var(--blue-tint)}
+.roadmap-node.is-open .roadmap-step{background:var(--blue);border-color:var(--blue);color:#fff}
+.roadmap-node.is-open .roadmap-node-title{color:var(--blue)}
+.roadmap-node.empty .roadmap-step,.roadmap-node.earlier .roadmap-step{border-style:dashed}
+.roadmap-node.empty .roadmap-preview{font-style:italic}
+.roadmap-node.earlier .roadmap-mark{color:#7b5321}
+
+.roadmap-inspector{min-width:0;padding:18px 0 24px 26px;overflow-wrap:anywhere}
+.roadmap-inspector:focus{outline:none}
+.roadmap-inspector-heading{display:flex;justify-content:space-between;align-items:start;gap:15px;margin-bottom:16px}
+.roadmap-inspector-heading .section-mark{display:block;margin:0 0 5px;font-size:11px}
+.roadmap-inspector-heading h3{font-size:20px;font-weight:600;margin:0;letter-spacing:-.35px}
+.roadmap-panel>p,.roadmap-intents p{font-size:14px;line-height:1.8}
+.roadmap-panel .notice-inline{margin-bottom:16px}
+.roadmap-panel details>summary{cursor:pointer;padding:11px 0;font-size:13px;line-height:1.7}
+.roadmap-panel details{border-bottom:1px solid var(--line)}
+.roadmap-panel details[open]{padding-bottom:14px}
+.roadmap-operation{font-size:12px;line-height:1.7;color:#5d6a7d;margin:0 0 14px}
+
+/* Default pane: the direction on record now, and what is proposed next. */
+.roadmap-direction-block+.roadmap-direction-block{border-top:1px solid var(--line);margin-top:22px;padding-top:20px}
+.roadmap-direction .section-mark{display:block;margin-bottom:9px;font-size:11px}
+.roadmap-direction-text{font-size:15px;line-height:1.85;margin:0 0 12px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden;overflow-wrap:anywhere}
+.roadmap-next-text{font-size:14px;line-height:1.8;margin:0 0 8px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;overflow-wrap:anywhere}
+
+.roadmap-foot{display:flex;justify-content:space-between;align-items:center;gap:18px;border-top:1px solid var(--line);padding:12px 0;font-size:11px;color:var(--muted)}
+.roadmap-foot-note{margin:0;line-height:1.7;max-width:660px}
+.roadmap-foot .small{font-size:11px}
+
+.roadmap-intents article{padding:14px 0;border-bottom:1px solid var(--line)}
+.roadmap-intents article:first-child{padding-top:0}
+.roadmap-label{display:block;font-size:11px;color:var(--muted);margin:5px 0}
+.roadmap-flag{display:block;font-size:11px;line-height:1.6;color:#7b5321;margin-top:5px}
+.roadmap-option-row{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid var(--line)}
+.roadmap-option-row>div{min-width:0}
+.roadmap-option-row strong{font-size:14px;font-weight:550;overflow-wrap:anywhere}
+.roadmap-option-row>button{flex:none}
+.roadmap-choice{border-left:3px solid var(--blue);padding:9px 16px;margin-bottom:17px;background:#f7f9fe}
+.roadmap-choice strong{display:block;font-size:11px;margin-bottom:7px}
+.roadmap-choice p{margin-bottom:6px}
+.roadmap-result-list{max-height:420px;overflow:auto}
+.roadmap-result-list>div{display:flex;justify-content:space-between;gap:15px;padding:11px 0;border-bottom:1px solid var(--line);font-size:12px}
+.roadmap-result-list>div>span{font-size:11px;color:var(--muted);max-width:180px}
+
+.roadmap-assumption,.roadmap-progress,.roadmap-help,.roadmap-all-options,.roadmap-records{font-size:12px;border-block-start:1px solid var(--line);padding:8px 0}
+.roadmap-assumption>summary,.roadmap-progress>summary,.roadmap-help>summary,.roadmap-all-options>summary,.roadmap-records>summary{cursor:pointer;padding:6px 0;color:var(--muted)}
+.roadmap-assumption .link-button{display:block;margin:8px 0;text-align:left}
+.roadmap-composer{padding:22px;background:white;border:1px solid var(--line);border-radius:8px;margin:18px 0}
+.roadmap-composer-heading{display:flex;justify-content:space-between;align-items:baseline;gap:15px;margin-bottom:15px}
+.roadmap-composer-heading h2{font-size:16px;margin:0;font-weight:600}
+.roadmap-composer-heading>span{font-size:11px;color:var(--muted)}
+.roadmap-composer .input-label{font-size:12px;font-weight:450}
+.roadmap-composer textarea{min-height:90px;font-size:13px;padding:12px 14px;border-color:#c2cad6}
+.roadmap-input-tools{display:flex;align-items:center;gap:13px;flex-wrap:wrap;margin:12px 0}
+.roadmap-input-tools select{width:auto;font-size:12px;padding:7px 9px;border-color:var(--line)}
+.roadmap-input-tools .checkbox{margin:0;font-size:11px}
+.roadmap-input-tools .actions{display:flex;gap:7px;margin-left:auto}
+.roadmap-composer>p{font-size:11px;margin-bottom:5px}
+
+.roadmap-diff{border-top:1px solid var(--line);padding:13px 0;font-size:13px}
+.roadmap-diff-tag{display:inline-block;font-size:11px;color:#785727;margin:0 10px 7px 0;min-width:78px}
+.roadmap-diff.unchanged .roadmap-diff-tag{color:var(--muted)}
+.roadmap-diff.omitted{border-left:2px solid #d8c9ae;padding-left:12px}
+.roadmap-diff.changed{border-left:2px solid #b9c6e0;padding-left:12px}
+.roadmap-diff>strong{font-size:11px;color:var(--muted)}
+.roadmap-diff p{line-height:1.8;margin:0 0 7px}
+.roadmap-diff-values{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.roadmap-diff-values>h4{grid-column:1/-1;margin:0;font-size:12px;color:var(--muted);font-weight:550}
+.roadmap-diff-values>div{min-width:0;border:1px solid var(--line);padding:12px}
+.roadmap-diff-values>div>span{font-size:11px;color:var(--muted);display:block;margin-bottom:7px}
+.roadmap-diff-values pre{max-height:250px;font-size:11px}
+
+@media(min-width:851px){.page:has(.roadmap-workspace){max-width:1320px}}
+/* The inspector column is narrower than a full sheet, so borrowed headings step down. */
+.roadmap-inspector .primary-check h3{font-size:19px}
+.roadmap-inspector .further-check h3{font-size:17px}
+.roadmap-inspector .check-purpose,.roadmap-inspector .check-request{font-size:13px}
+.roadmap-inspector .decision-title{font-size:15px}
+.roadmap-inspector .hypotheses-section{margin-top:0}
+
+@media(max-width:1050px){
+ .research-roadmap{padding:20px 18px 0}
+ .roadmap-layout{grid-template-columns:minmax(0,264px) minmax(0,1fr)}
+ .roadmap-track{padding-right:14px}
+ .roadmap-inspector{padding-left:20px}
+ .roadmap-node-title{font-size:13px}
+ .roadmap-composer-heading>span{display:none}
+}
+/* One column: the rail stays an ordered list, the inspector follows it. */
+@media(max-width:860px){
+ .roadmap-layout{grid-template-columns:minmax(0,1fr)}
+ .roadmap-track{border-right:0;border-bottom:1px solid var(--line);padding:10px 0 12px}
+ .roadmap-inspector{padding:20px 0 22px}
+ .roadmap-preview{-webkit-line-clamp:1}
+}
+@media(max-width:650px){
+ .research-roadmap{padding:18px 16px 0}
+ .roadmap-heading{display:block;padding-bottom:14px}
+ .roadmap-heading h2{font-size:18px}
+ .roadmap-revision{display:block;text-align:left;max-width:none;margin-top:8px;font-size:11px}
+ .roadmap-node>button{grid-template-columns:25px minmax(0,1fr) 14px;gap:3px 10px;padding:10px 2px 12px 2px}
+ .roadmap-node:before{left:14px}
+ .roadmap-node:first-child:before{top:23px}
+ .roadmap-node:last-child:before{bottom:calc(100% - 23px)}
+ .roadmap-step{width:25px;height:25px}
+ .roadmap-node-title{font-size:13px;min-height:25px}
+ .roadmap-open-sign{min-height:25px}
+ .roadmap-change-mark{display:block;margin:2px 0 0}
+ .roadmap-inspector-heading h3{font-size:18px}
+ .roadmap-foot{display:block;padding:14px 0}
+ .roadmap-foot-note{margin-bottom:10px}
+ .roadmap-option-row{display:block}
+ .roadmap-option-row>button{margin-top:9px}
+ .roadmap-diff-values{grid-template-columns:1fr}
+ .roadmap-result-list>div{display:block}
+ .roadmap-result-list>div>span{display:block;margin-top:5px;max-width:none}
+ .roadmap-composer{padding:17px}
+ .roadmap-input-tools{gap:10px}
+ .roadmap-input-tools .actions{width:100%;justify-content:end}
+}
+
+/* Reviewed refinement: keep the overview short, disclose exact records below. */
+.roadmap-layout{display:flex;flex-direction:column}
+.roadmap-track{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;border-right:0;padding:12px 0;border-bottom:1px solid var(--line)}
+.roadmap-node:before{display:none}
+.roadmap-node>button{grid-template-columns:22px minmax(0,1fr) 12px;gap:3px 7px;padding:8px 4px;min-height:85px}
+.roadmap-step{width:22px;height:22px;font-size:10px;grid-row:1/3}
+.roadmap-node-title{font-size:13px;min-height:22px}
+.roadmap-preview{grid-column:1/4;-webkit-line-clamp:1;font-size:11px}
+.roadmap-state{grid-column:1/4;font-size:10px}
+.roadmap-change-mark{margin-left:5px}
+.roadmap-inspector{padding:20px 0 22px}
+.roadmap-direction{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:24px}
+.roadmap-direction-block+.roadmap-direction-block{border:0;border-left:1px solid var(--line);margin:0;padding:0 0 0 22px}
+.roadmap-direction-text{font-size:14px;line-height:1.8;-webkit-line-clamp:4}
+.roadmap-next-text{font-size:13px;-webkit-line-clamp:3}
+.roadmap-foot{padding:10px 0}
+.roadmap-node.draft .roadmap-step{border-style:dotted}
+.roadmap-ledger-heading{display:flex;gap:14px;align-items:center;justify-content:space-between;margin:12px 0}
+.roadmap-ledger-heading h4{margin:0;font-size:16px}
+.roadmap-ledger-controls{display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:12px;align-items:end;margin:14px 0}
+.roadmap-ledger-controls label{font-size:12px}
+.roadmap-ledger-controls input,.roadmap-ledger-controls select{display:block;width:100%;margin-top:5px;min-width:0}
+.roadmap-claim>summary{display:flex;align-items:start;gap:16px;justify-content:space-between}
+.roadmap-claim>summary:before{content:'＋';flex:none;color:var(--muted)}
+.roadmap-claim[open]>summary:before{content:'−'}
+.roadmap-claim-status{color:var(--muted);font-size:11px;white-space:nowrap;flex:none}
+.roadmap-evidence-table{max-height:450px;margin:12px 0 18px}
+.roadmap-evidence-table table{table-layout:fixed;min-width:700px}
+.roadmap-evidence-table caption{text-align:left;padding:8px;font-size:11px;color:var(--muted)}
+.roadmap-evidence-table th:first-child{width:95px}
+.roadmap-evidence-table th:nth-child(2){width:25%}
+.roadmap-evidence-table th:nth-child(4){width:22%}
+.roadmap-evidence-table td{line-height:1.8;overflow-wrap:anywhere}
+.roadmap-evidence-table .source-links{margin:0}
+.roadmap-diff.unavailable{border-left:2px solid var(--amber)}
+@media(max-width:1000px){.roadmap-track{gap:5px}.roadmap-node-title{font-size:12px}.roadmap-preview{display:none}.roadmap-node>button{min-height:70px}.roadmap-direction{gap:18px}}
+@media(max-width:700px){
+ .roadmap-track{grid-template-columns:repeat(2,minmax(0,1fr));padding:10px 0;gap:4px}.roadmap-node:last-child{grid-column:1/3}.roadmap-node>button{min-height:57px}
+ .roadmap-layout:has(.roadmap-direction) .roadmap-inspector{order:-1;border-bottom:1px solid var(--line)}
+ .roadmap-direction{grid-template-columns:1fr;gap:14px}.roadmap-direction-block+.roadmap-direction-block{border:0;border-top:1px solid var(--line);padding:13px 0 0}.roadmap-direction-text{-webkit-line-clamp:3}
+ .roadmap-ledger-controls{grid-template-columns:minmax(0,1fr) auto}.roadmap-ledger-controls label:first-child{grid-column:1/3}
+ .roadmap-claim>summary{gap:8px;flex-wrap:wrap}.roadmap-claim>summary>span:first-of-type{flex:1;min-width:180px}.roadmap-claim-status{margin-left:20px}
+ .roadmap-ledger-heading{align-items:start;flex-direction:column;gap:4px}
+}
+
+.roadmap-activity{border-left:2px solid var(--line);padding:10px 14px;margin:0 0 18px;background:var(--surface-subtle,#f8fafc)}
+.roadmap-activity .section-mark{display:block;font-size:11px;margin-bottom:5px}
+.roadmap-activity p{font-size:13px;line-height:1.65;margin:0;overflow-wrap:anywhere}
+
+.roadmap-tool-line p{margin:4px 0}
+.roadmap-tool-table{width:100%;font-size:12px;border-collapse:collapse}
+.roadmap-tool-table th,.roadmap-tool-table td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.roadmap-tool-table td:nth-child(4),.roadmap-tool-table td:nth-child(5){white-space:nowrap}
+.roadmap-tool-status{display:block;font-size:11px;color:var(--muted);margin-top:3px}
+.roadmap-tool-items{list-style:none;padding:0;margin:8px 0;max-height:360px;overflow:auto}
+.roadmap-tool-items li{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:8px 0;border-bottom:1px solid var(--line);font-size:12px}
+.roadmap-tool-items li>.small{grid-column:1}
+@media (max-width:720px){.roadmap-tool-items li{grid-template-columns:1fr}}
+.roadmap-tools .table-scroll{max-height:none}
+.roadmap-tool-table tbody th{position:static;white-space:normal;background:none;color:var(--ink,inherit);font-weight:550;min-width:130px}
+@media (max-width:720px){
+ .roadmap-tool-table thead{display:none}
+ .roadmap-tool-table,.roadmap-tool-table tbody,.roadmap-tool-table tr,.roadmap-tool-table th,.roadmap-tool-table td{display:block;width:auto;min-width:0}
+ .roadmap-tool-table tr{padding:10px 4px;border-bottom:1px solid var(--line)}
+ .roadmap-tool-table tbody th,.roadmap-tool-table td{border:0;padding:3px 6px}
+ .roadmap-tool-table td:nth-child(3){overflow-wrap:anywhere;color:var(--muted)}
+ .roadmap-tool-table td:nth-child(4),.roadmap-tool-table td:nth-child(5){display:inline-block;white-space:nowrap}
+ .roadmap-tool-table td:nth-child(4)::before{content:'모델에 반환 '}
+ .roadmap-tool-table td:nth-child(5)::before{content:'· 판단 인용 '}
+}
+
+.roadmap-node.working .roadmap-step{border-style:dashed}
+.roadmap-live{border-left-color:var(--blue,#2f5bd3)}
+.roadmap-live p{margin:6px 0 0}
+
+/* Stage 1: the researcher's own words stay above the model's structured reading of them. */
+.original-request{border-left:3px solid var(--blue);background:var(--blue-tint);
+  padding:.75rem .9rem;border-radius:0 6px 6px 0;margin:0 0 1rem}
+.original-request .prose{margin:.35rem 0 .25rem;font-size:1.02rem;line-height:1.55}
+.structured-heading{margin:0 0 .5rem;font-size:.82rem;letter-spacing:.02em;text-transform:none;
+  color:var(--muted);font-weight:600}
+
+/* Stage 2: the computed order over mechanisms, with its assumptions on the page. */
+.mechanism-rank{margin:6px 0 4px}
+.rank-head{display:flex;align-items:baseline;gap:10px;margin-bottom:10px}
+.rank-badge{background:var(--blue);color:#fff;border-radius:3px;padding:3px 9px;font-size:12px;font-weight:650}
+.rank-badge.undecided{background:var(--rail);color:var(--muted);border:1px solid var(--line)}
+.rank-explain{font-size:13px;line-height:1.7;color:var(--muted);margin:0 0 12px}
+.rank-next{font-size:13px;line-height:1.7;background:var(--blue-tint);border-radius:4px;padding:10px 12px;margin:12px 0}
+.mechanism-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px}
+.mechanism-card{border:1px solid var(--line);border-radius:var(--radius);padding:14px;background:var(--paper)}
+.mechanism-card.lead{border-color:var(--blue);box-shadow:0 1px 3px #164bc71a}
+.mechanism-card header h4{font-size:15px;margin:0 0 4px;font-weight:650;overflow-wrap:anywhere}
+.mechanism-card.lead header h4{font-size:19px;letter-spacing:-.3px}
+.axis-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:12px 0}
+.axis-cell{background:var(--canvas);border-radius:3px;padding:7px 8px;font-size:11px;line-height:1.5}
+.axis-cell.unchecked{background:transparent;border:1px dashed var(--line);color:var(--muted)}
+.axis-name{display:block;color:var(--muted)}
+.axis-value{display:block;font-weight:600;color:var(--ink)}
+.axis-cell.unchecked .axis-value{font-weight:400;color:var(--muted)}
+.mechanism-clauses{margin:10px 0;padding-left:18px;font-size:13px;line-height:1.7}
+.mechanism-clauses li{margin-bottom:10px}
+.clause-text{margin:0 0 5px}
+.clause-quote{margin:0 0 4px;padding:6px 10px;border-left:2px solid var(--line);background:var(--canvas);
+  font-size:12px;line-height:1.65;color:var(--muted);overflow-wrap:anywhere}
+.mechanism-gaps{margin:10px 0;font-size:12px}
+.mechanism-gaps ul{margin:5px 0 0;padding-left:18px;line-height:1.7}
+.mechanism-reason{font-size:12px;line-height:1.7;color:var(--muted);margin:8px 0 0}
+.mechanism-rest,.stated-order{margin-top:14px;font-size:13px}
+.mechanism-rest>summary,.stated-order>summary{cursor:pointer;color:var(--blue)}
+.stated-order ul{margin:8px 0 0;padding-left:18px;font-size:12px;line-height:1.8}
+@media(max-width:600px){.axis-row{grid-template-columns:repeat(2,1fr)}}
+
+/* What a judgement kept and changed after a researcher entered a result. */
+.observation-answer{border:1px solid var(--blue);border-radius:var(--radius);background:var(--paper);
+  padding:16px 18px;margin:18px 0}
+.observation-answer .roadmap-label{display:block;margin-bottom:8px}
+.observation-answer .change-grid{margin-top:14px}
+.observation-answer h4{font-size:12px;color:var(--muted);font-weight:650;margin:0 0 8px}
+
+/* Advisory note on whether a quoted sentence carries its clause. */
+.quote-support{font-size:11.5px;margin:0 0 6px;padding:4px 8px;border-radius:3px;line-height:1.55}
+.quote-support.ok{background:#eef6f0;color:var(--green)}
+.quote-support.warn{background:#faf6ee;color:var(--amber)}
+.quote-support.bad{background:#fdeef0;color:var(--red)}
+.pair-table{margin:14px 0;font-size:13px}
+.pair-table>summary{cursor:pointer;color:var(--blue)}
+.pair-table .table-scroll{margin-top:10px}
+
+/* Figures from the papers a mechanism's clauses were anchored to. Sized so the leading card
+   reads as the main screen, and constrained so a tall figure cannot push the order off-screen. */
+.mechanism-figures { display: flex; flex-wrap: wrap; gap: 12px; margin: 10px 0; }
+.mechanism-figures figure { margin: 0; flex: 1 1 260px; min-width: 0; }
+.mechanism-figures img { width: 100%; max-height: 320px; object-fit: contain;
+  background: #fff; border: 1px solid var(--line, #dfe3ea); border-radius: 6px; }
+.mechanism-card.lead .mechanism-figures img { max-height: 420px; }
+.mechanism-figures figcaption { font-size: 12px; line-height: 1.5; margin-top: 6px; }
+
+/* The stored structure next to a candidate on stage 3, so the list is readable without opening
+   each row. It is the drawing of the recorded SMILES, nothing more. */
+.roadmap-option-row.has-structure { display: flex; gap: 12px; align-items: flex-start; }
+.roadmap-option-row .roadmap-structure { flex: 0 0 96px; text-align: center; }
+.roadmap-option-row .roadmap-structure .structure-thumb svg { width: 96px; height: 72px; }
+
+/* Candidate-28 screen rework: a stage groups its options, a mechanism can narrow the candidate
+   stage to its own candidates, the whole pool opens inside the stage that asked for it, and the
+   run record is one line until a reader opens it. */
+.roadmap-option-main{min-width:0;flex:1}
+.roadmap-option-actions{display:flex;gap:6px;flex:none;flex-wrap:wrap;justify-content:flex-end}
+.roadmap-option-group{margin-top:4px}
+.roadmap-group-heading{font-size:12.5px;font-weight:600;color:var(--ink-3,#566074);margin:14px 0 0;padding-bottom:4px;border-bottom:1px solid var(--line)}
+.roadmap-focus-note{font-size:13px;background:var(--primary-tint,#e3eafb);border-radius:8px;padding:9px 12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0 0}
+.roadmap-pool-inline{margin-top:14px;border-top:1px solid var(--line);padding-top:14px}
+.roadmap-progress>summary{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.roadmap-run-line{font-weight:550}
+.roadmap-progress>summary small{color:var(--muted);font-weight:400}
+
+/* Stage identity (reference review): each stage keeps one colour everywhere — a 4px bar above the
+   card and its number badge. Status keeps its own colours, so a stage colour never means a state.
+   The text under each number is the actual result, which is why the colour can stay quiet. */
+.roadmap-track>.roadmap-node>button{border-top:var(--stage-bar) solid var(--line);border-radius:0 0 var(--radius-m) var(--radius-m);padding-top:10px}
+.roadmap-node:nth-child(1)>button{border-top-color:var(--stage-1)}
+.roadmap-node:nth-child(2)>button{border-top-color:var(--stage-2)}
+.roadmap-node:nth-child(3)>button{border-top-color:var(--stage-3)}
+.roadmap-node:nth-child(4)>button{border-top-color:var(--stage-4)}
+.roadmap-node:nth-child(5)>button{border-top-color:var(--stage-5)}
+.roadmap-node:nth-child(1) .roadmap-step{color:var(--stage-1);border-color:var(--stage-1)}
+.roadmap-node:nth-child(2) .roadmap-step{color:var(--stage-2);border-color:var(--stage-2)}
+.roadmap-node:nth-child(3) .roadmap-step{color:var(--stage-3);border-color:var(--stage-3)}
+.roadmap-node:nth-child(4) .roadmap-step{color:var(--stage-4);border-color:var(--stage-4)}
+.roadmap-node:nth-child(5) .roadmap-step{color:var(--stage-5);border-color:var(--stage-5)}
+.roadmap-node:nth-child(1).is-open>button{background:var(--stage-1-tint)}
+.roadmap-node:nth-child(2).is-open>button{background:var(--stage-2-tint)}
+.roadmap-node:nth-child(3).is-open>button{background:var(--stage-3-tint)}
+.roadmap-node:nth-child(4).is-open>button{background:var(--stage-4-tint)}
+.roadmap-node:nth-child(5).is-open>button{background:var(--stage-5-tint)}
+.roadmap-node.is-open>button{box-shadow:inset 0 0 0 1px var(--line-strong)}
+.roadmap-node:nth-child(1).is-open .roadmap-step{background:var(--stage-1);color:#fff}
+.roadmap-node:nth-child(2).is-open .roadmap-step{background:var(--stage-2);color:#fff}
+.roadmap-node:nth-child(3).is-open .roadmap-step{background:var(--stage-3);color:#fff}
+.roadmap-node:nth-child(4).is-open .roadmap-step{background:var(--stage-4);color:#fff}
+.roadmap-node:nth-child(5).is-open .roadmap-step{background:var(--stage-5);color:#fff}
+.roadmap-node.is-open .roadmap-node-title{color:var(--ink)}
+/* Status colour and weight on the state line, next to the shape the mark already draws. */
+.roadmap-state{font-size:12px;color:var(--ink-3)}
+.roadmap-node.selected .roadmap-mark{color:var(--human);font-weight:600}
+.roadmap-node.proposed .roadmap-mark{color:var(--settled);font-weight:600}
+.roadmap-node.recorded .roadmap-mark{color:var(--ink-2)}
+.roadmap-node.earlier .roadmap-mark{color:var(--stale);font-weight:600}
+.roadmap-node.working .roadmap-mark{color:var(--running);font-weight:600}
+.roadmap-node.empty .roadmap-mark{color:var(--idle)}
+.roadmap-node-title{font-size:14.5px}
+.roadmap-preview{font-size:12.5px;color:var(--ink-3)}
+
+/* Sequences are read character by character, so they get their own tracking and never wrap
+   mid-notation without a break the reader can see. */
+.rna-notation{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;letter-spacing:.2px;overflow-wrap:anywhere;display:block;background:var(--surface-sunken);border:1px solid var(--line);border-radius:var(--radius-s);padding:7px 9px}
+.rna-notation-note{display:block;margin-top:3px}
+.rna-legend code{background:var(--surface-sunken);border-radius:3px;padding:0 3px}
+.rna-delivery{color:var(--ink-2)}
+
+/* The two axes that decide the order sit above the two that are only recorded (decision 0040). */
+.axis-row-aside{opacity:.82;margin-top:6px}
+.axis-cell.aside{background:var(--surface-sunken);border-style:dashed}
+.axis-what{display:block;font-size:11px;color:var(--ink-3);line-height:1.45;margin-top:2px}
+.mechanism-hold{background:var(--stale-tint);border-left:3px solid var(--stale);border-radius:0 6px 6px 0;padding:8px 10px;font-size:13px;display:flex;flex-direction:column;gap:3px}
+.mechanism-held>summary,.mechanism-mostly>summary{cursor:pointer;font-size:13px;font-weight:550}
+
+/* A12: an axis cell opens what its value was read off. It is a button, so it must still look and
+   size like the cell it replaced. */
+button.axis-cell{font:inherit;text-align:left;width:100%;cursor:pointer}
+button.axis-cell:hover{border-color:var(--line-strong)}
+.axis-rubric{margin:10px 0;padding-left:20px;font-size:13.5px;display:grid;gap:4px}
+.axis-rubric li{color:var(--ink-3)}
+.axis-rubric li.chosen{color:var(--ink);font-weight:600}
+.axis-chosen-mark{font-size:11.5px;font-weight:600;color:var(--primary);background:var(--primary-tint);border-radius:999px;padding:1px 8px;margin-left:7px}
+.axis-clauses{margin:8px 0;padding-left:18px;font-size:13.5px;display:grid;gap:5px}
+.axis-clause-match{display:inline-block;font-size:11.5px;font-weight:600;background:var(--surface-sunken);border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-right:6px}
+.axis-role{font-size:13.5px;margin:6px 0}
+.axis-role.ordering{color:var(--settled)}
+.axis-role.aside{color:var(--ink-3)}
+.axis-value-line{font-size:16px;margin:0 0 4px}
+.axis-rule{font-size:13.5px;color:var(--ink-2);margin:6px 0}
+
+/* Keep the research contents primary: a compact stage strip, then one reading surface. */
+:root{--canvas:#fff;--rail:#f7f8fa;--primary:#28547f;--primary-tint:#edf3f8;--line:#e3e7ec}
+.page:has(.roadmap-workspace){max-width:1440px;padding-top:25px}
+.page-heading{margin-bottom:14px}
+.page-heading h1{font-size:23px}
+.page-heading .description{font-size:13px}
+.roadmap-workspace{max-width:none}
+.research-roadmap{border:0;border-radius:0;padding:0;margin-bottom:20px;box-shadow:none}
+.roadmap-heading{padding:0 0 12px;align-items:center}
+.roadmap-heading h2{font-size:16px;font-weight:600}
+.roadmap-revision{font-size:11px}
+.roadmap-track{gap:0;padding:0;border-bottom:1px solid var(--line)}
+.roadmap-track>.roadmap-node>button{border:0;border-bottom:2px solid transparent;border-radius:0;padding:10px 12px;min-height:80px;box-shadow:none;background:transparent}
+.roadmap-track>.roadmap-node.is-open>button{border-bottom-color:var(--primary);background:#f5f8fb}
+.roadmap-track .roadmap-node:nth-child(n) .roadmap-step{border:0;border-radius:0;background:none;color:var(--muted);font-weight:550}
+.roadmap-track .roadmap-node:nth-child(n).is-open .roadmap-step{background:none;color:var(--primary)}
+.roadmap-track .roadmap-node-title{font-size:13px;font-weight:550}
+.roadmap-track .roadmap-node.is-open .roadmap-node-title{color:var(--primary)}
+.roadmap-track .roadmap-preview{font-size:11px}
+.roadmap-track .roadmap-state{font-size:10.5px}
+.roadmap-inspector{padding:24px 0}
+.roadmap-inspector-heading h3{font-size:19px}
+.roadmap-inspector-heading .section-mark{font-size:11px;margin-bottom:4px}
+.roadmap-composer{border:0;border-top:1px solid var(--line);border-radius:0;padding:22px 0;margin:24px 0 0}
+.roadmap-composer-heading>span{display:none}
+.roadmap-composer textarea{min-height:75px}
+.roadmap-reading-note{font-size:12px;color:var(--muted)}
+.roadmap-reading-note summary{cursor:pointer;padding:8px 0}
+.roadmap-reading-note p{margin:10px 0;max-width:800px}
+.roadmap-foot{align-items:flex-start}
+.mechanism-grid{display:block}
+.mechanism-card,.mechanism-card.lead{border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent;padding:18px 0;box-shadow:none}
+.mechanism-card h3{font-size:17px}
+.mechanism-figures figure{flex-basis:220px;max-width:440px}
+.mechanism-figures img,.mechanism-card.lead .mechanism-figures img{max-height:250px;border:0;border-radius:0}
+.axis-cell{border-radius:3px;padding:7px 9px}
+.candidate-overview-scroll{border:0;border-radius:0;margin:10px 0 20px;max-height:620px}
+.candidate-overview{table-layout:fixed;font-size:13px}
+.candidate-overview th{font-size:11px;font-weight:550;background:#f8f9fb;padding:8px 12px}
+.candidate-overview th:first-child{width:142px}
+.candidate-overview th:nth-child(2){width:26%}
+.candidate-overview th:nth-child(3){width:20%}
+.candidate-overview td{vertical-align:middle;overflow-wrap:anywhere;padding:14px 12px;line-height:1.65}
+.candidate-overview .candidate-picture .structure-thumb{width:118px}
+.candidate-overview .structure-thumb svg{width:118px;height:90px}
+.candidate-overview .link-button{display:block;margin-top:6px}
+.candidate-overview .option-tag{display:inline-block;white-space:normal}
+.candidate-detail-structure{max-width:360px;margin:0 auto 18px;text-align:center}
+.candidate-detail-structure .structure-figure{border:0;min-height:170px}
+.candidate-detail-structure svg{width:100%;max-height:220px}
+.structure-grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr))}
+.source-links .link-button,.experiment-grounded .link-button{max-width:100%;overflow-wrap:anywhere}
+@media(max-width:850px){
+ .topbar{height:auto;min-height:54px;flex-wrap:wrap;padding:10px 18px;gap:8px}
+ .breadcrumb{flex:1 1 100%;max-width:100%}
+ .top-actions{flex:1 1 100%;min-width:0;flex-wrap:wrap;gap:6px}
+ .gateway-warning{max-width:100%;white-space:normal;overflow-wrap:anywhere;font-size:11px}
+ .page:has(.roadmap-workspace){padding:20px 18px}
+ .roadmap-track{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:145px;overflow-x:auto;max-width:100%;scroll-snap-type:x proximity}
+ .roadmap-track>.roadmap-node{scroll-snap-align:start;grid-column:auto;grid-row:auto}
+ .roadmap-track>.roadmap-node>button{min-height:78px;padding:9px 10px}
+ .roadmap-revision{max-width:180px}
+ .candidate-overview th:first-child{width:105px}
+ .candidate-overview th:nth-child(2){width:auto}
+ .candidate-overview th:nth-child(3){width:110px}
+ .candidate-overview th:last-child,.candidate-overview td:last-child{display:none}
+ .candidate-overview .candidate-picture .structure-thumb{width:82px}
+ .candidate-overview .structure-thumb svg{width:82px;height:70px}
+ .candidate-overview td,.candidate-overview th{padding:9px 6px}
+ .candidate-overview{font-size:12px}
+ .roadmap-heading{display:flex;gap:12px}
+ .roadmap-heading h2{font-size:15px;white-space:nowrap}
+ .roadmap-composer{padding:20px 0}
+ .roadmap-direction{display:block}
+ .roadmap-direction-block+.roadmap-direction-block{border-left:0;border-top:1px solid var(--line);margin-top:16px;padding:16px 0 0}
+}
+
+/* First reading: judgment, candidates and next action; complete records unfold below. */
+.overview-focus{grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.overview-label{font-size:15px;font-weight:650;letter-spacing:-.2px;margin:0 0 16px}
+.overview-focus .roadmap-direction-text{font-size:15px;line-height:1.8;-webkit-line-clamp:5}
+.overview-focus .roadmap-next-text{font-size:14px;line-height:1.8;-webkit-line-clamp:5;margin:12px 0 16px}
+.overview-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px}
+.overview-candidate{display:flex;align-items:center;gap:12px;min-width:0;margin:0 0 15px}
+.overview-candidate>div{min-width:0}.overview-candidate strong{font-size:14px;overflow-wrap:anywhere}
+.overview-structure{width:110px;flex-shrink:0}.overview-structure img{width:100%;height:85px;object-fit:contain}
+.overview-candidate .roadmap-label{font-size:11px;margin:4px 0}
+.overview-tools{margin-top:20px;border-top:1px solid var(--line)}
+.overview-tools>summary{padding:12px 0;cursor:pointer;font-size:12px;color:var(--muted)}
+.overview-tools[open]{padding-bottom:12px}.overview-tools .roadmap-tool-line{max-width:780px;font-size:13px}
+.mechanism-overview-intro{font-size:13px;color:var(--muted);margin:0 0 18px}
+.mechanism-summary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.mechanism-summary{min-width:0;padding:18px 0 8px;border-top:2px solid #dbe2e9}
+.mechanism-summary.is-leading{border-color:var(--blue)}
+.mechanism-summary-label{display:flex;gap:8px;align-items:center;font-size:11px;color:var(--muted);margin-bottom:10px}
+.mechanism-summary h4{font-size:17px;font-weight:650;line-height:1.5;letter-spacing:-.25px;margin:0 0 8px;overflow-wrap:anywhere}
+.mechanism-summary .small{font-size:11px;margin:0 0 10px}
+.mechanism-summary-reason{font-size:13px;line-height:1.8;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;margin:12px 0}
+.mechanism-counter{font-size:12px;color:#8a5525;font-weight:550;margin:8px 0}
+.mechanism-summary .mechanism-figures{display:block;margin:12px 0}.mechanism-summary .mechanism-figures img{max-height:150px;object-fit:contain}
+.mechanism-summary .mechanism-figures figcaption{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.mechanism-comparison-detail,.mechanism-other-paths{margin-top:20px}
+.mechanism-review-records{margin-top:8px}
+@media(min-width:861px){.roadmap-track .roadmap-preview{display:none}.roadmap-node>button{min-height:64px}}
+@media(max-width:1100px){.overview-focus{grid-template-columns:1fr 1fr}.overview-focus>.roadmap-direction-block:last-child{grid-column:1/-1;border-left:0;border-top:1px solid var(--line);padding:15px 0 0}.mechanism-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.overview-focus{grid-template-columns:1fr;gap:16px}.overview-focus>.roadmap-direction-block:last-child{grid-column:auto}.overview-focus .roadmap-direction-block+.roadmap-direction-block{padding:15px 0 0}.mechanism-summary-grid{grid-template-columns:1fr;gap:12px}.overview-focus .roadmap-direction-text{-webkit-line-clamp:4}}

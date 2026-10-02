@@ -1,0 +1,194 @@
+{
+  "schema_version": 1,
+  "release_date": "2026-10-02",
+  "scope": "Aggregate export of completed EVIDA development comparisons E2 and E4. No experiments were rerun for this export.",
+  "e2_semantic_literature_retrieval": {
+    "dataset": "SciFact",
+    "corpus_documents": 5183,
+    "encoded_queries": 300,
+    "primary_evidence_evaluation_queries": 188,
+    "primary_evidence_relevant_pairs": 209,
+    "population_note": "Primary recall averages the 188 queries with evidence gold. The 300 encoded queries and the separate citation-retrieval population are not this denominator.",
+    "metric": "Mean per-query evidence recall@10",
+    "metric_definition": "For each query, retrieved relevant documents among the first 10 divided by its relevant-document count; arithmetic mean over the 188 eligible queries.",
+    "baseline": {
+      "method": "BM25",
+      "recall_at_10": 0.9242021276595744
+    },
+    "candidate": {
+      "method": "Public MedCPT bi-encoder",
+      "recall_at_10": 0.972163120567376
+    },
+    "candidate_minus_baseline": 0.047960992907801536,
+    "difference_95_interval": {
+      "scale": "recall fraction",
+      "lower": 0.019749518304431612,
+      "upper": 0.08286252354048951,
+      "method": "46 frozen source-connected batches, paired percentile bootstrap",
+      "groups": 46,
+      "repetitions": 2000,
+      "seed": 20261002,
+      "status": "Copied from the completed frozen evaluation; bootstrap not rerun for export."
+    },
+    "equal_conditions": [
+      "Same 5,183-document corpus and same queries.",
+      "Gold labels withheld during retrieval inference.",
+      "No parameter or threshold tuning in this saved comparison."
+    ],
+    "adoption": "Optional semantic relevance ordering for retained literature titles and abstracts, with exact source navigation and content-hash incremental indexing. Existing source browsing is preserved.",
+    "limits": [
+      "Public development benchmark; possible exposure through original model training data.",
+      "Retriever component comparison, not a reproduction of the complete author system.",
+      "Retrieval relevance is separate from answer accuracy, biological evidence strength and efficacy."
+    ],
+    "source_fingerprints": {
+      "evaluation_sha256": "ab34970599d969020b9e8590c98cb7503ebfa78ff6666d8a8cc6766f52826649",
+      "protocol_sha256": "04a30f626f794ff3f559c8a3d9ef226c922231a062b9e6cc1d99472ff0e14328",
+      "evaluator_sha256": "4b9041e54e2b8ae8f2d6a75bfca615d55309f9d8f8d9b14bf6ba8496159401d9",
+      "evidence_gold_sha256": "7969b8137771e84c4b6ca7a5469d664288973e4c1380aa07a8f263dee5b4d91a",
+      "group_file_sha256": "a5d4d4d9e18ad8832f38b81c888f1e6385d99fc82d8f52a7a7da235629bcd51f",
+      "bm25_rankings_sha256": "38c49dfc1cf4dd1fe26b79bac1170f6dc7d2a26f9c6aed32e02e8a0278a01fcf",
+      "medcpt_rankings_sha256": "654e27f6d969ca18943d7b98c9b0e8c1f9a825879f5c45dffee9437ae861f693"
+    },
+    "references": [
+      "R_MEDCPT",
+      "D_SCIFACT"
+    ]
+  },
+  "e4_activity_input_meaning": {
+    "comparison": "Original mixed-endpoint/stripped-bound processing versus repaired endpoint- and relation-preserving input processing.",
+    "input_semantics": [
+      "Retain original relation and unit; for nM values pActivity = 9 - log10(value_nM), with inequality direction reversed.",
+      "Select one endpoint by exact-structure coverage before fitting; use exact values for point regression and preserve bounds outside point fitting.",
+      "Retain source-specific assay, species and action conditions; a common endpoint name alone does not establish assay equivalence."
+    ],
+    "fixed_evaluation": "Original Murcko scaffold assignment frozen before both fits; both arms scored on identical exact IC50 values for common evaluation compounds.",
+    "estimator": {
+      "class": "RandomForestRegressor",
+      "n_estimators": 300,
+      "random_state": 20260930,
+      "n_jobs": 2,
+      "min_samples_leaf": 2
+    },
+    "fingerprint": {
+      "radius": 2,
+      "fpSize": 2048,
+      "includeChirality": true
+    },
+    "versions": {
+      "rdkit": "2026.03.6",
+      "numpy": "2.5.3",
+      "sklearn": "1.9.1"
+    },
+    "cases": [
+      {
+        "target": "LPAR1",
+        "endpoint": "IC50",
+        "error_unit": "pIC50",
+        "evaluation_compounds": 208,
+        "evaluation_scaffolds": 168,
+        "before": {
+          "n_train": 958,
+          "mae": 0.5077636993199108,
+          "spearman": 0.5796756266323924,
+          "training_mean_mae": 0.6737501806648466
+        },
+        "after": {
+          "n_train": 571,
+          "mae": 0.4785221734682249,
+          "spearman": 0.6060311164475403,
+          "training_mean_mae": 0.6428834366159234
+        },
+        "preserved_reported_records": 1553,
+        "preserved_bound_records": 107,
+        "source_result_sha256": "8128f78a5a7b4b15deca4ae4087bf1dfac808169bfaa39f80d3b58d7ed8520a7",
+        "paired_predictions_sha256": "b589c93db99997a241d75f08b12a0c26ffa055799d3c8396c68699ea798aa3a8"
+      },
+      {
+        "target": "PDE4B",
+        "endpoint": "IC50",
+        "error_unit": "pIC50",
+        "evaluation_compounds": 955,
+        "evaluation_scaffolds": 955,
+        "before": {
+          "n_train": 3563,
+          "mae": 0.7519109620260848,
+          "spearman": 0.743007762588511,
+          "training_mean_mae": 1.3077616485901493
+        },
+        "after": {
+          "n_train": 2656,
+          "mae": 0.7135142877563395,
+          "spearman": 0.7706650544716291,
+          "training_mean_mae": 1.3009774754778274
+        },
+        "preserved_reported_records": 6186,
+        "preserved_bound_records": 1035,
+        "source_result_sha256": "4c4cd4a03449b71923d2695d7620ce961f35ed4fc389a191b44175f1ff32b954",
+        "paired_predictions_sha256": "3b82a2ba0e768853dbde050a8e3ce07561798367a9ebede76efe2d26b8dbbfac"
+      }
+    ],
+    "adoption": "Use the repaired measurement semantics in the operational input path. Predictions are conditional on the model evaluation and applicability checks; original historical outputs are preserved.",
+    "limits": [
+      "Stored development cases, not a new independent target or source validation.",
+      "Training set size changes between the two arms; individual repair effects are not isolated.",
+      "No uncertainty interval or statistical-significance claim is supplied for these activity metrics.",
+      "The comparison evaluates data processing and prediction; it supplies no new molecular activity, selectivity or clinical efficacy measurements."
+    ],
+    "source_fingerprints": {
+      "combined_result_sha256": "1174a806bf5af38d4c9bbcddaa59cc4f648869bf557321c2a475dfa6c55c93c4",
+      "protocol_sha256": "183bd2d08faca6d64e553eaa0950ae22e1963dddf2e68f3a725222e6412cafe7"
+    },
+    "references": [
+      "D_CHEMBL",
+      "D_BINDINGDB"
+    ]
+  },
+  "export_verification": {
+    "saved_retrieval_row_count_and_relevant_pairs_match": true,
+    "saved_per_query_recall_mean_match": true,
+    "saved_activity_prediction_row_counts_scaffolds_and_metrics_match": true,
+    "activity_combined_and_case_results_match": true,
+    "tolerance_for_metric_arithmetic": 1e-12,
+    "new_fits": 0,
+    "new_encoder_inference": 0,
+    "bootstrap_reruns": 0,
+    "new_provider_calls": 0,
+    "new_data_retrieval": 0,
+    "published_payload": "Aggregate metrics, conditions, hashes and public references only."
+  },
+  "references": [
+    {
+      "id": "R_MEDCPT",
+      "type": "primary_method_paper",
+      "title": "MedCPT: Contrastive Pre-trained Transformers with large-scale PubMed search logs for zero-shot biomedical information retrieval",
+      "authors": "Jin Q, et al.",
+      "journal": "Bioinformatics",
+      "year": 2023,
+      "volume_issue_article": "39(11):btad651",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10627406/",
+      "role": "Method and pretrained biomedical retriever; the EVIDA numbers below are its own saved comparison, not the paper results."
+    },
+    {
+      "id": "D_SCIFACT",
+      "type": "author_dataset_repository",
+      "title": "SciFact: scientific claim verification dataset",
+      "url": "https://github.com/allenai/scifact",
+      "role": "Public corpus and evidence annotations; biomedical literature retrieval evaluated here."
+    },
+    {
+      "id": "D_CHEMBL",
+      "type": "primary_data_provider",
+      "title": "ChEMBL",
+      "url": "https://www.ebi.ac.uk/chembl/",
+      "role": "One of the retained public bioactivity data sources for the activity-input comparison."
+    },
+    {
+      "id": "D_BINDINGDB",
+      "type": "primary_data_provider",
+      "title": "BindingDB",
+      "url": "https://www.bindingdb.org/",
+      "role": "One of the retained public bioactivity data sources; original measurement relation and endpoint retained."
+    }
+  ]
+}
