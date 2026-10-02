@@ -1,0 +1,59 @@
+{
+  "requested_model": "claude-opus-5",
+  "requested_effort": "high",
+  "route": "existing Claude subscription",
+  "arms": {
+    "A": "competent_general_assistant",
+    "B": "current_EVIDA_planner"
+  },
+  "diseases": {
+    "rheumatoid_arthritis": {
+      "disease_ko": "류마티스 관절염",
+      "stratum": "systemic immune-mediated inflammatory disease; multiple intervention mechanisms and human/preclinical evidence"
+    },
+    "parkinsons_disease": {
+      "disease_ko": "파킨슨병",
+      "stratum": "central nervous system degeneration; symptomatic effects and disease-course effects require separation"
+    },
+    "cystic_fibrosis": {
+      "disease_ko": "낭성섬유증",
+      "stratum": "inherited loss-of-function disease; eligibility and intervention direction may depend on genotype"
+    },
+    "pancreatic_ductal_adenocarcinoma": {
+      "disease_ko": "췌관선암",
+      "stratum": "solid tumor; disease subtype, cell-intrinsic and microenvironment evidence may differ"
+    }
+  },
+  "original_units": 8,
+  "replicates_per_disease_arm": 1,
+  "same_question_per_pair": true,
+  "initial_state": "New copies without prior decisions, selected targets, source lists, candidates or answer keys",
+  "only_product_difference_between_arms": [
+    "configs/planner.md"
+  ],
+  "same_registered_source_and_calculation_tools": true,
+  "same_35_minute_admission_budget": true,
+  "ordinary_response_cap_including_frame_and_final": 5,
+  "native_format_correction_reserve": 1,
+  "fifth_ordinary_request_forced_synthesis": true,
+  "provider_timeout_cap_seconds": 600,
+  "evaluation_parallel_lanes": 4,
+  "global_new_admission_end_utc": "2026-10-02T05:05:00+00:00",
+  "latest_full_window_start_utc": "2026-10-02T04:30:00+00:00",
+  "original_authorized_maximum_reservations": 48,
+  "operational_scope_or_ledger_modified": false,
+  "automatic_provider_retry": false,
+  "fallback": false,
+  "docking_and_scoring_changes": false,
+  "GPU_required": false,
+  "science_CPU_threads_per_worker": 2,
+  "CLI_tools": [
+    "Read"
+  ],
+  "public_sources": "Registered product source adapters, same availability to both arms; successful bundles separately counted",
+  "CLI_internal_turn_limit_explicitly_set": false,
+  "response_cap_unit": "External subscription invocations; internal CLI messages/Read actions are not additional external responses and are separately recorded",
+  "masking": "Procedure labels removed from content review pages until frozen aggregation; same preparer reviewed, so not independent or fully blinded",
+  "legacy_GPT16_comparison_merged": false,
+  "scientific_effect_of_transport_claimed": false
+}

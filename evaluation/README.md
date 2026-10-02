@@ -2,6 +2,8 @@
 
 [공개 부품 확대 평가: NFCorpus 323질문·MoleculeACE 30과제](components-20261002/README.md) · [자료 판본과 프로토콜](components-20261002/public-protocol-stage1.json)
 
+[CReM 10과제·반환 구조300건과 출처 검수](crem-generation-20261002/README.md) · [새 질환 Claude 평가 종료 기록](claude-expansion-20261002/README.md)
+
 ## 같은 조건의 연구 절차 16회 비교
 
 A=직접 절차, B=EVIDA 절차. 같은GPT-6 Sol/medium·competition Responses API·도구·응답상한·실제질문4개(IPF,PDE4B,Alzheimer,TTR siRNA)에 반복2씩, 각8시작입니다. 최종 출력의 과학 검토는 blind ID로 수행하고 이후 arm을 해제했습니다. 실제 실패를 포함한 원 시작 분모를 유지합니다. 현재 공개 모델 Opus5/high의 평가로 소급하지 않습니다.
@@ -25,3 +27,12 @@ A=직접 절차, B=EVIDA 절차. 같은GPT-6 Sol/medium·competition Responses A
 질문4개의개발비교이며모든질환/과학효능/방법의보편적우위를주장하지않습니다. 현재 후속 수리와 새 평가 결과는 평가군을 구분해 보고하며 이 점수를 소급 변경하지 않습니다.
 
 [문헌 검색·활성 입력 처리의 실제 비교](METHODS_EVALUATION.md) · [원값·분모·조건 JSON](methods-summary.json)
+
+## 현재 Claude 경로의 추가 질환 평가
+
+류마티스 관절염·파킨슨병·낭성섬유증·췌관선암의 4질환 × 2지시 방식, 원8개 연구 단위를
+기존 Claude 구독의 Opus5/high에서 별도로 시작했습니다. 같은 질문의 수동 전송 수리를
+포함해 12실행 시도·17예약·16실전송이 있었고, 최종 판단 게시0건으로 종결했습니다.
+최종 과학 정확도는 평가 불가입니다. 원8개 분모·미시작·실패·형식 수리·입력 크기 제한을
+[추가 평가 종료 기록](claude-expansion-20261002/README.md)에 보존했습니다.
+기존 GPT16의 성능과 부품 벤치마크는 각 평가군의 결과로 유지합니다.

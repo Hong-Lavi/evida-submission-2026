@@ -1,0 +1,72 @@
+{
+  "original_unit_id": "cystic_fibrosis-A",
+  "condition": "03",
+  "stage": "Intermediate notes after first lookup bundle, before interpretation of second bundle",
+  "final_answer": false,
+  "observed_product_experiments": 0,
+  "source_check_selection": "Selected intermediate source-dependent statements, separate from frozen final-answer accuracy denominator; no success percentage",
+  "checks": [
+    {
+      "claim_pointer": "/findings/1/text",
+      "source_pointer": "/rows/0",
+      "judgment": "SUPPORTED_AS_SOURCE_RECORD_IDENTITY",
+      "finding": "TRIKAFTA의 성분명·setid·판본23·2026-06-24 등재일은 반환 원행과 일치한다. 메모가 구조·적응증·경고는 아직 미확인으로 구분한 것도 해당 검색 행 범위와 맞는다."
+    },
+    {
+      "claim_pointer": "/findings/2/text",
+      "source_pointer": "/rows/0,/rows/1,/rows/2",
+      "judgment": "SUPPORTED_WITH_DESIGN_CONDITIONS_RETAINED",
+      "finding": "QR-010의70명·주3회4주·식염수 대조와 IONIS-ENaCRx의98명·1상·미게시 결과가 원행과 맞는다. NCT05100823의50nM 처리는 환자 유래 상피/오가노이드 실험이며 환자에게 투여한 효능으로 환산하지 않은 구분이 맞다."
+    },
+    {
+      "claim_pointer": "/findings/3/text",
+      "source_pointer": "/result/rows/3/initial_view/result",
+      "judgment": "UNREAD_SCOPE_CORRECT_PREVIEW_NOT_MISSING_SOURCE",
+      "finding": "원 자료4행 중 최초 전달은3행이다. 네 번째 NCT02564354는 원 자료에 보존되어 있어 부재가 아니라 미열람이다. 메모의 전송 불일치라는 이름을 데이터 소실/오류로 확대하지 않는다."
+    },
+    {
+      "claim_pointer": "/findings/4/text",
+      "source_pointer": "/rows/0/abstractText",
+      "judgment": "SUPPORTED_AS_REVIEW_ABSTRACT_REPORT_NOT_NEW_CLINICAL_VALIDATION",
+      "finding": "집단 수준 CFTR 지표 변화와 개별 환자 결과 예측을 구분한 요약은 반환 초록과 일치한다. 리뷰가 기술한 승인/임상 효과 문구를 독립 원시험 재검증이나 제품 자체 실측으로 세지 않는다."
+    },
+    {
+      "claim_pointer": "/findings/5/text",
+      "source_pointer": "/rows/0/abstractText",
+      "judgment": "PARTLY_SUPPORTED_WITH_UNSUPPORTED_MECHANISTIC_EXTENSION",
+      "finding": "K+채널의 이온수송·섬모·점액 및 MCC 연관과 CFTR 표적 약물의 K+채널 조절은 초록에 있다. 이를 CFTR 비의존 하류축의 확인으로 부른 부분은 이 초록만으로 입증되지 않는다. 별도 CFTR 유무/억제 조건의 구분 자료가 필요하며 메모 원문은 수정하지 않는다."
+    }
+  ],
+  "source_catalog": [
+    {
+      "source_id": "label-search-record",
+      "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=f354423a-85c2-41c3-a9db-0f3aee135d8d",
+      "scope": "Preserved label-search identity row; not independently verified clinical effect",
+      "sha256": "66f1b9c13b45e71a98125a7596180a614d8af39081973743b16f6c4c78be3435"
+    },
+    {
+      "source_id": "trial-search-records",
+      "urls": [
+        "https://clinicaltrials.gov/study/NCT02532764",
+        "https://clinicaltrials.gov/study/NCT05100823",
+        "https://clinicaltrials.gov/study/NCT03647228"
+      ],
+      "scope": "Preserved registry search rows; ex-vivo and patient treatment kept separate",
+      "sha256": "036a954b1be25acb902b046115fe6f54e35dcfd2e47892bbc6e1834ae28e0b07"
+    },
+    {
+      "source_id": "personalized-medicine-review",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40320452/",
+      "scope": "Returned review abstract; no independent original-trial replication",
+      "sha256": "c5c3b2df72fce0dc07f0d7ebe6004c2da61967c17f0c9ef3b6941621055596ca"
+    },
+    {
+      "source_id": "airway-potassium-channel-review",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42547963/",
+      "scope": "Returned abstract supports channel association but does not establish CFTR independence",
+      "sha256": "066ebfb07e72b7a8c3bc109ffa6aa4d0509b313b8102dfe28815e0f4f81ff3e6"
+    }
+  ],
+  "second_bundle_sources_retained_but_not_interpreted_by_later_model_response": true,
+  "no_complete_structure_sequence_candidate_pool_or_final_six_field_experiment_card": true
+}

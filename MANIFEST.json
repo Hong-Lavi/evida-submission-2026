@@ -1,5 +1,5 @@
 {
-  "allowlist": "current backend .py/vendor R+licenses;config templates;runtime6;reviewed frontend;16-row evaluation+definitions;publicdocs;closed NFCorpus/MoleculeACE metrics+saved predictions+recalculation+official source pins",
+  "allowlist": "Reviewed final product source and UI; original GPT16 evaluation; closed public search/activity outputs; CReM task metrics,300 returned structures and official provenance; Claude expansion closure metadata only. No private DB,auth,raw model responses.",
   "files": [
     {
       "path": ".gitignore",
@@ -13,8 +13,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 5082,
-      "sha256": "4ae4a77ace513fc60885b2cecb7e902624173696cdf11bf24e01dab88d289a06"
+      "bytes": 5745,
+      "sha256": "c813913bf381c97846fc483e383940d95134bdba4d30b43992c259c56aa3d3bb"
     },
     {
       "path": "RUNTIME_SOURCE_MANIFEST.json",
@@ -108,8 +108,63 @@
     },
     {
       "path": "evaluation/README.md",
-      "bytes": 2684,
-      "sha256": "805be6a24bd9ebfa7d47b06c2b195e748640e4ff3d045d96e41a2f2aa5ceff52"
+      "bytes": 3563,
+      "sha256": "b221ae95da3c9f987a8ec4b233ea6f6bc5a5c4deb18a758fe3d64fc02eb8b22a"
+    },
+    {
+      "path": "evaluation/claude-expansion-20261002/README.md",
+      "bytes": 7158,
+      "sha256": "90fa67025a8e2a3f99a7f64df9d05f808e4b70bb0665e9d4f51de49ebce6d12e"
+    },
+    {
+      "path": "evaluation/claude-expansion-20261002/episodes.csv",
+      "bytes": 5437,
+      "sha256": "734bed6e8481349d2f7f6bedd38e256c41bb25f25f0111478f7ec350a9f7e770"
+    },
+    {
+      "path": "evaluation/claude-expansion-20261002/manifest.json",
+      "bytes": 1906,
+      "sha256": "16a12efaad5edb9c7ba1b7e6466f6f9ff55c8872cd4ca1b76763aa6d3102d019"
+    },
+    {
+      "path": "evaluation/claude-expansion-20261002/partial-source-audit.json",
+      "bytes": 4259,
+      "sha256": "9825e8ee7eda7393d1774715fa402e839cf168008cbabe612cf51bf536f3bfaa"
+    },
+    {
+      "path": "evaluation/claude-expansion-20261002/protocol.json",
+      "bytes": 2619,
+      "sha256": "87f098ecc26f25ce565f609aaf2d42c325218d2a1c9b57f9497181f0ba5d1361"
+    },
+    {
+      "path": "evaluation/claude-expansion-20261002/provider-calls.csv",
+      "bytes": 6026,
+      "sha256": "b6d5a4dd6f61ae2e6371a4bdc2cf2dbe2a0a8066d836e33579a7bd2f2adcce5e"
+    },
+    {
+      "path": "evaluation/claude-expansion-20261002/rubric.json",
+      "bytes": 8223,
+      "sha256": "a0ed2b6450e9811cccb9aa45617baa78b74f9ee87d412f10b6f68bc92451e1a1"
+    },
+    {
+      "path": "evaluation/claude-expansion-20261002/source-pins.json",
+      "bytes": 71096,
+      "sha256": "18810d36e37d268c8d5359b44d6d026f7023bc6c4160069b062a87b826c4331b"
+    },
+    {
+      "path": "evaluation/claude-expansion-20261002/summary.json",
+      "bytes": 6499,
+      "sha256": "2362aad908b069ff61cda795ff1cedadf7e93a65eb23dc313d1fb3ff7bbba579"
+    },
+    {
+      "path": "evaluation/claude-expansion-20261002/transport-audit.json",
+      "bytes": 1900,
+      "sha256": "51b2d4ad192642abaed58457d8720c93115715bcf8bd2577de7b5905ada097ca"
+    },
+    {
+      "path": "evaluation/claude-expansion-20261002/verify_report.py",
+      "bytes": 5958,
+      "sha256": "1f38207046c2c5e716cd44807c0de58c105add66c971f3684eda50e6a5d32354"
     },
     {
       "path": "evaluation/components-20261002/README.md",
@@ -195,6 +250,91 @@
       "path": "evaluation/components-20261002/verify_saved_predictions.py",
       "bytes": 5448,
       "sha256": "ed0235cd0306e566e35eb5e4602dcd10c208baefb912e241d989fb24bfb7a7f1"
+    },
+    {
+      "path": "evaluation/crem-generation-20261002/MOLECULEACE-LICENCE.txt",
+      "bytes": 1056,
+      "sha256": "80318d8dd1069e1ba338d662221e98d6f8ae2e33223bc9a35bf99b74a0be60bc"
+    },
+    {
+      "path": "evaluation/crem-generation-20261002/README.md",
+      "bytes": 1656,
+      "sha256": "d561d72b623a908a6acefceb0d7d73c087bebc912bafa6f00954708668412b67"
+    },
+    {
+      "path": "evaluation/crem-generation-20261002/README_CREM.md",
+      "bytes": 3044,
+      "sha256": "6250c165c03e72b36665bc880c2f6d313d3af8c338fa7e6d97b1383974db7be0"
+    },
+    {
+      "path": "evaluation/crem-generation-20261002/crem-per-task-metrics.csv",
+      "bytes": 8713,
+      "sha256": "cb591807e4b7c6e995e7ed6efbfbf4a185c8789b13adda523f51b6fe9a94bed8"
+    },
+    {
+      "path": "evaluation/crem-generation-20261002/crem-public-protocol.json",
+      "bytes": 5528,
+      "sha256": "0977b1ea0d2be80a8bee7f6ae2ec0324b22aa6912f74018ee380f1fac3d52b32"
+    },
+    {
+      "path": "evaluation/crem-generation-20261002/crem-summary.json",
+      "bytes": 8078,
+      "sha256": "9ca99656aeddbf391266824a1b9e75ac3cb8efe21526c0db00b2609893a1c205"
+    },
+    {
+      "path": "evaluation/crem-generation-20261002/crem-summary.pdf",
+      "bytes": 19957,
+      "sha256": "22f2ba0aa844f8d53e22b173c99cdae3dbfaa95aa45a03d96ab4708402a44329"
+    },
+    {
+      "path": "evaluation/crem-generation-20261002/crem-summary.png",
+      "bytes": 170994,
+      "sha256": "434175a8cf017e6259ab4895e15749f09ac396494043fefe23bf42cea88992bd"
+    },
+    {
+      "path": "evaluation/crem-generation-20261002/crem-summary.svg",
+      "bytes": 91029,
+      "sha256": "37a9c01970bd3410c3681e17f398407870de6b404ee7dc5c6657cccd6c9eff21"
+    },
+    {
+      "path": "evaluation/crem-generation-20261002/publication-manifest.json",
+      "bytes": 2280,
+      "sha256": "ce5906c94d7afcdd8d63e5a99c61b34f54e47c08db068c6bb81f2244cf3b35cd"
+    },
+    {
+      "path": "evaluation/crem-generation-20261002/recalculation-receipt.json",
+      "bytes": 509,
+      "sha256": "430201fb272ee446e6ba0f8d8c52655d453ee738bf62c6d3b5ee4ce6eec95900"
+    },
+    {
+      "path": "evaluation/crem-generation-20261002/render_crem_figure.py",
+      "bytes": 2596,
+      "sha256": "b4dec5fb91afd7596ac8bd8b0be0656402cd33d8eb017fcefcba334909437e71"
+    },
+    {
+      "path": "evaluation/crem-generation-20261002/reproduce_crem_metrics.py",
+      "bytes": 3534,
+      "sha256": "f5af3bcbe204afee2b4de011cb07745f11785f999c464fef2a1d812ae46e88dd"
+    },
+    {
+      "path": "evaluation/crem-generation-20261002/returned-structure-sources.json",
+      "bytes": 22818,
+      "sha256": "f7844f4e9a46894e874df609dd2b6361f891628e612c7ba6d6c4fa6ef01bd0c0"
+    },
+    {
+      "path": "evaluation/crem-generation-20261002/returned-structures-verification.json",
+      "bytes": 2172,
+      "sha256": "6213b13b8eaab39fcb387efd09e55383e95203293317db3f4d05a4be5134a8c9"
+    },
+    {
+      "path": "evaluation/crem-generation-20261002/returned-structures.csv",
+      "bytes": 64604,
+      "sha256": "b41276327b56d7f567e0af3ee6c7c3fd3934495ef53d3f28a4dc59edc0a7120f"
+    },
+    {
+      "path": "evaluation/crem-generation-20261002/verify_returned_structures.py",
+      "bytes": 3389,
+      "sha256": "c73f25bdffccf50b8cef27d3f4be58d8845d656e9d8a6875efd6825671f5152f"
     },
     {
       "path": "evaluation/efficiency.json",

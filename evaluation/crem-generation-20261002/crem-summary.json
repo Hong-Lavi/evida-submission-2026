@@ -1,0 +1,206 @@
+{
+  "status": "CLOSED",
+  "created_at_utc": "2026-10-02T04:51:03.132657+00:00",
+  "method": "Unchanged installed native EVIDA CReM conditional generation and filtering",
+  "conditions": {
+    "210s_original": {
+      "planned_tasks": 10,
+      "closed_tasks": 10,
+      "statuses": {
+        "timeout": 10
+      },
+      "native_returns_available": 0,
+      "all_closed_observed_segments": {
+        "prepared_input_rows": 1200,
+        "actual_parent_starts": 743,
+        "mutate_calls_started": 2218,
+        "public_yields": 198357,
+        "public_valid": 198357,
+        "public_parent_matches": 198357,
+        "public_transformation_present": 198357,
+        "public_unchanged_parent_yields": 37,
+        "public_unique_isomeric": 140372,
+        "public_unique_connectivity": 139281,
+        "public_novel_train_isomeric": 139135,
+        "public_novel_train_connectivity": 137921
+      },
+      "completed_task_observed_segments": {
+        "prepared_input_rows": 0,
+        "actual_parent_starts": 0,
+        "mutate_calls_started": 0,
+        "public_yields": 0,
+        "public_valid": 0,
+        "public_parent_matches": 0,
+        "public_transformation_present": 0,
+        "public_unchanged_parent_yields": 0,
+        "public_unique_isomeric": 0,
+        "public_unique_connectivity": 0,
+        "public_novel_train_isomeric": 0,
+        "public_novel_train_connectivity": 0
+      },
+      "returned": {
+        "returned_rows": 0,
+        "returned_valid": 0,
+        "returned_unique_isomeric": 0,
+        "returned_unique_connectivity": 0,
+        "returned_novel_input_isomeric": 0,
+        "returned_novel_input_connectivity": 0,
+        "returned_novel_train_isomeric": 0,
+        "returned_novel_train_connectivity": 0,
+        "returned_murcko_isomeric": 0,
+        "returned_murcko_connectivity": 0,
+        "returned_parent_matches": 0,
+        "returned_exact_trace_matches": 0,
+        "returned_unchanged_parent": 0,
+        "returned_3d_embeds": 0
+      },
+      "native_filter_counts": {
+        "native_enumerated": 0,
+        "native_pre_enumeration_stereoisomer_input_drops": 0,
+        "native_drop_property_window": 0,
+        "native_drop_synthetic_accessibility": 0,
+        "native_drop_structural_alert": 0,
+        "native_drop_unstable_motif": 0,
+        "native_after_counted_filters_before_cap": 0
+      },
+      "source_aggregate_sha256": "3eb4a737b5ada1d285d5c4ceb3b016fd816d84af257ce6f4e20e4143d847feef"
+    },
+    "900s_longer": {
+      "planned_tasks": 10,
+      "closed_tasks": 10,
+      "statuses": {
+        "completed": 5,
+        "coordinator_interruption": 4,
+        "timeout": 1
+      },
+      "native_returns_available": 5,
+      "all_closed_observed_segments": {
+        "prepared_input_rows": 1200,
+        "actual_parent_starts": 1106,
+        "mutate_calls_started": 3317,
+        "public_yields": 306198,
+        "public_valid": 306198,
+        "public_parent_matches": 306198,
+        "public_transformation_present": 306198,
+        "public_unchanged_parent_yields": 54,
+        "public_unique_isomeric": 216129,
+        "public_unique_connectivity": 214405,
+        "public_novel_train_isomeric": 214476,
+        "public_novel_train_connectivity": 212585
+      },
+      "completed_task_observed_segments": {
+        "prepared_input_rows": 600,
+        "actual_parent_starts": 600,
+        "mutate_calls_started": 1800,
+        "public_yields": 146181,
+        "public_valid": 146181,
+        "public_parent_matches": 146181,
+        "public_transformation_present": 146181,
+        "public_unchanged_parent_yields": 9,
+        "public_unique_isomeric": 97833,
+        "public_unique_connectivity": 97049,
+        "public_novel_train_isomeric": 96999,
+        "public_novel_train_connectivity": 96132
+      },
+      "returned": {
+        "returned_rows": 300,
+        "returned_valid": 300,
+        "returned_unique_isomeric": 299,
+        "returned_unique_connectivity": 297,
+        "returned_novel_input_isomeric": 299,
+        "returned_novel_input_connectivity": 297,
+        "returned_novel_train_isomeric": 288,
+        "returned_novel_train_connectivity": 286,
+        "returned_murcko_isomeric": 189,
+        "returned_murcko_connectivity": 187,
+        "returned_parent_matches": 300,
+        "returned_exact_trace_matches": 300,
+        "returned_unchanged_parent": 0,
+        "returned_3d_embeds": 300
+      },
+      "native_filter_counts": {
+        "native_enumerated": 97474,
+        "native_pre_enumeration_stereoisomer_input_drops": 124,
+        "native_drop_property_window": 413,
+        "native_drop_synthetic_accessibility": 15632,
+        "native_drop_structural_alert": 3697,
+        "native_drop_unstable_motif": 4334,
+        "native_after_counted_filters_before_cap": 73398
+      },
+      "source_aggregate_sha256": "e630d3cf1844744e11012d670c184975b22a0806598b724d6693f56044752891",
+      "completed_task_bootstrap": {
+        "n_tasks": 5,
+        "seed": 20261002,
+        "repetitions": 2000,
+        "metrics": {
+          "validity": {
+            "numerator": "returned_valid",
+            "denominator": "returned_rows",
+            "completed_task_macro_mean": 1.0,
+            "ci95": [
+              1.0,
+              1.0
+            ]
+          },
+          "isomeric_uniqueness": {
+            "numerator": "returned_unique_isomeric",
+            "denominator": "returned_valid",
+            "completed_task_macro_mean": 0.9966666666666667,
+            "ci95": [
+              0.99,
+              1.0
+            ]
+          },
+          "connectivity_uniqueness": {
+            "numerator": "returned_unique_connectivity",
+            "denominator": "returned_valid",
+            "completed_task_macro_mean": 0.99,
+            "ci95": [
+              0.9833333333333332,
+              0.9966666666666667
+            ]
+          },
+          "novel_vs_input_connectivity": {
+            "numerator": "returned_novel_input_connectivity",
+            "denominator": "returned_unique_connectivity",
+            "completed_task_macro_mean": 1.0,
+            "ci95": [
+              1.0,
+              1.0
+            ]
+          },
+          "novel_vs_official_train_connectivity": {
+            "numerator": "returned_novel_train_connectivity",
+            "denominator": "returned_unique_connectivity",
+            "completed_task_macro_mean": 0.9627683615819208,
+            "ci95": [
+              0.9254237288135594,
+              0.9966666666666667
+            ]
+          },
+          "internal_diversity": {
+            "completed_task_macro_mean": 0.6519130121074305,
+            "ci95": [
+              0.5242201168149537,
+              0.7642759159963
+            ]
+          }
+        },
+        "scope": "Descriptive only among completed tasks. Completion selection and missing tasks limit generalization; filtered-return validity is not all-attempt validity."
+      }
+    }
+  },
+  "scope": {
+    "unit": "Ten fixed tasks, with120 official-train structures per task; no activity labels or RF predictions supplied.",
+    "raw": "Public mutate_mol yields follow internal filtering and deduplication. All internal replacement attempts and duplicate reaction paths were not observed.",
+    "uniqueness": "Unique counts are summed within tasks; these are not cross-task unique compounds. Isomeric and connectivity identities are separate.",
+    "novelty": "Novel relative to either120 task inputs or the whole task official-train library. This is not literature-wide chemical novelty.",
+    "source_provenance": "Exact source parent, transformation, context radius and output structure are matched to preserved public-yield traces.",
+    "partial": "Interrupted traces are observed partial data, not native returned candidates; interruption is not an algorithm failure or a900-second timeout.",
+    "method_validation": "Structural correctness and source-conditioned generation. Bioactivity, synthetic feasibility and clinical efficacy were not measured."
+  },
+  "model_provider_calls": 0,
+  "activity_scoring_calls": 0,
+  "docking_calls": 0,
+  "product_changes": 0
+}

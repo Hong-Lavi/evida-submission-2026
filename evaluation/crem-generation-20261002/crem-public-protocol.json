@@ -1,0 +1,132 @@
+{
+  "original_protocol_sha256": "d352709dbf4fcc2d814d54bd77f5e58e2842ea9c2103dadc12ca6f8838caeacf",
+  "preserved_pre_generation_harness_failure": {
+    "attempts": 10,
+    "native_generations": 0,
+    "reason": "CXXABI library-load error when the audit harness imported RDKit before SQLite. The repaired harness imported SQLite first, matching the product Store order; native algorithm and fixed inputs were unchanged.",
+    "closure_sha256": "6996a98bfc1f4e6ffd7c17a22c1563ac8c67d0c4986e34ded5d4eaafce7d7a0e"
+  },
+  "longer_protocol_sha256": "a5adfdb6f599c7bd827652e73728c1db14b896cef4e3ce520d257de1d4a74fd4",
+  "source_tasks": [
+    {
+      "task": "CHEMBL237_Ki",
+      "seed_records": 120,
+      "sha256": "063969081b14f5525ddb1f5ea887429ee526937277630b04f05a513e3c7c7910"
+    },
+    {
+      "task": "CHEMBL231_Ki",
+      "seed_records": 120,
+      "sha256": "6568dddeaa18bec4b84a69185ba445f54288c4ea1ba766d717f095cce424fb3c"
+    },
+    {
+      "task": "CHEMBL1862_Ki",
+      "seed_records": 120,
+      "sha256": "cafd3e08b5a7c09e57d9380f290e36f60407389eba88af47064f0d738fd50a64"
+    },
+    {
+      "task": "CHEMBL1871_Ki",
+      "seed_records": 120,
+      "sha256": "d994dce6d7931c4d75cb60dd85d96093d640a3810e9609d5bfe603bff170d183"
+    },
+    {
+      "task": "CHEMBL218_EC50",
+      "seed_records": 120,
+      "sha256": "18200484cced02764ec5911d300f7887fb8352b62e3f0d2e6c8d200c1452f7f3"
+    },
+    {
+      "task": "CHEMBL234_Ki",
+      "seed_records": 120,
+      "sha256": "ac6b8f3cc275115636b72623897a5c90715d2e57e373ef5f31a286e23ce032c5"
+    },
+    {
+      "task": "CHEMBL4005_Ki",
+      "seed_records": 120,
+      "sha256": "d5539f764a1013c3f781649078a93920e0c6e863a2d16cf3d304503042aafa4b"
+    },
+    {
+      "task": "CHEMBL244_Ki",
+      "seed_records": 120,
+      "sha256": "83d6865a48d75e8e2e5e94f06f57a5c9a6761496c3d7d2ad77510e471566803b"
+    },
+    {
+      "task": "CHEMBL2835_Ki",
+      "seed_records": 120,
+      "sha256": "bc96dd34440cf3928f514a701ec9ae4bfadbf14889228269279bf5265e8db7cb"
+    },
+    {
+      "task": "CHEMBL235_EC50",
+      "seed_records": 120,
+      "sha256": "dda9053a8b31a8967fbd268420143fb52d80245d361c7dbb994e060382e29815"
+    }
+  ],
+  "selection": "10 tasks by SHA256(20261002:task),up to120 official-train structures by SHA256(20261002:candidate_id);labels omitted",
+  "seed": 20260930,
+  "native_arguments": {
+    "maximum_proposals": 60,
+    "seed": 20260930
+  },
+  "native_mutation": {
+    "context_radii": [
+      1,
+      2,
+      3
+    ],
+    "max_size": 10,
+    "min_size": 0,
+    "max_replacements_per_call": 400,
+    "native_cpu_workers_per_task": 2
+  },
+  "native_postfilter_ranking": "Unchanged product sort: recorded nearest-source Tanimoto then QED, descending; stable ties preserve generation order; top60 per task. No activity objective.",
+  "structural_metrics": {
+    "identity": "RDKit canonical isomeric and non-isomeric connectivity strings, separately.",
+    "novelty_denominator": "Number of unique connectivity structures among returned records; compare separately with120 inputs and whole official-train task library.",
+    "diversity": "Mean(1-Tanimoto) over distinct returned-row pairs using Morgan radius2,1024 bits,chirality off. Duplicate rows remain in the measured return set.",
+    "filter_counts": "Native sequential property/SA/structural-alert/unstable-motif counters; source-stereoisomer exclusions precede native enumeration. No new filtering was applied in evaluation."
+  },
+  "conditions": [
+    {
+      "name": "210s_original",
+      "seconds_per_task": 210,
+      "concurrent_tasks": 1
+    },
+    {
+      "name": "900s_longer_phase1",
+      "seconds_per_task": 900,
+      "concurrent_tasks": 4
+    },
+    {
+      "name": "900s_longer_phase2",
+      "seconds_per_task": 900,
+      "concurrent_tasks": 2,
+      "scope": "Only the two tasks not started before the coordinator interruption. No completed or interrupted phase1 task was rerun."
+    }
+  ],
+  "global_deadline_utc": "2026-10-02T05:00:00+00:00",
+  "interruption": "Original longer-budget coordinator ended with observed exit143; host inspection confirmed no remaining exact workers. Signal sender and root cause were not established. Four native returns and four partial traces were preserved.",
+  "installed_native_code_sha256": "fa04da83a31e093457a0a392ae786ea8dc23229a5eabdf8ae9289b584fe7b2a6",
+  "installed_crem_source_sha256": "1546c6a55c8ab0defed15ce910da3fcf4ae1475e3f1746a00b6f368ae27c7737",
+  "cremdb_create_sha256": "ce5e3f7a2e4339d10fa0a9eae13703984c2442f691efe7291ebf0e19fa55be72",
+  "versions": {
+    "rdkit": "2026.3.6",
+    "crem": "0.3.2",
+    "numpy": "2.5.3",
+    "scikit-learn": "1.9.1"
+  },
+  "component_provenance": "Installed CReM0.3.2 includes previously preserved local compatibility/performance changes; not a stock-wheel author replication.",
+  "reproducibility": "Metrics CSV contains all20 task-condition rows, missing final returns remain empty, and exact input/trace/native-result hashes are preserved. Saved outputs alone support arithmetic recomputation.",
+  "primary_sources": [
+    {
+      "title": "CReM: chemically reasonable mutations framework for structure generation",
+      "url": "https://doi.org/10.1186/s13321-020-00431-w"
+    },
+    {
+      "title": "MOSES benchmark structural metrics",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7775580/"
+    },
+    {
+      "title": "MoleculeACE author data repository",
+      "url": "https://github.com/molML/MoleculeACE",
+      "commit": "7e6de0bd2968c56589c580f2a397f01c531ede26"
+    }
+  ]
+}

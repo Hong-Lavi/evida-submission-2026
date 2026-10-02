@@ -1,0 +1,149 @@
+{
+  "created_at": "2026-10-02T03:35:36.179731+00:00",
+  "timing": "Before any new cohort dispatch or output; prior frozen rubric retained and adapted only for four new disease-goal cases.",
+  "protocol_sha256": "c6c4100eb64baf4442c363b2b82a17876de6522d91ebc2f797c89f74da3b3957",
+  "unit": "Four frozen new disease questions, one fresh start per instruction procedure, eight planned episodes; nested source claims.",
+  "masking": "Use W identifiers, hide procedure labels until all content reviews are frozen. The preparation agent also reviews; this is not independent external validation.",
+  "retrieval_scope": "Returned source records and their exact original passages. Source retrieval can differ by procedure; preserve failed, partial and unread sources. Do not apply the previous 60-fact answer key.",
+  "outcomes": [
+    {
+      "name": "question_coverage",
+      "categories": [
+        "traceably_answered",
+        "partial",
+        "not_addressed",
+        "not_applicable"
+      ],
+      "units": [
+        "disease-specific mechanism or requested target/isoform comparison",
+        "real source-derived or generated candidates",
+        "requested computation or justified input-dependent deferral",
+        "next discriminating action"
+      ],
+      "rule": "All four new questions begin without a target or candidate answer; require distinct disease-specific mechanisms. Existing target-specified GPT cases remain in their old cohort only."
+    },
+    {
+      "name": "source_fidelity",
+      "categories": [
+        "supported",
+        "contradicted",
+        "unsupported_in_returned_source",
+        "not_verifiable",
+        "not_asserted"
+      ],
+      "claim_selection": [
+        "Every material source-dependent assertion in recommendation and reason.",
+        "For each alternative and each hypothesis, its main mechanistic or quantitative evidence claim; verify distinct additional numerical assertions in those selected evidence objects.",
+        "Identity, target link, measured/predicted/proposed status and relevant conditions for each candidate explicitly selected in the final recommendation.",
+        "Each parameter represented as an existing observation in the selected next action. Clearly proposed future parameters are not empirical assertions."
+      ],
+      "rule": "Keep exact output and original source pointers. Count a repeated semantic assertion once. Report additional directly reproduced claims outside this selection separately; do not silently expand one arm denominator."
+    },
+    {
+      "name": "local_citation",
+      "categories": [
+        "correct_specific_source",
+        "supported_elsewhere_wrong_local_source",
+        "missing_source",
+        "not_applicable"
+      ],
+      "rule": "A true statement citing the wrong source is an attribution defect, separate from a false factual assertion."
+    },
+    {
+      "name": "candidate_integrity",
+      "units": [
+        "actual identity with source or explicitly proposed new entity",
+        "valid structure/sequence and declared parent provenance",
+        "target/mechanism link or explicit unresolved status",
+        "measured, predicted and proposed distinction",
+        "conditions and counterevidence preserved"
+      ],
+      "rule": "Use exact artifact-scoped IDs. Structure identity checks do not establish activity or physical vial identity."
+    },
+    {
+      "name": "next_action",
+      "units": [
+        "specimen_or_observation_unit",
+        "specific_comparator",
+        "measurable_readout",
+        "conditions_and_dependencies",
+        "source_vs_proposed_parameters",
+        "outcome_specific_judgment_change"
+      ],
+      "rule": "Judge the selected useful next action, with exact quotes. A justified retrieval/analysis can be a useful next action. Record its actual operation kind and source/outcome links separately from prose quality."
+    },
+    {
+      "name": "actual_tool_use",
+      "units": [
+        "success and failure receipts",
+        "real available inputs",
+        "duplicated identical successful work",
+        "genuine missing input vs connected capability omitted"
+      ],
+      "rule": "No invented execution. Reproduce alleged omitted registered capability against frozen schema and actual IDs on a copy before classifying it. Do not execute docking or revise scoring functions."
+    },
+    {
+      "name": "pool_and_product_links",
+      "units": [
+        "all discovered options retained",
+        "assessed subset separate",
+        "candidate-mechanism pair records",
+        "new proposal not relabeled measured or validated"
+      ],
+      "rule": "Automated counts establish record presence and referential links only; scientific support is manually reviewed."
+    },
+    {
+      "name": "browser_acceptance",
+      "units": [
+        "disease-specific mechanisms instead of placeholder cache",
+        "click through to exact original passage and figure/caption when available",
+        "candidate identity and actual 2D structure or RNA sequence",
+        "candidate rationale and next-action card"
+      ],
+      "rule": "Require actual browser evidence for UI success. JSON availability alone is not browser acceptance. Caption retrieval is not interpretation of the figure image."
+    }
+  ],
+  "case_requirements": {
+    "rheumatoid_arthritis": [
+      "Start without target or candidate answer",
+      "Compare distinct disease-specific mechanisms and source conditions",
+      "Actual source-linked candidate identity",
+      "Actual useful calculation or concrete justified dependency",
+      "Next discriminating action with observed/proposed distinction",
+      "Original source and candidate-to-experiment trace"
+    ],
+    "parkinsons_disease": [
+      "Start without target or candidate answer",
+      "Compare distinct disease-specific mechanisms and source conditions",
+      "Actual source-linked candidate identity",
+      "Actual useful calculation or concrete justified dependency",
+      "Next discriminating action with observed/proposed distinction",
+      "Original source and candidate-to-experiment trace"
+    ],
+    "cystic_fibrosis": [
+      "Start without target or candidate answer",
+      "Compare distinct disease-specific mechanisms and source conditions",
+      "Actual source-linked candidate identity",
+      "Actual useful calculation or concrete justified dependency",
+      "Next discriminating action with observed/proposed distinction",
+      "Original source and candidate-to-experiment trace"
+    ],
+    "pancreatic_ductal_adenocarcinoma": [
+      "Start without target or candidate answer",
+      "Compare distinct disease-specific mechanisms and source conditions",
+      "Actual source-linked candidate identity",
+      "Actual useful calculation or concrete justified dependency",
+      "Next discriminating action with observed/proposed distinction",
+      "Original source and candidate-to-experiment trace"
+    ]
+  },
+  "aggregation": "Report all eight planned, admitted, returned, final-published, failed, time-limited and not-admitted episodes. Four disease pairs; no weighted score, pooled GPT/Claude percentage, or claim-level independent significance test.",
+  "partial_failure": "Retain every started run. No-answer provider failures have no semantic score. Budget-limited partial work and tool/network errors are different categories. Unstarted held runs are not scientific failures.",
+  "runtime": "Same new dedicated evaluation subscription scope, maximum four evaluation lanes; operational scope unchanged. Five ordinary responses including framing/final and one format correction. Equal 35-minute new-admission budget; already-started tool returns retained and any overrun reported. Each provider timeout is at most600sec or remaining deadline.",
+  "no_additional_calls_for_evaluation": true,
+  "predecessor_rubric": {
+    "id": "legacy-gpt-fresh16-frozen-rubric",
+    "sha256": "bc27370f0e958324cb32a1bbf2ac34065b9f3a0b937e02d75896d41187540587"
+  },
+  "public_export_note": "Only the private predecessor filesystem path was replaced with a logical ID; all rubric criteria are unchanged. Actual C/D/E review labels implement the planned masking; preparer knows procedures."
+}
