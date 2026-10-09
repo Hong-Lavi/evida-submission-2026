@@ -1096,3 +1096,189 @@ button,input,textarea,select{background:var(--surface);color:var(--ink);border-c
 .with-reader .ui-overview .ui-overview-grid{grid-template-areas:"diagram" "mechanism" "candidate" "next"}
 @media(max-width:600px){.ui-overview .ui-overview-grid{grid-template-areas:"diagram" "mechanism" "candidate" "next"}.ui-overview-decision-text{font-size:12px!important}}
 
+
+/* Source: readability.css */
+/* Readability layer, loaded last. Presentation only: no scientific text, record, data or model
+   route is changed here. It covers four things the earlier layers left uneven:
+   1. Korean line breaking and a 12px floor for visible text.
+   2. One accent colour for "selected" (the intake page still used green).
+   3. Surfaces that stayed white in dark mode while their text turned light.
+   4. Narrow-screen fit (320-390px) for the intake form and the top bar. */
+
+:root{color-scheme:light dark}
+
+/* 1. Text ------------------------------------------------------------------------------- */
+/* Break Korean between words, not inside them; long identifiers still wrap. */
+body{word-break:keep-all;overflow-wrap:break-word}
+pre,code,.mono,.raw,textarea,input{word-break:normal}
+
+.small{font-size:13px}
+.ui-eyebrow,.path-eyebrow,.path-field{font-size:12px}
+.breadcrumb{font-size:13px}
+.top-actions button{font-size:12.5px}
+.saved{font-size:12px}
+.ui-workspace-heading p,.ui-section-heading p{font-size:13px}
+.ui-judgment .small.muted{font-size:12px}
+.ui-overview-decision-text{font-size:14px!important;line-height:1.75;color:var(--ink-2)}
+.ui-overview .ui-overview-grid h3{font-size:12.5px;font-weight:600;color:var(--ink-2)}
+.ui-overview .ui-path-list .ui-eyebrow{font-size:12px;margin-bottom:2px}
+.ui-overview .ui-path-list strong{font-size:14.5px}
+.ui-overview .ui-path-list span{font-size:12.5px}
+.ui-overview .ui-path-list small,.ui-path-list small{font-size:12px}
+.ui-overview-foot{font-size:12.5px}
+.ui-conversation-heading h2{font-size:14px}
+.ui-conversation-meta{font-size:12px}
+.ui-conversation-meta strong{font-size:13px}
+.ui-conversation-message p,.ui-conversation-response p{font-size:13.5px}
+.ui-conversation-thread details{font-size:13px}
+.ui-conversation-paths li{font-size:13.5px}
+.ui-conversation-paths .ui-eyebrow{font-size:12px}
+.ui-conversation-paths li>span:last-child{font-size:12px}
+.ui-quick-link{font-size:13px}
+.ui-composer-context{font-size:12px}
+.ui-composer-context strong{font-size:13px}
+.roadmap-composer .input-label{font-size:12px}
+.roadmap-composer textarea{font-size:14px}
+.roadmap-input-tools select{font-size:12.5px}
+.roadmap-composer>p,.roadmap-help{font-size:12px!important}
+.ui-conversation .ui-secondary,.ui-conversation .ui-secondary summary{font-size:12.5px}
+.ui-product-heading>span{font-size:13px;font-weight:600;color:var(--ink-2);padding-right:16px;border-right:1px solid var(--line);line-height:20px}
+.ui-stage{font-size:14px}
+.ui-subnav button,.ui-result-tabs button{font-size:13px}
+.ui-experiment-choice strong{font-size:13.5px}
+.ui-experiment-choice small{font-size:12px}
+.ui-experiment-actions strong{font-size:13px}
+.ui-experiment-detail h5{font-size:12.5px}
+.ui-check-question,.ui-check-conditions{font-size:13px}
+.ui-candidate p{font-size:13px}
+.path-state,.path-recorded-order,.path-context,.path-source-count,.path-version{font-size:12px}
+.project-name{font-size:13px!important}
+.rail-list-modes button{font-size:12.5px}
+.rail-group-label{font-size:12px}
+.rail-browser input{font-size:13px}
+.assessment{font-size:12px;color:var(--ink-3)}
+.research-details>summary{color:var(--ink-2)}
+table{font-size:12.5px}
+.roadmap-label,.roadmap-claim-status{font-size:12px}
+.structured-heading{font-size:13px}
+.roadmap-progress>summary small{font-size:12px}
+.artifact-title{font-size:13.5px}
+.artifact-meta{font-size:12px}
+.tool-drawer>summary small{font-size:12.5px}
+.status-word,.job-error{font-size:12.5px}
+@media(min-width:851px){
+  .ui-rail-collapsed .rail .brand{font-size:12px}
+  /* The collapsed rail is the only way to the saved studies; name the icon that opens it. */
+  .ui-rail-collapsed .rail [data-action="ui-rail"]{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;color:var(--ink-2)}
+  .ui-rail-collapsed .rail [data-action="ui-rail"]::after{content:"연구 목록";font-size:12px;font-weight:600;line-height:1.3;text-align:center;word-break:keep-all}
+}
+.project-status{font-size:12px!important}
+.rail-group-label small{font-size:12px}
+
+/* The overview is a summary; a long decision shows its opening lines and the full text stays
+   one click away in "판단 전체·근거 보기" right below it. */
+.ui-overview-decision-text{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:6;overflow:hidden;max-width:80ch}
+
+/* 2. One accent for "selected"; the intake page drops its separate green palette. --------- */
+.goal-start{border-color:var(--line);box-shadow:0 1px 2px rgba(20,27,45,.04),0 8px 28px rgba(20,27,45,.05)}
+.approach-choice{border-color:var(--line);background:var(--surface)}
+.approach-choice.selected{border-color:var(--primary);background:var(--primary-tint);color:var(--primary);font-weight:600}
+.approach-choice input{accent-color:var(--primary)}
+.goal-promise{color:var(--ink-2)}
+.goal-journey div{border-top-color:var(--line)}
+.goal-journey span{font-size:12px;font-weight:600;color:var(--ink-3)}
+.goal-journey strong{font-size:14.5px}
+.goal-journey p{font-size:13px;color:var(--ink-3)}
+.existing-entry{border-top-color:var(--line)}
+.existing-entry p{color:var(--ink-3)}
+.goal-examples article{background:var(--surface)}
+.input-changes{border-color:var(--line);background:var(--surface)}
+.input-changes summary{font-size:13px}
+/* Five stages read as one row instead of four plus an orphan. */
+.goal-journey{grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
+
+/* A link-coloured action, like the other links in the same panel (it read as a heading). */
+.ui-overview-next [data-stage=next]{color:var(--primary);font-weight:600}
+/* Without a structure image the placeholder no longer reserves 250px of empty space. */
+.ui-overview-visual>.ui-candidate-picture:has(>.ui-missing){height:auto;padding:0}
+.ui-overview-visual:has(>.ui-candidate-picture>.ui-missing){padding-bottom:12px}
+/* Larger structure drawings on the candidate cards. */
+.ui-candidate{grid-template-columns:170px minmax(0,1fr)}
+/* Adjacent source links ("원 요청" from two messages) no longer run together. */
+.roadmap-intents article>button+button,.original-request>button+button{margin-left:16px}
+
+/* Model guide dialog: a readable summary block and a visible "선택됨" state. */
+dialog{background:var(--surface);color:var(--ink);border-color:var(--line)}
+dialog dl{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:6px 18px;margin:0 0 14px;padding:12px 14px;background:var(--surface-sunken);border-radius:8px}
+dialog dt{color:var(--ink-3);font-size:13px}
+dialog dd{margin:0;font-size:14px;font-weight:600;color:var(--ink)}
+.model-route button{border:1px solid var(--line);background:var(--surface);white-space:nowrap}
+.model-route:not(:has(p.small)) button:disabled{opacity:1;color:var(--primary);background:var(--primary-tint);border-color:transparent;cursor:default}
+.model-route .muted{font-size:13px}
+
+/* 3. Dark mode: surfaces that stayed white while their text turned light. ---------------- */
+@media(prefers-color-scheme:dark){
+  dialog::backdrop{background:rgba(0,0,0,.55)}
+  .goal-start,.intake-panel,.example-choices article,.goal-examples article,.entry-path,.usage-answer,
+  .workflow-status,.option-card,.input-changes,.team-guide{background:var(--surface);border-color:var(--line);color:var(--ink)}
+  .goal-start{box-shadow:none}
+  .entry-path.selected,.option-card.chosen{background:var(--primary-tint);border-color:var(--primary)}
+  .goal-start textarea{background:var(--surface-sunken)}
+  .model-choice select,.input-bottom select{background:var(--surface-sunken);color:var(--ink);border-color:var(--line)}
+  .ui-composer-context{background:transparent}
+  .subscription-caution{background:#3a1a20;border-color:#f0727c;color:#ffd9dc}
+  .subscription-caution strong{color:#ff9aa2}
+  .model-route.subscription{border-color:#8c3b45}
+  .subscription-chip{color:#ff9aa2;border-color:#8c3b45}
+  .form-error,.action-error{background:#3a1a20;border-color:#8c3b45;color:#ffd9dc}
+  .selected-path{background:var(--surface-sunken)}
+  .selected-path strong{color:var(--ink)}
+  .option-tag{background:var(--surface-sunken);color:var(--ink-2)}
+  .skip{background:var(--surface)}
+  .tool-drawer{background:var(--surface)}
+  .workflow-complete>summary{color:#9fd3bd}
+  .assessment.consistent_in_context{color:#9fd3bd}
+  .assessment.challenged{color:#e7c798}
+  .job-error,.status-word.failed,.status-word.refused{color:#ff9a9a}
+}
+
+/* 4. Narrow screens ------------------------------------------------------------------------ */
+/* Long identifiers (record IDs, candidate ID lists, file keys) wrap inside their column
+   instead of widening it past the screen edge, where the text was cut off. */
+.roadmap-tool-items li{grid-template-columns:minmax(0,1fr) auto}
+.roadmap-tool-items li>.small,.task-row small{overflow-wrap:anywhere}
+.task-row{grid-template-columns:22px minmax(0,1fr)}
+.task-row>*,.hypothesis-next>*{min-width:0}
+.hypothesis-next .link-button,.task-row .link-button{white-space:normal;overflow-wrap:anywhere;max-width:100%;text-align:left}
+@media(max-width:720px){.roadmap-tool-items li{grid-template-columns:minmax(0,1fr)}}
+/* "직접 조회 · 도구 실행": the closed drawer's title sat on its border, with ＋ on a line of its own. */
+.tool-drawer>summary{display:block}
+.tool-drawer>summary small{display:block;margin-top:3px}
+.tool-drawer:not([open])>summary{margin:0}
+.tool-form{grid-template-columns:minmax(0,1fr) auto}
+.tool-form input,.tool-form select{max-width:100%}
+@media(max-width:850px){.data-layout{grid-template-columns:minmax(0,1fr)}}
+/* The model picker shrinks inside the card instead of pushing past it at 320px. */
+.model-choice{white-space:nowrap;min-width:0;max-width:100%}
+.model-choice select{min-width:0;max-width:100%;flex:1 1 auto;text-overflow:ellipsis}
+@media(max-width:700px){
+  .goal-journey{grid-template-columns:1fr;gap:0;padding:22px 0}
+  .goal-journey div{display:grid;grid-template-columns:30px minmax(0,1fr);column-gap:8px;padding:12px 0 10px}
+  .goal-journey span{grid-row:span 2;margin:2px 0 0}
+  .goal-journey p{margin:3px 0 0}
+}
+@media(max-width:850px){
+  .ui-workspace-tools button{font-size:12.5px}
+}
+@media(max-width:600px){
+  /* The study title is the page heading right below; the bar keeps the model and history. */
+  .topbar .breadcrumb{display:none}
+  .topbar{justify-content:flex-end}
+  .top-actions button{white-space:nowrap;font-size:12px}
+  .ui-stage{font-size:13px;padding-inline:9px}
+  .ui-candidate{grid-template-columns:120px minmax(0,1fr)}
+}
+@media(max-width:360px){
+  .ui-candidate{grid-template-columns:1fr}
+}
+
