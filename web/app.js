@@ -9,7 +9,7 @@ labels.rna_method_review = 'RNA 실제 방법 비교';
 Object.assign(labels,{explanation:'저장된 판단 설명',explanation_context:'설명 기준',explanation_answer:'질문에 대한 설명',explanation_model_output:'설명 응답 기록',explanation_reading:'설명에 사용한 원문'});
 Object.assign(labels,SCIENCE_LABELS);
 labels.rna_seed_sensitivity = 'RNA 참조·발현 민감도';
-const jobLabels = {queued:'대기',running:'실행 중',succeeded:'완료',reused:'기존 계산 재사용',failed:'실패',partial:'일부 반환',interrupted:'중단 기록',stale:'이전 조건의 작업',paused:'추가 실행 가능',refused:'서비스 응답 거절',input_missing:'입력 필요',outcome_unknown:'완료 여부 미확인',quota_or_rate_limit:'서비스 한도',identity_unverified:'모델 확인 필요'};
+const jobLabels = {queued:'대기',running:'실행 중',succeeded:'완료',reused:'기존 계산 재사용',failed:'실패',partial:'일부 반환',interrupted:'중단 기록',stale:'이전 조건의 작업',paused:'추가 실행 가능',refused:'서비스 응답 거절',input_missing:'입력 필요',outcome_unknown:'완료 여부 미확인',quota_or_rate_limit:'서비스 한도',identity_unverified:'모델 확인 필요',quota_exhausted:'대회 API 토큰 한도',route_unavailable:'선택한 모델 사용 불가'};
 const eventLabels = {reading_focus_set:'현재 질문의 자료 선택',research_check_requested:'다음 확인 실행',research_check_review_pending:'확인 결과의 해석 대기',created:'연구 시작',message:'연구 요청',correction:'조건 정정',observation:'새 관측',intent_edit:'연구자의 의도 수정',artifact_added:'자료 저장',job_queued:'작업 요청',job_started:'작업 실행',job_finished:'실행 결과',work_framed:'의도와 작업 분해',decision_published:'판단 갱신',decision_stale:'이전 조건의 판단 보존',job_interrupted:'중단된 작업 보존',source_import_failed:'공개 자료 수신 오류'};
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const number = value => value === null || value === undefined ? '—' : typeof value === 'number' ? (value!==0&&(Math.abs(value)<0.0001||Math.abs(value)>=1e8) ? value.toExponential(4) : Number.isInteger(value) ? value.toLocaleString('ko-KR') : value.toLocaleString('ko-KR',{maximumSignificantDigits:5})) : esc(value);
@@ -21,9 +21,9 @@ Object.assign(labels,{chemical_sirna_evidence:'수식 siRNA 원자료',research_
 const artifactName = id => {const a=state?.artifacts.find(a=>a.id===id.split('#')[0]);if(!a)return id;if(a.kind==='decision_proposal'&&typeof uiDecisionRecord==='function')return uiDecisionRecord(a.id)?.title??'게시 전 판단 제안';if(a.kind==='article'&&typeof a.source_title==='string'&&a.source_title.trim())return a.source_title;if(a.kind==='clinical_trial'&&a.meta.summary?.title)return a.meta.summary.title;if(a.kind==='gtopdb_pharmacology'&&a.meta.summary?.gene_symbol)return a.meta.summary.gene_symbol+' · '+a.title;if(a.kind==='target_context'&&a.meta.summary?.symbol)return `${a.meta.summary.symbol} · ${a.title}`;if(['rna_reference','rna_reference_archive'].includes(a.kind)&&a.meta.arguments?.ensembl_id)return `${a.title} · ${a.meta.arguments.ensembl_id}`;if(a.kind==='tool_reading'){const source=state.artifacts.find(x=>x.id===a.meta.source_artifact_id);return source?`${artifactName(source.id)} · 확인한 부분`:'확인한 원문·결과';}return a.title;};
 const inputContext = a => a.meta.contrast ?? state?.artifacts.find(i=>i.id===a.meta.consumed_artifacts?.[0])?.meta.contrast;
 function notice(message){clearTimeout(noticeTimer);const n=document.querySelector('#notice');n.textContent=message;n.classList.add('visible');noticeTimer=setTimeout(()=>n.classList.remove('visible'),7000)}
-async function api(path,body){const response=await fetch(deploymentURL(path),{method:body?'POST':'GET',headers:body?{'Content-Type':'application/json','X-Evida-Request':'1'}:{},body:body?JSON.stringify(body):undefined});const data=await response.json();if(!response.ok)throw Error(data.error||'요청을 완료하지 못했습니다.');return data}
+async function api(path,body){const response=await fetch(deploymentURL(path),{method:body?'POST':'GET',headers:body?{'Content-Type':'application/json','X-Evida-Request':'1'}:{},body:body?JSON.stringify(body):undefined});const data=await response.json();if(!response.ok){const error=Error(data.error||'요청을 완료하지 못했습니다.');error.status=data.status;throw error}return data}
 let gatewayStatusPending=null;
-function gatewayDisplayState(value){const g=value?.gateway??{};return JSON.stringify([g.available,g.message,g.requested_model,g.requested_effort,g.approved_models,value?.read_only_preview])}
+function gatewayDisplayState(value){const g=value?.gateway??{};return JSON.stringify([g.available,g.message,g.requested_model,g.requested_effort,g.approved_models,Boolean(g.competition_quota),(g.routes??[]).map(r=>[r.id,r.available,r.message]),value?.read_only_preview])}
 async function refreshGatewayStatus({force=false,renderChanges=true}={}){
  if(gatewayStatusPending){if(!force)return gatewayStatusPending;await gatewayStatusPending}
  const pending=(async()=>{
@@ -86,7 +86,7 @@ function render(){
   const focused=document.activeElement?.id, start=document.activeElement?.selectionStart;
   const active=state?.jobs.some(j=>['running','queued'].includes(j.status));
   app.innerHTML=deploymentHTML(`<div class="shell"><aside class="rail">${renderResearchRail()}</aside>
-    <div class="main-shell"><header class="topbar"><div class="breadcrumb"><span>워크스페이스</span><span>/</span><strong>${esc(state?.title??'새 연구')}</strong></div><div class="top-actions">${previewReadOnly()||status.gateway.available?'':`<span class="gateway-warning" role="status">${esc(status.gateway.message??'모델 연결 확인 필요')}</span>`}${modelAccessButton()}${button('usage-help','도움말','','quiet small')}${state?button('tab','변경 기록',`data-id="history"`,'quiet small'):''}<span class="saved">${active?'작업 실행 중':state?'저장됨 · 연구 기록 '+state.rev:'연구 준비'}</span>${state?button('export','기록 내보내기','','small'):''}</div></header>
+    <div class="main-shell"><header class="topbar"><div class="breadcrumb"><span>워크스페이스</span><span>/</span><strong>${esc(state?.title??'새 연구')}</strong></div><div class="top-actions">${previewReadOnly()||status.gateway.available?'':`<span class="gateway-warning" role="status">${esc(status.gateway.message??'모델 연결 확인 필요')}</span>`}${!previewReadOnly()&&status.gateway.available&&status.gateway.competition_quota&&!isSubscriptionRoute(currentModel())?`<span class="gateway-warning" role="status">대회 API 토큰 한도 소진 · 모델 이용 안내에서 구독 모델을 고를 수 있습니다</span>`:''}${modelAccessButton()}${button('usage-help','도움말','','quiet small')}${state?button('tab','변경 기록',`data-id="history"`,'quiet small'):''}<span class="saved">${active?'작업 실행 중':state?'저장됨 · 연구 기록 '+state.rev:'연구 준비'}</span>${state?button('export','기록 내보내기','','small'):''}</div></header>
     <main class="page" id="main">${renderPreviewNotice()}${submitPhase?`<p class="submitting" role="status">${esc(submitPhase)}</p>`:''}${actionError?`<p class="action-error" role="alert">${esc(actionError)}</p>`:''}${state?teamGuide():''}${state?workspace():welcome()}</main></div></div>`);
   lastRenderedView=JSON.stringify([state?.id??'new',tab,tab==='data'?selected:null]);
   const panelStates=detailPanelStates.get(lastRenderedView);
@@ -138,15 +138,16 @@ async function loadProject(id){
  try{fresh=await api(`/api/workspaces/${id}`)}catch(error){if(version!==projectLoadVersion)return;throw error}
  if(version!==projectLoadVersion)return;
  tab='research';state=fresh;evidaStorage.setItem('evida-project',id);draft=evidaStorage.getItem(draftKey())??'';
+ if(typeof rememberShownQuotaJobs==='function')rememberShownQuotaJobs();
  selected=null;detail=null;offset=0;query='';optionsOffset=0;optionsPage=null;optionsWorkspace=null;
  render();if(optionsOpen)await loadOptions();if(version===projectLoadVersion)window.scrollTo(0,0);
 }
-async function refresh(){if(!state)return;const wid=state.id;const fresh=await api(`/api/workspaces/${wid}`);if(state?.id!==wid)return;const changed=fresh.event_cursor!==state.event_cursor;state=fresh;if(changed){projects=await api('/api/workspaces');render();if(optionsOpen)await loadOptions()}}
+async function refresh(){if(!state)return;const wid=state.id;const fresh=await api(`/api/workspaces/${wid}`);if(state?.id!==wid)return;const changed=fresh.event_cursor!==state.event_cursor;state=fresh;if(changed){projects=await api('/api/workspaces');render();if(optionsOpen)await loadOptions()}if(typeof checkQuotaJobs==='function')checkQuotaJobs()}
 async function chooseArtifact(id){selected=id;offset=0;detail=null;tab='data';render();await readDetail()}
 async function openArticleSection(node){articleReferenceModes.delete(selected);const next=Number(node.dataset.offset);if(!Number.isInteger(next)||next<0)return;offset=next;await readDetail();document.querySelector('.data-detail')?.scrollIntoView({block:'start'});}
 async function readDetail(){const id=selected,data=await api(`/api/workspaces/${state.id}/artifacts/${id}?offset=${offset}&limit=${state.artifacts.find(a=>a.id===id)?.kind==='rna_delivery_response'?100:30}${candidateSpaceQuery(id)}${rnaContextQuery(id)}${articleReferenceQuery(id)}`);if(id===selected){detail=data;render()}}
 async function saveMessage(){if(!draft.trim())return;const body={kind:inputKind,text:draft.trim(),synthetic:syntheticDraft};await api(`/api/workspaces/${state.id}/commands`,{expected_rev:state.rev,command_id:crypto.randomUUID(),body});draft='';syntheticDraft=false;evidaStorage.removeItem(draftKey());await refresh()}
-async function runTool(tool,args){const response=await api(`/api/workspaces/${state.id}/jobs`,{expected_rev:state.rev,tool,arguments:args});await refresh();notice('작업을 시작했습니다. 결과와 원자료를 함께 보존합니다.');return response}
+async function runTool(tool,args){if(tool==='planner'&&args&&args.model===undefined&&typeof plannerOptions==='function')args={...args,...plannerOptions()};const response=await api(`/api/workspaces/${state.id}/jobs`,{expected_rev:state.rev,tool,arguments:args});await refresh();notice('작업을 시작했습니다. 결과와 원자료를 함께 보존합니다.');return response}
 function showDialog(title,content){dialog.innerHTML=deploymentHTML(`<div class="dialog-title"><h2 id="editor-title">${esc(title)}</h2>${button('close-dialog','닫기','','quiet small')}</div>${content}`);dialog.showModal()}
 function editIntents(){const records=structuredClone(editableIntents());intentEditBase={workspace:state.id,rev:state.rev,records};showDialog('연구 의도 수정',`<p class="small muted">저장된 의도를 편집합니다. 바꾼 항목만 연구자의 수정으로 기록하고, 나머지 내용과 출처는 유지합니다.</p><div id="intent-rows">${records.map(intentRow).join('')||intentRow({label:'',text:''})}</div><div class="dialog-actions">${button('add-intent','＋ 항목 추가')}${button('save-intent','수정 내용 저장','','primary')}</div>`)}
 function intentRow(r={}){return `<div class="edit-row" data-record-id="${esc(r.id??'')}"><input type="text" class="intent-label" aria-label="의도 항목 이름" placeholder="예: 판단 기준" value="${esc(r.label??'')}"><textarea class="intent-text" aria-label="의도 항목 내용" placeholder="내용 또는 미확인 사항">${esc(r.text??'')}</textarea>${button('remove-intent','×','aria-label="이 항목 삭제"','quiet')}</div>`}
@@ -154,8 +155,9 @@ function uploadDialog(){showDialog('기존 자료 추가',`<p class="small muted
 async function act(action,node){
  if(await semanticLiteratureAction(action,node))return;
  if(await workspaceAction(action,node))return;
- if(busy && !['close-dialog','usage-help','model-help'].includes(action))return;
- if(action.startsWith('interaction-')){try{await interactionAction(action,node)}catch(e){notice(e.message)}return}
+ if(busy && !['close-dialog','usage-help','model-help','choose-model','confirm-model'].includes(action))return;
+ if(action==='choose-model'||action==='confirm-model'){await chooseModelAction(action,node);return}
+ if(action.startsWith('interaction-')){try{await interactionAction(action,node)}catch(e){notice(e.message);if(e.status==='quota_exhausted')openQuotaDialog(e.message)}return}
  if(action.startsWith('roadmap-')){await roadmapAction(action,node);return}
  if(action.startsWith('discovery-')){await discoveryAction(action,node);return}
  if(action==='mechanism-support'){await loadMechanismSupport();return}
@@ -227,7 +229,7 @@ async function act(action,node){
   }
  }finally{busy=false;submitPhase='';render()}
 }
-document.addEventListener('click',event=>{const node=event.target.closest('[data-action]');if(!node||node.disabled)return;act(node.dataset.action,node).catch(e=>{busy=false;submitPhase='';if(state)actionError=e.message;else intakeError=e.message;notice(e.message);render()})});
+document.addEventListener('click',event=>{const node=event.target.closest('[data-action]');if(!node||node.disabled)return;act(node.dataset.action,node).catch(e=>{busy=false;submitPhase='';if(state)actionError=e.message;else intakeError=e.message;notice(e.message);render();if(e.status==='quota_exhausted')openQuotaDialog(e.message)})});
 document.addEventListener('input',event=>{if(event.target.id==='message'){draft=event.target.value;evidaStorage.setItem(draftKey(),draft)}if(event.target.id==='artifact-search'){query=event.target.value;render()}});
 document.addEventListener('change',event=>{if(event.target.id==='input-kind')inputKind=event.target.value;if(event.target.id==='synthetic')syntheticDraft=event.target.checked});
 document.addEventListener('input',event=>{if(event.target.id==='semantic-literature-query'&&state){const view=semanticView(state.id),wasLoading=view.loading;if(wasLoading)semanticStop(state.id,'검색어가 바뀌어 이전 검색 기다림을 닫았습니다.');view.query=event.target.value;if(wasLoading){view.result=null;render()}}});

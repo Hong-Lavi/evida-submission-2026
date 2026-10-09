@@ -139,6 +139,13 @@ class Runner:
                 raise Conflict("현재 판단 작업이 진행 중입니다. 새 메시지는 지금도 저장할 수 있습니다.")
             if set(arguments) - {"synthesis_only", "source_views", "model", "requested_check_operations", "decision_preservation"} or ("synthesis_only" in arguments and type(arguments["synthesis_only"]) is not bool):
                 raise ValueError("판단 실행 옵션을 확인해 주세요.")
+            # A route that cannot run now (spent competition allowance, unavailable subscription)
+            # is refused before anything is recorded, so the visitor can choose another by hand.
+            route_check = getattr(self.gateway, "check_model_available", None)
+            if route_check is not None:
+                chosen = arguments.get("model") or self.workspace_model(wid)
+                if chosen is None or chosen in self.gateway.approved_models():
+                    route_check(chosen)
             if 'requested_check_operations' in arguments:
                 from .finalization import requested_operations
                 requested_operations(current, arguments['requested_check_operations'])
@@ -159,6 +166,13 @@ class Runner:
         jid = self.store.enqueue(wid, rev, tool, arguments, self.cache_key(wid, tool, arguments))
         self.pool.submit(self.run_tool_job, jid, True)
         return jid
+
+    def workspace_model(self, wid):
+        """The route this research chose earlier; only a multi-route gateway has one."""
+        if getattr(self.gateway, "check_model_available", None) is None:
+            return None
+        from .model_routes import workspace_model
+        return workspace_model(self.store, wid, self.gateway)
 
     def resume_quota(self, wid, rev, source_id):
         if not self.gateway.status()["available"]:
@@ -1127,11 +1141,16 @@ class Runner:
                 if resume is not None and round_index == first_round:
                     payload = resume['request']
                 chosen_model = job["request"].get("model")
-                result, receipt = self.gateway.request(payload, model=chosen_model)
+                # A follow-up that carries no model stays on the route this research chose;
+                # a preserved quota resume replays its own original route only.
+                inherited_model = (self.workspace_model(wid)
+                                   if chosen_model is None and "resume_from_job" not in job["request"] else None)
+                result, receipt = self.gateway.request(payload, model=chosen_model or inherited_model)
                 receipt_id = self.store.add_artifact(wid, f"모델 호출 {round_index + 1}", "model_receipt",
                     dump(receipt).encode(), {"based_rev": rev, "job_id": jid,
                                              "requested_model": receipt["requested_model"],
-                                             "model_chosen_for_this_research": chosen_model is not None,
+                                             "model_chosen_for_this_research": (chosen_model or inherited_model) is not None,
+                                             "model_route": chosen_model or inherited_model,
                                              "protocol_id": protocol_id}, bump=False)
                 output_ids.append(receipt_id)
                 # Store public outputs and encrypted continuation, never request headers or hidden reasoning text.

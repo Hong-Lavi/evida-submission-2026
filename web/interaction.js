@@ -126,7 +126,7 @@ async function interactionAction(action,node){
   try{
     if(!await refreshGatewayStatus({force:true,renderChanges:false}))throw Error('현재 모델 연결을 사용할 수 없습니다. 설명 질문 초안은 그대로 남아 있습니다.');
     if(state?.id!==wid||state.rev!==rev||(explanationDrafts.get(wid)??'').trim()!==question)throw Error('연구 조건이나 질문이 바뀌었습니다. 현재 내용을 확인한 뒤 다시 보내 주세요.');
-    await api(`/api/workspaces/${wid}/explanations`,{expected_rev:rev,command_id:crypto.randomUUID(),question});
+    await api(`/api/workspaces/${wid}/explanations`,{expected_rev:rev,command_id:crypto.randomUUID(),question,...plannerOptions()});
     explanationDrafts.delete(wid);await refresh();notice('설명 질문을 접수했습니다.');
   }finally{explanationSending=false;render()}
 }

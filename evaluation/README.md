@@ -6,7 +6,7 @@
 
 ## 같은 조건의 연구 절차 16회 비교
 
-A=직접 절차, B=EVIDA 절차. 같은GPT-6 Sol/medium·competition Responses API·도구·응답상한·실제질문4개(IPF,PDE4B,Alzheimer,TTR siRNA)에 반복2씩, 각8시작입니다. 최종 출력의 과학 검토는 blind ID로 수행하고 이후 arm을 해제했습니다. 실제 실패를 포함한 원 시작 분모를 유지합니다. 현재 공개 모델 Opus5/high의 평가로 소급하지 않습니다.
+A=직접 절차, B=EVIDA 절차. 같은GPT-6 Sol/medium·competition Responses API·도구·응답상한·실제질문4개(IPF,PDE4B,Alzheimer,TTR siRNA)에 반복2씩, 각8시작입니다. 최종 출력의 과학 검토는 blind ID로 수행하고 이후 arm을 해제했습니다. 실제 실패를 포함한 원 시작 분모를 유지합니다. 제출 당시 공개 모델 Opus5/high나 이후 공개 연결의 평가로 소급하지 않습니다.
 
 | 항목 | A 직접절차 | B EVIDA절차 |
 |---|---:|---:|

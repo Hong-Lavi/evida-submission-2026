@@ -2490,26 +2490,70 @@ document.addEventListener('close',e=>{
 // Product guidance and entry points. Guidance is local; scientific results require real jobs.
 let intakeMode = 'question', intakeFile = null, intakeContext = '', intakeError = '', actionError = '', submitPhase = '';
 let intakeDelimiter = ',', intakeSmiles = 'smiles', intakeId = 'cid';
-// null keeps the server's current model. The server rechecks any explicit approved choice.
-let chosenModel = null;
+// null keeps the server's default route (the competition API). The server rechecks every choice.
+// A subscription route is only ever chosen by the visitor, after the caution below; never automatically.
+let chosenModel = null, modelChoiceLoaded = false;
+const shownQuotaJobs = new Set();
+function loadModelChoice(){if(modelChoiceLoaded)return;modelChoiceLoaded=true;try{chosenModel=evidaStorage.getItem('evida-model-choice')||null}catch{}}
+function rememberModelChoice(name){chosenModel=name||null;try{chosenModel?evidaStorage.setItem('evida-model-choice',chosenModel):evidaStorage.removeItem('evida-model-choice')}catch{}}
+function gatewayRoutes(){return Array.isArray(status?.gateway?.routes)?status.gateway.routes:[]}
+function routeFor(name){return gatewayRoutes().find(r=>r.id===name)}
+function isSubscriptionRoute(name){return routeFor(name)?.kind==='subscription'}
+function subscriptionAccount(route){return route?.provider==='anthropic'?'Claude':'ChatGPT'}
 function offeredModels(){return [...new Set((status?.gateway?.approved_models??[]).filter(name=>typeof name==='string'&&name))]}
-function modelDisplayName(name){return name==='claude-opus-5'?'Claude Opus 5':String(name??'모델 확인 필요')}
-function modelEffortLabel(){return status?.gateway?.requested_effort??'설정 확인 필요'}
+function currentModel(){loadModelChoice();return chosenModel&&offeredModels().includes(chosenModel)?chosenModel:status?.gateway?.requested_model}
+function modelDisplayName(name){const r=routeFor(name);if(r)return r.kind==='subscription'?`${r.label} · 제출자 구독`:`${r.label} · 대회 API`;return name==='claude-opus-5'?'Claude Opus 5':String(name??'모델 확인 필요')}
+function modelEffortLabel(name=currentModel()){return routeFor(name)?.effort??status?.gateway?.requested_effort??'설정 확인 필요'}
+function modelUsable(name){const r=routeFor(name);return r?r.available===true:status?.gateway?.available===true}
 function modelAccessButton(){
-  const g=status?.gateway??{},name=modelDisplayName(g.requested_model),short=name.replace(/^Claude /,'');
-  return button('model-help',`${esc(short)} · ${esc(modelEffortLabel())}${g.available?'':' · 확인'}`,`aria-label="모델 이용 안내 · ${esc(name)} · ${esc(modelEffortLabel())}${g.available?' · 연결됨':' · 연결 상태 확인 필요'}" title="모델 이용 안내"`,'quiet small');
+  const name=currentModel(),label=modelDisplayName(name),ok=modelUsable(name);
+  return button('model-help',`${esc(label)} · ${esc(modelEffortLabel(name))}${ok?'':' · 확인'}`,`aria-label="모델 이용 안내 · ${esc(label)} · ${esc(modelEffortLabel(name))}${ok?' · 사용 가능':' · 연결 상태 확인 필요'}" title="모델 이용 안내"`,`quiet small${isSubscriptionRoute(name)?' subscription-chip':''}`);
 }
+function competitionStateText(g){return g.competition_quota?'토큰 사용량 한도 소진 (HTTP 403) · 자동 전환 없음':g.competition_available===false?(g.message??'연결 확인 필요'):'기본 실행 경로 · 사용 가능'}
+function subscriptionCaution(text){return `<div class="subscription-caution" role="alert"><strong>주의 · 제출자(연구자) 개인 구독으로 운용됩니다</strong><p>${text}</p></div>`}
+function modelRouteRow(r,action,label){const selected=currentModel()===r.id;return `<div class="model-route ${esc(r.kind)}"><div><strong>${esc(r.label)}</strong> <span class="muted">· ${esc(r.effort)} · ${r.kind==='subscription'?'제출자 '+esc(subscriptionAccount(r))+' 구독':'대회 API'}</span>${r.available?'':`<p class="small">${esc(r.message)}</p>`}</div>${button(action,selected?'선택됨':label,`data-model="${esc(r.id)}" ${r.available&&!selected?'':'disabled'}`,r.kind==='subscription'?'small':'quiet small')}</div>`}
 async function openModelAccessHelp(){
   await refreshGatewayStatus({force:true});
-  const g=status.gateway??{},current=modelDisplayName(g.requested_model);
-  showDialog('모델 이용 안내',`<dl><dt>현재 연결</dt><dd>${esc(current)} · ${esc(modelEffortLabel())}</dd><dt>연결 상태</dt><dd role="status">${g.available?'사용 가능':esc(g.message??'현재 모델 연결을 확인해야 합니다.')}</dd></dl><p>현재 Claude는 개발자 구독으로 제공 중입니다. 심사·지속 사용은 대회 API 크레딧 확보 후 연결을 권장합니다.</p><p><strong>대회 API · 할당량 소진</strong><br>크레딧 확보와 실제 연결 확인 후 사용할 수 있습니다.</p><details><summary>현재 연결에서 허용된 모델</summary>${list(offeredModels().map(modelDisplayName))||'<p>허용된 모델 확인 필요</p>'}</details>`);
+  const g=status.gateway??{},name=currentModel(),routes=gatewayRoutes();
+  if(!routes.length){
+    showDialog('모델 이용 안내',`<dl><dt>현재 연결</dt><dd>${esc(modelDisplayName(name))} · ${esc(modelEffortLabel(name))}</dd><dt>연결 상태</dt><dd role="status">${g.available?'사용 가능':esc(g.message??'현재 모델 연결을 확인해야 합니다.')}</dd></dl><details><summary>현재 연결에서 허용된 모델</summary>${list(offeredModels().map(modelDisplayName))||'<p>허용된 모델 확인 필요</p>'}</details>`);
+    return;
+  }
+  const competition=routes.filter(r=>r.kind==='competition'),subscriptions=routes.filter(r=>r.kind==='subscription');
+  showDialog('모델 이용 안내',`<dl><dt>현재 선택</dt><dd>${esc(modelDisplayName(name))} · ${esc(modelEffortLabel(name))}</dd><dt>대회 API</dt><dd role="status">${esc(competitionStateText(g))}</dd></dl><p>기본 실행은 대회에서 제공한 API입니다. 대회 API 토큰이 소진되면 아래 제출자 구독 모델을 직접 골라 다시 실행할 수 있습니다. 모델은 자동으로 바뀌지 않습니다.</p><h3 class="model-route-heading">대회 API</h3><div class="model-route-list">${competition.map(r=>modelRouteRow(r,'choose-model','이 모델 선택')).join('')}</div>${subscriptions.length?`<h3 class="model-route-heading">제출자 구독</h3>${subscriptionCaution('아래 모델은 대회 API가 아니라 제출자(연구자)의 개인 Claude·ChatGPT 구독으로 실행됩니다. 확인 후 선택해 주세요.')}<div class="model-route-list">${subscriptions.map(r=>modelRouteRow(r,'confirm-model','확인하고 이 모델 사용')).join('')}</div>`:''}`);
 }
+function openSubscriptionCaution(name){
+  const r=routeFor(name);if(!r)return;
+  showDialog('제출자 구독 모델 사용 확인',`${subscriptionCaution(`${esc(r.label)} (${esc(r.effort)})은 대회 API가 아니라 제출자(연구자)의 개인 ${esc(subscriptionAccount(r))} 구독으로 실행됩니다. 확인 후 선택해 주세요.`)}<p class="small muted">선택한 모델은 이 연구의 이후 실행과 설명 요청에도 쓰입니다. 다른 모델로 자동 전환되지 않으며, 모델 이용 안내에서 언제든 바꿀 수 있습니다.</p><div class="dialog-actions">${button('close-dialog','취소','','quiet')}${button('confirm-model','확인하고 이 모델 사용',`data-model="${esc(r.id)}"`,'primary')}</div>`);
+}
+function openQuotaDialog(message){
+  const subscriptions=gatewayRoutes().filter(r=>r.kind==='subscription');
+  showDialog('대회 API 토큰 사용량 한도',`<p role="status">${esc(message||'대회 API의 토큰 사용량 한도에 도달해 이 요청을 실행하지 못했습니다 (HTTP 403).')}</p><p>대회 API 대신 제출자 구독 모델로 바꿔 직접 다시 실행할 수 있습니다. 모델을 바꾼 뒤 실행 버튼을 다시 눌러 주세요.</p>${subscriptionCaution('아래 모델은 제출자(연구자)의 개인 Claude·ChatGPT 구독으로 운용됩니다. 확인 후 선택해 주세요.')}<div class="model-route-list">${subscriptions.map(r=>modelRouteRow(r,'confirm-model','이 모델로 바꾸기')).join('')||'<p>지금 사용할 수 있는 구독 모델이 없습니다. 완료된 연구는 계속 열어볼 수 있습니다.</p>'}</div>`);
+}
+async function chooseModelAction(action,node){
+  const name=node.dataset.model;
+  if(!offeredModels().includes(name)){notice('현재 연결에서 허용된 모델만 선택할 수 있습니다.');return}
+  if(action==='choose-model'&&isSubscriptionRoute(name)){openSubscriptionCaution(name);return}
+  rememberModelChoice(name===status.gateway?.requested_model?null:name);
+  if(dialog.open)dialog.close();
+  notice(`${modelDisplayName(name)} · ${modelEffortLabel(name)}로 실행합니다. 실행 버튼을 다시 눌러 주세요.`);
+  render();
+}
+function checkQuotaJobs(){
+  if(!state)return;
+  const job=state.jobs.find(j=>j.status==='quota_exhausted'&&!shownQuotaJobs.has(j.id));
+  if(!job)return;
+  for(const j of state.jobs)if(j.status==='quota_exhausted')shownQuotaJobs.add(j.id);
+  if(!dialog.open)openQuotaDialog(job.error);
+}
+function rememberShownQuotaJobs(){for(const j of state?.jobs??[])if(j.status==='quota_exhausted')shownQuotaJobs.add(j.id)}
 function modelChoice(){
-  const offered=offeredModels();
-  const running=status.gateway?.requested_model,selected=chosenModel??running;
+  const offered=offeredModels(),selected=currentModel(),routes=gatewayRoutes();
+  const option=name=>{const r=routeFor(name),off=Boolean(r)&&!r.available;return `<option value="${esc(name)}" ${selected===name?'selected':''} ${off&&selected!==name?'disabled':''}>${esc(modelDisplayName(name))} · ${esc(modelEffortLabel(name))}${off?' · '+esc(r.kind==='competition'&&status.gateway?.competition_quota?'토큰 한도 소진':'사용 불가'):''}</option>`};
+  const competition=offered.filter(n=>!isSubscriptionRoute(n)),subscriptions=offered.filter(isSubscriptionRoute);
+  const options=routes.length?`<optgroup label="대회 API (기본)">${competition.map(option).join('')}</optgroup>${subscriptions.length?`<optgroup label="제출자 구독 · 선택 시 주의 확인">${subscriptions.map(option).join('')}</optgroup>`:''}`:offered.map(option).join('');
   return `<label class="model-choice">모델
-    <select id="intake-model">${offered.map(name=>`<option value="${esc(name)}" ${
-      selected===name?'selected':''}>${esc(modelDisplayName(name))}${name===running?' · '+esc(modelEffortLabel()):''}</option>`).join('')}${!offered.includes(selected)?'<option value="" selected disabled>연결 모델 확인 필요</option>':''}<option value="competition-api-unavailable" disabled>대회 API · 할당량 소진</option></select>
+    <select id="intake-model">${options}${!offered.includes(selected)?'<option value="" selected disabled>연결 모델 확인 필요</option>':''}</select>
   </label>${button('model-help','모델 이용 안내','','quiet small')}`;
 }
 const ENTRY_PATHS = [
@@ -2685,7 +2729,11 @@ async function startIntake(){
 function plannerOptions(){
   // Omitted entirely when the reader kept the server's model, so a run that made no choice
   // carries no claim to have made one.
-  return chosenModel&&chosenModel!==status.gateway?.requested_model?{model:chosenModel}:{};
+  // With several routes the visible selection is always sent: otherwise a research that once ran
+  // on a subscription would quietly stay there after the reader switched back to the default.
+  const name=currentModel();
+  if(gatewayRoutes().length)return name?{model:name}:{};
+  return name&&name!==status.gateway?.requested_model?{model:name}:{};
 }
 async function startExample(id){
   if(!await refreshGatewayStatus({force:true,renderChanges:false}))throw Error('현재 모델 연결을 사용할 수 없습니다. 완료 결과는 바로 열 수 있습니다.');
@@ -2711,8 +2759,11 @@ document.addEventListener('change',event=>{
   if(event.target.id==='intake-file'){intakeFile=event.target.files[0]??null;document.getElementById('intake-file-name').textContent=intakeFile?intakeFile.name+' 선택됨':'파일을 선택하세요.'}
   if(event.target.id==='intake-delimiter')intakeDelimiter=event.target.value;
   if(event.target.id==='intake-model'){
-    if(offeredModels().includes(event.target.value))chosenModel=event.target.value;
-    else{event.target.value=chosenModel??status.gateway?.requested_model??'';notice('현재 연결에서 허용된 모델만 선택할 수 있습니다.')}
+    const value=event.target.value,previous=currentModel();
+    if(!offeredModels().includes(value)){event.target.value=previous??'';notice('현재 연결에서 허용된 모델만 선택할 수 있습니다.')}
+    // A subscription route is confirmed in its caution dialog before it becomes the choice.
+    else if(isSubscriptionRoute(value)&&value!==previous){event.target.value=previous??'';openSubscriptionCaution(value)}
+    else rememberModelChoice(value===status.gateway?.requested_model?null:value);
   }
   if(event.target.id==='upload-kind')updateUploadKind();
 });
@@ -3445,7 +3496,7 @@ async function interactionAction(action,node){
   try{
     if(!await refreshGatewayStatus({force:true,renderChanges:false}))throw Error('현재 모델 연결을 사용할 수 없습니다. 설명 질문 초안은 그대로 남아 있습니다.');
     if(state?.id!==wid||state.rev!==rev||(explanationDrafts.get(wid)??'').trim()!==question)throw Error('연구 조건이나 질문이 바뀌었습니다. 현재 내용을 확인한 뒤 다시 보내 주세요.');
-    await api(`/api/workspaces/${wid}/explanations`,{expected_rev:rev,command_id:crypto.randomUUID(),question});
+    await api(`/api/workspaces/${wid}/explanations`,{expected_rev:rev,command_id:crypto.randomUUID(),question,...plannerOptions()});
     explanationDrafts.delete(wid);await refresh();notice('설명 질문을 접수했습니다.');
   }finally{explanationSending=false;render()}
 }
@@ -5196,7 +5247,7 @@ labels.rna_method_review = 'RNA 실제 방법 비교';
 Object.assign(labels,{explanation:'저장된 판단 설명',explanation_context:'설명 기준',explanation_answer:'질문에 대한 설명',explanation_model_output:'설명 응답 기록',explanation_reading:'설명에 사용한 원문'});
 Object.assign(labels,SCIENCE_LABELS);
 labels.rna_seed_sensitivity = 'RNA 참조·발현 민감도';
-const jobLabels = {queued:'대기',running:'실행 중',succeeded:'완료',reused:'기존 계산 재사용',failed:'실패',partial:'일부 반환',interrupted:'중단 기록',stale:'이전 조건의 작업',paused:'추가 실행 가능',refused:'서비스 응답 거절',input_missing:'입력 필요',outcome_unknown:'완료 여부 미확인',quota_or_rate_limit:'서비스 한도',identity_unverified:'모델 확인 필요'};
+const jobLabels = {queued:'대기',running:'실행 중',succeeded:'완료',reused:'기존 계산 재사용',failed:'실패',partial:'일부 반환',interrupted:'중단 기록',stale:'이전 조건의 작업',paused:'추가 실행 가능',refused:'서비스 응답 거절',input_missing:'입력 필요',outcome_unknown:'완료 여부 미확인',quota_or_rate_limit:'서비스 한도',identity_unverified:'모델 확인 필요',quota_exhausted:'대회 API 토큰 한도',route_unavailable:'선택한 모델 사용 불가'};
 const eventLabels = {reading_focus_set:'현재 질문의 자료 선택',research_check_requested:'다음 확인 실행',research_check_review_pending:'확인 결과의 해석 대기',created:'연구 시작',message:'연구 요청',correction:'조건 정정',observation:'새 관측',intent_edit:'연구자의 의도 수정',artifact_added:'자료 저장',job_queued:'작업 요청',job_started:'작업 실행',job_finished:'실행 결과',work_framed:'의도와 작업 분해',decision_published:'판단 갱신',decision_stale:'이전 조건의 판단 보존',job_interrupted:'중단된 작업 보존',source_import_failed:'공개 자료 수신 오류'};
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const number = value => value === null || value === undefined ? '—' : typeof value === 'number' ? (value!==0&&(Math.abs(value)<0.0001||Math.abs(value)>=1e8) ? value.toExponential(4) : Number.isInteger(value) ? value.toLocaleString('ko-KR') : value.toLocaleString('ko-KR',{maximumSignificantDigits:5})) : esc(value);
@@ -5208,9 +5259,9 @@ Object.assign(labels,{chemical_sirna_evidence:'수식 siRNA 원자료',research_
 const artifactName = id => {const a=state?.artifacts.find(a=>a.id===id.split('#')[0]);if(!a)return id;if(a.kind==='decision_proposal'&&typeof uiDecisionRecord==='function')return uiDecisionRecord(a.id)?.title??'게시 전 판단 제안';if(a.kind==='article'&&typeof a.source_title==='string'&&a.source_title.trim())return a.source_title;if(a.kind==='clinical_trial'&&a.meta.summary?.title)return a.meta.summary.title;if(a.kind==='gtopdb_pharmacology'&&a.meta.summary?.gene_symbol)return a.meta.summary.gene_symbol+' · '+a.title;if(a.kind==='target_context'&&a.meta.summary?.symbol)return `${a.meta.summary.symbol} · ${a.title}`;if(['rna_reference','rna_reference_archive'].includes(a.kind)&&a.meta.arguments?.ensembl_id)return `${a.title} · ${a.meta.arguments.ensembl_id}`;if(a.kind==='tool_reading'){const source=state.artifacts.find(x=>x.id===a.meta.source_artifact_id);return source?`${artifactName(source.id)} · 확인한 부분`:'확인한 원문·결과';}return a.title;};
 const inputContext = a => a.meta.contrast ?? state?.artifacts.find(i=>i.id===a.meta.consumed_artifacts?.[0])?.meta.contrast;
 function notice(message){clearTimeout(noticeTimer);const n=document.querySelector('#notice');n.textContent=message;n.classList.add('visible');noticeTimer=setTimeout(()=>n.classList.remove('visible'),7000)}
-async function api(path,body){const response=await fetch(deploymentURL(path),{method:body?'POST':'GET',headers:body?{'Content-Type':'application/json','X-Evida-Request':'1'}:{},body:body?JSON.stringify(body):undefined});const data=await response.json();if(!response.ok)throw Error(data.error||'요청을 완료하지 못했습니다.');return data}
+async function api(path,body){const response=await fetch(deploymentURL(path),{method:body?'POST':'GET',headers:body?{'Content-Type':'application/json','X-Evida-Request':'1'}:{},body:body?JSON.stringify(body):undefined});const data=await response.json();if(!response.ok){const error=Error(data.error||'요청을 완료하지 못했습니다.');error.status=data.status;throw error}return data}
 let gatewayStatusPending=null;
-function gatewayDisplayState(value){const g=value?.gateway??{};return JSON.stringify([g.available,g.message,g.requested_model,g.requested_effort,g.approved_models,value?.read_only_preview])}
+function gatewayDisplayState(value){const g=value?.gateway??{};return JSON.stringify([g.available,g.message,g.requested_model,g.requested_effort,g.approved_models,Boolean(g.competition_quota),(g.routes??[]).map(r=>[r.id,r.available,r.message]),value?.read_only_preview])}
 async function refreshGatewayStatus({force=false,renderChanges=true}={}){
  if(gatewayStatusPending){if(!force)return gatewayStatusPending;await gatewayStatusPending}
  const pending=(async()=>{
@@ -5273,7 +5324,7 @@ function render(){
   const focused=document.activeElement?.id, start=document.activeElement?.selectionStart;
   const active=state?.jobs.some(j=>['running','queued'].includes(j.status));
   app.innerHTML=deploymentHTML(`<div class="shell"><aside class="rail">${renderResearchRail()}</aside>
-    <div class="main-shell"><header class="topbar"><div class="breadcrumb"><span>워크스페이스</span><span>/</span><strong>${esc(state?.title??'새 연구')}</strong></div><div class="top-actions">${previewReadOnly()||status.gateway.available?'':`<span class="gateway-warning" role="status">${esc(status.gateway.message??'모델 연결 확인 필요')}</span>`}${modelAccessButton()}${button('usage-help','도움말','','quiet small')}${state?button('tab','변경 기록',`data-id="history"`,'quiet small'):''}<span class="saved">${active?'작업 실행 중':state?'저장됨 · 연구 기록 '+state.rev:'연구 준비'}</span>${state?button('export','기록 내보내기','','small'):''}</div></header>
+    <div class="main-shell"><header class="topbar"><div class="breadcrumb"><span>워크스페이스</span><span>/</span><strong>${esc(state?.title??'새 연구')}</strong></div><div class="top-actions">${previewReadOnly()||status.gateway.available?'':`<span class="gateway-warning" role="status">${esc(status.gateway.message??'모델 연결 확인 필요')}</span>`}${!previewReadOnly()&&status.gateway.available&&status.gateway.competition_quota&&!isSubscriptionRoute(currentModel())?`<span class="gateway-warning" role="status">대회 API 토큰 한도 소진 · 모델 이용 안내에서 구독 모델을 고를 수 있습니다</span>`:''}${modelAccessButton()}${button('usage-help','도움말','','quiet small')}${state?button('tab','변경 기록',`data-id="history"`,'quiet small'):''}<span class="saved">${active?'작업 실행 중':state?'저장됨 · 연구 기록 '+state.rev:'연구 준비'}</span>${state?button('export','기록 내보내기','','small'):''}</div></header>
     <main class="page" id="main">${renderPreviewNotice()}${submitPhase?`<p class="submitting" role="status">${esc(submitPhase)}</p>`:''}${actionError?`<p class="action-error" role="alert">${esc(actionError)}</p>`:''}${state?teamGuide():''}${state?workspace():welcome()}</main></div></div>`);
   lastRenderedView=JSON.stringify([state?.id??'new',tab,tab==='data'?selected:null]);
   const panelStates=detailPanelStates.get(lastRenderedView);
@@ -5325,15 +5376,16 @@ async function loadProject(id){
  try{fresh=await api(`/api/workspaces/${id}`)}catch(error){if(version!==projectLoadVersion)return;throw error}
  if(version!==projectLoadVersion)return;
  tab='research';state=fresh;evidaStorage.setItem('evida-project',id);draft=evidaStorage.getItem(draftKey())??'';
+ if(typeof rememberShownQuotaJobs==='function')rememberShownQuotaJobs();
  selected=null;detail=null;offset=0;query='';optionsOffset=0;optionsPage=null;optionsWorkspace=null;
  render();if(optionsOpen)await loadOptions();if(version===projectLoadVersion)window.scrollTo(0,0);
 }
-async function refresh(){if(!state)return;const wid=state.id;const fresh=await api(`/api/workspaces/${wid}`);if(state?.id!==wid)return;const changed=fresh.event_cursor!==state.event_cursor;state=fresh;if(changed){projects=await api('/api/workspaces');render();if(optionsOpen)await loadOptions()}}
+async function refresh(){if(!state)return;const wid=state.id;const fresh=await api(`/api/workspaces/${wid}`);if(state?.id!==wid)return;const changed=fresh.event_cursor!==state.event_cursor;state=fresh;if(changed){projects=await api('/api/workspaces');render();if(optionsOpen)await loadOptions()}if(typeof checkQuotaJobs==='function')checkQuotaJobs()}
 async function chooseArtifact(id){selected=id;offset=0;detail=null;tab='data';render();await readDetail()}
 async function openArticleSection(node){articleReferenceModes.delete(selected);const next=Number(node.dataset.offset);if(!Number.isInteger(next)||next<0)return;offset=next;await readDetail();document.querySelector('.data-detail')?.scrollIntoView({block:'start'});}
 async function readDetail(){const id=selected,data=await api(`/api/workspaces/${state.id}/artifacts/${id}?offset=${offset}&limit=${state.artifacts.find(a=>a.id===id)?.kind==='rna_delivery_response'?100:30}${candidateSpaceQuery(id)}${rnaContextQuery(id)}${articleReferenceQuery(id)}`);if(id===selected){detail=data;render()}}
 async function saveMessage(){if(!draft.trim())return;const body={kind:inputKind,text:draft.trim(),synthetic:syntheticDraft};await api(`/api/workspaces/${state.id}/commands`,{expected_rev:state.rev,command_id:crypto.randomUUID(),body});draft='';syntheticDraft=false;evidaStorage.removeItem(draftKey());await refresh()}
-async function runTool(tool,args){const response=await api(`/api/workspaces/${state.id}/jobs`,{expected_rev:state.rev,tool,arguments:args});await refresh();notice('작업을 시작했습니다. 결과와 원자료를 함께 보존합니다.');return response}
+async function runTool(tool,args){if(tool==='planner'&&args&&args.model===undefined&&typeof plannerOptions==='function')args={...args,...plannerOptions()};const response=await api(`/api/workspaces/${state.id}/jobs`,{expected_rev:state.rev,tool,arguments:args});await refresh();notice('작업을 시작했습니다. 결과와 원자료를 함께 보존합니다.');return response}
 function showDialog(title,content){dialog.innerHTML=deploymentHTML(`<div class="dialog-title"><h2 id="editor-title">${esc(title)}</h2>${button('close-dialog','닫기','','quiet small')}</div>${content}`);dialog.showModal()}
 function editIntents(){const records=structuredClone(editableIntents());intentEditBase={workspace:state.id,rev:state.rev,records};showDialog('연구 의도 수정',`<p class="small muted">저장된 의도를 편집합니다. 바꾼 항목만 연구자의 수정으로 기록하고, 나머지 내용과 출처는 유지합니다.</p><div id="intent-rows">${records.map(intentRow).join('')||intentRow({label:'',text:''})}</div><div class="dialog-actions">${button('add-intent','＋ 항목 추가')}${button('save-intent','수정 내용 저장','','primary')}</div>`)}
 function intentRow(r={}){return `<div class="edit-row" data-record-id="${esc(r.id??'')}"><input type="text" class="intent-label" aria-label="의도 항목 이름" placeholder="예: 판단 기준" value="${esc(r.label??'')}"><textarea class="intent-text" aria-label="의도 항목 내용" placeholder="내용 또는 미확인 사항">${esc(r.text??'')}</textarea>${button('remove-intent','×','aria-label="이 항목 삭제"','quiet')}</div>`}
@@ -5341,8 +5393,9 @@ function uploadDialog(){showDialog('기존 자료 추가',`<p class="small muted
 async function act(action,node){
  if(await semanticLiteratureAction(action,node))return;
  if(await workspaceAction(action,node))return;
- if(busy && !['close-dialog','usage-help','model-help'].includes(action))return;
- if(action.startsWith('interaction-')){try{await interactionAction(action,node)}catch(e){notice(e.message)}return}
+ if(busy && !['close-dialog','usage-help','model-help','choose-model','confirm-model'].includes(action))return;
+ if(action==='choose-model'||action==='confirm-model'){await chooseModelAction(action,node);return}
+ if(action.startsWith('interaction-')){try{await interactionAction(action,node)}catch(e){notice(e.message);if(e.status==='quota_exhausted')openQuotaDialog(e.message)}return}
  if(action.startsWith('roadmap-')){await roadmapAction(action,node);return}
  if(action.startsWith('discovery-')){await discoveryAction(action,node);return}
  if(action==='mechanism-support'){await loadMechanismSupport();return}
@@ -5414,7 +5467,7 @@ async function act(action,node){
   }
  }finally{busy=false;submitPhase='';render()}
 }
-document.addEventListener('click',event=>{const node=event.target.closest('[data-action]');if(!node||node.disabled)return;act(node.dataset.action,node).catch(e=>{busy=false;submitPhase='';if(state)actionError=e.message;else intakeError=e.message;notice(e.message);render()})});
+document.addEventListener('click',event=>{const node=event.target.closest('[data-action]');if(!node||node.disabled)return;act(node.dataset.action,node).catch(e=>{busy=false;submitPhase='';if(state)actionError=e.message;else intakeError=e.message;notice(e.message);render();if(e.status==='quota_exhausted')openQuotaDialog(e.message)})});
 document.addEventListener('input',event=>{if(event.target.id==='message'){draft=event.target.value;evidaStorage.setItem(draftKey(),draft)}if(event.target.id==='artifact-search'){query=event.target.value;render()}});
 document.addEventListener('change',event=>{if(event.target.id==='input-kind')inputKind=event.target.value;if(event.target.id==='synthetic')syntheticDraft=event.target.checked});
 document.addEventListener('input',event=>{if(event.target.id==='semantic-literature-query'&&state){const view=semanticView(state.id),wasLoading=view.loading;if(wasLoading)semanticStop(state.id,'검색어가 바뀌어 이전 검색 기다림을 닫았습니다.');view.query=event.target.value;if(wasLoading){view.result=null;render()}}});

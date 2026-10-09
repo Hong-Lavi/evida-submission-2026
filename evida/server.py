@@ -242,9 +242,16 @@ def handler_for(app, public_hosts=()):
                         if route[3] == 'explanations':
                             if not app.runner.gateway.status()['available']:
                                 raise ValueError(app.runner.gateway.status()['message'])
+                            model = body.get('model')
+                            if model is not None and model not in app.runner.gateway.approved_models():
+                                raise ValueError('현재 실행 정책에 승인되지 않은 모델입니다.')
+                            route_check = getattr(app.runner.gateway, 'check_model_available', None)
+                            if route_check is not None:
+                                route_check(model or app.runner.workspace_model(wid))
                             from .interaction import enqueue_explanation, run_explanation
                             result, created = enqueue_explanation(app.store,wid,body.get('expected_rev'),
-                                                                  body.get('command_id'),body.get('question'))
+                                                                  body.get('command_id'),body.get('question'),
+                                                                  model=model)
                             if created:
                                 app.runner.explanation_pool.submit(run_explanation,app.runner,result['job_id'])
                             return self.send(result,202)

@@ -1,6 +1,26 @@
-# Claude 구독 연결 검토용 소스
+# 구독 연결 검토용 소스
 
-이 폴더에는 공개 제품의 Opus5/high 구독 연결을 검토하는 Python 소스6개가 있습니다. 정확한 소스 버전은 묶음의 MANIFEST와, 최종 갱신 시 생성되는 RUNTIME_SOURCE_MANIFEST에서 확인합니다. 승인·원실패·정규화·공유 호출 번호·60회 상한·동시2개·읽기 범위를 검사하고 native Runner에 반환합니다.
+## 현재 공개 연결 (2026-10-09 이후)
+
+공개 데모는 **대회 API(GPT-6 Sol · medium)**를 기본으로 실행합니다. 대회 API가 HTTP 403(토큰 사용량 한도)을
+반환하면 방문자에게 안내창을 띄웁니다. 방문자는 제출자 구독 경로를 **직접** 골라 다시 실행합니다.
+
+| 경로 ID | 모델 · effort | 운용 |
+|---|---|---|
+| `gpt-6-sol` 등 대회 API 4종 | GPT-6 Sol · medium (기본) | 대회 제공 API |
+| `subscription:claude-opus-5` | Claude Opus 5 · medium | 제출자 Claude 구독 |
+| `subscription:gpt-6-sol` | GPT-6 Sol · medium | 제출자 ChatGPT 구독 |
+
+- `route_transport.py`가 두 구독 경로를 구현합니다. 아래 제출 당시 Claude 연결 소스의 고정 입력 색인, JSON 행동
+  봉투, 제품 계약 검증을 그대로 재사용합니다.
+- 각 경로는 요청 모델과 실제 응답 모델이 일치할 때만 결과를 씁니다. 경로당 호출 60회와 동시 2개로 제한합니다.
+- 실패한 호출은 그 작업만 실패시키고, 다른 경로로 자동 전환하지 않습니다.
+- 대회 키는 서버 프로세스 메모리에만 있습니다. 구독 CLI가 물려받는 환경에는 넣지 않습니다.
+- 제품 쪽 경로 선택은 `evida/model_routes.py`, 403 분류는 `evida/gateway.py`에 있습니다.
+
+## 제출 당시 Claude 연결 (참고)
+
+이 폴더의 나머지 Python 소스6개는 제출 당시 공개 제품의 Opus5/high 구독 연결을 검토하기 위한 것입니다. 정확한 소스 버전은 묶음의 MANIFEST와, 최종 갱신 시 생성되는 RUNTIME_SOURCE_MANIFEST에서 확인합니다. 승인·원실패·정규화·공유 호출 번호·60회 상한·동시2개·읽기 범위를 검사하고 native Runner에 반환합니다.
 
 필요한 외부 구성은 검수된 LROS0.4.0 기반 adapter 런타임, 실제 Claude CLI와 구독 인증, 운영자의 정확한 모델 권한·원인교정 review, 제품 경로입니다. 이 폴더는 인증된 독립 실행 환경을 제공하지 않습니다. API key·유료 fallback을 사용하지 않으며, 인증·실제 승인 profile·호출 영수증·DB·원 입력은 포함하지 않습니다.
 

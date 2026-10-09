@@ -125,7 +125,7 @@ def resolve_snapshot_citations(context, result, supplied, indirect, wid):
     return value
 
 
-def enqueue_explanation(store, wid, expected_rev, command_id, question):
+def enqueue_explanation(store, wid, expected_rev, command_id, question, model=None):
     if not isinstance(question, str) or not question.strip() or len(question) > 6000:
         raise ValueError('설명할 질문은 1–6,000자로 입력해 주세요.')
     if not isinstance(command_id,str) or not 1 <= len(command_id) <= 200:
@@ -156,6 +156,8 @@ def enqueue_explanation(store, wid, expected_rev, command_id, question):
         db.execute('INSERT INTO artifacts VALUES(?,?,?,?,?,?,?,?,?)', (aid,wid,'설명 기준 · 저장 상태','explanation_context',
             hashlib.sha256(raw).hexdigest(),'application/json',now(),dump(meta),raw))
         request = {'question':question,'context_artifact_id':aid,'command_id':command_id}
+        if model is not None:
+            request['model'] = model
         db.execute('INSERT INTO jobs VALUES(?,?,?,?,?,?,?,?,NULL,NULL,?,?)',
                    (jid,wid,expected_rev,'explanation',dump(request),'queued',now(),now(),None,uid('attempt')))
         store.event(db,wid,'explanation_requested',{'job_id':jid,'question':question,'based_rev':expected_rev,
@@ -178,12 +180,13 @@ def run_explanation(runner, jid):
         indirect = snapshot_citation_parents(context, allowed)
         # A note's linked source is not itself delivered merely because it is cited.
         conversation = [{'role':'user','content':model_json(context)}]
+        model = job['request'].get('model') or getattr(runner, 'workspace_model', lambda _wid: None)(wid)
         for turn in range(3):
             request = {'instructions':PROMPT,'input':conversation,
                        'tools':[FUNCTION_BY_NAME['inspect_artifact']], 'tool_choice':'none' if turn == 2 else 'auto',
                        'parallel_tool_calls':False,
                        'text':{'format':{'type':'json_schema','name':'evida_explanation','strict':True,'schema':EXPLANATION}}}
-            response, receipt = runner.gateway.request(request)
+            response, receipt = runner.gateway.request(request, model=model) if model else runner.gateway.request(request)
             receipt_id = store.add_artifact(wid,'설명 모델 호출','model_receipt',dump(receipt).encode(),
                 {'based_rev':rev,'job_id':jid,'interaction_kind':'explanation'},bump=False)
             public_output = [i for i in response.get('output',[]) if i.get('type') != 'reasoning']

@@ -6,7 +6,8 @@
     "optional_array_normalization.py": "29cf19b151f62eba1b96d60615c6c4b0241479eb09420a0fb7f51535981c270c",
     "process_dispatch.py": "cbe7cf146ef852425ad9154d2b3184bc6096f1a5afaccb20963c2b7c420af70c",
     "product_indexed_input82.py": "be196a843a4eadd99622c7e1cb7d05c772c57ce986feda9a5103b8c96f5230b3",
-    "transport_contract.py": "f4661e6483d484da939b2ef9178a12c68744cdcb98a6af8e7e76f52c5c5694d2"
+    "transport_contract.py": "f4661e6483d484da939b2ef9178a12c68744cdcb98a6af8e7e76f52c5c5694d2",
+    "route_transport.py": "041f6bf6ff655135576af27f36b161971384369f2b75908d37125cb59f3d32e9"
   },
   "model": "claude-opus-5",
   "effort": "high",
@@ -18,5 +19,27 @@
     "returned_reading_entry25",
     "review_claude_context82"
   ],
-  "external_runtime_required": true
+  "external_runtime_required": true,
+  "current_public_routes": {
+    "default": {
+      "route": "competition_api",
+      "model": "gpt-6-sol",
+      "effort": "medium"
+    },
+    "subscription": [
+      {
+        "route": "subscription:claude-opus-5",
+        "model": "claude-opus-5",
+        "effort": "medium"
+      },
+      {
+        "route": "subscription:gpt-6-sol",
+        "model": "gpt-6-sol",
+        "effort": "medium"
+      }
+    ],
+    "automatic_fallback": false,
+    "since": "2026-10-09",
+    "note": "model/effort above for claude_transport.py describe the route at submission time (2026-10-02)."
+  }
 }

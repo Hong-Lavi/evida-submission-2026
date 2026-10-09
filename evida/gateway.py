@@ -16,6 +16,8 @@ from .store import dump, now, uid
 from .response_stream import read_response_stream, StreamProviderError
 
 BASE_URL = "https://dacon-apim-hackathon-0903.azure-api.net/hackathon/openai/v1"
+QUOTA_EXHAUSTED_MESSAGE = ("대회 API의 토큰 사용량 한도에 도달했습니다 (HTTP 403). 다른 모델로 자동 전환하지 "
+                           "않았습니다. 제출자 구독 모델을 직접 선택해 다시 실행할 수 있습니다.")
 
 
 class GatewayError(RuntimeError):
@@ -58,6 +60,15 @@ class Gateway:
         self.maximum_requests = maximum_requests
         self.requests_made = 0
         self._budget_lock = threading.Lock()
+        # Set by a launcher that also runs subscription CLIs in this process: their children
+        # inherit os.environ, so there the key has to live here rather than in the environment.
+        self._credential = None
+
+    def set_credential(self, key):
+        self._credential = key or None
+
+    def _key(self):
+        return self._credential or os.environ.get(self.policy["secret_env"])
 
     def pace(self):
         """Space starts in this product process; never retry an HTTP failure."""
@@ -73,7 +84,7 @@ class Gateway:
         return round(time.monotonic() - began, 5)
 
     def status(self):
-        configured = bool(os.environ.get(self.policy["secret_env"]))
+        configured = bool(self._key())
         remaining = (None if self.maximum_requests is None
                      else max(0, self.maximum_requests - self.requests_made))
         return {"enabled": self.enabled, "credential_configured": configured,
@@ -115,7 +126,7 @@ class Gateway:
                                        "모두 사용했습니다. 자동으로 늘리지 않습니다. 이미 완료된 "
                                        "연구 결과는 그대로 열어볼 수 있습니다.")
                 self.requests_made += 1
-        key = os.environ.get(self.policy["secret_env"])
+        key = self._key()
         if not key and self.transport is None:
             raise GatewayError("input_missing", "고라니 제품 프로세스에 대회 API 키 설정이 필요합니다.")
         if key and (len(key) > 8192 or any(ord(c) < 33 or ord(c) > 126 for c in key)):
@@ -193,7 +204,10 @@ class Gateway:
             if exc.code in {'bio_policy', 'content_policy_violation', 'safety_violation'}:
                 status = 'refused'
                 message = '모델 제공자가 이 요청에 응답하지 않았습니다 (' + exc.code + '). 새 입력과 이전 판단을 보존했습니다. 자동 재시도·모델 대체는 하지 않았습니다.'
-            elif exc.code in {'rate_limit_exceeded', 'insufficient_quota'}:
+            elif exc.code == 'insufficient_quota':
+                status = 'quota_exhausted'
+                message = QUOTA_EXHAUSTED_MESSAGE
+            elif exc.code == 'rate_limit_exceeded':
                 status = 'quota_or_rate_limit'
                 message = '모델 제공자의 사용 한도로 응답하지 못했습니다. 자동 재시도하지 않습니다.'
             else:
@@ -212,6 +226,10 @@ class Gateway:
                 ("x-request-id", "apim-request-id", "x-ms-request-id", "retry-after")
                 if exc.headers and exc.headers.get(h) is not None}
             # Do not persist provider error text, request headers or credentials.
+            if exc.code == 403:
+                # The competition gateway answers 403 once the issued token allowance is spent.
+                receipt["status"] = "quota_exhausted"
+                raise GatewayError("quota_exhausted", QUOTA_EXHAUSTED_MESSAGE, receipt) from None
             status = "quota_or_rate_limit" if exc.code == 429 else "failed"
             receipt["status"] = status
             raise GatewayError(status, f"대회 게이트웨이가 HTTP {exc.code}를 반환했습니다. 자동 대체 호출은 하지 않았습니다.", receipt) from None
