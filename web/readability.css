@@ -40,6 +40,10 @@ pre,code,.mono,.raw,textarea,input{word-break:normal}
 .roadmap-composer .input-label{font-size:12px}
 .roadmap-composer textarea{font-size:14px}
 .roadmap-input-tools select{font-size:12.5px}
+/* The two composer choices share a row only when both labels fit; otherwise each takes its own
+   row. The send button gets a line of its own instead of squeezing the labels. */
+.roadmap-input-tools select{flex:1 1 10.5em}
+.roadmap-input-tools .actions{flex:1 0 100%;display:flex;justify-content:flex-end;margin-left:0}
 .roadmap-composer>p,.roadmap-help{font-size:12px!important}
 .ui-conversation .ui-secondary,.ui-conversation .ui-secondary summary{font-size:12.5px}
 .ui-product-heading>span{font-size:13px;font-weight:600;color:var(--ink-2);padding-right:16px;border-right:1px solid var(--line);line-height:20px}
