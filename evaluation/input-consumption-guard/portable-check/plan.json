@@ -1,0 +1,119 @@
+{
+  "status": "PREPARED_NOT_EXECUTED",
+  "script_sha256": "b5ba0840dadca10db24ed59e0dde57a64c18cca3655020293c9dcf8638de9d7b",
+  "families": [
+    {
+      "id": "valid_unchanged",
+      "between_prepare_commit": "none",
+      "expected_publish": true
+    },
+    {
+      "id": "different_revision_correction",
+      "between_prepare_commit": "correction",
+      "expected_publish": false
+    },
+    {
+      "id": "same_revision_reframe",
+      "between_prepare_commit": "reframe",
+      "expected_publish": false
+    },
+    {
+      "id": "same_revision_publication",
+      "between_prepare_commit": "publication",
+      "expected_publish": false
+    },
+    {
+      "id": "transaction_abort",
+      "between_prepare_commit": "sqlite_abort_trigger",
+      "expected_publish": false
+    }
+  ],
+  "model_calls": 0,
+  "network_calls": 0,
+  "independent_unit": "five predeclared software event families, not scientific tasks",
+  "arms": {
+    "current": {
+      "product": "native/current",
+      "files": {
+        "evida/__init__.py": "e42ca4d30612f9cadeac9e7d064e0b218ea33af037e1e47752bc543e5a4dfa61",
+        "evida/article_figures.py": "7828934616ab032f31b1f3b4861823b14a7e3a7e12a4e9de2e2f3d7a4cc7eba1",
+        "evida/catalog_delivery.py": "d788b10890372ddb509401f619ececf03ca337ee40b88157b483c91bdb19d70e",
+        "evida/context_delivery.py": "a70b7ee75ac3ad0bfe75bd528fc88f0c180a6aa4571d1cbddc00f74cef1fce1a",
+        "evida/contracts.py": "d9e1b077451e694ecd6711bc774303651810d8a69e9697f090e15bea678facf8",
+        "evida/decision_preservation.py": "dc6b85b667909676d008b95b48a9c97f12667cc5020834189e34467674dd0be2",
+        "evida/discovery.py": "81a909ee468b528a732229f043067063a88aecddbb5443652c41f9be701554ac",
+        "evida/evidence_history.py": "6f6cf9d73871640c0ed67dcef187791261e12c724bfdf10a0ddfb8ced8de29f4",
+        "evida/exposure_requirements.py": "c1bd90add07dd0643af42a9d6d13f0ceaab7d6512c677024ba40b04fe38358dd",
+        "evida/finalization.py": "2ea89e1569f71725bfaac2a24ea427268cb17d570a658cf00ea822f22f41764e",
+        "evida/gateway.py": "7e1ccc9237fd048ff469b9c9d0522f6d2d328744016db934e39e1ca2541d1d69",
+        "evida/hypothesis_reference_resolution.py": "474aec78019c1d7b7ce42f21aebe03776ccc1dc0c91e52b0ef92f6b8bcf5b1d8",
+        "evida/hypothesis_review.py": "dc0a39f3771986b6e13ec4c6c1d4c34b629bf8e714d6e7fa9680e06dba4b19e2",
+        "evida/input_changes.py": "e95266d400586357da64c5ff789b1858f2b48b7f84283a5f06b45359de3066a7",
+        "evida/input_provenance.py": "852cf3b01f926287cf8f8e534680cd8b54fabeaebac6784680dc42eaa91d8550",
+        "evida/intent_records.py": "3f650ae34dfe6d5023604800d5461821af828fb2d00efe824b9bc09fcdcaae82",
+        "evida/interaction.py": "733d1cf2f44dc2753cc920d72c5f2f79d881ef0e5f4b58100c238516176f904f",
+        "evida/judgment_context.py": "968103f624b1b49925eb78dc8575df10b31c7d98810c218324d8b015c0c0d46b",
+        "evida/kinetic_conditions.py": "447de05e2e8649d845d0b14af032b74266f8a7e06c345ad3ba84e873b8fb5d2d",
+        "evida/mechanism_ranking.py": "8c38240062982318796dbd1b092487db42eb93fefec90d0aa56069d6e0fc49e6",
+        "evida/model_context.py": "b3cf5065c6057531a0dca0c244902f3a93eac8359fe9f27d049e00d48050ed40",
+        "evida/pathway_hypotheses.py": "b081081994fc9c4b42c343d60370d427e1db879b73fd05803f27c4009bf2201d",
+        "evida/pathway_robustness.py": "81fe6db52c7f58395c58c5576aaf945fdc75f85fe0db7ef10c517a96b35a7bda",
+        "evida/regulon_activity.py": "ef3d0f11aa02954db53c789ae2370dfc6f5f7fd13ee18d06fe71a7e8bbdd95fe",
+        "evida/research_loop.py": "0d3e5e8623c0d80ffd54c559eaa35f71282259ac56bad2ceadb658e1cb2a04b9",
+        "evida/resource_integrity.py": "3f041545724da21c49f20e5042a3556e7ca1c058ae9d0576e3f2666a526d2900",
+        "evida/response_stream.py": "54da4d7aa009a032395b37fb0edd1e19f56a275bbf198510c8e9e3f6bcf18769",
+        "evida/runner.py": "593011c729e78a1fc4a4f8ce224bc22f6f8fc1900c25d88f1f361e739d6fd6b9",
+        "evida/source_candidates.py": "e107b45301cc9cf778c18fd2777f9ea66afc566fb9579c7a622e7466589108cd",
+        "evida/store.py": "2a9a50c211d116a8ac63c26509a324c7039f756cadbbeb5c63eda552dbbde8b6",
+        "evida/structure_depiction.py": "95534e4fd3170f8ef8e8e3b6815b712ea0a1f446ddbd1907dd91c4487eb7d255",
+        "configs/context-delivery.json": "c61cffca908c3ca1b164de4f7b793b2758ddfc57a26f2e0405b3533a6cd1b3be"
+      }
+    },
+    "improved": {
+      "product": "native/improved",
+      "files": {
+        "evida/__init__.py": "e42ca4d30612f9cadeac9e7d064e0b218ea33af037e1e47752bc543e5a4dfa61",
+        "evida/article_figures.py": "7828934616ab032f31b1f3b4861823b14a7e3a7e12a4e9de2e2f3d7a4cc7eba1",
+        "evida/catalog_delivery.py": "d788b10890372ddb509401f619ececf03ca337ee40b88157b483c91bdb19d70e",
+        "evida/context_delivery.py": "a70b7ee75ac3ad0bfe75bd528fc88f0c180a6aa4571d1cbddc00f74cef1fce1a",
+        "evida/contracts.py": "214a8cb9f12144f5ebb7f0cc0895631934fbaa890f178013e8702bace3499e02",
+        "evida/decision_preservation.py": "dc6b85b667909676d008b95b48a9c97f12667cc5020834189e34467674dd0be2",
+        "evida/discovery.py": "81a909ee468b528a732229f043067063a88aecddbb5443652c41f9be701554ac",
+        "evida/evidence_history.py": "6f6cf9d73871640c0ed67dcef187791261e12c724bfdf10a0ddfb8ced8de29f4",
+        "evida/exposure_requirements.py": "c1bd90add07dd0643af42a9d6d13f0ceaab7d6512c677024ba40b04fe38358dd",
+        "evida/finalization.py": "36ac5155363284ae9b92c2410af2ab6f28dfe066c28056eddb9bf38de7011f60",
+        "evida/gateway.py": "7e1ccc9237fd048ff469b9c9d0522f6d2d328744016db934e39e1ca2541d1d69",
+        "evida/hypothesis_reference_resolution.py": "474aec78019c1d7b7ce42f21aebe03776ccc1dc0c91e52b0ef92f6b8bcf5b1d8",
+        "evida/hypothesis_review.py": "dc0a39f3771986b6e13ec4c6c1d4c34b629bf8e714d6e7fa9680e06dba4b19e2",
+        "evida/input_changes.py": "e95266d400586357da64c5ff789b1858f2b48b7f84283a5f06b45359de3066a7",
+        "evida/input_provenance.py": "852cf3b01f926287cf8f8e534680cd8b54fabeaebac6784680dc42eaa91d8550",
+        "evida/intent_dependencies.py": "63ca37130a5483abeeabeb9f501cea5e1e76e1ea29c36ef3e7dc7581d3c6af87",
+        "evida/intent_records.py": "3f650ae34dfe6d5023604800d5461821af828fb2d00efe824b9bc09fcdcaae82",
+        "evida/interaction.py": "733d1cf2f44dc2753cc920d72c5f2f79d881ef0e5f4b58100c238516176f904f",
+        "evida/judgment_context.py": "968103f624b1b49925eb78dc8575df10b31c7d98810c218324d8b015c0c0d46b",
+        "evida/kinetic_conditions.py": "447de05e2e8649d845d0b14af032b74266f8a7e06c345ad3ba84e873b8fb5d2d",
+        "evida/mechanism_ranking.py": "8c38240062982318796dbd1b092487db42eb93fefec90d0aa56069d6e0fc49e6",
+        "evida/model_context.py": "bb49762b122efdeb65167350ebf29123c04445e7855c226021b0f15185a48ab2",
+        "evida/pathway_hypotheses.py": "b081081994fc9c4b42c343d60370d427e1db879b73fd05803f27c4009bf2201d",
+        "evida/pathway_robustness.py": "81fe6db52c7f58395c58c5576aaf945fdc75f85fe0db7ef10c517a96b35a7bda",
+        "evida/regulon_activity.py": "ef3d0f11aa02954db53c789ae2370dfc6f5f7fd13ee18d06fe71a7e8bbdd95fe",
+        "evida/research_loop.py": "99bc717c0da45ba805175a324284232268d3aff97d81ccbae9ba9e8e0f0e35b3",
+        "evida/resource_integrity.py": "3f041545724da21c49f20e5042a3556e7ca1c058ae9d0576e3f2666a526d2900",
+        "evida/response_stream.py": "54da4d7aa009a032395b37fb0edd1e19f56a275bbf198510c8e9e3f6bcf18769",
+        "evida/runner.py": "1353cff6998477691187669127fa3fc0b118163fb432c8dc8830bcb57f07d983",
+        "evida/source_candidates.py": "e107b45301cc9cf778c18fd2777f9ea66afc566fb9579c7a622e7466589108cd",
+        "evida/store.py": "3909a21c1443e0458e2559fec5f2c1142ad6ff47c4a7b4ac5f12e8e26e5d2409",
+        "evida/structure_depiction.py": "95534e4fd3170f8ef8e8e3b6815b712ea0a1f446ddbd1907dd91c4487eb7d255",
+        "configs/context-delivery.json": "c61cffca908c3ca1b164de4f7b793b2758ddfc57a26f2e0405b3533a6cd1b3be"
+      }
+    }
+  },
+  "expected": "Accept a valid unchanged proposal; reject stale prepared proposals after input/context/publication changes; roll back atomic failures; retain source and original proposals.",
+  "interface_difference": "Improved receives required intent_review metadata; substantive source, intent, question and decision are identical. This evaluates enforcement with scripted declarations, not a model's ability to author them.",
+  "not_measured": [
+    "scientific judgment",
+    "effect-direction accuracy",
+    "model compliance",
+    "real production concurrency frequency"
+  ]
+}

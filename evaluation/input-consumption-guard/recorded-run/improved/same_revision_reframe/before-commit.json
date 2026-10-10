@@ -1,0 +1,593 @@
+{
+  "id": "ws_92289a6aff694406",
+  "title": "Synthetic software-state replay; no scientific result",
+  "rev": 1,
+  "created": "2026-10-10T21:53:36.550886+00:00",
+  "intent": [
+    {
+      "id": "goal",
+      "label": "Goal",
+      "origin": "inferred",
+      "source_refs": [],
+      "text": "Review endpoint A using the supplied source"
+    },
+    {
+      "id": "boundary",
+      "label": "Boundary",
+      "origin": "inferred",
+      "source_refs": [],
+      "text": "Retain source and prior decisions"
+    }
+  ],
+  "decision": {
+    "action": "defer",
+    "alternatives": [],
+    "based_on_state_rev": 1,
+    "changed": [],
+    "evidence_refs": [
+      "art_722f4fc900344ce4"
+    ],
+    "intent_records": [
+      {
+        "id": "goal",
+        "label": "Goal",
+        "origin": "inferred",
+        "source_refs": [],
+        "text": "Review endpoint A using the supplied source"
+      },
+      {
+        "id": "boundary",
+        "label": "Boundary",
+        "origin": "inferred",
+        "source_refs": [],
+        "text": "Retain source and prior decisions"
+      }
+    ],
+    "next_actions": [],
+    "preserved": [],
+    "questions": [],
+    "reason": "Scripted state-replay fixture; scientific content is intentionally fixed.",
+    "recommendation": "Initial preserved proposal",
+    "research_loop": {
+      "hypotheses": [],
+      "next_checks": [],
+      "revision_rationale": "Software replay only"
+    },
+    "unknowns": []
+  },
+  "decision_rev": 1,
+  "review_status": "reviewed",
+  "events": [
+    {
+      "seq": 1,
+      "workspace": "ws_92289a6aff694406",
+      "kind": "created",
+      "created": "2026-10-10T21:53:36.551035+00:00",
+      "body": {
+        "title": "Synthetic software-state replay; no scientific result"
+      }
+    },
+    {
+      "seq": 2,
+      "workspace": "ws_92289a6aff694406",
+      "kind": "artifact_added",
+      "created": "2026-10-10T21:53:36.707477+00:00",
+      "body": {
+        "artifact_id": "art_722f4fc900344ce4",
+        "kind": "source_text",
+        "title": "Fixed synthetic source"
+      }
+    },
+    {
+      "seq": 3,
+      "workspace": "ws_92289a6aff694406",
+      "kind": "work_framed",
+      "created": "2026-10-10T21:53:36.777804+00:00",
+      "body": {
+        "based_rev": 1,
+        "current_question": "What does the supplied record establish about endpoint A?",
+        "hypotheses": [],
+        "intent_dependencies": {
+          "authority_sha256": "eb981c65a222847c7f29c2f2a07a11cc1282faae60ae3299b7c8bff6f353a27d",
+          "consumers": [
+            {
+              "consumer_id": "current_question",
+              "consumer_kind": "question",
+              "content": "What does the supplied record establish about endpoint A?",
+              "content_sha256": "d6c80d5b5ac93d738e43cb2eb07ddc637969b83605190dcfdb174043bc78f4fe",
+              "inputs": [
+                {
+                  "consumption_relation": "model_structured_record",
+                  "content_sha256": "5c1489d2fba1ffd2129f7bdc214c4d90538a54df8dfc50a19abf881497280dc8",
+                  "delivered_input_snapshot_sha256": "b70e5e9509c0ac70c057ac2bf9e2d5f2d47f08f06e2f4508ee23eba0f72a1597",
+                  "delivered_record_sha256": null,
+                  "intent_id": "goal",
+                  "received_record_sha256": null,
+                  "received_snapshot_sha256": "b70e5e9509c0ac70c057ac2bf9e2d5f2d47f08f06e2f4508ee23eba0f72a1597",
+                  "record": {
+                    "id": "goal",
+                    "label": "Goal",
+                    "origin": "inferred",
+                    "source_refs": [],
+                    "text": "Review endpoint A using the supplied source"
+                  },
+                  "record_basis": "model_structured_in_frame",
+                  "state_revision": 1,
+                  "structure_origin": "model_declared_not_researcher_confirmation"
+                },
+                {
+                  "consumption_relation": "model_structured_record",
+                  "content_sha256": "8d58ca085207788e257646308db356580dc461a1ea84c51f5a5cff0f37a067e1",
+                  "delivered_input_snapshot_sha256": "b70e5e9509c0ac70c057ac2bf9e2d5f2d47f08f06e2f4508ee23eba0f72a1597",
+                  "delivered_record_sha256": null,
+                  "intent_id": "boundary",
+                  "received_record_sha256": null,
+                  "received_snapshot_sha256": "b70e5e9509c0ac70c057ac2bf9e2d5f2d47f08f06e2f4508ee23eba0f72a1597",
+                  "record": {
+                    "id": "boundary",
+                    "label": "Boundary",
+                    "origin": "inferred",
+                    "source_refs": [],
+                    "text": "Retain source and prior decisions"
+                  },
+                  "record_basis": "model_structured_in_frame",
+                  "state_revision": 1,
+                  "structure_origin": "model_declared_not_researcher_confirmation"
+                }
+              ],
+              "intent_ids": [
+                "goal",
+                "boundary"
+              ],
+              "linkage_status": "declared",
+              "reason": "Scripted replay declaration; not an actual model judgment.",
+              "reason_origin": "model_declared"
+            }
+          ],
+          "consumption_snapshot_kind": "model_declared_semantic_structure",
+          "input_snapshot": {
+            "authority_sha256": "eb981c65a222847c7f29c2f2a07a11cc1282faae60ae3299b7c8bff6f353a27d",
+            "frame_event_sequence": null,
+            "intents": {
+              "boundary": {
+                "content_sha256": "8d58ca085207788e257646308db356580dc461a1ea84c51f5a5cff0f37a067e1",
+                "received_record_sha256": null,
+                "received_snapshot_sha256": "b70e5e9509c0ac70c057ac2bf9e2d5f2d47f08f06e2f4508ee23eba0f72a1597",
+                "record": {
+                  "id": "boundary",
+                  "label": "Boundary",
+                  "origin": "inferred",
+                  "source_refs": [],
+                  "text": "Retain source and prior decisions"
+                },
+                "record_basis": "model_structured_in_frame",
+                "structure_origin": "model_declared_not_researcher_confirmation"
+              },
+              "goal": {
+                "content_sha256": "5c1489d2fba1ffd2129f7bdc214c4d90538a54df8dfc50a19abf881497280dc8",
+                "received_record_sha256": null,
+                "received_snapshot_sha256": "b70e5e9509c0ac70c057ac2bf9e2d5f2d47f08f06e2f4508ee23eba0f72a1597",
+                "record": {
+                  "id": "goal",
+                  "label": "Goal",
+                  "origin": "inferred",
+                  "source_refs": [],
+                  "text": "Review endpoint A using the supplied source"
+                },
+                "record_basis": "model_structured_in_frame",
+                "structure_origin": "model_declared_not_researcher_confirmation"
+              }
+            },
+            "publication": null,
+            "snapshot_kind": "model_declared_semantic_structure",
+            "snapshot_sha256": "dd7057bb22fb44d33870b6eb0f77e93ead6f0378b1a433980ea4a278739205f6",
+            "state_revision": 1
+          },
+          "reassessments": [
+            {
+              "changed_intent_ids": [],
+              "consumer_id": "current_question",
+              "consumer_kind": "question",
+              "current_content_sha256": "d6c80d5b5ac93d738e43cb2eb07ddc637969b83605190dcfdb174043bc78f4fe",
+              "outcome": "changed",
+              "previous_content_sha256": null,
+              "reason": "Scripted initial framing; no earlier bound question.",
+              "reason_origin": "model_declared",
+              "trigger": "consumption_history_unknown"
+            }
+          ],
+          "received_input_snapshot": {
+            "authority_sha256": "eb981c65a222847c7f29c2f2a07a11cc1282faae60ae3299b7c8bff6f353a27d",
+            "frame_event_sequence": null,
+            "intents": {},
+            "publication": null,
+            "snapshot_sha256": "b70e5e9509c0ac70c057ac2bf9e2d5f2d47f08f06e2f4508ee23eba0f72a1597",
+            "state_revision": 1
+          },
+          "review_status": "declared_review_complete",
+          "schema_version": "1",
+          "scientific_validation": false
+        },
+        "intent_records": [
+          {
+            "id": "goal",
+            "label": "Goal",
+            "origin": "inferred",
+            "source_refs": [],
+            "text": "Review endpoint A using the supplied source"
+          },
+          {
+            "id": "boundary",
+            "label": "Boundary",
+            "origin": "inferred",
+            "source_refs": [],
+            "text": "Retain source and prior decisions"
+          }
+        ],
+        "intent_review": {
+          "reassessments": [
+            {
+              "consumer_id": "current_question",
+              "consumer_kind": "question",
+              "outcome": "changed",
+              "reason": "Scripted initial framing; no earlier bound question."
+            }
+          ],
+          "uses": [
+            {
+              "consumer_id": "current_question",
+              "consumer_kind": "question",
+              "intent_ids": [
+                "goal",
+                "boundary"
+              ],
+              "reason": "Scripted replay declaration; not an actual model judgment."
+            }
+          ]
+        },
+        "questions": [],
+        "task_brief": []
+      }
+    },
+    {
+      "seq": 4,
+      "workspace": "ws_92289a6aff694406",
+      "kind": "artifact_added",
+      "created": "2026-10-10T21:53:39.684057+00:00",
+      "body": {
+        "artifact_id": "art_26e122efc9504e1b",
+        "kind": "intent_dependencies",
+        "title": "의도 정정과 판단 재검토"
+      }
+    },
+    {
+      "seq": 5,
+      "workspace": "ws_92289a6aff694406",
+      "kind": "artifact_added",
+      "created": "2026-10-10T21:53:39.684219+00:00",
+      "body": {
+        "artifact_id": "art_1ac525a8e1ef4e96",
+        "kind": "hypothesis_review",
+        "title": "인과 근거·설명별 예상·구별할 관측 검토"
+      }
+    },
+    {
+      "seq": 6,
+      "workspace": "ws_92289a6aff694406",
+      "kind": "artifact_added",
+      "created": "2026-10-10T21:53:39.684267+00:00",
+      "body": {
+        "artifact_id": "art_7f916f0744264eac",
+        "kind": "decision_proposal",
+        "title": "현재 판단 제안"
+      }
+    },
+    {
+      "seq": 7,
+      "workspace": "ws_92289a6aff694406",
+      "kind": "hypothesis_wording_compared",
+      "created": "2026-10-10T21:53:39.684392+00:00",
+      "body": {
+        "comparisons": [],
+        "meaning": "Literal wording comparison only; no automatic scientific reassessment or semantic equivalence judgment.",
+        "receipt_id": "art_7f916f0744264eac",
+        "reference": {
+          "event_sequence": 3,
+          "kind": "latest_frame"
+        }
+      }
+    },
+    {
+      "seq": 8,
+      "workspace": "ws_92289a6aff694406",
+      "kind": "decision_published",
+      "created": "2026-10-10T21:53:39.684596+00:00",
+      "body": {
+        "receipt_id": "art_7f916f0744264eac",
+        "state_rev": 1
+      }
+    },
+    {
+      "seq": 9,
+      "workspace": "ws_92289a6aff694406",
+      "kind": "work_framed",
+      "created": "2026-10-10T21:53:42.781109+00:00",
+      "body": {
+        "based_rev": 1,
+        "current_question": "A new question was framed at the same state revision.",
+        "hypotheses": [],
+        "intent_dependencies": {
+          "authority_sha256": "0873d0e170fedfe4d6b4a291b848ac542092843e6c1defd5d189dab36172baf6",
+          "consumers": [
+            {
+              "consumer_id": "current_question",
+              "consumer_kind": "question",
+              "content": "A new question was framed at the same state revision.",
+              "content_sha256": "6a87e6256ad41c7b5c65a1d7e7fb900ffadf45f34d8bdde1c79e8c224561b30a",
+              "inputs": [
+                {
+                  "basis_authority_sha256": "0873d0e170fedfe4d6b4a291b848ac542092843e6c1defd5d189dab36172baf6",
+                  "consumption_relation": "received_record_used_unchanged",
+                  "content_sha256": "5c1489d2fba1ffd2129f7bdc214c4d90538a54df8dfc50a19abf881497280dc8",
+                  "delivered_input_snapshot_sha256": "af05d7cd6bc72c532a6a43a78dcafe05cc577514dc88a9e4a80904163a402403",
+                  "delivered_record_sha256": "5c1489d2fba1ffd2129f7bdc214c4d90538a54df8dfc50a19abf881497280dc8",
+                  "intent_id": "goal",
+                  "record": {
+                    "id": "goal",
+                    "label": "Goal",
+                    "origin": "inferred",
+                    "source_refs": [],
+                    "text": "Review endpoint A using the supplied source"
+                  },
+                  "record_basis": "workspace_intent_record",
+                  "state_revision": 1
+                },
+                {
+                  "basis_authority_sha256": "0873d0e170fedfe4d6b4a291b848ac542092843e6c1defd5d189dab36172baf6",
+                  "consumption_relation": "received_record_used_unchanged",
+                  "content_sha256": "8d58ca085207788e257646308db356580dc461a1ea84c51f5a5cff0f37a067e1",
+                  "delivered_input_snapshot_sha256": "af05d7cd6bc72c532a6a43a78dcafe05cc577514dc88a9e4a80904163a402403",
+                  "delivered_record_sha256": "8d58ca085207788e257646308db356580dc461a1ea84c51f5a5cff0f37a067e1",
+                  "intent_id": "boundary",
+                  "record": {
+                    "id": "boundary",
+                    "label": "Boundary",
+                    "origin": "inferred",
+                    "source_refs": [],
+                    "text": "Retain source and prior decisions"
+                  },
+                  "record_basis": "workspace_intent_record",
+                  "state_revision": 1
+                }
+              ],
+              "intent_ids": [
+                "goal",
+                "boundary"
+              ],
+              "linkage_status": "declared",
+              "reason": "Scripted replay declaration; not an actual model judgment.",
+              "reason_origin": "model_declared"
+            }
+          ],
+          "consumption_snapshot_kind": "model_declared_semantic_structure",
+          "input_snapshot": {
+            "authority_sha256": "0873d0e170fedfe4d6b4a291b848ac542092843e6c1defd5d189dab36172baf6",
+            "frame_event_sequence": 3,
+            "intents": {
+              "boundary": {
+                "basis_authority_sha256": "0873d0e170fedfe4d6b4a291b848ac542092843e6c1defd5d189dab36172baf6",
+                "content_sha256": "8d58ca085207788e257646308db356580dc461a1ea84c51f5a5cff0f37a067e1",
+                "record": {
+                  "id": "boundary",
+                  "label": "Boundary",
+                  "origin": "inferred",
+                  "source_refs": [],
+                  "text": "Retain source and prior decisions"
+                },
+                "record_basis": "workspace_intent_record"
+              },
+              "goal": {
+                "basis_authority_sha256": "0873d0e170fedfe4d6b4a291b848ac542092843e6c1defd5d189dab36172baf6",
+                "content_sha256": "5c1489d2fba1ffd2129f7bdc214c4d90538a54df8dfc50a19abf881497280dc8",
+                "record": {
+                  "id": "goal",
+                  "label": "Goal",
+                  "origin": "inferred",
+                  "source_refs": [],
+                  "text": "Review endpoint A using the supplied source"
+                },
+                "record_basis": "workspace_intent_record"
+              }
+            },
+            "publication": {
+              "decision_id": "art_7f916f0744264eac",
+              "event_sequence": 8
+            },
+            "snapshot_kind": "model_declared_semantic_structure",
+            "snapshot_sha256": "90cdf81e52242ebf328cb4574855c25a7455bf4ec5b33953ebc777a3d02d8163",
+            "state_revision": 1
+          },
+          "reassessments": [],
+          "received_input_snapshot": {
+            "authority_sha256": "0873d0e170fedfe4d6b4a291b848ac542092843e6c1defd5d189dab36172baf6",
+            "frame_event_sequence": 3,
+            "intents": {
+              "boundary": {
+                "basis_authority_sha256": "0873d0e170fedfe4d6b4a291b848ac542092843e6c1defd5d189dab36172baf6",
+                "content_sha256": "8d58ca085207788e257646308db356580dc461a1ea84c51f5a5cff0f37a067e1",
+                "record": {
+                  "id": "boundary",
+                  "label": "Boundary",
+                  "origin": "inferred",
+                  "source_refs": [],
+                  "text": "Retain source and prior decisions"
+                },
+                "record_basis": "workspace_intent_record"
+              },
+              "goal": {
+                "basis_authority_sha256": "0873d0e170fedfe4d6b4a291b848ac542092843e6c1defd5d189dab36172baf6",
+                "content_sha256": "5c1489d2fba1ffd2129f7bdc214c4d90538a54df8dfc50a19abf881497280dc8",
+                "record": {
+                  "id": "goal",
+                  "label": "Goal",
+                  "origin": "inferred",
+                  "source_refs": [],
+                  "text": "Review endpoint A using the supplied source"
+                },
+                "record_basis": "workspace_intent_record"
+              }
+            },
+            "publication": {
+              "decision_id": "art_7f916f0744264eac",
+              "event_sequence": 8
+            },
+            "snapshot_sha256": "af05d7cd6bc72c532a6a43a78dcafe05cc577514dc88a9e4a80904163a402403",
+            "state_revision": 1
+          },
+          "review_status": "declared_review_complete",
+          "schema_version": "1",
+          "scientific_validation": false
+        },
+        "intent_records": [
+          {
+            "id": "goal",
+            "label": "Goal",
+            "origin": "inferred",
+            "source_refs": [],
+            "text": "Review endpoint A using the supplied source"
+          },
+          {
+            "id": "boundary",
+            "label": "Boundary",
+            "origin": "inferred",
+            "source_refs": [],
+            "text": "Retain source and prior decisions"
+          }
+        ],
+        "intent_review": {
+          "reassessments": [],
+          "uses": [
+            {
+              "consumer_id": "current_question",
+              "consumer_kind": "question",
+              "intent_ids": [
+                "goal",
+                "boundary"
+              ],
+              "reason": "Scripted replay declaration; not an actual model judgment."
+            }
+          ]
+        },
+        "questions": [],
+        "task_brief": []
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "art_722f4fc900344ce4",
+      "workspace": "ws_92289a6aff694406",
+      "title": "Fixed synthetic source",
+      "kind": "source_text",
+      "sha256": "22b4bda83debb9ec5c25fad43c6d875593492c1f8dd84d15795731fe883ca810",
+      "media_type": "application/json",
+      "created": "2026-10-10T21:53:36.707257+00:00",
+      "meta": {
+        "scientific_validation": false,
+        "synthetic": true
+      },
+      "bytes": 75,
+      "source_title": null
+    },
+    {
+      "id": "art_26e122efc9504e1b",
+      "workspace": "ws_92289a6aff694406",
+      "title": "의도 정정과 판단 재검토",
+      "kind": "intent_dependencies",
+      "sha256": "e22446b96e16c90d817ebd6fc2a1a9c4c165314c4c02b0a21751f53afad7a4f4",
+      "media_type": "application/json",
+      "created": "2026-10-10T21:53:39.683934+00:00",
+      "meta": {
+        "based_rev": 1,
+        "job_id": "scripted-replay",
+        "reason_origin": "model_declared",
+        "scientific_validation": false,
+        "submission": "same_model_final_bundle"
+      },
+      "bytes": 7256,
+      "source_title": null
+    },
+    {
+      "id": "art_1ac525a8e1ef4e96",
+      "workspace": "ws_92289a6aff694406",
+      "title": "인과 근거·설명별 예상·구별할 관측 검토",
+      "kind": "hypothesis_review",
+      "sha256": "6aa0cd35eb6e2f02f6c92c2d3967ea8e9903c89a7db5efc34ecb06ecd8debf25",
+      "media_type": "application/json",
+      "created": "2026-10-10T21:53:39.684197+00:00",
+      "meta": {
+        "based_rev": 1,
+        "decision_id": "art_7f916f0744264eac",
+        "job_id": "scripted-replay",
+        "loop_sha256": "9a0c402c4ae30aa538c9f73fe712652337cc4d7b4366a4ba386845c34c74550b",
+        "semantic_type": "model_authored_hypothesis_review_not_scientific_validation",
+        "submission": "same_model_final_bundle"
+      },
+      "bytes": 932,
+      "source_title": null
+    },
+    {
+      "id": "art_7f916f0744264eac",
+      "workspace": "ws_92289a6aff694406",
+      "title": "현재 판단 제안",
+      "kind": "decision_proposal",
+      "sha256": "7e152199e2a9b942e7136dbf35c1754f292443b0e38f2658fd8133fef9109d78",
+      "media_type": "application/json",
+      "created": "2026-10-10T21:53:39.684253+00:00",
+      "meta": {
+        "based_rev": 1,
+        "finalization_records": {
+          "hypothesis_review": "art_1ac525a8e1ef4e96",
+          "intent_dependencies": "art_26e122efc9504e1b"
+        },
+        "job_id": "scripted-replay",
+        "model_receipts": [],
+        "protocol_id": null,
+        "scientific_validation": false
+      },
+      "bytes": 705,
+      "source_title": null
+    }
+  ],
+  "jobs": [],
+  "event_cursor": 9,
+  "research_checks": [],
+  "followthrough_requests": [],
+  "input_changes": {
+    "phase": "published_review",
+    "since_decision": null,
+    "after_event": 0,
+    "through_event": 8,
+    "sources": [
+      {
+        "id": "art_722f4fc900344ce4",
+        "title": "Fixed synthetic source",
+        "kind": "source_text"
+      },
+      {
+        "id": "art_26e122efc9504e1b",
+        "title": "의도 정정과 판단 재검토",
+        "kind": "intent_dependencies"
+      },
+      {
+        "id": "art_1ac525a8e1ef4e96",
+        "title": "인과 근거·설명별 예상·구별할 관측 검토",
+        "kind": "hypothesis_review"
+      }
+    ],
+    "messages": [],
+    "intent_edits": [],
+    "provenance_corrections": [],
+    "meaning": "Input locations, not proof of reading or claim support. Provenance corrections reclassify the referenced original input without replacing it; use its effective_provenance. Select relevant original ranges; older evidence, conditions and counterevidence remain accessible."
+  }
+}

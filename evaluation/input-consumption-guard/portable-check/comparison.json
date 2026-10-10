@@ -1,0 +1,254 @@
+{
+  "status": "SOFTWARE_REPLAY_COMPLETED",
+  "model_calls": 0,
+  "network_calls": 0,
+  "independent_event_families": 5,
+  "not_scientific_or_model_performance": true,
+  "arms": {
+    "current": {
+      "arm": "current",
+      "rows": [
+        {
+          "arm": "current",
+          "family": "valid_unchanged",
+          "status": "PASS",
+          "model_calls": 0,
+          "expected_publish": true,
+          "actual_publish": true,
+          "checks": {
+            "pending_proposal_preserved": true,
+            "stale_has_no_attached_sidecars": true,
+            "expected_publication_outcome": true,
+            "source_bytes_preserved": true,
+            "initial_decision_preserved": true
+          },
+          "pending_decision_id": "art_d103667827154f14",
+          "elapsed_seconds": 6.224
+        },
+        {
+          "arm": "current",
+          "family": "different_revision_correction",
+          "status": "PASS",
+          "model_calls": 0,
+          "expected_publish": false,
+          "actual_publish": false,
+          "checks": {
+            "pending_proposal_preserved": true,
+            "stale_has_no_attached_sidecars": true,
+            "expected_publication_outcome": true,
+            "source_bytes_preserved": true,
+            "initial_decision_preserved": true,
+            "current_decision_not_replaced": true
+          },
+          "pending_decision_id": "art_bea545f4d1564ee6",
+          "elapsed_seconds": 5.9
+        },
+        {
+          "arm": "current",
+          "family": "same_revision_reframe",
+          "status": "PROPERTY_FAILURE",
+          "model_calls": 0,
+          "expected_publish": false,
+          "actual_publish": true,
+          "checks": {
+            "pending_proposal_preserved": true,
+            "stale_has_no_attached_sidecars": true,
+            "expected_publication_outcome": false,
+            "source_bytes_preserved": true,
+            "initial_decision_preserved": true,
+            "current_decision_not_replaced": false
+          },
+          "pending_decision_id": "art_8c43163f32d64867",
+          "elapsed_seconds": 5.965
+        },
+        {
+          "arm": "current",
+          "family": "same_revision_publication",
+          "status": "PROPERTY_FAILURE",
+          "model_calls": 0,
+          "expected_publish": false,
+          "actual_publish": true,
+          "checks": {
+            "pending_proposal_preserved": true,
+            "stale_has_no_attached_sidecars": true,
+            "expected_publication_outcome": false,
+            "source_bytes_preserved": true,
+            "initial_decision_preserved": true,
+            "current_decision_not_replaced": false
+          },
+          "intervening_decision_id": "art_7ba5eccca13f4bc6",
+          "pending_decision_id": "art_2e16fab943014605",
+          "elapsed_seconds": 8.796
+        },
+        {
+          "arm": "current",
+          "family": "transaction_abort",
+          "status": "PASS",
+          "model_calls": 0,
+          "expected_publish": false,
+          "actual_publish": false,
+          "checks": {
+            "atomic_rollback": true,
+            "expected_publication_outcome": true,
+            "source_bytes_preserved": true,
+            "initial_decision_preserved": true,
+            "current_decision_not_replaced": true
+          },
+          "elapsed_seconds": 6.26
+        }
+      ],
+      "model_calls": 0,
+      "passed": 3,
+      "denominator": 5,
+      "native_modules_loaded": {
+        "evida/__init__.py": "e42ca4d30612f9cadeac9e7d064e0b218ea33af037e1e47752bc543e5a4dfa61",
+        "evida/store.py": "2a9a50c211d116a8ac63c26509a324c7039f756cadbbeb5c63eda552dbbde8b6",
+        "evida/judgment_context.py": "968103f624b1b49925eb78dc8575df10b31c7d98810c218324d8b015c0c0d46b",
+        "evida/discovery.py": "81a909ee468b528a732229f043067063a88aecddbb5443652c41f9be701554ac",
+        "evida/hypothesis_review.py": "dc0a39f3771986b6e13ec4c6c1d4c34b629bf8e714d6e7fa9680e06dba4b19e2",
+        "evida/exposure_requirements.py": "c1bd90add07dd0643af42a9d6d13f0ceaab7d6512c677024ba40b04fe38358dd",
+        "evida/kinetic_conditions.py": "447de05e2e8649d845d0b14af032b74266f8a7e06c345ad3ba84e873b8fb5d2d",
+        "evida/resource_integrity.py": "3f041545724da21c49f20e5042a3556e7ca1c058ae9d0576e3f2666a526d2900",
+        "evida/regulon_activity.py": "ef3d0f11aa02954db53c789ae2370dfc6f5f7fd13ee18d06fe71a7e8bbdd95fe",
+        "evida/pathway_hypotheses.py": "b081081994fc9c4b42c343d60370d427e1db879b73fd05803f27c4009bf2201d",
+        "evida/pathway_robustness.py": "81fe6db52c7f58395c58c5576aaf945fdc75f85fe0db7ef10c517a96b35a7bda",
+        "evida/source_candidates.py": "e107b45301cc9cf778c18fd2777f9ea66afc566fb9579c7a622e7466589108cd",
+        "evida/contracts.py": "d9e1b077451e694ecd6711bc774303651810d8a69e9697f090e15bea678facf8",
+        "evida/catalog_delivery.py": "d788b10890372ddb509401f619ececf03ca337ee40b88157b483c91bdb19d70e",
+        "evida/context_delivery.py": "a70b7ee75ac3ad0bfe75bd528fc88f0c180a6aa4571d1cbddc00f74cef1fce1a",
+        "evida/model_context.py": "b3cf5065c6057531a0dca0c244902f3a93eac8359fe9f27d049e00d48050ed40",
+        "evida/research_loop.py": "0d3e5e8623c0d80ffd54c559eaa35f71282259ac56bad2ceadb658e1cb2a04b9",
+        "evida/runner.py": "593011c729e78a1fc4a4f8ce224bc22f6f8fc1900c25d88f1f361e739d6fd6b9",
+        "evida/decision_preservation.py": "dc6b85b667909676d008b95b48a9c97f12667cc5020834189e34467674dd0be2",
+        "evida/finalization.py": "2ea89e1569f71725bfaac2a24ea427268cb17d570a658cf00ea822f22f41764e",
+        "evida/input_provenance.py": "852cf3b01f926287cf8f8e534680cd8b54fabeaebac6784680dc42eaa91d8550",
+        "evida/input_changes.py": "e95266d400586357da64c5ff789b1858f2b48b7f84283a5f06b45359de3066a7",
+        "evida/hypothesis_reference_resolution.py": "474aec78019c1d7b7ce42f21aebe03776ccc1dc0c91e52b0ef92f6b8bcf5b1d8",
+        "evida/intent_records.py": "3f650ae34dfe6d5023604800d5461821af828fb2d00efe824b9bc09fcdcaae82"
+      }
+    },
+    "improved": {
+      "arm": "improved",
+      "rows": [
+        {
+          "arm": "improved",
+          "family": "valid_unchanged",
+          "status": "PASS",
+          "model_calls": 0,
+          "expected_publish": true,
+          "actual_publish": true,
+          "checks": {
+            "pending_proposal_preserved": true,
+            "stale_has_no_attached_sidecars": true,
+            "expected_publication_outcome": true,
+            "source_bytes_preserved": true,
+            "initial_decision_preserved": true
+          },
+          "pending_decision_id": "art_adcb723b212e41ed",
+          "elapsed_seconds": 6.461
+        },
+        {
+          "arm": "improved",
+          "family": "different_revision_correction",
+          "status": "PASS",
+          "model_calls": 0,
+          "expected_publish": false,
+          "actual_publish": false,
+          "checks": {
+            "pending_proposal_preserved": true,
+            "stale_has_no_attached_sidecars": true,
+            "expected_publication_outcome": true,
+            "source_bytes_preserved": true,
+            "initial_decision_preserved": true,
+            "current_decision_not_replaced": true
+          },
+          "pending_decision_id": "art_f3278cf7002d466c",
+          "elapsed_seconds": 5.926
+        },
+        {
+          "arm": "improved",
+          "family": "same_revision_reframe",
+          "status": "PASS",
+          "model_calls": 0,
+          "expected_publish": false,
+          "actual_publish": false,
+          "checks": {
+            "pending_proposal_preserved": true,
+            "stale_has_no_attached_sidecars": true,
+            "expected_publication_outcome": true,
+            "source_bytes_preserved": true,
+            "initial_decision_preserved": true,
+            "current_decision_not_replaced": true
+          },
+          "pending_decision_id": "art_c1b3ccbcdd5b4c0a",
+          "elapsed_seconds": 6.046
+        },
+        {
+          "arm": "improved",
+          "family": "same_revision_publication",
+          "status": "PASS",
+          "model_calls": 0,
+          "expected_publish": false,
+          "actual_publish": false,
+          "checks": {
+            "pending_proposal_preserved": true,
+            "stale_has_no_attached_sidecars": true,
+            "expected_publication_outcome": true,
+            "source_bytes_preserved": true,
+            "initial_decision_preserved": true,
+            "current_decision_not_replaced": true
+          },
+          "intervening_decision_id": "art_da2e3feab3414bfb",
+          "pending_decision_id": "art_8c6e780bc1c7470c",
+          "elapsed_seconds": 8.905
+        },
+        {
+          "arm": "improved",
+          "family": "transaction_abort",
+          "status": "PASS",
+          "model_calls": 0,
+          "expected_publish": false,
+          "actual_publish": false,
+          "checks": {
+            "atomic_rollback": true,
+            "expected_publication_outcome": true,
+            "source_bytes_preserved": true,
+            "initial_decision_preserved": true,
+            "current_decision_not_replaced": true
+          },
+          "elapsed_seconds": 5.904
+        }
+      ],
+      "model_calls": 0,
+      "passed": 5,
+      "denominator": 5,
+      "native_modules_loaded": {
+        "evida/__init__.py": "e42ca4d30612f9cadeac9e7d064e0b218ea33af037e1e47752bc543e5a4dfa61",
+        "evida/store.py": "3909a21c1443e0458e2559fec5f2c1142ad6ff47c4a7b4ac5f12e8e26e5d2409",
+        "evida/intent_dependencies.py": "63ca37130a5483abeeabeb9f501cea5e1e76e1ea29c36ef3e7dc7581d3c6af87",
+        "evida/judgment_context.py": "968103f624b1b49925eb78dc8575df10b31c7d98810c218324d8b015c0c0d46b",
+        "evida/discovery.py": "81a909ee468b528a732229f043067063a88aecddbb5443652c41f9be701554ac",
+        "evida/hypothesis_review.py": "dc0a39f3771986b6e13ec4c6c1d4c34b629bf8e714d6e7fa9680e06dba4b19e2",
+        "evida/exposure_requirements.py": "c1bd90add07dd0643af42a9d6d13f0ceaab7d6512c677024ba40b04fe38358dd",
+        "evida/kinetic_conditions.py": "447de05e2e8649d845d0b14af032b74266f8a7e06c345ad3ba84e873b8fb5d2d",
+        "evida/resource_integrity.py": "3f041545724da21c49f20e5042a3556e7ca1c058ae9d0576e3f2666a526d2900",
+        "evida/regulon_activity.py": "ef3d0f11aa02954db53c789ae2370dfc6f5f7fd13ee18d06fe71a7e8bbdd95fe",
+        "evida/pathway_hypotheses.py": "b081081994fc9c4b42c343d60370d427e1db879b73fd05803f27c4009bf2201d",
+        "evida/pathway_robustness.py": "81fe6db52c7f58395c58c5576aaf945fdc75f85fe0db7ef10c517a96b35a7bda",
+        "evida/source_candidates.py": "e107b45301cc9cf778c18fd2777f9ea66afc566fb9579c7a622e7466589108cd",
+        "evida/contracts.py": "214a8cb9f12144f5ebb7f0cc0895631934fbaa890f178013e8702bace3499e02",
+        "evida/catalog_delivery.py": "d788b10890372ddb509401f619ececf03ca337ee40b88157b483c91bdb19d70e",
+        "evida/context_delivery.py": "a70b7ee75ac3ad0bfe75bd528fc88f0c180a6aa4571d1cbddc00f74cef1fce1a",
+        "evida/model_context.py": "bb49762b122efdeb65167350ebf29123c04445e7855c226021b0f15185a48ab2",
+        "evida/research_loop.py": "99bc717c0da45ba805175a324284232268d3aff97d81ccbae9ba9e8e0f0e35b3",
+        "evida/runner.py": "1353cff6998477691187669127fa3fc0b118163fb432c8dc8830bcb57f07d983",
+        "evida/decision_preservation.py": "dc6b85b667909676d008b95b48a9c97f12667cc5020834189e34467674dd0be2",
+        "evida/finalization.py": "36ac5155363284ae9b92c2410af2ab6f28dfe066c28056eddb9bf38de7011f60",
+        "evida/input_provenance.py": "852cf3b01f926287cf8f8e534680cd8b54fabeaebac6784680dc42eaa91d8550",
+        "evida/input_changes.py": "e95266d400586357da64c5ff789b1858f2b48b7f84283a5f06b45359de3066a7",
+        "evida/intent_records.py": "3f650ae34dfe6d5023604800d5461821af828fb2d00efe824b9bc09fcdcaae82",
+        "evida/hypothesis_reference_resolution.py": "474aec78019c1d7b7ce42f21aebe03776ccc1dc0c91e52b0ef92f6b8bcf5b1d8"
+      }
+    }
+  }
+}
