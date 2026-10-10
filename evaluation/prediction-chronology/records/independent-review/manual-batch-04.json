@@ -1,0 +1,19 @@
+[
+  {
+    "blind_id": "B11",
+    "case_id": "P5_earlier_hindsight_record",
+    "primary_result": "pass",
+    "assigned_instance": "p5-assigned/P5_earlier_hindsight_record-instance remains the same event-5 outcome, event-7 explanation and event-12 review.",
+    "declared_chronology": "reconstructed_after_result preserved for the older artifact and current reuse",
+    "criteria": [
+      {"id": "P5.1", "status": "pass", "reason": "Correctly orders known outcome before first explanation and keeps its hindsight origin despite later reuse.", "evidence": [{"quote": "P5_earlier_hindsight_record-instance의 결과 0은 event 5에 알려졌고, prior_prediction_P5는 event 7에 처음 작성됐다. event 12에 그 기록이 존재해도 두 예상의 origin은 reconstructed_after_result로 유지한다.", "json_pointer": "/hypothesis_review/scope/checks/0/reason"}]},
+      {"id": "P5.2", "status": "pass", "reason": "Explicitly denies promotion to prospective status and distinguishes an older document from a prediction predating its result.", "evidence": [{"quote": "previously_recorded나 prospective로 승격할 수 없으며, 새로운 측정이나 독립적인 예측 성공도 아니다.", "json_pointer": "/hypothesis_review/scope/checks/0/reason"}, {"quote": "이름의 prior나 과거 파일의 존재는 결과 이전 예측의 증거가 아니다.", "json_pointer": "/judgment_context/observation_reviews/5/applicability"}]},
+      {"id": "P5.3", "status": "pass", "reason": "Keeps actual artifact, hA [0], hB [1], original rationale, coverage and reconstructed origin. Does not change the earlier mismatch into a prospective failure.", "evidence": [{"quote": "원 기록의 문장 Unchanged earlier expectation under the scenario conditions.와 결과 목록 [0], coverage complete를 보존한다.", "json_pointer": "/hypothesis_review/observations/0/predictions/0/rationale"}, {"quote": "원 기록의 문장 Unchanged earlier expectation under the scenario conditions.와 결과 목록 [1], coverage complete를 보존한다.", "json_pointer": "/hypothesis_review/observations/0/predictions/1/rationale"}, {"quote": "과거 예상과의 차이를 숨기지 않되, 사후 기록을 사전 예측 실패로 재분류하지 않는다.", "json_pointer": "/judgment_context/observation_reviews/6/processing_validity"}]}
+    ],
+    "failure_conditions_observed": [],
+    "prior_record_assessment": "prior_prediction_P5 remains the original post-outcome record. New future-study proposals do not replace this assigned measurement.",
+    "source_and_causal_assessment": "Preserves context, assay timing and literature limitations. Does not turn synthetic fit to a known result into MKP1 necessity, unique mechanism or new empirical validation.",
+    "ambiguities": ["insufficient_precision is explicitly missing information about discriminability, not a claim the stipulated known outcome is invalid. Chronology itself is correctly said to be known."],
+    "review_scope_limit": "Scientific chronology pass is independent of native schema and dispatch behavior."
+  }
+]

@@ -1,0 +1,53 @@
+[
+  {
+    "blind_id": "B04",
+    "case_id": "P1_new_intervention_after_literature",
+    "primary_result": "pass",
+    "assigned_instance": "p1-assigned/mkp1-new is distinguished from known published assays and remains an unmeasured perturbation/control/rescue check.",
+    "declared_chronology": "prospective for the assigned new intervention; known literature remains background interpretation",
+    "criteria": [
+      {"id": "P1.1", "status": "pass", "reason": "Explicitly grounds prospective origin in absence of this intervention's outcome, despite prior literature exposure.", "evidence": [{"quote": "문헌 결과는 이미 알려져 있지만 이 개입 결과는 아직 없으므로 이번 구체 예측의 origin은 prospective이다.", "json_pointer": "/hypothesis_review/observations/0/predictions/0/rationale"}]},
+      {"id": "P1.2", "status": "pass", "reason": "Separates published measurements from the new check and does not present literature as a prior forecast for it. Retrospective meaning is conveyed by the explicit known-literature/new-unseen contrast rather than an obligatory enum.", "evidence": [{"quote": "문헌의 인간 IPF 폐 섬유아세포 관측과 계획된 p1-assigned(mkp1-new)는 별개이며, 새 확인의 실제 시료·판독·시점은 아직 정해져 있지 않다.", "json_pointer": "/hypothesis_review/causal_steps/0/target_context"}, {"quote": "이 저자 가설은 새 mkp1-new 확인에 대한 사전 예측 기록이 아니다.", "json_pointer": "/hypothesis_review/causal_steps/1/evidence_groups/1/applicability_rationale"}]},
+      {"id": "P1.3", "status": "pass", "reason": "Leaves mediator causality unestablished and recognizes that broad hA/hB outcome sets overlap rather than claiming completed discrimination.", "evidence": [{"quote": "약물 처치 뒤의 두 반응으로 매개자의 필요성·충분성을 정할 수 없다.", "json_pointer": "/hypothesis_review/causal_steps/0/evidence_groups/0/causal_support_rationale"}, {"quote": "양 가설의 호환 결과가 겹치므로 결과 번호만으로 승자를 정할 수 없다.", "json_pointer": "/hypothesis_review/observations/0/predictions/1/rationale"}]}
+    ],
+    "failure_conditions_observed": [],
+    "prior_record_assessment": "Explicitly notes empty history and no separately recorded earlier intervention prediction.",
+    "source_and_causal_assessment": "Retains assay times, unknown sample pairing, marker-versus-mediation distinction and CBP/p300 counterevidence. Proposed controls and outcomes are not claimed performed.",
+    "ambiguities": ["Outcome interpretations say adequate_measurement, but the answer explicitly makes these conditional on future validity and precision checks; no existing result is declared adequate."],
+    "review_scope_limit": "Scores P1 chronology and its stated causal limit, not completeness of a future mediator-control protocol."
+  },
+  {
+    "blind_id": "B05",
+    "case_id": "P1_new_intervention_after_literature",
+    "primary_result": "pass",
+    "assigned_instance": "p1-assigned is explicitly the alias of the unseen mkp1-new intervention.",
+    "declared_chronology": "prospective for new intervention predictions, separately from already observed publication results",
+    "criteria": [
+      {"id": "P1.1", "status": "pass", "reason": "Both observation predictions and bindings are prospective for the same specified new measurement; rationale says it is being written before any result.", "evidence": [{"quote": "이 예상은 결과 미관측 상태에서 지금 작성한 prospective이며, source_packet은 문헌 배경일 뿐 과거 예측 기록이 아니다.", "json_pointer": "/hypothesis_review/observations/0/predictions/0/rationale"}]},
+      {"id": "P1.2", "status": "pass", "reason": "Explicitly denies that current predictions preceded the original paper observations, preserving original-versus-new chronology.", "evidence": [{"quote": "이 조건부 예상은 새 개입 결과 전에 작성한 prospective이며, 원 논문의 관측을 사전 예측했던 것으로 표시하지 않는다.", "json_pointer": "/hypothesis_review/observations/0/predictions/1/rationale"}]},
+      {"id": "P1.3", "status": "pass", "reason": "States that MKP1 contribution is unproved and that overlapping possible outcomes do not select an exclusive mechanism.", "evidence": [{"quote": "약물 반응은 있지만 MKP1 매개 기여는 입증되지 않아 참조 루프의 proposed 상태를 강화할 근거가 없다.", "json_pointer": "/hypothesis_review/scope/hypotheses/0/reason"}, {"quote": "두 결과 모두 겹칠 수 있어 이 검사만으로 배타적 기전을 선택할 수 없다.", "json_pointer": "/hypothesis_review/observations/0/predictions/1/rationale"}]}
+    ],
+    "failure_conditions_observed": [],
+    "prior_record_assessment": "Empty history retained and no invented older prediction. A candidate p38 readout is explicitly a proposal, not a supplied fact about the assigned instance.",
+    "source_and_causal_assessment": "Keeps drug intervention response separate from MKP1 mediation, preserves source counterevidence and timing discrepancies, and avoids patient-effect extrapolation.",
+    "ambiguities": ["The word retrospective is not required: the explicit statement that the original observations were not predicted in advance supplies the expected distinction."],
+    "review_scope_limit": "Scientific chronology is assessed independently of structured field count and native dispatch validity."
+  },
+  {
+    "blind_id": "B06",
+    "case_id": "P3_new_replication_after_original_study",
+    "primary_result": "pass",
+    "assigned_instance": "p3-assigned/replicate-new is a separately identified uncollected matched-donor replication, not the original assays.",
+    "declared_chronology": "prospective replication expectations informed by known original findings",
+    "criteria": [
+      {"id": "P3.1", "status": "pass", "reason": "Explicitly allows prospective replication forecasts while its measurements remain unseen and recommends recording them before collection.", "evidence": [{"quote": "The expectations below are formulated with the published results already known, while the replication measurements remain uncollected and unrevealed. They can guide a prospective replication assessment, but cannot be presented as predictions made before the original findings."}, {"quote": "The next useful step is to finalize the replicate-new protocol and record these expectations before obtaining its measurements."}]},
+      {"id": "P3.2", "status": "pass", "reason": "Treats original results as known background and denies that they are the new replication outcome or a forecast predating the original results.", "evidence": [{"quote": "Published results therefore provide its evidential background, not its outcome."}, {"quote": "The authors’ reported competition hypothesis belongs to the published study and must remain separate from a forecast for this replication."}]},
+      {"id": "P3.3", "status": "pass", "reason": "Frames successful replication as reproducibility under specified conditions, not causal proof or independent mechanism discovery; both broad explanations remain compatible.", "evidence": [{"quote": "Because hA and hB can both hold, replication of the published panel alone cannot distinguish them."}, {"quote": "If Outcome 1 occurs under those definitions, it supports reproducibility of the specified response in the replication conditions, while remaining compatible with both hypotheses."}, {"quote": "Without a mediator intervention, it does not selectively refute hA or establish hB. Neither outcome should be entered as observed now."}]}
+    ],
+    "failure_conditions_observed": [],
+    "prior_record_assessment": "No earlier immutable replication prediction is invented from the empty history or from the paper's background hypothesis.",
+    "source_and_causal_assessment": "Preserves main signaling/co-IP/CUT&RUN findings, assay-specific conditions, uncertain donor matching and selective promoter responses. Distinguishes replication from a later mediator perturbation proposal.",
+    "ambiguities": ["The generic lost/retained outcome labels need endpoint-specific definitions; the answer explicitly identifies this and retains mixed/inconclusive possibilities without asserting an observed replication result."],
+    "review_scope_limit": "This pass establishes the fixed chronology distinctions in one answer, not general scientific validity of the proposed replication."
+  }
+]

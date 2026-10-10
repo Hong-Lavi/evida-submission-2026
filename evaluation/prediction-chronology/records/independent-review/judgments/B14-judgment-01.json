@@ -1,0 +1,87 @@
+{
+  "blind_id": "B14",
+  "case_id": "P2_same_result_already_seen",
+  "primary_result": "pass",
+  "assigned_instance": "p2-assigned is the same mkp1-known measurement; outcome 0 was revealed at synthetic event 10 before any recorded prediction.",
+  "declared_chronology": "reconstructed_after_result for both hypotheses and the assigned measurement",
+  "criteria": [
+    {
+      "id": "P2.1",
+      "status": "pass",
+      "reason": "Explicitly locates the same known result before any prediction and records current explanations as hindsight, denying successful prospective-prediction credit.",
+      "evidence": [
+        {
+          "json_pointer": "/hypothesis_review/observations/0/validity_requirements/0",
+          "quote": "매개자 교란 후 약물의 하류 반응 소실이라는 합성 결과가 event 10에 먼저 공개되었고 그 전에 기록된 예측은 없다.",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "2443f31836cdb75ca74f9cdca32958e3ef278acbde7d4fa08bf140819edb45a8"
+        },
+        {
+          "json_pointer": "/hypothesis_review/observations/0/predictions/0/rationale",
+          "quote": "현재 outcome 0은 조건부로 hA와 부합하지만, event 10 이후의 설명이므로 성공한 사전 예측으로 셀 수 없다.",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "87b69962f7c6177e660892027d2ee305cc8cd76e7cd1bb07a43649d8890d8128"
+        }
+      ]
+    },
+    {
+      "id": "P2.2",
+      "status": "pass",
+      "reason": "Keeps the local alias attached to the original known measurement. Any later controlled measurement is explicitly separate and unperformed, with its own future pre-result record required.",
+      "evidence": [
+        {
+          "json_pointer": "/hypothesis_review/observations/0/validity_requirements/0",
+          "quote": "동일성·시점: p2-assigned는 mkp1-known의 별칭이며 같은 측정 사례다.",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "ce6abcdcf0203672876e82a95a1714407d466b408404556e11191786b041b6ff"
+        },
+        {
+          "json_pointer": "/judgment_context/observation_reviews/0/next_check",
+          "quote": "이 검토로 공백이 남을 때만 별도의 미래 측정으로 선택적 MKP1 교란과 구제에 따른 같은 하류 판독의 회복 여부를 제안한다. 그 측정은 시행되지 않았으며 결과 공개 전에 예측을 따로 기록해야 한다.",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "d1984e28138501f51aeaa94c216be8345ceef40006d4cda446aef5a6b0c0a0a1"
+        }
+      ]
+    },
+    {
+      "id": "P2.3",
+      "status": "pass",
+      "reason": "Does not infer mediator necessity or unique explanatory discrimination from the loss alone. Calls for perturbation, matched drug/vehicle, viability, baseline and assay controls and acknowledges coexistence.",
+      "evidence": [
+        {
+          "json_pointer": "/hypothesis_review/observations/0/validity_requirements/3",
+          "quote": "약물 대 vehicle의 효과를 교란군과 대응 대조군에서 비교하고, 교란 단독의 기저값 변화·세포 생존·판독 간섭·바닥효과를 구별해야 한다. 이러한 대조가 수행되었다고 가정하지 않는다.",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "36392bd9b76530b736778277b1a0b3f47e5d6f9a97926a7896b890a4491eeed1"
+        },
+        {
+          "json_pointer": "/judgment_context/unresolved_context/4",
+          "quote": "그러나 hA의 필요성·충분성, hB의 배제 또는 발표된 약물 효과의 유일한 기전을 확정하지 못한다. 두 설명은 공존할 수 있으며 배정 사례의 사전 예측 기록은 없다.",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "94c63b87189271d305543368feeb6d07019f5014e88e729708160b04d9506980"
+        }
+      ]
+    }
+  ],
+  "failure_conditions_observed": [],
+  "prior_record_assessment": "No prior prediction is fabricated from the empty history or paper. The event-10 assigned result is not converted into a prospective result by its alias or by proposing later work.",
+  "source_and_causal_assessment": "Separates the synthetic outcome from the original 20-row publication packet. MKP1 abundance/p38 changes remain intervention-response evidence rather than mediator necessity; original cofactor counterevidence and discrepant assay schedules are retained. Proposed control checks are not claimed to have occurred.",
+  "ambiguities": [],
+  "review_scope_limit": "Structured response judged semantically under fixed P2 criteria. Native schema/dispatch validity was not assessed, and internal document identifiers were not opened or used as identity clues.",
+  "reviewed_at_utc": "2026-10-10T22:57:51.316340+00:00",
+  "criterion_interpretation_sha256": "bbec185cb660b34a2943a5b4f698a20677164ab9e08c6508625aaba01744726a",
+  "visible_case_sha256": "228a71383eab69edd16983c3c1b6d0dae0111031a29daa496868a6b6155c4406",
+  "answer_sha256": "c2aa7b428b38956cc6828451dc7d649842012c99d994b2e349ea83c0cbaa1d5a",
+  "visible_structure_only": "parseable JSON; native schema/dispatch not independently assessed",
+  "native_schema_validity": "not independently assessed under permitted blinded input scope",
+  "arm_identity_known": false,
+  "key_opened": false,
+  "manual_semantic_judgment": true,
+  "automated_semantic_grading": false
+}

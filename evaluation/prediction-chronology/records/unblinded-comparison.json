@@ -1,0 +1,235 @@
+{
+  "at_utc": "2026-10-10T23:13:24.835622+00:00",
+  "model": "gpt-6-astra",
+  "effort": "max",
+  "kind": "synthetic_chronology_component_comparison",
+  "denominator": {
+    "cases": 6,
+    "arms": 3,
+    "actual_provider_calls": 18,
+    "responses": 18,
+    "retries": 0
+  },
+  "review_sealed_at": "2026-10-10T23:08:17.746627+00:00",
+  "review_seal_sha256": "554f5cb13ed77e9ea990e631284407a28bd2081a7c9bf96a72d8fb396fc510e2",
+  "protocol_sha256": "0cf128ee1644f21c979a1456ff163f4786fee5781edaa1897bf3d8940c80ee96",
+  "output_seal_sha256": "0cf43599cad98beb0e2c34680fbebbbb7b1c6ea455320b25a2a17bb7070f3395",
+  "identity_mapping_sha256": "6715c7e74f147e0ba292898885c93a8dea902f7e3f75b58ed4ad7c23de71deab",
+  "arms": {
+    "plain_astra": {
+      "cases": 6,
+      "primary_counts": {
+        "pass": 6
+      },
+      "criteria_passed": 18,
+      "criteria_total": 18
+    },
+    "frozen_f1_02": {
+      "cases": 6,
+      "primary_counts": {
+        "pass": 6
+      },
+      "criteria_passed": 18,
+      "criteria_total": 18
+    },
+    "chronology_corrected": {
+      "cases": 6,
+      "primary_counts": {
+        "pass": 6
+      },
+      "criteria_passed": 18,
+      "criteria_total": 18
+    }
+  },
+  "rows": [
+    {
+      "blind_id": "B01",
+      "case_id": "P2_same_result_already_seen",
+      "arm": "plain_astra",
+      "primary_result": "pass",
+      "judgment_sha256": "f3ea6682763c4e5e1ab849df627a7cab2a02a0002481cc090f3944c0c38c2363",
+      "criterion_counts": {
+        "pass": 3
+      }
+    },
+    {
+      "blind_id": "B02",
+      "case_id": "P4_actual_prior_prediction_record",
+      "arm": "plain_astra",
+      "primary_result": "pass",
+      "judgment_sha256": "fd5f225ea74a4b317e3427fb7911b22fa06bd17940d9e22f588e1d786e99b8c8",
+      "criterion_counts": {
+        "pass": 3
+      }
+    },
+    {
+      "blind_id": "B03",
+      "case_id": "P5_earlier_hindsight_record",
+      "arm": "frozen_f1_02",
+      "primary_result": "pass",
+      "judgment_sha256": "092e0154c97aec8a05867d513c776557ac0d9c4988664519797033ab32a08f89",
+      "criterion_counts": {
+        "pass": 3
+      }
+    },
+    {
+      "blind_id": "B04",
+      "case_id": "P1_new_intervention_after_literature",
+      "arm": "frozen_f1_02",
+      "primary_result": "pass",
+      "judgment_sha256": "a56049e16c12ed757b68af5cdce31c3705e29d4e0f7e5366889dd07f8fee8fe3",
+      "criterion_counts": {
+        "pass": 3
+      }
+    },
+    {
+      "blind_id": "B05",
+      "case_id": "P1_new_intervention_after_literature",
+      "arm": "chronology_corrected",
+      "primary_result": "pass",
+      "judgment_sha256": "a91f6944850a922df91f377674f453c81cbf64f3bae54a6a3c5d9418d4e77b3a",
+      "criterion_counts": {
+        "pass": 3
+      }
+    },
+    {
+      "blind_id": "B06",
+      "case_id": "P3_new_replication_after_original_study",
+      "arm": "plain_astra",
+      "primary_result": "pass",
+      "judgment_sha256": "8955fc38b860c1c8573e3300a2f8339bc10ef88f48502d785925f8b8076a1de3",
+      "criterion_counts": {
+        "pass": 3
+      }
+    },
+    {
+      "blind_id": "B07",
+      "case_id": "P4_actual_prior_prediction_record",
+      "arm": "frozen_f1_02",
+      "primary_result": "pass",
+      "judgment_sha256": "0375eda1d92c61c85a3d9911d9a5c79e6925c8154e01329a05086496f48b21ef",
+      "criterion_counts": {
+        "pass": 3
+      }
+    },
+    {
+      "blind_id": "B08",
+      "case_id": "P3_new_replication_after_original_study",
+      "arm": "chronology_corrected",
+      "primary_result": "pass",
+      "judgment_sha256": "300dabd5132496214988473c18dde435b55991e48585c4fa27c4760161cb3e27",
+      "criterion_counts": {
+        "pass": 3
+      }
+    },
+    {
+      "blind_id": "B09",
+      "case_id": "P6_unresolved_timing_no_prior_record",
+      "arm": "frozen_f1_02",
+      "primary_result": "pass",
+      "judgment_sha256": "8d52d6e57514c752bd6b562fb5b13552dd8eef14381cb5a5c5121a9310c778b5",
+      "criterion_counts": {
+        "pass": 3
+      }
+    },
+    {
+      "blind_id": "B10",
+      "case_id": "P3_new_replication_after_original_study",
+      "arm": "frozen_f1_02",
+      "primary_result": "pass",
+      "judgment_sha256": "fcf2592a72554d90d6061d14afc57190b7f4763952937a72cedbaef9ca309600",
+      "criterion_counts": {
+        "pass": 3
+      }
+    },
+    {
+      "blind_id": "B11",
+      "case_id": "P5_earlier_hindsight_record",
+      "arm": "chronology_corrected",
+      "primary_result": "pass",
+      "judgment_sha256": "2ebcd3e1327864513ce51755b20708c8fe5c9ef5da3cd9cd7114e59e6ad36cd4",
+      "criterion_counts": {
+        "pass": 3
+      }
+    },
+    {
+      "blind_id": "B12",
+      "case_id": "P5_earlier_hindsight_record",
+      "arm": "plain_astra",
+      "primary_result": "pass",
+      "judgment_sha256": "819af9697f1beed3211c333130d17d0afa246cf33c0baab9b6efb9a59e2f86be",
+      "criterion_counts": {
+        "pass": 3
+      }
+    },
+    {
+      "blind_id": "B13",
+      "case_id": "P1_new_intervention_after_literature",
+      "arm": "plain_astra",
+      "primary_result": "pass",
+      "judgment_sha256": "a3be4b99d3e48b0e4f083ebd961e1fd8327320b1258c542eab6b7e73a28f1221",
+      "criterion_counts": {
+        "pass": 3
+      }
+    },
+    {
+      "blind_id": "B14",
+      "case_id": "P2_same_result_already_seen",
+      "arm": "frozen_f1_02",
+      "primary_result": "pass",
+      "judgment_sha256": "4d31468f6af9a762b3b87b827864d2e75f56981ccd81c3bbaf4bbaae0d6a8c5a",
+      "criterion_counts": {
+        "pass": 3
+      }
+    },
+    {
+      "blind_id": "B15",
+      "case_id": "P2_same_result_already_seen",
+      "arm": "chronology_corrected",
+      "primary_result": "pass",
+      "judgment_sha256": "6e3ca9b920e905fb1ae6750d51843f2d8f5dfda5b394208558d8524c52d452ec",
+      "criterion_counts": {
+        "pass": 3
+      }
+    },
+    {
+      "blind_id": "B16",
+      "case_id": "P6_unresolved_timing_no_prior_record",
+      "arm": "chronology_corrected",
+      "primary_result": "pass",
+      "judgment_sha256": "39eb302ff26af76ce9e1f649b0f19ff6b488ef708dfd0786a6ff68dedb211aec",
+      "criterion_counts": {
+        "pass": 3
+      }
+    },
+    {
+      "blind_id": "B17",
+      "case_id": "P4_actual_prior_prediction_record",
+      "arm": "chronology_corrected",
+      "primary_result": "pass",
+      "judgment_sha256": "dfe07af6be04bc5344312fe27cf25ad18b723632702015c160e252bf3dfe3d53",
+      "criterion_counts": {
+        "pass": 3
+      }
+    },
+    {
+      "blind_id": "B18",
+      "case_id": "P6_unresolved_timing_no_prior_record",
+      "arm": "plain_astra",
+      "primary_result": "pass",
+      "judgment_sha256": "cd6829be66f62249b220cf172075878d41b8903c510a6f74a9f9c282837f2a63",
+      "criterion_counts": {
+        "pass": 3
+      }
+    }
+  ],
+  "additional_observation": {
+    "blind_id": "B09",
+    "arm": "frozen_f1_02",
+    "case_id": "P6_unresolved_timing_no_prior_record",
+    "finding": "The single origin field says retrospective while narrative explicitly leaves assigned-check timing unresolved; this met the frozen unresolved-route rubric. Retain as machine-readable ambiguity, not a new post-hoc primary failure."
+  },
+  "decision": "Keep explicit chronology instructions as semantic clarification; move evaluation effort to useful next actions. This assay showed equal primary outcomes.",
+  "next_test": "Differentiate feasible next actions under valid/failed/unknown intervention and upstream-response conditions.",
+  "scope": "One response per arm per selected synthetic development case; prose vs structured output makes blinding partial. Same Astra family. No biological efficacy estimate."
+}
