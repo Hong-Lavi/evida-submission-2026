@@ -1,0 +1,655 @@
+{
+  "status": "SCORED_WITH_PREDECLARED_COVERAGE_SUPPLEMENT",
+  "at_utc": "2026-10-10T21:36:12.673915+00:00",
+  "protocol_sha256": "6dc911fa14a84018016e95c69d813bd5c345208086ffea3d2e616a3a3a84e073",
+  "scoring_amendment_sha256": "84d7c06dc4e373da9752631491ff57f31766a233147cbc766f18a3b4ebc5309b",
+  "supplemental_rf_seal_sha256": "fc2699e80ed0ebef6ebc54f836b7d2823cd125702d79593623df3131d3322f23",
+  "original_results": {
+    "path": "run-01/scored-results.json",
+    "sha256": "cc595d29d931303afa1ca005a92ce3cbc2e6bb8e465f281e1b73eb13c8f32c3d"
+  },
+  "primary_v1_unchanged": {
+    "mae": {
+      "mean_difference": -0.02311764360659329,
+      "ci95": [
+        -0.03356313717116934,
+        -0.013331783493353781
+      ],
+      "tasks": 30,
+      "target_clusters": 29,
+      "negative": 23,
+      "positive": 7,
+      "ties": 0,
+      "difference_order": "gp minus rf"
+    },
+    "rmse": {
+      "mean_difference": -0.03393402655003068,
+      "ci95": [
+        -0.045127791577797526,
+        -0.022589757764917003
+      ],
+      "tasks": 30,
+      "target_clusters": 29,
+      "negative": 27,
+      "positive": 3,
+      "ties": 0,
+      "difference_order": "gp minus rf"
+    },
+    "spearman": {
+      "mean_difference": 0.024462397614686802,
+      "ci95": [
+        0.015400172948764427,
+        0.03569796171735874
+      ],
+      "tasks": 30,
+      "target_clusters": 29,
+      "negative": 5,
+      "positive": 25,
+      "ties": 0,
+      "difference_order": "gp minus rf"
+    },
+    "top10_recall": {
+      "mean_difference": -0.023333333333333327,
+      "ci95": [
+        -0.06551724137931034,
+        0.020689655172413803
+      ],
+      "tasks": 30,
+      "target_clusters": 29,
+      "negative": 13,
+      "positive": 7,
+      "ties": 10,
+      "difference_order": "gp minus rf"
+    },
+    "best_true_activity_in_selected10": {
+      "mean_difference": -0.010258779277431648,
+      "ci95": [
+        -0.058748542061904156,
+        0.03404055716526465
+      ],
+      "tasks": 30,
+      "target_clusters": 29,
+      "negative": 3,
+      "positive": 1,
+      "ties": 26,
+      "difference_order": "gp minus rf"
+    }
+  },
+  "denominators": {
+    "planned_tasks": 30,
+    "v1_successful_pairs": 30,
+    "v1_excluded_task_ids": [],
+    "rf_prediction_available": 30
+  },
+  "rf_all_planned": {
+    "denominator": 30,
+    "predictions_available": 30,
+    "operationally_usable": 30,
+    "fitted_but_gate_abstained": 0,
+    "unavailable_or_invalid": [],
+    "task_macro_metrics_on_available": {
+      "mae": 0.5553191338299222,
+      "rmse": 0.7461245108110834,
+      "spearman": 0.758238865612593,
+      "top10_recall": 0.4266666666666667,
+      "best_true_activity_in_selected10": 10.02079365885021
+    }
+  },
+  "policy_all_planned": {
+    "denominator": 30,
+    "status_counts": {
+      "selected": 30
+    },
+    "selected_arm_counts": {
+      "gp": 25,
+      "rf": 5
+    },
+    "not_produced_task_ids": [],
+    "unexecuted_rf_fallback": []
+  },
+  "tasks": [
+    {
+      "task": "CHEMBL1862_Ki",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 161,
+        "mae": 0.574249287803446,
+        "rmse": 0.7786649843182879,
+        "spearman": 0.846133112767114,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 10.698970004336019
+      },
+      "selected_policy_arm": "gp",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "f5aa357a19538d7dc5718b7a32e50864b700515e79a578596ce99bd4bb62b271"
+    },
+    {
+      "task": "CHEMBL1871_Ki",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 134,
+        "mae": 0.5823313591545293,
+        "rmse": 0.7825333090883776,
+        "spearman": 0.7088369891352219,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 9.301029995663981
+      },
+      "selected_policy_arm": "gp",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "a61cb9028161638d73424d92edadcf3d3be63d7e34158a04b9b7cf827aa2d246"
+    },
+    {
+      "task": "CHEMBL2034_Ki",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 152,
+        "mae": 0.5509478206445505,
+        "rmse": 0.7813731014889507,
+        "spearman": 0.6793232042282741,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 9.2839966563652
+      },
+      "selected_policy_arm": "gp",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "99c34d0a534eb3bcf9620abcdb83554b424bc9e2455284fc311f7684c9d9ee53"
+    },
+    {
+      "task": "CHEMBL2047_EC50",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 128,
+        "mae": 0.48272329758388166,
+        "rmse": 0.6588473961061421,
+        "spearman": 0.7426101674227544,
+        "top10_recall": 0.7,
+        "best_true_activity_in_selected10": 9.522878745280337
+      },
+      "selected_policy_arm": "rf",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "364741bfdc137dfb9eced464e92e477b21eea80eb65042ae6bf03a1fee0c4eb6"
+    },
+    {
+      "task": "CHEMBL204_Ki",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 553,
+        "mae": 0.6259866298410844,
+        "rmse": 0.8799533500527158,
+        "spearman": 0.8241110236806163,
+        "top10_recall": 0.1,
+        "best_true_activity_in_selected10": 10.397940008672037
+      },
+      "selected_policy_arm": "gp",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "f30686eebf5f9a663e4c4593049ecd4bf3115baf965ec461d85d1c676eda56b3"
+    },
+    {
+      "task": "CHEMBL2147_Ki",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 294,
+        "mae": 0.5392429439915367,
+        "rmse": 0.729721513949069,
+        "spearman": 0.9116708579870055,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 11.0
+      },
+      "selected_policy_arm": "gp",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "b28a0c1bc1f811b9434bae557d60026362cf4ffe391151a3547ef086e8c3fee7"
+    },
+    {
+      "task": "CHEMBL214_Ki",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 666,
+        "mae": 0.5541945575689551,
+        "rmse": 0.7266692834486546,
+        "spearman": 0.7655657732013467,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 10.100015437450608
+      },
+      "selected_policy_arm": "gp",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "6b4defcb4a45c50e342d9e1cd820d0daad82c67334d00ec3852bf9e64a907ca4"
+    },
+    {
+      "task": "CHEMBL218_EC50",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 208,
+        "mae": 0.5740574328110062,
+        "rmse": 0.7442120309650828,
+        "spearman": 0.6773841557464186,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 9.522878745280337
+      },
+      "selected_policy_arm": "gp",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "1e3e9f7376664914cc481481174ecb787fea6fbe74e4a77250d6f281e33ec7f8"
+    },
+    {
+      "task": "CHEMBL219_Ki",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 374,
+        "mae": 0.5886837144268364,
+        "rmse": 0.7985330417825338,
+        "spearman": 0.687085191899108,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 10.744727494896694
+      },
+      "selected_policy_arm": "gp",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "af61cf5f3ee61994754efa7798109b38236ef34a6a2f7459c20afb440a4fc1a6"
+    },
+    {
+      "task": "CHEMBL228_Ki",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 342,
+        "mae": 0.5937988557500975,
+        "rmse": 0.7814223972592806,
+        "spearman": 0.7486510983078101,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 10.886056647693163
+      },
+      "selected_policy_arm": "gp",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "0dca0c61a911ca8df6ed8327e2acd6feb79bc3c6e1cc78679bcb0aa0ecf23e68"
+    },
+    {
+      "task": "CHEMBL231_Ki",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 197,
+        "mae": 0.627421366327833,
+        "rmse": 0.8388548796545164,
+        "spearman": 0.7661183430501916,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 9.522878745280337
+      },
+      "selected_policy_arm": "rf",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "e6de9e0ed3fd491f5f7cccd251797f6626e904a5fd2bf32397d6b509fb8c50a6"
+    },
+    {
+      "task": "CHEMBL233_Ki",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 630,
+        "mae": 0.6232326497228878,
+        "rmse": 0.8271704601214378,
+        "spearman": 0.769122914809344,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 10.962573502059376
+      },
+      "selected_policy_arm": "gp",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "255a96964c247503b3dd071ffe47b7026762eb848c76d4f4e39245f395ad0368"
+    },
+    {
+      "task": "CHEMBL234_Ki",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 733,
+        "mae": 0.5227178721498537,
+        "rmse": 0.7041380469200161,
+        "spearman": 0.7762713942243549,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 9.853871964321762
+      },
+      "selected_policy_arm": "gp",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "08e501364f43adbb05ae70b295e0d3a295daebabfa0cc2a58e77a2d19dbffd6e"
+    },
+    {
+      "task": "CHEMBL235_EC50",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 472,
+        "mae": 0.5050646479252492,
+        "rmse": 0.6737489416237682,
+        "spearman": 0.7717710194561562,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 9.721246399047171
+      },
+      "selected_policy_arm": "rf",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "54b4fccb458cc06e0a93fae057e270becc998cad5fcbde28a5b15a46302c038a"
+    },
+    {
+      "task": "CHEMBL236_Ki",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 521,
+        "mae": 0.5508864523397005,
+        "rmse": 0.7421384653420248,
+        "spearman": 0.8318002654831577,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.838631997765027
+      },
+      "selected_policy_arm": "gp",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "bf0656edf7645de0593dc675da56d0d2d81afbbde0b97955d079f361a9e8aabf"
+    },
+    {
+      "task": "CHEMBL237_EC50",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 193,
+        "mae": 0.6454951609236127,
+        "rmse": 0.8439443177236987,
+        "spearman": 0.8093147733316516,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 10.653647025549361
+      },
+      "selected_policy_arm": "gp",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "24a24c5a03999387a06c78213038ee3f504af1b3ebcecc8d07e015bb30427444"
+    },
+    {
+      "task": "CHEMBL237_Ki",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 522,
+        "mae": 0.5859620702211071,
+        "rmse": 0.7591142380854746,
+        "spearman": 0.8244163142133607,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 10.221848749616356
+      },
+      "selected_policy_arm": "gp",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "d99cd82a98f3c67accdb51d722d43ddd902dcdcaa9790c33aa1158f1bd301e9e"
+    },
+    {
+      "task": "CHEMBL238_Ki",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 213,
+        "mae": 0.5455397489180477,
+        "rmse": 0.7157784559324942,
+        "spearman": 0.781713350475456,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 9.147123710525113
+      },
+      "selected_policy_arm": "gp",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "6848714786df975a5ea70d1aa89586b7c4c1b36a8dfb6feb47dad51e7cf910d3"
+    },
+    {
+      "task": "CHEMBL239_EC50",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 347,
+        "mae": 0.5510005601610029,
+        "rmse": 0.7433759879390691,
+        "spearman": 0.7411649662354282,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 10.522878745280337
+      },
+      "selected_policy_arm": "gp",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "2c36261883694f78e588bfc7a28a5ccd3345abfab4f7e05e6c4c4ecf34ee94cf"
+    },
+    {
+      "task": "CHEMBL244_Ki",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 621,
+        "mae": 0.5916351119092381,
+        "rmse": 0.8107112582795819,
+        "spearman": 0.8662469870397981,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 11.0
+      },
+      "selected_policy_arm": "gp",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "f8e5541794e110cf86ba17ebd031292d18b661f12e7dc3dd557d8baf67ab06fe"
+    },
+    {
+      "task": "CHEMBL262_Ki",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 173,
+        "mae": 0.5760641792019576,
+        "rmse": 0.7660009408837428,
+        "spearman": 0.6810220301724746,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 9.397940008672037
+      },
+      "selected_policy_arm": "gp",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "1e478d5ae5209e164fedef096e4da5bce31b4683991216e921f951a10193ce07"
+    },
+    {
+      "task": "CHEMBL264_Ki",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 574,
+        "mae": 0.509357399527054,
+        "rmse": 0.6880031794119974,
+        "spearman": 0.7547281423033015,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 10.107237765384184
+      },
+      "selected_policy_arm": "gp",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "28839f58023307e695c8cce47187f82d261a4cff64dcac80d3196626508725b7"
+    },
+    {
+      "task": "CHEMBL2835_Ki",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 126,
+        "mae": 0.27649541286252644,
+        "rmse": 0.411513602663816,
+        "spearman": 0.8596464140783016,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 9.638272163982407
+      },
+      "selected_policy_arm": "rf",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "999a889ba2849ce039e57307b9bc7860cdbb6d7fd0624c54d49a43effb6e8fee"
+    },
+    {
+      "task": "CHEMBL287_Ki",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 267,
+        "mae": 0.592403083413285,
+        "rmse": 0.7744233393427552,
+        "spearman": 0.6877516120143686,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 10.179995693191682
+      },
+      "selected_policy_arm": "gp",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "c92c24c164366a3e077405bb4e3561523f01713448b6208aebe390eb082632d5"
+    },
+    {
+      "task": "CHEMBL2971_Ki",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 197,
+        "mae": 0.42534127064480814,
+        "rmse": 0.660767725770447,
+        "spearman": 0.8725741932343394,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 9.920818753952375
+      },
+      "selected_policy_arm": "rf",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "e0da98ff4e53c0c33fe2c4f431dfac29ee2ff6412e4be075cb184e617cc6cf63"
+    },
+    {
+      "task": "CHEMBL3979_EC50",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 226,
+        "mae": 0.5219070534549072,
+        "rmse": 0.6756149372168385,
+        "spearman": 0.7993208129351868,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 8.920818753952375
+      },
+      "selected_policy_arm": "gp",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "8d429ae4dd7fda8509c4c8c3f3653889332806783b269980b9d7707e0b53f0e6"
+    },
+    {
+      "task": "CHEMBL4005_Ki",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 193,
+        "mae": 0.5250340780002141,
+        "rmse": 0.7085477962107019,
+        "spearman": 0.7837645082720333,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.0
+      },
+      "selected_policy_arm": "gp",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "710c0e2d1b91c53b0b745b792d731cabf13cf1131e6d69e8c85f3a07c52334c6"
+    },
+    {
+      "task": "CHEMBL4203_Ki",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 149,
+        "mae": 0.655176803278337,
+        "rmse": 0.860618957821351,
+        "spearman": 0.571234538670399,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 9.199970640755865
+      },
+      "selected_policy_arm": "gp",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "915d7e3cbccbb0b0d1fc8d43cdd59b04753b3bd1fb14113e39f0f6208822982d"
+    },
+    {
+      "task": "CHEMBL4616_EC50",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 139,
+        "mae": 0.5948624044683629,
+        "rmse": 0.7901857741296954,
+        "spearman": 0.4502637101794591,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 9.309803919971486
+      },
+      "selected_policy_arm": "gp",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "f5281bb412e61438850756667c4c5f66ab1f7dcf6f1654f4428487bade14ca6e"
+    },
+    {
+      "task": "CHEMBL4792_Ki",
+      "original_task_status": "completed",
+      "rf_prediction_status": "available",
+      "rf_usable": true,
+      "in_v1_successful_pairs": true,
+      "rf_metrics": {
+        "n": 297,
+        "mae": 0.5677607898717579,
+        "rmse": 0.7271536107999746,
+        "spearman": 0.757548103823358,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.045757490560675
+      },
+      "selected_policy_arm": "gp",
+      "policy_status": "selected",
+      "rf_prediction_sha256": "eaf06214a78417f7364a141c0d4907439ea3e85b1d62e872b201b2b43e440fd1"
+    }
+  ],
+  "gpu_used": false,
+  "provider_calls": 0,
+  "meaning": "The v1 paired metric and method selection are unchanged. RF-only rows expose availability outside successful GP/RF pairs; their unpaired macro is not a GP effect estimate. A failed joint task has no selected policy; no retrospective RF fallback is scored."
+}

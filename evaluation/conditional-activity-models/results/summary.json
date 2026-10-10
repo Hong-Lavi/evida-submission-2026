@@ -1,0 +1,1692 @@
+{
+  "planned_tasks": 30,
+  "completed_pairs": 30,
+  "failures": [],
+  "completed_test_rows": 9802,
+  "raw_backbone_task_macro": {
+    "rf": {
+      "mae": 0.5553191338299222,
+      "rmse": 0.7461245108110834,
+      "spearman": 0.758238865612593,
+      "top10_recall": 0.4266666666666667,
+      "best_true_activity_in_selected10": 10.02079365885021
+    },
+    "gp": {
+      "mae": 0.532201490223329,
+      "rmse": 0.7121904842610527,
+      "spearman": 0.7827012632272797,
+      "top10_recall": 0.4033333333333334,
+      "best_true_activity_in_selected10": 10.010534879572779
+    },
+    "training_mean": {
+      "mae": 1.010552314606408,
+      "rmse": 1.214809708729273,
+      "spearman": 0.0,
+      "top10_recall": 0.03333333333333333,
+      "best_true_activity_in_selected10": 8.792386779371538
+    }
+  },
+  "paired_gp_minus_rf": {
+    "mae": {
+      "mean_difference": -0.02311764360659329,
+      "ci95": [
+        -0.03356313717116934,
+        -0.013331783493353781
+      ],
+      "tasks": 30,
+      "target_clusters": 29,
+      "negative": 23,
+      "positive": 7,
+      "ties": 0,
+      "difference_order": "gp minus rf"
+    },
+    "rmse": {
+      "mean_difference": -0.03393402655003068,
+      "ci95": [
+        -0.045127791577797526,
+        -0.022589757764917003
+      ],
+      "tasks": 30,
+      "target_clusters": 29,
+      "negative": 27,
+      "positive": 3,
+      "ties": 0,
+      "difference_order": "gp minus rf"
+    },
+    "spearman": {
+      "mean_difference": 0.024462397614686802,
+      "ci95": [
+        0.015400172948764427,
+        0.03569796171735874
+      ],
+      "tasks": 30,
+      "target_clusters": 29,
+      "negative": 5,
+      "positive": 25,
+      "ties": 0,
+      "difference_order": "gp minus rf"
+    },
+    "top10_recall": {
+      "mean_difference": -0.023333333333333327,
+      "ci95": [
+        -0.06551724137931034,
+        0.020689655172413803
+      ],
+      "tasks": 30,
+      "target_clusters": 29,
+      "negative": 13,
+      "positive": 7,
+      "ties": 10,
+      "difference_order": "gp minus rf"
+    },
+    "best_true_activity_in_selected10": {
+      "mean_difference": -0.010258779277431648,
+      "ci95": [
+        -0.058748542061904156,
+        0.03404055716526465
+      ],
+      "tasks": 30,
+      "target_clusters": 29,
+      "negative": 3,
+      "positive": 1,
+      "ties": 26,
+      "difference_order": "gp minus rf"
+    }
+  },
+  "operational_coverage": {
+    "rf_usable": 30,
+    "gp_usable": 30,
+    "inner_policy": {
+      "gp": 25,
+      "rf": 5
+    }
+  },
+  "policy_comparison_on_rf_usable_tasks": {
+    "mae": {
+      "mean_difference": -0.02314712789968819,
+      "ci95": [
+        -0.03277404398561444,
+        -0.013999907178180417
+      ],
+      "tasks": 30,
+      "target_clusters": 29,
+      "negative": 22,
+      "positive": 3,
+      "ties": 5,
+      "difference_order": "policy minus rf"
+    },
+    "rmse": {
+      "mean_difference": -0.032667612432744374,
+      "ci95": [
+        -0.04408916951960165,
+        -0.021244830750828284
+      ],
+      "tasks": 30,
+      "target_clusters": 29,
+      "negative": 23,
+      "positive": 2,
+      "ties": 5,
+      "difference_order": "policy minus rf"
+    },
+    "spearman": {
+      "mean_difference": 0.023609650102953354,
+      "ci95": [
+        0.014379692880100596,
+        0.03483490718548399
+      ],
+      "tasks": 30,
+      "target_clusters": 29,
+      "negative": 2,
+      "positive": 23,
+      "ties": 5,
+      "difference_order": "policy minus rf"
+    },
+    "top10_recall": {
+      "mean_difference": -0.009999999999999998,
+      "ci95": [
+        -0.04375,
+        0.024137931034482765
+      ],
+      "tasks": 30,
+      "target_clusters": 29,
+      "negative": 10,
+      "positive": 6,
+      "ties": 14,
+      "difference_order": "policy minus rf"
+    },
+    "best_true_activity_in_selected10": {
+      "mean_difference": -0.00702844551049644,
+      "ci95": [
+        -0.05608598627159497,
+        0.03754718853258086
+      ],
+      "tasks": 30,
+      "target_clusters": 29,
+      "negative": 2,
+      "positive": 1,
+      "ties": 27,
+      "difference_order": "policy minus rf"
+    }
+  },
+  "uncertainty_diagnostic": {
+    "task_macro_90pct_coverage": 0.893769653243287,
+    "task_macro_interval_width": 2.1760004246346925
+  },
+  "tasks": [
+    {
+      "task": "CHEMBL1862_Ki",
+      "n": 161,
+      "rf": {
+        "n": 161,
+        "mae": 0.574249287803446,
+        "rmse": 0.7786649843182879,
+        "spearman": 0.846133112767114,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 10.698970004336019
+      },
+      "gp": {
+        "n": 161,
+        "mae": 0.5916504507550299,
+        "rmse": 0.7916546068554389,
+        "spearman": 0.8362846076928709,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.698970004336019
+      },
+      "training_mean": {
+        "n": 161,
+        "mae": 1.2734018308720685,
+        "rmse": 1.5087723434214104,
+        "spearman": 0.0,
+        "top10_recall": 0.0,
+        "best_true_activity_in_selected10": 8.096910013008056
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "gp",
+      "policy": {
+        "n": 161,
+        "mae": 0.5916504507550299,
+        "rmse": 0.7916546068554389,
+        "spearman": 0.8362846076928709,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.698970004336019
+      },
+      "gp_90pct_predictive_coverage": 0.9254658385093167,
+      "gp_90pct_predictive_mean_width": 2.4243581668860235,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 0.7742179139796477,
+        "runtime": 0.252916308993008,
+        "step": 8,
+        "converged": true
+      },
+      "seconds": 10.49426729202969
+    },
+    {
+      "task": "CHEMBL1871_Ki",
+      "n": 134,
+      "rf": {
+        "n": 134,
+        "mae": 0.5823313591545293,
+        "rmse": 0.7825333090883776,
+        "spearman": 0.7088369891352219,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 9.301029995663981
+      },
+      "gp": {
+        "n": 134,
+        "mae": 0.5597065455773785,
+        "rmse": 0.7044335779419703,
+        "spearman": 0.7805878027789912,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 9.301029995663981
+      },
+      "training_mean": {
+        "n": 134,
+        "mae": 0.9139626913133984,
+        "rmse": 1.0852292705319093,
+        "spearman": 0.0,
+        "top10_recall": 0.0,
+        "best_true_activity_in_selected10": 8.096910013008056
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "gp",
+      "policy": {
+        "n": 134,
+        "mae": 0.5597065455773785,
+        "rmse": 0.7044335779419703,
+        "spearman": 0.7805878027789912,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 9.301029995663981
+      },
+      "gp_90pct_predictive_coverage": 0.8656716417910447,
+      "gp_90pct_predictive_mean_width": 1.9622465234543187,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 0.9394044781335606,
+        "runtime": 0.2787098429980688,
+        "step": 7,
+        "converged": true
+      },
+      "seconds": 9.440608748991508
+    },
+    {
+      "task": "CHEMBL2034_Ki",
+      "n": 152,
+      "rf": {
+        "n": 152,
+        "mae": 0.5509478206445505,
+        "rmse": 0.7813731014889507,
+        "spearman": 0.6793232042282741,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 9.2839966563652
+      },
+      "gp": {
+        "n": 152,
+        "mae": 0.5204982248431572,
+        "rmse": 0.7094500287940808,
+        "spearman": 0.7021490543996501,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 9.2839966563652
+      },
+      "training_mean": {
+        "n": 152,
+        "mae": 0.820142408226349,
+        "rmse": 1.0071296889692853,
+        "spearman": 0.0,
+        "top10_recall": 0.0,
+        "best_true_activity_in_selected10": 9.045757490560675
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "gp",
+      "policy": {
+        "n": 152,
+        "mae": 0.5204982248431572,
+        "rmse": 0.7094500287940808,
+        "spearman": 0.7021490543996501,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 9.2839966563652
+      },
+      "gp_90pct_predictive_coverage": 0.881578947368421,
+      "gp_90pct_predictive_mean_width": 2.0713349322499144,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 0.9354441531701434,
+        "runtime": 0.30340075300773606,
+        "step": 13,
+        "converged": true
+      },
+      "seconds": 10.341883989982307
+    },
+    {
+      "task": "CHEMBL2047_EC50",
+      "n": 128,
+      "rf": {
+        "n": 128,
+        "mae": 0.48272329758388166,
+        "rmse": 0.6588473961061421,
+        "spearman": 0.7426101674227544,
+        "top10_recall": 0.7,
+        "best_true_activity_in_selected10": 9.522878745280337
+      },
+      "gp": {
+        "n": 128,
+        "mae": 0.48812288829483486,
+        "rmse": 0.6546857929730523,
+        "spearman": 0.742495712805959,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 9.522878745280337
+      },
+      "training_mean": {
+        "n": 128,
+        "mae": 0.7749289058672401,
+        "rmse": 0.9812777139648167,
+        "spearman": 0.0,
+        "top10_recall": 0.0,
+        "best_true_activity_in_selected10": 7.2441251443275085
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "rf",
+      "policy": {
+        "n": 128,
+        "mae": 0.48272329758388166,
+        "rmse": 0.6588473961061421,
+        "spearman": 0.7426101674227544,
+        "top10_recall": 0.7,
+        "best_true_activity_in_selected10": 9.522878745280337
+      },
+      "gp_90pct_predictive_coverage": 0.90625,
+      "gp_90pct_predictive_mean_width": 2.0405235218180273,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 1.0223132264557055,
+        "runtime": 0.14439091802341864,
+        "step": 7,
+        "converged": true
+      },
+      "seconds": 9.138380373013206
+    },
+    {
+      "task": "CHEMBL204_Ki",
+      "n": 553,
+      "rf": {
+        "n": 553,
+        "mae": 0.6259866298410844,
+        "rmse": 0.8799533500527158,
+        "spearman": 0.8241110236806163,
+        "top10_recall": 0.1,
+        "best_true_activity_in_selected10": 10.397940008672037
+      },
+      "gp": {
+        "n": 553,
+        "mae": 0.5359991309968751,
+        "rmse": 0.7744675438857253,
+        "spearman": 0.8612211122970568,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 10.823908740944319
+      },
+      "training_mean": {
+        "n": 553,
+        "mae": 1.2949541976497512,
+        "rmse": 1.5424909311376056,
+        "spearman": 0.0,
+        "top10_recall": 0.0,
+        "best_true_activity_in_selected10": 6.787812395596042
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "gp",
+      "policy": {
+        "n": 553,
+        "mae": 0.5359991309968751,
+        "rmse": 0.7744675438857253,
+        "spearman": 0.8612211122970568,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 10.823908740944319
+      },
+      "gp_90pct_predictive_coverage": 0.918625678119349,
+      "gp_90pct_predictive_mean_width": 2.5638465856247254,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 0.8036852754597418,
+        "runtime": 3.2109856119495817,
+        "step": 8,
+        "converged": true
+      },
+      "seconds": 33.24863098101923
+    },
+    {
+      "task": "CHEMBL2147_Ki",
+      "n": 294,
+      "rf": {
+        "n": 294,
+        "mae": 0.5392429439915367,
+        "rmse": 0.729721513949069,
+        "spearman": 0.9116708579870055,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 11.0
+      },
+      "gp": {
+        "n": 294,
+        "mae": 0.517388921599642,
+        "rmse": 0.6750695168939371,
+        "spearman": 0.9214614764941144,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 11.0
+      },
+      "training_mean": {
+        "n": 294,
+        "mae": 1.801465838241383,
+        "rmse": 1.994071897649235,
+        "spearman": 0.0,
+        "top10_recall": 0.0,
+        "best_true_activity_in_selected10": 10.130768280269024
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "gp",
+      "policy": {
+        "n": 294,
+        "mae": 0.517388921599642,
+        "rmse": 0.6750695168939371,
+        "spearman": 0.9214614764941144,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 11.0
+      },
+      "gp_90pct_predictive_coverage": 0.9149659863945578,
+      "gp_90pct_predictive_mean_width": 2.284635119274615,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 0.4445542084677369,
+        "runtime": 0.8206947970320471,
+        "step": 12,
+        "converged": true
+      },
+      "seconds": 17.404286665958352
+    },
+    {
+      "task": "CHEMBL214_Ki",
+      "n": 666,
+      "rf": {
+        "n": 666,
+        "mae": 0.5541945575689551,
+        "rmse": 0.7266692834486546,
+        "spearman": 0.7655657732013467,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 10.100015437450608
+      },
+      "gp": {
+        "n": 666,
+        "mae": 0.521194452479739,
+        "rmse": 0.6830325132478947,
+        "spearman": 0.7879799740661674,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 10.100015437450608
+      },
+      "training_mean": {
+        "n": 666,
+        "mae": 0.9357671495277462,
+        "rmse": 1.1375817282535983,
+        "spearman": 0.0,
+        "top10_recall": 0.0,
+        "best_true_activity_in_selected10": 9.400007822415901
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "gp",
+      "policy": {
+        "n": 666,
+        "mae": 0.521194452479739,
+        "rmse": 0.6830325132478947,
+        "spearman": 0.7879799740661674,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 10.100015437450608
+      },
+      "gp_90pct_predictive_coverage": 0.8993993993993994,
+      "gp_90pct_predictive_mean_width": 2.164657248424553,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 0.9199232998971707,
+        "runtime": 4.539720583008602,
+        "step": 7,
+        "converged": true
+      },
+      "seconds": 40.465991129982285
+    },
+    {
+      "task": "CHEMBL218_EC50",
+      "n": 208,
+      "rf": {
+        "n": 208,
+        "mae": 0.5740574328110062,
+        "rmse": 0.7442120309650828,
+        "spearman": 0.6773841557464186,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 9.522878745280337
+      },
+      "gp": {
+        "n": 208,
+        "mae": 0.5784787214432178,
+        "rmse": 0.7563273009130855,
+        "spearman": 0.6745628137543028,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 9.0
+      },
+      "training_mean": {
+        "n": 208,
+        "mae": 0.8652055233224586,
+        "rmse": 1.0507990611127254,
+        "spearman": 0.0,
+        "top10_recall": 0.0,
+        "best_true_activity_in_selected10": 8.292429823902063
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "gp",
+      "policy": {
+        "n": 208,
+        "mae": 0.5784787214432178,
+        "rmse": 0.7563273009130855,
+        "spearman": 0.6745628137543028,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 9.0
+      },
+      "gp_90pct_predictive_coverage": 0.8894230769230769,
+      "gp_90pct_predictive_mean_width": 2.2492581683123634,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 1.0498945487223872,
+        "runtime": 0.24661546002607793,
+        "step": 5,
+        "converged": true
+      },
+      "seconds": 13.749531870998908
+    },
+    {
+      "task": "CHEMBL219_Ki",
+      "n": 374,
+      "rf": {
+        "n": 374,
+        "mae": 0.5886837144268364,
+        "rmse": 0.7985330417825338,
+        "spearman": 0.687085191899108,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 10.744727494896694
+      },
+      "gp": {
+        "n": 374,
+        "mae": 0.5661454588869977,
+        "rmse": 0.7709302322009643,
+        "spearman": 0.7138772123527307,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 10.744727494896694
+      },
+      "training_mean": {
+        "n": 374,
+        "mae": 0.875032103142754,
+        "rmse": 1.0777917349584019,
+        "spearman": 0.0,
+        "top10_recall": 0.0,
+        "best_true_activity_in_selected10": 8.05551732784983
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "gp",
+      "policy": {
+        "n": 374,
+        "mae": 0.5661454588869977,
+        "rmse": 0.7709302322009643,
+        "spearman": 0.7138772123527307,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 10.744727494896694
+      },
+      "gp_90pct_predictive_coverage": 0.8850267379679144,
+      "gp_90pct_predictive_mean_width": 2.2904263826550983,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 1.035910774423588,
+        "runtime": 1.5713660959736444,
+        "step": 7,
+        "converged": true
+      },
+      "seconds": 24.82819881499745
+    },
+    {
+      "task": "CHEMBL228_Ki",
+      "n": 342,
+      "rf": {
+        "n": 342,
+        "mae": 0.5937988557500975,
+        "rmse": 0.7814223972592806,
+        "spearman": 0.7486510983078101,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 10.886056647693163
+      },
+      "gp": {
+        "n": 342,
+        "mae": 0.512976144487514,
+        "rmse": 0.6815312136286791,
+        "spearman": 0.8110716328628343,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 10.886056647693163
+      },
+      "training_mean": {
+        "n": 342,
+        "mae": 0.9861591950704564,
+        "rmse": 1.2000228580445254,
+        "spearman": 0.0,
+        "top10_recall": 0.0,
+        "best_true_activity_in_selected10": 8.709965388637482
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "gp",
+      "policy": {
+        "n": 342,
+        "mae": 0.512976144487514,
+        "rmse": 0.6815312136286791,
+        "spearman": 0.8110716328628343,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 10.886056647693163
+      },
+      "gp_90pct_predictive_coverage": 0.9064327485380117,
+      "gp_90pct_predictive_mean_width": 2.2474056278726335,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 0.9079152052243799,
+        "runtime": 1.2123625839594752,
+        "step": 8,
+        "converged": true
+      },
+      "seconds": 19.96642123395577
+    },
+    {
+      "task": "CHEMBL231_Ki",
+      "n": 197,
+      "rf": {
+        "n": 197,
+        "mae": 0.627421366327833,
+        "rmse": 0.8388548796545164,
+        "spearman": 0.7661183430501916,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 9.522878745280337
+      },
+      "gp": {
+        "n": 197,
+        "mae": 0.5823241572968592,
+        "rmse": 0.8071221383221149,
+        "spearman": 0.7880942433721831,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 9.522878745280337
+      },
+      "training_mean": {
+        "n": 197,
+        "mae": 1.1076087096105525,
+        "rmse": 1.311279561426434,
+        "spearman": 0.0,
+        "top10_recall": 0.0,
+        "best_true_activity_in_selected10": 8.651046452018836
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "rf",
+      "policy": {
+        "n": 197,
+        "mae": 0.627421366327833,
+        "rmse": 0.8388548796545164,
+        "spearman": 0.7661183430501916,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 9.522878745280337
+      },
+      "gp_90pct_predictive_coverage": 0.8629441624365483,
+      "gp_90pct_predictive_mean_width": 2.052014759029102,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 0.7968592216265177,
+        "runtime": 0.5857445069705136,
+        "step": 12,
+        "converged": true
+      },
+      "seconds": 13.099727975029964
+    },
+    {
+      "task": "CHEMBL233_Ki",
+      "n": 630,
+      "rf": {
+        "n": 630,
+        "mae": 0.6232326497228878,
+        "rmse": 0.8271704601214378,
+        "spearman": 0.769122914809344,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 10.962573502059376
+      },
+      "gp": {
+        "n": 630,
+        "mae": 0.6173943060138706,
+        "rmse": 0.81464198757952,
+        "spearman": 0.7782001137990058,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 10.962573502059376
+      },
+      "training_mean": {
+        "n": 630,
+        "mae": 1.0753738012814276,
+        "rmse": 1.3049922544188353,
+        "spearman": 0.0,
+        "top10_recall": 0.1,
+        "best_true_activity_in_selected10": 10.221848749616356
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "gp",
+      "policy": {
+        "n": 630,
+        "mae": 0.6173943060138706,
+        "rmse": 0.81464198757952,
+        "spearman": 0.7782001137990058,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 10.962573502059376
+      },
+      "gp_90pct_predictive_coverage": 0.8777777777777778,
+      "gp_90pct_predictive_mean_width": 2.356630314050544,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 0.8794438014978194,
+        "runtime": 4.093970197020099,
+        "step": 7,
+        "converged": true
+      },
+      "seconds": 38.80313061596826
+    },
+    {
+      "task": "CHEMBL234_Ki",
+      "n": 733,
+      "rf": {
+        "n": 733,
+        "mae": 0.5227178721498537,
+        "rmse": 0.7041380469200161,
+        "spearman": 0.7762713942243549,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 9.853871964321762
+      },
+      "gp": {
+        "n": 733,
+        "mae": 0.47547942288656053,
+        "rmse": 0.6578033105555935,
+        "spearman": 0.8038756628235555,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 9.853871964321762
+      },
+      "training_mean": {
+        "n": 733,
+        "mae": 0.9369956983811357,
+        "rmse": 1.1365071918823642,
+        "spearman": 0.0,
+        "top10_recall": 0.0,
+        "best_true_activity_in_selected10": 8.638272163982407
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "gp",
+      "policy": {
+        "n": 733,
+        "mae": 0.47547942288656053,
+        "rmse": 0.6578033105555935,
+        "spearman": 0.8038756628235555,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 9.853871964321762
+      },
+      "gp_90pct_predictive_coverage": 0.9099590723055935,
+      "gp_90pct_predictive_mean_width": 2.084272622648873,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 0.8778268886454765,
+        "runtime": 7.382820653961971,
+        "step": 8,
+        "converged": true
+      },
+      "seconds": 48.383652582997456
+    },
+    {
+      "task": "CHEMBL235_EC50",
+      "n": 472,
+      "rf": {
+        "n": 472,
+        "mae": 0.5050646479252492,
+        "rmse": 0.6737489416237682,
+        "spearman": 0.7717710194561562,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 9.721246399047171
+      },
+      "gp": {
+        "n": 472,
+        "mae": 0.5210300792627661,
+        "rmse": 0.6861944064620036,
+        "spearman": 0.7673987473463618,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 9.721246399047171
+      },
+      "training_mean": {
+        "n": 472,
+        "mae": 0.878601412131133,
+        "rmse": 1.0769741690211652,
+        "spearman": 0.0,
+        "top10_recall": 0.0,
+        "best_true_activity_in_selected10": 8.397940008672037
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "rf",
+      "policy": {
+        "n": 472,
+        "mae": 0.5050646479252492,
+        "rmse": 0.6737489416237682,
+        "spearman": 0.7717710194561562,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 9.721246399047171
+      },
+      "gp_90pct_predictive_coverage": 0.8877118644067796,
+      "gp_90pct_predictive_mean_width": 2.1879540241726696,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 0.9726297916243464,
+        "runtime": 2.3957003870164044,
+        "step": 7,
+        "converged": true
+      },
+      "seconds": 27.08235160005279
+    },
+    {
+      "task": "CHEMBL236_Ki",
+      "n": 521,
+      "rf": {
+        "n": 521,
+        "mae": 0.5508864523397005,
+        "rmse": 0.7421384653420248,
+        "spearman": 0.8318002654831577,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.838631997765027
+      },
+      "gp": {
+        "n": 521,
+        "mae": 0.5324257602520779,
+        "rmse": 0.7201322384477671,
+        "spearman": 0.8449387788751022,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.838631997765027
+      },
+      "training_mean": {
+        "n": 521,
+        "mae": 1.0984551959922153,
+        "rmse": 1.3400589258361066,
+        "spearman": 0.0,
+        "top10_recall": 0.0,
+        "best_true_activity_in_selected10": 8.853871964321762
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "gp",
+      "policy": {
+        "n": 521,
+        "mae": 0.5324257602520779,
+        "rmse": 0.7201322384477671,
+        "spearman": 0.8449387788751022,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.838631997765027
+      },
+      "gp_90pct_predictive_coverage": 0.8925143953934741,
+      "gp_90pct_predictive_mean_width": 2.2684101098084666,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 0.8248829474295963,
+        "runtime": 2.065023813978769,
+        "step": 7,
+        "converged": true
+      },
+      "seconds": 31.993042589980178
+    },
+    {
+      "task": "CHEMBL237_EC50",
+      "n": 193,
+      "rf": {
+        "n": 193,
+        "mae": 0.6454951609236127,
+        "rmse": 0.8439443177236987,
+        "spearman": 0.8093147733316516,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 10.653647025549361
+      },
+      "gp": {
+        "n": 193,
+        "mae": 0.617829777795924,
+        "rmse": 0.8051113357301073,
+        "spearman": 0.8204017178964348,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.653647025549361
+      },
+      "training_mean": {
+        "n": 193,
+        "mae": 1.209695743383512,
+        "rmse": 1.4515655117006991,
+        "spearman": 0.0,
+        "top10_recall": 0.0,
+        "best_true_activity_in_selected10": 9.698970004336019
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "gp",
+      "policy": {
+        "n": 193,
+        "mae": 0.617829777795924,
+        "rmse": 0.8051113357301073,
+        "spearman": 0.8204017178964348,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.653647025549361
+      },
+      "gp_90pct_predictive_coverage": 0.927461139896373,
+      "gp_90pct_predictive_mean_width": 2.839063099454324,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 0.9989005837782817,
+        "runtime": 0.3111088239820674,
+        "step": 6,
+        "converged": true
+      },
+      "seconds": 13.747892470972147
+    },
+    {
+      "task": "CHEMBL237_Ki",
+      "n": 522,
+      "rf": {
+        "n": 522,
+        "mae": 0.5859620702211071,
+        "rmse": 0.7591142380854746,
+        "spearman": 0.8244163142133607,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 10.221848749616356
+      },
+      "gp": {
+        "n": 522,
+        "mae": 0.5378867720945459,
+        "rmse": 0.7027779517254686,
+        "spearman": 0.8405476097505825,
+        "top10_recall": 0.1,
+        "best_true_activity_in_selected10": 10.221848749616356
+      },
+      "training_mean": {
+        "n": 522,
+        "mae": 1.1197882361006284,
+        "rmse": 1.3460304810762833,
+        "spearman": 0.0,
+        "top10_recall": 0.0,
+        "best_true_activity_in_selected10": 9.318758762624412
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "gp",
+      "policy": {
+        "n": 522,
+        "mae": 0.5378867720945459,
+        "rmse": 0.7027779517254686,
+        "spearman": 0.8405476097505825,
+        "top10_recall": 0.1,
+        "best_true_activity_in_selected10": 10.221848749616356
+      },
+      "gp_90pct_predictive_coverage": 0.9003831417624522,
+      "gp_90pct_predictive_mean_width": 2.288318305241636,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 0.815014177240982,
+        "runtime": 3.007608068000991,
+        "step": 7,
+        "converged": true
+      },
+      "seconds": 35.00502248300472
+    },
+    {
+      "task": "CHEMBL238_Ki",
+      "n": 213,
+      "rf": {
+        "n": 213,
+        "mae": 0.5455397489180477,
+        "rmse": 0.7157784559324942,
+        "spearman": 0.781713350475456,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 9.147123710525113
+      },
+      "gp": {
+        "n": 213,
+        "mae": 0.5445813440619524,
+        "rmse": 0.7008946567494698,
+        "spearman": 0.7939042018112371,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 9.147123710525113
+      },
+      "training_mean": {
+        "n": 213,
+        "mae": 1.0025843655121653,
+        "rmse": 1.1646377296033437,
+        "spearman": 0.0,
+        "top10_recall": 0.1,
+        "best_true_activity_in_selected10": 8.621602099051863
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "gp",
+      "policy": {
+        "n": 213,
+        "mae": 0.5445813440619524,
+        "rmse": 0.7008946567494698,
+        "spearman": 0.7939042018112371,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 9.147123710525113
+      },
+      "gp_90pct_predictive_coverage": 0.892018779342723,
+      "gp_90pct_predictive_mean_width": 2.17686902115288,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 0.9778360165879106,
+        "runtime": 0.3367203719681129,
+        "step": 8,
+        "converged": true
+      },
+      "seconds": 12.495644601993263
+    },
+    {
+      "task": "CHEMBL239_EC50",
+      "n": 347,
+      "rf": {
+        "n": 347,
+        "mae": 0.5510005601610029,
+        "rmse": 0.7433759879390691,
+        "spearman": 0.7411649662354282,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 10.522878745280337
+      },
+      "gp": {
+        "n": 347,
+        "mae": 0.5415989385096092,
+        "rmse": 0.7376104342725353,
+        "spearman": 0.7523901320966239,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 10.522878745280337
+      },
+      "training_mean": {
+        "n": 347,
+        "mae": 0.9077822865644938,
+        "rmse": 1.099825588161838,
+        "spearman": 0.0,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 10.522878745280337
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "gp",
+      "policy": {
+        "n": 347,
+        "mae": 0.5415989385096092,
+        "rmse": 0.7376104342725353,
+        "spearman": 0.7523901320966239,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 10.522878745280337
+      },
+      "gp_90pct_predictive_coverage": 0.899135446685879,
+      "gp_90pct_predictive_mean_width": 2.3426195469363527,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 1.0384458319669139,
+        "runtime": 1.1061693039955571,
+        "step": 6,
+        "converged": true
+      },
+      "seconds": 17.810664952965453
+    },
+    {
+      "task": "CHEMBL244_Ki",
+      "n": 621,
+      "rf": {
+        "n": 621,
+        "mae": 0.5916351119092381,
+        "rmse": 0.8107112582795819,
+        "spearman": 0.8662469870397981,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 11.0
+      },
+      "gp": {
+        "n": 621,
+        "mae": 0.5531598472281782,
+        "rmse": 0.7595558093706839,
+        "spearman": 0.8832963775554565,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 11.0
+      },
+      "training_mean": {
+        "n": 621,
+        "mae": 1.385859359203478,
+        "rmse": 1.6148212209088715,
+        "spearman": 0.0,
+        "top10_recall": 0.0,
+        "best_true_activity_in_selected10": 8.886056647693163
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "gp",
+      "policy": {
+        "n": 621,
+        "mae": 0.5531598472281782,
+        "rmse": 0.7595558093706839,
+        "spearman": 0.8832963775554565,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 11.0
+      },
+      "gp_90pct_predictive_coverage": 0.9114331723027376,
+      "gp_90pct_predictive_mean_width": 2.4085913361366442,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 0.6856365844695554,
+        "runtime": 3.956057222036179,
+        "step": 8,
+        "converged": true
+      },
+      "seconds": 38.06050044100266
+    },
+    {
+      "task": "CHEMBL262_Ki",
+      "n": 173,
+      "rf": {
+        "n": 173,
+        "mae": 0.5760641792019576,
+        "rmse": 0.7660009408837428,
+        "spearman": 0.6810220301724746,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 9.397940008672037
+      },
+      "gp": {
+        "n": 173,
+        "mae": 0.5807614538219684,
+        "rmse": 0.7551739170676873,
+        "spearman": 0.6982885892227755,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 9.397940008672037
+      },
+      "training_mean": {
+        "n": 173,
+        "mae": 0.9189554889623978,
+        "rmse": 1.0980636401519093,
+        "spearman": 0.0,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 8.698970004336019
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "gp",
+      "policy": {
+        "n": 173,
+        "mae": 0.5807614538219684,
+        "rmse": 0.7551739170676873,
+        "spearman": 0.6982885892227755,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 9.397940008672037
+      },
+      "gp_90pct_predictive_coverage": 0.9190751445086706,
+      "gp_90pct_predictive_mean_width": 2.4786920517887,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 1.126582535744218,
+        "runtime": 0.27168022899422795,
+        "step": 7,
+        "converged": true
+      },
+      "seconds": 12.09771451598499
+    },
+    {
+      "task": "CHEMBL264_Ki",
+      "n": 574,
+      "rf": {
+        "n": 574,
+        "mae": 0.509357399527054,
+        "rmse": 0.6880031794119974,
+        "spearman": 0.7547281423033015,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 10.107237765384184
+      },
+      "gp": {
+        "n": 574,
+        "mae": 0.4807895757138423,
+        "rmse": 0.6378087806119502,
+        "spearman": 0.7973407392223357,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.107237765384184
+      },
+      "training_mean": {
+        "n": 574,
+        "mae": 0.885507703457089,
+        "rmse": 1.0820608581279645,
+        "spearman": 0.0,
+        "top10_recall": 0.1,
+        "best_true_activity_in_selected10": 10.0268721464003
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "gp",
+      "policy": {
+        "n": 574,
+        "mae": 0.4807895757138423,
+        "rmse": 0.6378087806119502,
+        "spearman": 0.7973407392223357,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.107237765384184
+      },
+      "gp_90pct_predictive_coverage": 0.89198606271777,
+      "gp_90pct_predictive_mean_width": 2.007736175237224,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 0.9282568231241883,
+        "runtime": 2.935940674971789,
+        "step": 7,
+        "converged": true
+      },
+      "seconds": 31.44540921098087
+    },
+    {
+      "task": "CHEMBL2835_Ki",
+      "n": 126,
+      "rf": {
+        "n": 126,
+        "mae": 0.27649541286252644,
+        "rmse": 0.411513602663816,
+        "spearman": 0.8596464140783016,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 9.638272163982407
+      },
+      "gp": {
+        "n": 126,
+        "mae": 0.27902448915791117,
+        "rmse": 0.40989690052360767,
+        "spearman": 0.8524288723785511,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 9.638272163982407
+      },
+      "training_mean": {
+        "n": 126,
+        "mae": 0.7319744837400893,
+        "rmse": 0.9778641359108726,
+        "spearman": 0.0,
+        "top10_recall": 0.0,
+        "best_true_activity_in_selected10": 9.301029995663981
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "rf",
+      "policy": {
+        "n": 126,
+        "mae": 0.27649541286252644,
+        "rmse": 0.411513602663816,
+        "spearman": 0.8596464140783016,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 9.638272163982407
+      },
+      "gp_90pct_predictive_coverage": 0.8968253968253969,
+      "gp_90pct_predictive_mean_width": 1.1488791642178162,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 0.49799751751102067,
+        "runtime": 0.39528089901432395,
+        "step": 19,
+        "converged": true
+      },
+      "seconds": 10.74443403800251
+    },
+    {
+      "task": "CHEMBL287_Ki",
+      "n": 267,
+      "rf": {
+        "n": 267,
+        "mae": 0.592403083413285,
+        "rmse": 0.7744233393427552,
+        "spearman": 0.6877516120143686,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 10.179995693191682
+      },
+      "gp": {
+        "n": 267,
+        "mae": 0.571281930794005,
+        "rmse": 0.7468077755420269,
+        "spearman": 0.7175193353823153,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 10.179995693191682
+      },
+      "training_mean": {
+        "n": 267,
+        "mae": 0.8514212119782804,
+        "rmse": 1.048102190982819,
+        "spearman": 0.0,
+        "top10_recall": 0.0,
+        "best_true_activity_in_selected10": 8.431798275933005
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "gp",
+      "policy": {
+        "n": 267,
+        "mae": 0.571281930794005,
+        "rmse": 0.7468077755420269,
+        "spearman": 0.7175193353823153,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 10.179995693191682
+      },
+      "gp_90pct_predictive_coverage": 0.8876404494382022,
+      "gp_90pct_predictive_mean_width": 2.3113344894814065,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 1.0762284726380567,
+        "runtime": 0.5870791259803809,
+        "step": 6,
+        "converged": true
+      },
+      "seconds": 15.455417452030815
+    },
+    {
+      "task": "CHEMBL2971_Ki",
+      "n": 197,
+      "rf": {
+        "n": 197,
+        "mae": 0.42534127064480814,
+        "rmse": 0.660767725770447,
+        "spearman": 0.8725741932343394,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 9.920818753952375
+      },
+      "gp": {
+        "n": 197,
+        "mae": 0.4474289101247742,
+        "rmse": 0.6478408840193219,
+        "spearman": 0.8878849866906914,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 9.823908740944319
+      },
+      "training_mean": {
+        "n": 197,
+        "mae": 1.1945059169071202,
+        "rmse": 1.4020537660276753,
+        "spearman": 0.0,
+        "top10_recall": 0.0,
+        "best_true_activity_in_selected10": 8.299988937677888
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "rf",
+      "policy": {
+        "n": 197,
+        "mae": 0.42534127064480814,
+        "rmse": 0.660767725770447,
+        "spearman": 0.8725741932343394,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 9.920818753952375
+      },
+      "gp_90pct_predictive_coverage": 0.883248730964467,
+      "gp_90pct_predictive_mean_width": 1.6262721548382213,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 0.4259428031963842,
+        "runtime": 0.7307947339722887,
+        "step": 23,
+        "converged": true
+      },
+      "seconds": 12.446854478039313
+    },
+    {
+      "task": "CHEMBL3979_EC50",
+      "n": 226,
+      "rf": {
+        "n": 226,
+        "mae": 0.5219070534549072,
+        "rmse": 0.6756149372168385,
+        "spearman": 0.7993208129351868,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 8.920818753952375
+      },
+      "gp": {
+        "n": 226,
+        "mae": 0.49748019247627945,
+        "rmse": 0.6471666818675197,
+        "spearman": 0.8190128810419766,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 8.920818753952375
+      },
+      "training_mean": {
+        "n": 226,
+        "mae": 0.9705252961558289,
+        "rmse": 1.1343429409286674,
+        "spearman": 0.0,
+        "top10_recall": 0.0,
+        "best_true_activity_in_selected10": 8.154901959985743
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "gp",
+      "policy": {
+        "n": 226,
+        "mae": 0.49748019247627945,
+        "rmse": 0.6471666818675197,
+        "spearman": 0.8190128810419766,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 8.920818753952375
+      },
+      "gp_90pct_predictive_coverage": 0.8849557522123894,
+      "gp_90pct_predictive_mean_width": 2.060423587439931,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 0.9039164511593317,
+        "runtime": 0.41378193598939106,
+        "step": 6,
+        "converged": true
+      },
+      "seconds": 12.847539742011577
+    },
+    {
+      "task": "CHEMBL4005_Ki",
+      "n": 193,
+      "rf": {
+        "n": 193,
+        "mae": 0.5250340780002141,
+        "rmse": 0.7085477962107019,
+        "spearman": 0.7837645082720333,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.0
+      },
+      "gp": {
+        "n": 193,
+        "mae": 0.5069025129356731,
+        "rmse": 0.6922326769247444,
+        "spearman": 0.8136634277063445,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 9.886056647693163
+      },
+      "training_mean": {
+        "n": 193,
+        "mae": 0.8822310660149336,
+        "rmse": 1.0960198657801492,
+        "spearman": 0.0,
+        "top10_recall": 0.0,
+        "best_true_activity_in_selected10": 9.221848749616356
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "gp",
+      "policy": {
+        "n": 193,
+        "mae": 0.5069025129356731,
+        "rmse": 0.6922326769247444,
+        "spearman": 0.8136634277063445,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 9.886056647693163
+      },
+      "gp_90pct_predictive_coverage": 0.844559585492228,
+      "gp_90pct_predictive_mean_width": 1.8329711604712384,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 0.8820902967227021,
+        "runtime": 0.28020715003367513,
+        "step": 8,
+        "converged": true
+      },
+      "seconds": 11.946382994006854
+    },
+    {
+      "task": "CHEMBL4203_Ki",
+      "n": 149,
+      "rf": {
+        "n": 149,
+        "mae": 0.655176803278337,
+        "rmse": 0.860618957821351,
+        "spearman": 0.571234538670399,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 9.199970640755865
+      },
+      "gp": {
+        "n": 149,
+        "mae": 0.6515902382160459,
+        "rmse": 0.8548668715001357,
+        "spearman": 0.5959418426669075,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 9.199970640755865
+      },
+      "training_mean": {
+        "n": 149,
+        "mae": 0.8735738048450127,
+        "rmse": 1.0726471958372166,
+        "spearman": 0.0,
+        "top10_recall": 0.1,
+        "best_true_activity_in_selected10": 8.500038134403809
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "gp",
+      "policy": {
+        "n": 149,
+        "mae": 0.6515902382160459,
+        "rmse": 0.8548668715001357,
+        "spearman": 0.5959418426669075,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 9.199970640755865
+      },
+      "gp_90pct_predictive_coverage": 0.8523489932885906,
+      "gp_90pct_predictive_mean_width": 2.294270276671209,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 1.1050546597168487,
+        "runtime": 0.19873786199605092,
+        "step": 8,
+        "converged": true
+      },
+      "seconds": 9.940807717037387
+    },
+    {
+      "task": "CHEMBL4616_EC50",
+      "n": 139,
+      "rf": {
+        "n": 139,
+        "mae": 0.5948624044683629,
+        "rmse": 0.7901857741296954,
+        "spearman": 0.4502637101794591,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 9.309803919971486
+      },
+      "gp": {
+        "n": 139,
+        "mae": 0.542855654760675,
+        "rmse": 0.7117500580901843,
+        "spearman": 0.5910208425044249,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 9.309803919971486
+      },
+      "training_mean": {
+        "n": 139,
+        "mae": 0.7712012635172976,
+        "rmse": 0.9156717618221258,
+        "spearman": 0.0,
+        "top10_recall": 0.1,
+        "best_true_activity_in_selected10": 9.309803919971486
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "gp",
+      "policy": {
+        "n": 139,
+        "mae": 0.542855654760675,
+        "rmse": 0.7117500580901843,
+        "spearman": 0.5910208425044249,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 9.309803919971486
+      },
+      "gp_90pct_predictive_coverage": 0.8992805755395683,
+      "gp_90pct_predictive_mean_width": 2.144335029168375,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 1.1215325190982108,
+        "runtime": 0.21376468398375437,
+        "step": 10,
+        "converged": true
+      },
+      "seconds": 10.591950684029143
+    },
+    {
+      "task": "CHEMBL4792_Ki",
+      "n": 297,
+      "rf": {
+        "n": 297,
+        "mae": 0.5677607898717579,
+        "rmse": 0.7271536107999746,
+        "spearman": 0.757548103823358,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.045757490560675
+      },
+      "gp": {
+        "n": 297,
+        "mae": 0.49205840393196343,
+        "rmse": 0.6687433851343055,
+        "spearman": 0.8031973951708509,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 10.045757490560675
+      },
+      "training_mean": {
+        "n": 297,
+        "mae": 0.972908551219843,
+        "rmse": 1.1856050442293486,
+        "spearman": 0.0,
+        "top10_recall": 0.0,
+        "best_true_activity_in_selected10": 8.154901959985743
+      },
+      "rf_usable": true,
+      "gp_usable": true,
+      "selected_policy_arm": "gp",
+      "policy": {
+        "n": 297,
+        "mae": 0.49205840393196343,
+        "rmse": 0.6687433851343055,
+        "spearman": 0.8031973951708509,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 10.045757490560675
+      },
+      "gp_90pct_predictive_coverage": 0.898989898989899,
+      "gp_90pct_predictive_mean_width": 2.071663234522896,
+      "gp_optimizer": {
+        "status": "OptimizationStatus.SUCCESS",
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "fval": 0.9439952948579436,
+        "runtime": 1.6273513530031778,
+        "step": 18,
+        "converged": true
+      },
+      "seconds": 17.862272972997744
+    }
+  ],
+  "policy_task_macro_on_selected": {
+    "mae": 0.5321720059302341,
+    "rmse": 0.713456898378339,
+    "spearman": 0.7818485157155465,
+    "top10_recall": 0.41666666666666674,
+    "best_true_activity_in_selected10": 10.013765213339715
+  },
+  "policy_comparison_denominator": 30,
+  "bootstrap": {
+    "unit": "target_cluster",
+    "clusters": 29,
+    "repetitions": 5000,
+    "seed": 20261011,
+    "interval": "percentile, 95%, unadjusted for multiple metrics"
+  }
+}
