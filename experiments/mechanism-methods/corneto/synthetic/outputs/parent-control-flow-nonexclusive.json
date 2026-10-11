@@ -1,0 +1,326 @@
+{
+  "tag": "parent-control-flow-nonexclusive-02",
+  "zero_node": null,
+  "input_nodes": {
+    "ROOT": 0
+  },
+  "source_edges": 4,
+  "measurement_values": {
+    "T": 1
+  },
+  "status": "optimal",
+  "native_total": -0.995,
+  "objectives": [
+    {
+      "name": "error_condition_0",
+      "value": -1.0,
+      "weight": 1.0
+    },
+    {
+      "name": "regularization_edge_has_signal",
+      "value": 5.0,
+      "weight": 0.001
+    }
+  ],
+  "solver_stats": {
+    "solver_name": "HIGHS",
+    "solve_time": 0.0005040168762207031,
+    "num_iters": -4
+  },
+  "states": {
+    "ROOT": 1.0,
+    "A": 1.0,
+    "B": 1.0,
+    "T": 2.0
+  },
+  "selected_edges": [
+    {
+      "source": [
+        "ROOT"
+      ],
+      "target": [
+        "A"
+      ],
+      "edge_state": 1.0,
+      "prior_interaction": 1
+    },
+    {
+      "source": [
+        "ROOT"
+      ],
+      "target": [
+        "B"
+      ],
+      "edge_state": 1.0,
+      "prior_interaction": 1
+    },
+    {
+      "source": [
+        "A"
+      ],
+      "target": [
+        "T"
+      ],
+      "edge_state": 1.0,
+      "prior_interaction": 1
+    },
+    {
+      "source": [
+        "B"
+      ],
+      "target": [
+        "T"
+      ],
+      "edge_state": 1.0,
+      "prior_interaction": 1
+    },
+    {
+      "source": [],
+      "target": [
+        "ROOT"
+      ],
+      "edge_state": 1.0,
+      "prior_interaction": null
+    }
+  ],
+  "measurements": [
+    {
+      "node": "T",
+      "input_score": 1,
+      "target_sign": 1,
+      "fitted_state": 2.0,
+      "weighted_absolute_sign_error": 1.0
+    }
+  ],
+  "weighted_absolute_sign_error": 1.0,
+  "full_variables": {
+    "const0x895e7d76ff32129": [
+      [
+        -1.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      [
+        1.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        1.0,
+        -1.0,
+        0.0
+      ]
+    ],
+    "const0x17d9b5f7d3869857": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "const0x184f5fd04c4a9cda": [
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "const0xdb18ef24672c8": [
+      [
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ]
+    ],
+    "_flow": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      2.0,
+      2.0
+    ],
+    "edge_activates": [
+      [
+        1.0
+      ],
+      [
+        1.0
+      ],
+      [
+        1.0
+      ],
+      [
+        1.0
+      ],
+      [
+        0.0
+      ],
+      [
+        1.0
+      ]
+    ],
+    "edge_inhibits": [
+      [
+        0.0
+      ],
+      [
+        0.0
+      ],
+      [
+        0.0
+      ],
+      [
+        0.0
+      ],
+      [
+        0.0
+      ],
+      [
+        0.0
+      ]
+    ],
+    "_dag_layer": [
+      [
+        -0.0
+      ],
+      [
+        1.0
+      ],
+      [
+        1.0
+      ],
+      [
+        3.0
+      ]
+    ],
+    "const0x1e561fda71abe874": [
+      [
+        -1.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        -1.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        -1.0,
+        0.0,
+        1.0
+      ],
+      [
+        0.0,
+        0.0,
+        -1.0,
+        1.0
+      ]
+    ]
+  },
+  "max_cvxpy_constraint_violation": 0.0,
+  "retained_vertices": 4,
+  "retained_edges": 6,
+  "elapsed_seconds": 0.0323764460044913
+}
