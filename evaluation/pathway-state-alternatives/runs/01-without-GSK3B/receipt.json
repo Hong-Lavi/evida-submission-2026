@@ -1,0 +1,68 @@
+{
+  "slot": "01-without-GSK3B",
+  "role": "fixed_three_run_experiment",
+  "query_node": "GSK3B",
+  "added_constraints": [
+    "query_GSK3B_up: nU262 = 0\n",
+    "query_GSK3B_down: nD262 = 0\n"
+  ],
+  "query_lp_sha256": "536621ac3c2a79e822d7c6acb98f22d46067c8e448d26e8bd988f5c7ecce604d",
+  "source_lp_sha256": "d57807fb747828b2ca558689455f1d7c52447adf3a2c138831ced7d6151b5000",
+  "solution_sha256": "ecd7f85b69e676d6780c6b5d162a904e0f1ff73d419504b0e4ebce55e042959e",
+  "solver_log_original_sha256": "70cacbf5801e0b3ceb5460c042cd235a0a32dea1b8933a6420db62e438f42352",
+  "solver_log_public_sha256": "f9feb340a780ae32a04f60c7ab2371c1f6c8aa254467be9f57eebb507414d5ab",
+  "solver": {
+    "termination": "optimal_reported",
+    "elapsed_seconds": 68.10156319499947,
+    "returncode": 0,
+    "outer_timeout": false,
+    "reported_objective": 1.2,
+    "final_lower_bound": null,
+    "final_gap": null,
+    "threads_option_supported": false,
+    "max_observed_process_threads": 1
+  },
+  "validation": {
+    "independent_decimal": {
+      "variables": 11791,
+      "constraints": 30994,
+      "bounds": 11791,
+      "integer_variables": 11030,
+      "binary_variables": 9506,
+      "max_constraint_violation": "0",
+      "max_bound_violation": "0",
+      "max_integrality_violation": "0",
+      "objective_decimal": "1.20000000000000",
+      "weighted_sign_error_decimal": "0E-14",
+      "nonzero_state_penalty_decimal": "1.2",
+      "lp_original_recovered_byte_exact": true
+    }
+  },
+  "measurements": [
+    {
+      "node": "E2F4",
+      "input_score": 3.31852768703992,
+      "target_sign": 1,
+      "fitted_sign": 1.0,
+      "absolute_error": 0.0,
+      "weight": 3.31852768703992
+    },
+    {
+      "node": "IRF1",
+      "input_score": -4.50268497794566,
+      "target_sign": -1,
+      "fitted_sign": -1.0,
+      "absolute_error": 0.0,
+      "weight": 4.50268497794566
+    }
+  ],
+  "total_objective": 1.2,
+  "weighted_sign_error": 0.0,
+  "state_penalty": 1.2,
+  "nonzero_biological_nodes": 6,
+  "biological_edge_count": 5,
+  "artificial_edge_count": 1,
+  "artificial_root_state": -1.0,
+  "graph_sha256_original": "5fdac3d0356a801c659111442f5a83f4d5a46452ba9cc35775b19545a7f7cef0",
+  "graph_distribution": "Withheld from this candidate pending resource-level redistribution verification."
+}

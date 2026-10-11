@@ -1,0 +1,66 @@
+{
+  "status": "PASS",
+  "actual_saved_vectors": [
+    {
+      "slot": "00-baseline",
+      "variables": 11791,
+      "total_objective": "1.20000000000000",
+      "weighted_sign_error": "0E-14",
+      "state_penalty": "1.2"
+    },
+    {
+      "slot": "01-without-GSK3B",
+      "variables": 11791,
+      "total_objective": "1.20000000000000",
+      "weighted_sign_error": "0E-14",
+      "state_penalty": "1.2"
+    },
+    {
+      "slot": "02-without-MDM2",
+      "variables": 11791,
+      "total_objective": "1.20000000000000",
+      "weighted_sign_error": "0E-14",
+      "state_penalty": "1.2"
+    },
+    {
+      "slot": "03-native-GSK3B",
+      "variables": 11791,
+      "total_objective": "1.20000000000000",
+      "weighted_sign_error": "0E-14",
+      "state_penalty": "1.2"
+    }
+  ],
+  "complete_synthetic_control": [
+    {
+      "name": "baseline",
+      "valid": true,
+      "variables": 13,
+      "constraints": 12,
+      "bounds": 13,
+      "integer_variables": 11,
+      "objective": "0.40",
+      "weighted_sign_error": "0.00",
+      "state_penalty": "0.40",
+      "max_constraint_violation": "0",
+      "max_bound_violation": "0",
+      "max_integrality_violation": "0.0"
+    },
+    {
+      "name": "query",
+      "valid": true,
+      "variables": 13,
+      "constraints": 14,
+      "bounds": 13,
+      "integer_variables": 11,
+      "objective": "0.40",
+      "weighted_sign_error": "0.40",
+      "state_penalty": "0.00",
+      "max_constraint_violation": "0",
+      "max_bound_violation": "0",
+      "max_integrality_violation": "0.0"
+    }
+  ],
+  "real_full_primal_rechecked_here": false,
+  "real_full_primal_note": "Use verify_full_primal.py with a separately authorized exact base LP. The retained independent audit already checked all real constraints.",
+  "solver_network_model_GPU_calls": 0
+}
