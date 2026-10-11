@@ -1,0 +1,30 @@
+{
+  "at_utc": "2026-10-10T23:49:21.439058+00:00",
+  "status": "SELECTION_COMPLETE_AND_COMPARED_BEFORE_SCORING",
+  "exit_code": 0,
+  "attempts": 1,
+  "automatic_retries": 0,
+  "tasks": 30,
+  "planned_rows": 3600,
+  "completed_rows": 3600,
+  "task_wall_seconds_sum": 58.86388999997871,
+  "source_change": "Quotient latent sampling once, then lookup expansion; all other runtime sources byte-identical to original.",
+  "synthetic_tests_passed": 20,
+  "actual_equal_group_seed_checks": 110,
+  "selection_comparison": {
+    "changed_rows": 0,
+    "changed_fields": {
+      "selected_ids": 0,
+      "fallback_selected_ids": 0,
+      "status": 0
+    }
+  },
+  "new_gold_reads_by_this_agent": 0,
+  "new_scoring_by_this_agent": false,
+  "root_owns_final_scoring": true,
+  "protocol_sha256": "bddda529e812f64d55538e475b7d1f5b59b8bd00b617a1c0e821fc305ce4d6de",
+  "selection_seal_sha256": "5436cd01c76b13af9a2d88a224b1997e4c10c1d875ca02685a7fd36f94eb6d40",
+  "comparison_sha256": "886fc79f1cbcc78ba1df58f17b682576dee2fbc668807ab4c7a7d8091b1e9c36",
+  "science_setting_changes": [],
+  "setup_attempt_note": "Initial synthetic-test setup used an incorrect relative file-write directory, leaving the new test module absent. That non-selection setup failure is retained in setup-attempt-01-numerical-tests logs; corrected setup yielded20passing tests before freeze. No actual selection retry."
+}

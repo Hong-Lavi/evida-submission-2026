@@ -1,0 +1,8 @@
+{
+  "status": "training_completed_checkpoint_reload_failed",
+  "GPU_used": true,
+  "original_receipt_GPU_used_is_incorrect": true,
+  "reason": "receipt derived GPU use from completed arms; trainer actually completed one GPU epoch before reload error",
+  "action": "Load only this invocation own best checkpoint state explicitly, then predict in-memory; third-party weights remain weights_only=True",
+  "benchmark_labels_read": false
+}

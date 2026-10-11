@@ -1,0 +1,31 @@
+--- acquisition-01/acquisition.py
++++ acquisition-02/acquisition.py
+@@ -102,6 +102,19 @@
+                                  "unconditional_incremental_coverage": gain}
+ 
+ 
++def sample_latent(adjusted, factor, equal_groups, rng, draws):
++    """Compute each quotient variable once, then copy equal columns exactly."""
++    normals = rng.standard_normal((draws, factor.shape[1]))
++    if not equal_groups:
++        return adjusted + normals @ factor.T
++    representative = np.arange(len(adjusted))
++    for group in equal_groups:
++        representative[group] = group[0]
++    reps, lookup = np.unique(representative, return_inverse=True)
++    quotient_samples = adjusted[reps] + normals @ factor[reps].T
++    return quotient_samples[:, lookup]
++
++
+ def posterior_orders(ids, mean, covariance, observation_sd, seeds, draws=8192, max_batch=20, ranking_mean=None):
+     mean = np.asarray(mean, dtype=float)
+     ranking_mean = mean if ranking_mean is None else np.asarray(ranking_mean, dtype=float)
+@@ -117,7 +130,7 @@
+         # Independent streams; same latent draws for qPO/pTop10 and f/y sensitivity.
+         f_rng = np.random.default_rng(np.random.SeedSequence([20261011, seed, 1]))
+         e_rng = np.random.default_rng(np.random.SeedSequence([20261011, seed, 2]))
+-        latent = adjusted + f_rng.standard_normal((draws, factor.shape[1])) @ factor.T
++        latent = sample_latent(adjusted, factor, diagnostic["equal_groups"], f_rng, draws)
+         observed = latent + e_rng.standard_normal(latent.shape) * np.sqrt(noise)
+         by_method, by_detail = {}, {}
+         for suffix, samples in (("latent", latent), ("observation", observed)):

@@ -1,0 +1,82 @@
+{
+  "status": "PASS",
+  "original_reproduction_sha256": "b90c2e3d431901da10bc20c21320ee38c24dc31a02afffc870a6be9d960d074d",
+  "original_result_sha256": "7ccfb0c9ad6bbaed6235c668923df2d0a2318f7a325cc27baf062504ced143eb",
+  "draft_sha256": "c8c2c85bbc4537bb7aed43e94a76d35791419d668c49b6b48b36e546fe6e35e7",
+  "runner_sha256": "b476399f7a8a92591f89cdbbac6d95dd8cbb469f0c856e25842422264932baff",
+  "independent_after_fix": {
+    "status": "PASS",
+    "same_first_worker_truncation_and_exit_minus9": true,
+    "fixture_note": "Added selected_policy_arm=gp to the synthetic packet because the revised collector validates baseline scope; original failure stimulus unchanged. Second worker emits valid synthetic results to test continuation.",
+    "planned_tasks": 2,
+    "worker_launches": 2,
+    "terminal_tasks": 2,
+    "planned_rows": 240,
+    "completed_rows": 120,
+    "failed_rows": 120,
+    "posterior_fallback_rows": 60,
+    "original_truncated_bytes_preserved_and_hashed": true,
+    "scorer_structural_gate": "PASS",
+    "gold_reads": 0
+  },
+  "pin_audit": {
+    "old_count": 176,
+    "new_count": 1482,
+    "added": 1306,
+    "removed": 0,
+    "original_pins_unchanged": true,
+    "all_added_pins_under_revision_02": true,
+    "added_pin_hashes_verified": 1306,
+    "source_hashes_verified": 11,
+    "future_actual_run_output_pins": 0,
+    "gold_file_pins": 0,
+    "categories": {
+      "revision-02/synthetic-killed-bp8l38ys": 357,
+      "revision-02/synthetic-killed-dh2p0g7x": 357,
+      "revision-02/final-tests.stderr": 1,
+      "revision-02/synthetic-killed-yir2elvg": 357,
+      "revision-02/synthetic-input_change-7wsjl0tp": 37,
+      "revision-02/synthetic-input_change-pgouawtr": 37,
+      "revision-02/synthetic-source_change-_3zr2axp": 37,
+      "revision-02/synthetic-source_change-97qz3ooj": 37,
+      "revision-02/synthetic-source_change-k4771v9m": 37,
+      "revision-02/synthetic-input_change-9ackpv0y": 37,
+      "revision-02/recovery-tests.stdout": 1,
+      "revision-02/recovery-tests.stderr": 1,
+      "revision-02/all-tests.stderr": 1,
+      "revision-02/prior": 5,
+      "revision-02/final-tests.stdout": 1,
+      "revision-02/previous-draft.json": 1,
+      "revision-02/CHANGELOG.md": 1,
+      "revision-02/all-tests.stdout": 1
+    },
+    "original_176_inputs": "Pin metadata compared unchanged; actual original candidate/input contents not parsed or selected."
+  },
+  "author_synthetic_receipt_checks": [
+    {
+      "fixture": "synthetic-killed-bp8l38ys",
+      "terminal_tasks": 30,
+      "rows": 3600,
+      "completed_rows": 3408,
+      "failed_rows": 192,
+      "receipt_artifact_hashes": "PASS"
+    },
+    {
+      "fixture": "synthetic-killed-dh2p0g7x",
+      "terminal_tasks": 30,
+      "rows": 3600,
+      "completed_rows": 3408,
+      "failed_rows": 192,
+      "receipt_artifact_hashes": "PASS"
+    },
+    {
+      "fixture": "synthetic-killed-yir2elvg",
+      "terminal_tasks": 30,
+      "rows": 3600,
+      "completed_rows": 3372,
+      "failed_rows": 228,
+      "receipt_artifact_hashes": "PASS"
+    }
+  ],
+  "scope": "No actual dataset parsing, actual candidate selection, gold reads, model/network/GPU calls. Source and synthetic fixtures only."
+}

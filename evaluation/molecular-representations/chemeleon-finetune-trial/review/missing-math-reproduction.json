@@ -1,0 +1,8 @@
+{
+  "confirmed": true,
+  "type": "NameError",
+  "message": "name 'math' is not defined",
+  "traceback": "Traceback (most recent call last):\n  File \"<stdin>\", line 11, in <module>\n  File \"<experiment-root>/chemeleon-finetune-trial/review/original-freeze/metrics_common.py\", line 49, in spearman\n    bottom = math.sqrt(sum((x - mean_a) ** 2 for x in a) * sum((y - mean_b) ** 2 for y in b))\n             ^^^^\nNameError: name 'math' is not defined. Did you forget to import 'math'?\n",
+  "protocol_sha256": "6bf294ade406c2761380a6fa1943e1b9bef1e718a0361900dd0b14348438dcea",
+  "scope": "CPU-only three-value Spearman call; no training, GPU, network or test labels."
+}

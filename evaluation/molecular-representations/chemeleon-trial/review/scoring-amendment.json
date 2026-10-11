@@ -1,0 +1,32 @@
+{
+  "status": "FROZEN_BEFORE_FOLLOWUP_GOLD_READ",
+  "at_utc": "2026-10-10T21:54:11.310985+00:00",
+  "original_protocol_sha256": "d59736bd68792592825d250bf6641a6f069c8a83ffe982ca6faaf1db714031de",
+  "original_scorer_sha256": "bdf86277772023ba97391e44cad8e63e71718a86a8dec1551e5c829167469c92",
+  "gate_sha256": "864fcec1c03c072530e19827edcf99e065fdbe10f9853b9e7a39a5139523ec65",
+  "gate_tests_sha256": "13115b390bc2dd86a835aabb941e252b7f5370ac4f4ea1d4e0262901525a3bd1",
+  "authorization": "Root explicitly authorized an independent pre-score gate and amendment before opening follow-up gold; prior GP outcomes on the same tasks were already known as stated in original protocol.",
+  "scope": "All 30 source, terminal receipt, completion hash and prior prediction pins verified before parsing prediction values; then identity/feature membership/finiteness/copied baselines/policy validation before unchanged original scorer may open any gold.",
+  "unchanged": [
+    "training code and methods",
+    "task order and training/test splits",
+    "primary and secondary metrics",
+    "model usability and selection rules",
+    "technical-failure fallback policy",
+    "original frozen files"
+  ],
+  "outputs": [
+    "review/prescore-gate-receipt.json with complete file hash manifest",
+    "original run-01/scored-results.json only through unchanged original scorer"
+  ],
+  "tests": {
+    "synthetic_tests_passed": 11,
+    "seconds": 0.57,
+    "actual_prediction_values_read": false,
+    "official_gold_read": false,
+    "final_scores_read": false
+  },
+  "operator_command": "../gp-env/bin/python -B review/prescore_gate.py --score",
+  "required_environment": "LD_LIBRARY_PATH=<user-home>/anaconda3/lib",
+  "no_model_network_gpu_calls": true
+}

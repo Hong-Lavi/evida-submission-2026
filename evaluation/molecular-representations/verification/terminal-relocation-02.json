@@ -1,0 +1,97 @@
+{
+  "status": "PASS",
+  "relocated_package": true,
+  "figure_and_final_verifier_included": true,
+  "original_trial_package_and_gold_roots_blocked": true,
+  "checks": [
+    {
+      "check": "verify",
+      "status": "PASS",
+      "result": {
+        "status": "PASS",
+        "source_files": 762,
+        "frozen_planned_tasks": 30,
+        "frozen_terminal_tasks": 30,
+        "fine_tune_planned_arms": 60,
+        "fine_tune_results_included": true,
+        "model_calls": 0,
+        "GPU_used": false,
+        "network_calls": 0
+      }
+    },
+    {
+      "check": "frozen",
+      "status": "PASS",
+      "result": {
+        "status": "PASS",
+        "archived_score_agreement_atol": 1e-12,
+        "planned_tasks": 30,
+        "completed_pairs": 30,
+        "completed_test_rows": 9802,
+        "scorer_function_body": "unchanged",
+        "neural_outcomes_read": false,
+        "model_calls": 0,
+        "GPU_used": false,
+        "network_calls": 0
+      }
+    },
+    {
+      "check": "neural",
+      "status": "PASS",
+      "result": {
+        "status": "PASS",
+        "archived_score_agreement_atol": 1e-12,
+        "planned_neural_arms": 60,
+        "completed_neural_arms": 60,
+        "task_coverage": {
+          "rf": 30,
+          "gp": 30,
+          "chemeleon_finetuned": 30,
+          "matched_random": 30,
+          "validation_policy": 30
+        },
+        "rows_by_arm": {
+          "rf": 9802,
+          "gp": 9802,
+          "chemeleon_finetuned": 9802,
+          "matched_random": 9802,
+          "validation_policy": 9802
+        },
+        "scorer_function_body": "unchanged",
+        "bindings": [
+          "official_data path",
+          "original protocol hash",
+          "package verifier for archived pins without omitted weights",
+          "new in-memory outputs"
+        ],
+        "model_calls": 0,
+        "GPU_used": false,
+        "network_calls": 0
+      }
+    },
+    {
+      "check": "independent",
+      "status": "PASS",
+      "result": {
+        "status": "PASS",
+        "all_independent_fields_agree_atol": 1e-12,
+        "tasks": 30,
+        "target_clusters": 29,
+        "neural_arms": 60,
+        "test_rows_per_arm": 9802,
+        "post_score_policy_comparison": "descriptive/exploratory; not frozen primary",
+        "bindings": [
+          "archive locations",
+          "original identities of sanitized containers verified through source-map"
+        ],
+        "model_calls": 0,
+        "GPU_used": false,
+        "network_calls": 0
+      }
+    }
+  ],
+  "model_calls": 0,
+  "GPU_used": false,
+  "fitting_calls": 0,
+  "network_calls": 0
+}
