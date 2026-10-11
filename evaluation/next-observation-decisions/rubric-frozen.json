@@ -1,0 +1,100 @@
+{
+  "status": "PRE_RESPONSE_INTERPRETATION_FIXED",
+  "primary": {
+    "pass_requires_all": [
+      "The response identifies a single prioritized action, an equivalent small comparison, or a justified stop adequate for the immediate case-stage decision.",
+      "The action is available and fits the stated budget including shared controls; its distinction can change the next decision rather than merely repeat an already adequate observation.",
+      "Interpretation respects intervention/readout validity and precision; a failed measurement does not eliminate a mechanism or count as an observed biological loss.",
+      "It preserves unknown and coexisting explanations and scopes any contribution claim to the stipulated conditions. A specific cAMP assay is never required when a validated alternative is available."
+    ],
+    "statuses": [
+      "pass",
+      "partial",
+      "fail",
+      "unassessable"
+    ],
+    "primary_binary_rule": "Only full pass counts as primary success. Preserve partial and unassessable separately within the planned denominator.",
+    "do_not_score": [
+      "field count",
+      "format conformity",
+      "answer length",
+      "fluency",
+      "number of citations",
+      "invented mechanistic confidence"
+    ],
+    "evidence": "Blinded manual review quotes exact action and reasoning passages and records disagreements; output format makes blinding partial. Author of these fixtures is not an independent external validation set creator."
+  },
+  "case_stage_references": [
+    {
+      "case": "NERA_DEV",
+      "stage": "initial",
+      "adequate": [
+        "n_upstream_function",
+        "n_wide_panel (adequate but excess cost scored separately)",
+        "scientifically equivalent available validated proximal functional contrast with the same paired controls"
+      ],
+      "reject": [
+        "claim mediator necessity now",
+        "require unavailable cAMP assay",
+        "repeat only the already adequate phenotype",
+        "substitute target engagement alone for the unmeasured functional contrast"
+      ]
+    },
+    {
+      "case": "NERA_DEV",
+      "stage": "result_update",
+      "adequate": [
+        "retain a limited context-specific contribution interpretation, preserve parallel/coexisting explanations, and stop discrimination solely for this immediate decision",
+        "proceed to a goal-relevant follow-up while clearly acknowledging this decision is resolved only conditionally"
+      ],
+      "reject": [
+        "declare MKP1 the sole mechanism",
+        "continue mandatory upstream measurements despite the stipulated adequate functional control",
+        "rewrite source literature as if it performed this synthetic experiment"
+      ]
+    },
+    {
+      "case": "BRAF_DEV",
+      "stage": "initial",
+      "adequate": [
+        "b_initial_function",
+        "b_broad_time_panel (adequate but excess cost scored separately)",
+        "recover an already available matched initial functional-response record before interpreting late signal as adaptive feedback"
+      ],
+      "reject": [
+        "repeat only the already adequate late signal",
+        "assert EGFR is the unique cause from the background abstract",
+        "invent a paper dose or sampling time"
+      ]
+    },
+    {
+      "case": "BRAF_DEV",
+      "stage": "result_update",
+      "adequate": [
+        "repair or revalidate the failed functional readout while retaining all explanation configurations"
+      ],
+      "reject": [
+        "treat assay failure as biological nonresponse",
+        "eliminate feedback explanations",
+        "claim a mechanistic winner from the failed readout"
+      ]
+    }
+  ],
+  "secondary_measures": [
+    "Choice cost relative to the minimum-cost admissible action, only among scientifically admissible choices.",
+    "Whether the action separates decision-relevant alternatives under the declared adequate outcomes.",
+    "Whether readout failure is routed to repair and whether a common next decision stops unnecessary discrimination.",
+    "Unsupported mechanism elimination, fabricated result/assay validation and infeasible action counts.",
+    "Actual model identity, returned/accepted/failed counts, time and input/output tokens."
+  ],
+  "adoption_rule": "Retain the assisted native hook only if it improves at least one concrete next action over current native without new unsupported causal claims or validity regressions. This is a development decision, not a superiority estimate. If all arms remain equivalent, retain only a useful inspectable decision aid or stop the feature; do not repeat the same cases for a win.",
+  "precision_notes": [
+    "NERA initial: an available validated non-cAMP functional contrast is adequate; direct target engagement alone is not the specified functional contrast.",
+    "NERA update: conditionally retain contribution plus coexistence and stop discrimination for this immediate disposition; further goal-directed work is allowed.",
+    "BRAF update: readout failure is not biological nonresponse; repair/revalidate and retain all configurations. Repair cost is not supplied, so mark it unknown and condition execution on feasibility instead of inventing a price. This satisfies budget care without claiming a quantified repair cost.",
+    "Costs are declared effort units. The exogenous card is not the consequence of the arm's chosen action; do not compute observed cost to discovery.",
+    "A function-shaped or schema-invalid response is judged only on its visible scientific content; contract/publication success is a separate diagnostic. Missing content remains unassessable within the twelve-slot denominator.",
+    "A broader declared panel can pass scientifically; excess cost is secondary. No reward for length, field counts, citations or confidence."
+  ],
+  "known_development_limits": "Two authored cases; four case-stage choices per arm are nested within these cases. Partial format blinding. No superiority statistics or biological validity certification."
+}

@@ -1,0 +1,79 @@
+{
+  "format_version": "1",
+  "blind_id": "Q05",
+  "case": "NERA_DEV",
+  "stage": "initial",
+  "overall": "pass",
+  "dimensions": [
+    {
+      "id": "prioritized_useful_action_or_stop",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "기증자별 짝지은 세포에서 약물 대 용매의 비-cAMP 근위 기능 반응",
+          "location": "Q05/answer.txt:L1:C107",
+          "char_start_zero_based": 106
+        }
+      ],
+      "reason": "One available paired proximal functional check is prioritized; it addresses the missing contrast rather than repeating the adequate phenotype."
+    },
+    {
+      "id": "decision_relevant_distinction",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "근위 반응의 보존과 소실이 현재의 두 판단을 가른다.",
+          "location": "Q05/answer.txt:L1:C397",
+          "char_start_zero_based": 396
+        }
+      ],
+      "reason": "Preserved versus lost upstream function changes whether limited contribution can be retained or altered drug function must be localized."
+    },
+    {
+      "id": "availability_controls_and_budget",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "측정 2와 필수 paired_setup 1을 합한 3 단위",
+          "location": "Q05/answer.txt:L1:C207",
+          "char_start_zero_based": 206
+        }
+      ],
+      "reason": "The selected synthetic check costs 2 plus paired setup 1 = 3, below budget 8; the unavailable cAMP assay is not required."
+    },
+    {
+      "id": "validity_precision_and_result_interpretation",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "후기 결과만으로 매개자 필요성을 분리할 수 없다.",
+          "location": "Q05/answer.txt:L1:C359",
+          "char_start_zero_based": 358
+        }
+      ],
+      "reason": "The response keeps the intervention and readout stipulations separate from literature and limits mediation claims; its precision/failure handling is adequate where stated."
+    },
+    {
+      "id": "unknown_coexisting_explanations_and_scope",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "병렬·공존 경로와 포함되지 않은 기전은 남는다.",
+          "location": "Q05/answer.txt:L1:C1567",
+          "char_start_zero_based": 1566
+        }
+      ],
+      "reason": "Limited MKP1 contribution is conditional; parallel, shared, context-dependent, and unmodeled explanations remain possible."
+    }
+  ],
+  "selected_action_quote": "기증자별 짝지은 세포에서 약물 대 용매의 비-cAMP 근위 기능 반응",
+  "interpretation_quote": "근위 반응의 보존과 소실이 현재의 두 판단을 가른다.",
+  "unsupported_claims": [],
+  "declared_incremental_cost": 3,
+  "unknown_cost_reason": "",
+  "ambiguities": [
+    "The visible summary does not spell out both outcome branches; the full response contains conditional outcome interpretation and failure contingencies."
+  ],
+  "primary_success": true,
+  "rule": "All scientific dimensions must pass; retain partial/fail/unassessable separately. No arm label or schema score."
+}

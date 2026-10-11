@@ -1,0 +1,77 @@
+{
+  "format_version": "1",
+  "blind_id": "Q02",
+  "case": "BRAF_DEV",
+  "stage": "initial",
+  "overall": "pass",
+  "dimensions": [
+    {
+      "id": "prioritized_useful_action_or_stop",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "우선 b_initial_function",
+          "location": "Q02/answer.txt:L1:C96",
+          "char_start_zero_based": 95
+        }
+      ],
+      "reason": "The prioritized matched early functional MAPK contrast addresses the absent initial response."
+    },
+    {
+      "id": "decision_relevant_distinction",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "현재 높은 후기 MAPK 신호만으로는",
+          "location": "Q02/answer.txt:L1:C302",
+          "char_start_zero_based": 301
+        }
+      ],
+      "reason": "Valid suppression permits later feedback-input comparison; valid absence calls for drug/input verification. Repeating late signal would not distinguish these decisions."
+    },
+    {
+      "id": "availability_controls_and_budget",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "검사 2와 필수 paired_setup 1을 합한 3 단위",
+          "location": "Q02/answer.txt:L1:C207",
+          "char_start_zero_based": 206
+        }
+      ],
+      "reason": "The selected synthetic check costs 2 plus paired setup 1 = 3, below budget 8."
+    },
+    {
+      "id": "validity_precision_and_result_interpretation",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "측정 또는 개입의 유효성 확인이 실패한다.",
+          "location": "Q02/answer.txt:L1:C4657",
+          "char_start_zero_based": 4656
+        }
+      ],
+      "reason": "The response does not treat the abstract as a result in this sample; it distinguishes functional response from target engagement and/or preserves measurement-validity limits."
+    },
+    {
+      "id": "unknown_coexisting_explanations_and_scope",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "EGFR 기여와 다른 입력의 공존 가능성을 유지했다.",
+          "location": "Q02/answer.txt:L1:C1442",
+          "char_start_zero_based": 1441
+        }
+      ],
+      "reason": "EGFR is not uniquely attributed and coexisting or omitted explanations remain open."
+    }
+  ],
+  "selected_action_quote": "우선 b_initial_function",
+  "interpretation_quote": "현재 높은 후기 MAPK 신호만으로는",
+  "unsupported_claims": [],
+  "declared_incremental_cost": 3,
+  "unknown_cost_reason": "",
+  "ambiguities": [],
+  "primary_success": true,
+  "rule": "All scientific dimensions must pass; retain partial/fail/unassessable separately. No arm label or schema score."
+}
