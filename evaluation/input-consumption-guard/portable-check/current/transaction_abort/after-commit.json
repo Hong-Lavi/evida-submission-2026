@@ -1,0 +1,241 @@
+{
+  "id": "ws_ec38c7453329405f",
+  "title": "Synthetic software-state replay; no scientific result",
+  "rev": 1,
+  "created": "2026-10-10T22:02:10.891133+00:00",
+  "intent": [
+    {
+      "id": "goal",
+      "label": "Goal",
+      "origin": "inferred",
+      "source_refs": [],
+      "text": "Review endpoint A using the supplied source"
+    },
+    {
+      "id": "boundary",
+      "label": "Boundary",
+      "origin": "inferred",
+      "source_refs": [],
+      "text": "Retain source and prior decisions"
+    }
+  ],
+  "decision": {
+    "action": "defer",
+    "alternatives": [],
+    "based_on_state_rev": 1,
+    "changed": [],
+    "evidence_refs": [
+      "art_5112b15bd23a47fe"
+    ],
+    "intent_records": [
+      {
+        "id": "goal",
+        "label": "Goal",
+        "origin": "inferred",
+        "source_refs": [],
+        "text": "Review endpoint A using the supplied source"
+      },
+      {
+        "id": "boundary",
+        "label": "Boundary",
+        "origin": "inferred",
+        "source_refs": [],
+        "text": "Retain source and prior decisions"
+      }
+    ],
+    "next_actions": [],
+    "preserved": [],
+    "questions": [],
+    "reason": "Scripted state-replay fixture; scientific content is intentionally fixed.",
+    "recommendation": "Initial preserved proposal",
+    "research_loop": {
+      "hypotheses": [],
+      "next_checks": [],
+      "revision_rationale": "Software replay only"
+    },
+    "unknowns": []
+  },
+  "decision_rev": 1,
+  "review_status": "reviewed",
+  "events": [
+    {
+      "seq": 1,
+      "workspace": "ws_ec38c7453329405f",
+      "kind": "created",
+      "created": "2026-10-10T22:02:10.891322+00:00",
+      "body": {
+        "title": "Synthetic software-state replay; no scientific result"
+      }
+    },
+    {
+      "seq": 2,
+      "workspace": "ws_ec38c7453329405f",
+      "kind": "artifact_added",
+      "created": "2026-10-10T22:02:10.895332+00:00",
+      "body": {
+        "artifact_id": "art_5112b15bd23a47fe",
+        "kind": "source_text",
+        "title": "Fixed synthetic source"
+      }
+    },
+    {
+      "seq": 3,
+      "workspace": "ws_ec38c7453329405f",
+      "kind": "work_framed",
+      "created": "2026-10-10T22:02:10.955555+00:00",
+      "body": {
+        "based_rev": 1,
+        "current_question": "What does the supplied record establish about endpoint A?",
+        "hypotheses": [],
+        "intent_records": [
+          {
+            "id": "goal",
+            "label": "Goal",
+            "origin": "inferred",
+            "source_refs": [],
+            "text": "Review endpoint A using the supplied source"
+          },
+          {
+            "id": "boundary",
+            "label": "Boundary",
+            "origin": "inferred",
+            "source_refs": [],
+            "text": "Retain source and prior decisions"
+          }
+        ],
+        "questions": [],
+        "task_brief": []
+      }
+    },
+    {
+      "seq": 4,
+      "workspace": "ws_ec38c7453329405f",
+      "kind": "artifact_added",
+      "created": "2026-10-10T22:02:14.131199+00:00",
+      "body": {
+        "artifact_id": "art_d031120ac77e47ba",
+        "kind": "hypothesis_review",
+        "title": "인과 근거·설명별 예상·구별할 관측 검토"
+      }
+    },
+    {
+      "seq": 5,
+      "workspace": "ws_ec38c7453329405f",
+      "kind": "artifact_added",
+      "created": "2026-10-10T22:02:14.131293+00:00",
+      "body": {
+        "artifact_id": "art_fc057bb441b64803",
+        "kind": "decision_proposal",
+        "title": "현재 판단 제안"
+      }
+    },
+    {
+      "seq": 6,
+      "workspace": "ws_ec38c7453329405f",
+      "kind": "hypothesis_wording_compared",
+      "created": "2026-10-10T22:02:14.131384+00:00",
+      "body": {
+        "comparisons": [],
+        "meaning": "Literal wording comparison only; no automatic scientific reassessment or semantic equivalence judgment.",
+        "receipt_id": "art_fc057bb441b64803",
+        "reference": {
+          "event_sequence": 3,
+          "kind": "latest_frame"
+        }
+      }
+    },
+    {
+      "seq": 7,
+      "workspace": "ws_ec38c7453329405f",
+      "kind": "decision_published",
+      "created": "2026-10-10T22:02:14.131482+00:00",
+      "body": {
+        "receipt_id": "art_fc057bb441b64803",
+        "state_rev": 1
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "art_5112b15bd23a47fe",
+      "workspace": "ws_ec38c7453329405f",
+      "title": "Fixed synthetic source",
+      "kind": "source_text",
+      "sha256": "22b4bda83debb9ec5c25fad43c6d875593492c1f8dd84d15795731fe883ca810",
+      "media_type": "application/json",
+      "created": "2026-10-10T22:02:10.895225+00:00",
+      "meta": {
+        "scientific_validation": false,
+        "synthetic": true
+      },
+      "bytes": 75,
+      "source_title": null
+    },
+    {
+      "id": "art_d031120ac77e47ba",
+      "workspace": "ws_ec38c7453329405f",
+      "title": "인과 근거·설명별 예상·구별할 관측 검토",
+      "kind": "hypothesis_review",
+      "sha256": "803f10d9d7347f1f2cd4377ff6b08045468911479bb0e16eff7b7b35fb2596f1",
+      "media_type": "application/json",
+      "created": "2026-10-10T22:02:14.131088+00:00",
+      "meta": {
+        "based_rev": 1,
+        "decision_id": "art_fc057bb441b64803",
+        "job_id": "scripted-replay",
+        "loop_sha256": "9a0c402c4ae30aa538c9f73fe712652337cc4d7b4366a4ba386845c34c74550b",
+        "semantic_type": "model_authored_hypothesis_review_not_scientific_validation",
+        "submission": "same_model_final_bundle"
+      },
+      "bytes": 932,
+      "source_title": null
+    },
+    {
+      "id": "art_fc057bb441b64803",
+      "workspace": "ws_ec38c7453329405f",
+      "title": "현재 판단 제안",
+      "kind": "decision_proposal",
+      "sha256": "b3b7a1d34b3aaead6b8acae440649e4604eb78c1c11810877c6d503c2ad68fad",
+      "media_type": "application/json",
+      "created": "2026-10-10T22:02:14.131276+00:00",
+      "meta": {
+        "based_rev": 1,
+        "finalization_records": {
+          "hypothesis_review": "art_d031120ac77e47ba"
+        },
+        "job_id": "scripted-replay",
+        "model_receipts": [],
+        "protocol_id": null,
+        "scientific_validation": false
+      },
+      "bytes": 705,
+      "source_title": null
+    }
+  ],
+  "jobs": [],
+  "event_cursor": 7,
+  "research_checks": [],
+  "followthrough_requests": [],
+  "input_changes": {
+    "phase": "published_review",
+    "since_decision": null,
+    "after_event": 0,
+    "through_event": 7,
+    "sources": [
+      {
+        "id": "art_5112b15bd23a47fe",
+        "title": "Fixed synthetic source",
+        "kind": "source_text"
+      },
+      {
+        "id": "art_d031120ac77e47ba",
+        "title": "인과 근거·설명별 예상·구별할 관측 검토",
+        "kind": "hypothesis_review"
+      }
+    ],
+    "messages": [],
+    "intent_edits": [],
+    "provenance_corrections": [],
+    "meaning": "Input locations, not proof of reading or claim support. Provenance corrections reclassify the referenced original input without replacing it; use its effective_provenance. Select relevant original ranges; older evidence, conditions and counterevidence remain accessible."
+  }
+}

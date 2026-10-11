@@ -1,0 +1,389 @@
+{
+  "status": "FROZEN_BEFORE_BENCHMARK_NEURAL_TRAINING",
+  "at_utc": "2026-10-10T22:25:48.150286+00:00",
+  "purpose": "Measure whether task fine-tuning of official CheMeleon weights improves p-activity prediction relative to the native RF, author Tanimoto GP and an identically sized randomly initialized message-passing model.",
+  "chronology": "The coordinator has seen RF/GP and frozen-CheMeleon/RF outcomes on these same30 tasks. This is a prespecified developmental follow-up using a reused benchmark, not fresh external validation. Only synthetic one-epoch GPU health checks precede this freeze.",
+  "author_repository": "https://github.com/JacksonBurns/chemeleon",
+  "author_commit": "b5e5bd88a7070c3f278e7e65e85b792617bf125c",
+  "weights_record": "https://zenodo.org/records/15460715",
+  "weights_sha256": "c376624d3407204e780a0ed13a9ac097cc9bb1c13ef89cdbc633c1715c183651",
+  "license": "MIT",
+  "tasks": [
+    {
+      "task": "CHEMBL1862_Ki",
+      "endpoint": "Ki",
+      "input_sha256": "c56610860b83b65bdc03c01b39e59555358b014ad6b1279278f92a52e794976b",
+      "reference_predictions_sha256": "8b31ed29b279a352c259b1e299fbb9ea5d0a000956620efb4df33a7713a812bd",
+      "training_rows": 475,
+      "validation_rows": 158,
+      "prediction_rows": 161,
+      "official_gold_sha256": "aa75372af17ca59ef59aeb81bdcb64f22a4e3d6c1f95f357707cb922d480d395"
+    },
+    {
+      "task": "CHEMBL1871_Ki",
+      "endpoint": "Ki",
+      "input_sha256": "03ec8b72a40274e3fcf4e0cdae769697c765d1f2ca40ba173f0e027108815133",
+      "reference_predictions_sha256": "803cb0b2c5186357980dbdcf0ee71da0a218305cafbe17420a0b99015f72decc",
+      "training_rows": 395,
+      "validation_rows": 130,
+      "prediction_rows": 134,
+      "official_gold_sha256": "446f4e740afda469a533a395da66779291768b3ed7926c6ee2f8e994c68fb027"
+    },
+    {
+      "task": "CHEMBL2034_Ki",
+      "endpoint": "Ki",
+      "input_sha256": "4458e8fa5dd6209c2ca6c9560df7a4983314e0de36e980cd7f967eab9333331b",
+      "reference_predictions_sha256": "292c002fc9270bae1e244d8cbf6b668df6d652b9ee29029e855255a64a5293f6",
+      "training_rows": 449,
+      "validation_rows": 149,
+      "prediction_rows": 152,
+      "official_gold_sha256": "702d1128b6e8596aff0977a350d51fdbbf70e5dde31a3abea034fe08bd8813f6"
+    },
+    {
+      "task": "CHEMBL2047_EC50",
+      "endpoint": "EC50",
+      "input_sha256": "0ff996143764bb7bc4611f135d6e791cc695d01a9491bdae088d1e0660541002",
+      "reference_predictions_sha256": "5149590d4be564fbe3ee8d08a2e4c099df3b25958209910d5ea8aa58fe61e708",
+      "training_rows": 378,
+      "validation_rows": 125,
+      "prediction_rows": 128,
+      "official_gold_sha256": "0dc8d7a3bd7ffff7e83281ffa8dc7e78ff755c58450ee63bd3d9479dc5af9f7f"
+    },
+    {
+      "task": "CHEMBL204_Ki",
+      "endpoint": "Ki",
+      "input_sha256": "986129789103257a65946b4eb69ea42f8e74d515402d8b5ffa5260513ef3173e",
+      "reference_predictions_sha256": "39985887e79278049052db6fe145b362dab41bdfe370c77908a3b55f4ec4f0ac",
+      "training_rows": 1651,
+      "validation_rows": 550,
+      "prediction_rows": 553,
+      "official_gold_sha256": "3dbc0c9823e093218f73f228b23b35cd6039d71c108d88b5f56ad1050546f114"
+    },
+    {
+      "task": "CHEMBL2147_Ki",
+      "endpoint": "Ki",
+      "input_sha256": "2886348adc6359b40f3c22091506a4c0b9f80726de2c8870bbd8cd2e9a40e49f",
+      "reference_predictions_sha256": "5e01a7514bf5dfbf38d12e87d1467dd34234ae3636168ac556f67271d797c8c2",
+      "training_rows": 872,
+      "validation_rows": 290,
+      "prediction_rows": 294,
+      "official_gold_sha256": "1507de3c2e8339c4d90a3b6373b6c2dcb1c0c464fe933cca9f762a027f7a5ef1"
+    },
+    {
+      "task": "CHEMBL214_Ki",
+      "endpoint": "Ki",
+      "input_sha256": "cb51f00f66433f42e4e80d32bbe5f4fecbb00e7f3968f310d492b835bc019fc4",
+      "reference_predictions_sha256": "b4cd4cae911aadcea1385f7fe38471aab0ddd3e876867393ae15f6169ddb5e0d",
+      "training_rows": 1989,
+      "validation_rows": 662,
+      "prediction_rows": 666,
+      "official_gold_sha256": "9df318668a7c73148688662f38fb4af5bf2057061ff9e1aa1255a6ce68347180"
+    },
+    {
+      "task": "CHEMBL218_EC50",
+      "endpoint": "EC50",
+      "input_sha256": "48f1e523118f1ea40722366a739ef2dd1622a89a2c0d7482f08cbbb27be27816",
+      "reference_predictions_sha256": "ca1566d52b5e49feef7445ad0750ddfc67614c2c4fd5afc120acfb68055a18bd",
+      "training_rows": 618,
+      "validation_rows": 205,
+      "prediction_rows": 208,
+      "official_gold_sha256": "57b2a1b4425bfa1933a36cea9f12cf4859b15a38272ba8ab9e50116ab737f8bf"
+    },
+    {
+      "task": "CHEMBL219_Ki",
+      "endpoint": "Ki",
+      "input_sha256": "557c1f8a5efaf90a9c7781c511a80c9a220c1cbbe3be160f33f52d3dca315b1d",
+      "reference_predictions_sha256": "754edd1e022f30c3030ac5ab9812054f647ff7457b3bd7d308210c11b506a0ea",
+      "training_rows": 1119,
+      "validation_rows": 372,
+      "prediction_rows": 374,
+      "official_gold_sha256": "f00505ad4b4f69b727dc96aae72e070f6d71d90569783ded2494980b055c508c"
+    },
+    {
+      "task": "CHEMBL228_Ki",
+      "endpoint": "Ki",
+      "input_sha256": "5c8f1f6930931d525629ca269348da2a1c4e0cfeef137ba254797eefdea8a66b",
+      "reference_predictions_sha256": "ae89a90a493a984a5f0b39d0e1fd2a723570d26ccaf0b9b1ae602db5da239422",
+      "training_rows": 1022,
+      "validation_rows": 340,
+      "prediction_rows": 342,
+      "official_gold_sha256": "a59ecc1899c2d312af19a4a66709e17e0f44a629e1acc0f5a5f44040964ab4db"
+    },
+    {
+      "task": "CHEMBL231_Ki",
+      "endpoint": "Ki",
+      "input_sha256": "9cf0a048fbfb4859921b5ee1d865309205106218348a42cd187e36b081fd4a1f",
+      "reference_predictions_sha256": "61916ef0de1afeef1f6bb3be1d435ceb9cf70850cd76513200e20a5dc45090ed",
+      "training_rows": 582,
+      "validation_rows": 194,
+      "prediction_rows": 197,
+      "official_gold_sha256": "81341170e5571129d9a387174be7dbc72ab8a6754d3813bb51e1009f9d371807"
+    },
+    {
+      "task": "CHEMBL233_Ki",
+      "endpoint": "Ki",
+      "input_sha256": "940c2dd39d97f1a197f9b3fd9e75cf817050807b176c53524c111ddb4689a3c0",
+      "reference_predictions_sha256": "46c01f93ed5c8b1fc7861d3956ab5a30b9d39d85ed5ff02acaebc20c85dd14e3",
+      "training_rows": 1884,
+      "validation_rows": 628,
+      "prediction_rows": 630,
+      "official_gold_sha256": "3d253e62f917d3ab660b6991b86de8e1f8550f5e08a0fbd8f97fbfa09063ad10"
+    },
+    {
+      "task": "CHEMBL234_Ki",
+      "endpoint": "Ki",
+      "input_sha256": "d28e7c5637dca297676d8ad2309b1ccf0815f273ef55c13e466d58a0c8f50b0f",
+      "reference_predictions_sha256": "e7a971c2014fc2a5a163c122dada59bbe2cc867e263a21cf450e45a9332ed5d4",
+      "training_rows": 2193,
+      "validation_rows": 731,
+      "prediction_rows": 733,
+      "official_gold_sha256": "0451df00fce286220a340cde5d66e86bd4ad22da4e9d0428100ccbd0f5a3a0ee"
+    },
+    {
+      "task": "CHEMBL235_EC50",
+      "endpoint": "EC50",
+      "input_sha256": "fb7a523b21434c1ddd68df8add91e8de9e35fe0fa579e50ae048086ecffb215f",
+      "reference_predictions_sha256": "c6d6bdf739e32956e4253643ee74a74a6eb5111f6e4a34fa4f496d33f9f8f4af",
+      "training_rows": 1408,
+      "validation_rows": 469,
+      "prediction_rows": 472,
+      "official_gold_sha256": "ca42970eb3830d10df6a2c599816dc9d7d9c729a0140ae9afc024365c2c6a5cb"
+    },
+    {
+      "task": "CHEMBL236_Ki",
+      "endpoint": "Ki",
+      "input_sha256": "57b7f66b27102ad9d2fb2c6372c2fb7893b4a639f3f7e85b5f914ff9f2f9d473",
+      "reference_predictions_sha256": "c330320eae73460e9d1d14bbe4c8231bd215c56d4f51ea30d679eb5c0a49fc0a",
+      "training_rows": 1558,
+      "validation_rows": 519,
+      "prediction_rows": 521,
+      "official_gold_sha256": "914b6b56c338247f94e5a5ddb816297404f5cbd5bcf89c591115a6934779a19a"
+    },
+    {
+      "task": "CHEMBL237_EC50",
+      "endpoint": "EC50",
+      "input_sha256": "6871c2f70f0a4237d74b47cdcd8003b77c130b6283168ce0ad3985487f39bbd2",
+      "reference_predictions_sha256": "59007b320d017f1854fc56996bd89595d3d98043b96f6abdb74c83b5ccf608ac",
+      "training_rows": 572,
+      "validation_rows": 190,
+      "prediction_rows": 193,
+      "official_gold_sha256": "6b9c103a493f0117cbe816390e2673387e020441574a21621fd1e8dcaada87f8"
+    },
+    {
+      "task": "CHEMBL237_Ki",
+      "endpoint": "Ki",
+      "input_sha256": "32ad9d70c5af4ea0ff501b8750ea1914cc731d4dfad4a704f66bbdaf4d48538b",
+      "reference_predictions_sha256": "cf5e72e299038b34ac45e9f596e8139c0967652781380f2b8249aafe34470656",
+      "training_rows": 1561,
+      "validation_rows": 520,
+      "prediction_rows": 522,
+      "official_gold_sha256": "28888e21ee34fee646e33c293df54c1fe0b8f4eaff3e79e15d5107ccefb41579"
+    },
+    {
+      "task": "CHEMBL238_Ki",
+      "endpoint": "Ki",
+      "input_sha256": "d0a72f295d68c12bf9ee7bbbc4035669121bbac6c5e70a66f70b8173c91be715",
+      "reference_predictions_sha256": "11d72ce2edb3ab70a6204de5250f13a826b77f93d9bcda6834f6fc8a2bc17e12",
+      "training_rows": 630,
+      "validation_rows": 209,
+      "prediction_rows": 213,
+      "official_gold_sha256": "a85083f3e641b279e4dc55dfb75e210589cd3ae2a4ddbbd467fdd4d057e6afe7"
+    },
+    {
+      "task": "CHEMBL239_EC50",
+      "endpoint": "EC50",
+      "input_sha256": "88a8d4b5606dfe711ee58781f80522c852aa9b17a7a5768434112154e2bacf11",
+      "reference_predictions_sha256": "ed822ba378e53acd4b28149d8376d72f71bd36a65464043ba74c5813af16232a",
+      "training_rows": 1031,
+      "validation_rows": 343,
+      "prediction_rows": 347,
+      "official_gold_sha256": "3ae336d51341909964f47ea19a7ccae4516265eaac8968cceb7862fc279ad72d"
+    },
+    {
+      "task": "CHEMBL244_Ki",
+      "endpoint": "Ki",
+      "input_sha256": "c86134a3b900f557a30f90780082f46ec8fca8852086fb8409021d5c8a8ce1a9",
+      "reference_predictions_sha256": "89a5f5d713ec7fb62822dfc9d71d281463d71dd5aa574c596382ffe04667775f",
+      "training_rows": 1857,
+      "validation_rows": 619,
+      "prediction_rows": 621,
+      "official_gold_sha256": "59689921009a65bc6a30c5d83bd0706359d0200f26008c28dbcc84dc1f328699"
+    },
+    {
+      "task": "CHEMBL262_Ki",
+      "endpoint": "Ki",
+      "input_sha256": "4917324f7206791911bb6e549cf7627688419a3590b18deceaeed42a5a1e81e0",
+      "reference_predictions_sha256": "23a808b0c3c01c3499bf4790f5bdff4e2d13ddb2b0620acca380495442c3acf1",
+      "training_rows": 513,
+      "validation_rows": 170,
+      "prediction_rows": 173,
+      "official_gold_sha256": "a1cbb9020df4247f5716dd9a204df3bf36cbf79acb47a79a097f07cd0259af76"
+    },
+    {
+      "task": "CHEMBL264_Ki",
+      "endpoint": "Ki",
+      "input_sha256": "a0524688ef4790f6ba65ff9ebf90ecf2c70929632907b6559b257fdfe2eeaed7",
+      "reference_predictions_sha256": "325ee8e286d38908be70f772e9545d1610d4e92cd5d350089dcd62aa0f87e344",
+      "training_rows": 1716,
+      "validation_rows": 572,
+      "prediction_rows": 574,
+      "official_gold_sha256": "f04d809af0670132eb171f6eacd74452c4b84a6ed5f919bc8b335fda89b1896e"
+    },
+    {
+      "task": "CHEMBL2835_Ki",
+      "endpoint": "Ki",
+      "input_sha256": "bfc793b69e0d3dc6d17f05e18cbf53f47731412018e0de7c36b3259b1467038b",
+      "reference_predictions_sha256": "3946696e6b956d641dac0b039714c53a5b885313d4304b1253fb732da761369b",
+      "training_rows": 367,
+      "validation_rows": 122,
+      "prediction_rows": 126,
+      "official_gold_sha256": "978cfe3d940dd9a098c3e8c46d7320ec3974eb41e52469f946c76a6a2ee9532d"
+    },
+    {
+      "task": "CHEMBL287_Ki",
+      "endpoint": "Ki",
+      "input_sha256": "56c7e9c7c1992de9d0dcc38b567c87237795f7c48ca492c75b4cb3e313ef6194",
+      "reference_predictions_sha256": "e4622d5df3e3930d452ee6587f5b6d20cb5ee4f3358a407a3650a8161325f18e",
+      "training_rows": 796,
+      "validation_rows": 265,
+      "prediction_rows": 267,
+      "official_gold_sha256": "9b5334c9e9eadb7e7351859c313fafbff64fc50fa4f4f70f3655aff3807c14f1"
+    },
+    {
+      "task": "CHEMBL2971_Ki",
+      "endpoint": "Ki",
+      "input_sha256": "7ae85a105fb54e4f8d3e5ad56be30f0152d9a81de0fff99c3ee9f1bd945de1c6",
+      "reference_predictions_sha256": "715b99081cc44d09d53db78be19a369317028a2f6cf29da28e7bf6515db90c3a",
+      "training_rows": 585,
+      "validation_rows": 194,
+      "prediction_rows": 197,
+      "official_gold_sha256": "2ca089781658fc191fe8cea8c99da54ba383935997d93a1da7ec0a013f4e4e45"
+    },
+    {
+      "task": "CHEMBL3979_EC50",
+      "endpoint": "EC50",
+      "input_sha256": "fba8197c82029b3dda6b746a3601a7d4fe0dfc8e0c27154c9f397a7b64385879",
+      "reference_predictions_sha256": "e73f5aeaddf8cf4863d486ef5af6957d67ee635afa202f632ba38e27a953e71d",
+      "training_rows": 675,
+      "validation_rows": 224,
+      "prediction_rows": 226,
+      "official_gold_sha256": "42f1a731639574c12255b26901574fc2b7d0f2d65cc75e5952e5a6d24dbb8594"
+    },
+    {
+      "task": "CHEMBL4005_Ki",
+      "endpoint": "Ki",
+      "input_sha256": "6b4c12fa31cf2f0c04b605a2e074636eaa449fe4e96edfc35ebd7282ba7bfca4",
+      "reference_predictions_sha256": "a940be6d3c105326433c7e76116d42f22714ad5f355213015c31aab9cf448ba0",
+      "training_rows": 576,
+      "validation_rows": 191,
+      "prediction_rows": 193,
+      "official_gold_sha256": "ac78cfa329057fdda122f0440c80a8ce9e31dbfdd58fe32f385f47244fffc3b8"
+    },
+    {
+      "task": "CHEMBL4203_Ki",
+      "endpoint": "Ki",
+      "input_sha256": "06a1ac6b71efa5051b8f50f81e7d128f2c5cac02a81bd82b54ab64e3c0ba4f25",
+      "reference_predictions_sha256": "76ddf3c5954160b85da8242984ebc3b11809e608319373d5126918a270d264cc",
+      "training_rows": 437,
+      "validation_rows": 145,
+      "prediction_rows": 149,
+      "official_gold_sha256": "c669dbdaf914cf940c751c54323ff667a8b261f89cb5f7c604be8a879a8fe9ed"
+    },
+    {
+      "task": "CHEMBL4616_EC50",
+      "endpoint": "EC50",
+      "input_sha256": "b301cc7583632f4e08ab322bff62d4c68d8852595fb5845b256cb78d186c7827",
+      "reference_predictions_sha256": "4cbf16225bd67c22909159a6f86f5f8bc3e8e854e694aa150277ad43478afab4",
+      "training_rows": 408,
+      "validation_rows": 135,
+      "prediction_rows": 139,
+      "official_gold_sha256": "e5be231ea5f96929c49039264c5be6ff37d653dcd1d57c6810668e4b15281f42"
+    },
+    {
+      "task": "CHEMBL4792_Ki",
+      "endpoint": "Ki",
+      "input_sha256": "68959505a5bd8b8134535cf5d3eff0248efc21692533a88b8cdee47defe6e04d",
+      "reference_predictions_sha256": "702edf0a77ea30ed844035654d31a8f55564fe98f47af285b85f9dc2c19a4215",
+      "training_rows": 881,
+      "validation_rows": 293,
+      "prediction_rows": 297,
+      "official_gold_sha256": "4db535bdddcf21a192503c910ca02ad7d416840406170b3dd8e2206cfb3b95b6"
+    }
+  ],
+  "official_data": "<research-root>/audit/evida-evaluation-expansion-20261002/component-runs/moleculeace-inputs-01",
+  "source_pins": {
+    "finetune_adapter.py": "a0da0ac0f9053350d31f4adb1121639bedac5dfcfc31dd035cb727a08ea1f371",
+    "run_comparison.py": "c4e8a7ffbbeb3196149d9684eaa0111f93d2a8a9cb21ad7f6870fe3e21b49fdd",
+    "score_comparison.py": "35ed97517810a1cf4f8421e1ca54e40a7d2f40f9a0837969ce33b8dd36dbf349",
+    "metrics_common.py": "768af2fff8381e1a1e07dda6883dc0cba85739e6664a6dcaa4446251b421fa8b",
+    "prepare_data.py": "4c9d6870608edd8c3078daa5f8b3d983935002fab0195829a729cb7bdb505478",
+    "metric-source-map.json": "e16d0672bb887c2e1cd8e2c93910cf093ec2f4789795c34f9958a469c6658af1",
+    "input-manifest.json": "3af322761adbb47d9beea6e63d002a715d169e1b2980e0588ebc6e2ae5719f7b",
+    "../chemeleon-trial/author/models/chemprop_mpnn/evaluate.py": "f0e23ccd9c83d2d167b2b6ac7ecace106e7a329f28cca79d1aabf18ffba9bb7b",
+    "../chemeleon-trial/author/analysis/fine-tuning/scripts/finetune.py": "f4a9cf22d0130d7a129c0ab68724b5cb6cbeaebc055c61d985b24d746c07f374"
+  },
+  "arms": [
+    "chemeleon_finetuned",
+    "matched_random"
+  ],
+  "comparators": [
+    "recorded native RF",
+    "recorded author Tanimoto GP"
+  ],
+  "seed": 20260930,
+  "maximum_epochs": 50,
+  "early_stopping": {
+    "monitor": "val_loss",
+    "mode": "min",
+    "patience": 5,
+    "best_checkpoint": true
+  },
+  "batch_size": 64,
+  "message_passing": "official 2048-dimensional depth6 architecture; pretrained weights versus random initialization; all parameters trainable",
+  "head": "RegressionFFN hidden_dim256; identical initial head state across paired arms",
+  "precision": "float32 with TF32 disabled and deterministic=True; compare original p-activity units",
+  "target_normalization": "Fit mean/std on native training rows only; apply same scaler to validation; unscale predictions",
+  "training_partition": "Exact frozen native75% largest-Murcko-scaffold training and remaining validation; all30 prior matrix/label hashes match",
+  "adaptations": [
+    "Native scaffold partition replaces author random80/20 inner split",
+    "One fixed seed rather than author5-seed comparison",
+    "Random-init control uses the same2048-width depth6 architecture rather than author smaller default architecture",
+    "Current official weights-only encoder checkpoint and Chemprop2.3.1; own generated best checkpoint state is loaded explicitly",
+    "CSV logs and one explicitly assigned GPU; no hosted tracking",
+    "Num_workers0, bounded50 epochs, early stopping patience5"
+  ],
+  "gpu_uuid": "<assigned-gpu-uuid>",
+  "gpu_name": "NVIDIA RTX A5000",
+  "gpu_driver": "515.43.04",
+  "maximum_seconds_per_arm": 1800,
+  "idle_memory_limit_mib": 512,
+  "stop_starting_new_arms_at_utc": "2026-10-11T07:00:00+00:00",
+  "maximum_concurrent_gpu_workers": 1,
+  "automatic_retries": 0,
+  "model_calls": 0,
+  "primary": "task-macro MAE: chemeleon_finetuned minus native RF",
+  "secondary": [
+    "RMSE",
+    "Spearman",
+    "top10 recall",
+    "best true activity in selected10",
+    "matched_random difference",
+    "GP difference",
+    "validation-only choice among RF, GP, CheMeleon and matched random"
+  ],
+  "policy": "Eligible if rounded-to3-decimal validation Spearman>=0.3 and validation MAE below training-mean MAE; GP additionally requires recorded optimizer success. Lowest unrounded validation MAE wins, exact ties RF thenGP thenpretrained thenrandom. Each neural checkpoint chosen by validation MSE. No outer labels affect these choices.",
+  "bootstrap_seed": 20261011,
+  "bootstrap_repetitions": 5000,
+  "bootstrap_unit": "target clusters (paired endpoints stay together)",
+  "failures": "All60 planned arm/task receipts retained; failed or time-budget-skipped arm remains in denominator and policy uses other eligible models. Successful-pair metrics show their coverage explicitly.",
+  "scope": "30 MoleculeACE target/endpoint tasks and9802 official test molecules, reused benchmark follow-up, one training seed, standardized public assay labels across recorded conditions.",
+  "adoption_rule": "Use validation-selected methods; select product adoption based on measured point-prediction/ranking benefit and compute cost, retaining all task results. A new target/assay-context external dataset is the next independent test.",
+  "environment": {
+    "torch": "2.7.1+cu118",
+    "chemprop": "2.3.1",
+    "lightning": "2.6.6",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "rdkit": "2026.3.6"
+  }
+}

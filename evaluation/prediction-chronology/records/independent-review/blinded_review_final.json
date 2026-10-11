@@ -1,0 +1,1668 @@
+{
+  "status": "FINAL_BLINDED_REVIEW",
+  "at_utc": "2026-10-10T23:08:17.741902+00:00",
+  "planned_answers": 18,
+  "reviewed": 18,
+  "pending": 0,
+  "scientific_primary_counts": {
+    "pass": 18
+  },
+  "identity_key_opened": false,
+  "criterion_seal_sha256": "3a9927e128db416ea07f6cf54d0522df1aae121317a204887d233c0aaa22b38a",
+  "batch_seal_sha256": {
+    "manual-batch-01.seal.json": "97b614516b7e8229a3f68a783706f820739a1aa2b82ff2c47d8ee058e01611f6",
+    "manual-batch-02.seal.json": "3f1efe38902e7c2296f730665c65e28ad042a3dda986aa2eec9328519f8c2a7a",
+    "manual-batch-03.seal.json": "26ba2e0e0e8cf4e69d82b5f940bbfee6b061965258cb1dafe4918d6dfc1fdeba",
+    "manual-batch-04.seal.json": "b99412b0cb18e3b26a4a21bfd853cd8f4ceb658593effdd766bfea485d0de5b9",
+    "manual-batch-05.seal.json": "c1dc838b8a127d4e917afd91b8814b64162528458e548f10b0a2ee8c6d648ee0",
+    "manual-batch-06.seal.json": "4131f1055769be5b3bb15e90c79f7ee061a717ee41522d291e49aa6b68e8fef1",
+    "manual-batch-07.seal.json": "a68c2ff82ac167ddb7e6e3c82b35184d8b669a03d2ca87e5d811c1fc8129e904",
+    "manual-batch-08.seal.json": "93798a3fb67bf07c0889539255e698fd22a1d4c6047237efa258bae7fc7de9e7",
+    "manual-batch-09.seal.json": "47d2c41b269e6bc185b9eab126d51057d9b60f5479370e18cbd3c1a7db9f1091",
+    "manual-batch-10.seal.json": "5c35a4811b9ff4e353b4600088da5e6377ed54d2ed8f134b9e7bb2a622639d9b",
+    "manual-batch-11.seal.json": "d9c29b8070514a15a0d88abec1b3142e97102fb018c57316670f4bc7e0be9740"
+  },
+  "rows": [
+    {
+      "blind_id": "B01",
+      "review_status": "sealed",
+      "case_id": "P2_same_result_already_seen",
+      "primary_result": "pass",
+      "judgment_path": "judgments/B01-judgment-01.json",
+      "judgment_sha256": "f3ea6682763c4e5e1ab849df627a7cab2a02a0002481cc090f3944c0c38c2363",
+      "review": {
+        "blind_id": "B01",
+        "case_id": "P2_same_result_already_seen",
+        "primary_result": "pass",
+        "assigned_instance": "p2-assigned is explicitly identified as the local alias of mkp1-known; event 10 is the already seen same result.",
+        "declared_chronology": "reconstructed_after_result (equivalent explicit retrospective prose)",
+        "criteria": [
+          {
+            "id": "P2.1",
+            "status": "pass",
+            "reason": "Identifies event-10 disclosure before any prediction and explicitly denies prospective credit for the current explanations.",
+            "evidence": [
+              {
+                "quote": "Consequently, explanations formulated now are retrospective; they cannot be credited as successful prospective predictions or as new experimental observations.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "dc5e24298ca340f791714867933d16d00320f009c9199708a6c8be9a0dc5bb87"
+              }
+            ]
+          },
+          {
+            "id": "P2.2",
+            "status": "pass",
+            "reason": "Keeps local alias and measurement identity fixed and explicitly rejects chronology laundering by renaming.",
+            "evidence": [
+              {
+                "quote": "Renaming the check does not change that chronology.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "cc74faaedfd18a8737fa92a82a7157c49f459234fc5b578036c8ffd09e5f67fe"
+              },
+              {
+                "quote": "No such experiment was performed here, and it would not alter the retrospective status of p2-assigned.",
+                "answer_line_start": 15,
+                "answer_line_end": 15,
+                "quote_utf8_sha256": "ae662aee1ac3f023c9c8e05a68327c438d2730959217c2bb527d07757c4da2b9"
+              }
+            ]
+          },
+          {
+            "id": "P2.3",
+            "status": "pass",
+            "reason": "Treats downstream loss as compatible with hA, not uniquely discriminating hA from hB; names alternative explanations and missing intervention/readout controls.",
+            "evidence": [
+              {
+                "quote": "Thus the known loss is compatible with hA but does not uniquely distinguish hA from hB.",
+                "answer_line_start": 5,
+                "answer_line_end": 5,
+                "quote_utf8_sha256": "242d80de16e6d2d2855da1adba80953e62c7657e411de9ae43c6969a00134b0f"
+              },
+              {
+                "quote": "For the assigned measurement, the exact downstream endpoint, perturbation identity and direction, efficacy, drug dose, assay schedule, sample size and control results are unspecified.",
+                "answer_line_start": 13,
+                "answer_line_end": 13,
+                "quote_utf8_sha256": "56a10f6db349144cfa6fa2561464cfb79c0c52f6f91312d284eae7e37b6eb21b"
+              }
+            ]
+          }
+        ],
+        "failure_conditions_observed": [],
+        "prior_record_assessment": "Empty history acknowledged. Reference-loop hypotheses are not promoted to documented pre-event-10 predictions.",
+        "source_and_causal_assessment": "Retains MKP1 abundance versus stabilization/activity/necessity distinction, MKP1 1-hour versus p38 24-hour observations, source timing discrepancies, and CBP/p300 counterevidence. No unsupported causal winner found.",
+        "ambiguities": [
+          "Suggested future controls are a proposed separate experiment, not claimed completed. The mediator-control D1-D4 assay is outside this score."
+        ],
+        "review_scope_limit": "Source statements checked against the supplied selected 20-row extraction, not the full article or transport read logs.",
+        "reviewed_at_utc": "2026-10-10T22:43:11.872277+00:00",
+        "criterion_interpretation_sha256": "bbec185cb660b34a2943a5b4f698a20677164ab9e08c6508625aaba01744726a",
+        "visible_case_sha256": "228a71383eab69edd16983c3c1b6d0dae0111031a29daa496868a6b6155c4406",
+        "answer_sha256": "4153d6cb46d5acb87be4e86799993a09f2894f1a3ea741d0bd8c47872d7d65ee",
+        "visible_structure_only": "prose or non-JSON; no scientific penalty for format",
+        "native_schema_validity": "not independently assessed under permitted blinded input scope",
+        "arm_identity_known": false,
+        "key_opened": false,
+        "manual_semantic_judgment": true,
+        "automated_semantic_grading": false
+      }
+    },
+    {
+      "blind_id": "B02",
+      "review_status": "sealed",
+      "case_id": "P4_actual_prior_prediction_record",
+      "primary_result": "pass",
+      "judgment_path": "judgments/B02-judgment-01.json",
+      "judgment_sha256": "fd5f225ea74a4b317e3427fb7911b22fa06bd17940d9e22f588e1d786e99b8c8",
+      "review": {
+        "blind_id": "B02",
+        "case_id": "P4_actual_prior_prediction_record",
+        "primary_result": "pass",
+        "assigned_instance": "p4-assigned/prior-check and P4_actual_prior_prediction_record-instance are explicitly kept identical.",
+        "declared_chronology": "actual previously recorded prospective prediction at event 7; current assessment after event-10 disclosure",
+        "criteria": [
+          {
+            "id": "P4.1",
+            "status": "pass",
+            "reason": "Uses the actual fixture artifact and event order, not a literature citation as proof of earlier prediction.",
+            "evidence": [
+              {
+                "quote": "The preserved artifact is prior_prediction_P4, recorded at scenario event 7, with measurement_instance 'P4_actual_prior_prediction_record-instance'.",
+                "answer_line_start": 13,
+                "answer_line_end": 13,
+                "quote_utf8_sha256": "86b97d9191a731066414fe1267dc404d83a5d6d132ee06e9c65c3a332c3982b6"
+              },
+              {
+                "quote": "The history reveals outcome_index 0 at event 10 and places the current review at event 12. Thus, the original forecasts precede disclosure within the stipulated chronology.",
+                "answer_line_start": 15,
+                "answer_line_end": 15,
+                "quote_utf8_sha256": "57058ad1a49f6c10af620f76b8b2c0c4b26c2bcdb761e027c33d7d797871da9a"
+              }
+            ]
+          },
+          {
+            "id": "P4.2",
+            "status": "pass",
+            "reason": "Preserves original hA [0], hB [1], complete coverage, prospective origin and fixture assumption/rationale.",
+            "evidence": [
+              {
+                "quote": "Its unchanged declarations are hA: outcome_indices [0], and hB: outcome_indices [1]. Both have coverage 'complete', origin 'prospective', an empty alternative_id, the assumption 'Explicit synthetic prior declaration, not a paper result', and the rationale 'Unchanged earlier expectation under the scenario conditions.'",
+                "answer_line_start": 13,
+                "answer_line_end": 13,
+                "quote_utf8_sha256": "083aab8bbb1e1cbb2704a3acb8352cc955450a047fda268ab4145351d5bb5aa2"
+              }
+            ]
+          },
+          {
+            "id": "P4.3",
+            "status": "pass",
+            "reason": "Assesses the preserved forecast against outcome 0, refuses to expand hB after seeing it, and distinguishes forecast mismatch from refuting broad coexisting mechanisms.",
+            "evidence": [
+              {
+                "quote": "The earlier hB set must not be expanded after seeing the result.",
+                "answer_line_start": 15,
+                "answer_line_end": 15,
+                "quote_utf8_sha256": "f51becd21319cc4c3a5dfd1ea7870111cf2cfd099d42bba3e87891bc18c762d6"
+              },
+              {
+                "quote": "Equally, this conditional forecast mismatch does not globally falsify the broader, nonexclusive hB statement in the reference loop.",
+                "answer_line_start": 15,
+                "answer_line_end": 15,
+                "quote_utf8_sha256": "74cd676d964af4b0d265e492bb2130d605157a2afc07b308d261a922686491c7"
+              }
+            ]
+          }
+        ],
+        "failure_conditions_observed": [],
+        "prior_record_assessment": "Actual visible artifact identity, conditions, event order and substantive prediction content preserved. Semantic prior-record status does not require a particular native enum in prose.",
+        "source_and_causal_assessment": "Separates synthetic prediction success from a real nerandomilast experiment or proof of MKP1 mediation. Source summaries preserve the known short/late assay distinctions and reported counterevidence.",
+        "ambiguities": [
+          "Condition wording in the fixture is generic; the answer correctly declines to invent intervention dose, endpoint, effect size or confidence interval."
+        ],
+        "review_scope_limit": "Source packet and synthetic scenario establish what is scored; no assertion that the scenario events occurred in a biomedical experiment.",
+        "reviewed_at_utc": "2026-10-10T22:43:11.872860+00:00",
+        "criterion_interpretation_sha256": "bbec185cb660b34a2943a5b4f698a20677164ab9e08c6508625aaba01744726a",
+        "visible_case_sha256": "838c4c4379a3d604b1c88abd73a6f17882c5d24875c01cfc5207ee66ad5f881b",
+        "answer_sha256": "a9a9c142a5c85637debd9d537d5235c1639437328a5bdbda62247b007c91e52d",
+        "visible_structure_only": "prose or non-JSON; no scientific penalty for format",
+        "native_schema_validity": "not independently assessed under permitted blinded input scope",
+        "arm_identity_known": false,
+        "key_opened": false,
+        "manual_semantic_judgment": true,
+        "automated_semantic_grading": false
+      }
+    },
+    {
+      "blind_id": "B03",
+      "review_status": "sealed",
+      "case_id": "P5_earlier_hindsight_record",
+      "primary_result": "pass",
+      "judgment_path": "judgments/B03-judgment-01.json",
+      "judgment_sha256": "092e0154c97aec8a05867d513c776557ac0d9c4988664519797033ab32a08f89",
+      "review": {
+        "blind_id": "B03",
+        "case_id": "P5_earlier_hindsight_record",
+        "primary_result": "pass",
+        "assigned_instance": "p5-assigned/P5_earlier_hindsight_record-instance; outcome 0 at event 5, record at event 7, review at event 12.",
+        "declared_chronology": "reconstructed_after_result retained in observations and bindings",
+        "criteria": [
+          {
+            "id": "P5.1",
+            "status": "pass",
+            "reason": "Explicitly retains hindsight origin despite the artifact predating the current response.",
+            "evidence": [
+              {
+                "quote": "P5_earlier_hindsight_record-instance의 outcome 0은 event 5에 알려졌고 prior_prediction_P5는 event 7에 처음 작성되었다. event 12에 이 기록을 재사용해도 결과 이전 예측이 되지 않는다.",
+                "json_pointer": "/hypothesis_review/scope/checks/0/reason",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "29476f03580e20c5797c8e993b6d34e818339b856ea38f3c53fb3e89a9de8830"
+              }
+            ]
+          },
+          {
+            "id": "P5.2",
+            "status": "pass",
+            "reason": "Explicitly refuses to turn older storage into previously-recorded/prospective evidence; says the agreement is hindsight fit, not predictive or independent validation.",
+            "evidence": [
+              {
+                "quote": "event 12 이전에 저장됐다는 이유로 previously_recorded 또는 prospective로 바꾸지 않는다.",
+                "json_pointer": "/hypothesis_review/observations/0/predictions/1/rationale",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "9ff78138a5b23aa6d5878ef4de131538ca11c861ba19eb0278d9ca13fb453519"
+              },
+              {
+                "quote": "알려진 결과와 사후 기대의 일치다. 예측력·독립 검증·MKP1 필요성을 입증하지 않는다.",
+                "json_pointer": "/judgment_context/observation_reviews/4/explanatory_adequacy",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "c3bdd8a8f04ae4e9dea583c78d2a2d58b2550964e8e8037eeaf0db3f4bcf9938"
+              }
+            ]
+          },
+          {
+            "id": "P5.3",
+            "status": "pass",
+            "reason": "Preserves the original [0]/[1] outcome declarations and reconstructed origin, links the actual prior artifact, and refuses to rewrite hB as [0,1].",
+            "evidence": [
+              {
+                "quote": "원 [1]·complete·reconstructed_after_result를 보존한다. 알려진 outcome 0에 맞추어 원 선언을 [0,1]로 고쳐 쓰지 않는다.",
+                "json_pointer": "/judgment_context/observation_reviews/5/processing_validity",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "8386ed6a1e8f19f04f202244d9155c4d7236f8f8a646d2245f234d2111a7a676"
+              }
+            ]
+          }
+        ],
+        "failure_conditions_observed": [],
+        "prior_record_assessment": "prior_prediction_P5 and the unchanged historical origin are retained; the source-packet citation is not substituted for the history record.",
+        "source_and_causal_assessment": "No claimed new biological result or causal winner. Maintains coexisting hypotheses and unknown intervention controls and differentiates actual source assays from the synthetic assigned endpoint.",
+        "ambiguities": [
+          "The structured outcome interpretation uses insufficient_precision, but explicitly explains this as missing quantitative information rather than a known failed measurement or denial of the stipulated outcome. It does not alter the chronology judgment."
+        ],
+        "review_scope_limit": "Scientific content is assessed independently of native structured-output validity.",
+        "reviewed_at_utc": "2026-10-10T22:43:11.873568+00:00",
+        "criterion_interpretation_sha256": "bbec185cb660b34a2943a5b4f698a20677164ab9e08c6508625aaba01744726a",
+        "visible_case_sha256": "2ce9a77eef0144a0299820b1bf60092e5453220c44cfdf0398cd2e047bfd5a2b",
+        "answer_sha256": "f3f784548b70d3f1a4382b33e4c63ef86f6ddc3224e693f0ee9f5ff61b517dfe",
+        "visible_structure_only": "parseable JSON; native schema/dispatch not independently assessed",
+        "native_schema_validity": "not independently assessed under permitted blinded input scope",
+        "arm_identity_known": false,
+        "key_opened": false,
+        "manual_semantic_judgment": true,
+        "automated_semantic_grading": false
+      }
+    },
+    {
+      "blind_id": "B04",
+      "review_status": "sealed",
+      "case_id": "P1_new_intervention_after_literature",
+      "primary_result": "pass",
+      "judgment_path": "judgments/B04-judgment-01.json",
+      "judgment_sha256": "a56049e16c12ed757b68af5cdce31c3705e29d4e0f7e5366889dd07f8fee8fe3",
+      "review": {
+        "blind_id": "B04",
+        "case_id": "P1_new_intervention_after_literature",
+        "primary_result": "pass",
+        "assigned_instance": "p1-assigned/mkp1-new is distinguished from known published assays and remains an unmeasured perturbation/control/rescue check.",
+        "declared_chronology": "prospective for the assigned new intervention; known literature remains background interpretation",
+        "criteria": [
+          {
+            "id": "P1.1",
+            "status": "pass",
+            "reason": "Explicitly grounds prospective origin in absence of this intervention's outcome, despite prior literature exposure.",
+            "evidence": [
+              {
+                "quote": "문헌 결과는 이미 알려져 있지만 이 개입 결과는 아직 없으므로 이번 구체 예측의 origin은 prospective이다.",
+                "json_pointer": "/hypothesis_review/observations/0/predictions/0/rationale",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "d91b398e2d31f37de1c4903e0db01b02caabef2f659d5d72778bf5eabeb597fe"
+              }
+            ]
+          },
+          {
+            "id": "P1.2",
+            "status": "pass",
+            "reason": "Separates published measurements from the new check and does not present literature as a prior forecast for it. Retrospective meaning is conveyed by the explicit known-literature/new-unseen contrast rather than an obligatory enum.",
+            "evidence": [
+              {
+                "quote": "문헌의 인간 IPF 폐 섬유아세포 관측과 계획된 p1-assigned(mkp1-new)는 별개이며, 새 확인의 실제 시료·판독·시점은 아직 정해져 있지 않다.",
+                "json_pointer": "/hypothesis_review/causal_steps/0/target_context",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "5ee77b9c1710cace6263b3e93964ecca0ef77633d2c382c2213108b2db950cc1"
+              },
+              {
+                "quote": "이 저자 가설은 새 mkp1-new 확인에 대한 사전 예측 기록이 아니다.",
+                "json_pointer": "/hypothesis_review/causal_steps/1/evidence_groups/1/applicability_rationale",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "b17dd33e86c461d06ab9ffdb89e4201427690c5e2a726ee7ea7ffc244e7c9c27"
+              }
+            ]
+          },
+          {
+            "id": "P1.3",
+            "status": "pass",
+            "reason": "Leaves mediator causality unestablished and recognizes that broad hA/hB outcome sets overlap rather than claiming completed discrimination.",
+            "evidence": [
+              {
+                "quote": "약물 처치 뒤의 두 반응으로 매개자의 필요성·충분성을 정할 수 없다.",
+                "json_pointer": "/hypothesis_review/causal_steps/0/evidence_groups/0/causal_support_rationale",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "8d652678b3bfb763141c48bf78b392ebd5ebcd0b3673ac3a528ec30ff4e889a1"
+              },
+              {
+                "quote": "양 가설의 호환 결과가 겹치므로 결과 번호만으로 승자를 정할 수 없다.",
+                "json_pointer": "/hypothesis_review/observations/0/predictions/1/rationale",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "45b799d63a07c13601e2fbf1017b1496b4176415be37eb94b410f716a4025208"
+              }
+            ]
+          }
+        ],
+        "failure_conditions_observed": [],
+        "prior_record_assessment": "Explicitly notes empty history and no separately recorded earlier intervention prediction.",
+        "source_and_causal_assessment": "Retains assay times, unknown sample pairing, marker-versus-mediation distinction and CBP/p300 counterevidence. Proposed controls and outcomes are not claimed performed.",
+        "ambiguities": [
+          "Outcome interpretations say adequate_measurement, but the answer explicitly makes these conditional on future validity and precision checks; no existing result is declared adequate."
+        ],
+        "review_scope_limit": "Scores P1 chronology and its stated causal limit, not completeness of a future mediator-control protocol.",
+        "reviewed_at_utc": "2026-10-10T22:44:35.084607+00:00",
+        "criterion_interpretation_sha256": "bbec185cb660b34a2943a5b4f698a20677164ab9e08c6508625aaba01744726a",
+        "visible_case_sha256": "c888a91e250a89a57112a43bb583284b6ca06c63a299f33aa5941606295b96c0",
+        "answer_sha256": "1c562de8e35f7056922ad79410278c9e5a5b7f8742a673defd75ad473f070f55",
+        "visible_structure_only": "parseable JSON; native schema/dispatch not independently assessed",
+        "native_schema_validity": "not independently assessed under permitted blinded input scope",
+        "arm_identity_known": false,
+        "key_opened": false,
+        "manual_semantic_judgment": true,
+        "automated_semantic_grading": false
+      }
+    },
+    {
+      "blind_id": "B05",
+      "review_status": "sealed",
+      "case_id": "P1_new_intervention_after_literature",
+      "primary_result": "pass",
+      "judgment_path": "judgments/B05-judgment-01.json",
+      "judgment_sha256": "a91f6944850a922df91f377674f453c81cbf64f3bae54a6a3c5d9418d4e77b3a",
+      "review": {
+        "blind_id": "B05",
+        "case_id": "P1_new_intervention_after_literature",
+        "primary_result": "pass",
+        "assigned_instance": "p1-assigned is explicitly the alias of the unseen mkp1-new intervention.",
+        "declared_chronology": "prospective for new intervention predictions, separately from already observed publication results",
+        "criteria": [
+          {
+            "id": "P1.1",
+            "status": "pass",
+            "reason": "Both observation predictions and bindings are prospective for the same specified new measurement; rationale says it is being written before any result.",
+            "evidence": [
+              {
+                "quote": "이 예상은 결과 미관측 상태에서 지금 작성한 prospective이며, source_packet은 문헌 배경일 뿐 과거 예측 기록이 아니다.",
+                "json_pointer": "/hypothesis_review/observations/0/predictions/0/rationale",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "f9b32ce2ed9e36854b38e3693205faaa299ff15f82cffabba81336144f713e3c"
+              }
+            ]
+          },
+          {
+            "id": "P1.2",
+            "status": "pass",
+            "reason": "Explicitly denies that current predictions preceded the original paper observations, preserving original-versus-new chronology.",
+            "evidence": [
+              {
+                "quote": "이 조건부 예상은 새 개입 결과 전에 작성한 prospective이며, 원 논문의 관측을 사전 예측했던 것으로 표시하지 않는다.",
+                "json_pointer": "/hypothesis_review/observations/0/predictions/1/rationale",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "c3f431bc7f212d58967c40907df0184fe538dc6e78c430c834a1e754c231058c"
+              }
+            ]
+          },
+          {
+            "id": "P1.3",
+            "status": "pass",
+            "reason": "States that MKP1 contribution is unproved and that overlapping possible outcomes do not select an exclusive mechanism.",
+            "evidence": [
+              {
+                "quote": "약물 반응은 있지만 MKP1 매개 기여는 입증되지 않아 참조 루프의 proposed 상태를 강화할 근거가 없다.",
+                "json_pointer": "/hypothesis_review/scope/hypotheses/0/reason",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "9c4a5063efb69189252dfc59e85b52337cf5ae29bd0658eb512b699956887ed4"
+              },
+              {
+                "quote": "두 결과 모두 겹칠 수 있어 이 검사만으로 배타적 기전을 선택할 수 없다.",
+                "json_pointer": "/hypothesis_review/observations/0/predictions/1/rationale",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "06acb4c4b0ea4808053034d9ff6c8fa57fade3b97742c0268cd8c6dd1b351f93"
+              }
+            ]
+          }
+        ],
+        "failure_conditions_observed": [],
+        "prior_record_assessment": "Empty history retained and no invented older prediction. A candidate p38 readout is explicitly a proposal, not a supplied fact about the assigned instance.",
+        "source_and_causal_assessment": "Keeps drug intervention response separate from MKP1 mediation, preserves source counterevidence and timing discrepancies, and avoids patient-effect extrapolation.",
+        "ambiguities": [
+          "The word retrospective is not required: the explicit statement that the original observations were not predicted in advance supplies the expected distinction."
+        ],
+        "review_scope_limit": "Scientific chronology is assessed independently of structured field count and native dispatch validity.",
+        "reviewed_at_utc": "2026-10-10T22:44:35.085723+00:00",
+        "criterion_interpretation_sha256": "bbec185cb660b34a2943a5b4f698a20677164ab9e08c6508625aaba01744726a",
+        "visible_case_sha256": "c888a91e250a89a57112a43bb583284b6ca06c63a299f33aa5941606295b96c0",
+        "answer_sha256": "40c3e19c276286f15677c26c5dcdafd54b06ecf396f76c95b3b63ee865714244",
+        "visible_structure_only": "parseable JSON; native schema/dispatch not independently assessed",
+        "native_schema_validity": "not independently assessed under permitted blinded input scope",
+        "arm_identity_known": false,
+        "key_opened": false,
+        "manual_semantic_judgment": true,
+        "automated_semantic_grading": false
+      }
+    },
+    {
+      "blind_id": "B06",
+      "review_status": "sealed",
+      "case_id": "P3_new_replication_after_original_study",
+      "primary_result": "pass",
+      "judgment_path": "judgments/B06-judgment-01.json",
+      "judgment_sha256": "8955fc38b860c1c8573e3300a2f8339bc10ef88f48502d785925f8b8076a1de3",
+      "review": {
+        "blind_id": "B06",
+        "case_id": "P3_new_replication_after_original_study",
+        "primary_result": "pass",
+        "assigned_instance": "p3-assigned/replicate-new is a separately identified uncollected matched-donor replication, not the original assays.",
+        "declared_chronology": "prospective replication expectations informed by known original findings",
+        "criteria": [
+          {
+            "id": "P3.1",
+            "status": "pass",
+            "reason": "Explicitly allows prospective replication forecasts while its measurements remain unseen and recommends recording them before collection.",
+            "evidence": [
+              {
+                "quote": "The expectations below are formulated with the published results already known, while the replication measurements remain uncollected and unrevealed. They can guide a prospective replication assessment, but cannot be presented as predictions made before the original findings.",
+                "answer_line_start": 16,
+                "answer_line_end": 16,
+                "quote_utf8_sha256": "3f01f7b171f690785c089bb4d6be582e417da1d00b70267ce29bf1aef6a8e526"
+              },
+              {
+                "quote": "The next useful step is to finalize the replicate-new protocol and record these expectations before obtaining its measurements.",
+                "answer_line_start": 32,
+                "answer_line_end": 32,
+                "quote_utf8_sha256": "a859e898839dc3fdabcbec6b67884b62eb8170e22f3c7d0ffd2c9b986dc8c016"
+              }
+            ]
+          },
+          {
+            "id": "P3.2",
+            "status": "pass",
+            "reason": "Treats original results as known background and denies that they are the new replication outcome or a forecast predating the original results.",
+            "evidence": [
+              {
+                "quote": "Published results therefore provide its evidential background, not its outcome.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "d7242f848e712d84d35e5a5bf2a319353536450097f2f010e227b9fc1cb06b34"
+              },
+              {
+                "quote": "The authors’ reported competition hypothesis belongs to the published study and must remain separate from a forecast for this replication.",
+                "answer_line_start": 16,
+                "answer_line_end": 16,
+                "quote_utf8_sha256": "3865afb225fe4c8bacb594025a1e25343ea14ae374be22628be7ae7bd8c46da2"
+              }
+            ]
+          },
+          {
+            "id": "P3.3",
+            "status": "pass",
+            "reason": "Frames successful replication as reproducibility under specified conditions, not causal proof or independent mechanism discovery; both broad explanations remain compatible.",
+            "evidence": [
+              {
+                "quote": "Because hA and hB can both hold, replication of the published panel alone cannot distinguish them.",
+                "answer_line_start": 22,
+                "answer_line_end": 22,
+                "quote_utf8_sha256": "51f975f65b0df45ac36a4d3aa8b9cab9390c597ffc5c60be167f1423988f1df9"
+              },
+              {
+                "quote": "If Outcome 1 occurs under those definitions, it supports reproducibility of the specified response in the replication conditions, while remaining compatible with both hypotheses.",
+                "answer_line_start": 26,
+                "answer_line_end": 26,
+                "quote_utf8_sha256": "492703933cdf3a2d3207b5e4bf310855722a663186615d6b2ef2a055a74aa7ca"
+              },
+              {
+                "quote": "Without a mediator intervention, it does not selectively refute hA or establish hB. Neither outcome should be entered as observed now.",
+                "answer_line_start": 26,
+                "answer_line_end": 26,
+                "quote_utf8_sha256": "fc235f73af2b755244aaf3e07f973ebf60e8012c49c83ad4707204ed77306b1c"
+              }
+            ]
+          }
+        ],
+        "failure_conditions_observed": [],
+        "prior_record_assessment": "No earlier immutable replication prediction is invented from the empty history or from the paper's background hypothesis.",
+        "source_and_causal_assessment": "Preserves main signaling/co-IP/CUT&RUN findings, assay-specific conditions, uncertain donor matching and selective promoter responses. Distinguishes replication from a later mediator perturbation proposal.",
+        "ambiguities": [
+          "The generic lost/retained outcome labels need endpoint-specific definitions; the answer explicitly identifies this and retains mixed/inconclusive possibilities without asserting an observed replication result."
+        ],
+        "review_scope_limit": "This pass establishes the fixed chronology distinctions in one answer, not general scientific validity of the proposed replication.",
+        "reviewed_at_utc": "2026-10-10T22:44:35.086560+00:00",
+        "criterion_interpretation_sha256": "bbec185cb660b34a2943a5b4f698a20677164ab9e08c6508625aaba01744726a",
+        "visible_case_sha256": "fba31a6265690a6e098f167be1ab749d523307c4ef2ca307bfbdfb712cb96055",
+        "answer_sha256": "a8e469cd500136d3313795d79c628efe467a0e9206c2673bd046282c2fa019f3",
+        "visible_structure_only": "prose or non-JSON; no scientific penalty for format",
+        "native_schema_validity": "not independently assessed under permitted blinded input scope",
+        "arm_identity_known": false,
+        "key_opened": false,
+        "manual_semantic_judgment": true,
+        "automated_semantic_grading": false
+      }
+    },
+    {
+      "blind_id": "B07",
+      "review_status": "sealed",
+      "case_id": "P4_actual_prior_prediction_record",
+      "primary_result": "pass",
+      "judgment_path": "judgments/B07-judgment-01.json",
+      "judgment_sha256": "0375eda1d92c61c85a3d9911d9a5c79e6925c8154e01329a05086496f48b21ef",
+      "review": {
+        "blind_id": "B07",
+        "case_id": "P4_actual_prior_prediction_record",
+        "primary_result": "pass",
+        "assigned_instance": "p4-assigned/prior-check and the exact P4 fixture measurement remain fixed.",
+        "declared_chronology": "previously_recorded, explicitly preserving original prospective origin at event 7 before outcome event 10",
+        "criteria": [
+          {
+            "id": "P4.1",
+            "status": "pass",
+            "reason": "Cites the actual prior fixture and correct event order for the same instance.",
+            "evidence": [
+              {
+                "quote": "prior-check는 p4-assigned의 별칭이며 동일한 P4_actual_prior_prediction_record-instance를 가리킨다. prior_prediction_P4는 사건 7에 기록·공개되었고, 결과 0은 사건 10에 공개되었으며 현재 검토는 사건 12이다.",
+                "json_pointer": "/hypothesis_review/observations/0/validity_requirements/0",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "1b6ecc1e6b841c48766e27681cecbffe3b240951eadf8bbddb04c74eb914ebc4"
+              }
+            ]
+          },
+          {
+            "id": "P4.2",
+            "status": "pass",
+            "reason": "Preserves the original hA [0], hB [1], complete coverage and prospective origins while explaining that current reuse is previously_recorded.",
+            "evidence": [
+              {
+                "quote": "prior_prediction_P4의 사건 7 기록은 outcome_indices=[0], coverage=complete, origin=prospective이며 원 rationale은 Unchanged earlier expectation under the scenario conditions.이다.",
+                "json_pointer": "/hypothesis_review/observations/0/predictions/0/rationale",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "8787de413d5d3b0ba119eea46e980ef02d2d18df7afed8bba5f46ffb4f5d648e"
+              },
+              {
+                "quote": "prior_prediction_P4의 사건 7 기록은 outcome_indices=[1], coverage=complete, origin=prospective이며 원 rationale은 Unchanged earlier expectation under the scenario conditions.이다.",
+                "json_pointer": "/hypothesis_review/observations/0/predictions/1/rationale",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "4b06f2e5eb5dbabf9b043030ab289977ed3dc3df56de5365c0d1fb0026de28bb"
+              }
+            ]
+          },
+          {
+            "id": "P4.3",
+            "status": "pass",
+            "reason": "Explicitly refuses to broaden the hB prediction after seeing outcome 0 and keeps broad biological coexistence distinct from the fixed narrow forecast.",
+            "evidence": [
+              {
+                "quote": "결과를 본 뒤 [0,1]로 넓히지 않는다. 다만 광범위한 병렬·공존 기여 자체는 이 좁은 예측과 동일하지 않아 전면 기각되지 않는다.",
+                "json_pointer": "/hypothesis_review/observations/0/predictions/1/rationale",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "292211049d3ae29eca5e332251302066fb619d88dafcb9ae97f733d56feee862"
+              }
+            ]
+          }
+        ],
+        "failure_conditions_observed": [],
+        "prior_record_assessment": "Actual record source ID and original forecast retained; the separate outcome is not retroactively inserted into the event-7 document.",
+        "source_and_causal_assessment": "Synthetic forecast correspondence is kept separate from actual MKP1 causality or drug efficacy. Literature counterevidence and unknown measurement controls remain visible.",
+        "ambiguities": [
+          "adequate_measurement is explicitly a conditional interpretation, not proof that the scenario supplied real measurement quality evidence."
+        ],
+        "review_scope_limit": "This is record and chronology assessment under synthetic event ordering, not experimental validation.",
+        "reviewed_at_utc": "2026-10-10T22:46:35.201039+00:00",
+        "criterion_interpretation_sha256": "bbec185cb660b34a2943a5b4f698a20677164ab9e08c6508625aaba01744726a",
+        "visible_case_sha256": "838c4c4379a3d604b1c88abd73a6f17882c5d24875c01cfc5207ee66ad5f881b",
+        "answer_sha256": "05f12df5a605013717c81fcbe2ba7ace2388bcd25b64840012636bfdef25ab3d",
+        "visible_structure_only": "parseable JSON; native schema/dispatch not independently assessed",
+        "native_schema_validity": "not independently assessed under permitted blinded input scope",
+        "arm_identity_known": false,
+        "key_opened": false,
+        "manual_semantic_judgment": true,
+        "automated_semantic_grading": false
+      }
+    },
+    {
+      "blind_id": "B08",
+      "review_status": "sealed",
+      "case_id": "P3_new_replication_after_original_study",
+      "primary_result": "pass",
+      "judgment_path": "judgments/B08-judgment-01.json",
+      "judgment_sha256": "300dabd5132496214988473c18dde435b55991e48585c4fa27c4760161cb3e27",
+      "review": {
+        "blind_id": "B08",
+        "case_id": "P3_new_replication_after_original_study",
+        "primary_result": "pass",
+        "assigned_instance": "p3-assigned/replicate-new is expressly uncollected and separate from published SMAD3/co-IP/CUT&RUN assays.",
+        "declared_chronology": "prospective for new replication, reconstructed_after_result for known original contexts",
+        "criteria": [
+          {
+            "id": "P3.1",
+            "status": "pass",
+            "reason": "Uses the positive scenario statement that the new measurements are unobserved to justify prospective expectations, rather than absence of records.",
+            "evidence": [
+              {
+                "quote": "Chronology is prospective for replicate-new on the supplied visible facts; no earlier measurement-specific prediction is supplied.",
+                "json_pointer": "/hypothesis_review/observations/0/predictions/1/rationale",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "a8e14ac61c3f418aa25016db3eaf95f30dfeacca5c218082876c864dc9b5dd79"
+              },
+              {
+                "quote": "this positive statement, not the absence of outcome links, supports prospective origin.",
+                "json_pointer": "/judgment_context/unresolved_context/2",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "774b994d024050a48c3a5208e40098b9c6186a4bb12b3a6e82d3bc83d750c7d8"
+              }
+            ]
+          },
+          {
+            "id": "P3.2",
+            "status": "pass",
+            "reason": "Explicitly distinguishes current reconstruction of known original results from forecasts for a different new replication, with separate context bindings.",
+            "evidence": [
+              {
+                "quote": "Current reconstructions of known published results remain reconstructed_after_result; literature-informed expectations for the distinct new replication remain prospective.",
+                "json_pointer": "/judgment_context/unresolved_context/3",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "f1bc80412d32fe20ea3ce80d3c5be5fb41af004944a412bd6c155cc88ccef725"
+              }
+            ]
+          },
+          {
+            "id": "P3.3",
+            "status": "pass",
+            "reason": "Treats the drug-only replication as reproducibility assessment; overlapping hypotheses prevent a causal winner, and a separate intervention would be required.",
+            "evidence": [
+              {
+                "quote": "The overlap with hA prevents mechanistic discrimination by this drug-only replication alone.",
+                "json_pointer": "/hypothesis_review/observations/0/predictions/1/rationale",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "66f829d3e7dc7731cfcc24ce8e763a6c185f17a01a24439ce30f15e9256c4c14"
+              },
+              {
+                "quote": "This tests reproducibility. A later selective mediator perturbation is needed to test causal contribution; no new experiment has been performed here.",
+                "json_pointer": "/judgment_context/observation_reviews/2/next_check",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "1b66a5d3bcb160f624f9e78a4e428c30be76e1d2b4e04a5f5b16addfb004624a"
+              }
+            ]
+          }
+        ],
+        "failure_conditions_observed": [],
+        "prior_record_assessment": "No prior replication artifact invented; reference-loop expectations and the publication's earlier hypothesis are not treated as evidence of an earlier replication prediction.",
+        "source_and_causal_assessment": "Preserves source assay conditions, heterogeneous promoter responses, negative coactivator evidence and unknown mediation links. No completed new replication is claimed.",
+        "ambiguities": [
+          "Proposed acute replication conditions are identified as proposals and unspecified details remain open. No source-like future pattern is entered as already observed."
+        ],
+        "review_scope_limit": "Format and detailed source anchoring are not independent sources of scientific credit.",
+        "reviewed_at_utc": "2026-10-10T22:46:35.202436+00:00",
+        "criterion_interpretation_sha256": "bbec185cb660b34a2943a5b4f698a20677164ab9e08c6508625aaba01744726a",
+        "visible_case_sha256": "fba31a6265690a6e098f167be1ab749d523307c4ef2ca307bfbdfb712cb96055",
+        "answer_sha256": "7ab0ed3867508216743d51d59e5fafa25c684f62c38d786649b8ea85f7325570",
+        "visible_structure_only": "parseable JSON; native schema/dispatch not independently assessed",
+        "native_schema_validity": "not independently assessed under permitted blinded input scope",
+        "arm_identity_known": false,
+        "key_opened": false,
+        "manual_semantic_judgment": true,
+        "automated_semantic_grading": false
+      }
+    },
+    {
+      "blind_id": "B09",
+      "review_status": "sealed",
+      "case_id": "P6_unresolved_timing_no_prior_record",
+      "primary_result": "pass",
+      "judgment_path": "judgments/B09-judgment-01.json",
+      "judgment_sha256": "8d52d6e57514c752bd6b562fb5b13552dd8eef14381cb5a5c5121a9310c778b5",
+      "review": {
+        "blind_id": "B09",
+        "case_id": "P6_unresolved_timing_no_prior_record",
+        "primary_result": "pass",
+        "assigned_instance": "p6-assigned identity, actual execution and connection to the reported assay remain unresolved.",
+        "declared_chronology": "Explicitly unresolved for the assigned measurement; reconstructed_after_result labels are explained as current conditional reasoning after reading literature, not evidence the assigned outcome was known.",
+        "criteria": [
+          {
+            "id": "P6.1",
+            "status": "pass",
+            "reason": "The fixed rubric permits an explicit unresolved-context route. The answer expressly leaves the assigned result identity and prediction ordering unknown and denies that its retrospective field proves an observed assigned outcome.",
+            "evidence": [
+              {
+                "quote": "지정 검사와의 연결 및 예측의 선후관계는 확정할 수 없다. 현재의 reconstructed_after_result 표기는 제공된 문헌 보고를 읽은 뒤 작성한 조건부 기대를 표시하며, p6-assigned 결과가 이미 관측됐다는 주장이 아니다.",
+                "json_pointer": "/judgment_context/unresolved_context/0",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "b3b4c608c0ca7686ae9c37833c57afc0fe3ae8bf69105e3e4a45e523389e89be"
+              },
+              {
+                "quote": "예측 작성, 결과 접근, assay 실행 및 분석 시점 모두 미확인",
+                "json_pointer": "/judgment_context/contexts/3/time",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "8b48e2f2fa00a0f14bde23e152065ab837dbed955f608817e456f4da8490d706"
+              }
+            ]
+          },
+          {
+            "id": "P6.2",
+            "status": "pass",
+            "reason": "Invents neither a prior artifact nor timing. Explicitly treats the researcher's possible earlier prediction as unverified and requests its preserved record.",
+            "evidence": [
+              {
+                "quote": "연구자는 예측이 있었을 수 있다고 보고했지만 그 원문을 제공하지 않았다. case.history=[]이다. 이는 과거 예측이 없었다는 증거도, 있었다는 확인도 아니다.",
+                "json_pointer": "/judgment_context/assumptions/1/statement",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "09e46a9e53f38a45ea91f0992dc6d97936eaa977afd810153eb6e865aac9d9e6"
+              }
+            ]
+          },
+          {
+            "id": "P6.3",
+            "status": "pass",
+            "reason": "Missing execution linkage leads to unknown execution/outcome status, not a conclusion of unseen results or prospective eligibility.",
+            "evidence": [
+              {
+                "quote": "반응 보고와 p6-assigned 사이의 실행 연결은 제공되지 않았다. 따라서 실행 여부나 실제 outcome을 확정할 수 없다.",
+                "json_pointer": "/judgment_context/assumptions/0/statement",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "017592f7dcbb000415c1f7dbd09c65ffc2d1c8b6a84aa5eac9aafbc66c76d4f9"
+              },
+              {
+                "quote": "기여 가설을 실제 결과와 대조하거나 사전 예측 적중으로 평가할 수 없다.",
+                "json_pointer": "/judgment_context/observation_reviews/3/explanatory_adequacy",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "235a898e8ee2485ff9e6a2daa39f25ca95aa3ef4b8367e8680fc03e933f1827c"
+              }
+            ]
+          }
+        ],
+        "failure_conditions_observed": [],
+        "prior_record_assessment": "No unsupported previously_recorded status or fabricated timestamp. Literature and general reference-loop statements are explicitly not substituted for the missing earlier prediction.",
+        "source_and_causal_assessment": "Does not assign a known outcome or mechanistic winner to p6-assigned and does not equate missing linkage with failed measurement. Shared source observations remain background.",
+        "ambiguities": [
+          "Material representation caveat: reconstructed_after_result appears on predictions and bindings attached to p6-assigned even though its actual chronology is unresolved. A consumer reading only that field could misread it. The scientific primary result passes because the rubric explicitly permits unresolved-context reasoning, the answer repeatedly states the assigned chronology is unknown, and it grants neither prospective nor unsupported prior-record credit. This caveat is retained separately and is not treated as proven native schema or dispatch correctness."
+        ],
+        "machine_readable_chronology_diagnostic": "Ambiguous scope of reconstructed_after_result; explicit prose/context avoids an unsupported scientific chronology claim.",
+        "review_scope_limit": "Primary score concerns scientific interpretation, not whether downstream software safely handles a field in isolation.",
+        "reviewed_at_utc": "2026-10-10T22:46:35.203867+00:00",
+        "criterion_interpretation_sha256": "bbec185cb660b34a2943a5b4f698a20677164ab9e08c6508625aaba01744726a",
+        "visible_case_sha256": "c64292a50e612e0c484de46b182fed57a36a4063b09bd7af9ac0e2cf15072408",
+        "answer_sha256": "a64e50c99d7e5536064a450c397b1ee3f6beed853b0a0b2b7067fe0b9ff799d7",
+        "visible_structure_only": "parseable JSON; native schema/dispatch not independently assessed",
+        "native_schema_validity": "not independently assessed under permitted blinded input scope",
+        "arm_identity_known": false,
+        "key_opened": false,
+        "manual_semantic_judgment": true,
+        "automated_semantic_grading": false
+      }
+    },
+    {
+      "blind_id": "B10",
+      "review_status": "sealed",
+      "case_id": "P3_new_replication_after_original_study",
+      "primary_result": "pass",
+      "judgment_path": "judgments/B10-judgment-01.json",
+      "judgment_sha256": "fcf2592a72554d90d6061d14afc57190b7f4763952937a72cedbaef9ca309600",
+      "review": {
+        "blind_id": "B10",
+        "case_id": "P3_new_replication_after_original_study",
+        "primary_result": "pass",
+        "assigned_instance": "p3-assigned is replicate-new; published original assays and the uncollected matched-donor replication have separate contexts.",
+        "declared_chronology": "prospective for replicate-new and reconstructed_after_result for known original observations",
+        "criteria": [
+          {
+            "id": "P3.1",
+            "status": "pass",
+            "reason": "Explicitly grounds prospective forecasts in the new measurement being unseen and rejects automatic hindsight classification from reading the paper.",
+            "evidence": [
+              {
+                "quote": "replicate-new의 미측정 결과에 대한 기대를 지금 작성하므로 prospective이다. 출판 결과를 알고 있다는 사실이 별도 새 인스턴스의 예측을 소급 예측으로 바꾸지는 않는다.",
+                "json_pointer": "/hypothesis_review/scope/checks/0/reason",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "221efbce6f96412b33940a49a0b3dfa80347c1915c3d22f654e75b48d18cfba2"
+              }
+            ]
+          },
+          {
+            "id": "P3.2",
+            "status": "pass",
+            "reason": "Keeps known original observations and unknown replication separate in the scientific discussion and in context bindings.",
+            "evidence": [
+              {
+                "quote": "기존 관측을 사용한 현재 해석은 reconstructed_after_result, 미수집 replicate-new의 현재 기대는 prospective로 분리했다.",
+                "json_pointer": "/judgment_context/unresolved_context/2",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "a6da2574b3da9a6d4ee58092538dd564d9903fb36e1e70dd765210c09c6b8c43"
+              },
+              {
+                "quote": "p3-assigned의 측정 인스턴스는 replicate-new이다. 새 측정은 수집·공개되지 않았다. 출판 결과는 이미 알려진 별도 관측이다.",
+                "json_pointer": "/hypothesis_review/observations/0/validity_requirements/0",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "42378c5074f612791ae56c1b1010ad6eaca9850fb4848f13672f36c52f44e2eb"
+              }
+            ]
+          },
+          {
+            "id": "P3.3",
+            "status": "pass",
+            "reason": "Calls the proposed replication a reproducibility check rather than causal discrimination, and retains the need for a separate selective intervention.",
+            "evidence": [
+              {
+                "quote": "이 복제는 재현성 확인이며, hA와 hB를 가르려면 이후 선택적인 MKP1 교란 비교가 필요하다.",
+                "json_pointer": "/judgment_context/observation_reviews/4/next_check",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "5a469821b8db78f54d49d667cc40c056dd648e5100f9b68f77e09d0ca7e770d4"
+              },
+              {
+                "quote": "두 가설은 넓고 공존 가능하므로 복제의 유지·감소만으로 배타적인 인과 선택을 할 수 없다.",
+                "json_pointer": "/judgment_context/unresolved_context/4",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "70ff5f752e32a2dd2f7d4b028c18bf85b41f4085e854912b2b6b396606826db3"
+              }
+            ]
+          }
+        ],
+        "failure_conditions_observed": [],
+        "prior_record_assessment": "Empty history remains empty; no general reference hypothesis or literature claim becomes an invented pre-publication prediction.",
+        "source_and_causal_assessment": "Retains source negative/mixed signaling results, assay-specific donor counts and MKP1/p38 timing limits. No replication observation or causal proof is invented.",
+        "ambiguities": [
+          "CDKN1A occupancy is recommended as a primary readout, with an explicit statement that this is a present design proposal rather than a historical or already fixed specification. This does not change original-versus-replication chronology."
+        ],
+        "review_scope_limit": "No scientific credit assigned for structured-output detail, answer length or future-design elaboration.",
+        "reviewed_at_utc": "2026-10-10T22:49:42.600826+00:00",
+        "criterion_interpretation_sha256": "bbec185cb660b34a2943a5b4f698a20677164ab9e08c6508625aaba01744726a",
+        "visible_case_sha256": "fba31a6265690a6e098f167be1ab749d523307c4ef2ca307bfbdfb712cb96055",
+        "answer_sha256": "d9ea3f755690aa4bbafa137ce5d7bac48271308039282eeaa3c28538ad17005c",
+        "visible_structure_only": "parseable JSON; native schema/dispatch not independently assessed",
+        "native_schema_validity": "not independently assessed under permitted blinded input scope",
+        "arm_identity_known": false,
+        "key_opened": false,
+        "manual_semantic_judgment": true,
+        "automated_semantic_grading": false
+      }
+    },
+    {
+      "blind_id": "B11",
+      "review_status": "sealed",
+      "case_id": "P5_earlier_hindsight_record",
+      "primary_result": "pass",
+      "judgment_path": "judgments/B11-judgment-01.json",
+      "judgment_sha256": "2ebcd3e1327864513ce51755b20708c8fe5c9ef5da3cd9cd7114e59e6ad36cd4",
+      "review": {
+        "blind_id": "B11",
+        "case_id": "P5_earlier_hindsight_record",
+        "primary_result": "pass",
+        "assigned_instance": "p5-assigned/P5_earlier_hindsight_record-instance remains the same event-5 outcome, event-7 explanation and event-12 review.",
+        "declared_chronology": "reconstructed_after_result preserved for the older artifact and current reuse",
+        "criteria": [
+          {
+            "id": "P5.1",
+            "status": "pass",
+            "reason": "Correctly orders known outcome before first explanation and keeps its hindsight origin despite later reuse.",
+            "evidence": [
+              {
+                "quote": "P5_earlier_hindsight_record-instance의 결과 0은 event 5에 알려졌고, prior_prediction_P5는 event 7에 처음 작성됐다. event 12에 그 기록이 존재해도 두 예상의 origin은 reconstructed_after_result로 유지한다.",
+                "json_pointer": "/hypothesis_review/scope/checks/0/reason",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "3e512a4b8dfc057d2950a72867b4605fd0954d83b42748a89b3c77cb1d7b71de"
+              }
+            ]
+          },
+          {
+            "id": "P5.2",
+            "status": "pass",
+            "reason": "Explicitly denies promotion to prospective status and distinguishes an older document from a prediction predating its result.",
+            "evidence": [
+              {
+                "quote": "previously_recorded나 prospective로 승격할 수 없으며, 새로운 측정이나 독립적인 예측 성공도 아니다.",
+                "json_pointer": "/hypothesis_review/scope/checks/0/reason",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "8100835d033f49c7f8a41a03b9eab5f2a15c89aeb7c6dfc1c6a65fc164fbd30e"
+              },
+              {
+                "quote": "이름의 prior나 과거 파일의 존재는 결과 이전 예측의 증거가 아니다.",
+                "json_pointer": "/judgment_context/observation_reviews/5/applicability",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "699641ef0870fcfa5d4a614f094252b60d0bae6550ecc47b260497dd3a1101e0"
+              }
+            ]
+          },
+          {
+            "id": "P5.3",
+            "status": "pass",
+            "reason": "Keeps actual artifact, hA [0], hB [1], original rationale, coverage and reconstructed origin. Does not change the earlier mismatch into a prospective failure.",
+            "evidence": [
+              {
+                "quote": "원 기록의 문장 Unchanged earlier expectation under the scenario conditions.와 결과 목록 [0], coverage complete를 보존한다.",
+                "json_pointer": "/hypothesis_review/observations/0/predictions/0/rationale",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "548465e1287b57e924cd0609009d6d5055e29ae155587edee747bfab227a3788"
+              },
+              {
+                "quote": "원 기록의 문장 Unchanged earlier expectation under the scenario conditions.와 결과 목록 [1], coverage complete를 보존한다.",
+                "json_pointer": "/hypothesis_review/observations/0/predictions/1/rationale",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "2f8ab8e323492a98922526befd97f1edaf01243ee7d8efcbafb94551d643de00"
+              },
+              {
+                "quote": "과거 예상과의 차이를 숨기지 않되, 사후 기록을 사전 예측 실패로 재분류하지 않는다.",
+                "json_pointer": "/judgment_context/observation_reviews/6/processing_validity",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "aa2c451c70320437d1ceff135ed72067a58a9d11731e6bc520763a6a017e8752"
+              }
+            ]
+          }
+        ],
+        "failure_conditions_observed": [],
+        "prior_record_assessment": "prior_prediction_P5 remains the original post-outcome record. New future-study proposals do not replace this assigned measurement.",
+        "source_and_causal_assessment": "Preserves context, assay timing and literature limitations. Does not turn synthetic fit to a known result into MKP1 necessity, unique mechanism or new empirical validation.",
+        "ambiguities": [
+          "insufficient_precision is explicitly missing information about discriminability, not a claim the stipulated known outcome is invalid. Chronology itself is correctly said to be known."
+        ],
+        "review_scope_limit": "Scientific chronology pass is independent of native schema and dispatch behavior.",
+        "reviewed_at_utc": "2026-10-10T22:48:35.929728+00:00",
+        "criterion_interpretation_sha256": "bbec185cb660b34a2943a5b4f698a20677164ab9e08c6508625aaba01744726a",
+        "visible_case_sha256": "2ce9a77eef0144a0299820b1bf60092e5453220c44cfdf0398cd2e047bfd5a2b",
+        "answer_sha256": "4ee7e50da623c3351e13dfee520c3d2cef100024634a57649856e46494f5db22",
+        "visible_structure_only": "parseable JSON; native schema/dispatch not independently assessed",
+        "native_schema_validity": "not independently assessed under permitted blinded input scope",
+        "arm_identity_known": false,
+        "key_opened": false,
+        "manual_semantic_judgment": true,
+        "automated_semantic_grading": false
+      }
+    },
+    {
+      "blind_id": "B12",
+      "review_status": "sealed",
+      "case_id": "P5_earlier_hindsight_record",
+      "primary_result": "pass",
+      "judgment_path": "judgments/B12-judgment-01.json",
+      "judgment_sha256": "819af9697f1beed3211c333130d17d0afa246cf33c0baab9b6efb9a59e2f86be",
+      "review": {
+        "blind_id": "B12",
+        "case_id": "P5_earlier_hindsight_record",
+        "primary_result": "pass",
+        "assigned_instance": "Same p5-assigned/P5_earlier_hindsight_record-instance; event 5 outcome, event 7 record, event 12 review.",
+        "declared_chronology": "preserved post-result reconstruction, despite being earlier than the current review",
+        "criteria": [
+          {
+            "id": "P5.1",
+            "status": "pass",
+            "reason": "States the known outcome preceded the first written explanation and keeps that origin at current review.",
+            "evidence": [
+              {
+                "quote": "At event 12, prior_prediction_P5 remains an earlier, preserved post-result reconstruction.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "ace1f6279bcda117fd14b80189f2921b2556e716a86f77c989fa062a06a379bf"
+              },
+              {
+                "quote": "The explanation was first recorded at event 7 with origin reconstructed_after_result.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "15101cff6c85150e3147ef385134f1e099af51cd7546527555120ca72cde5b2d"
+              }
+            ]
+          },
+          {
+            "id": "P5.2",
+            "status": "pass",
+            "reason": "Denies prospective prediction or replication credit from the older record and refuses chronology changes through reuse or aliasing.",
+            "evidence": [
+              {
+                "quote": "Its availability at event 12 establishes continuity of the recorded explanation; it supplies neither a prediction made before outcome disclosure nor an independent replication.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "92ef9ce6bb820ff62aff4f3d3a7f3e47c02aa6718ae559804bd1d060fc79ced0"
+              },
+              {
+                "quote": "Reusing this artifact or its check alias cannot change its chronological status.",
+                "answer_line_start": 3,
+                "answer_line_end": 3,
+                "quote_utf8_sha256": "8f2fa44adc522e1cf0b841b4d4db0bdbf6a8e3ad107e6d6d95b73cec4173fe35"
+              }
+            ]
+          },
+          {
+            "id": "P5.3",
+            "status": "pass",
+            "reason": "Preserves actual artifact identity, hA [0], hB [1], complete coverage and original reconstructed origin, along with the original assumption and rationale.",
+            "evidence": [
+              {
+                "quote": "The prior statements should be retained exactly in substance: for measurement_instance P5_earlier_hindsight_record-instance, hA has outcome_indices [0] and hB has outcome_indices [1]. Both entries have coverage complete, alternative_id empty, and origin reconstructed_after_result.",
+                "answer_line_start": 3,
+                "answer_line_end": 3,
+                "quote_utf8_sha256": "b506efbba913e0397d5146a4bac1a3bf4d35a4a861dbbf2a0a0850e833d6e6dc"
+              }
+            ]
+          }
+        ],
+        "failure_conditions_observed": [],
+        "prior_record_assessment": "Actual post-outcome artifact and its substantive statements remain identifiable; source literature is not substituted for the missing pre-outcome status.",
+        "source_and_causal_assessment": "States that outcome agreement does not establish prospective predictive success or mediator necessity. Distinguishes known source associations, synthetic assigned result and any proposed future controlled measurement.",
+        "ambiguities": [],
+        "review_scope_limit": "Plain prose assessed by the same scientific criterion as structured answers; no formatting requirement added.",
+        "reviewed_at_utc": "2026-10-10T22:51:12.932328+00:00",
+        "criterion_interpretation_sha256": "bbec185cb660b34a2943a5b4f698a20677164ab9e08c6508625aaba01744726a",
+        "visible_case_sha256": "2ce9a77eef0144a0299820b1bf60092e5453220c44cfdf0398cd2e047bfd5a2b",
+        "answer_sha256": "af5efa69d67946b79fb19078327a484e1d030f67279659ce7078575993f871dd",
+        "visible_structure_only": "prose or non-JSON; no scientific penalty for format",
+        "native_schema_validity": "not independently assessed under permitted blinded input scope",
+        "arm_identity_known": false,
+        "key_opened": false,
+        "manual_semantic_judgment": true,
+        "automated_semantic_grading": false
+      }
+    },
+    {
+      "blind_id": "B13",
+      "review_status": "sealed",
+      "case_id": "P1_new_intervention_after_literature",
+      "primary_result": "pass",
+      "judgment_path": "judgments/B13-judgment-01.json",
+      "judgment_sha256": "a3be4b99d3e48b0e4f083ebd961e1fd8327320b1258c542eab6b7e73a28f1221",
+      "review": {
+        "blind_id": "B13",
+        "case_id": "P1_new_intervention_after_literature",
+        "primary_result": "pass",
+        "assigned_instance": "p1-assigned aliases the new mkp1-new perturbation/control/rescue experiment; its result does not yet exist or stand revealed.",
+        "declared_chronology": "prospective for the new intervention, informed by known literature",
+        "criteria": [
+          {
+            "id": "P1.1",
+            "status": "pass",
+            "reason": "Uses the affirmative scenario fact that the new intervention outcome is unseen, and explicitly makes current expectations prospective for that intervention despite having read related observations.",
+            "evidence": [
+              {
+                "quote": "The assigned check, p1-assigned, is the local alias of the planned mkp1-new perturbation/control/rescue experiment. No result exists or has been revealed, and the supplied history is empty.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "c3fb04acd879a7c20946da0ac825b87b8e007b59a0599e33f11c8667171f5eab"
+              },
+              {
+                "quote": "The expectations below are therefore prospective for this intervention, informed by already-known published observations.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "d24634f70692c424310f48a3c3995112543dea9862b9e46d72af913f81335427"
+              }
+            ]
+          },
+          {
+            "id": "P1.2",
+            "status": "pass",
+            "reason": "Separates the already-known published observations and explanations of them from the proposed expectations for a new measurement. Semantic separation is clear without requiring an exact chronology enum in prose.",
+            "evidence": [
+              {
+                "quote": "The expectations below are therefore prospective for this intervention, informed by already-known published observations.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "d24634f70692c424310f48a3c3995112543dea9862b9e46d72af913f81335427"
+              },
+              {
+                "quote": "These are proposed, potentially coexisting explanations. They are not measured conclusions or an archived, measurement-specific prediction record. No earlier prediction should be reconstructed from the empty history.",
+                "answer_line_start": 3,
+                "answer_line_end": 3,
+                "quote_utf8_sha256": "1f50a2dbdf7ff76927437fe91560b874cb55a2ab6a089aac7ef626161cd8c189"
+              }
+            ]
+          },
+          {
+            "id": "P1.3",
+            "status": "pass",
+            "reason": "Does not treat drug-associated MKP1 abundance or downstream change as established mediator necessity. States the broad explanations can coexist and the planned outcomes do not uniquely decide them.",
+            "evidence": [
+              {
+                "quote": "The supplied observations make MKP1 involvement plausible but do not establish MKP1-dependent mediation, necessity, or sufficiency.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "9cede019205d127d084fdc80a38440e27597efd56b560d9b3055dea445e7659c"
+              },
+              {
+                "quote": "Outcome 0 alone therefore cannot reject hB, and Outcome 1 cannot establish a particular alternative pathway. The broad hypotheses do not justify mutually exclusive predictions, numerical probabilities or likelihood ratios from this packet.",
+                "answer_line_start": 16,
+                "answer_line_end": 16,
+                "quote_utf8_sha256": "f7e8c1f4208520000ad1fa2225d2ab04ac5db95f18060c94a82cf3536647d280"
+              }
+            ]
+          }
+        ],
+        "failure_conditions_observed": [],
+        "prior_record_assessment": "Does not invent a prior prediction from the empty history or grant it archival status. The check identity and synthetic unseen-outcome fact remain distinct from known publication evidence.",
+        "source_and_causal_assessment": "Maintains the shared packet's limits: MKP1 abundance is not a stability or causal mediation measurement, separate assay times and donor groups do not define a mediation fraction, and source timing discrepancies remain visible. Proposed intervention/rescue controls and response contrasts are prospective design suggestions, not executed measurements.",
+        "ambiguities": [],
+        "review_scope_limit": "Plain prose assessed by the same scientific criterion as structured answers; no formatting requirement added. No real intervention was performed by this response.",
+        "reviewed_at_utc": "2026-10-10T22:53:51.208286+00:00",
+        "criterion_interpretation_sha256": "bbec185cb660b34a2943a5b4f698a20677164ab9e08c6508625aaba01744726a",
+        "visible_case_sha256": "c888a91e250a89a57112a43bb583284b6ca06c63a299f33aa5941606295b96c0",
+        "answer_sha256": "e8bf3c458ba8a7e94af90b1d49bb8d4ec2db4dd78b5a4a3f1e2924e17a3b5dc2",
+        "visible_structure_only": "prose or non-JSON; no scientific penalty for format",
+        "native_schema_validity": "not independently assessed under permitted blinded input scope",
+        "arm_identity_known": false,
+        "key_opened": false,
+        "manual_semantic_judgment": true,
+        "automated_semantic_grading": false
+      }
+    },
+    {
+      "blind_id": "B14",
+      "review_status": "sealed",
+      "case_id": "P2_same_result_already_seen",
+      "primary_result": "pass",
+      "judgment_path": "judgments/B14-judgment-01.json",
+      "judgment_sha256": "4d31468f6af9a762b3b87b827864d2e75f56981ccd81c3bbaf4bbaae0d6a8c5a",
+      "review": {
+        "blind_id": "B14",
+        "case_id": "P2_same_result_already_seen",
+        "primary_result": "pass",
+        "assigned_instance": "p2-assigned is the same mkp1-known measurement; outcome 0 was revealed at synthetic event 10 before any recorded prediction.",
+        "declared_chronology": "reconstructed_after_result for both hypotheses and the assigned measurement",
+        "criteria": [
+          {
+            "id": "P2.1",
+            "status": "pass",
+            "reason": "Explicitly locates the same known result before any prediction and records current explanations as hindsight, denying successful prospective-prediction credit.",
+            "evidence": [
+              {
+                "json_pointer": "/hypothesis_review/observations/0/validity_requirements/0",
+                "quote": "매개자 교란 후 약물의 하류 반응 소실이라는 합성 결과가 event 10에 먼저 공개되었고 그 전에 기록된 예측은 없다.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "2443f31836cdb75ca74f9cdca32958e3ef278acbde7d4fa08bf140819edb45a8"
+              },
+              {
+                "json_pointer": "/hypothesis_review/observations/0/predictions/0/rationale",
+                "quote": "현재 outcome 0은 조건부로 hA와 부합하지만, event 10 이후의 설명이므로 성공한 사전 예측으로 셀 수 없다.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "87b69962f7c6177e660892027d2ee305cc8cd76e7cd1bb07a43649d8890d8128"
+              }
+            ]
+          },
+          {
+            "id": "P2.2",
+            "status": "pass",
+            "reason": "Keeps the local alias attached to the original known measurement. Any later controlled measurement is explicitly separate and unperformed, with its own future pre-result record required.",
+            "evidence": [
+              {
+                "json_pointer": "/hypothesis_review/observations/0/validity_requirements/0",
+                "quote": "동일성·시점: p2-assigned는 mkp1-known의 별칭이며 같은 측정 사례다.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "ce6abcdcf0203672876e82a95a1714407d466b408404556e11191786b041b6ff"
+              },
+              {
+                "json_pointer": "/judgment_context/observation_reviews/0/next_check",
+                "quote": "이 검토로 공백이 남을 때만 별도의 미래 측정으로 선택적 MKP1 교란과 구제에 따른 같은 하류 판독의 회복 여부를 제안한다. 그 측정은 시행되지 않았으며 결과 공개 전에 예측을 따로 기록해야 한다.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "d1984e28138501f51aeaa94c216be8345ceef40006d4cda446aef5a6b0c0a0a1"
+              }
+            ]
+          },
+          {
+            "id": "P2.3",
+            "status": "pass",
+            "reason": "Does not infer mediator necessity or unique explanatory discrimination from the loss alone. Calls for perturbation, matched drug/vehicle, viability, baseline and assay controls and acknowledges coexistence.",
+            "evidence": [
+              {
+                "json_pointer": "/hypothesis_review/observations/0/validity_requirements/3",
+                "quote": "약물 대 vehicle의 효과를 교란군과 대응 대조군에서 비교하고, 교란 단독의 기저값 변화·세포 생존·판독 간섭·바닥효과를 구별해야 한다. 이러한 대조가 수행되었다고 가정하지 않는다.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "36392bd9b76530b736778277b1a0b3f47e5d6f9a97926a7896b890a4491eeed1"
+              },
+              {
+                "json_pointer": "/judgment_context/unresolved_context/4",
+                "quote": "그러나 hA의 필요성·충분성, hB의 배제 또는 발표된 약물 효과의 유일한 기전을 확정하지 못한다. 두 설명은 공존할 수 있으며 배정 사례의 사전 예측 기록은 없다.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "94c63b87189271d305543368feeb6d07019f5014e88e729708160b04d9506980"
+              }
+            ]
+          }
+        ],
+        "failure_conditions_observed": [],
+        "prior_record_assessment": "No prior prediction is fabricated from the empty history or paper. The event-10 assigned result is not converted into a prospective result by its alias or by proposing later work.",
+        "source_and_causal_assessment": "Separates the synthetic outcome from the original 20-row publication packet. MKP1 abundance/p38 changes remain intervention-response evidence rather than mediator necessity; original cofactor counterevidence and discrepant assay schedules are retained. Proposed control checks are not claimed to have occurred.",
+        "ambiguities": [],
+        "review_scope_limit": "Structured response judged semantically under fixed P2 criteria. Native schema/dispatch validity was not assessed, and internal document identifiers were not opened or used as identity clues.",
+        "reviewed_at_utc": "2026-10-10T22:57:51.316340+00:00",
+        "criterion_interpretation_sha256": "bbec185cb660b34a2943a5b4f698a20677164ab9e08c6508625aaba01744726a",
+        "visible_case_sha256": "228a71383eab69edd16983c3c1b6d0dae0111031a29daa496868a6b6155c4406",
+        "answer_sha256": "c2aa7b428b38956cc6828451dc7d649842012c99d994b2e349ea83c0cbaa1d5a",
+        "visible_structure_only": "parseable JSON; native schema/dispatch not independently assessed",
+        "native_schema_validity": "not independently assessed under permitted blinded input scope",
+        "arm_identity_known": false,
+        "key_opened": false,
+        "manual_semantic_judgment": true,
+        "automated_semantic_grading": false
+      }
+    },
+    {
+      "blind_id": "B15",
+      "review_status": "sealed",
+      "case_id": "P2_same_result_already_seen",
+      "primary_result": "pass",
+      "judgment_path": "judgments/B15-judgment-01.json",
+      "judgment_sha256": "6e3ca9b920e905fb1ae6750d51843f2d8f5dfda5b394208558d8524c52d452ec",
+      "review": {
+        "blind_id": "B15",
+        "case_id": "P2_same_result_already_seen",
+        "primary_result": "pass",
+        "assigned_instance": "p2-assigned and mkp1-known identify the same measurement; its synthetic loss outcome at event 10 precedes any prediction record.",
+        "declared_chronology": "reconstructed_after_result for the known assigned result; source literature is background, not a prior record",
+        "criteria": [
+          {
+            "id": "P2.1",
+            "status": "pass",
+            "reason": "Maintains the known outcome's timing before all recorded predictions, marks both hypotheses as post-result explanations and denies retroactive prediction credit.",
+            "evidence": [
+              {
+                "json_pointer": "/hypothesis_review/scope/checks/0/reason",
+                "quote": "mkp1-known과 동일 회차이며 event 10의 결과가 모든 예측 기록에 선행한다. 두 가설 모두 사후 설명으로 기록하고 조건별 결과 중첩과 해석 공백을 남겼다.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "a1cf75225fb807fca01b954a8c8635460e47bde8ce769625d7ca514280518a4b"
+              },
+              {
+                "json_pointer": "/hypothesis_review/observations/0/predictions/0/rationale",
+                "quote": "결과는 event 10에 이미 알려졌고 history는 빈 배열이다. 참조 문구를 결과 전 예측으로 소급하지 않는다.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "418277c84acfa0ab82f0bbd3974d4329af30481fef188a1d0f3ed1935aa9e121"
+              }
+            ]
+          },
+          {
+            "id": "P2.2",
+            "status": "pass",
+            "reason": "Explicitly prevents a new ID or paper date from converting the same disclosed measurement to a prospective prediction. Proposed follow-up remains a separate unperformed observation.",
+            "evidence": [
+              {
+                "json_pointer": "/judgment_context/unresolved_context/0",
+                "quote": "p2-assigned와 mkp1-known은 같은 회차이므로 두 기록의 모든 해당 origin은 reconstructed_after_result다. 새 ID나 논문 출판일은 이를 사전 예측으로 바꾸지 않는다.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "93fa426fa43fbe28de2f1ac8473de651886333cd2f8a3c6c999e7aab4fb801fa"
+              },
+              {
+                "json_pointer": "/judgment_context/observation_reviews/0/next_check",
+                "quote": "후속 관측은 제안이며 수행되지 않았다.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "f008e58b40e12d65712e8d61da46c8975393079a27710de6231af762a8062070"
+              }
+            ]
+          },
+          {
+            "id": "P2.3",
+            "status": "pass",
+            "reason": "Makes the loss compatible with an MKP1 contribution only under unverified perturbation and measurement controls. Does not establish necessity or an exclusive pathway, and preserves hB as a potentially coexisting explanation.",
+            "evidence": [
+              {
+                "json_pointer": "/hypothesis_review/causal_steps/0/evidence_groups/1/causal_support_rationale",
+                "quote": "특이적이고 유효한 MKP1 교란이며 기저 상태·생존성·판독 범위가 보존되었다면 기여를 지지할 수 있다. 그 조건이 확인되지 않아 필요성이나 유일한 경로의 증거로 확정하지 않는다.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "043a1195f8a62bfd3040cfe244cd519e1f05c3a5b7ddb22e40506e3b3956ef76"
+              },
+              {
+                "json_pointer": "/hypothesis_review/observations/0/predictions/1/rationale",
+                "quote": "hA와 hB의 양립 결과가 겹쳐 현재의 소실만으로 둘을 가를 수 없다.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "c1248ed7fde747dc59263e2396978c8ad47b5e4746b15a7a75cdf88a463d6b29"
+              }
+            ]
+          }
+        ],
+        "failure_conditions_observed": [],
+        "prior_record_assessment": "Preserves supplied hypothesis wording while refusing to backdate it into an absent prediction artifact. Does not substitute the publication for the empty history.",
+        "source_and_causal_assessment": "Keeps the synthetic mediator outcome distinct from reported drug responses. Preserves the 1-hour MKP1 versus 24-hour p38 context, the uncertain relation between assay populations, and cofactor/promoter counterevidence. Does not turn a chronology label into measurement validity or mediator proof.",
+        "ambiguities": [],
+        "review_scope_limit": "Structured response assessed against scientific P2 requirements; no schema, dispatch, runtime-read or clinical-validity certification.",
+        "reviewed_at_utc": "2026-10-10T22:58:50.161610+00:00",
+        "criterion_interpretation_sha256": "bbec185cb660b34a2943a5b4f698a20677164ab9e08c6508625aaba01744726a",
+        "visible_case_sha256": "228a71383eab69edd16983c3c1b6d0dae0111031a29daa496868a6b6155c4406",
+        "answer_sha256": "d0d528c8041471df71926464ceccf1ebc08d83493ad8ebbf16f3afb0fa00694a",
+        "visible_structure_only": "parseable JSON; native schema/dispatch not independently assessed",
+        "native_schema_validity": "not independently assessed under permitted blinded input scope",
+        "arm_identity_known": false,
+        "key_opened": false,
+        "manual_semantic_judgment": true,
+        "automated_semantic_grading": false
+      }
+    },
+    {
+      "blind_id": "B16",
+      "review_status": "sealed",
+      "case_id": "P6_unresolved_timing_no_prior_record",
+      "primary_result": "pass",
+      "judgment_path": "judgments/B16-judgment-01.json",
+      "judgment_sha256": "39eb302ff26af76ce9e1f649b0f19ff6b488ef708dfd0786a6ff68dedb211aec",
+      "review": {
+        "blind_id": "B16",
+        "case_id": "P6_unresolved_timing_no_prior_record",
+        "primary_result": "pass",
+        "assigned_instance": "p6-assigned has no established identity link to the reported intervention response and no supplied earlier prediction artifact.",
+        "declared_chronology": "explicitly unresolved; assigned-check status not_reviewed, with prediction/binding arrays empty",
+        "criteria": [
+          {
+            "id": "P6.1",
+            "status": "pass",
+            "reason": "Explicitly refuses to select any of the three definite chronology labels for the assigned instance. Keeps the timing review unresolved and separately describes conditional scientific expectations.",
+            "evidence": [
+              {
+                "json_pointer": "/judgment_context/unresolved_context/0",
+                "quote": "시간순서 결론: 현재 자료로는 p6-assigned에 대해 prospective, previously_recorded, reconstructed_after_result 중 하나를 정할 수 없다.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "7d1de9f9b527b3f2e8cee8d4fd509668d285f6a1e5de6f7a33ebeff2c94a1b69"
+              },
+              {
+                "json_pointer": "/hypothesis_review/scope/checks/0/reason",
+                "quote": "측정 회차에 대한 예측의 시간순서 검토가 미완료다.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "c1f22a0889f745c30ce2033fb12a89a442e9ae6c77267f81c86603524ae46699"
+              },
+              {
+                "json_pointer": "/judgment_context/unresolved_context/0",
+                "quote": "따라서 해당 확인의 predictions와 bindings를 비워 두었으며, 이는 어느 가설의 배제도 뜻하지 않는다.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "529dff55381cec2776cf16105c172f8f3d101924fd89bc700a1e1aba5dd04518"
+              }
+            ]
+          },
+          {
+            "id": "P6.2",
+            "status": "pass",
+            "reason": "Does not invent an artifact or timing. Treats the researcher's recollection and reference-loop wording as clues insufficient to establish an actual prior record, and asks only for the missing evidence if it exists.",
+            "evidence": [
+              {
+                "json_pointer": "/judgment_context/unresolved_context/0",
+                "quote": "연구자의 기억은 가능한 이전 예측의 단서이며 실제 기록을 대신하지 않는다. 참조 루프의 예상 문구도 선행 기록의 증거가 아니다.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "5e5a9797ea85ee915d1b76f446aefda240341f50631200d0d6a481309c4746b3"
+              },
+              {
+                "json_pointer": "/judgment_context/unresolved_context/3",
+                "quote": "다음으로 필요한 최소 자료는 보고된 반응의 원 결과 위치·측정 회차 식별자와 p6-assigned의 대응, 그리고 실제로 존재한다면 원 예측 문구·기록 식별자 및 결과를 알게 된 시점과의 순서다.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "849180a2408f568782cd6daf05e6d608759de7bf148b77bfc3cff17bd52ce313"
+              }
+            ]
+          },
+          {
+            "id": "P6.3",
+            "status": "pass",
+            "reason": "States that absence of an execution link does not imply no execution or unseen results and therefore supplies no automatic prospective credit.",
+            "evidence": [
+              {
+                "json_pointer": "/hypothesis_review/scope/checks/0/reason",
+                "quote": "history는 빈 배열이고 실행 연결도 없다. 연결 부재로 미실행·미관측을 단정할 수 없으며, 세 가지 origin 중 어느 것도 이 회차에 배정하지 않는다.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "5a2fecec9927d382903768d81f08468184b9008ee740e93c4a7c24efa7432914"
+              },
+              {
+                "json_pointer": "/judgment_context/assumptions/0/statement",
+                "quote": "실행 연결이 없다는 사실은 미관측의 증거가 아니다.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "cf9fcc8f788db2995bab909a065d9ff427bce753edbfe41be5d1ed514feb28ab"
+              }
+            ]
+          }
+        ],
+        "failure_conditions_observed": [],
+        "prior_record_assessment": "No actual prior prediction record is asserted. The response asks for identity and ordering evidence and preserves the possibility that an older artifact could itself be hindsight.",
+        "source_and_causal_assessment": "Keeps the publication packet as mechanism background rather than assigned execution history. MKP1, p38 and cofactor observations remain conditional evidence; hypothesis-specific possible outcomes are discussed without retroactively assigning them prospective provenance.",
+        "ambiguities": [],
+        "review_scope_limit": "The explicit not-reviewed/unresolved-context route satisfies the frozen scientific criterion. Empty machine prediction arrays are not penalized for schema shape, and native dispatch validity remains unassessed.",
+        "reviewed_at_utc": "2026-10-10T23:05:54.994590+00:00",
+        "criterion_interpretation_sha256": "bbec185cb660b34a2943a5b4f698a20677164ab9e08c6508625aaba01744726a",
+        "visible_case_sha256": "c64292a50e612e0c484de46b182fed57a36a4063b09bd7af9ac0e2cf15072408",
+        "answer_sha256": "aa8750a18b02044260c2fc550f8908dbb12ef7c4ed53b1b9975b9754b15cf1c4",
+        "visible_structure_only": "parseable JSON; native schema/dispatch not independently assessed",
+        "native_schema_validity": "not independently assessed under permitted blinded input scope",
+        "arm_identity_known": false,
+        "key_opened": false,
+        "manual_semantic_judgment": true,
+        "automated_semantic_grading": false
+      }
+    },
+    {
+      "blind_id": "B17",
+      "review_status": "sealed",
+      "case_id": "P4_actual_prior_prediction_record",
+      "primary_result": "pass",
+      "judgment_path": "judgments/B17-judgment-01.json",
+      "judgment_sha256": "dfe07af6be04bc5344312fe27cf25ad18b723632702015c160e252bf3dfe3d53",
+      "review": {
+        "blind_id": "B17",
+        "case_id": "P4_actual_prior_prediction_record",
+        "primary_result": "pass",
+        "assigned_instance": "p4-assigned aliases prior-check for P4_actual_prior_prediction_record-instance; actual fixture prior_prediction_P4 at event 7 precedes outcome 0 at event 10 and current review at event 12.",
+        "declared_chronology": "previously_recorded at current review, with original prospective origin explicitly retained",
+        "criteria": [
+          {
+            "id": "P4.1",
+            "status": "pass",
+            "reason": "Grounds current previously-recorded status in the actual named prior artifact, same assigned measurement and explicit event 7→10→12 ordering.",
+            "evidence": [
+              {
+                "json_pointer": "/hypothesis_review/observations/0/predictions/0/rationale",
+                "quote": "prior_prediction_P4는 event 7에 이 동일 회차에 대해 hA→[0], coverage=complete, 당시 origin=prospective를 기록했다.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "eefd923b5639dffbe67715b346ad3495c9578b3eeab55719e4b36ae087779e09"
+              },
+              {
+                "json_pointer": "/hypothesis_review/observations/0/predictions/0/rationale",
+                "quote": "event 10에 결과 0이 공개되었고 현재는 event 12이므로 현재 표기는 previously_recorded이다.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "f7ca1da81cbcb3e05ed56eccada88dbb105cb7c6f4b4f0c021522799939bcfd2"
+              },
+              {
+                "json_pointer": "/hypothesis_review/observations/0/validity_requirements/0",
+                "quote": "prior-check는 p4-assigned의 별칭이며 P4_actual_prior_prediction_record-instance와 같은 회차이다. 별칭 변경은 새 관측을 만들지 않는다.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "d84d64865ca57d35044fd50ee4507ad3c54254256c840f7fcce2c20b9cac7706"
+              }
+            ]
+          },
+          {
+            "id": "P4.2",
+            "status": "pass",
+            "reason": "Preserves hA [0], hB [1], complete coverage, the original prospective origin and unchanged original rationale while distinguishing the current provenance label from the original prediction.",
+            "evidence": [
+              {
+                "json_pointer": "/judgment_context/assumptions/1/statement",
+                "quote": "원 예측은 hA:[0], hB:[1], 두 항목 모두 complete 및 당시 prospective이다. 현재 재검토는 previously_recorded이며, 해당 선언을 넓은 생물학적 배타성으로 확대하지 않는다.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "1779b5ee936e31d92f4ace5c0e1dbe0b96b3d1837cb254ebd18cf74d9a80143e"
+              },
+              {
+                "json_pointer": "/hypothesis_review/observations/0/predictions/1/rationale",
+                "quote": "원 문구 ‘Unchanged earlier expectation under the scenario conditions.’를 보존한다.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "e0f369aef87f7855c48d9af131385234fe572783deb5ee2b5a90f9c93b432ed8"
+              }
+            ]
+          },
+          {
+            "id": "P4.3",
+            "status": "pass",
+            "reason": "Assesses event-10 outcome 0 against unchanged predictions and expressly refuses to broaden hB's [1] into [0,1] after disclosure. Separates disagreement with that prediction from refutation of every broad biological alternative.",
+            "evidence": [
+              {
+                "json_pointer": "/judgment_context/observation_reviews/1/processing_validity",
+                "quote": "원 [1] 예상을 결과 공개 뒤 [0,1]로 바꾸지 않는다. event 7→10→12 순서를 유지한다.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "93c527c7a14851f4c6ed243d4570ed3491efa0794ba0f542a74ba01a13a0faab"
+              },
+              {
+                "json_pointer": "/hypothesis_review/observations/0/predictions/1/rationale",
+                "quote": "event 10 결과 0은 이 기록된 예상과 어긋난다. 이는 동일 합성 조건의 결과 1 예상에 대한 불일치이며 공존 가능한 경로 전체의 생물학적 반증은 아니다.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "39ff3fadd079ef810cf0f731bc01acbbe37ccf50c890cd0d7046030e0e6be2ad"
+              }
+            ]
+          }
+        ],
+        "failure_conditions_observed": [],
+        "prior_record_assessment": "Identifies the actual immutable synthetic fixture rather than substituting paper evidence; preserves the supplied original assumption and rationale. Additional present-review caveats do not rewrite the archived prediction.",
+        "source_and_causal_assessment": "Acknowledges that correct synthetic ordering permits comparison to the prior prediction but does not establish biological mediator necessity. The prior artifact is a prediction record, not measurement data; event-10 outcome provenance and publication observations remain distinct.",
+        "ambiguities": [],
+        "review_scope_limit": "The not_applicable measurement-quality entries are explicitly scoped to absence of real experimental-quality certification for this synthetic fixture. They do not erase the known outcome or its clear prediction comparison. Native schema/dispatch was not assessed.",
+        "reviewed_at_utc": "2026-10-10T23:05:54.995902+00:00",
+        "criterion_interpretation_sha256": "bbec185cb660b34a2943a5b4f698a20677164ab9e08c6508625aaba01744726a",
+        "visible_case_sha256": "838c4c4379a3d604b1c88abd73a6f17882c5d24875c01cfc5207ee66ad5f881b",
+        "answer_sha256": "b94b9835a795c194405fe01a0950b0cfcd66b63bbfd007fe72e7592e75c55055",
+        "visible_structure_only": "parseable JSON; native schema/dispatch not independently assessed",
+        "native_schema_validity": "not independently assessed under permitted blinded input scope",
+        "arm_identity_known": false,
+        "key_opened": false,
+        "manual_semantic_judgment": true,
+        "automated_semantic_grading": false
+      }
+    },
+    {
+      "blind_id": "B18",
+      "review_status": "sealed",
+      "case_id": "P6_unresolved_timing_no_prior_record",
+      "primary_result": "pass",
+      "judgment_path": "judgments/B18-judgment-01.json",
+      "judgment_sha256": "cd6829be66f62249b220cf172075878d41b8903c510a6f74a9f9c282837f2a63",
+      "review": {
+        "blind_id": "B18",
+        "case_id": "P6_unresolved_timing_no_prior_record",
+        "primary_result": "pass",
+        "assigned_instance": "p6-assigned is not linked to a specific reported intervention outcome; supplied history and outcome links are empty, and the possible earlier prediction is unsupported by an actual artifact.",
+        "declared_chronology": "explicitly unresolved; current conditional expectations receive no prospective credit",
+        "criteria": [
+          {
+            "id": "P6.1",
+            "status": "pass",
+            "reason": "Directly identifies unresolved assigned-check chronology and unknown measurement identity, separating possible outcomes and present conditional interpretations from actual measurements or recovered prior predictions.",
+            "evidence": [
+              {
+                "quote": "The chronology of p6-assigned is unresolved. The described intervention response cannot be identified as that check’s outcome rather than an older assay.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "e0641d8b7ba4ac809898ee9966f800092036a326a18a10869fbb4c9483439a14"
+              },
+              {
+                "quote": "Its listed Outcome 0, “assigned downstream response is lost or lower,” and Outcome 1, “assigned downstream response is retained,” are possible outcomes, not supplied measurements. The following expectations are conditional interpretations made in this review, not recovered prior predictions.",
+                "answer_line_start": 9,
+                "answer_line_end": 9,
+                "quote_utf8_sha256": "ec6394e061c4d95ab7cf139a6fbc4b86d242f8a02338719a3314892dd42e241b"
+              }
+            ]
+          },
+          {
+            "id": "P6.2",
+            "status": "pass",
+            "reason": "Preserves the researcher's statement as an unverified recollection rather than inventing a record or event order. Requests original wording/version, measurement identity and ordering evidence.",
+            "evidence": [
+              {
+                "quote": "Preserve the researcher’s statement that a prediction may have existed as an unverified recollection: the packet establishes neither that a prediction preceded outcome knowledge nor that no prediction existed.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "4eb0e51e97b110e38a2552260739d69a3c9c14d66e20c6ab3f08229e24639f24"
+              },
+              {
+                "quote": "The next useful step is to establish measurement identity and chronology: recover any original prediction with its preserved wording and version, the execution/sample record, the result identifier, and records ordering prediction commitment, measurement and first outcome access.",
+                "answer_line_start": 15,
+                "answer_line_end": 15,
+                "quote_utf8_sha256": "6d86750e3dac94e26799c0c48e6d8ce3a19635d138fa7e4b4ae5be7c7396f2ba"
+              }
+            ]
+          },
+          {
+            "id": "P6.3",
+            "status": "pass",
+            "reason": "Uses missing history/links only to identify insufficient evidence, not to infer an unseen outcome or prospective eligibility. Explicitly withholds prospective credit if the missing records cannot be recovered.",
+            "evidence": [
+              {
+                "quote": "The supplied history is empty, outcome_links is empty, and no execution link or recorded prediction is supplied.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "64baa3e12b213f2bbf0b7e28933d4dad36eb441e3ade524baa2f74c5a32fd1c4"
+              },
+              {
+                "quote": "A successful prospective prediction, a failed prediction, and completed execution of p6-assigned are therefore all unestablished.",
+                "answer_line_start": 1,
+                "answer_line_end": 1,
+                "quote_utf8_sha256": "cf93ee3ebd2469e209563d8db87a29b893e2e596b2d2a61f8ccb5de1329ad4e8"
+              },
+              {
+                "quote": "If those records remain unavailable, chronology remains unknown and the conditional expectations above must not receive prospective credit.",
+                "answer_line_start": 15,
+                "answer_line_end": 15,
+                "quote_utf8_sha256": "9436c4287d778708ec5421bd212b6c6aa2438a53b78884110422f50f197afd00"
+              }
+            ]
+          }
+        ],
+        "failure_conditions_observed": [],
+        "prior_record_assessment": "Does not turn current hypothesis wording, publication dates or recollection into an archived pre-outcome prediction. Does not assert that absence of a record proves no prediction ever existed.",
+        "source_and_causal_assessment": "Keeps historical publication observations and synthetic timing facts separate. Preserves MKP1/p38 causal limits, alternative and cofactor counterevidence, and assay timing discrepancies. A later donor-paired perturbation/rescue experiment is expressly a proposal, not performed evidence or an already prospective prediction for the unresolved assigned instance.",
+        "ambiguities": [],
+        "review_scope_limit": "Plain prose receives the same semantic chronology assessment as structured answers. No native schema requirement, independent experimental validation or general performance claim is added.",
+        "reviewed_at_utc": "2026-10-10T23:07:40.254355+00:00",
+        "criterion_interpretation_sha256": "bbec185cb660b34a2943a5b4f698a20677164ab9e08c6508625aaba01744726a",
+        "visible_case_sha256": "c64292a50e612e0c484de46b182fed57a36a4063b09bd7af9ac0e2cf15072408",
+        "answer_sha256": "974ba9b45b2fe6a3a1514ff3d19cf40284840f6218d96c85a7662143baaa1ada",
+        "visible_structure_only": "prose or non-JSON; no scientific penalty for format",
+        "native_schema_validity": "not independently assessed under permitted blinded input scope",
+        "arm_identity_known": false,
+        "key_opened": false,
+        "manual_semantic_judgment": true,
+        "automated_semantic_grading": false
+      }
+    }
+  ],
+  "limits": [
+    "Partial format blinding; no arm identity inferred or key opened.",
+    "Scientific content scored manually against fixed P1-P6 expectations; native schema/dispatch validity not independently assessed.",
+    "Six selected developmental cases with synthetic histories and one answer per arm/case; no population accuracy, clinical validity or biological validation claim.",
+    "Returned and attempted execution counts require owner-confirmed terminal coverage; the present count is reviewed visible answers."
+  ]
+}

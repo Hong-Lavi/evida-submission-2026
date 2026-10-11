@@ -1,0 +1,19 @@
+[
+  {
+    "blind_id": "B10",
+    "case_id": "P3_new_replication_after_original_study",
+    "primary_result": "pass",
+    "assigned_instance": "p3-assigned is replicate-new; published original assays and the uncollected matched-donor replication have separate contexts.",
+    "declared_chronology": "prospective for replicate-new and reconstructed_after_result for known original observations",
+    "criteria": [
+      {"id": "P3.1", "status": "pass", "reason": "Explicitly grounds prospective forecasts in the new measurement being unseen and rejects automatic hindsight classification from reading the paper.", "evidence": [{"quote": "replicate-new의 미측정 결과에 대한 기대를 지금 작성하므로 prospective이다. 출판 결과를 알고 있다는 사실이 별도 새 인스턴스의 예측을 소급 예측으로 바꾸지는 않는다.", "json_pointer": "/hypothesis_review/scope/checks/0/reason"}]},
+      {"id": "P3.2", "status": "pass", "reason": "Keeps known original observations and unknown replication separate in the scientific discussion and in context bindings.", "evidence": [{"quote": "기존 관측을 사용한 현재 해석은 reconstructed_after_result, 미수집 replicate-new의 현재 기대는 prospective로 분리했다.", "json_pointer": "/judgment_context/unresolved_context/2"}, {"quote": "p3-assigned의 측정 인스턴스는 replicate-new이다. 새 측정은 수집·공개되지 않았다. 출판 결과는 이미 알려진 별도 관측이다.", "json_pointer": "/hypothesis_review/observations/0/validity_requirements/0"}]},
+      {"id": "P3.3", "status": "pass", "reason": "Calls the proposed replication a reproducibility check rather than causal discrimination, and retains the need for a separate selective intervention.", "evidence": [{"quote": "이 복제는 재현성 확인이며, hA와 hB를 가르려면 이후 선택적인 MKP1 교란 비교가 필요하다.", "json_pointer": "/judgment_context/observation_reviews/4/next_check"}, {"quote": "두 가설은 넓고 공존 가능하므로 복제의 유지·감소만으로 배타적인 인과 선택을 할 수 없다.", "json_pointer": "/judgment_context/unresolved_context/4"}]}
+    ],
+    "failure_conditions_observed": [],
+    "prior_record_assessment": "Empty history remains empty; no general reference hypothesis or literature claim becomes an invented pre-publication prediction.",
+    "source_and_causal_assessment": "Retains source negative/mixed signaling results, assay-specific donor counts and MKP1/p38 timing limits. No replication observation or causal proof is invented.",
+    "ambiguities": ["CDKN1A occupancy is recommended as a primary readout, with an explicit statement that this is a present design proposal rather than a historical or already fixed specification. This does not change original-versus-replication chronology."],
+    "review_scope_limit": "No scientific credit assigned for structured-output detail, answer length or future-design elaboration."
+  }
+]

@@ -1,0 +1,30 @@
+{
+  "scope": "Supplemental accounting only; original attempt files are preserved.",
+  "model_comparison_planned_responses": 18,
+  "setup_failures_are_scientific_answer_failures": false,
+  "attempts": [
+    {
+      "attempt": "original",
+      "terminal_sha256": "a70f307ee52ba6ffce2fa89a4808b16f14f6b2de04dea9ee902cf6e3354db537",
+      "planned_jobs": 18,
+      "status_counts": {
+        "FAILED": 18
+      },
+      "recorded_provider_calls_field_sum": 18,
+      "observed_model_responses": 0,
+      "failure_stage": "Local CLI app-server initialization failed on read-only filesystem before observed model response."
+    },
+    {
+      "attempt": "attempt-02",
+      "terminal_sha256": "388d2ec28c0806147f80244167f9c5d161feda0ad750daed8652afa1e0fd2513",
+      "planned_jobs": 18,
+      "status_counts": {
+        "FAILED": 18
+      },
+      "recorded_provider_calls_field_sum": 0,
+      "observed_model_responses": 0,
+      "failure_stage": "Path-bound indexed-input verification rejected symlink-based relocation before provider invocation."
+    }
+  ],
+  "field_interpretation": "The original provider_calls counter counts local adapter/CLI attempts, not verified provider responses. Its original value is preserved, with stage-specific accounting supplied here."
+}

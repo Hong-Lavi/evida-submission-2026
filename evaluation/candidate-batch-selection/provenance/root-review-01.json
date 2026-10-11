@@ -1,0 +1,32 @@
+{
+  "at_utc": "2026-10-10T23:34:46.284802+00:00",
+  "reviewer": "root",
+  "decision": "APPROVE_FROZEN_EXPLORATORY_REPLAY",
+  "draft_sha256": "c8c2c85bbc4537bb7aed43e94a76d35791419d668c49b6b48b36e546fe6e35e7",
+  "independent_review_sha256": "816e0130f71bf2144bbabbee04d0dcf9a6f9fc1cb331a965c046da3384826c9c",
+  "selected_objective": "pTop10 latent vs GP mean and unchanged GP25/RF5 policy at batch10; original ID-resolved measured top10 recall",
+  "secondary": "qPO best capture; all prespecified batches, observation variants, tie sensitivities, costs, failures and GP fallback retain full accounting",
+  "reason": "Same exact finite pools and reconstructed joint posterior, explicit nonunique optimum handling, denominator-preserving worker recovery independently verified",
+  "limits": "Exploratory replay of historically inspected labels; posterior inclusion scores are conditional model outputs. No prospective experiment or general acquisition superiority established.",
+  "authorization": {
+    "methods": 8,
+    "tasks": 30,
+    "target_clusters": 29,
+    "candidates": 9802,
+    "seeds": 5,
+    "draws": 8192,
+    "rows": 3600,
+    "concurrency": 1,
+    "cpu_threads": 2,
+    "task_seconds": 180,
+    "gpu": false,
+    "model_calls": 0,
+    "retries": 0
+  },
+  "execution_order": [
+    "freeze reviewed protocol",
+    "run all planned selections to terminal and seal",
+    "verify all pins and outputs before opening any gold",
+    "score complete experiment once"
+  ]
+}

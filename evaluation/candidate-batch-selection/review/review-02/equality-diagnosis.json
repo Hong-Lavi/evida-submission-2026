@@ -1,0 +1,130 @@
+{
+  "status": "NUMERICAL_CONTRACT_BUG_CONFIRMED",
+  "location": "acquisition.py:120 (expanded factor multiplication), consumed by exact equality at89\u2013101 and75\u201386",
+  "all_actual_equal_group_seed_checks": 110,
+  "actual_findings": [
+    {
+      "task": "CHEMBL228_Ki",
+      "seed": 0,
+      "indices": [
+        334,
+        336
+      ],
+      "candidate_ids": [
+        "CHEMBL228_Ki:1684",
+        "CHEMBL228_Ki:1694"
+      ],
+      "nonidentical_draws": 1270,
+      "maximum_difference": 1.7763568394002505e-15,
+      "split_global_winner_draws": 0,
+      "split_top10_boundary_draws": 0
+    },
+    {
+      "task": "CHEMBL228_Ki",
+      "seed": 1,
+      "indices": [
+        334,
+        336
+      ],
+      "candidate_ids": [
+        "CHEMBL228_Ki:1684",
+        "CHEMBL228_Ki:1694"
+      ],
+      "nonidentical_draws": 1186,
+      "maximum_difference": 1.7763568394002505e-15,
+      "split_global_winner_draws": 0,
+      "split_top10_boundary_draws": 0
+    },
+    {
+      "task": "CHEMBL228_Ki",
+      "seed": 2,
+      "indices": [
+        334,
+        336
+      ],
+      "candidate_ids": [
+        "CHEMBL228_Ki:1684",
+        "CHEMBL228_Ki:1694"
+      ],
+      "nonidentical_draws": 1266,
+      "maximum_difference": 1.7763568394002505e-15,
+      "split_global_winner_draws": 0,
+      "split_top10_boundary_draws": 0
+    },
+    {
+      "task": "CHEMBL228_Ki",
+      "seed": 3,
+      "indices": [
+        334,
+        336
+      ],
+      "candidate_ids": [
+        "CHEMBL228_Ki:1684",
+        "CHEMBL228_Ki:1694"
+      ],
+      "nonidentical_draws": 1235,
+      "maximum_difference": 1.7763568394002505e-15,
+      "split_global_winner_draws": 0,
+      "split_top10_boundary_draws": 0
+    },
+    {
+      "task": "CHEMBL228_Ki",
+      "seed": 4,
+      "indices": [
+        334,
+        336
+      ],
+      "candidate_ids": [
+        "CHEMBL228_Ki:1684",
+        "CHEMBL228_Ki:1694"
+      ],
+      "nonidentical_draws": 1218,
+      "maximum_difference": 2.6645352591003757e-15,
+      "split_global_winner_draws": 0,
+      "split_top10_boundary_draws": 0
+    }
+  ],
+  "actual_boundary_effect": {
+    "split_global_winner_draws": 0,
+    "split_top10_boundary_draws": 0
+  },
+  "synthetic_counterexample": {
+    "factor_shape": [
+      194,
+      5
+    ],
+    "draws": 128,
+    "duplicated_rows": [
+      0,
+      193
+    ],
+    "maximum_difference": 4.440892098500626e-16,
+    "qpo": {
+      "split_winner_events_in_original": 46,
+      "split_winner_events_in_quotient_prototype": 0,
+      "original_individual_win_probabilities": [
+        0.8359375,
+        0.8046875
+      ],
+      "quotient_individual_win_probabilities": [
+        1.0,
+        1.0
+      ]
+    },
+    "pTop10": {
+      "original_boundary_probabilities": [
+        0.515625,
+        0.484375
+      ],
+      "quotient_boundary_probabilities": [
+        0.5,
+        0.5
+      ],
+      "incorrect_per_draw_tie_allocations": 46
+    },
+    "fixture_seed": 123,
+    "fixture_generation": "default_rng(123): normal(factor_shape); overwrite last factor row with row0; then normal((128,rank)). Other candidate means=-1000, duplicate means=0."
+  },
+  "interpretation": "Expanded duplicate factor rows need not yield bit-identical columns under BLAS. Exact winner/boundary masks can therefore violate declared equality semantics. Compute unique quotient samples once and expand via lookup. No actual alternative batch or score was generated, and original results remain unchanged.",
+  "implementation_sha256": "fb5cf954e6605918f6e0db49de1e1ad28c8dbe58300c622f88e44149088dd10f"
+}

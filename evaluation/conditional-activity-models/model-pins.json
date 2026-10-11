@@ -1,0 +1,1159 @@
+{
+  "meaning": "Fitted-model source, feature/label hashes, hyperparameters, and sealed predictions; no serialized model checkpoint was created. Recalculation uses saved predictions.",
+  "rf": "Native RandomForestRegressor 300 trees, min_samples_leaf2, seed20260930, n_jobs2; actual fitted backbone preserved even when the operational gate abstains.",
+  "gp": {
+    "author_class": "trf23.tanimoto_gp.TanimotoKernelGP, T_DP",
+    "device": "cpu",
+    "dtype": "float64",
+    "mean": "train-only standardized target; learned constant mean",
+    "optimizer": "modern fit_gpytorch_mll_scipy API substitution, L-BFGS-B maxiter100, ftol1e-9, timeout180seconds",
+    "initial_outputscale": 1.0,
+    "initial_noise": 0.1,
+    "initial_constant": 0.0,
+    "linear_algebra": "exact Cholesky, two CPU threads",
+    "uncertainty": "record latent and likelihood-added predictive standard deviations separately"
+  },
+  "seed": 20260930,
+  "tasks": [
+    {
+      "task": "CHEMBL1862_Ki",
+      "training_rows": 475,
+      "inner_held_out_rows": 158,
+      "test_rows": 161,
+      "train_matrix_sha256": "a69f1c61302fcdb48121d0198bd35f0ddf7b4e7b6f46cf1228ada83fc80d4e9f",
+      "train_labels_sha256": "06316e94549719c5806e7912264b76955b155730e976e4e5923039b619bb4989",
+      "training_mean": 7.904743157894736,
+      "inner_mean_mae": 1.603220439706862,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.7414367956638416,
+        "fit_seconds": 4.2765749850077555
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.7312427680993504,
+        "inner_spearman": 0.733,
+        "center": 7.904743157894736,
+        "scale": 1.407719812631135,
+        "fit_seconds": 0.25329423701623455,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 0.7742179139796477,
+          "runtime": 0.252916308993008,
+          "step": 8,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 0.6665132053215193,
+          "noise": 0.04976246166729477,
+          "mean": -1.1139578926096967
+        }
+      },
+      "selected_policy_arm": "gp",
+      "prediction_sha256": "8b31ed29b279a352c259b1e299fbb9ea5d0a000956620efb4df33a7713a812bd"
+    },
+    {
+      "task": "CHEMBL1871_Ki",
+      "training_rows": 395,
+      "inner_held_out_rows": 130,
+      "test_rows": 134,
+      "train_matrix_sha256": "d17b69463352b6639242bf9f0abbb4e2c1e1a7d316d2485f90960c834fd45fbf",
+      "train_labels_sha256": "a3ea8a049d9689a0055e728cd6ffc923089b9a64d51dcd4f67dc8ea326a849e5",
+      "training_mean": 7.030827848101265,
+      "inner_mean_mae": 0.9356646932814021,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.8063183177048024,
+        "fit_seconds": 3.7080967820365913
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.6477604576646925,
+        "inner_spearman": 0.608,
+        "center": 7.030827848101265,
+        "scale": 0.987473549453378,
+        "fit_seconds": 0.27903466299176216,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 0.9394044781335606,
+          "runtime": 0.2787098429980688,
+          "step": 7,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 0.8989849928065243,
+          "noise": 0.04692864463435056,
+          "mean": -0.20112441735348052
+        }
+      },
+      "selected_policy_arm": "gp",
+      "prediction_sha256": "803cb0b2c5186357980dbdcf0ee71da0a218305cafbe17420a0b99015f72decc"
+    },
+    {
+      "task": "CHEMBL2034_Ki",
+      "training_rows": 449,
+      "inner_held_out_rows": 149,
+      "test_rows": 152,
+      "train_matrix_sha256": "eab52d63ded72760e6306d436266fecad1e851eb2e8ddb6afa65d1120405246b",
+      "train_labels_sha256": "74f44b25db4f9432a7e774a3d29a8db91522fd4cfde37dd476e28ff93d42a5b3",
+      "training_mean": 7.872659242761693,
+      "inner_mean_mae": 0.9530086994215334,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.5992261344834631,
+        "fit_seconds": 4.490514182019979
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.5889132190251103,
+        "inner_spearman": 0.764,
+        "center": 7.872659242761693,
+        "scale": 1.0747691800304389,
+        "fit_seconds": 0.3037650429760106,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 0.9354441531701434,
+          "runtime": 0.30340075300773606,
+          "step": 13,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 1.2859309294490127,
+          "noise": 0.002109368429506607,
+          "mean": -0.30344637287786735
+        }
+      },
+      "selected_policy_arm": "gp",
+      "prediction_sha256": "292c002fc9270bae1e244d8cbf6b668df6d652b9ee29029e855255a64a5293f6"
+    },
+    {
+      "task": "CHEMBL2047_EC50",
+      "training_rows": 378,
+      "inner_held_out_rows": 125,
+      "test_rows": 128,
+      "train_matrix_sha256": "f72881d9d94d384ddfd7bfbe35ca501357cbd5119dfa10294eaf49c1bdc415e9",
+      "train_labels_sha256": "457907cdd7b6dab187574782842db83e0e2902c6f06713f167f4095592d9f6ce",
+      "training_mean": 6.256476190476191,
+      "inner_mean_mae": 0.744504380952381,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.5483715940947205,
+        "fit_seconds": 3.91861145501025
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.5706393108768052,
+        "inner_spearman": 0.614,
+        "center": 6.256476190476191,
+        "scale": 1.0035996723510623,
+        "fit_seconds": 0.14471768797375262,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 1.0223132264557055,
+          "runtime": 0.14439091802341864,
+          "step": 7,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 1.2724064698472677,
+          "noise": 0.049268373088920216,
+          "mean": -0.36441303468233893
+        }
+      },
+      "selected_policy_arm": "rf",
+      "prediction_sha256": "5149590d4be564fbe3ee8d08a2e4c099df3b25958209910d5ea8aa58fe61e708"
+    },
+    {
+      "task": "CHEMBL204_Ki",
+      "training_rows": 1651,
+      "inner_held_out_rows": 550,
+      "test_rows": 553,
+      "train_matrix_sha256": "8f61a14699d346a5bf51531a0da571362c978ab03a9a0bc32190abb927368295",
+      "train_labels_sha256": "ebfb428f62f744e019c2da4ec8d9cffc47f3b85a7f4304e468d7272e4985c934",
+      "training_mean": 6.978842519685039,
+      "inner_mean_mae": 1.2699901216893343,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.7280931447069596,
+        "fit_seconds": 19.64248411101289
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.6628851553191611,
+        "inner_spearman": 0.823,
+        "center": 6.978842519685039,
+        "scale": 1.5068410045104583,
+        "fit_seconds": 3.2114558649482206,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 0.8036852754597418,
+          "runtime": 3.2109856119495817,
+          "step": 8,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 0.9343913107999242,
+          "noise": 0.033216563080416234,
+          "mean": -0.27515200868968637
+        }
+      },
+      "selected_policy_arm": "gp",
+      "prediction_sha256": "39985887e79278049052db6fe145b362dab41bdfe370c77908a3b55f4ec4f0ac"
+    },
+    {
+      "task": "CHEMBL2147_Ki",
+      "training_rows": 872,
+      "inner_held_out_rows": 290,
+      "test_rows": 294,
+      "train_matrix_sha256": "4081023e1cb7acdf5d7f404cd9925a6f0d7d413142417df6b5b923f60a84a867",
+      "train_labels_sha256": "59e977e95453a6f48189db6d798cc2ed7894e2298fb1151ec6ae4eb0371e85ed",
+      "training_mean": 8.095105504587156,
+      "inner_mean_mae": 1.7899024359379943,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.7114279812789628,
+        "fit_seconds": 9.723039895994589
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.6633636524957668,
+        "inner_spearman": 0.835,
+        "center": 8.095105504587156,
+        "scale": 1.9404625076140838,
+        "fit_seconds": 0.8210290689603426,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 0.4445542084677369,
+          "runtime": 0.8206947970320471,
+          "step": 12,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 0.40250462079379257,
+          "noise": 0.0068471145311403015,
+          "mean": -0.8832379695304895
+        }
+      },
+      "selected_policy_arm": "gp",
+      "prediction_sha256": "5e01a7514bf5dfbf38d12e87d1467dd34234ae3636168ac556f67271d797c8c2"
+    },
+    {
+      "task": "CHEMBL214_Ki",
+      "training_rows": 1989,
+      "inner_held_out_rows": 662,
+      "test_rows": 666,
+      "train_matrix_sha256": "e51dbcff4b0bda5240f81edb6d4730b4dee11ba3b313a0dfa82bf776923711ff",
+      "train_labels_sha256": "18a9636fd629ed3f6dee5221f65a60e3039b898fd7aefa60353693b50a46c16c",
+      "training_mean": 7.340536953242835,
+      "inner_mean_mae": 0.9443048010280105,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.6714959201303481,
+        "fit_seconds": 23.200067249999847
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.6474535568232331,
+        "inner_spearman": 0.684,
+        "center": 7.340536953242835,
+        "scale": 1.134437776674983,
+        "fit_seconds": 4.540040416002739,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 0.9199232998971707,
+          "runtime": 4.539720583008602,
+          "step": 7,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 0.8184927186970993,
+          "noise": 0.11359430883230906,
+          "mean": -0.9154696447097178
+        }
+      },
+      "selected_policy_arm": "gp",
+      "prediction_sha256": "b4cd4cae911aadcea1385f7fe38471aab0ddd3e876867393ae15f6169ddb5e0d"
+    },
+    {
+      "task": "CHEMBL218_EC50",
+      "training_rows": 618,
+      "inner_held_out_rows": 205,
+      "test_rows": 208,
+      "train_matrix_sha256": "f6b32158e33188c0c2621ccb9401d6daaf2baa7e86401643e8a5b808e3d155c5",
+      "train_labels_sha256": "421800244afc026cc93515b0e4dcb461b7047d8e79fd2d744beb7fead87f6f0e",
+      "training_mean": 6.8549271844660185,
+      "inner_mean_mae": 0.8918151314231585,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.6754623193097329,
+        "fit_seconds": 7.1296703509869985
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.6504735987462212,
+        "inner_spearman": 0.611,
+        "center": 6.8549271844660185,
+        "scale": 1.0503107228049222,
+        "fit_seconds": 0.24695444997632876,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 1.0498945487223872,
+          "runtime": 0.24661546002607793,
+          "step": 5,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 1.0052933859921938,
+          "noise": 0.09159221910897733,
+          "mean": -0.21777610327572913
+        }
+      },
+      "selected_policy_arm": "gp",
+      "prediction_sha256": "ca1566d52b5e49feef7445ad0750ddfc67614c2c4fd5afc120acfb68055a18bd"
+    },
+    {
+      "task": "CHEMBL219_Ki",
+      "training_rows": 1119,
+      "inner_held_out_rows": 372,
+      "test_rows": 374,
+      "train_matrix_sha256": "989b10b32575349ca5f2caf2953b91cff6c248f579110c5e4625ffc2d31097ae",
+      "train_labels_sha256": "e4e22b8cac20c860faceea4aa90260146d94bf8cf264eb7b9737245f6d93cb10",
+      "training_mean": 7.277329758713137,
+      "inner_mean_mae": 0.9171286863270777,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.7658066317071023,
+        "fit_seconds": 13.38589785899967
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.7274545993870707,
+        "inner_spearman": 0.545,
+        "center": 7.277329758713137,
+        "scale": 1.0487202735149892,
+        "fit_seconds": 1.5720792229985818,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 1.035910774423588,
+          "runtime": 1.5713660959736444,
+          "step": 7,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 1.049435280130668,
+          "noise": 0.12056509911173251,
+          "mean": -1.0236111457313564
+        }
+      },
+      "selected_policy_arm": "gp",
+      "prediction_sha256": "754edd1e022f30c3030ac5ab9812054f647ff7457b3bd7d308210c11b506a0ea"
+    },
+    {
+      "task": "CHEMBL228_Ki",
+      "training_rows": 1022,
+      "inner_held_out_rows": 340,
+      "test_rows": 342,
+      "train_matrix_sha256": "cc7659b4d227d9d019bd4fcc462ba813341a0ffb521654718c35d3eaa387b340",
+      "train_labels_sha256": "2ef09faf9d55003e3231d3a83c4ed01013387ec3f116bd69d0213a18ba9ba006",
+      "training_mean": 7.318628180039139,
+      "inner_mean_mae": 0.9856564867042708,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.7697089656590688,
+        "fit_seconds": 10.992825651017483
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.7326023924648067,
+        "inner_spearman": 0.602,
+        "center": 7.318628180039139,
+        "scale": 1.226948205480538,
+        "fit_seconds": 1.212721121031791,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 0.9079152052243799,
+          "runtime": 1.2123625839594752,
+          "step": 8,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 0.8751174341973013,
+          "noise": 0.052906050611054634,
+          "mean": -0.5022111457333777
+        }
+      },
+      "selected_policy_arm": "gp",
+      "prediction_sha256": "ae89a90a493a984a5f0b39d0e1fd2a723570d26ccaf0b9b1ae602db5da239422"
+    },
+    {
+      "task": "CHEMBL231_Ki",
+      "training_rows": 582,
+      "inner_held_out_rows": 194,
+      "test_rows": 197,
+      "train_matrix_sha256": "8487daa99af33c7caf33c50f6077fd63a65aadbff97ff82463ff6ffb0ff303e4",
+      "train_labels_sha256": "a11dc2d79b91faea2bd443152c0605d367d45b7166c0a95c4a9a4890d3c85907",
+      "training_mean": 6.961027491408935,
+      "inner_mean_mae": 1.1079719063308182,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.7010686460053407,
+        "fit_seconds": 5.6114515559747815
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.7250194576103617,
+        "inner_spearman": 0.713,
+        "center": 6.961027491408935,
+        "scale": 1.2329442909855155,
+        "fit_seconds": 0.5860916469828226,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 0.7968592216265177,
+          "runtime": 0.5857445069705136,
+          "step": 12,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 0.8226560579300476,
+          "noise": 0.0006922879470041384,
+          "mean": -0.6114682694739807
+        }
+      },
+      "selected_policy_arm": "rf",
+      "prediction_sha256": "61916ef0de1afeef1f6bb3be1d435ceb9cf70850cd76513200e20a5dc45090ed"
+    },
+    {
+      "task": "CHEMBL233_Ki",
+      "training_rows": 1884,
+      "inner_held_out_rows": 628,
+      "test_rows": 630,
+      "train_matrix_sha256": "b8e89e1f65927770e0897755408e0d645a12b6183fd688ec421dd6466e4fa289",
+      "train_labels_sha256": "8c1d45b60149c71ebe0f5ff188ddf29d5d723a58796e859b9f66368442bbdf0a",
+      "training_mean": 7.3522016985138015,
+      "inner_mean_mae": 1.0694374721084021,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.6912569931266243,
+        "fit_seconds": 22.727830305986572
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.683596833164989,
+        "inner_spearman": 0.729,
+        "center": 7.3522016985138015,
+        "scale": 1.2924508206741308,
+        "fit_seconds": 4.094527184031904,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 0.8794438014978194,
+          "runtime": 4.093970197020099,
+          "step": 7,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 0.7911475748340889,
+          "noise": 0.09353671571825972,
+          "mean": -0.8997680053017637
+        }
+      },
+      "selected_policy_arm": "gp",
+      "prediction_sha256": "46c01f93ed5c8b1fc7861d3956ab5a30b9d39d85ed5ff02acaebc20c85dd14e3"
+    },
+    {
+      "task": "CHEMBL234_Ki",
+      "training_rows": 2193,
+      "inner_held_out_rows": 731,
+      "test_rows": 733,
+      "train_matrix_sha256": "ef14359bddad361213277d69efeac9da7fd0a8f83bd1da554230a38e1c3d86eb",
+      "train_labels_sha256": "896816bc636142daad89af87e4f61b7584f75fa8ca83379eddefdefbc187e77f",
+      "training_mean": 7.566784313725489,
+      "inner_mean_mae": 1.0960538880394837,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.6905988311908866,
+        "fit_seconds": 25.976323821989354
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.6225422507748806,
+        "inner_spearman": 0.78,
+        "center": 7.566784313725489,
+        "scale": 1.1464176115902693,
+        "fit_seconds": 7.383474002999719,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 0.8778268886454765,
+          "runtime": 7.382820653961971,
+          "step": 8,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 1.0123729667758783,
+          "noise": 0.06553837969385037,
+          "mean": -0.9469393235191559
+        }
+      },
+      "selected_policy_arm": "gp",
+      "prediction_sha256": "e7a971c2014fc2a5a163c122dada59bbe2cc867e263a21cf450e45a9332ed5d4"
+    },
+    {
+      "task": "CHEMBL235_EC50",
+      "training_rows": 1408,
+      "inner_held_out_rows": 469,
+      "test_rows": 472,
+      "train_matrix_sha256": "43a6be7aa382fa7dddbce30012ca3a5be1f35d0c7c7da3fd2dda1d624102f563",
+      "train_labels_sha256": "774d4afc65151094654e27147a690e91ecae5eadc463b44c4fdf6680baf632f8",
+      "training_mean": 6.483317471590909,
+      "inner_mean_mae": 0.9121687175930412,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.6729086174107027,
+        "fit_seconds": 15.339877219987102
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.6906273989467665,
+        "inner_spearman": 0.61,
+        "center": 6.483317471590909,
+        "scale": 1.0948361597441783,
+        "fit_seconds": 2.3960643720347434,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 0.9726297916243464,
+          "runtime": 2.3957003870164044,
+          "step": 7,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 1.1432114618207376,
+          "noise": 0.07990386037428457,
+          "mean": -0.198564516780404
+        }
+      },
+      "selected_policy_arm": "rf",
+      "prediction_sha256": "c6d6bdf739e32956e4253643ee74a74a6eb5111f6e4a34fa4f496d33f9f8f4af"
+    },
+    {
+      "task": "CHEMBL236_Ki",
+      "training_rows": 1558,
+      "inner_held_out_rows": 519,
+      "test_rows": 521,
+      "train_matrix_sha256": "395ae8fef2eb608e43017167e75a7adc42bf9d5a7a0a7c5a910bfe24af90a5ab",
+      "train_labels_sha256": "6b88c8c983240d18d655715c692db60c13fedaf29b1d931bafc19e3f131bf214",
+      "training_mean": 7.032431322207958,
+      "inner_mean_mae": 1.1808657980069301,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.7016939408053945,
+        "fit_seconds": 18.536660002020653
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.6703619710521419,
+        "inner_spearman": 0.82,
+        "center": 7.032431322207958,
+        "scale": 1.3276565284767188,
+        "fit_seconds": 2.065421624982264,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 0.8248829474295963,
+          "runtime": 2.065023813978769,
+          "step": 7,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 0.7981026323246876,
+          "noise": 0.0707193601226178,
+          "mean": -0.6545333201100464
+        }
+      },
+      "selected_policy_arm": "gp",
+      "prediction_sha256": "c330320eae73460e9d1d14bbe4c8231bd215c56d4f51ea30d679eb5c0a49fc0a"
+    },
+    {
+      "task": "CHEMBL237_EC50",
+      "training_rows": 572,
+      "inner_held_out_rows": 190,
+      "test_rows": 193,
+      "train_matrix_sha256": "912ea4710492bd89d4a40d8da973874af1105ad2d29e4e38e6e5416a001489ca",
+      "train_labels_sha256": "11d021d26f93cd6ba0fead65cc227db71e41462529be03359049faac8e4d3836",
+      "training_mean": 7.507942307692307,
+      "inner_mean_mae": 1.1243495951417004,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.8240056890116214,
+        "fit_seconds": 6.556190268951468
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.8174400840254364,
+        "inner_spearman": 0.654,
+        "center": 7.507942307692307,
+        "scale": 1.3770748713185685,
+        "fit_seconds": 0.3114715529954992,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 0.9989005837782817,
+          "runtime": 0.3111088239820674,
+          "step": 6,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 1.1382536466042281,
+          "noise": 0.07593078263894691,
+          "mean": -0.7189845425284088
+        }
+      },
+      "selected_policy_arm": "gp",
+      "prediction_sha256": "59007b320d017f1854fc56996bd89595d3d98043b96f6abdb74c83b5ccf608ac"
+    },
+    {
+      "task": "CHEMBL237_Ki",
+      "training_rows": 1561,
+      "inner_held_out_rows": 520,
+      "test_rows": 522,
+      "train_matrix_sha256": "a9d9be27d9b2364068ff3c86fc1c1e0aaa4c4e91c1b6326797e49e6a3d8c18b0",
+      "train_labels_sha256": "65de9970e2d7bfa08df73cb7ee7a91e7a1a399123e94b5647724eb122273a288",
+      "training_mean": 7.427857783472132,
+      "inner_mean_mae": 1.0575065404326611,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.7526899666544816,
+        "fit_seconds": 21.214191533974372
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.7203176432276004,
+        "inner_spearman": 0.662,
+        "center": 7.427857783472132,
+        "scale": 1.3489975148075826,
+        "fit_seconds": 3.0080178669886664,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 0.815014177240982,
+          "runtime": 3.007608068000991,
+          "step": 7,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 0.7258570499100859,
+          "noise": 0.07622625837422431,
+          "mean": -0.8817874319556656
+        }
+      },
+      "selected_policy_arm": "gp",
+      "prediction_sha256": "cf5e72e299038b34ac45e9f596e8139c0967652781380f2b8249aafe34470656"
+    },
+    {
+      "task": "CHEMBL238_Ki",
+      "training_rows": 630,
+      "inner_held_out_rows": 209,
+      "test_rows": 213,
+      "train_matrix_sha256": "6016b7e448e8c6e0bedf5c8573b4596b7b8f5910cff31d56b0d8f2a995f01109",
+      "train_labels_sha256": "e5111ef694852cf730db98f7842ecd93f74d5c13d8066e57762eda658695aeb8",
+      "training_mean": 6.665638095238096,
+      "inner_mean_mae": 0.9597303258145363,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.682570998811883,
+        "fit_seconds": 5.965493572002742
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.6642537265630432,
+        "inner_spearman": 0.635,
+        "center": 6.665638095238096,
+        "scale": 1.061145764029149,
+        "fit_seconds": 0.3370596200111322,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 0.9778360165879106,
+          "runtime": 0.3367203719681129,
+          "step": 8,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 0.9244308001231935,
+          "noise": 0.04755957367389219,
+          "mean": -0.558552817123813
+        }
+      },
+      "selected_policy_arm": "gp",
+      "prediction_sha256": "11d72ce2edb3ab70a6204de5250f13a826b77f93d9bcda6834f6fc8a2bc17e12"
+    },
+    {
+      "task": "CHEMBL239_EC50",
+      "training_rows": 1031,
+      "inner_held_out_rows": 343,
+      "test_rows": 347,
+      "train_matrix_sha256": "0d2a8617add62122db4eec452b1a5f7dedb50143aa8f8141ac08301954ed12d7",
+      "train_labels_sha256": "f633f0e771ce176bcdc171744cb6b9c80779dd377b93d714c53e43ac39aa003f",
+      "training_mean": 6.378486905916586,
+      "inner_mean_mae": 0.8381803451600953,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.7180031151885852,
+        "fit_seconds": 10.000580649008043
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.6440184612196427,
+        "inner_spearman": 0.613,
+        "center": 6.378486905916586,
+        "scale": 1.1105878956133373,
+        "fit_seconds": 1.1064907619729638,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 1.0384458319669139,
+          "runtime": 1.1061693039955571,
+          "step": 6,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 1.0462338183661215,
+          "noise": 0.13271581562516982,
+          "mean": -0.7417577374207673
+        }
+      },
+      "selected_policy_arm": "gp",
+      "prediction_sha256": "ed822ba378e53acd4b28149d8376d72f71bd36a65464043ba74c5813af16232a"
+    },
+    {
+      "task": "CHEMBL244_Ki",
+      "training_rows": 1857,
+      "inner_held_out_rows": 619,
+      "test_rows": 621,
+      "train_matrix_sha256": "0bbbd35ba06d5cd8ca6e7f43b66a73d4b7aa547367a721f372526228e0c9475d",
+      "train_labels_sha256": "ed51310ae0f18e762d60ddd25ca5ce4c11521073209cc7bb5de8751b7cb71942",
+      "training_mean": 7.132285406569736,
+      "inner_mean_mae": 1.3735199476634277,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.7307040035578763,
+        "fit_seconds": 22.083938872034196
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.7024557842991158,
+        "inner_spearman": 0.817,
+        "center": 7.132285406569736,
+        "scale": 1.6635278738070385,
+        "fit_seconds": 3.956388401973527,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 0.6856365844695554,
+          "runtime": 3.956057222036179,
+          "step": 8,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 0.7468526713399801,
+          "noise": 0.031378414215570374,
+          "mean": -0.34897217474202863
+        }
+      },
+      "selected_policy_arm": "gp",
+      "prediction_sha256": "89a5f5d713ec7fb62822dfc9d71d281463d71dd5aa574c596382ffe04667775f"
+    },
+    {
+      "task": "CHEMBL262_Ki",
+      "training_rows": 513,
+      "inner_held_out_rows": 170,
+      "test_rows": 173,
+      "train_matrix_sha256": "565efe1521df56a8a0ba9f19748760cec477c225940a5ac39c33fd69ba00b250",
+      "train_labels_sha256": "56f485bf234f86f26ba6d30c961843068d305b9ca50c551bbe22a915a9913a05",
+      "training_mean": 6.627614035087719,
+      "inner_mean_mae": 0.8967902992776056,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.709460156024531,
+        "fit_seconds": 5.92261064396007
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.6902260008622644,
+        "inner_spearman": 0.547,
+        "center": 6.627614035087719,
+        "scale": 1.05629334595438,
+        "fit_seconds": 0.27200347901089117,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 1.126582535744218,
+          "runtime": 0.27168022899422795,
+          "step": 7,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 1.0156726281580948,
+          "noise": 0.0909371365289154,
+          "mean": -0.30979310001068083
+        }
+      },
+      "selected_policy_arm": "gp",
+      "prediction_sha256": "23a808b0c3c01c3499bf4790f5bdff4e2d13ddb2b0620acca380495442c3acf1"
+    },
+    {
+      "task": "CHEMBL264_Ki",
+      "training_rows": 1716,
+      "inner_held_out_rows": 572,
+      "test_rows": 574,
+      "train_matrix_sha256": "66f1bcf733bbe3432d8b37ae764e7a3a45f7fdb7c0931ad0333bc48331bfff4e",
+      "train_labels_sha256": "5d02c9fe1854b8bd6bf1b556460945b642448d6a926d876d9caf636a0668b394",
+      "training_mean": 7.749983682983684,
+      "inner_mean_mae": 0.9779104601692011,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.6310510783061148,
+        "fit_seconds": 18.077219907019753
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.5984482673111703,
+        "inner_spearman": 0.766,
+        "center": 7.749983682983684,
+        "scale": 1.0851437133032813,
+        "fit_seconds": 2.9362716450123116,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 0.9282568231241883,
+          "runtime": 2.935940674971789,
+          "step": 7,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 1.0508308360894218,
+          "noise": 0.06119756652787866,
+          "mean": -0.7615766691514377
+        }
+      },
+      "selected_policy_arm": "gp",
+      "prediction_sha256": "325ee8e286d38908be70f772e9545d1610d4e92cd5d350089dcd62aa0f87e344"
+    },
+    {
+      "task": "CHEMBL2835_Ki",
+      "training_rows": 367,
+      "inner_held_out_rows": 122,
+      "test_rows": 126,
+      "train_matrix_sha256": "339b8b6294e5eed80efebfb1ad70275dc3e7897ebdc080f3ef6fe0811d4a0d06",
+      "train_labels_sha256": "6e014c5dd95a432ce93c48fc1e75c17d2fa7e280ad19198ac8be853bbc5ba698",
+      "training_mean": 8.689972752043598,
+      "inner_mean_mae": 0.6931961182829317,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.32880094123833115,
+        "fit_seconds": 3.925930468016304
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.34955160885170056,
+        "inner_spearman": 0.746,
+        "center": 8.689972752043598,
+        "scale": 0.9489608050977513,
+        "fit_seconds": 0.3957957689999603,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 0.49799751751102067,
+          "runtime": 0.39528089901432395,
+          "step": 19,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 0.8002824323961615,
+          "noise": 0.00010934550881471736,
+          "mean": -1.2069008919082507
+        }
+      },
+      "selected_policy_arm": "rf",
+      "prediction_sha256": "3946696e6b956d641dac0b039714c53a5b885313d4304b1253fb732da761369b"
+    },
+    {
+      "task": "CHEMBL287_Ki",
+      "training_rows": 796,
+      "inner_held_out_rows": 265,
+      "test_rows": 267,
+      "train_matrix_sha256": "5e4a1407a97617faba62d238b32fa8e957a33f9e1e9739d120e1350e87dfd854",
+      "train_labels_sha256": "cae478615f0f0ace26930f17d2e4eb5ad838e52fa162f2330727b8b84b948bf4",
+      "training_mean": 7.527435929648241,
+      "inner_mean_mae": 0.9795830710154545,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.7079299767297348,
+        "fit_seconds": 8.05829202698078
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.6783873746690003,
+        "inner_spearman": 0.682,
+        "center": 7.527435929648241,
+        "scale": 1.0600305211143615,
+        "fit_seconds": 0.5874228730099276,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 1.0762284726380567,
+          "runtime": 0.5870791259803809,
+          "step": 6,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 1.1490803788175477,
+          "noise": 0.0794118749731071,
+          "mean": -0.6200298770758699
+        }
+      },
+      "selected_policy_arm": "gp",
+      "prediction_sha256": "e4622d5df3e3930d452ee6587f5b6d20cb5ee4f3358a407a3650a8161325f18e"
+    },
+    {
+      "task": "CHEMBL2971_Ki",
+      "training_rows": 585,
+      "inner_held_out_rows": 194,
+      "test_rows": 197,
+      "train_matrix_sha256": "83647e1970eb6fe6c6cead5584d3384178ff131486071ae3f9ef4b86c4425858",
+      "train_labels_sha256": "5a973943bed84c9f7266b947f6e757151b98812d967ae36925fd1ab9099d29e6",
+      "training_mean": 8.14820170940171,
+      "inner_mean_mae": 1.6316462067142476,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.7908300570857163,
+        "fit_seconds": 6.11505381896859
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.8016520278120141,
+        "inner_spearman": 0.613,
+        "center": 8.14820170940171,
+        "scale": 1.3149040302949744,
+        "fit_seconds": 0.7311098310165107,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 0.4259428031963842,
+          "runtime": 0.7307947339722887,
+          "step": 23,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 0.5656003949276915,
+          "noise": 0.00010052635823555014,
+          "mean": -1.1516368880550194
+        }
+      },
+      "selected_policy_arm": "rf",
+      "prediction_sha256": "715b99081cc44d09d53db78be19a369317028a2f6cf29da28e7bf6515db90c3a"
+    },
+    {
+      "task": "CHEMBL3979_EC50",
+      "training_rows": 675,
+      "inner_held_out_rows": 224,
+      "test_rows": 226,
+      "train_matrix_sha256": "b90cedd06f5fc2dae215f73fa1bcf9d2eb5da4e67cc4f0723ab5f36470935122",
+      "train_labels_sha256": "d9a3ee32ded842110f8e64e430c999e1500940a3532f78d62d4e2dbb325ca662",
+      "training_mean": 6.75949037037037,
+      "inner_mean_mae": 1.0579805092592591,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.6862114943418434,
+        "fit_seconds": 6.304446641996037
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.6765773614977105,
+        "inner_spearman": 0.734,
+        "center": 6.75949037037037,
+        "scale": 1.1170343863452192,
+        "fit_seconds": 0.4141062740236521,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 0.9039164511593317,
+          "runtime": 0.41378193598939106,
+          "step": 6,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 0.804366753860241,
+          "noise": 0.10217835443695163,
+          "mean": -0.689491033684596
+        }
+      },
+      "selected_policy_arm": "gp",
+      "prediction_sha256": "e73f5aeaddf8cf4863d486ef5af6957d67ee635afa202f632ba38e27a953e71d"
+    },
+    {
+      "task": "CHEMBL4005_Ki",
+      "training_rows": 576,
+      "inner_held_out_rows": 191,
+      "test_rows": 193,
+      "train_matrix_sha256": "08dbd3d897d374e0746f34946cc7c85118bdd7578fcf8380cd6f7f38a7ef1518",
+      "train_labels_sha256": "71cb78ce34d407c6398179628ee927e43d03ea2bb53a650a3877e2ae90e5cabd",
+      "training_mean": 7.803107638888889,
+      "inner_mean_mae": 0.9638529850203608,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.6664597582656339,
+        "fit_seconds": 5.707786238053814
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.6315352196393722,
+        "inner_spearman": 0.653,
+        "center": 7.803107638888889,
+        "scale": 1.0424588365560865,
+        "fit_seconds": 0.28055059001781046,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 0.8820902967227021,
+          "runtime": 0.28020715003367513,
+          "step": 8,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 1.0446297440362549,
+          "noise": 0.0356009821096964,
+          "mean": -0.9904367620248751
+        }
+      },
+      "selected_policy_arm": "gp",
+      "prediction_sha256": "a940be6d3c105326433c7e76116d42f22714ad5f355213015c31aab9cf448ba0"
+    },
+    {
+      "task": "CHEMBL4203_Ki",
+      "training_rows": 437,
+      "inner_held_out_rows": 145,
+      "test_rows": 149,
+      "train_matrix_sha256": "5e324cd4e24ee98455c06f5704151611c065133da7fac5f646b84c49fd251b89",
+      "train_labels_sha256": "357348ae15e8f8e9672264207999c46b4dbe1ab81bd8ae774be0fe54387ceda9",
+      "training_mean": 6.56766590389016,
+      "inner_mean_mae": 0.9496802651305926,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.747012454260172,
+        "fit_seconds": 4.514703942986671
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.7354823449430447,
+        "inner_spearman": 0.535,
+        "center": 6.56766590389016,
+        "scale": 0.9681987536631579,
+        "fit_seconds": 0.19906935200560838,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 1.1050546597168487,
+          "runtime": 0.19873786199605092,
+          "step": 8,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 0.8917020997830392,
+          "noise": 0.050314140722857295,
+          "mean": -0.4582202344081374
+        }
+      },
+      "selected_policy_arm": "gp",
+      "prediction_sha256": "76ddf3c5954160b85da8242984ebc3b11809e608319373d5126918a270d264cc"
+    },
+    {
+      "task": "CHEMBL4616_EC50",
+      "training_rows": 408,
+      "inner_held_out_rows": 135,
+      "test_rows": 139,
+      "train_matrix_sha256": "0ea1fd2dad128c7404dd0f0705b48c9691d879e99b2300f9f7db6e5b9f12eb4e",
+      "train_labels_sha256": "e9627c889cb6240e23e804e24d8c7bf64aa7cd750b7f3dd69e5cdec8c7fd4f26",
+      "training_mean": 7.825563725490196,
+      "inner_mean_mae": 0.7950913217138706,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.6811462155666006,
+        "fit_seconds": 4.816761938971467
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.6611084729532867,
+        "inner_spearman": 0.538,
+        "center": 7.825563725490196,
+        "scale": 0.9319303000623791,
+        "fit_seconds": 0.2140781520283781,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 1.1215325190982108,
+          "runtime": 0.21376468398375437,
+          "step": 10,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 1.2357352035935416,
+          "noise": 0.15463118077949684,
+          "mean": -0.10796868746057298
+        }
+      },
+      "selected_policy_arm": "gp",
+      "prediction_sha256": "4cbf16225bd67c22909159a6f86f5f8bc3e8e854e694aa150277ad43478afab4"
+    },
+    {
+      "task": "CHEMBL4792_Ki",
+      "training_rows": 881,
+      "inner_held_out_rows": 293,
+      "test_rows": 297,
+      "train_matrix_sha256": "4b47e37b170a9e6562efb6031f6e04a92b4f6737653e47a07fe6ff3494cd3929",
+      "train_labels_sha256": "25a86bb0067fdf2701a8c854e52cd76d7a7c56c8ba7d2d4d6a1378daab8a6be8",
+      "training_mean": 6.996482406356413,
+      "inner_mean_mae": 0.8809161323813691,
+      "native_rf": {
+        "usable": true,
+        "inner_mae": 0.6351919898136558,
+        "fit_seconds": 9.043921691016294
+      },
+      "author_gp": {
+        "usable": true,
+        "inner_mae": 0.5950488996735052,
+        "inner_spearman": 0.647,
+        "center": 6.996482406356413,
+        "scale": 1.0883948349104824,
+        "fit_seconds": 1.6276862309896387,
+        "optimization": {
+          "status": "OptimizationStatus.SUCCESS",
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "fval": 0.9439952948579436,
+          "runtime": 1.6273513530031778,
+          "step": 18,
+          "converged": true
+        },
+        "parameters_standardized": {
+          "outputscale": 1.573139635500642,
+          "noise": 0.0001132654893897809,
+          "mean": -0.2310241060295786
+        }
+      },
+      "selected_policy_arm": "gp",
+      "prediction_sha256": "702edf0a77ea30ed844035654d31a8f55564fe98f47af285b85f9dc2c19a4215"
+    }
+  ]
+}

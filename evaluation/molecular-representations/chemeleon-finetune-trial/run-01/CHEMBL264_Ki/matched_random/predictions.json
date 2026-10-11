@@ -1,0 +1,4634 @@
+{
+  "task": "CHEMBL264_Ki",
+  "arm": "matched_random",
+  "status": "completed",
+  "fit": {
+    "pretrained": false,
+    "seed": 20260930,
+    "epochs_completed": 28,
+    "maximum_epochs": 50,
+    "best_validation_loss": 0.5637561082839966,
+    "best_checkpoint_sha256": "908ba9b7896f0c79cba6fecfd47b8dc1e747a5c105d5cf8f6ac244e014956544",
+    "initial_encoder_sha256": "42c604062c287e6b9560a3fb117dfb8583950acf1225f07f98646b02a06ed4bb",
+    "fitted_encoder_sha256": "74bfecac76b4c6bfcd9d62c3c5075a70ca2e16f4300a2da1b03743733f6715c6",
+    "initial_head_sha256": "78cdcfc6a5d9663eb8960db1f78db5999c746481a85f046e51d0c4ed333a20cb",
+    "fit_seconds": 190.1566694540088,
+    "training_rows": 1716,
+    "validation_rows": 572,
+    "prediction_rows": 574,
+    "batch_size": 64,
+    "target_scaler": {
+      "mean": [
+        7.74998367138398
+      ],
+      "scale": [
+        1.0851437171436826
+      ]
+    },
+    "device": "NVIDIA RTX A5000",
+    "GPU_used": true,
+    "maximum_allocated_bytes": 1831378944,
+    "versions": {
+      "torch": "2.7.1+cu118",
+      "chemprop": "2.3.1",
+      "lightning": "2.6.6",
+      "numpy": "2.5.3",
+      "rdkit": "2026.3.6"
+    }
+  },
+  "usable": true,
+  "validation_mae": 0.6152080333749731,
+  "validation_spearman": 0.73,
+  "mean_validation_mae": 0.9779104601692011,
+  "validation_predictions": [
+    {
+      "candidate_id": "CHEMBL264_Ki:2153",
+      "prediction": 7.37514591217041
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1297",
+      "prediction": 7.5989508628845215
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1296",
+      "prediction": 7.79253625869751
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2380",
+      "prediction": 6.191405296325684
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2381",
+      "prediction": 7.184957027435303
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1535",
+      "prediction": 7.56712007522583
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1524",
+      "prediction": 8.326811790466309
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1528",
+      "prediction": 7.876308917999268
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2340",
+      "prediction": 8.494964599609375
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2408",
+      "prediction": 7.244862079620361
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1858",
+      "prediction": 8.732964515686035
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1945",
+      "prediction": 8.403846740722656
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1857",
+      "prediction": 8.151963233947754
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2322",
+      "prediction": 9.600624084472656
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2671",
+      "prediction": 6.869593143463135
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2079",
+      "prediction": 8.366984367370605
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1527",
+      "prediction": 7.998044013977051
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1523",
+      "prediction": 8.048039436340332
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1521",
+      "prediction": 7.933488368988037
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1517",
+      "prediction": 7.929410457611084
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1518",
+      "prediction": 7.820286273956299
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2074",
+      "prediction": 8.402496337890625
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2075",
+      "prediction": 8.060379981994629
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2076",
+      "prediction": 7.597435474395752
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2077",
+      "prediction": 7.487869739532471
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2084",
+      "prediction": 8.150871276855469
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2103",
+      "prediction": 7.970398902893066
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2453",
+      "prediction": 8.754406929016113
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2451",
+      "prediction": 8.496203422546387
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2452",
+      "prediction": 8.436233520507812
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2081",
+      "prediction": 8.162542343139648
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2082",
+      "prediction": 8.057247161865234
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2083",
+      "prediction": 8.301791191101074
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2078",
+      "prediction": 8.354514122009277
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2080",
+      "prediction": 8.033422470092773
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2035",
+      "prediction": 8.324405670166016
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:68",
+      "prediction": 6.764620304107666
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1182",
+      "prediction": 7.577968120574951
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1782",
+      "prediction": 8.158839225769043
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:927",
+      "prediction": 7.6047210693359375
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2555",
+      "prediction": 7.517903804779053
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1783",
+      "prediction": 8.36793327331543
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:585",
+      "prediction": 8.307669639587402
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2846",
+      "prediction": 7.905608177185059
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2849",
+      "prediction": 8.497097969055176
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2848",
+      "prediction": 8.275105476379395
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2850",
+      "prediction": 7.004922866821289
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:599",
+      "prediction": 8.262248992919922
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:594",
+      "prediction": 7.957148551940918
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2844",
+      "prediction": 7.786120414733887
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1771",
+      "prediction": 9.554168701171875
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1765",
+      "prediction": 9.261240005493164
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1767",
+      "prediction": 9.009933471679688
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1919",
+      "prediction": 7.049955368041992
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1918",
+      "prediction": 7.821019172668457
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1779",
+      "prediction": 8.434957504272461
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1772",
+      "prediction": 9.404402732849121
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1736",
+      "prediction": 9.929204940795898
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1180",
+      "prediction": 10.072385787963867
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:972",
+      "prediction": 8.24414348602295
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1900",
+      "prediction": 9.198375701904297
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1899",
+      "prediction": 8.44572639465332
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1860",
+      "prediction": 9.183534622192383
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1816",
+      "prediction": 8.528352737426758
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1859",
+      "prediction": 8.667513847351074
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1855",
+      "prediction": 8.573291778564453
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1873",
+      "prediction": 8.75808048248291
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1867",
+      "prediction": 7.967383861541748
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1871",
+      "prediction": 8.708242416381836
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1874",
+      "prediction": 7.332792282104492
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1866",
+      "prediction": 7.738968849182129
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1661",
+      "prediction": 7.497811794281006
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2701",
+      "prediction": 7.838696002960205
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1869",
+      "prediction": 8.228775024414062
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1658",
+      "prediction": 6.6958231925964355
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1667",
+      "prediction": 8.071235656738281
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1672",
+      "prediction": 7.925953388214111
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1664",
+      "prediction": 8.311269760131836
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1666",
+      "prediction": 8.501005172729492
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1659",
+      "prediction": 6.9139227867126465
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1660",
+      "prediction": 6.757835865020752
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1662",
+      "prediction": 7.589674949645996
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1668",
+      "prediction": 8.04129695892334
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1671",
+      "prediction": 7.864979267120361
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1738",
+      "prediction": 8.934553146362305
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1759",
+      "prediction": 9.039482116699219
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2154",
+      "prediction": 6.257662773132324
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2157",
+      "prediction": 7.818948268890381
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1862",
+      "prediction": 8.410890579223633
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2160",
+      "prediction": 6.533679008483887
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2156",
+      "prediction": 6.3884148597717285
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2567",
+      "prediction": 7.230826377868652
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1960",
+      "prediction": 8.410600662231445
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1956",
+      "prediction": 8.07647705078125
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1955",
+      "prediction": 7.713888168334961
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1892",
+      "prediction": 8.560687065124512
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1824",
+      "prediction": 8.289344787597656
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2568",
+      "prediction": 7.519622802734375
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2105",
+      "prediction": 8.538973808288574
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2111",
+      "prediction": 7.995873928070068
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2107",
+      "prediction": 8.328685760498047
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1887",
+      "prediction": 7.5422234535217285
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1886",
+      "prediction": 7.398591995239258
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1717",
+      "prediction": 6.816935062408447
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1718",
+      "prediction": 7.301758289337158
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1966",
+      "prediction": 8.227407455444336
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1975",
+      "prediction": 8.253232955932617
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1977",
+      "prediction": 8.323596000671387
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1981",
+      "prediction": 7.359858512878418
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1896",
+      "prediction": 8.56631851196289
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1897",
+      "prediction": 8.530677795410156
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1710",
+      "prediction": 8.461986541748047
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1827",
+      "prediction": 8.428215026855469
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1818",
+      "prediction": 8.309325218200684
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1711",
+      "prediction": 8.254048347473145
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1831",
+      "prediction": 7.999959468841553
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1705",
+      "prediction": 7.732259750366211
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2055",
+      "prediction": 7.288171291351318
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2053",
+      "prediction": 7.310801982879639
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2290",
+      "prediction": 9.127279281616211
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2054",
+      "prediction": 7.29608154296875
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2841",
+      "prediction": 7.8614912033081055
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1714",
+      "prediction": 9.642775535583496
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2170",
+      "prediction": 8.924764633178711
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1409",
+      "prediction": 8.513848304748535
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1292",
+      "prediction": 8.467643737792969
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2398",
+      "prediction": 6.238710403442383
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2025",
+      "prediction": 7.073112487792969
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2059",
+      "prediction": 7.831507205963135
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2024",
+      "prediction": 6.966001987457275
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2058",
+      "prediction": 7.490932941436768
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2020",
+      "prediction": 7.422823429107666
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2224",
+      "prediction": 6.157937049865723
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1690",
+      "prediction": 8.608338356018066
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:973",
+      "prediction": 8.351668357849121
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2183",
+      "prediction": 7.580487251281738
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1652",
+      "prediction": 7.268868923187256
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1651",
+      "prediction": 6.908031940460205
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1697",
+      "prediction": 7.848907470703125
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1696",
+      "prediction": 7.31126070022583
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:293",
+      "prediction": 7.466765403747559
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1257",
+      "prediction": 7.117868900299072
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1034",
+      "prediction": 8.569742202758789
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:609",
+      "prediction": 7.370394706726074
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1025",
+      "prediction": 8.579242706298828
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:610",
+      "prediction": 8.196322441101074
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:611",
+      "prediction": 8.105340957641602
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2236",
+      "prediction": 8.379090309143066
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1806",
+      "prediction": 8.715958595275879
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2234",
+      "prediction": 8.234033584594727
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2237",
+      "prediction": 8.915135383605957
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2240",
+      "prediction": 8.481818199157715
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:72",
+      "prediction": 6.4885759353637695
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2239",
+      "prediction": 8.465307235717773
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2323",
+      "prediction": 9.331197738647461
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1798",
+      "prediction": 8.330221176147461
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1399",
+      "prediction": 9.405519485473633
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1382",
+      "prediction": 8.65194320678711
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2822",
+      "prediction": 8.025848388671875
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2026",
+      "prediction": 7.531150817871094
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1388",
+      "prediction": 8.137659072875977
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1433",
+      "prediction": 8.80457878112793
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2370",
+      "prediction": 8.843852043151855
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2371",
+      "prediction": 8.456811904907227
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2666",
+      "prediction": 6.660201072692871
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2667",
+      "prediction": 6.457939147949219
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2664",
+      "prediction": 7.006342887878418
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2665",
+      "prediction": 6.702249526977539
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2041",
+      "prediction": 7.450306415557861
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1540",
+      "prediction": 7.118593215942383
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2040",
+      "prediction": 7.634182929992676
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:194",
+      "prediction": 7.028982639312744
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:163",
+      "prediction": 6.703039646148682
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2377",
+      "prediction": 9.130358695983887
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2369",
+      "prediction": 7.901865005493164
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1293",
+      "prediction": 8.354801177978516
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2367",
+      "prediction": 8.79590892791748
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2368",
+      "prediction": 8.360930442810059
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2207",
+      "prediction": 8.85621166229248
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2221",
+      "prediction": 8.72287654876709
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1808",
+      "prediction": 8.790614128112793
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1294",
+      "prediction": 8.329161643981934
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:326",
+      "prediction": 7.372952938079834
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:918",
+      "prediction": 7.5370354652404785
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:331",
+      "prediction": 6.471429824829102
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2232",
+      "prediction": 9.112324714660645
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:617",
+      "prediction": 8.9246826171875
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1700",
+      "prediction": 9.11327838897705
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:945",
+      "prediction": 5.979363441467285
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:947",
+      "prediction": 6.732949256896973
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1699",
+      "prediction": 8.562259674072266
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:995",
+      "prediction": 6.506226539611816
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:996",
+      "prediction": 6.271628379821777
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:977",
+      "prediction": 7.559206008911133
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:330",
+      "prediction": 6.347078323364258
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2421",
+      "prediction": 7.374934673309326
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1801",
+      "prediction": 8.34302806854248
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2856",
+      "prediction": 7.617112636566162
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2419",
+      "prediction": 8.005061149597168
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:547",
+      "prediction": 6.608125686645508
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:548",
+      "prediction": 6.659008979797363
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:487",
+      "prediction": 8.608159065246582
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:460",
+      "prediction": 8.9398193359375
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:471",
+      "prediction": 8.694937705993652
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:468",
+      "prediction": 8.823247909545898
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:461",
+      "prediction": 8.810022354125977
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:465",
+      "prediction": 8.741592407226562
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:941",
+      "prediction": 6.731125831604004
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:944",
+      "prediction": 7.538212299346924
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:952",
+      "prediction": 7.592942237854004
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1007",
+      "prediction": 9.468703269958496
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:589",
+      "prediction": 7.361159324645996
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:314",
+      "prediction": 7.627328395843506
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2209",
+      "prediction": 8.273985862731934
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2230",
+      "prediction": 8.35891056060791
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2242",
+      "prediction": 8.48754596710205
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2387",
+      "prediction": 8.540844917297363
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1009",
+      "prediction": 8.853547096252441
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:89",
+      "prediction": 9.0037202835083
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:101",
+      "prediction": 8.985672950744629
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:96",
+      "prediction": 8.936697006225586
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2243",
+      "prediction": 8.858704566955566
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1698",
+      "prediction": 8.867295265197754
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1695",
+      "prediction": 7.55161190032959
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:91",
+      "prediction": 8.283865928649902
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1039",
+      "prediction": 8.001144409179688
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:854",
+      "prediction": 8.605055809020996
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:846",
+      "prediction": 8.542192459106445
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:845",
+      "prediction": 7.61348295211792
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1814",
+      "prediction": 8.227965354919434
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2179",
+      "prediction": 8.02225112915039
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2281",
+      "prediction": 7.518496990203857
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2018",
+      "prediction": 6.707516670227051
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2246",
+      "prediction": 7.464956283569336
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:603",
+      "prediction": 8.41830062866211
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:590",
+      "prediction": 7.992409706115723
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:591",
+      "prediction": 8.685990333557129
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2245",
+      "prediction": 7.887390613555908
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2303",
+      "prediction": 8.52257251739502
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1914",
+      "prediction": 8.241650581359863
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1913",
+      "prediction": 7.059561729431152
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2289",
+      "prediction": 9.1259183883667
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1912",
+      "prediction": 7.046165466308594
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2804",
+      "prediction": 8.34955883026123
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2802",
+      "prediction": 7.835140705108643
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:586",
+      "prediction": 7.234309673309326
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2301",
+      "prediction": 8.97314167022705
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:600",
+      "prediction": 8.762619972229004
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:569",
+      "prediction": 8.66115665435791
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2300",
+      "prediction": 8.509027481079102
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2309",
+      "prediction": 8.173569679260254
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:595",
+      "prediction": 8.402305603027344
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2392",
+      "prediction": 8.26486587524414
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2305",
+      "prediction": 7.346224308013916
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2299",
+      "prediction": 8.390580177307129
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2304",
+      "prediction": 7.5857110023498535
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2325",
+      "prediction": 9.956521034240723
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2594",
+      "prediction": 7.880360126495361
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1408",
+      "prediction": 9.015925407409668
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1427",
+      "prediction": 9.237957000732422
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1424",
+      "prediction": 9.079030990600586
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:737",
+      "prediction": 9.289782524108887
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1413",
+      "prediction": 8.110248565673828
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1434",
+      "prediction": 8.838406562805176
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1379",
+      "prediction": 8.843735694885254
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1407",
+      "prediction": 8.804567337036133
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2484",
+      "prediction": 8.071907043457031
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:736",
+      "prediction": 9.453326225280762
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2023",
+      "prediction": 7.110869884490967
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2042",
+      "prediction": 7.8288960456848145
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2169",
+      "prediction": 9.242865562438965
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:312",
+      "prediction": 7.7613420486450195
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1417",
+      "prediction": 9.50855541229248
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1001",
+      "prediction": 6.762506484985352
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2181",
+      "prediction": 6.835241317749023
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2576",
+      "prediction": 7.317546844482422
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1037",
+      "prediction": 8.253661155700684
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1122",
+      "prediction": 7.965099334716797
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1126",
+      "prediction": 7.333834648132324
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:40",
+      "prediction": 7.820605278015137
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2233",
+      "prediction": 8.63692855834961
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:57",
+      "prediction": 7.9208149909973145
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:41",
+      "prediction": 6.483251571655273
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2619",
+      "prediction": 6.55493688583374
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1118",
+      "prediction": 7.460785388946533
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1373",
+      "prediction": 9.130813598632812
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1430",
+      "prediction": 8.967384338378906
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:766",
+      "prediction": 8.720307350158691
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:262",
+      "prediction": 8.029471397399902
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:261",
+      "prediction": 6.324122428894043
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:990",
+      "prediction": 7.035687446594238
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:989",
+      "prediction": 7.288243293762207
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1129",
+      "prediction": 7.8845534324646
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1536",
+      "prediction": 6.972484588623047
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1389",
+      "prediction": 8.676840782165527
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:905",
+      "prediction": 6.387570381164551
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2647",
+      "prediction": 6.301172256469727
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1513",
+      "prediction": 7.364072799682617
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2673",
+      "prediction": 7.155137062072754
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2672",
+      "prediction": 6.898412227630615
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1539",
+      "prediction": 7.517299175262451
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1538",
+      "prediction": 7.579286098480225
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:963",
+      "prediction": 8.692660331726074
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:964",
+      "prediction": 7.90067195892334
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:958",
+      "prediction": 7.6920976638793945
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:956",
+      "prediction": 7.673335552215576
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:962",
+      "prediction": 8.314336776733398
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:966",
+      "prediction": 8.481321334838867
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1410",
+      "prediction": 8.883380889892578
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1414",
+      "prediction": 8.55622386932373
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1406",
+      "prediction": 8.95067024230957
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2391",
+      "prediction": 6.763886451721191
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1621",
+      "prediction": 7.483700752258301
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1618",
+      "prediction": 7.411469459533691
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2801",
+      "prediction": 6.383299827575684
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:971",
+      "prediction": 7.287792205810547
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1392",
+      "prediction": 9.158103942871094
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:502",
+      "prediction": 7.450705051422119
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2572",
+      "prediction": 7.514820098876953
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1287",
+      "prediction": 6.676036834716797
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2148",
+      "prediction": 8.120540618896484
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1289",
+      "prediction": 6.842669486999512
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:999",
+      "prediction": 6.703545570373535
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2799",
+      "prediction": 6.664278984069824
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:687",
+      "prediction": 8.46473503112793
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:692",
+      "prediction": 6.730434894561768
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:691",
+      "prediction": 7.128077507019043
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:684",
+      "prediction": 7.143280029296875
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:680",
+      "prediction": 7.9380598068237305
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:681",
+      "prediction": 6.029414176940918
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:701",
+      "prediction": 7.0796217918396
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:688",
+      "prediction": 7.578090190887451
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1927",
+      "prediction": 8.247108459472656
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1929",
+      "prediction": 8.111164093017578
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:957",
+      "prediction": 8.229459762573242
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:87",
+      "prediction": 8.594700813293457
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:6",
+      "prediction": 8.193120956420898
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:375",
+      "prediction": 8.334521293640137
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1070",
+      "prediction": 7.317152976989746
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1071",
+      "prediction": 7.1377153396606445
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1072",
+      "prediction": 8.152976036071777
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:328",
+      "prediction": 7.825466632843018
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2104",
+      "prediction": 7.753437042236328
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:392",
+      "prediction": 7.068596839904785
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:391",
+      "prediction": 8.740686416625977
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:917",
+      "prediction": 8.259153366088867
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:307",
+      "prediction": 7.906682014465332
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:325",
+      "prediction": 6.742906093597412
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1928",
+      "prediction": 8.874306678771973
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:60",
+      "prediction": 7.606490135192871
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2702",
+      "prediction": 6.796539306640625
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:389",
+      "prediction": 7.477657318115234
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:388",
+      "prediction": 8.776774406433105
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:454",
+      "prediction": 7.443869113922119
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2432",
+      "prediction": 8.605569839477539
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:470",
+      "prediction": 8.759389877319336
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:540",
+      "prediction": 8.08536148071289
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:530",
+      "prediction": 8.103270530700684
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:59",
+      "prediction": 6.656508922576904
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1286",
+      "prediction": 7.1930832862854
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1271",
+      "prediction": 6.117819309234619
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2800",
+      "prediction": 6.764497756958008
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2436",
+      "prediction": 6.075289726257324
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2435",
+      "prediction": 6.473540306091309
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:903",
+      "prediction": 7.219587326049805
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:670",
+      "prediction": 7.455987930297852
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2294",
+      "prediction": 8.443215370178223
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2293",
+      "prediction": 8.86467170715332
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2292",
+      "prediction": 8.724798202514648
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2291",
+      "prediction": 8.395418167114258
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2298",
+      "prediction": 8.206290245056152
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:79",
+      "prediction": 5.711355209350586
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:994",
+      "prediction": 6.447276592254639
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2483",
+      "prediction": 8.291191101074219
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1130",
+      "prediction": 7.8153910636901855
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1590",
+      "prediction": 8.015641212463379
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1587",
+      "prediction": 7.108993053436279
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1634",
+      "prediction": 7.044863224029541
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1633",
+      "prediction": 6.571545124053955
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1632",
+      "prediction": 6.4650163650512695
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2683",
+      "prediction": 6.784740447998047
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2685",
+      "prediction": 6.138226509094238
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2180",
+      "prediction": 6.748178958892822
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:469",
+      "prediction": 8.567583084106445
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1127",
+      "prediction": 8.317281723022461
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2302",
+      "prediction": 8.33406925201416
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:466",
+      "prediction": 8.308618545532227
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:467",
+      "prediction": 8.371213912963867
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:88",
+      "prediction": 8.521733283996582
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1588",
+      "prediction": 8.167892456054688
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:662",
+      "prediction": 7.244678497314453
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2636",
+      "prediction": 6.648031234741211
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:452",
+      "prediction": 8.1568603515625
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:453",
+      "prediction": 7.692316055297852
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:950",
+      "prediction": 6.117483139038086
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:951",
+      "prediction": 5.536791801452637
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2833",
+      "prediction": 6.755133628845215
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2831",
+      "prediction": 6.712674140930176
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2699",
+      "prediction": 7.641500949859619
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1014",
+      "prediction": 6.941864967346191
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:10",
+      "prediction": 7.782844066619873
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1026",
+      "prediction": 7.509571075439453
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:839",
+      "prediction": 9.057098388671875
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:820",
+      "prediction": 7.769007682800293
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:729",
+      "prediction": 7.306089878082275
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:730",
+      "prediction": 7.875850200653076
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:731",
+      "prediction": 7.049255847930908
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1131",
+      "prediction": 7.782076835632324
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2327",
+      "prediction": 9.376062393188477
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:733",
+      "prediction": 6.794663906097412
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1496",
+      "prediction": 6.986091613769531
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1500",
+      "prediction": 6.928086280822754
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:851",
+      "prediction": 8.790273666381836
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:850",
+      "prediction": 8.036416053771973
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1774",
+      "prediction": 8.617595672607422
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:439",
+      "prediction": 6.878190994262695
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2691",
+      "prediction": 7.18005895614624
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2692",
+      "prediction": 7.445449352264404
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:434",
+      "prediction": 5.795812606811523
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2261",
+      "prediction": 7.434662818908691
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2682",
+      "prediction": 7.364563465118408
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2200",
+      "prediction": 6.373234748840332
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2195",
+      "prediction": 6.686339378356934
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1889",
+      "prediction": 7.111952304840088
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2201",
+      "prediction": 6.205275058746338
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:345",
+      "prediction": 7.557708740234375
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:343",
+      "prediction": 7.399041175842285
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:372",
+      "prediction": 7.734961986541748
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:357",
+      "prediction": 7.2414727210998535
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:349",
+      "prediction": 7.3630242347717285
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:355",
+      "prediction": 8.173192024230957
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:365",
+      "prediction": 8.249956130981445
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:287",
+      "prediction": 7.596261501312256
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:359",
+      "prediction": 7.265862941741943
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:264",
+      "prediction": 6.814610004425049
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:366",
+      "prediction": 8.065349578857422
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:352",
+      "prediction": 8.14336109161377
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:344",
+      "prediction": 8.19243049621582
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:361",
+      "prediction": 8.236910820007324
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:673",
+      "prediction": 8.343857765197754
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2581",
+      "prediction": 6.703279495239258
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2578",
+      "prediction": 6.997546195983887
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2582",
+      "prediction": 7.033614158630371
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1083",
+      "prediction": 8.66248607635498
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:90",
+      "prediction": 8.871341705322266
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:93",
+      "prediction": 9.243942260742188
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2306",
+      "prediction": 8.074057579040527
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2434",
+      "prediction": 6.495089530944824
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1993",
+      "prediction": 7.0423808097839355
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1086",
+      "prediction": 8.44529914855957
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:413",
+      "prediction": 5.895421028137207
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:564",
+      "prediction": 5.840353488922119
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2229",
+      "prediction": 5.977205276489258
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1084",
+      "prediction": 8.545217514038086
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1888",
+      "prediction": 7.3181586265563965
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1422",
+      "prediction": 8.717339515686035
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:904",
+      "prediction": 7.57512092590332
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1493",
+      "prediction": 8.232635498046875
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1138",
+      "prediction": 7.875631332397461
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2590",
+      "prediction": 7.083621025085449
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:549",
+      "prediction": 6.864421844482422
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:550",
+      "prediction": 6.713173866271973
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:551",
+      "prediction": 6.978812217712402
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:400",
+      "prediction": 8.069397926330566
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:401",
+      "prediction": 7.585557460784912
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:295",
+      "prediction": 7.797839164733887
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1421",
+      "prediction": 8.233585357666016
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:46",
+      "prediction": 7.149319171905518
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:71",
+      "prediction": 7.241826057434082
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:32",
+      "prediction": 7.112064838409424
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:61",
+      "prediction": 6.376369476318359
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:318",
+      "prediction": 8.212949752807617
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:855",
+      "prediction": 7.350349426269531
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2027",
+      "prediction": 6.867072582244873
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1267",
+      "prediction": 7.309343338012695
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1387",
+      "prediction": 9.158337593078613
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1255",
+      "prediction": 7.458526611328125
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2670",
+      "prediction": 6.7778401374816895
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2675",
+      "prediction": 7.065067291259766
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2674",
+      "prediction": 6.780385971069336
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1412",
+      "prediction": 8.476903915405273
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2668",
+      "prediction": 6.148000717163086
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1614",
+      "prediction": 7.441985607147217
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2137",
+      "prediction": 7.28075647354126
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2136",
+      "prediction": 7.5754475593566895
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1994",
+      "prediction": 6.018967628479004
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:483",
+      "prediction": 9.375492095947266
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:497",
+      "prediction": 9.218267440795898
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:849",
+      "prediction": 7.843164920806885
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2045",
+      "prediction": 7.89693021774292
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2471",
+      "prediction": 8.495072364807129
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2470",
+      "prediction": 8.40429973602295
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2192",
+      "prediction": 5.854679107666016
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1426",
+      "prediction": 9.074752807617188
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:734",
+      "prediction": 8.990398406982422
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1223",
+      "prediction": 7.257413864135742
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1390",
+      "prediction": 8.495339393615723
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1415",
+      "prediction": 8.669126510620117
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2378",
+      "prediction": 9.033031463623047
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1537",
+      "prediction": 7.299098968505859
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:919",
+      "prediction": 8.761626243591309
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1495",
+      "prediction": 8.168814659118652
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:852",
+      "prediction": 7.498662948608398
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2324",
+      "prediction": 9.668291091918945
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:840",
+      "prediction": 7.767600059509277
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:409",
+      "prediction": 8.590495109558105
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:477",
+      "prediction": 8.98831558227539
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2330",
+      "prediction": 9.122135162353516
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1809",
+      "prediction": 9.078534126281738
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2372",
+      "prediction": 8.076900482177734
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1923",
+      "prediction": 6.500926494598389
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1391",
+      "prediction": 9.22006893157959
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1810",
+      "prediction": 9.016681671142578
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1411",
+      "prediction": 8.584860801696777
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1514",
+      "prediction": 6.842100143432617
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:848",
+      "prediction": 8.633864402770996
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:847",
+      "prediction": 7.843761920928955
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1615",
+      "prediction": 7.398495197296143
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1432",
+      "prediction": 8.581022262573242
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:24",
+      "prediction": 7.562100887298584
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:22",
+      "prediction": 8.682160377502441
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:25",
+      "prediction": 8.297693252563477
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:385",
+      "prediction": 8.581865310668945
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:27",
+      "prediction": 8.0762300491333
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:26",
+      "prediction": 7.575282096862793
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:386",
+      "prediction": 7.398067474365234
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:15",
+      "prediction": 8.284027099609375
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:14",
+      "prediction": 8.122570037841797
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:30",
+      "prediction": 8.04433536529541
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:533",
+      "prediction": 8.268960952758789
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:532",
+      "prediction": 8.097084999084473
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:542",
+      "prediction": 7.866218090057373
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:541",
+      "prediction": 7.829314231872559
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:519",
+      "prediction": 8.57000732421875
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:518",
+      "prediction": 8.259980201721191
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:517",
+      "prediction": 8.178897857666016
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:516",
+      "prediction": 7.84122371673584
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:528",
+      "prediction": 7.530930042266846
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1641",
+      "prediction": 7.359210014343262
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1642",
+      "prediction": 7.251832008361816
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1647",
+      "prediction": 7.357492923736572
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1643",
+      "prediction": 7.263043403625488
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1636",
+      "prediction": 7.340529441833496
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1372",
+      "prediction": 8.667405128479004
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1366",
+      "prediction": 7.662186622619629
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1648",
+      "prediction": 7.242609977722168
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:982",
+      "prediction": 6.6420698165893555
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1291",
+      "prediction": 6.988265037536621
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2198",
+      "prediction": 6.5756330490112305
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2202",
+      "prediction": 6.797661781311035
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2188",
+      "prediction": 6.534958839416504
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1290",
+      "prediction": 7.115268230438232
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2194",
+      "prediction": 6.894608020782471
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2185",
+      "prediction": 6.411237716674805
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1921",
+      "prediction": 6.712650299072266
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2203",
+      "prediction": 6.725360870361328
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:332",
+      "prediction": 7.068044662475586
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1002",
+      "prediction": 6.79296350479126
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2043",
+      "prediction": 7.652556419372559
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1435",
+      "prediction": 9.064900398254395
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1423",
+      "prediction": 8.975278854370117
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1266",
+      "prediction": 7.572299003601074
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1805",
+      "prediction": 8.576980590820312
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1395",
+      "prediction": 9.159505844116211
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1380",
+      "prediction": 8.940261840820312
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1616",
+      "prediction": 7.492123603820801
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:481",
+      "prediction": 9.538750648498535
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:496",
+      "prediction": 9.454062461853027
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:844",
+      "prediction": 7.7691569328308105
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2729",
+      "prediction": 6.810611248016357
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2326",
+      "prediction": 9.291254997253418
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2385",
+      "prediction": 8.623359680175781
+    }
+  ],
+  "rows": [
+    {
+      "candidate_id": "CHEMBL264_Ki:0",
+      "prediction": 7.9696736335754395
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:4",
+      "prediction": 8.590890884399414
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:7",
+      "prediction": 7.9658308029174805
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:8",
+      "prediction": 7.5265326499938965
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:11",
+      "prediction": 7.963616371154785
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:12",
+      "prediction": 5.905755043029785
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:16",
+      "prediction": 6.806568622589111
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:17",
+      "prediction": 6.512317180633545
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:36",
+      "prediction": 8.726444244384766
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:37",
+      "prediction": 5.768471717834473
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:48",
+      "prediction": 8.150805473327637
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:52",
+      "prediction": 7.445209503173828
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:63",
+      "prediction": 8.077611923217773
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:67",
+      "prediction": 5.730892181396484
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:75",
+      "prediction": 5.560705184936523
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:82",
+      "prediction": 8.813754081726074
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:84",
+      "prediction": 8.454747200012207
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:92",
+      "prediction": 8.27873420715332
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:94",
+      "prediction": 8.841264724731445
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:95",
+      "prediction": 8.407761573791504
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:97",
+      "prediction": 8.39930534362793
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:100",
+      "prediction": 8.410788536071777
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:107",
+      "prediction": 6.959986209869385
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:116",
+      "prediction": 7.194580554962158
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:118",
+      "prediction": 7.535555362701416
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:121",
+      "prediction": 7.351892471313477
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:122",
+      "prediction": 7.714993000030518
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:127",
+      "prediction": 7.140028953552246
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:135",
+      "prediction": 7.09497594833374
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:136",
+      "prediction": 7.506900787353516
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:139",
+      "prediction": 7.295437335968018
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:150",
+      "prediction": 7.2366509437561035
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:151",
+      "prediction": 7.6268768310546875
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:154",
+      "prediction": 7.26263427734375
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:168",
+      "prediction": 7.1769514083862305
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:169",
+      "prediction": 7.103837013244629
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:181",
+      "prediction": 7.392220973968506
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:184",
+      "prediction": 6.878823757171631
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:185",
+      "prediction": 7.083019733428955
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:186",
+      "prediction": 7.2240471839904785
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:190",
+      "prediction": 7.216987609863281
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:196",
+      "prediction": 7.172896385192871
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:206",
+      "prediction": 8.173135757446289
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:208",
+      "prediction": 7.881133556365967
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:213",
+      "prediction": 7.574502944946289
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:215",
+      "prediction": 8.929254531860352
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:217",
+      "prediction": 7.933534145355225
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:224",
+      "prediction": 8.887908935546875
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:225",
+      "prediction": 7.966640472412109
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:229",
+      "prediction": 8.601351737976074
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:243",
+      "prediction": 8.08561897277832
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:248",
+      "prediction": 8.083663940429688
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:249",
+      "prediction": 8.33065414428711
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:252",
+      "prediction": 7.699709892272949
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:253",
+      "prediction": 8.12748908996582
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:256",
+      "prediction": 7.437175750732422
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:263",
+      "prediction": 6.4577484130859375
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:267",
+      "prediction": 8.026959419250488
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:271",
+      "prediction": 7.5277862548828125
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:275",
+      "prediction": 8.261733055114746
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:276",
+      "prediction": 7.08239221572876
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:279",
+      "prediction": 6.98472785949707
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:286",
+      "prediction": 8.635270118713379
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:288",
+      "prediction": 7.1496710777282715
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:289",
+      "prediction": 6.796806335449219
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:296",
+      "prediction": 8.17695426940918
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:297",
+      "prediction": 8.109344482421875
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:302",
+      "prediction": 8.010054588317871
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:303",
+      "prediction": 7.557117462158203
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:309",
+      "prediction": 7.774312496185303
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:311",
+      "prediction": 7.17227029800415
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:323",
+      "prediction": 8.291297912597656
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:327",
+      "prediction": 6.976365089416504
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:329",
+      "prediction": 6.397153854370117
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:335",
+      "prediction": 6.861514091491699
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:341",
+      "prediction": 6.836572170257568
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:350",
+      "prediction": 6.8807902336120605
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:351",
+      "prediction": 8.107982635498047
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:360",
+      "prediction": 7.365401268005371
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:367",
+      "prediction": 6.896476745605469
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:371",
+      "prediction": 7.237433910369873
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:373",
+      "prediction": 6.4980573654174805
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:378",
+      "prediction": 6.889316082000732
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:382",
+      "prediction": 8.22396469116211
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:383",
+      "prediction": 7.910919189453125
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:393",
+      "prediction": 9.395659446716309
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:402",
+      "prediction": 7.572737693786621
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:405",
+      "prediction": 6.936758518218994
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:406",
+      "prediction": 7.9706010818481445
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:408",
+      "prediction": 8.39829158782959
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:424",
+      "prediction": 9.370155334472656
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:437",
+      "prediction": 6.005771160125732
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:442",
+      "prediction": 8.524617195129395
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:443",
+      "prediction": 9.19616985321045
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:448",
+      "prediction": 7.619410991668701
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:449",
+      "prediction": 7.242154121398926
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:458",
+      "prediction": 9.228798866271973
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:462",
+      "prediction": 9.009864807128906
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:464",
+      "prediction": 8.447535514831543
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:472",
+      "prediction": 8.80627155303955
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:474",
+      "prediction": 9.651493072509766
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:478",
+      "prediction": 8.756414413452148
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:479",
+      "prediction": 9.309322357177734
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:480",
+      "prediction": 8.58088493347168
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:482",
+      "prediction": 9.235372543334961
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:484",
+      "prediction": 9.348944664001465
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:485",
+      "prediction": 9.325243949890137
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:489",
+      "prediction": 9.310311317443848
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:508",
+      "prediction": 7.883096694946289
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:512",
+      "prediction": 7.920939922332764
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:523",
+      "prediction": 7.624587535858154
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:527",
+      "prediction": 7.282102584838867
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:529",
+      "prediction": 7.5641937255859375
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:531",
+      "prediction": 7.9432830810546875
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:534",
+      "prediction": 7.726987838745117
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:543",
+      "prediction": 7.637628078460693
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:544",
+      "prediction": 8.060949325561523
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:546",
+      "prediction": 6.560538291931152
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:556",
+      "prediction": 8.285758972167969
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:560",
+      "prediction": 8.022431373596191
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:565",
+      "prediction": 8.209029197692871
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:566",
+      "prediction": 7.9023823738098145
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:567",
+      "prediction": 7.80293083190918
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:573",
+      "prediction": 8.697643280029297
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:574",
+      "prediction": 8.688996315002441
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:581",
+      "prediction": 8.19209098815918
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:582",
+      "prediction": 7.174539089202881
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:592",
+      "prediction": 8.251749992370605
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:602",
+      "prediction": 7.798903942108154
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:612",
+      "prediction": 8.418435096740723
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:614",
+      "prediction": 8.221732139587402
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:626",
+      "prediction": 8.055976867675781
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:631",
+      "prediction": 6.550691604614258
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:635",
+      "prediction": 6.714820384979248
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:638",
+      "prediction": 6.661035060882568
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:639",
+      "prediction": 6.841160774230957
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:655",
+      "prediction": 6.865093231201172
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:661",
+      "prediction": 7.031298637390137
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:663",
+      "prediction": 6.767007350921631
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:665",
+      "prediction": 5.904088973999023
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:671",
+      "prediction": 6.268228530883789
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:672",
+      "prediction": 6.011912822723389
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:682",
+      "prediction": 6.693024158477783
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:693",
+      "prediction": 8.211782455444336
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:694",
+      "prediction": 6.176418781280518
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:705",
+      "prediction": 6.151747703552246
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:707",
+      "prediction": 7.843902111053467
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:709",
+      "prediction": 7.6976799964904785
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:723",
+      "prediction": 7.799292087554932
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:727",
+      "prediction": 7.642055988311768
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:728",
+      "prediction": 8.544086456298828
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:732",
+      "prediction": 7.740958213806152
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:747",
+      "prediction": 7.638782501220703
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:753",
+      "prediction": 7.658622741699219
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:764",
+      "prediction": 7.7889404296875
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:767",
+      "prediction": 8.293456077575684
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:771",
+      "prediction": 8.511319160461426
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:773",
+      "prediction": 8.541397094726562
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:809",
+      "prediction": 8.67270278930664
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:810",
+      "prediction": 8.339757919311523
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:815",
+      "prediction": 8.384023666381836
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:818",
+      "prediction": 7.567559719085693
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:823",
+      "prediction": 8.874316215515137
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:836",
+      "prediction": 8.52696704864502
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:841",
+      "prediction": 7.490383148193359
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:842",
+      "prediction": 7.262153625488281
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:843",
+      "prediction": 6.903857231140137
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:853",
+      "prediction": 8.443635940551758
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:857",
+      "prediction": 7.632362365722656
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:859",
+      "prediction": 7.88325309753418
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:861",
+      "prediction": 7.1898088455200195
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:864",
+      "prediction": 8.715943336486816
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:884",
+      "prediction": 9.011777877807617
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:887",
+      "prediction": 8.839367866516113
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:888",
+      "prediction": 8.654248237609863
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:901",
+      "prediction": 9.025632858276367
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:910",
+      "prediction": 6.917450904846191
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:912",
+      "prediction": 7.585064888000488
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:915",
+      "prediction": 7.822285175323486
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:916",
+      "prediction": 8.785494804382324
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:921",
+      "prediction": 7.4176106452941895
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:926",
+      "prediction": 7.827073574066162
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:928",
+      "prediction": 7.742617607116699
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:932",
+      "prediction": 7.6495466232299805
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:940",
+      "prediction": 7.237990856170654
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:946",
+      "prediction": 6.043314456939697
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:953",
+      "prediction": 7.329183578491211
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:954",
+      "prediction": 8.735780715942383
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:959",
+      "prediction": 8.842863082885742
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:965",
+      "prediction": 8.71091365814209
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:988",
+      "prediction": 7.202328681945801
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:997",
+      "prediction": 6.37748908996582
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1000",
+      "prediction": 6.220334053039551
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1006",
+      "prediction": 9.325757026672363
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1008",
+      "prediction": 9.57455062866211
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1010",
+      "prediction": 9.027015686035156
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1017",
+      "prediction": 8.432716369628906
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1021",
+      "prediction": 8.015096664428711
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1031",
+      "prediction": 8.070295333862305
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1044",
+      "prediction": 8.142361640930176
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1056",
+      "prediction": 8.576565742492676
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1067",
+      "prediction": 7.8063645362854
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1075",
+      "prediction": 6.587532043457031
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1076",
+      "prediction": 6.760746002197266
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1082",
+      "prediction": 8.460926055908203
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1088",
+      "prediction": 7.217608451843262
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1091",
+      "prediction": 8.152334213256836
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1097",
+      "prediction": 8.22606372833252
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1098",
+      "prediction": 8.633872032165527
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1099",
+      "prediction": 8.355806350708008
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1109",
+      "prediction": 8.575447082519531
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1113",
+      "prediction": 7.850950717926025
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1117",
+      "prediction": 7.480554103851318
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1123",
+      "prediction": 6.980073928833008
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1128",
+      "prediction": 7.955826282501221
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1132",
+      "prediction": 8.336014747619629
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1133",
+      "prediction": 8.669699668884277
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1134",
+      "prediction": 7.832125663757324
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1142",
+      "prediction": 5.6258158683776855
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1148",
+      "prediction": 6.751032829284668
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1149",
+      "prediction": 5.0355753898620605
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1151",
+      "prediction": 5.714657306671143
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1157",
+      "prediction": 5.612248420715332
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1160",
+      "prediction": 5.538238525390625
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1162",
+      "prediction": 5.481315612792969
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1165",
+      "prediction": 5.421947002410889
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1169",
+      "prediction": 6.569398403167725
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1170",
+      "prediction": 7.035041809082031
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1173",
+      "prediction": 6.686372756958008
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1174",
+      "prediction": 8.04885482788086
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1177",
+      "prediction": 7.033058166503906
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1184",
+      "prediction": 7.475572109222412
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1189",
+      "prediction": 6.305022239685059
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1190",
+      "prediction": 7.205740928649902
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1197",
+      "prediction": 6.837141036987305
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1198",
+      "prediction": 6.674703121185303
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1205",
+      "prediction": 9.279991149902344
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1218",
+      "prediction": 8.580096244812012
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1226",
+      "prediction": 7.271072864532471
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1238",
+      "prediction": 7.297309875488281
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1244",
+      "prediction": 7.4460577964782715
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1250",
+      "prediction": 7.385196208953857
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1251",
+      "prediction": 7.3029375076293945
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1252",
+      "prediction": 7.444521903991699
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1254",
+      "prediction": 7.510489463806152
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1261",
+      "prediction": 6.950014591217041
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1264",
+      "prediction": 7.386596202850342
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1269",
+      "prediction": 6.497643947601318
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1270",
+      "prediction": 6.201469421386719
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1272",
+      "prediction": 6.664267539978027
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1273",
+      "prediction": 6.947463035583496
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1288",
+      "prediction": 6.9842376708984375
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1295",
+      "prediction": 8.018121719360352
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1307",
+      "prediction": 7.733092308044434
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1312",
+      "prediction": 6.691204071044922
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1313",
+      "prediction": 6.540617942810059
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1316",
+      "prediction": 6.842891693115234
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1318",
+      "prediction": 7.070998191833496
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1329",
+      "prediction": 8.008708953857422
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1336",
+      "prediction": 8.07352066040039
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1339",
+      "prediction": 5.629124641418457
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1341",
+      "prediction": 6.71162223815918
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1343",
+      "prediction": 8.188952445983887
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1344",
+      "prediction": 7.9525580406188965
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1347",
+      "prediction": 6.6146087646484375
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1351",
+      "prediction": 8.13371467590332
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1359",
+      "prediction": 7.373073101043701
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1361",
+      "prediction": 6.9756903648376465
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1368",
+      "prediction": 7.840548992156982
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1369",
+      "prediction": 8.028173446655273
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1376",
+      "prediction": 8.935317039489746
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1378",
+      "prediction": 8.562500953674316
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1400",
+      "prediction": 9.297236442565918
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1402",
+      "prediction": 9.576375961303711
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1416",
+      "prediction": 9.165413856506348
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1419",
+      "prediction": 8.62021541595459
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1425",
+      "prediction": 8.75572395324707
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1431",
+      "prediction": 8.404475212097168
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1436",
+      "prediction": 7.570858955383301
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1439",
+      "prediction": 7.441312313079834
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1440",
+      "prediction": 6.709599494934082
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1443",
+      "prediction": 8.35999870300293
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1448",
+      "prediction": 8.559931755065918
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1461",
+      "prediction": 8.120063781738281
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1464",
+      "prediction": 7.765890598297119
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1472",
+      "prediction": 7.074553489685059
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1475",
+      "prediction": 6.734763145446777
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1477",
+      "prediction": 6.8380446434021
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1494",
+      "prediction": 8.355978012084961
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1497",
+      "prediction": 7.630934238433838
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1498",
+      "prediction": 8.165124893188477
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1499",
+      "prediction": 6.600114822387695
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1503",
+      "prediction": 7.118399620056152
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1507",
+      "prediction": 7.666146278381348
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1508",
+      "prediction": 7.406481742858887
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1515",
+      "prediction": 6.880655288696289
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1516",
+      "prediction": 6.9986491203308105
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1519",
+      "prediction": 8.26833438873291
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1522",
+      "prediction": 7.7376179695129395
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1526",
+      "prediction": 7.744085311889648
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1544",
+      "prediction": 7.359560489654541
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1546",
+      "prediction": 8.502161979675293
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1550",
+      "prediction": 7.474250316619873
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1559",
+      "prediction": 7.400783061981201
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1562",
+      "prediction": 5.986738204956055
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1564",
+      "prediction": 5.967602252960205
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1568",
+      "prediction": 5.731418609619141
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1585",
+      "prediction": 5.765708923339844
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1586",
+      "prediction": 5.924192905426025
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1589",
+      "prediction": 7.871107578277588
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1591",
+      "prediction": 7.952923774719238
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1592",
+      "prediction": 6.832241058349609
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1593",
+      "prediction": 6.3167572021484375
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1594",
+      "prediction": 7.696601390838623
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1597",
+      "prediction": 7.4115986824035645
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1606",
+      "prediction": 7.303513526916504
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1607",
+      "prediction": 7.450355052947998
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1609",
+      "prediction": 7.330259323120117
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1619",
+      "prediction": 7.43348503112793
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1620",
+      "prediction": 7.376245021820068
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1626",
+      "prediction": 7.472800254821777
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1635",
+      "prediction": 7.767442226409912
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1646",
+      "prediction": 7.217482089996338
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1650",
+      "prediction": 6.546185493469238
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1653",
+      "prediction": 6.3461761474609375
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1654",
+      "prediction": 7.411428928375244
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1655",
+      "prediction": 6.6594157218933105
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1670",
+      "prediction": 8.096233367919922
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1673",
+      "prediction": 7.2872138023376465
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1677",
+      "prediction": 8.649491310119629
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1691",
+      "prediction": 8.02013874053955
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1706",
+      "prediction": 6.396526336669922
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1709",
+      "prediction": 8.348060607910156
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1712",
+      "prediction": 8.107976913452148
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1719",
+      "prediction": 6.132760047912598
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1722",
+      "prediction": 7.736494064331055
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1725",
+      "prediction": 8.623356819152832
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1727",
+      "prediction": 9.423225402832031
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1728",
+      "prediction": 9.99233627319336
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1732",
+      "prediction": 9.844714164733887
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1734",
+      "prediction": 9.5703763961792
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1739",
+      "prediction": 8.9615478515625
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1740",
+      "prediction": 8.950263977050781
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1743",
+      "prediction": 9.908679008483887
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1748",
+      "prediction": 9.05940055847168
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1750",
+      "prediction": 8.771573066711426
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1754",
+      "prediction": 9.26741886138916
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1763",
+      "prediction": 9.319042205810547
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1766",
+      "prediction": 8.674324989318848
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1773",
+      "prediction": 8.575445175170898
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1775",
+      "prediction": 8.696549415588379
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1781",
+      "prediction": 8.255881309509277
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1784",
+      "prediction": 8.07339859008789
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1785",
+      "prediction": 8.329086303710938
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1787",
+      "prediction": 7.802769184112549
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1790",
+      "prediction": 8.316581726074219
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1800",
+      "prediction": 8.761748313903809
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1804",
+      "prediction": 8.405134201049805
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1807",
+      "prediction": 8.977113723754883
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1811",
+      "prediction": 8.129256248474121
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1813",
+      "prediction": 8.204092025756836
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1815",
+      "prediction": 8.4806547164917
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1840",
+      "prediction": 7.700843811035156
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1841",
+      "prediction": 7.665541648864746
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1844",
+      "prediction": 7.943995952606201
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1852",
+      "prediction": 7.539266109466553
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1854",
+      "prediction": 7.610874176025391
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1856",
+      "prediction": 9.071048736572266
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1861",
+      "prediction": 7.977052688598633
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1863",
+      "prediction": 8.017430305480957
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1870",
+      "prediction": 8.647377967834473
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1876",
+      "prediction": 4.593038082122803
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1878",
+      "prediction": 6.55642032623291
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1893",
+      "prediction": 9.378146171569824
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1894",
+      "prediction": 9.656405448913574
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1895",
+      "prediction": 8.61082935333252
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1901",
+      "prediction": 8.335823059082031
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1902",
+      "prediction": 7.4829277992248535
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1909",
+      "prediction": 8.076461791992188
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1911",
+      "prediction": 8.049115180969238
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1915",
+      "prediction": 8.422605514526367
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1916",
+      "prediction": 7.811374664306641
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1917",
+      "prediction": 8.118529319763184
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1920",
+      "prediction": 6.692606449127197
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1922",
+      "prediction": 6.5828857421875
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1930",
+      "prediction": 8.556500434875488
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1932",
+      "prediction": 8.802788734436035
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1938",
+      "prediction": 8.116602897644043
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1939",
+      "prediction": 8.275797843933105
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1944",
+      "prediction": 7.793626308441162
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1952",
+      "prediction": 6.326943874359131
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1962",
+      "prediction": 8.071463584899902
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1963",
+      "prediction": 8.07742977142334
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1964",
+      "prediction": 8.58666706085205
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1973",
+      "prediction": 8.076516151428223
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1978",
+      "prediction": 8.397896766662598
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1979",
+      "prediction": 7.98602819442749
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1982",
+      "prediction": 7.940380096435547
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1991",
+      "prediction": 6.702168941497803
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:1992",
+      "prediction": 7.461367130279541
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2003",
+      "prediction": 6.89986515045166
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2008",
+      "prediction": 6.961487770080566
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2011",
+      "prediction": 6.8580098152160645
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2016",
+      "prediction": 7.0429582595825195
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2017",
+      "prediction": 7.461637496948242
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2031",
+      "prediction": 7.775676250457764
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2037",
+      "prediction": 7.860865592956543
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2044",
+      "prediction": 8.025907516479492
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2050",
+      "prediction": 7.610345363616943
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2056",
+      "prediction": 7.553842544555664
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2057",
+      "prediction": 7.6084394454956055
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2061",
+      "prediction": 8.145612716674805
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2064",
+      "prediction": 8.116111755371094
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2070",
+      "prediction": 7.752259731292725
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2085",
+      "prediction": 8.64384651184082
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2092",
+      "prediction": 8.399822235107422
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2095",
+      "prediction": 8.429742813110352
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2098",
+      "prediction": 8.737433433532715
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2106",
+      "prediction": 8.128026962280273
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2108",
+      "prediction": 7.468530654907227
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2109",
+      "prediction": 8.121064186096191
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2118",
+      "prediction": 8.542108535766602
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2121",
+      "prediction": 8.48913860321045
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2125",
+      "prediction": 8.400301933288574
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2126",
+      "prediction": 8.645772933959961
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2130",
+      "prediction": 8.506379127502441
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2133",
+      "prediction": 8.70106029510498
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2152",
+      "prediction": 7.384635925292969
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2155",
+      "prediction": 6.343979835510254
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2165",
+      "prediction": 6.1168622970581055
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2167",
+      "prediction": 6.7813334465026855
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2168",
+      "prediction": 7.715879917144775
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2178",
+      "prediction": 7.509881019592285
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2187",
+      "prediction": 6.176572799682617
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2193",
+      "prediction": 7.156608581542969
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2196",
+      "prediction": 6.442606449127197
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2197",
+      "prediction": 6.347263336181641
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2199",
+      "prediction": 6.48783016204834
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2220",
+      "prediction": 8.70781421661377
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2222",
+      "prediction": 8.634245872497559
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2241",
+      "prediction": 8.868535995483398
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2249",
+      "prediction": 6.946888446807861
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2252",
+      "prediction": 6.6457319259643555
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2258",
+      "prediction": 6.347531795501709
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2259",
+      "prediction": 6.4688520431518555
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2262",
+      "prediction": 6.809451103210449
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2269",
+      "prediction": 8.138629913330078
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2270",
+      "prediction": 8.266860961914062
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2275",
+      "prediction": 8.618744850158691
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2285",
+      "prediction": 8.945321083068848
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2310",
+      "prediction": 7.989985942840576
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2312",
+      "prediction": 8.963777542114258
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2318",
+      "prediction": 9.599309921264648
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2321",
+      "prediction": 9.466992378234863
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2328",
+      "prediction": 9.243109703063965
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2338",
+      "prediction": 8.827710151672363
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2341",
+      "prediction": 8.078547477722168
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2373",
+      "prediction": 7.79410457611084
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2374",
+      "prediction": 7.165166854858398
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2375",
+      "prediction": 7.039094924926758
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2376",
+      "prediction": 6.761608123779297
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2379",
+      "prediction": 8.567188262939453
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2390",
+      "prediction": 6.565004348754883
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2394",
+      "prediction": 7.212042808532715
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2397",
+      "prediction": 7.791878700256348
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2402",
+      "prediction": 7.329014301300049
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2416",
+      "prediction": 8.845832824707031
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2418",
+      "prediction": 8.114498138427734
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2420",
+      "prediction": 8.118307113647461
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2424",
+      "prediction": 7.287714958190918
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2426",
+      "prediction": 6.984252452850342
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2430",
+      "prediction": 8.100173950195312
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2437",
+      "prediction": 6.966490745544434
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2445",
+      "prediction": 8.319339752197266
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2448",
+      "prediction": 7.599572658538818
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2454",
+      "prediction": 7.737931728363037
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2456",
+      "prediction": 8.01426887512207
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2458",
+      "prediction": 8.457060813903809
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2464",
+      "prediction": 6.037258625030518
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2467",
+      "prediction": 6.647716045379639
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2477",
+      "prediction": 8.841458320617676
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2481",
+      "prediction": 8.25971794128418
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2482",
+      "prediction": 8.118354797363281
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2485",
+      "prediction": 7.420429229736328
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2490",
+      "prediction": 7.837635517120361
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2502",
+      "prediction": 6.623905658721924
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2503",
+      "prediction": 8.69271183013916
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2505",
+      "prediction": 8.62768268585205
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2507",
+      "prediction": 8.413202285766602
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2508",
+      "prediction": 8.907120704650879
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2514",
+      "prediction": 8.901189804077148
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2523",
+      "prediction": 7.950923919677734
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2524",
+      "prediction": 8.156722068786621
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2533",
+      "prediction": 8.0394287109375
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2540",
+      "prediction": 7.155638694763184
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2542",
+      "prediction": 7.603905200958252
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2544",
+      "prediction": 7.346155643463135
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2545",
+      "prediction": 6.775720119476318
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2546",
+      "prediction": 6.831783294677734
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2553",
+      "prediction": 7.0513596534729
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2559",
+      "prediction": 6.9955620765686035
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2561",
+      "prediction": 6.672702312469482
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2562",
+      "prediction": 6.937521934509277
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2564",
+      "prediction": 6.856241226196289
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2569",
+      "prediction": 6.825563907623291
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2573",
+      "prediction": 7.876409530639648
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2575",
+      "prediction": 7.540355205535889
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2579",
+      "prediction": 7.036803245544434
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2580",
+      "prediction": 7.0633745193481445
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2585",
+      "prediction": 6.630014896392822
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2586",
+      "prediction": 6.995805740356445
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2587",
+      "prediction": 7.046893119812012
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2596",
+      "prediction": 5.6968865394592285
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2610",
+      "prediction": 5.827844619750977
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2612",
+      "prediction": 7.230276584625244
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2616",
+      "prediction": 7.297450065612793
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2622",
+      "prediction": 8.27231502532959
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2623",
+      "prediction": 8.328577995300293
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2631",
+      "prediction": 7.109330177307129
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2632",
+      "prediction": 7.6076836585998535
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2633",
+      "prediction": 7.118088245391846
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2635",
+      "prediction": 5.800900936126709
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2637",
+      "prediction": 6.344071388244629
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2645",
+      "prediction": 6.806792736053467
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2657",
+      "prediction": 6.858170032501221
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2662",
+      "prediction": 7.042148590087891
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2663",
+      "prediction": 5.492417335510254
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2669",
+      "prediction": 7.22794771194458
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2678",
+      "prediction": 6.620060443878174
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2680",
+      "prediction": 7.199936866760254
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2681",
+      "prediction": 7.400424957275391
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2684",
+      "prediction": 7.357513904571533
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2693",
+      "prediction": 7.772756576538086
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2694",
+      "prediction": 8.017834663391113
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2695",
+      "prediction": 7.999068260192871
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2696",
+      "prediction": 7.1899003982543945
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2705",
+      "prediction": 6.2545247077941895
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2707",
+      "prediction": 7.214117527008057
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2710",
+      "prediction": 7.640798568725586
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2711",
+      "prediction": 7.324167251586914
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2721",
+      "prediction": 7.109968185424805
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2728",
+      "prediction": 6.7970967292785645
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2744",
+      "prediction": 7.857334136962891
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2748",
+      "prediction": 7.322140693664551
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2749",
+      "prediction": 7.716835021972656
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2752",
+      "prediction": 7.325136661529541
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2755",
+      "prediction": 5.652481555938721
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2761",
+      "prediction": 6.81134557723999
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2770",
+      "prediction": 7.162375450134277
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2775",
+      "prediction": 6.313318252563477
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2777",
+      "prediction": 5.761885166168213
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2780",
+      "prediction": 5.906465530395508
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2782",
+      "prediction": 6.495044708251953
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2785",
+      "prediction": 7.870633602142334
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2786",
+      "prediction": 5.901958465576172
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2790",
+      "prediction": 7.937845706939697
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2793",
+      "prediction": 6.444052219390869
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2803",
+      "prediction": 8.24951457977295
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2805",
+      "prediction": 7.883896350860596
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2809",
+      "prediction": 8.24067211151123
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2813",
+      "prediction": 6.47276496887207
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2816",
+      "prediction": 6.492945671081543
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2818",
+      "prediction": 7.561305046081543
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2820",
+      "prediction": 6.270176410675049
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2826",
+      "prediction": 6.6598100662231445
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2829",
+      "prediction": 6.2809319496154785
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2838",
+      "prediction": 6.183167457580566
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2842",
+      "prediction": 7.825324535369873
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2843",
+      "prediction": 7.205160617828369
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2845",
+      "prediction": 8.237521171569824
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2847",
+      "prediction": 8.282047271728516
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2851",
+      "prediction": 7.414212226867676
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2852",
+      "prediction": 8.209636688232422
+    },
+    {
+      "candidate_id": "CHEMBL264_Ki:2855",
+      "prediction": 6.4224114418029785
+    }
+  ],
+  "input_sha256": "a0524688ef4790f6ba65ff9ebf90ecf2c70929632907b6559b257fdfe2eeaed7",
+  "protocol_sha256": "338a1e229ab3a848058eb694075159b8802ad3b873beb4949847a773932825ab",
+  "official_test_labels_read": false
+}
