@@ -1,0 +1,57 @@
+{
+  "scope": "Existing EVIDA Ki activity-model connection. Predictions, not measurements or generator validation.",
+  "total_rows": 183,
+  "reasyn_products": 175,
+  "original_crem_candidates": 8,
+  "model_fit_calls": 1,
+  "model_score_calls": 1,
+  "selected_model": "Tanimoto Gaussian process",
+  "training_rows": 475,
+  "inner_validation_rows": 158,
+  "inner_validation_role": "model selection, not independent final test",
+  "inner_validation_gp_spearman": 0.733,
+  "groups": {
+    "run-01-reactive": {
+      "rows": 31,
+      "scored": 31,
+      "prediction_min": 6.12,
+      "prediction_max": 7.17,
+      "prediction_mean": 6.638387096774194,
+      "product_unassigned_stereocenter_rows": 3
+    },
+    "run-01-stock": {
+      "rows": 44,
+      "scored": 44,
+      "prediction_min": 5.8,
+      "prediction_max": 6.88,
+      "prediction_mean": 6.275909090909091,
+      "product_unassigned_stereocenter_rows": 6
+    },
+    "run-02-missing-first-reactive": {
+      "rows": 77,
+      "scored": 77,
+      "prediction_min": 5.56,
+      "prediction_max": 6.98,
+      "prediction_mean": 6.560649350649351,
+      "product_unassigned_stereocenter_rows": 56
+    },
+    "run-02-missing-first-stock": {
+      "rows": 23,
+      "scored": 23,
+      "prediction_min": 5.59,
+      "prediction_max": 6.64,
+      "prediction_mean": 6.095217391304348,
+      "product_unassigned_stereocenter_rows": 6
+    },
+    "crem-parity": {
+      "rows": 8,
+      "scored": 8,
+      "prediction_min": 6.24,
+      "prediction_max": 7.18,
+      "prediction_mean": 6.70125,
+      "product_unassigned_stereocenter_rows": 0
+    }
+  },
+  "original_8_rounded_prediction_parity": true,
+  "source_dataset": "MoleculeACE CHEMBL1862_Ki, official training split"
+}
