@@ -1,0 +1,77 @@
+{
+  "format_version": "1",
+  "blind_id": "Q06",
+  "case": "BRAF_DEV",
+  "stage": "initial",
+  "overall": "pass",
+  "dimensions": [
+    {
+      "id": "prioritized_useful_action_or_stop",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "Prioritize b_initial_function",
+          "location": "Q06/answer.txt:L1:C1",
+          "char_start_zero_based": 0
+        }
+      ],
+      "reason": "The prioritized matched early functional MAPK contrast addresses the absent initial response."
+    },
+    {
+      "id": "decision_relevant_distinction",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "If early ERK is adequately suppressed",
+          "location": "Q06/answer.txt:L3:C1",
+          "char_start_zero_based": 373
+        }
+      ],
+      "reason": "Valid suppression permits later feedback-input comparison; valid absence calls for drug/input verification. Repeating late signal would not distinguish these decisions."
+    },
+    {
+      "id": "availability_controls_and_budget",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "Its synthetic cost is 3 effort units",
+          "location": "Q06/answer.txt:L1:C181",
+          "char_start_zero_based": 180
+        }
+      ],
+      "reason": "The selected synthetic check costs 2 plus paired setup 1 = 3, below budget 8."
+    },
+    {
+      "id": "validity_precision_and_result_interpretation",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "Measurement failure, intervention failure or insufficient precision leaves the decision unresolved.",
+          "location": "Q06/answer.txt:L3:C402",
+          "char_start_zero_based": 774
+        }
+      ],
+      "reason": "The response does not treat the abstract as a result in this sample; it distinguishes functional response from target engagement and/or preserves measurement-validity limits."
+    },
+    {
+      "id": "unknown_coexisting_explanations_and_scope",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "EGFR, other receptors and coexisting mechanisms remain possible.",
+          "location": "Q06/answer.txt:L3:C199",
+          "char_start_zero_based": 571
+        }
+      ],
+      "reason": "EGFR is not uniquely attributed and coexisting or omitted explanations remain open."
+    }
+  ],
+  "selected_action_quote": "Prioritize b_initial_function",
+  "interpretation_quote": "If early ERK is adequately suppressed",
+  "unsupported_claims": [],
+  "declared_incremental_cost": 3,
+  "unknown_cost_reason": "",
+  "ambiguities": [],
+  "primary_success": true,
+  "rule": "All scientific dimensions must pass; retain partial/fail/unassessable separately. No arm label or schema score."
+}

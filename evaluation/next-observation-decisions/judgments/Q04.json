@@ -1,0 +1,79 @@
+{
+  "format_version": "1",
+  "blind_id": "Q04",
+  "case": "BRAF_DEV",
+  "stage": "initial",
+  "overall": "pass",
+  "dimensions": [
+    {
+      "id": "prioritized_useful_action_or_stop",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "RAF 억제 처리와 대응 대조의 초기 pERK 기능 대비",
+          "location": "Q04/answer.txt:L1:C120",
+          "char_start_zero_based": 119
+        }
+      ],
+      "reason": "The prioritized matched early functional MAPK contrast addresses the absent initial response."
+    },
+    {
+      "id": "decision_relevant_distinction",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "초기 기능 대비 하나가 이 즉시 판단의 두 경로를 가르며",
+          "location": "Q04/answer.txt:L1:C500",
+          "char_start_zero_based": 499
+        }
+      ],
+      "reason": "Valid suppression permits later feedback-input comparison; valid absence calls for drug/input verification. Repeating late signal would not distinguish these decisions."
+    },
+    {
+      "id": "availability_controls_and_budget",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "2단위와 필수 paired_setup 1단위를 합한 합성 노력 3단위",
+          "location": "Q04/answer.txt:L1:C216",
+          "char_start_zero_based": 215
+        }
+      ],
+      "reason": "The selected synthetic check costs 2 plus paired setup 1 = 3, below budget 8."
+    },
+    {
+      "id": "validity_precision_and_result_interpretation",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "초기 억제가 확인되면 되먹임 입력을 비교하고",
+          "location": "Q04/answer.txt:L1:C1603",
+          "char_start_zero_based": 1602
+        }
+      ],
+      "reason": "The response does not treat the abstract as a result in this sample; it distinguishes functional response from target engagement and/or preserves measurement-validity limits."
+    },
+    {
+      "id": "unknown_coexisting_explanations_and_scope",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "다른 수용체와 병존·상황 의존 기전은 배제하지 않는다.",
+          "location": "Q04/answer.txt:L1:C1226",
+          "char_start_zero_based": 1225
+        }
+      ],
+      "reason": "EGFR is not uniquely attributed and coexisting or omitted explanations remain open."
+    }
+  ],
+  "selected_action_quote": "RAF 억제 처리와 대응 대조의 초기 pERK 기능 대비",
+  "interpretation_quote": "초기 기능 대비 하나가 이 즉시 판단의 두 경로를 가르며",
+  "unsupported_claims": [],
+  "declared_incremental_cost": 3,
+  "unknown_cost_reason": "",
+  "ambiguities": [
+    "The visible summary is terse on precision and measurement failure; the full response was read and contains validity/precision contingencies in its structured check."
+  ],
+  "primary_success": true,
+  "rule": "All scientific dimensions must pass; retain partial/fail/unassessable separately. No arm label or schema score."
+}
