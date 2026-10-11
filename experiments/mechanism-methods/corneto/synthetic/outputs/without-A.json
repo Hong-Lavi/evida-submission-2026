@@ -1,0 +1,214 @@
+{
+  "tag": "synthetic-without-A",
+  "zero_node": "A",
+  "input_nodes": {
+    "ROOT": 0
+  },
+  "source_edges": 6,
+  "measurement_values": {
+    "TF_POS": 2.0,
+    "TF_NEG": -3.0
+  },
+  "status": "optimal",
+  "native_total": 0.8,
+  "objectives": [
+    {
+      "name": "error_condition",
+      "value": 0.0,
+      "weight": 1.0
+    },
+    {
+      "name": "regularization_nodes",
+      "value": 4.0,
+      "weight": 0.2
+    }
+  ],
+  "solver_stats": {
+    "solver_name": "HIGHS",
+    "solve_time": 0.016217470169067383,
+    "num_iters": -4
+  },
+  "states": {
+    "ROOT": 1.0,
+    "A": 0.0,
+    "B": 1.0,
+    "TF_POS": 1.0,
+    "TF_NEG": -1.0
+  },
+  "selected_edges": [
+    {
+      "source": [
+        "ROOT"
+      ],
+      "target": [
+        "B"
+      ],
+      "edge_state": 1.0,
+      "prior_interaction": 1
+    },
+    {
+      "source": [
+        "B"
+      ],
+      "target": [
+        "TF_POS"
+      ],
+      "edge_state": 1.0,
+      "prior_interaction": 1
+    },
+    {
+      "source": [
+        "B"
+      ],
+      "target": [
+        "TF_NEG"
+      ],
+      "edge_state": -1.0,
+      "prior_interaction": -1
+    }
+  ],
+  "measurements": [
+    {
+      "node": "TF_POS",
+      "input_score": 2.0,
+      "target_sign": 1,
+      "fitted_state": 1.0,
+      "weighted_absolute_sign_error": 0.0
+    },
+    {
+      "node": "TF_NEG",
+      "input_score": -3.0,
+      "target_sign": -1,
+      "fitted_state": -1.0,
+      "weighted_absolute_sign_error": 0.0
+    }
+  ],
+  "weighted_absolute_sign_error": 0.0,
+  "full_variables": {
+    "edge_inhibiting": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "vertex_activated": [
+      1.0,
+      0.0,
+      1.0,
+      1.0,
+      0.0
+    ],
+    "vertex_inhibited": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "edge_activating": [
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0
+    ],
+    "const0x7338897db792bc9": [
+      [
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "const0x1c9ca4fc68c6658f": [
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "vertex_position": [
+      -0.0,
+      -0.0,
+      1.0,
+      5.0,
+      5.0
+    ]
+  },
+  "max_cvxpy_constraint_violation": 0.0,
+  "retained_vertices": 5,
+  "retained_edges": 6,
+  "elapsed_seconds": 0.04830136499367654
+}

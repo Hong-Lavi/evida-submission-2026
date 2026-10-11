@@ -1,0 +1,48 @@
+{
+  "case_id": "synthetic-forced-same-sign-co-parents",
+  "classification": "explicit synthetic control, not a biological case",
+  "network": [
+    {
+      "source": "ROOT",
+      "interaction": 1,
+      "target": "A"
+    },
+    {
+      "source": "ROOT",
+      "interaction": 1,
+      "target": "B"
+    },
+    {
+      "source": "A",
+      "interaction": 1,
+      "target": "T"
+    },
+    {
+      "source": "B",
+      "interaction": 1,
+      "target": "T"
+    }
+  ],
+  "input_nodes": {
+    "ROOT": 0
+  },
+  "measurement_values": {
+    "T": 1
+  },
+  "forced_selected_edges": [
+    [
+      "A",
+      "T"
+    ],
+    [
+      "B",
+      "T"
+    ]
+  ],
+  "tested_author_formulations": [
+    "CarnivalFlow exclusive_signal_paths=true, lambda_reg=0.001",
+    "CarnivalFlow exclusive_signal_paths=false, lambda_reg=0.001",
+    "CarnivalILP beta_weight=0.2, penalize=nodes"
+  ],
+  "interpretation": "Probe of formulation semantics only."
+}

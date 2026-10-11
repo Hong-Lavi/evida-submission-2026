@@ -1,0 +1,294 @@
+{
+  "problem": {
+    "id": "assumed_four_models_distinct_actions",
+    "immediate_decision": "Choose the next declared observation for a synthetic four-model PDE4B/D explanation set.",
+    "declaration": {
+      "kind": "model_assumptions",
+      "basis": "Four stipulated Boolean formulas. No PDE4 biological response, activity, or TF statistic is imported.",
+      "conditions": [
+        "B and D are effective binary signals only after verified selective intervention.",
+        "Y is a hypothetical binary readout at one matched context and adequately measured precision.",
+        "Action labels are separate declarations; no action is inferred from a biological result."
+      ]
+    },
+    "decisions": [
+      {
+        "id": "AND_joint_required",
+        "label": "AND_joint_required",
+        "adequacy_basis": "Declared decision class for the synthetic comparison."
+      },
+      {
+        "id": "B_only",
+        "label": "B_only",
+        "adequacy_basis": "Declared decision class for the synthetic comparison."
+      },
+      {
+        "id": "D_only",
+        "label": "D_only",
+        "adequacy_basis": "Declared decision class for the synthetic comparison."
+      },
+      {
+        "id": "OR_coexisting_sufficient",
+        "label": "OR_coexisting_sufficient",
+        "adequacy_basis": "Declared decision class for the synthetic comparison."
+      }
+    ],
+    "worlds": [
+      {
+        "id": "B_only",
+        "description": "Assumed Boolean explanation B_only.",
+        "members": [
+          {
+            "hypothesis_id": "B_only",
+            "alternative_ids": [],
+            "part_ids": []
+          }
+        ],
+        "adequate_decision_ids": [
+          "B_only"
+        ]
+      },
+      {
+        "id": "D_only",
+        "description": "Assumed Boolean explanation D_only.",
+        "members": [
+          {
+            "hypothesis_id": "D_only",
+            "alternative_ids": [],
+            "part_ids": []
+          }
+        ],
+        "adequate_decision_ids": [
+          "D_only"
+        ]
+      },
+      {
+        "id": "AND_joint_required",
+        "description": "Assumed Boolean explanation AND_joint_required.",
+        "members": [
+          {
+            "hypothesis_id": "AND_joint_required",
+            "alternative_ids": [],
+            "part_ids": []
+          }
+        ],
+        "adequate_decision_ids": [
+          "AND_joint_required"
+        ]
+      },
+      {
+        "id": "OR_coexisting_sufficient",
+        "description": "Assumed Boolean explanation OR_coexisting_sufficient.",
+        "members": [
+          {
+            "hypothesis_id": "OR_coexisting_sufficient",
+            "alternative_ids": [],
+            "part_ids": []
+          }
+        ],
+        "adequate_decision_ids": [
+          "OR_coexisting_sufficient"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "check_id": "B_suppression",
+        "available": true,
+        "design_validated": true,
+        "precision_plan_defined": true,
+        "declaration_basis": "Synthetic availability and measurement-design assumptions for the method comparison.",
+        "precision_rule": "Result can update only when intervention, measurement and precision are validated.",
+        "incremental_cost": 1.0,
+        "shared_control_ids": [],
+        "adequate_outcome_indices": [
+          0,
+          1
+        ],
+        "predictions": [
+          {
+            "world_id": "B_only",
+            "coverage": "complete",
+            "conditions_satisfied": true,
+            "condition_basis": "Matched synthetic binary condition, subject to result gates.",
+            "outcome_indices": [
+              0
+            ],
+            "origin": "prospective",
+            "basis": "Stipulated Boolean formula, not measured PDE4 biology.",
+            "source_artifact_ids": []
+          },
+          {
+            "world_id": "D_only",
+            "coverage": "complete",
+            "conditions_satisfied": true,
+            "condition_basis": "Matched synthetic binary condition, subject to result gates.",
+            "outcome_indices": [
+              1
+            ],
+            "origin": "prospective",
+            "basis": "Stipulated Boolean formula, not measured PDE4 biology.",
+            "source_artifact_ids": []
+          },
+          {
+            "world_id": "AND_joint_required",
+            "coverage": "complete",
+            "conditions_satisfied": true,
+            "condition_basis": "Matched synthetic binary condition, subject to result gates.",
+            "outcome_indices": [
+              0
+            ],
+            "origin": "prospective",
+            "basis": "Stipulated Boolean formula, not measured PDE4 biology.",
+            "source_artifact_ids": []
+          },
+          {
+            "world_id": "OR_coexisting_sufficient",
+            "coverage": "complete",
+            "conditions_satisfied": true,
+            "condition_basis": "Matched synthetic binary condition, subject to result gates.",
+            "outcome_indices": [
+              1
+            ],
+            "origin": "prospective",
+            "basis": "Stipulated Boolean formula, not measured PDE4 biology.",
+            "source_artifact_ids": []
+          }
+        ]
+      },
+      {
+        "check_id": "D_suppression",
+        "available": true,
+        "design_validated": true,
+        "precision_plan_defined": true,
+        "declaration_basis": "Synthetic availability and measurement-design assumptions for the method comparison.",
+        "precision_rule": "Result can update only when intervention, measurement and precision are validated.",
+        "incremental_cost": 1.0,
+        "shared_control_ids": [],
+        "adequate_outcome_indices": [
+          0,
+          1
+        ],
+        "predictions": [
+          {
+            "world_id": "B_only",
+            "coverage": "complete",
+            "conditions_satisfied": true,
+            "condition_basis": "Matched synthetic binary condition, subject to result gates.",
+            "outcome_indices": [
+              1
+            ],
+            "origin": "prospective",
+            "basis": "Stipulated Boolean formula, not measured PDE4 biology.",
+            "source_artifact_ids": []
+          },
+          {
+            "world_id": "D_only",
+            "coverage": "complete",
+            "conditions_satisfied": true,
+            "condition_basis": "Matched synthetic binary condition, subject to result gates.",
+            "outcome_indices": [
+              0
+            ],
+            "origin": "prospective",
+            "basis": "Stipulated Boolean formula, not measured PDE4 biology.",
+            "source_artifact_ids": []
+          },
+          {
+            "world_id": "AND_joint_required",
+            "coverage": "complete",
+            "conditions_satisfied": true,
+            "condition_basis": "Matched synthetic binary condition, subject to result gates.",
+            "outcome_indices": [
+              0
+            ],
+            "origin": "prospective",
+            "basis": "Stipulated Boolean formula, not measured PDE4 biology.",
+            "source_artifact_ids": []
+          },
+          {
+            "world_id": "OR_coexisting_sufficient",
+            "coverage": "complete",
+            "conditions_satisfied": true,
+            "condition_basis": "Matched synthetic binary condition, subject to result gates.",
+            "outcome_indices": [
+              1
+            ],
+            "origin": "prospective",
+            "basis": "Stipulated Boolean formula, not measured PDE4 biology.",
+            "source_artifact_ids": []
+          }
+        ]
+      },
+      {
+        "check_id": "BD_suppression",
+        "available": true,
+        "design_validated": true,
+        "precision_plan_defined": true,
+        "declaration_basis": "Synthetic availability and measurement-design assumptions for the method comparison.",
+        "precision_rule": "Result can update only when intervention, measurement and precision are validated.",
+        "incremental_cost": 1.0,
+        "shared_control_ids": [],
+        "adequate_outcome_indices": [
+          0,
+          1
+        ],
+        "predictions": [
+          {
+            "world_id": "B_only",
+            "coverage": "complete",
+            "conditions_satisfied": true,
+            "condition_basis": "Matched synthetic binary condition, subject to result gates.",
+            "outcome_indices": [
+              0
+            ],
+            "origin": "prospective",
+            "basis": "Stipulated Boolean formula, not measured PDE4 biology.",
+            "source_artifact_ids": []
+          },
+          {
+            "world_id": "D_only",
+            "coverage": "complete",
+            "conditions_satisfied": true,
+            "condition_basis": "Matched synthetic binary condition, subject to result gates.",
+            "outcome_indices": [
+              0
+            ],
+            "origin": "prospective",
+            "basis": "Stipulated Boolean formula, not measured PDE4 biology.",
+            "source_artifact_ids": []
+          },
+          {
+            "world_id": "AND_joint_required",
+            "coverage": "complete",
+            "conditions_satisfied": true,
+            "condition_basis": "Matched synthetic binary condition, subject to result gates.",
+            "outcome_indices": [
+              0
+            ],
+            "origin": "prospective",
+            "basis": "Stipulated Boolean formula, not measured PDE4 biology.",
+            "source_artifact_ids": []
+          },
+          {
+            "world_id": "OR_coexisting_sufficient",
+            "coverage": "complete",
+            "conditions_satisfied": true,
+            "condition_basis": "Matched synthetic binary condition, subject to result gates.",
+            "outcome_indices": [
+              0
+            ],
+            "origin": "prospective",
+            "basis": "Stipulated Boolean formula, not measured PDE4 biology.",
+            "source_artifact_ids": []
+          }
+        ]
+      }
+    ],
+    "shared_controls": [],
+    "cost_unit": "synthetic_cost_unit",
+    "budget": 3.0,
+    "max_checks": 3
+  },
+  "result": null
+}
