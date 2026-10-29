@@ -95,11 +95,30 @@ def parse_article(raw, pmc_id, receipt):
     if root.tag != 'article':
         raise ValueError('검증 가능한 JATS 원문이 아닙니다.')
     text = lambda node: " ".join("".join(node.itertext()).split()) if node is not None else ""
-    ids = {n.get("pub-id-type"): text(n) for n in root.findall(".//article-meta/article-id")}
-    reported = ids.get("pmc") or ids.get("pmcid")
-    if not reported or reported.removeprefix("PMC") != pmc_id.removeprefix("PMC"):
+    # A JATS article can contain peer-review sub-articles with their own DOI.
+    # Only the main article's front matter identifies the requested source.
+    article_meta = root.find("front/article-meta")
+    if article_meta is None:
+        raise ValueError("원문 본논문의 식별 정보를 확인할 수 없습니다.")
+    ids = {}
+    # NCBI author manuscripts can carry several alternate manuscript labels.
+    # These are provenance aliases, not contradictory primary article identities.
+    # Keep the legacy string field stable and expose every distinct alias as well.
+    aliases = {}
+    for node in article_meta.findall("article-id"):
+        kind, value = node.get("pub-id-type"), text(node)
+        if kind == 'manuscript-id-alternative':
+            values = aliases.setdefault(kind, [])
+            if value not in values:
+                values.append(value)
+            ids.setdefault(kind, value)
+            continue
+        if kind in ids and ids[kind] != value:
+            raise ValueError("본논문에 서로 다른 식별자가 중복되어 원문 확인이 필요합니다.")
+        ids[kind] = value
+    reported = [ids[k] for k in ("pmc", "pmcid") if ids.get(k)]
+    if not reported or any(value.removeprefix("PMC") != pmc_id.removeprefix("PMC") for value in reported):
         raise ValueError("원문이 요청한 PMC ID와 다릅니다.")
-    article_meta = root.find(".//article-meta")
     rows = []
 
     def walk(node, section):
@@ -145,7 +164,7 @@ def parse_article(raw, pmc_id, receipt):
     back = root.find('back')
     if back is not None:
         walk(back, ['Back matter'])
-    licenses = [text(n) for n in root.findall(".//article-meta/permissions")]
+    licenses = [text(n) for n in article_meta.findall("permissions")]
     references = [{"id": n.get("id"), "text": text(n)} for n in root.findall(".//ref-list/ref")]
     body_rows = [r for r in rows if r['section'].split(' / ')[0]=='Body' and r['text'].strip()]
     abstract_rows = [r for r in rows if r['section'].split(' / ')[0]=='Abstract' and r['text'].strip()]
@@ -153,15 +172,15 @@ def parse_article(raw, pmc_id, receipt):
     coverage = {'scope':scope, 'body_element_present':body is not None,
                 'returned_body_blocks':len(body_rows),'returned_abstract_blocks':len(abstract_rows),
                 'returned_references':len(references),
-                'declared_counts':{n.tag:dict(n.attrib) for n in root.findall('.//article-meta/counts/*')},
+                'declared_counts':{n.tag:dict(n.attrib) for n in article_meta.findall('counts/*')},
                 'source_retrieval_is_not_reading_or_complete_paper_verification':True}
     scope_note = ('이 응답에는 논문 본문 XML이 포함되어 있습니다. 실제 읽은 범위와 표·그림 확인은 별도입니다.' if body_rows else
                   '이 응답에는 초록만 있고 논문 본문은 반환되지 않았습니다. 초록에서 확인한 결과와 본문·표·보충자료의 미확인을 구분합니다.' if abstract_rows else
                   '이 응답에는 확인 가능한 논문 본문이 없습니다. 메타데이터·기타 반환 자료만으로 본문 읽기를 완료 처리하지 않습니다.')
     return {"status": "succeeded" if body_rows else "partial",
             "semantic_type": "published_full_text" if body_rows else "published_abstract" if abstract_rows else "published_metadata",
-            "source": receipt, "pmc_id": pmc_id, "article_ids": ids,
-            "title": text(root.find(".//article-title")), "permissions": licenses, "rows": rows,
+            "source": receipt, "pmc_id": pmc_id, "article_ids": ids, "article_id_aliases": aliases,
+            "title": text(article_meta.find("title-group/article-title")), "permissions": licenses, "rows": rows,
             "references": references, "original_xml": raw.decode("utf-8"), "content_coverage":coverage,
             "summary": {"blocks": len(rows), "original_review_blocks": sum(r["requires_original_review"] for r in rows),
                         "reference_count": len(references), "permissions_present": bool(licenses), "content_scope":scope},

@@ -25,6 +25,33 @@ def completed_rounds(store, state, source_id):
                for r in receipts)
 
 
+def recorded_response_budget(store, state, source_id):
+    """Only a recorded unbounded source chain authorizes unbounded continuation."""
+    jobs = {j['id']: j for j in state['jobs']}
+    seen, budgets = set(), []
+    while source_id:
+        if source_id in seen or source_id not in jobs:
+            raise ValueError('원래 응답 예산의 실행 연결을 확인해야 합니다.')
+        seen.add(source_id)
+        protocols = [a for a in state['artifacts'] if a['kind'] == 'protocol_snapshot'
+                     and a['meta'].get('job_id') == source_id]
+        if not protocols:
+            budgets.append(16)  # Historical requests used this finite policy.
+        for artifact in protocols:
+            protocol = json.loads(store.artifact(state['id'], artifact['id'])['content'])
+            budget = protocol.get('response_budget', 16)
+            mode = protocol.get('response_limit_mode')
+            if ((budget is None and ('response_budget' not in protocol or mode != 'unbounded'))
+                    or (budget is not None and (type(budget) is not int or budget < 1
+                                               or mode not in (None, 'finite')))):
+                raise ValueError('원래 응답 예산의 명시적 실행 설정을 확인해야 합니다.')
+            budgets.append(budget)
+        source_id = jobs[source_id]['request'].get('resume_from_job')
+    if not budgets or any(b != budgets[0] for b in budgets):
+        raise ValueError('원래 응답 예산과 재개 연결의 설정이 다릅니다.')
+    return budgets[0]
+
+
 def prepare_quota_resume(runner, wid, rev, source_id):
     """No dispatch. Trust the server's receipt directory, never a client path."""
     if getattr(runner.gateway, 'transport_mode', None) != 'competition_gateway':
@@ -66,18 +93,30 @@ def prepare_quota_resume(runner, wid, rev, source_id):
             or request.get('stream', False) != bool(gateway.policy.get('stream_responses'))
             or request.get('store') is not False or request.get('include') != ['reasoning.encrypted_content']):
         raise ValueError('동일 모델·설정으로만 이어갈 수 있습니다.')
-    if (request.get('instructions') not in (runner.prompt, runner.prompt + SYNTHESIS_SUFFIX)
-            or request.get('tools') != model_functions()
-            or request.get('parallel_tool_calls') is not False
-            or request.get('text') != {'format': {'type': 'json_schema', 'name': 'evida_decision',
-                                                'strict': True, 'schema': DECISION}}):
-        raise ValueError('판단 지시·도구 계약이 바뀌었습니다. 새 검토가 필요합니다.')
-    rounds = completed_rounds(runner.store, state, source_id)
-    if not 0 < rounds < 16:
-        raise ValueError('이어갈 작업 또는 원래 응답 예산이 없습니다.')
-    expected_terminal = rounds == 15 or source['request'].get('synthesis_only', False)
-    if request.get('tool_choice') != ('none' if expected_terminal else 'auto'):
-        raise ValueError('원래 작업 단계와 실패 요청이 일치하지 않습니다.')
+    from .goal_completion import pending_from_request
+    pending_goal = pending_from_request(request, runner.prompt)
+    if pending_goal is not None:
+        from .research_loop import decision_id
+        if (getattr(runner, 'response_limit', 16) is not None
+                or recorded_response_budget(runner.store, state, source_id) is not None
+                or decision_id(state) != pending_goal['decision_id']):
+            raise ValueError('원래 무상한 목표 검토와 동일 게시 판단만 재개할 수 있습니다.')
+        rounds = completed_rounds(runner.store, state, source_id)
+        if rounds <= 0:
+            raise ValueError('완료된 원 실행 연결이 필요합니다.')
+    else:
+        if (request.get('instructions') not in (runner.prompt, runner.prompt + SYNTHESIS_SUFFIX)
+                or request.get('tools') != model_functions()
+                or request.get('parallel_tool_calls') is not False
+                or request.get('text') != {'format': {'type': 'json_schema', 'name': 'evida_decision',
+                                                    'strict': True, 'schema': DECISION}}):
+            raise ValueError('판단 지시·도구 계약이 바뀌었습니다. 새 검토가 필요합니다.')
+        rounds = completed_rounds(runner.store, state, source_id)
+        if not 0 < rounds < 16:
+            raise ValueError('이어갈 작업 또는 원래 응답 예산이 없습니다.')
+        expected_terminal = rounds == 15 or source['request'].get('synthesis_only', False)
+        if request.get('tool_choice') != ('none' if expected_terminal else 'auto'):
+            raise ValueError('원래 작업 단계와 실패 요청이 일치하지 않습니다.')
     retry_after = receipt.get('diagnostic_headers', {}).get('retry-after')
     if not isinstance(retry_after, str) or not retry_after.isdigit():
         raise ValueError('재개 가능 시각을 수동 확인해야 합니다.')

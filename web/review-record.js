@@ -26,10 +26,10 @@ function reviewAxisCells(aspects) {
 }
 
 // A clause carries the sentence it was anchored to, so the reader checks the paper rather than us.
-function reviewClauses(basis) {
+function reviewClauses(basis,check) {
   const clauses = (basis && basis.clauses) || [];
   if (!clauses.length) return '';
-  return `<ol class="mechanism-clauses">${clauses.map(c => {
+  return `<ol class="mechanism-clauses">${clauses.map((c,index) => {
     const where = [c.context && c.context.disease, c.context && c.context.species,
                    c.context && c.context.tissue].filter(Boolean).join(' · ');
     const anchor = c.anchor || {};
@@ -38,7 +38,7 @@ function reviewClauses(basis) {
       ${anchor.quote ? `<blockquote class="clause-quote">${esc(anchor.quote)}</blockquote>` : ''}
       <p class="small muted">${esc(where || '조건 미기재')}${
         c.disease_match ? ` · ${esc(REVIEW_MATCH[c.disease_match] || c.disease_match)}` : ''}</p>
-      ${anchor.artifact_id ? sourceLinks([anchor.artifact_id]) : ''}
+      ${typeof sourceAssertionAnchorView==='function'?sourceAssertionAnchorView(anchor,check?.clauses?.find(item=>item.clause_index===index)):anchor.artifact_id?sourceLinks([anchor.artifact_id]):''}
     </li>`;
   }).join('')}</ol>`;
 }
@@ -89,7 +89,7 @@ function reviewAssessment(row, options) {
           ? ` · ${esc(row.comparison_group)} ${esc(row.priority)}순위` : ''}</p>
     </header>
     ${reviewAxisCells(row.aspects)}
-    ${reviewClauses(basis)}
+    ${reviewClauses(basis,row.basis_check)}
     ${reviewGaps(basis)}
     ${reviewBasisCheck(row.basis_check)}
     ${row.reason ? `<p class="mechanism-reason">${esc(row.reason)}</p>` : ''}

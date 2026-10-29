@@ -1,15 +1,15 @@
 // Source-backed discovery and researcher choices. Recommendations never truncate the pool.
 let goalApproach='', optionsOpen=false, optionsQuery='', optionsKind='', optionsOffset=0, optionsStage='';
 let optionsPage=null, optionsError='', optionsWorkspace=null, optionsCursor=null, optionsLoadVersion=0;
-const optionKinds={mechanism:'질환 기전',target:'표적',approach:'치료 접근',source_candidate:'문헌에서 찾은 후보·치료 참조',molecule:'구조·활성 조회 물질',rna_candidate:'RNA 후보·참조 조건',researcher_proposal:'연구자 제안'};
+const optionKinds={mechanism:'질환 기전',target:'표적',approach:'치료 접근',source_candidate:'원문에서 찾은 후보·치료 참조',molecule:'구조·활성 조회 물질',rna_candidate:'RNA 후보·참조 조건',researcher_proposal:'연구자 제안'};
 const optionStatus={recommended:'추천',alternative:'대안',needs_evidence:'근거 확인 필요',deferred:'현재 보류',unreviewed:'아직 미검토'};
 function renderGoalWelcome(){
  if(intakeMode!=='question')return renderWelcome();
  return `<div class="welcome goal-home"><div class="welcome-heading"><div><span class="eyebrow">EVIDA · 연구 의사결정</span><h1>어떤 문제를 해결하고 싶으세요?</h1><p class="description">질환과 목표에서 출발해, 근거를 찾고 다음 실험을 결정합니다.</p></div></div>
  <section class="goal-start" aria-label="질환에서 연구 시작"><label class="input-label" for="message">연구할 질환·현상과 바꾸고 싶은 결과</label><textarea id="message" placeholder="예: 유전성 ATTR 아밀로이드증의 단백질 축적을 줄이고 싶어요. 관련 기전을 비교하고, 검토할 후보를 찾아 주세요.">${esc(draft)}</textarea>
  <fieldset class="approach-choices"><legend>우선 검토할 접근 <span class="muted">· 아직 정하지 않아도 됩니다</span></legend>${[['','함께 비교'],['small_molecule','저분자부터'],['sirna','siRNA부터']].map(([id,label])=>`<label class="approach-choice ${goalApproach===id?'selected':''}"><input type="radio" name="goal-approach" value="${id}" ${goalApproach===id?'checked':''}>${label}</label>`).join('')}</fieldset>
- <p class="goal-promise">후보 이름이나 서열이 없어도 시작할 수 있습니다. 기전과 표적의 근거를 찾고, 추천 이유와 다른 선택지를 함께 남깁니다.</p>
- ${intakeError?`<p class="form-error" role="alert">${esc(intakeError)}</p>`:''}<div class="input-bottom"><span class="small muted">공개 자료 조회와 실제 모델 검토가 시작됩니다.</span>${modelChoice()}${button('create-message','목표에서 연구 시작',busy?'disabled':'','primary')}</div></section>
+ ${renderIntakeEvidenceScope()}<p class="goal-promise">후보 이름이나 서열이 없어도 시작할 수 있습니다. 기전과 표적의 근거를 찾고, 추천 이유와 다른 선택지를 함께 남깁니다.</p>
+ ${intakeError?`<p class="form-error" role="alert">${esc(intakeError)}</p>`:''}<div class="input-bottom"><span class="small muted">${intakeSuppliedEvidenceOnly?'제공한 근거에서 실제 모델 검토가 시작됩니다.':'공개 자료 조회와 실제 모델 검토가 시작됩니다.'}</span>${modelChoice()}${button('create-message','목표에서 연구 시작',busy?'disabled':'','primary')}</div></section>
  <div class="goal-journey" aria-label="연구 흐름">${[['01','구조화된 질문과 목표','무엇을, 왜 바꿀지'],['02','기전과 접근','어떤 방향을 검토할지'],['03','후보 발굴','무엇을 실제로 비교할지'],['04','근거와 계산','어디까지 확인했는지'],['05','EVIDA 실험 권고','다음에 무엇을 해볼지']].map(([n,t,d])=>`<div><span>${n}</span><strong>${t}</strong><p>${d}</p></div>`).join('')}</div>
  <section class="existing-entry"><h2>이미 진행 중인 연구가 있나요?</h2><p>가진 자료부터 시작하거나, 위 목표에 알려진 내용을 함께 적어 주세요.</p><div class="entry-help-actions">${ENTRY_PATHS.filter(x=>x.id!=='question').map(x=>button('choose-path',esc(x.name),`data-mode="${x.id}"`,'small')).join('')}${button('usage-help','사용법 보기','','quiet small')}</div></section>
  <section class="goal-examples"><h2>입력 예시</h2><div class="example-choices">${[['small_molecule','저분자 경로','유전성 ATTR 아밀로이드증의 축적을 줄이는 기전과 저분자 접근을 비교하고 싶어요. 후보가 없으니 근거로 찾고 실제 계산까지 이어 주세요.'],['sirna','siRNA 경로','간에서 만들어지는 TTR를 줄이는 접근이 유전성 ATTR 아밀로이드증에 타당한지 확인하고, 근거가 맞으면 실제 전사체에서 siRNA 후보를 만들어 비교해 주세요.']].map(([id,label,text])=>`<article><h3>${label}</h3><p>${text}</p>${button('discovery-example','이 질문으로 시작하기',`data-example="${id}"`,'small')}</article>`).join('')}</div><p class="small muted">예시 버튼은 질문을 채웁니다. 시작 버튼을 누르면 새 연구를 실행합니다.</p></section></div>`;
@@ -22,7 +22,7 @@ function rnaOptionContext(item){
  return `<p class="small muted">같은 가이드라도 전사체별 계산 조건은 다릅니다. 계산 참조: ${esc(artifactName(reference))}</p>`;
 }
 function optionKind(item){return item.kind??item.option_id.split(':')[0]}
-function optionActionLabel(item,selected){const kind=optionKind(item);const base=({mechanism:'이 기전',target:'이 표적',approach:'이 접근',source_candidate:'이 문헌 후보',molecule:'이 화합물',rna_candidate:'이 RNA 후보',rna:'이 RNA 후보'})[kind]??'이 선택지';return base+(selected?'로 계속':' 검토하기')}
+function optionActionLabel(item,selected){const kind=optionKind(item);const base=({mechanism:'이 기전',target:'이 표적',approach:'이 접근',source_candidate:'이 원문 후보',molecule:'이 화합물',rna_candidate:'이 RNA 후보',rna:'이 RNA 후보'})[kind]??'이 선택지';return base+(selected?'로 계속':' 검토하기')}
 function groupedRecommendations(items){
  const groups=[['mechanism','target'],['approach'],['source_candidate','molecule','rna_candidate','rna'],['researcher_proposal']];
  const titles=['바꾸려는 기전과 표적','치료 접근','실제로 비교할 후보','연구자의 새 제안'];
@@ -132,5 +132,5 @@ function sourceCandidateInfo(item,detail=false){
  const identity=linked.length?'데이터베이스 구조 회수 · 원 시료 대응은 별도 확인':((item.identity_links??[]).length?'구조 조회 결과 미확인 · 원문 후보 보존':item.identity?.lookup_name?'원문 식별명 확보 · 구조 조회 전':'구조 식별 확인 필요');
  const brief=`<p class="small muted">${esc(modality)} · ${item.role==='reference_treatment'?'비교를 위한 치료 참조':'원문 후보'} · ${esc(identity)}</p>`;
  if(!detail)return brief;
- return brief+`<h3>목록에 남긴 이유와 적용 조건</h3>${list(item.conditions)}<p>${esc(item.next_check)}</p>${item.identity?.lookup_name?`<p>원문에서 확인한 조회명: ${esc(item.identity.lookup_name)}</p>`:''}<details><summary>정확한 원문 이름·위치와 식별 이력</summary>${(item.candidate_records??[]).map(x=>`<p>${esc(x.record.mention.row_id??x.record.mention.locator)}</p><blockquote>${esc(x.record.mention.quote)}</blockquote>${sourceLinks([x.record.mention.artifact_id])}`).join('')}${(item.identity_links??[]).map(x=>`<p>${esc(x.candidate_id)} · ${x.structure_status==='available'?'구조 반환':'식별 미확인'}</p>${x.next_identity_check?`<p>${esc(x.next_identity_check)}</p>`:''}${sourceLinks([x.artifact_id])}`).join('')}</details>`;
+ return brief+`<h3>목록에 남긴 이유와 적용 조건</h3>${list(item.conditions)}<p>${esc(item.next_check)}</p>${item.identity?.lookup_name?`<p>원문에서 확인한 조회명: ${esc(item.identity.lookup_name)}</p>`:''}<details><summary>정확한 원문 이름·위치와 식별 이력</summary>${(item.candidate_records??[]).map(x=>`<p>${esc(x.record.mention.row_id??x.record.mention.locator)}</p><blockquote>${esc(x.record.mention.quote)}</blockquote>${typeof sourceAssertionAnchorView==='function'?sourceAssertionAnchorView(x.record.mention):sourceLinks([x.record.mention.artifact_id])}`).join('')}${(item.identity_links??[]).map(x=>`<p>${esc(x.candidate_id)} · ${x.structure_status==='available'?'구조 반환':'식별 미확인'}</p>${x.next_identity_check?`<p>${esc(x.next_identity_check)}</p>`:''}${sourceLinks([x.artifact_id])}`).join('')}</details>`;
 }

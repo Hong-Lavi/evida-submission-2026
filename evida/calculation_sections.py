@@ -33,7 +33,8 @@ def entries(value, section):
 
 def presentation(value):
     """Keep every condition and normal result row; replace tables with addresses."""
-    result = deepcopy(value)
+    from .pathway_node_states import presentation as without_solver_bytes
+    result = without_solver_bytes(value)
     author = result.get('author_result')
     if not isinstance(author, dict):
         return result

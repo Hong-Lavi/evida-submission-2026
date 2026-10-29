@@ -24,7 +24,14 @@ function researcherWording(value) {
   return text.replace(/\bBindingDB(?:\s+출처)?\s+부모(?=[\s·–—\-의로에대비별보를와가은는,.()]|$)/g,
     'BindingDB에 기록된 출발 화합물');
 }
+// Stable retained list order is a display number, never an efficacy ranking.
+function rnaDisplayOptions(){
+  return (state?.discovery?.reviewed_options??[]).filter(x=>x.kind==='rna_candidate'&&typeof x.option_id==='string'&&/^guide_[0-9a-f]+$/.test(String(x.label??'')));
+}
 function candidateDisplayName(item) {
+  const known=rnaDisplayOptions();
+  const index=known.findIndex(x=>item?.kind==='rna_candidate'&&x.option_id===item.option_id&&x.label===item.label);
+  if(index>=0)return `RNA 후보 ${index+1}`;
   const matched=item?.origin==='generated_structure_proposal'&&String(item.label??'').match(/^proposed-(\d+)$/);
   return matched?`설계 후보 ${matched[1]}`:String(item?.label??'');
 }
@@ -44,9 +51,9 @@ function judgmentText(value) {
 const relationLabels = {supports:'지지 근거',challenges:'반대·제한 근거',context:'해석 맥락'};
 let feedbackContext = null;
 
-function decisionChangeList(rows){
+function decisionChangeList(rows,renderText=judgmentText){
  if(!rows?.length)return '<p class="small muted">기록된 항목 없음</p>';
- const render=items=>`<ul class="list">${items.map(v=>`<li>${judgmentText(v)}</li>`).join('')}</ul>`;
+ const render=items=>`<ul class="list">${items.map(v=>`<li>${renderText(v)}</li>`).join('')}</ul>`;
  const technical=v=>/record_(?:judgment_context|discovery_review)|\bpriority\b[\s\S]*\bnull\b/.test(v);
  const scientific=rows.filter(v=>!technical(v)),records=rows.filter(technical);
  return (scientific.length?render(scientific.slice(0,2)):'')+
@@ -110,8 +117,8 @@ function experimentRequest(request, operation) {
     + (rest.length?`<details class="experiment-additional"><summary>추가 조건과 적용 범위</summary>${rest.map(line => `<p class="check-request">${esc(researcherWording(line))}</p>`).join('')}</details>`:'') + grounding;
 }
 
-// What each result would change, side by side rather than folded away: an experiment whose
-// outcomes both lead to the same judgement is not worth running, and that has to be visible.
+// Preserve the proposed outcomes while distinguishing current interpretation
+// checks from the original authored explanation.
 function outcomeBranches(check) {
   const outcomes = check.possible_outcomes || [];
   if (outcomes.length < 2) return '';
@@ -124,8 +131,17 @@ function outcomeBranches(check) {
     return `<div class="outcome-branch">
     <span class="branch-mark">결과 ${String.fromCharCode(65 + i)}</span>
     <strong>${esc(researcherWording(o.observation))}</strong>
-    <p>${judgmentText(researcherWording(o.implication))}</p>${links || `<p class="outcome-unlinked">가설 연결 필요: 지지·반증 결과에 따라 수정할 가설을 연결하면 후속 판단을 이어갈 수 있습니다.</p>`}</div>`;
+    ${renderOutcomeInterpretation(check,i)}${links?'':`<p class="outcome-unlinked">가설 연결 필요: 지지·반증 결과에 따라 수정할 가설을 연결하면 후속 판단을 이어갈 수 있습니다.</p>`}</div>`;
   }).join('')}</div>`;
+}
+
+function renderOutcomeInterpretation(check,index,format=value=>judgmentText(researcherWording(value))){
+  const outcome=check.possible_outcomes?.[index];
+  if(!outcome)return '';
+  const review=typeof outcomeInterpretationReview==='function'?outcomeInterpretationReview(check,index):null;
+  const checked=typeof renderObservationOutcome==='function'?renderObservationOutcome(check,index):'';
+  const original=`<p>${format(outcome.implication)}</p>${renderOutcomeLinks(check,index)}`;
+  return review?.needs_review?`${checked}<details class="outcome-authored-needs-review"><summary>원래 기록한 해석·근거 · 재검토 필요</summary><p class="small muted">당시 문안을 그대로 보존합니다. 위 검토를 해결하기 전 현재의 지지·반박 해석으로 채택하지 않습니다.</p>${original}</details>`:`${checked}${original}`;
 }
 
 function renderCheck(check, current, index) {
@@ -134,6 +150,7 @@ function renderCheck(check, current, index) {
   const review = run && state.jobs.find(j=>j.id===run.review_job_id);
   const readiness = state.check_readiness?.[check.id];
   const op = check.operation;
+  const designed = reasoningCheckHypothesis(check);
   let control;
   if (job) {
     control = `<p class="check-status">확인 작업: ${esc(jobLabels[job.status]??job.status)}${review?` · 결과 해석: ${esc(jobLabels[review.status]??review.status)}`:' · 해석 갱신은 별도 확인'}${job.output_id?sourceLinks([job.output_id]):''}</p>`;
@@ -143,12 +160,14 @@ function renderCheck(check, current, index) {
   } else if (op.kind==='unconnected_method') {
     control = `<p class="small muted">연결 검토가 필요한 방법: ${esc(op.method)}</p>${list(op.needed_inputs)}${button('check-feedback','관련 자료·생각 추가',`data-check="${esc(check.id)}"`,'small')}`;
   } else {
-    control = `${op.kind==='external_observation'?experimentRequest(op.request, op):`<p class="check-request">${esc(op.request)}</p>`}${button('check-feedback',op.kind==='researcher_input'?'정보 보완하기':'관측 결과 남기기',`data-check="${esc(check.id)}"`,'primary small')}`;
+    const observation = designed ? `${renderReasoningDesign(designed)}<details class="outcome-details"><summary>모델이 덧붙인 설명 · 조건표와의 일치 검토 필요</summary><p>${esc(op.request)}</p></details>` : experimentRequest(op.request, op);
+    control = `${op.kind==='external_observation'?observation:`<p class="check-request">${esc(op.request)}</p>`}${button('check-feedback',op.kind==='researcher_input'?'정보 보완하기':'관측 결과 남기기',`data-check="${esc(check.id)}"`,'primary small')}`;
     if(['researcher_input','external_observation'].includes(op.kind)) control += `${button('delegate-check',op.kind==='external_observation'?'기존 자료 먼저 검토':'이 확인을 맡기기',`data-check="${esc(check.id)}" ${!current||busy?'disabled':''}`,'small')}<p class="small muted">${op.kind==='external_observation'?'보존 자료와 이미 끝난 계산을 먼저 확인합니다. 새 실험 결과를 만든다는 뜻은 아닙니다.':'공개 자료나 연결된 도구로 확인할 일이라면 연구를 이어 맡길 수 있습니다.'}</p>`;
   }
   const targets = (check.scope_targets??[]).flatMap(t=>(state.decision?.research_loop?.hypotheses.find(h=>h.id===t.hypothesis_id)?.assessment_scope?.parts??[]).filter(p=>t.part_ids.includes(p.id)).map(p=>p.statement));
+  if(typeof checkSubjectsView==='function')control=checkSubjectsView(check)+control;
   const experiment = op.kind==='external_observation';
-  const content = `<h3><span class="check-kind ${esc(op.kind)}">${esc(CHECK_KIND[op.kind]??op.kind)}</span> ${esc(researcherWording(check.question))}</h3><details class="check-reason"><summary>이 확인을 제안한 이유</summary><p class="check-purpose">${esc(researcherWording(check.purpose))}</p>${targets.length?`<div class="small"><strong>확인할 가설</strong>${list(targets.map(researcherWording))}</div>`:''}</details><div class="check-controls">${control}</div>${experiment&&index===0&&check.possible_outcomes.length?`<details class="outcome-details"><summary>결과별 다음 결정 ${check.possible_outcomes.length}가지</summary>${outcomeBranches(check)}</details>`:''}${check.possible_outcomes.length&&!(experiment&&index===0)?`<details class="outcome-details"><summary>결과에 따라 달라질 판단</summary>${check.possible_outcomes.map((o,i)=>`<div class="outcome"><strong>${esc(researcherWording(o.observation))}</strong><p>${judgmentText(researcherWording(o.implication))}</p>${renderOutcomeLinks(check,i)}</div>`).join('')}</details>`:''}`;
+  const content = `<h3><span class="check-kind ${esc(op.kind)}">${esc(CHECK_KIND[op.kind]??op.kind)}</span> ${esc(researcherWording(check.question))}</h3><details class="check-reason"><summary>이 확인을 제안한 이유</summary><p class="check-purpose">${esc(researcherWording(check.purpose))}</p>${targets.length?`<div class="small"><strong>확인할 가설</strong>${list(targets.map(researcherWording))}</div>`:''}</details><div class="check-controls">${control}</div>${experiment&&index===0&&check.possible_outcomes.length?`<details class="outcome-details"><summary>결과별 다음 결정 ${check.possible_outcomes.length}가지</summary>${outcomeBranches(check)}</details>`:''}${check.possible_outcomes.length&&!(experiment&&index===0)?`<details class="outcome-details"><summary>결과에 따라 달라질 판단</summary>${check.possible_outcomes.map((o,i)=>`<div class="outcome"><strong>${esc(researcherWording(o.observation))}</strong>${renderOutcomeInterpretation(check,i)}</div>`).join('')}</details>`:''}`;
   const headline = op.kind==='external_observation' ? researcherWording(experimentHeadline(op.request)) : '';
   return index===0?`<article class="primary-check" data-research-check="${esc(check.id)}">${content}</article>`:`<details class="further-check" data-research-check="${esc(check.id)}"><summary>${esc(headline||check.question)}</summary>${content}</details>`;
 }
@@ -156,12 +175,14 @@ function renderCheck(check, current, index) {
 function renderOutcomeLinks(check, index) {
   const loop = state.decision?.research_loop;
   const labels = {supports:'지지할 수 있음',challenges:'다시 검토할 근거',unresolved:'이 결과만으로 구별되지 않음'};
+  const review=typeof outcomeInterpretationReview==='function'?outcomeInterpretationReview(check,index):null;
+  const originalLabels={supports:'원래 기록한 지지 관계',challenges:'원래 기록한 반박·재검토 관계',unresolved:'원래 기록한 미해결 관계'};
   return (check.outcome_links??[]).filter(l=>l.outcome_index===index).map(l=>
     l.effects.map(e=>{
       const h=loop?.hypotheses.find(h=>h.id===e.hypothesis_id);
       const parts=(h?.assessment_scope?.parts??[]).filter(p=>e.part_ids.includes(p.id)).map(p=>p.statement);
       const alternatives=(h?.conditional_alternatives??[]).filter(a=>e.alternative_ids.includes(a.id)).map(a=>a.statement);
-      return `<div class="outcome-effect"><strong>${esc(labels[e.relation])}</strong>${list([...parts,...alternatives].map(researcherWording))}<p class="small">${judgmentText(researcherWording(e.rationale))}</p></div>`;
+      return `<div class="outcome-effect"><strong>${esc(review?.needs_review?`${originalLabels[e.relation]} · 재검토 필요`:labels[e.relation])}</strong>${list([...parts,...alternatives].map(researcherWording))}<p class="small">${judgmentText(researcherWording(e.rationale))}</p></div>`;
     }).join('')+l.followup_check_ids.map(id=>{
       const next=loop?.next_checks.find(c=>c.id===id);
       return next?button('show-check',esc(next.question),`data-check="${esc(id)}"`,'link-button small'):'';
@@ -195,7 +216,7 @@ function renderHypothesis(h, canFeedback) {
   const checks = canFeedback ? (state.decision?.research_loop?.next_checks??[]).filter(c=>c.hypothesis_ids.includes(h.id)) : [];
   return `<details class="hypothesis"><summary><span>${esc(h.statement)}</span><span class="assessment ${esc(h.assessment)}">${h.assessment_scope?'전체 판단: ':''}${esc(hypothesisLabels[h.assessment]??h.assessment)}</span></summary>
     <p class="hypothesis-expectation"><span>예상한 관측</span>${judgmentText(h.expected_observation)}</p><p class="prose small">${judgmentText(h.rationale)}</p>
-    ${renderHypothesisParts(h, canFeedback)}${renderConditionalAlternatives(h)}${renderJudgmentContext(h)}
+    ${renderReasoningDesign(h)}${renderHypothesisParts(h, canFeedback)}${renderConditionalAlternatives(h)}${renderJudgmentContext(h)}${canFeedback&&typeof renderHypothesisReview==='function'?renderHypothesisReview(h):''}
     ${checks.length?`<div class="hypothesis-next"><h3>다음 판단을 위해 확인할 것</h3>${checks.map(c=>`<div>${button('show-check',esc(c.question),`data-check="${esc(c.id)}"`,'link-button small')}<p class="small muted">${esc(c.purpose)}</p></div>`).join('')}</div>`:canFeedback&&['proposed','inconclusive'].includes(h.assessment)?'<p class="limit">이 가설에는 다음 확인이 아직 연결되지 않았습니다. 연구를 이어갈 때 필요한 근거와 확인 방법을 함께 검토해야 합니다.</p>':''}
     ${wordingChanged?`<details class="outcome-details"><summary>처음 남긴 가설·예상과 비교</summary><p class="prose small">${esc(original.statement)}</p><p class="prose small">${esc(original.expected_observation)}</p><p class="limit">${esc(first.created)}에 남긴 원문입니다. 현재 표현과 의미가 같은지 검토할 수 있습니다.</p></details>`:''}
     ${recordedChange?`<details class="outcome-details"><summary>이전 판단에서 바뀐 문구</summary>${recordedChange.changed_fields.map(c=>`<h3>${c.field==='statement'?'가설':'예상한 관측'}</h3><p class="prose small">이전: ${esc(c.before)}</p><p class="prose small">현재: ${esc(c.after)}</p>`).join('')}<p class="limit">문구 차이를 자동 기록했습니다. 의미가 같거나 과학적으로 개선됐다는 판정은 아닙니다.</p></details>`:''}
@@ -222,7 +243,7 @@ function openResearchFeedback(checkId, hypothesisId, partId=null, reference=null
     <label class="input-label" for="feedback-text">새로 확인한 내용과 조건</label><textarea id="feedback-text" placeholder="후보·자료가 무엇인지, 어떤 조건에서 무엇을 관측했는지 알려주세요."></textarea>
     <div class="upload-fields"><label>기록 종류<select id="feedback-kind">${[['observation','새 관측'],['message','정보 보완'],['correction','기존 해석 정정']].map(([v,t])=>`<option value="${v}" ${kind===v?'selected':''}>${t}</option>`).join('')}</select></label><label>원래 예상과 비교<select id="feedback-comparison"><option value="unclear">아직 판단하기 어려움</option><option value="consistent">예상과 부합하는 관측</option><option value="different">예상과 다른 관측</option></select></label></div>
     <label class="checkbox"><input type="checkbox" id="feedback-synthetic"> 실제 측정이 아닌 가상 관측·개발 시험</label>
-    <p class="limit">원자료 파일은 ‘자료와 도구’에서 추가할 수 있습니다. 짧은 보고만으로 원인이나 효능을 확정하지 않습니다.</p>
+    ${measurementReportForm(check,referenceId)}
     <div class="dialog-actions">${button('save-feedback','기록만 저장','data-review="false"')}${button('save-feedback','반영해 다시 검토',`data-review="true" ${!status.gateway.available?'disabled':''}`,'primary')}</div>`);
 }
 
@@ -230,7 +251,7 @@ async function saveResearchFeedback(review) {
   const text = dialog.querySelector('#feedback-text').value.trim();
   if (!text) throw Error('새로 확인한 내용이나 정정할 내용을 적어 주세요.');
   const context = {...feedbackContext,comparison:dialog.querySelector('#feedback-comparison').value};
-  await api(`/api/workspaces/${state.id}/commands`,{expected_rev:state.rev,command_id:crypto.randomUUID(),body:{kind:dialog.querySelector('#feedback-kind').value,text,synthetic:dialog.querySelector('#feedback-synthetic').checked,review_requested:review,research_context:context}});
+  await api(`/api/workspaces/${state.id}/commands`,{expected_rev:state.rev,command_id:crypto.randomUUID(),body:{kind:dialog.querySelector('#feedback-kind').value,text,synthetic:dialog.querySelector('#feedback-synthetic').checked,review_requested:review,research_context:context,...measurementReportInput()}});
   dialog.close();feedbackContext=null;await refresh();
   if (review) notice('관측과 후속 검토를 함께 접수했습니다.');
   else notice('이전 판단과 연결해 기록했습니다. 현재 가설을 확정한 것은 아닙니다.');
@@ -297,6 +318,20 @@ function openCheckDelegation(checkId) {
   dialog.querySelector('[data-action="save-feedback"][data-review="true"]').textContent='이 확인 이어서 검토';
 }
 
+function scientificWebpageView(result) {
+  const scope={text_acquired:'웹 본문 확보',metadata_only:'논문 정보 확보',challenge:'접근 확인 화면',access_denied:'접근 제한',redirect_refused:'인증·외부 이동 확인 필요',extraction_failed:'본문 추출 확인 필요',insufficient_content:'본문 확인 필요',retrieval_failed:'자료 접근 확인 필요'};
+  const recovered=result.identifier_recovery?.status==='matched'?result.identifier_recovery.article_ids:null;
+  const pmc=/^PMC\d+$/.test(recovered?.pmcid??'')?recovered.pmcid:null;
+  const rows=result.rows??[];
+  const source=result.source?.resolved_url??result.source?.url;
+  return `<h3>${esc(result.title||'과학 웹 자료')}</h3><p class="small"><strong>${esc(scope[result.acquisition_status]??'자료 접근 결과 확인')}</strong>${result.article_ids?.doi?' · DOI '+esc(result.article_ids.doi):''}</p>
+    ${source?`<p><a href="${esc(safeUrl(source))}" target="_blank" rel="noopener noreferrer">출판사 페이지 열기 ↗</a></p>`:''}
+    ${pmc?`<div class="notice-inline"><p>연결된 공개 원문에서 표·그림과 적용 조건을 이어서 확인할 수 있습니다.</p><p><a href="https://europepmc.org/articles/${esc(pmc)}" target="_blank" rel="noopener noreferrer">공개 원문 사이트 열기 · ${esc(pmc)} ↗</a></p>${button('science-delivery-paper','연구에 원문·표·그림 가져오기',`data-pmc="${esc(pmc)}"`,'small')}</div>`:''}
+    ${rows.map((r,i)=>`<article class="article-block"><div class="small muted">웹 본문 위치 ${(result.offset??0)+i+1}</div><p class="prose small">${esc(r.text)}</p></article>`).join('')}
+    ${!rows.length?'<p class="small">확보한 문헌 식별자나 다른 공개 자료에서 해당 질문의 근거를 이어서 찾습니다.</p>':''}
+    <div class="pagination"><span>본문 ${rows.length?(result.offset??0)+1:0}–${(result.offset??0)+rows.length} / ${result.total_rows??rows.length}</span><div>${button('prev','이전',offset===0?'disabled':'','small')}${button('next','다음',!result.has_more?'disabled':'','small')}</div></div>`;
+}
+
 function articleView(result) {
   if(result.view_kind==='article_references')return articleReferencesView(result);
   const span=value=>/^\d+$/.test(String(value))&&Number(value)>0&&Number(value)<=1000?Number(value):1;
@@ -349,6 +384,40 @@ function renderJudgmentContext(h){
  }).join('');
  const observations=x.observation_reviews.filter(o=>o.hypothesis_id===h.id);
  return `<section class="judgment-context"><h3>이 가설의 조건과 다시 볼 가정</h3><p class="limit">${linked?'현재 표시한 판단에 연결된 설명':'별도 보존된 문맥 초안 · 현재 판단과 연결 확인 필요'} · 설명 기록이며 과학적 검증 상태와 구분합니다.</p>${bindings}${observations.length?`<h4>조건별 관측 연결 ${observations.length}개</h4><p class="small muted">반대 결과와 다른 조건의 관측도 함께 보존했습니다. 연결 개수는 독립 실험 횟수가 아닙니다.</p>${observations.map(o=>contextObservationView(x,o)).join('')}`:''}</section>`;
+}
+function intentConsumerText(item){
+  const value=item.content;
+  return typeof value==='string'?value:value?.question??value?.statement??value?.recommendation??item.consumer_id;
+}
+function intentConsumerLink(item){
+  const name=({question:'현재 질문',recommendation:'추천',hypothesis:'가설',check:'다음 확인'})[item.consumer_kind]??item.consumer_kind;
+  if(item.consumer_kind==='recommendation'&&state.decision)return button('ui-judgment',esc(name),'','link-button small');
+  if(item.consumer_kind==='check'&&state.decision?.research_loop?.next_checks?.some(c=>c.id===item.consumer_id))return button('ui-overview-experiment',esc(name),`data-id="${esc(item.consumer_id)}"`,'link-button small');
+  return button('ui-stage',esc(name),`data-stage="${item.consumer_kind==='hypothesis'?'mechanisms':'goal'}"`,'link-button small');
+}
+function intentInputText(input){
+  const record=input.record??{};
+  const origin=input.record_basis?.startsWith('model_structured_')||record.origin==='inferred'?'모델의 잠정 해석':record.origin==='researcher'?'연구자가 기록한 조건':'출처 확인 필요';
+  return `${record.label??input.intent_id}: ${record.text??''} (${origin})`;
+}
+function renderIntentReassessment(detailed=false){
+  const v=state.intent_dependencies;
+  if(!v||(!state.decision&&!v.latest_publication_conflict))return '';
+  const pending=v.required_reassessments??[],reviews=v.latest_reassessments??[],consumers=v.latest_consumers??[];
+  const conflict=v.latest_publication_conflict;
+  if(!pending.length&&!reviews.length&&!conflict)return '';
+  const title=pending.length?(v.changed_intent_ids.length?'목표·조건 수정으로 다시 검토할 부분':'목표와 판단의 연결 검토'):'목표·조건을 반영한 판단';
+  const names={changed:'변경',retained:'유지',removed:'이번 판단에서 제외',unknown:'추가 검토'};
+  const changedLabels=v.changed_intent_ids.map(id=>v.input_snapshot.intents[id]?.record.label??id);
+  const rows=pending.map(item=>`<li>${intentConsumerLink(item)} <span>${esc(intentConsumerText(item))}</span><p class="small muted">${item.trigger==='consumption_unknown'?'어떤 목표·조건을 사용했는지 연결이 필요합니다.':item.trigger==='prior_review_unknown'?'이전 검토에서 남긴 판단 이유를 이어 확인합니다.':'지금 목표·조건에서 유지할지 바꿀지 확인합니다.'}</p></li>`);
+  const reasons=reviews.map(item=>{
+    const consumer=consumers.find(c=>c.consumer_kind===item.consumer_kind&&c.consumer_id===item.consumer_id);
+    return `<li><strong>${esc(names[item.outcome]??item.outcome)}</strong> · ${intentConsumerLink(item)}${consumer?`<p class="small">${esc(intentConsumerText(consumer))}</p>`:''}<p>${esc(item.reason)}</p></li>`;
+  });
+  const used=consumers.map(c=>`<li>${intentConsumerLink(c)} <span>${esc(intentConsumerText(c))}</span><p class="small">사용한 목표·조건: ${esc(c.inputs?.map(intentInputText).join(' · ')||'연결 확인 필요')}</p><p class="small">${esc(c.reason)}</p></li>`);
+  const original=conflict&&state.artifacts.some(a=>a.id===conflict.receipt_id)?sourceLinks([conflict.receipt_id]):'';
+  const body=`${changedLabels.length?`<p class="small">수정된 항목: ${esc(changedLabels.join(', '))}</p>`:''}${conflict?`<p class="notice-inline">저장한 목표·조건과 다른 제안은 별도 기록에 보존했습니다. 현재 입력으로 질문과 추천을 다시 검토하면 이어집니다.</p>${original}`:''}${rows.length?`<ul class="list">${(detailed?rows:rows.slice(0,3)).join('')}</ul>`:''}${detailed?`<p class="small muted">아래 연결과 유지·변경 이유는 모델이 기록했습니다. 입력과 판단의 원 기록을 함께 확인할 수 있습니다.</p>${reasons.length?`<ul class="list">${reasons.join('')}</ul>`:''}<details><summary>질문·추천·확인이 사용한 목표와 이유</summary><ul class="list">${used.join('')}</ul></details>${v.prior_record_id?sourceLinks([v.prior_record_id]):''}`:`${pending.length>3?`<p class="small">총 ${pending.length}개 판단 항목을 다시 검토합니다.</p>`:''}${button('ui-stage','목표 수정과 판단 연결 보기','data-stage="changes"','link-button small')}`}`;
+  return pending.length||conflict||detailed?`<section class="context-change-review" data-intent-reassessment><h3>${title}</h3>${body}</section>`:`<details class="ui-secondary" data-detail-key="intent-reassessment" data-intent-reassessment><summary>${title} · 유지·변경 이유 ${reviews.length}건</summary>${body}</details>`;
 }
 function renderContextChanges(){const v=state.judgment_context;if(!v?.pending_changes.length)return '';return `<section class="panel context-change-review"><h3>정정에 따라 다시 검토할 부분</h3>${v.pending_changes.map(c=>`<p>${esc(c.text)}</p><p class="small">직접 연결: ${esc(c.impact.direct_hypotheses.join(', '))} · 상위 검토: ${esc(c.impact.upstream_review.join(', ')||'명시된 경로 없음')}</p>${c.impact.review_paths.map(p=>`<p class="small">${esc(p.reason)}</p>`).join('')}`).join('')}<p class="limit">명시된 의존 경로를 따라 재검토 대상을 표시했습니다. 관측 삭제·가설 폐기·계산 재실행을 자동 결정하지 않습니다.</p></section>`}
 let conditionEdit=null;

@@ -15,5 +15,5 @@ function inputProvenanceNotice(event){
 }
 function inputSourceView(event){
   if(!event)return '입력 기록을 찾지 못했습니다.';
-  return `<p class="prose">${esc(event.body.text)}</p><p class="limit">${esc(inputProvenanceLabel(event))} · ${esc(event.created)}</p>${inputProvenanceNotice(event)}${event.effective_provenance?.corrected_by?`<details class="meta-details"><summary>정정 전 원 입력 기록</summary>${json(event.body)}</details>`:''}`;
+  return `<p class="prose">${esc(event.body.text)}</p><p class="limit">${esc(inputProvenanceLabel(event))} · ${esc(event.created)}</p>${inputProvenanceNotice(event)}${typeof measurementReportView==='function'?measurementReportView(event.body):''}${event.effective_provenance?.corrected_by?`<details class="meta-details"><summary>정정 전 원 입력 기록</summary>${json(event.body)}</details>`:''}`;
 }

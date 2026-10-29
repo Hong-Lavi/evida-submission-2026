@@ -41,12 +41,11 @@ function pathLinkedCandidates(id) {
 }
 function pathCurrent(assessment) {
   if (!assessment) return false;
-  return Number.isInteger(assessment.based_rev)
-    ? assessment.based_rev === state.rev : assessment.current_conditions === true;
+  return assessment.applicability?.current === true;
 }
 function pathRevision(assessment) {
   if (!assessment) return '검토 기록 없음';
-  if (Number.isInteger(assessment.based_rev)) return `연구 기록 ${assessment.based_rev}${pathCurrent(assessment)?' · 현재':' · 이전 조건'}`;
+  if (Number.isInteger(assessment.based_rev)) return `연구 기록 ${assessment.based_rev}${pathCurrent(assessment)?' · 현재 입력에서 검토 유지':' · 근거·조건 재검토 필요'}`;
   return assessment.current_conditions === true ? '현재 입력의 검토' : '검토 입력 확인 필요';
 }
 function pathEvidenceIds(assessment) {

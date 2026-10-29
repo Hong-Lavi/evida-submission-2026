@@ -38,7 +38,7 @@ CLAUSE=obj({'text':{'type':'string','minLength':1,'description':'One causal step
             'context':obj({'disease':TEXT,'species':TEXT,'tissue':TEXT}),
             'anchor':obj({'artifact_id':TEXT,'row_index':{'type':'integer','minimum':0},
                           'quote':{'type':'string','minLength':1,'maxLength':2500,
-                                   'description':'Exact substring of that stored source row, copied verbatim.'}})})
+                                   'description':'Exact substring of that stored source row, copied verbatim. For source_document/webpage use row.text only, never filename, citation or metadata.'}})})
 GAP=obj({'claim':{'type':'string','minLength':1,'description':'What is missing in the target disease, e.g. no interventional study of this step.'},
          'query_artifact_id':{'type':'string','description':'A search artifact actually run (literature, clinical_trial_search, drug_label_search, lens_literature).'},
          'reported_count':{'type':['integer','null'],'minimum':0,'description':'The total hit count recorded in that artifact, copied as is.'}})
@@ -208,7 +208,7 @@ def catalog(store,wid,state=None):
                 target=value.get('target_chembl_id',value.get('target_context','unknown'))
                 retain('molecule:'+target+':'+entity,'molecule',row.get('name') or entity,
                     '공개 활성 기록에서 회수한 화합물' if kind in ('compound_candidates','binding_measurements') else ('원문 이름으로 회수한 데이터베이스 구조 · 원 시료와의 동일성은 별도 확인' if row.get('structure_status')=='available' else '원문에서 보존한 이름 · 구조 식별 확인 필요'),artifact['id'],'rows/'+str(index),
-                    entity_id=entity,context=target,origin='public_activity_record' if kind in ('compound_candidates','binding_measurements') else 'public_literature_and_structure',
+                    entity_id=entity,context=target,origin='public_activity_record' if kind in ('compound_candidates','binding_measurements') else ('uploaded_source_and_structure' if any(m.get('source_binding', {}).get('origin') == 'researcher_upload' for m in row.get('name_mentions', [])) else 'public_literature_and_structure'),
                     structure_status=row.get('structure_status'),candidate_artifact_id=artifact['id'])
                 for source_id in row.get('source_candidate_ids',[]):
                     identity_links.append((source_id,{'artifact_id':artifact['id'],'row_index':index,
@@ -258,11 +258,17 @@ def catalog(store,wid,state=None):
     for source_id,link in identity_links:
         if source_id in options:options[source_id]['identity_links'].append(link)
     unsearched=[];scope_review=None
+    from .reassessment import applicability
+    applicability_by_subject = applicability(store, wid)
     for artifact,value in reviews:
-        for row in value.get('assessments',[]):
+        for row_index,row in enumerate(value.get('assessments',[])):
             if row['option_id'] not in options:continue
+            applicability_record = applicability_by_subject.get('option:' + row['option_id'], {})
+            original_ref = artifact['id'] + '#/assessments/' + str(row_index)
+            current = bool(applicability_record.get('current') and applicability_record.get('original_ref') == original_ref)
             assessment={**row,'artifact_id':artifact['id'],'based_rev':artifact['meta']['based_rev'],
-                        'current_conditions':artifact['meta']['based_rev']==state['rev']}
+                        'original_ref':original_ref,'applicability':applicability_record,
+                        'current_conditions':current}
             if 'aspects' in row:
                 assessment['basis_check']=next((c for c in artifact['meta'].get('basis_check',[])
                                                 if c['option_id']==row['option_id']),None)

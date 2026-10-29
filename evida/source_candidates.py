@@ -16,13 +16,13 @@ ANCHOR = obj({'artifact_id': TEXT, 'row_index': {'type': 'integer', 'minimum': 0
 IDENTITY = obj({'name_type': {'type': 'string', 'enum': ['source_local', 'public_name', 'unknown']},
                 'lookup_name': TEXT, 'lookup_anchor': {'anyOf': [ANCHOR, {'type': 'null'}]}})
 ROW = obj({'name': {'type': 'string', 'minLength': 1, 'maxLength': 300,
-                    'description': 'Exact source name/label only, e.g. C6. Do not append (PMC...) or commentary; the publication namespace is automatic.'},
+                    'description': 'Exact source name/label only, e.g. C6. Do not append (PMC...) or commentary; the preserved-source namespace is automatic.'},
            'role': {'type': 'string', 'enum': ['candidate', 'reference_treatment']},
            'modality': {'type': 'string', 'enum': ['small_molecule', 'sirna', 'other', 'unknown']},
            'target_context': TEXT, 'mention': ANCHOR, 'identity': IDENTITY,
            'membership_reason': TEXT, 'conditions': TEXTS, 'next_check': TEXT})
 RECORD = obj({'question': TEXT, 'rows': {'type': 'array', 'items': ROW, 'minItems': 1, 'maxItems': 100}})
-PUBLIC_CANDIDATE_SOURCES = {'article', 'literature', 'repository_document', 'clinical_trial',
+PUBLIC_CANDIDATE_SOURCES = {'pubmed_search','pubmed_abstracts','source_document', 'webpage', 'public_research_page', 'article', 'literature', 'repository_document', 'clinical_trial',
                             'clinical_trial_search', 'drug_label', 'drug_label_search',
                             'binding_measurements', 'gtopdb_pharmacology', 'compound_candidates'}
 
@@ -45,6 +45,8 @@ def strings(value):
 
 
 def source_namespace(value, row, artifact):
+    if artifact['kind'] == 'source_document':
+        return 'uploaded-sha256:' + value['source_sha256']
     ids = row.get('article_ids') or value.get('article_ids') or {}
     pmc = row.get('pmc_id') or row.get('pmcid') or ids.get('pmcid')
     if not pmc and artifact['kind'] == 'article':
@@ -54,6 +56,17 @@ def source_namespace(value, row, artifact):
     doi = row.get('doi') or ids.get('doi')
     if doi and re.fullmatch(r'10\.\d{4,9}/\S+', str(doi).strip(), re.I):
         return 'doi:' + str(doi).strip().lower()
+    if artifact['kind'] in ('pubmed_search','pubmed_abstracts'):
+        pmid=row.get('pmid') or ids.get('pmid')
+        if isinstance(pmid,str) and re.fullmatch(r'[1-9][0-9]{0,9}',pmid):return 'pubmed:'+pmid
+    if artifact['kind'] in ('webpage', 'public_research_page'):
+        # checked_anchor has verified the retained response bytes before reaching here.
+        # A source-local label belongs to the document, not to an extraction paragraph.
+        source = value.get('source', {})
+        url = source.get('resolved_url') or source.get('url')
+        if isinstance(url, str) and url.strip():
+            return 'web-response-sha256:' + source['sha256'] + ':url-sha256:' + hashlib.sha256(url.encode()).hexdigest()
+        return 'artifact:' + artifact['id'] + ':sha256:' + artifact['sha256']
     # Unknown publication identity stays tied to immutable content, never label alone.
     return 'artifact:' + artifact['sha256'] + ':row:' + str(row.get('row_id', 'unknown'))
 
@@ -61,31 +74,34 @@ def source_namespace(value, row, artifact):
 def checked_anchor(store, wid, anchor, name):
     artifact = store.artifact(wid, anchor['artifact_id'])
     if artifact['kind'] not in PUBLIC_CANDIDATE_SOURCES:
-        raise ValueError('후보 이름은 실제 회수한 공개 원문 행에 연결해 주세요.')
+        raise ValueError('후보 이름은 보존된 원문 본문 행에 연결해 주세요.')
     value = json.loads(artifact['content'])
     rows = value.get('rows', [])
     index = anchor['row_index']
-    if index >= len(rows):
+    if type(index) is not int or index < 0 or index >= len(rows):
         raise ValueError('원문 행 위치가 없습니다.')
     row = rows[index]
+    from .literal_source_binding import LITERAL_KINDS, row_binding
+    texts, binding = row_binding(store, wid, artifact, value, index) if artifact['kind'] in LITERAL_KINDS else (strings(row), None)
     quote = anchor['quote']
-    quote_present = any(quote in text for text in strings(row))
+    quote_present = bool(quote.strip()) and any(quote in text for text in texts)
     if quote.strip().casefold() == name.casefold():
         # A quotation consisting only of C6 must not borrow the C6 prefix of C6-3.
         # Exact structured table cells still work despite flattened C41.6 text.
-        quote_present = quote_present and any(re.search(r'(?<![\w-])'+re.escape(name)+r'(?![\w-])',text,re.I) for text in strings(row))
+        quote_present = quote_present and any(re.search(r'(?<![\w-])'+re.escape(name)+r'(?![\w-])',text,re.I) for text in texts)
     name_present = bool(re.search(r'(?<![\w-])'+re.escape(name)+r'(?![\w-])',quote,re.I))
     if not quote_present or not name_present:
         hint = 'Use an exact source quotation that includes the raw source label; retain the scientific interpretation separately.'
         decorated = re.fullmatch(r'(.+)\s+\(PMC\d+\)',name,re.I)
         if decorated:
             hint = 'The name contains an added publication suffix. Use the raw source label only; the system already qualifies it by publication.'
-        elif name in strings(row):
+        elif name in texts:
             hint = 'This exact name exists as a structured cell in this source row. A flattened table can concatenate adjacent numbers. Quote the exact name cell itself, or a genuine sentence containing it, rather than adding word boundaries to the flattened table.'
         raise SourceBindingError([{'artifact_id':artifact['id'],'row_index':index,'name':name,
             'quote_present':quote_present,'name_in_quote':name_present,'hint':hint}])
     return {**anchor, 'locator': 'rows/' + str(index), 'source_sha256': artifact['sha256'],
-            'row_id': row.get('row_id'), 'namespace': source_namespace(value, row, artifact)}
+            'row_id': row.get('row_id'), 'namespace': source_namespace(value, row, artifact),
+            **({'source_binding': binding} if binding else {})}
 
 
 def record(store, wid, rev, jid, arguments):
@@ -138,3 +154,19 @@ def record(store, wid, rev, jid, arguments):
                               'scientific_validation': False, 'summary': value['summary']}, bump=False)
     return {'status': 'recorded', 'artifact_id': aid, 'rows': rows, 'scientific_validation': False,
             'next': 'Use this artifact and the retained name in resolve_literature_compounds only when chemical resolution is useful. siRNA reference drugs are not small-molecule calculations.'}
+
+
+def validate_resolution_sources(store, wid, source_ids):
+    """Recheck new literal-source assertions before a chemical lookup/reuse."""
+    for aid in source_ids:
+        artifact = store.artifact(wid, aid)
+        if artifact['kind'] != 'source_candidates':
+            continue
+        value = json.loads(artifact['content'])
+        for row in value.get('rows', []):
+            for anchor, name in [(row['mention'], row['name']), (row['identity'].get('lookup_anchor'), row['identity'].get('lookup_name'))]:
+                if not anchor or 'source_binding' not in anchor:
+                    continue
+                checked = checked_anchor(store, wid, {k: anchor[k] for k in ('artifact_id','row_index','quote')}, name)
+                if checked['source_sha256'] != anchor['source_sha256'] or checked.get('source_binding') != anchor['source_binding']:
+                    raise ValueError('화학 식별 전 원문 후보의 보존 출처 결속이 달라졌습니다.')

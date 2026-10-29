@@ -1,6 +1,21 @@
 args <- commandArgs(trailingOnly=TRUE)
-stopifnot(length(args)==2L)
 suppressPackageStartupMessages({library(CARNIVAL);library(jsonlite)})
+export_variable_map <- function(input_path, output_path) {
+  env <- new.env()
+  load(input_path,envir=env)
+  stopifnot(all(c("dataPreprocessed","variables") %in% ls(env)))
+  write_json(list(nodes=env$variables$nodesDf,edges=env$variables$edgesDf,
+    measurements=env$variables$measurementsDf,
+    versions=list(R=as.character(getRversion()),CARNIVAL=as.character(packageVersion("CARNIVAL")))),
+    output_path,pretty=TRUE,auto_unbox=TRUE,digits=NA,na="null")
+}
+# Internal read-only export of a retained native author run; never fits a model.
+if (length(args)==3L && args[1]=="--export-variable-map") {
+  stopifnot(!file.exists(args[3]))
+  export_variable_map(args[2],args[3])
+  quit(save="no",status=0)
+}
+stopifnot(length(args)==2L)
 input <- fromJSON(args[1],simplifyVector=FALSE)
 stopifnot(as.character(getRversion())==input$required_versions$R,
   as.character(packageVersion("CARNIVAL"))==input$required_versions$CARNIVAL)
@@ -21,6 +36,11 @@ options$keepLPFiles <- TRUE
 write_json(options,file.path(dirname(args[2]),"solver-options.json"),pretty=TRUE,auto_unbox=TRUE,digits=NA)
 fit <- runInverseCarnival(measurements=measurements,priorKnowledgeNetwork=network,carnivalOptions=options)
 saveRDS(fit,file.path(dirname(args[2]),"author-result.rds"))
+tryCatch({
+  maps <- list.files(options$outputFolder,pattern="^parsedData_.*\\.RData$",full.names=TRUE)
+  stopifnot(length(maps)==1L)
+  export_variable_map(maps[1],file.path(dirname(args[2]),"variable-map.json"))
+},error=function(e) message("Solver package mapping unavailable: ",conditionMessage(e)))
 stopifnot(length(fit$attributesAll)>0L,length(fit$sifAll)>0L)
 rows <- list()
 for (i in seq_along(fit$sifAll)) {

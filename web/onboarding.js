@@ -1,37 +1,67 @@
 // Product guidance and entry points. Guidance is local; scientific results require real jobs.
 let intakeMode = 'question', intakeFile = null, intakeContext = '', intakeError = '', actionError = '', submitPhase = '';
 let intakeDelimiter = ',', intakeSmiles = 'smiles', intakeId = 'cid';
+let intakeSuppliedEvidenceOnly=false,intakeEvidenceAsOf='',pendingInitialEvidenceScope=null;
+function intakeEvidenceScope(){
+  if(!intakeSuppliedEvidenceOnly)return null;
+  const date=intakeEvidenceAsOf.trim();
+  if(date&&(!/^\d{4}-\d{2}-\d{2}$/.test(date)||Number.isNaN(Date.parse(date+'T00:00:00Z'))||new Date(date+'T00:00:00Z').toISOString().slice(0,10)!==date))throw Error('근거 기준일을 올바른 날짜로 입력해 주세요.');
+  return {mode:'supplied_only',as_of:date||null,note:'Researcher supplied evidence boundary'};
+}
+function renderIntakeEvidenceScope(){
+  return `<fieldset class="ui-evidence-scope"><legend>검토할 근거 범위</legend><label class="checkbox"><input id="intake-supplied-evidence" type="checkbox" ${intakeSuppliedEvidenceOnly?'checked':''}> 제공한 근거만</label><p class="small muted">선택하면 추가 공개 자료를 조회하지 않고 제공한 자료에서 검토합니다. 필요한 근거는 질문에 적거나 자료 입력으로 연결해 주세요.</p>${intakeSuppliedEvidenceOnly?`<label>근거 기준일 <span class="muted">· 선택 사항</span><input id="intake-evidence-as-of" type="date" value="${esc(intakeEvidenceAsOf)}"></label><p class="small muted">기준일을 적어도 모델의 사전지식까지 제거되는 것은 아닙니다.</p>`:''}</fieldset>`;
+}
+function renderCurrentEvidenceScope(){
+  const scope=state?.evidence_scope;
+  return scope?.mode==='supplied_only'?`<aside class="ui-evidence-boundary" aria-label="현재 근거 범위"><strong>제공한 근거만 검토</strong><span>${scope.as_of?` · 근거 기준일 ${esc(scope.as_of)}`:' · 기준일 미지정'}</span><p class="small muted">추가 조회는 제공된 자료 범위 안에서 진행합니다. 해석에는 모델의 사전지식도 사용됩니다.</p></aside>`:'';
+}
+
 // null keeps the server's default route (the competition API). The server rechecks every choice.
 // A subscription route is only ever chosen by the visitor, after the caution below; never automatically.
 let chosenModel = null, modelChoiceLoaded = false;
+// Per-view acknowledgement only. Existing history/config/routes are untouched.
+const continuationRouteChoices = new Map();
+function latestWorkspaceRoute(){
+  const jobs=[...(state?.jobs??[])].sort((a,b)=>String(b.created??'').localeCompare(String(a.created??'')));
+  return jobs.find(job=>typeof job.request?.model==='string'&&job.request.model)?.request.model??null;
+}
+function unresolvedContinuationRoute(){
+  if(!state?.id)return null;
+  const prior=latestWorkspaceRoute(),accepted=continuationRouteChoices.get(state.id);
+  return prior&&!offeredModels().includes(prior)&&!offeredModels().includes(accepted)?prior:null;
+}
 const shownQuotaJobs = new Set();
 function loadModelChoice(){if(modelChoiceLoaded)return;modelChoiceLoaded=true;try{chosenModel=evidaStorage.getItem('evida-model-choice')||null}catch{}}
-function rememberModelChoice(name){chosenModel=name||null;try{chosenModel?evidaStorage.setItem('evida-model-choice',chosenModel):evidaStorage.removeItem('evida-model-choice')}catch{}}
+function rememberModelChoice(name){chosenModel=name||null;if(state?.id)continuationRouteChoices.set(state.id,name||status?.gateway?.requested_model);try{chosenModel?evidaStorage.setItem('evida-model-choice',chosenModel):evidaStorage.removeItem('evida-model-choice')}catch{}}
 function gatewayRoutes(){return Array.isArray(status?.gateway?.routes)?status.gateway.routes:[]}
 function routeFor(name){return gatewayRoutes().find(r=>r.id===name)}
 function isSubscriptionRoute(name){return routeFor(name)?.kind==='subscription'}
 function subscriptionAccount(route){return route?.provider==='anthropic'?'Claude':'ChatGPT'}
 function offeredModels(){return [...new Set((status?.gateway?.approved_models??[]).filter(name=>typeof name==='string'&&name))]}
-function currentModel(){loadModelChoice();return chosenModel&&offeredModels().includes(chosenModel)?chosenModel:status?.gateway?.requested_model}
+function currentModel(){loadModelChoice();const missing=unresolvedContinuationRoute();return missing??(chosenModel&&offeredModels().includes(chosenModel)?chosenModel:status?.gateway?.requested_model)}
 function modelDisplayName(name){const r=routeFor(name);if(r)return r.kind==='subscription'?`${r.label} · 제출자 구독`:`${r.label} · 대회 API`;return name==='claude-opus-5'?'Claude Opus 5':String(name??'모델 확인 필요')}
 function modelEffortLabel(name=currentModel()){return routeFor(name)?.effort??status?.gateway?.requested_effort??'설정 확인 필요'}
-function modelUsable(name){const r=routeFor(name);return r?r.available===true:status?.gateway?.available===true}
+function modelUsable(name){if(offeredModels().length&&!offeredModels().includes(name))return false;const r=routeFor(name);return r?r.available===true:status?.gateway?.available===true}
 function modelAccessButton(){
   const name=currentModel(),label=modelDisplayName(name),ok=modelUsable(name);
   return button('model-help',`${esc(label)} · ${esc(modelEffortLabel(name))}${ok?'':' · 확인'}`,`aria-label="모델 이용 안내 · ${esc(label)} · ${esc(modelEffortLabel(name))}${ok?' · 사용 가능':' · 연결 상태 확인 필요'}" title="모델 이용 안내"`,`quiet small${isSubscriptionRoute(name)?' subscription-chip':''}`);
 }
-function competitionStateText(g){return g.competition_quota?'토큰 사용량 한도 소진 (HTTP 403) · 자동 전환 없음':g.competition_available===false?(g.message??'연결 확인 필요'):'기본 실행 경로 · 사용 가능'}
+function resourceAllowanceText(g,shared=false){const max=g?.maximum_requests,left=g?.requests_remaining;return Number.isInteger(max)&&Number.isInteger(left)?`${shared?'모든 저장소가 공유하는 이 구독 경로의 예산':'이 저장소의 이번 서버 실행 예산'} · ${left} / ${max}회 남음`:''}
+function plannerExecutionText(){const p=status?.planner_execution;if(!p)return '';return p.mode==='goal_completion'?'목표 완료까지 계획 계속 · 자원 예산은 별도 적용':`판단 응답 ${p.response_limit}회 · 수정 포함 최대 ${p.maximum_responses_including_corrections}회`}
+function competitionStateText(g){const state=g.competition_quota?'토큰 사용량 한도 소진 (HTTP 403) · 자동 전환 없음':g.competition_available===false||g.available===false?(g.message??'연결 확인 필요'):'기본 실행 경로 · 사용 가능';return [state,resourceAllowanceText(g),plannerExecutionText()].filter(Boolean).join(' · ')}
 function subscriptionCaution(text){return `<div class="subscription-caution" role="alert"><strong>주의 · 제출자(연구자) 개인 구독으로 운용됩니다</strong><p>${text}</p></div>`}
-function modelRouteRow(r,action,label){const selected=currentModel()===r.id;return `<div class="model-route ${esc(r.kind)}"><div><strong>${esc(r.label)}</strong> <span class="muted">· ${esc(r.effort)} · ${r.kind==='subscription'?'제출자 '+esc(subscriptionAccount(r))+' 구독':'대회 API'}</span>${r.available?'':`<p class="small">${esc(r.message)}</p>`}</div>${button(action,selected?'선택됨':label,`data-model="${esc(r.id)}" ${r.available&&!selected?'':'disabled'}`,r.kind==='subscription'?'small':'quiet small')}</div>`}
+function modelRouteRow(r,action,label){const selected=currentModel()===r.id;return `<div class="model-route ${esc(r.kind)}"><div><strong>${esc(r.label)}</strong> <span class="muted">· ${esc(r.effort)} · ${r.kind==='subscription'?'제출자 '+esc(subscriptionAccount(r))+' 구독':'대회 API'}</span>${r.kind==='subscription'&&resourceAllowanceText(r,true)?`<p class="small">${esc(resourceAllowanceText(r,true))}</p>`:''}${r.available?'':`<p class="small">${esc(r.message)}</p>`}</div>${button(action,selected?'선택됨':label,`data-model="${esc(r.id)}" ${r.available&&!selected?'':'disabled'}`,r.kind==='subscription'?'small':'quiet small')}</div>`}
 async function openModelAccessHelp(){
   await refreshGatewayStatus({force:true});
   const g=status.gateway??{},name=currentModel(),routes=gatewayRoutes();
   if(!routes.length){
-    showDialog('모델 이용 안내',`<dl><dt>현재 연결</dt><dd>${esc(modelDisplayName(name))} · ${esc(modelEffortLabel(name))}</dd><dt>연결 상태</dt><dd role="status">${g.available?'사용 가능':esc(g.message??'현재 모델 연결을 확인해야 합니다.')}</dd></dl><details><summary>현재 연결에서 허용된 모델</summary>${list(offeredModels().map(modelDisplayName))||'<p>허용된 모델 확인 필요</p>'}</details>`);
+    showDialog('모델 이용 안내',`<dl><dt>현재 연결</dt><dd>${esc(modelDisplayName(name))} · ${esc(modelEffortLabel(name))}</dd><dt>연결 상태</dt><dd role="status">${esc(competitionStateText(g))}</dd></dl><details><summary>현재 연결에서 허용된 모델</summary>${list(offeredModels().map(modelDisplayName))||'<p>허용된 모델 확인 필요</p>'}</details>`);
     return;
   }
   const competition=routes.filter(r=>r.kind==='competition'),subscriptions=routes.filter(r=>r.kind==='subscription');
-  showDialog('모델 이용 안내',`<dl><dt>현재 선택</dt><dd>${esc(modelDisplayName(name))} · ${esc(modelEffortLabel(name))}</dd><dt>대회 API</dt><dd role="status">${esc(competitionStateText(g))}</dd></dl><p>기본 실행은 대회에서 제공한 API입니다. 대회 API 토큰이 소진되면 아래 제출자 구독 모델을 직접 골라 다시 실행할 수 있습니다. 모델은 자동으로 바뀌지 않습니다.</p><h3 class="model-route-heading">대회 API</h3><div class="model-route-list">${competition.map(r=>modelRouteRow(r,'choose-model','이 모델 선택')).join('')}</div>${subscriptions.length?`<h3 class="model-route-heading">제출자 구독</h3>${subscriptionCaution('아래 모델은 대회 API가 아니라 제출자(연구자)의 개인 Claude·ChatGPT 구독으로 실행됩니다. 확인 후 선택해 주세요.')}<div class="model-route-list">${subscriptions.map(r=>modelRouteRow(r,'confirm-model','확인하고 이 모델 사용')).join('')}</div>`:''}`);
+  const missing=unresolvedContinuationRoute();
+  const continuationNotice=missing?`<p class="notice-inline" role="alert">이 연구의 이전 모델 경로(${esc(missing)})는 현재 제공되지 않습니다. 이전 결과는 보존됩니다. 아래에서 실행 경로를 직접 선택한 뒤 검토를 다시 실행해 주세요.</p>`:'';
+  showDialog('모델 이용 안내',`<dl><dt>현재 선택</dt><dd>${esc(modelDisplayName(name))} · ${esc(modelEffortLabel(name))}</dd><dt>대회 API</dt><dd role="status">${esc(competitionStateText(g))}</dd></dl>${continuationNotice}<p>기본 실행은 대회에서 제공한 API입니다. 대회 API 토큰이 소진되면 아래 제출자 구독 모델을 직접 골라 다시 실행할 수 있습니다. 모델은 자동으로 바뀌지 않습니다.</p><h3 class="model-route-heading">대회 API</h3><div class="model-route-list">${competition.map(r=>modelRouteRow(r,'choose-model','이 모델 선택')).join('')}</div>${subscriptions.length?`<h3 class="model-route-heading">제출자 구독</h3>${subscriptionCaution('아래 모델은 대회 API가 아니라 제출자(연구자)의 개인 Claude·ChatGPT 구독으로 실행됩니다. 확인 후 선택해 주세요.')}<div class="model-route-list">${subscriptions.map(r=>modelRouteRow(r,'confirm-model','확인하고 이 모델 사용')).join('')}</div>`:''}`);
 }
 function openSubscriptionCaution(name){
   const r=routeFor(name);if(!r)return;
@@ -144,7 +174,7 @@ function renderWelcome(){
   <section class="intake-panel" aria-label="연구 입력"><div class="intake-contract"><div><span class="section-mark">넣을 것</span><p>${esc(p.input)}</p></div><span aria-hidden="true">→</span><div><span class="section-mark">받을 것</span><p>${esc(p.output)}</p></div></div>
   ${['molecule','rna'].includes(p.id)?`<div class="intake-upload"><label class="input-label" for="intake-file">1. 분석할 파일</label><input type="file" id="intake-file" accept="${p.id==='molecule'?'.csv,.tsv,.txt':'.tsv,.txt,.gz'}"><p id="intake-file-name" class="small muted">${intakeFile?esc(intakeFile.name)+' 선택됨':'파일을 선택하세요. 아직 서버로 전송되지 않습니다.'}</p>${p.id==='molecule'?`<details><summary>CSV 열 이름·구분자 설정</summary><div class="upload-fields"><label>구분자<select id="intake-delimiter"><option value="," ${intakeDelimiter===','?'selected':''}>쉼표</option><option value=";" ${intakeDelimiter===';'?'selected':''}>세미콜론</option><option value="tab" ${intakeDelimiter==='tab'?'selected':''}>탭</option></select></label><label>후보 ID 열<input id="intake-id" type="text" value="${esc(intakeId)}"></label><label>SMILES 열<input id="intake-smiles" type="text" value="${esc(intakeSmiles)}"></label></div><a href="/templates/molecules.csv" download>빈 CSV 양식 받기</a></details>`:`<details><summary>지원하는 RNA 결과표 형식</summary><p class="small">UTF-8, 탭으로 구분된 DESeq2 결과표입니다. FASTQ나 raw count matrix는 이 입력에 해당하지 않습니다.</p><p class="mono">${RNA_COLUMNS.join(' · ')}</p><p class="small">열 이름을 확인하고, 결측은 NA로 유지하세요. 임의의 값이나 p값을 채우지 마세요.</p><a href="/templates/rna-results.tsv" download>빈 TSV 양식 받기</a></details>`}</div><label class="input-label" for="intake-context">2. 자료의 조건</label><textarea id="intake-context" class="short-input" placeholder="${p.id==='molecule'?'표적, 후보 출처, 측정값이 있다면 단위·측정 조건. 모르는 항목은 미확인으로 적어 주세요.':'표적 유전자, 종·조직, 처리군과 대조군, 용량·시점, 공유 대조군 여부. 모르는 항목은 미확인으로 적어 주세요.'}">${esc(intakeContext)}</textarea>`:''}
   <label class="input-label" for="message">${!['molecule','rna'].includes(p.id)?'지금 궁금한 질문': '3. 이번에 확인할 질문'}</label><textarea id="message" placeholder="${esc(p.placeholder)}">${esc(draft)}</textarea>
-  ${intakeError?`<p class="form-error" role="alert">${esc(intakeError)}</p>`:''}
+  ${renderIntakeEvidenceScope()}${intakeError?`<p class="form-error" role="alert">${esc(intakeError)}</p>`:''}
   <div class="input-bottom"><span class="small muted">${!['molecule','rna'].includes(p.id)?'접근·표적이 미정이어도 연구 목표와 질문으로 시작할 수 있습니다.':'원자료를 보존하고 실제 계산 결과를 연결합니다.'}</span>${modelChoice()}${button('create-message',!['molecule','rna'].includes(p.id)?'질문 검토 시작':'자료 분석 시작',busy?'disabled':'','primary')}</div><p class="small muted submit-note">분석·검토 시작은 실제 모델과 도구를 실행하며 수분이 걸릴 수 있습니다. 사용법 안내에는 모델을 호출하지 않습니다.</p>
   <details class="support-scope"><summary>현재 이 작업에서 가능한 범위</summary><p class="small">${esc(p.limit)}</p></details></section>
   <section class="try-examples"><div><h2>자료 없이 먼저 살펴보세요</h2><p class="small muted">완료한 결과를 보거나, 같은 공개 원자료로 새 분석을 시작할 수 있습니다.</p></div><div class="example-choices">${ENTRY_PATHS.filter(x=>x.example).map(x=>`<article><h3>${esc(x.name)}</h3><p class="small">${x.id==='molecule'?'LRRK2 공개 후보73개 · CACHE 자료':'랫드 간 Ttr 처리표3개 · 공개 RNA 자료'}</p><div class="detail-actions">${projects.some(p=>p.id===x.workspace)?`<a href="/?workspace=${x.workspace}&guide=${x.id==='molecule'?'molecule':'rna'}">완료 결과 열기</a>`:''}${button('intake-example','예제 자료로 새 분석',`data-id="${x.example}" ${!status.gateway.available||busy?'disabled':''}`,'small')}</div></article>`).join('')}</div>${finishedResearch()}</section></div>`;
@@ -201,7 +231,12 @@ function headerFields(text,delimiter){
 }
 async function validateInputFile(file,kind,meta){
   if(!file)throw Error('먼저 분석할 파일을 선택해 주세요. 자료가 없으면 “연구 질문부터 정리”를 선택할 수 있습니다.');
-  if(!file.size||file.size>10*1024*1024)throw Error('내용이 있는 10 MiB 이내 파일을 선택해 주세요.');
+  if(file.size>10*1024*1024)throw Error('10 MiB 이내 파일을 선택해 주세요.');
+  if(kind==='source_file'){
+    if(!/\.(txt|pdf)$/i.test(file.name))throw Error('논문·연구 문서는 TXT 또는 PDF 파일을 선택해 주세요.');
+    return;
+  }
+  if(!file.size)throw Error('내용이 있는 파일을 선택해 주세요.');
   if(kind==='rna_table'&&file.name.toLowerCase().endsWith('.gz'))return;
   let text;
   try{text=new TextDecoder('utf-8',{fatal:true}).decode(await file.slice(0,65536).arrayBuffer(),{stream:true})}catch{throw Error('파일을 UTF-8로 저장해 주세요. 원본은 변경하지 않았습니다.')}
@@ -213,8 +248,9 @@ async function validateInputFile(file,kind,meta){
 async function uploadInput(file,kind,meta){
   const bytes=new Uint8Array(await file.arrayBuffer());let binary='';
   for(let i=0;i<bytes.length;i+=16384)binary+=String.fromCharCode(...bytes.subarray(i,i+16384));
-  await api(`/api/workspaces/${state.id}/artifacts`,{title:file.name,kind,content_base64:btoa(binary),meta:{original_filename:file.name,encoding:'utf-8-sig',...meta}});
+  const result=await api(`/api/workspaces/${state.id}/artifacts`,{title:file.name,kind,content_base64:btoa(binary),meta:{original_filename:file.name,...(kind==='source_file'?{}:{encoding:'utf-8-sig'}),...meta}});
   await refresh();
+  return result;
 }
 function rememberWorkspace(){
   const u=new URL(location.href);u.searchParams.delete('guide');u.searchParams.set('workspace',state.id);history.replaceState(null,'',u);
@@ -223,6 +259,7 @@ function rememberWorkspace(){
 async function startIntake(){
   if(isUsageQuestion(draft)){openUsageHelp(draft);return}
   const p=entryPath();
+  pendingInitialEvidenceScope=intakeEvidenceScope();
   if(!draft.trim())throw Error('이번에 알고 싶은 질문을 적어 주세요. 사용법이 궁금하면 “사용법 보기”를 누르세요.');
   if(!await refreshGatewayStatus({force:true,renderChanges:false}))throw Error('현재 모델 연결을 사용할 수 없습니다. 입력 초안은 그대로 남아 있습니다.');
   const kind=p.id==='rna'?'rna_table':'molecule_csv';
@@ -238,6 +275,7 @@ async function startIntake(){
   await runTool('planner',plannerOptions());
 }
 function plannerOptions(){
+  if(unresolvedContinuationRoute())throw Error('이 연구의 이전 모델 경로는 현재 제공되지 않습니다. 모델 이용 안내에서 실행 경로를 직접 선택해 주세요.');
   // Omitted entirely when the reader kept the server's model, so a run that made no choice
   // carries no claim to have made one.
   // With several routes the visible selection is always sent: otherwise a research that once ran
@@ -279,8 +317,16 @@ document.addEventListener('change',event=>{
   if(event.target.id==='upload-kind')updateUploadKind();
 });
 function updateUploadKind(){
-  const rna=dialog.querySelector('#upload-kind')?.value==='rna_table';
-  for(const el of dialog.querySelectorAll('[data-molecule-field]'))el.hidden=rna;
+  const kind=dialog.querySelector('#upload-kind')?.value,rna=kind==='rna_table',documentFile=kind==='source_file';
+  for(const el of dialog.querySelectorAll('[data-molecule-field]'))el.hidden=rna||documentFile;
+  const file=dialog.querySelector('#upload-file');if(file)file.accept=documentFile?'.txt,.pdf':rna?'.tsv,.txt,.gz':'.csv,.tsv,.txt';
+  for(const el of dialog.querySelectorAll('[data-document-field]'))el.hidden=!documentFile;
   const d=dialog.querySelector('#upload-delimiter');if(d)d.value=rna?'tab':',';
-  const help=dialog.querySelector('#upload-format-help');if(help)help.innerHTML=deploymentHTML(rna?`<p>UTF-8·탭 구분의 기존 차등발현 결과표입니다. 필수 열:</p><p class="mono">${RNA_COLUMNS.join(' · ')}</p><a href="/templates/rna-results.tsv" download>빈 TSV 양식 받기</a>`:'<p>후보 ID와 SMILES가 있는 CSV입니다. 열 이름과 구분자를 맞춰 주세요.</p><a href="/templates/molecules.csv" download>빈 CSV 양식 받기</a>');
+  const help=dialog.querySelector('#upload-format-help');if(help)help.innerHTML=deploymentHTML(documentFile?'<p>UTF-8 텍스트 또는 PDF입니다. 원본을 보존하고 문단·페이지별로 문자층을 읽습니다. 이미지로만 된 페이지는 원본에서 확인할 수 있습니다.</p>':rna?`<p>UTF-8·탭 구분의 기존 차등발현 결과표입니다. 필수 열:</p><p class="mono">${RNA_COLUMNS.join(' · ')}</p><a href="/templates/rna-results.tsv" download>빈 TSV 양식 받기</a>`:'<p>후보 ID와 SMILES가 있는 CSV입니다. 열 이름과 구분자를 맞춰 주세요.</p><a href="/templates/molecules.csv" download>빈 CSV 양식 받기</a>');
 }
+
+document.addEventListener('change',event=>{
+  if(event.target.id==='intake-supplied-evidence'){intakeSuppliedEvidenceOnly=event.target.checked;render()}
+  if(event.target.id==='intake-evidence-as-of')intakeEvidenceAsOf=event.target.value;
+});
+document.addEventListener('input',event=>{if(event.target.id==='intake-evidence-as-of')intakeEvidenceAsOf=event.target.value});

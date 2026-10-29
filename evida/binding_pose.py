@@ -142,17 +142,22 @@ def review_poses(docking, structure, arguments, work):
         raise ValueError('실제 도킹이 완료된 후보를 선택해 주세요.')
     work.mkdir(exist_ok=False)
     source_files = docking.get('raw_output_files', {})
-    site_id = protocol['preparation']['site']['ligand_id']
-    component = protocol['preparation']['site']['component']
-    if not re.fullmatch(r'[A-Z0-9]{1,5}', component):
-        raise ValueError('원 공결정 성분 ID가 잘못됐습니다.')
     references, reference_gaps, source = [], [], None
-    try:
-        ccd, source = fetch(f'https://files.rcsb.org/ligands/download/{component}.cif')
-        (work / 'reference-ccd.cif').write_bytes(ccd)
-        references, reference_gaps = deposited_references(structure, site_id, ccd.decode())
-    except Exception as exc:
-        reference_gaps.append({'reason': type(exc).__name__, 'detail': str(exc)[:350]})
+    site_id, component = None, None
+    if protocol['preparation']['site'].get('site_mode')=='explicit_fpocket_geometry':
+        reference_gaps.append({'reason':'explicit_geometric_site_has_no_deposited_reference_pose',
+            'detail':'No co-crystal component identity or reference pose is invented for a selected fpocket site.'})
+    else:
+        site_id = protocol['preparation']['site']['ligand_id']
+        component = protocol['preparation']['site']['component']
+        if not re.fullmatch(r'[A-Z0-9]{1,5}', component):
+            raise ValueError('원 공결정 성분 ID가 잘못됐습니다.')
+        try:
+            ccd, source = fetch(f'https://files.rcsb.org/ligands/download/{component}.cif')
+            (work / 'reference-ccd.cif').write_bytes(ccd)
+            references, reference_gaps = deposited_references(structure, site_id, ccd.decode())
+        except Exception as exc:
+            reference_gaps.append({'reason': type(exc).__name__, 'detail': str(exc)[:350]})
     inputs, rows, pose_files = {}, [], {}
     writer = Chem.SDWriter(str(work / 'saved-poses.sdf'))
     for number, item in enumerate(selected, 1):
@@ -180,7 +185,7 @@ def review_poses(docking, structure, arguments, work):
                         'rmsd_angstrom': float(rdMolAlign.CalcRMS(left, right)), 'rigid_fit': False})
             rows.append({'id': name, 'candidate_id': item['candidate_id'], 'original_vina_rank': index + 1,
                 'original_vina_score_kcal_mol': item['pose_scores_kcal_mol'][index],
-                'native_reference_status': 'COMPARED' if comparisons else 'DIFFERENT_COMPOUND_OR_UNAVAILABLE_REFERENCE',
+                'native_reference_status': ('NO_DEPOSITED_REFERENCE_FOR_EXPLICIT_POCKET' if protocol['preparation']['site'].get('site_mode')=='explicit_fpocket_geometry' else 'COMPARED' if comparisons else 'DIFFERENT_COMPOUND_OR_UNAVAILABLE_REFERENCE'),
                 'reference_comparisons': comparisons,
                 'nearest_reference_rmsd_angstrom': min((r['rmsd_angstrom'] for r in comparisons), default=None),
                 'CNNscore': None, 'CNNaffinity': None, 'cnn_rank': None,
@@ -252,7 +257,7 @@ def review_poses(docking, structure, arguments, work):
         'semantic_type': 'saved_pose_ranking_and_same_compound_reference_review',
         'protocol': {'original_docking_protocol': protocol, 'original_pose_hashes': pose_files,
             'reference_site_id': site_id, 'reference_source': source,
-            'reference_scope': 'Only the selected deposited residue, each explicit altloc. CCD supplies bonds, never ideal coordinates. Assembly copies are not independent experiments.',
+            'reference_scope': ('Explicit fpocket geometry has no deposited site component/reference pose; native RMSD is unavailable, not a failed reproduction.' if protocol['preparation']['site'].get('site_mode')=='explicit_fpocket_geometry' else 'Only the selected deposited residue, each explicit altloc. CCD supplies bonds, never ideal coordinates. Assembly copies are not independent experiments.'),
             'reference_coordinate_gaps': reference_gaps, 'rescoring': rescore,
             'native_diagnostic_distance_angstrom': 2, 'native_not_used_to_select_or_adjust_poses': True,
             'versions': {n: importlib.metadata.version(n) for n in ('rdkit','meeko','gemmi')}},

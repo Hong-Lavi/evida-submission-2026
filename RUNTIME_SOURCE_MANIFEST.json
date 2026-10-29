@@ -1,25 +1,20 @@
 {
   "status": "SOURCE_REVIEW_ONLY_AUTH_PROFILES_NOT_INCLUDED",
+  "schema_version": "2",
   "files": {
     "claude_transport.py": "1e5ffe26be56cb9727d960e01b80f87813236c0d83c5041642f59bccf899ea74",
     "format_recovery_dispatch.py": "4cf58ab96886b6ab384afb7b78920dc3c26bc362effb4b84b5003278a6abdc94",
     "optional_array_normalization.py": "29cf19b151f62eba1b96d60615c6c4b0241479eb09420a0fb7f51535981c270c",
     "process_dispatch.py": "cbe7cf146ef852425ad9154d2b3184bc6096f1a5afaccb20963c2b7c420af70c",
     "product_indexed_input82.py": "be196a843a4eadd99622c7e1cb7d05c772c57ce986feda9a5103b8c96f5230b3",
-    "transport_contract.py": "f4661e6483d484da939b2ef9178a12c68744cdcb98a6af8e7e76f52c5c5694d2",
-    "route_transport.py": "041f6bf6ff655135576af27f36b161971384369f2b75908d37125cb59f3d32e9"
+    "transport_contract.py": "f8431d7775265f4862ec097a52d2b2732a0b440086c856553e330827c23c14e5",
+    "route_transport.py": "2e1e0e4a2e3ea34553c5990c60986160148b725512223f665da24915c76846e2",
+    "single_object_closer.py": "b0cfe2c30cd52a0d7d6cae251d70ae2d928b607a07b4c3084004f7a61f050199"
   },
+  "file_count": 8,
   "model": "claude-opus-5",
   "effort": "high",
-  "direct_import_helpers": [
-    "indexed_research_input",
-    "research_call_policy",
-    "research_input_support",
-    "bounded_subscription_dispatch",
-    "returned_reading_entry25",
-    "review_claude_context82"
-  ],
-  "external_runtime_required": true,
+  "model_effort_scope": "Legacy ClaudeProductGateway source identity only. Active public route settings are current_public_routes, not these legacy fields.",
   "current_public_routes": {
     "default": {
       "route": "competition_api",
@@ -39,6 +34,77 @@
       }
     ],
     "automatic_fallback": false,
-    "note": "The top-level model/effort describe the reviewed Claude bridge source; the routes listed here are what the public instance offers."
-  }
+    "identity_source": "Prepared release/service-launch metadata and route source; no authorization or authentication profiles included."
+  },
+  "source_roles": {
+    "claude_transport.py": "legacy_single_route_Claude_bridge_review_source",
+    "format_recovery_dispatch.py": "legacy_single_route_Claude_bridge_review_source",
+    "optional_array_normalization.py": "active_final_contract_normalization",
+    "process_dispatch.py": "legacy_single_route_Claude_bridge_review_source",
+    "product_indexed_input82.py": "active_product_input_catalog",
+    "transport_contract.py": "active_public_bridge_contract",
+    "route_transport.py": "active_public_route_factory",
+    "single_object_closer.py": "active_registered_function_syntax_helper"
+  },
+  "source_layout": {
+    "claude_transport.py": "<MODEL_ROUTES_RUNTIME>/bridge/claude_transport.py",
+    "format_recovery_dispatch.py": "<MODEL_ROUTES_RUNTIME>/bridge/format_recovery_dispatch.py",
+    "optional_array_normalization.py": "<MODEL_ROUTES_RUNTIME>/bridge/optional_array_normalization.py",
+    "process_dispatch.py": "<MODEL_ROUTES_RUNTIME>/bridge/process_dispatch.py",
+    "product_indexed_input82.py": "<MODEL_ROUTES_RUNTIME>/bridge/product_indexed_input82.py",
+    "transport_contract.py": "<MODEL_ROUTES_RUNTIME>/bridge/transport_contract.py",
+    "route_transport.py": "<MODEL_ROUTES_RUNTIME>/transport/route_transport.py",
+    "single_object_closer.py": "<MODEL_ROUTES_RUNTIME>/bridge/single_object_closer.py"
+  },
+  "external_runtime_required": true,
+  "standalone_runtime_provided": false,
+  "direct_import_helpers": [
+    "indexed_research_input",
+    "research_call_policy",
+    "research_input_support",
+    "bounded_subscription_dispatch",
+    "returned_reading_entry25",
+    "review_claude_context82"
+  ],
+  "external_import_modules_observed": [
+    "bounded_subscription_dispatch",
+    "indexed_research_input",
+    "jsonschema",
+    "lavi_research_os.c1.file_input",
+    "lavi_research_os.c1.source_navigation",
+    "lavi_research_os.c1.workflow",
+    "lavi_research_os.io",
+    "lavi_research_os.models",
+    "lavi_research_os.policy",
+    "lavi_research_os.providers",
+    "lavi_research_os.providers.base",
+    "lavi_research_os.providers.claude",
+    "lavi_research_os.providers.codex",
+    "lavi_research_os.providers.recording",
+    "research_call_policy",
+    "research_input_support",
+    "returned_reading_entry25",
+    "review_claude_context82"
+  ],
+  "external_sources_bundled": false,
+  "LAVA_engine_sources_bundled": false,
+  "reviewed_syntax_helper": {
+    "file": "single_object_closer.py",
+    "sha256": "b0cfe2c30cd52a0d7d6cae251d70ae2d928b607a07b4c3084004f7a61f050199",
+    "origin": "EVIDA target-owned pure JSON syntax helper; identical to the repository-local reviewed v2 candidate. No LAVA/LROS engine source is included.",
+    "scope": "Only one unique schema-valid missing object closer for an eligible registered function; original bytes/receipt preserved. Not scientific validation.",
+    "dependencies": [
+      "Python standard library",
+      "jsonschema"
+    ]
+  },
+  "deployment_inputs_not_bundled": [
+    "owner-only credentials",
+    "subscription login/authentication state",
+    "authorization profiles",
+    "review/hold/transition records and pinned external runtime",
+    "provider-call ledgers and original packets",
+    "operating databases and model responses"
+  ],
+  "setup_document": "runtime/README.md"
 }

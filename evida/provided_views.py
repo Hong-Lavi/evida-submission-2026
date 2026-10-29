@@ -61,8 +61,11 @@ def build(runner, wid, specifications):
             raise ValueError('동일한 원문 범위를 중복 전달하지 않습니다.')
         seen.add(key)
         artifact = runner.store.artifact(wid, spec['artifact_id'])
-        if artifact['media_type'] != 'application/json':
-            raise ValueError('이 경로는 JSON 원문·계산 결과의 범위 전달용입니다. PDF/그림의 바이너리를 텍스트로 치환하지 않습니다.')
+        is_molecule_csv = artifact['kind'] == 'molecule_csv' and artifact['media_type'] == 'text/csv'
+        if artifact['media_type'] != 'application/json' and not is_molecule_csv:
+            raise ValueError('이 경로는 JSON 원문·계산 결과 또는 기존 molecule_csv의 명시적 행 전달용입니다. PDF/그림의 바이너리를 텍스트로 치환하지 않습니다.')
+        if is_molecule_csv and 'section' in spec:
+            raise ValueError('CSV는 기존 행 조회를 사용합니다. 계산 section으로 재해석하지 않습니다.')
         view = (runner.calculation_section(wid, spec['artifact_id'], spec['section'], spec['offset'], spec['limit'])
                 if 'section' in spec else runner.inspect(wid, spec['artifact_id'], spec['offset'], spec['limit']))
         raw = json.dumps(view, ensure_ascii=False, sort_keys=True, separators=(',', ':'), allow_nan=False).encode()

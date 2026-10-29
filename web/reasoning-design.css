@@ -1,0 +1,12 @@
+/* Keep every condition and arm readable without horizontal scrolling. */
+@media (max-width: 600px) {
+  .reasoning-design .reasoning-condition-scroll { overflow: visible; }
+  .reasoning-design .reasoning-conditions { display: block; width: 100%; min-width: 0; }
+  .reasoning-design .reasoning-conditions thead { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+  .reasoning-design .reasoning-conditions tbody,
+  .reasoning-design .reasoning-conditions tr { display: block; width: 100%; }
+  .reasoning-design .reasoning-conditions tr + tr { border-top: 1px solid #d8dce5; }
+  .reasoning-design .reasoning-conditions th[scope="row"] { display: block; width: auto; background: #f5f6f9; }
+  .reasoning-design .reasoning-conditions td { display: grid; grid-template-columns: 5em minmax(0, 1fr); gap: .6em; width: auto; white-space: normal; overflow-wrap: anywhere; }
+  .reasoning-design .reasoning-conditions td::before { content: attr(data-label); font-weight: 600; color: #5b6475; }
+}

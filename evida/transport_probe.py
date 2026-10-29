@@ -1,4 +1,5 @@
 """Two small live transport checks, not a product/scientific quality evaluation."""
+import argparse
 import json
 from datetime import datetime, timezone
 from pathlib import Path
@@ -9,11 +10,21 @@ from .store import dump
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--credential-file", type=Path, required=True)
+    parser.add_argument("--model", default="gpt-6-sol")
+    parser.add_argument("--effort", default="medium", choices=["medium", "high", "xhigh", "max"])
+    args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
-    output = root / 'audit' / ('terra-transport-' + datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ'))
+    from .local_credential import read_owner_credential, reject_credential_environment
+    reject_credential_environment()
+    credential = read_owner_credential(args.credential_file)
+    output = root / 'audit' / ('gateway-transport-' + datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ'))
     output.mkdir(parents=True, exist_ok=False)
     gateway = Gateway(json.loads((root/'configs/api_policy.json').read_text()), enabled=True,
-                      model='gpt-5.6-terra', effort='high', max_output_tokens=1500)
+                      model=args.model, effort=args.effort, max_output_tokens=1500)
+    gateway.set_credential(credential)
+    del credential
     record = {'purpose': 'connection_function_and_strict_json_only', 'requested_model': gateway.model,
               'requested_effort': gateway.effort, 'calls': [], 'scientific_validation': False,
               'automatic_retry': False, 'status': 'started'}

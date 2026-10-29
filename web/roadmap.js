@@ -93,15 +93,19 @@ function roadmapFoot(model){
   const changed=model.changedNodes.length;
   return `<div class="roadmap-foot"><details class="roadmap-reading-note"><summary>${changed?`이전 판단에서 달라진 단계 ${changed}개`:'이 화면의 기록 읽기'}</summary><p class="small muted">단계를 열면 판단 이유와 다른 선택지, 원자료를 확인할 수 있습니다. 기록의 변화는 과학적 재검증이나 인과의 증거와 구분합니다.</p></details>${state.decision?button('roadmap-open','변경 전후 보기','id="roadmap-open-changes" data-stage="changes"','small'):''}</div>`;
 }
-const roadmapFunctionNames={search_literature:'문헌 검색',find_entities:'표적·질환 식별',read_open_article:'공개 원문 읽기',inspect_article_references:'참고문헌 확인',collect_public_evidence:'공개 근거 함께 조회',inspect_artifact:'저장 자료 다시 보기',read_evidence_bundle:'근거 묶음 읽기',read_clinical_trial:'임상시험 상세',read_drug_label:'약물 라벨 원문',resolve_literature_compounds:'문헌 화합물 구조',materialize_compound_candidates:'후보 구조 연결',compute_properties:'분자 물성 계산',predict_admet:'ADMET 예측',record_source_candidates:'출처 후보 기록',record_discovery_review:'선택지 검토 기록',inspect_discovery_options:'선택지 살펴보기'};
+const roadmapFunctionNames={read_scientific_webpage:'과학 웹 자료 읽기',search_literature:'문헌 검색',find_entities:'표적·질환 식별',read_open_article:'공개 원문 읽기',inspect_article_references:'참고문헌 확인',collect_public_evidence:'공개 근거 함께 조회',inspect_artifact:'저장 자료 다시 보기',read_evidence_bundle:'근거 묶음 읽기',read_clinical_trial:'임상시험 상세',read_drug_label:'약물 라벨 원문',resolve_literature_compounds:'문헌 화합물 구조',materialize_compound_candidates:'후보 구조 연결',compute_properties:'분자 물성 계산',predict_admet:'ADMET 예측',record_source_candidates:'출처 후보 기록',record_discovery_review:'선택지 검토 기록',inspect_discovery_options:'선택지 살펴보기'};
 function roadmapLiveCard(){
   const p=roadmapLiveProgress(state);if(!p)return '';
-  const used=Object.entries(p.functions).map(([f,n])=>`${roadmapFunctionNames[f]??f} ${n}회`).join(' · ');
+  const liveNames={lookup_target:'표적 정보 조회',read_curated_pharmacology:'검토된 약리 자료 읽기',search_clinical_trials:'임상시험 검색',search_drug_labels:'허가 약물 설명서 검색',prepare_molecular_states:'분자 상태·3D 준비',score_synthetic_complexity:'합성 복잡도 계산'};
+  const used=Object.entries(p.functions).map(([f,n])=>`${roadmapFunctionNames[f]??liveNames[f]??f} ${n}회`).join(' · ');
+  const toolCalls=Object.values(p.functions).reduce((a,b)=>a+b,0);
   const call=p.completedCalls+(p.status==='running'?1:0);
+  const researchQuestion=latestFrame()?.current_question??'';
   return `<div class="roadmap-activity roadmap-live" role="status" aria-live="polite"><span class="section-mark">${p.status==='queued'?'조사 대기 중':'조사 진행 중'} · 시작 ${esc(time(p.started))}${p.elapsedMinutes===null?'':` · ${p.elapsedMinutes}분 경과`}${call?` · 모델 호출 ${call}회째`:''}</span>
-    ${p.nextGoal?`<p><strong>지금 확인하려는 것</strong> · ${esc(roadmapSummary(p.nextGoal,240))} <span class="small muted">(모델의 잠정 메모)</span></p>`:'<p>질문을 정리하고 필요한 자료를 찾고 있습니다.</p>'}
-    ${used?`<p class="small">지금까지 실행한 도구: ${esc(used)}</p>`:''}
-    <p class="small muted">첫 판단이 게시되면 기전과 접근부터 실험 권고까지 채워집니다. 보통 20–60분 걸리며 화면은 자동으로 갱신됩니다.${p.findings?` 잠정 발견 ${p.findings}개는 판단 전 메모입니다.`:''}</p>
+    ${researchQuestion?`<p><strong>연구 질문</strong> · ${esc(roadmapSummary(researchQuestion,240))}</p>`:'<p>질문을 정리하고 필요한 자료를 찾고 있습니다.</p>'}
+    ${p.nextGoal?`<details data-detail-key="live-research-notes"><summary>현재 조사 계획 자세히 보기</summary><p>${esc(p.nextGoal)}</p><p class="small muted">조사 중 작성한 잠정 메모입니다.</p></details>`:''}
+    ${used?`<details data-detail-key="live-tool-summary"><summary>지금까지 자료 조회·도구 실행 ${toolCalls}회</summary><p class="small">${esc(used)}</p></details>`:''}
+    <p class="small muted">자료와 계산 결과를 모아 첫 판단을 작성하고 있습니다. 진행 내용은 자동으로 갱신됩니다.${p.findings?` 잠정 메모 ${p.findings}개를 기록했습니다.`:''}</p>
     ${button('roadmap-progress-open','조사 과정 자세히 보기','','small')}</div>`;
 }
 function roadmapActivity(){
@@ -156,7 +160,7 @@ async function loadCandidateStructures(){
     candidateStructures=value;
     candidateStructuresFor=key;
   }catch(error){
-    if(candidateStructuresKey()===key&&version===candidateStructuresVersion){candidateStructures=null;candidateStructuresFor=key}
+    if(candidateStructuresKey()===key&&version===candidateStructuresVersion){candidateStructures={rows:[],load_error:true};candidateStructuresFor=key}
   }finally{
     if(version===candidateStructuresVersion)candidateStructuresPendingFor=null;
     if(candidateStructuresKey()===key&&version===candidateStructuresVersion)render();
@@ -250,6 +254,7 @@ function roadmapEvidencePanel(){
   return `<p class="small muted">${current?'현재 판단의 가설과 실제 결과를 나란히 확인합니다.':'새 입력이 반영되기 전 기록 또는 검토 중인 초안입니다.'} 계산이 성공했다는 사실은 그 자체로 가설을 지지하지 않습니다.</p>
     ${unfinished.length?`<p class="notice-inline">완료되지 않은 조회·계산 ${unfinished.length}건이 있습니다. 결과가 없다는 것과 실행에 실패했다는 것을 구별하세요.</p>`:''}
     ${roadmapToolPanel()}
+    ${typeof renderHypothesisReviewSummary==='function'?renderHypothesisReviewSummary():''}
     ${roadmapEvidenceLedger()}
     <details class="roadmap-hypothesis-text" data-detail-key="complete-hypothesis-text"><summary>가설의 전체 설명·예상과 피드백</summary><div class="hypotheses-section">${hs.map(h=>renderHypothesis(h,!!dec?.research_loop&&(!frame||current))).join('')}${renderOmittedHypotheses()}</div></details>
     <details class="roadmap-results" data-detail-key="actual-results"><summary>실제 계산·조회 결과 ${results.length}개 열기</summary><p class="small muted">최신 자료가 있다는 것과 그 원문을 읽었다는 것은 다릅니다. 읽기 완료 표시는 만들지 않습니다.</p><div class="roadmap-result-list">${results.slice().reverse().map(a=>`<div>${button('source',esc(artifactName(a.id)),`data-id="${esc(a.id)}"`,'link-button')}<span>${esc(labels[a.kind]??a.kind)} · ${esc(jobLabels[a.meta.result_status]??a.meta.result_status)}</span></div>`).join('')||'<p>아직 계산·조회 결과가 없습니다.</p>'}</div></details>
@@ -310,13 +315,62 @@ function roadmapNextPanel(model){
     ${roadmapExistingDrug(model)}
     <section class="next-research">${checks.map((c,i)=>renderCheck(c,current,i)).join('')||list(d?.next_actions)||'<p>아직 다음 확인이 제안되지 않았습니다.</p>'}</section>`;
 }
+// Only displayed reassessment prose is translated; original record remains below.
+function roadmapPlainRationale(value,model){
+  const raw=String(value??'');
+  const fields={statement:'가설 문장',expected_observation:'예상 관측',reasoning_design:'판별 실험 설계',assessment_scope:'부분별 판단',conditional_alternatives:'조건부 설명',assessment:'평가',rationale:'판단 이유',evidence:'근거',research_loop:'연구 판단',next_checks:'다음 확인',hypothesis_ids:'연결 가설',possible_outcomes:'결과별 해석',revision_rationale:'유지·변경 이유',scope_targets:'판단 대상',no_change:'변화 없는 상태',changed:'변경 상태',question:'확인 질문',purpose:'목적',operation:'실행 방법',outcome_links:'결과 연결'};
+  const candidates=new Map();
+  const add=(id,label,kind)=>{
+    if(typeof id!=='string'||!id||typeof label!=='string'||!label.trim())return;
+    const rows=candidates.get(id)??[];
+    if(!rows.some(x=>x.label===label&&x.kind===kind))rows.push({label,kind});
+    candidates.set(id,rows);
+  };
+  for(const d of [state.decision,model?.previous]){
+    const loop=d?.research_loop??{};
+    for(const h of loop.hypotheses??[]){
+      add(h.id,h.statement,'가설');
+      for(const a of h.conditional_alternatives??[])add(a.id,a.label??a.statement,'조건부 설명');
+    }
+    for(const c of loop.next_checks??[])add(c.id,c.question||c.purpose,'확인');
+  }
+  // Split complete identifier tokens only, never a substring inside a longer ID.
+  const unknownHypothesisIds=new Set((raw.match(/(?<![A-Za-z0-9_])H_[A-Za-z0-9_]+(?![A-Za-z0-9_])/g)??[]).filter(id=>!candidates.has(id)));
+  const keys=[...new Set([...Object.keys(fields),...candidates.keys(),...unknownHypothesisIds])].sort((a,b)=>b.length-a.length);
+  const escapeRegex=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  const pattern=new RegExp('(?<![A-Za-z0-9_])('+keys.map(escapeRegex).join('|')+')(?![A-Za-z0-9_])','g');
+  const rendered=raw.split(pattern).map(token=>{
+    if(unknownHypothesisIds.has(token))return `<span title="${esc(token)}">가설 참조(원문 확인)</span>`;
+    const rows=candidates.get(token);
+    if(rows?.length){
+      // Ambiguous labels stay unresolved; show the kind and keep exact IDs in the raw foldout.
+      if(rows.length!==1){
+        const kinds=[...new Set(rows.map(x=>x.kind))];
+        const label=kinds.length===1?`${kinds[0]}(문구 차이 · 원문 확인)`:'참조 항목(여러 기록 · 원문 확인)';
+        return `<span title="${esc(token)}">${esc(label)}</span>`;
+      }
+      const {label,kind}=rows[0],short=label.length>72?label.slice(0,72)+'…':label;
+      return `<span title="${esc(kind+' · '+token+' · '+label)}">${esc(kind+': '+short)}</span>`;
+    }
+    return Object.hasOwn(fields,token)?esc(fields[token]):judgmentText(token);
+  }).join('');
+  return `${rendered}<details class="rejudgment-original"><summary>이 문장의 원문·ID 보기</summary><p class="prose">${esc(raw)}</p></details>`;
+}
+
 function roadmapChangesPanel(model){
   const previous=model.previous,d=state.decision,history=roadmapHistory.get(roadmapHistoryKey());
+  const events=state.events??[];
+  const latestObservationIndex=events.map(e=>e.kind).lastIndexOf('observation');
+  const currentPublicationIndex=events.findLastIndex(e=>e.kind==='decision_published'&&e.body?.receipt_id===state.decision_id);
+  const currentAfterObservation=model.current===true&&latestObservationIndex>=0&&currentPublicationIndex>latestObservationIndex;
+  const recordedReasonTitle=currentAfterObservation?'관측 이후 현재 판단이 설명한 유지·변경 이유':latestObservationIndex>=0?'마지막 게시 판단의 유지·변경 이유 · 새 관측 반영 미확인':'이번 판단이 설명한 변경·유지 이유';
   const names={statement:'가설 문장',expected_observation:'예상 관측',assessment:'평가',rationale:'이유',evidence:'연결 근거',assessment_scope:'부분별 판단',conditional_alternatives:'조건부 설명',question:'확인 질문',purpose:'목적',hypothesis_ids:'연결 가설',operation:'실행 방법',possible_outcomes:'결과별 해석',outcome_links:'결과 연결',scope_targets:'대상 부분',label:'항목 이름',text:'조건 내용',origin:'입력 출처',source_refs:'원 입력'};
-  const record=(x)=>`<article class="roadmap-diff ${x.status}"><span class="roadmap-diff-tag">${({added:'＋ 새 기록',omitted:'− 이번 판단에 없음',changed:'↻ 기록 변경',unchanged:'＝ 기록 동일',unavailable:'? 비교 불가'})[x.status]}</span><strong>${esc(x.id)}</strong>${x.reason?`<p class="notice-inline">${esc(x.reason)}</p>`:''}<p>${esc(roadmapSummary(x.after?.statement??x.after?.question??x.after?.text??x.before?.statement??x.before?.question??x.before?.text,120))}</p>${x.status==='changed'?`<span class="small muted">${x.fields.map(f=>names[f]??f).join(' · ')}</span>`:''}${x.status==='omitted'?'<span class="small muted">이번 판단에 없다는 기록일 뿐 기각·반증이 아닙니다.</span>':''}${x.status!=='unchanged'?`<details><summary>정확한 이전·현재 값 비교</summary>${x.fields.map(f=>`<div class="roadmap-diff-values"><h4>${esc(names[f]??f)}</h4><div><span>이전</span>${typeof x.before?.[f]==='string'?`<p class="prose">${esc(x.before[f])}</p>`:json(x.before?.[f]??null)}</div><div><span>현재</span>${typeof x.after?.[f]==='string'?`<p class="prose">${esc(x.after[f])}</p>`:json(x.after?.[f]??null)}</div></div>`).join('')}</details>`:''}</article>`;
+  const record=(x)=>`<article class="roadmap-diff ${x.status}"><span class="roadmap-diff-tag">${({added:'＋ 새 기록',omitted:'− 이번 판단에 없음',changed:'↻ 기록 변경',unchanged:'＝ 기록 동일',unavailable:'? 비교 불가'})[x.status]}</span><strong>${esc(x.id)}</strong>${x.reason?`<div class="notice-inline">${roadmapPlainRationale(x.reason,model)}</div>`:''}<p>${esc(roadmapSummary(x.after?.statement??x.after?.question??x.after?.text??x.before?.statement??x.before?.question??x.before?.text,120))}</p>${x.status==='changed'?`<span class="small muted">${x.fields.map(f=>names[f]??f).join(' · ')}</span>`:''}${x.status==='omitted'?'<span class="small muted">이번 판단에 없다는 기록일 뿐 기각·반증이 아닙니다.</span>':''}${x.status!=='unchanged'?`<details><summary>정확한 이전·현재 값 비교</summary>${x.fields.map(f=>`<div class="roadmap-diff-values"><h4>${esc(names[f]??f)}</h4><div><span>이전</span>${typeof x.before?.[f]==='string'?`<p class="prose">${esc(x.before[f])}</p>`:json(x.before?.[f]??null)}</div><div><span>현재</span>${typeof x.after?.[f]==='string'?`<p class="prose">${esc(x.after[f])}</p>`:json(x.after?.[f]??null)}</div></div>`).join('')}</details>`:''}</article>`;
   return `${!model.current?'<p class="notice-inline">새 입력의 반영은 아직 확인되지 않았습니다. 아래 변경은 마지막으로 발표된 두 판단 사이의 기록입니다.</p>':''}
+    ${d?`<details ${currentAfterObservation?'open':''}><summary>${esc(recordedReasonTitle)}</summary><div class="change-grid"><div><h4>바꾼 내용</h4>${decisionChangeList(d.changed,v=>roadmapPlainRationale(v,model))}</div><div><h4>유지한 내용</h4>${decisionChangeList(d.preserved,v=>roadmapPlainRationale(v,model))}</div></div>${d.research_loop?.revision_rationale?`<div class="prose small">${roadmapPlainRationale(d.research_loop.revision_rationale,model)}</div>`:''}${currentAfterObservation?'<p class="small muted">관측 뒤에 기록한 현재 판단입니다. 바뀐 내용·유지한 내용과 연결 근거를 함께 읽어 반영 범위를 확인하세요.</p>':''}</details>`:''}
+    ${typeof uiObservationBridge==='function'?uiObservationBridge():''}
     ${renderInputChanges()}
-    ${d?`<details><summary>이번 판단이 설명한 변경·유지 이유</summary><div class="change-grid"><div><h4>바꾼 내용</h4>${decisionChangeList(d.changed)}</div><div><h4>유지한 내용</h4>${decisionChangeList(d.preserved)}</div></div>${d.research_loop?.revision_rationale?`<p class="prose small">${judgmentText(d.research_loop.revision_rationale)}</p>`:''}</details>`:''}
+    ${renderIntentReassessment(true)}
     ${previous?`<p class="small muted">원본의 값과 연결을 비교했습니다. 같은 문구가 과학적 재검증을 뜻하지 않으며, 바뀐 기록 모두가 새 입력 때문이라고 추정하지 않습니다.</p>${[['goals','목표·조건'],['hypotheses','전체 가설·근거'],['claims','가설의 부분·조건부 설명'],['checks','다음 확인']].map(([key,title])=>`<details data-detail-key="diff:${key}"><summary>${title}의 이전·현재 비교</summary>${model.diffs[key].map(record).join('')||'<p>비교할 항목이 없습니다.</p>'}</details>`).join('')}<div class="detail-actions">${button('source','이전 판단 원문',`data-id="${esc(model.priorLink.decision_id)}"`,'small')}${button('source','현재 판단 원문',`data-id="${esc(state.decision_id)}"`,'small')}</div>`:
       model.historyStatus==='unavailable'?`<p class="notice-inline"><span aria-hidden="true">? </span>이전 판단 원문을 불러오지 못해 비교할 수 없습니다. 동일 여부도 변경 여부도 단정하지 않습니다.${history?.message?` (${esc(history.message)})`:''}</p>`:
       `<p class="small muted">${model.historyStatus==='first'?'이전에 발표된 판단과의 비교 기록이 아직 없습니다.':'이전 판단 원문을 확인하고 있습니다.'}</p>`}
@@ -335,7 +389,7 @@ function roadmapObservationAnswer(model){
   if(!changed.length&&!preserved.length&&!rationale)return '';
   return `<section class="observation-answer" aria-label="입력한 결과 이후 달라진 것">
     <span class="roadmap-label">입력한 결과 이후 · 이 판단이 설명한 것</span>
-    <p class="prose small">${esc(roadmapSummary(event.body.text,220))}</p>
+    <p class="prose small">${esc(roadmapSummary(typeof uiObservationDisplayText==='function'?uiObservationDisplayText(event.body.text):event.body.text,220))}</p>
     ${rationale?`<p class="prose">${judgmentText(rationale)}</p>`:''}
     <div class="change-grid">
       <div><h4>바꾼 내용 ${changed.length?`· ${esc(changed.length)}`:''}</h4>${

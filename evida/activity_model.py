@@ -89,7 +89,7 @@ def _spearman(left, right):
     return top / bottom if bottom else 0.0
 
 
-def fit(value, seed=20260930, extra_sources=(), endpoint=None):
+def fit(value, seed=20260930, extra_sources=(), endpoint=None, compare_models=False):
     """Fit on the retrieved activities and report what the fit is worth on unseen scaffolds."""
     from rdkit import Chem, RDLogger, rdBase
     from rdkit.Chem import rdFingerprintGenerator
@@ -148,7 +148,7 @@ def fit(value, seed=20260930, extra_sources=(), endpoint=None):
     baseline_error = float(numpy.mean(numpy.abs(baseline - y_held)))
     spearman = round(_spearman(list(predicted), list(y_held)), 3)
     usable = spearman >= MINIMUM_HELD_OUT_SPEARMAN and model_error < baseline_error
-    return {
+    fitted = {
         'status': 'fitted', 'usable': usable, 'model': model if usable else None,
         'fingerprint': generator if usable else None,
         'input_review': input_review, '_seed_rows': rows, '_training_rows': train,
@@ -170,6 +170,11 @@ def fit(value, seed=20260930, extra_sources=(), endpoint=None):
                     '그래서 제안에 활성 점수를 붙이지 않습니다. 이것은 제안이 나쁘다는 뜻이 아니라 '
                     '지금 자료로는 순서를 매길 수 없다는 뜻입니다.'),
         'limits': LIMITS}
+    if compare_models:
+        from .activity_selection import choose
+        return choose(fitted, x_train, y_train, x_held, y_held, generator,
+                      model_error, baseline_error, seed)
+    return fitted
 
 
 def score(proposals, fitted):

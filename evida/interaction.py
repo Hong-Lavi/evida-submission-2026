@@ -255,25 +255,35 @@ def register_followthrough(store, db, wid, rev, message_id):
     return rid
 
 
-def request_followthrough(store, wid, rev, command_id):
+def request_followthrough(store, wid, rev, command_id, model=None, gateway=None):
     if type(rev) is not int or not isinstance(command_id,str) or not 1 <= len(command_id) <= 200:
         raise ValueError('이어서 검토할 상태와 요청 ID를 확인해 주세요.')
-    payload = dump({'review_current_revision':rev})
+    selection = {'review_current_revision':rev}
+    if model is not None: selection['model'] = model
+    payload = dump(selection)
     with store.connect(True) as db:
         prior = db.execute('SELECT * FROM commands WHERE workspace=? AND id=?',(wid,command_id)).fetchone()
         if prior:
             if prior['payload'] != payload: raise Conflict('같은 요청 ID의 검토 조건이 다릅니다.')
             return json.loads(prior['result'])
         if store.workspace(db,wid)['rev'] != rev: raise Conflict('최신 조건에서 다시 선택해 주세요.')
+        if model is not None:
+            if not isinstance(model,str) or gateway is None or model not in gateway.approved_models():
+                raise ValueError('현재 실행 정책에 승인되지 않은 모델입니다.')
+            gateway.check_model_available(model)
         pending = db.execute("SELECT id FROM followthrough_requests WHERE workspace=? AND requested_rev=? "
                              "AND status='pending'",(wid,rev)).fetchone()
-        rid = pending['id'] if pending else register_followthrough(store,db,wid,rev,None)
+        # Explicit manual selection creates its own lineage; never mutate an auto request.
+        rid = pending['id'] if pending and model is None else register_followthrough(store,db,wid,rev,None)
+        if model is not None:
+            store.event(db,wid,'followthrough_model_selected',{'request_id':rid,'model':model,
+                'command_id':command_id,'state_rev':rev,'selection':'explicit_manual_review'})
         result = {'review_request_id':rid,'state_rev':rev}
         db.execute('INSERT INTO commands VALUES(?,?,?,?)',(wid,command_id,payload,dump(result)))
         return result
 
 
-def claim_followthrough(store, wid):
+def claim_followthrough(store, wid, gateway=None):
     """Atomic enqueue; no remote retry, stale-state promotion or parallel planner."""
     with store.connect(True) as db:
         row = db.execute("SELECT * FROM followthrough_requests WHERE workspace=? AND status='pending' "
@@ -296,8 +306,26 @@ def claim_followthrough(store, wid):
             return None
         if db.execute("SELECT 1 FROM jobs WHERE workspace=? AND kind!='explanation' AND status IN ('queued','running')",(wid,)).fetchone():
             return None
-        jid = uid('job')
         request = {'followthrough_request_id':row['id'],'changed_conditions_review':True}
+        # Existing event lineage avoids schema migration and browser/default inference.
+        for event in db.execute("SELECT body FROM events WHERE workspace=? AND kind='followthrough_model_selected' ORDER BY seq DESC",(wid,)):
+            selection = json.loads(event['body'])
+            if selection.get('request_id') == row['id']:
+                request['model'] = selection['model']
+                break
+        if gateway is not None:
+            try:
+                model = request.get('model')
+                if model is None:
+                    from .model_routes import workspace_model
+                    model = workspace_model(store,wid,gateway)
+                gateway.check_model_available(model)
+            except GatewayError as exc:
+                db.execute("UPDATE followthrough_requests SET status='needs_confirmation',error=? WHERE id=?",(str(exc),row['id']))
+                store.event(db,wid,'followthrough_attention',{'request_id':row['id'],'reason':str(exc),
+                    'route_status':exc.status,'blocked_jobs':[]})
+                return None
+        jid = uid('job')
         db.execute('INSERT INTO jobs VALUES(?,?,?,?,?,?,?,?,NULL,NULL,NULL,?)',
                    (jid,wid,state['rev'],'planner',dump(request),'queued',now(),now(),uid('attempt')))
         db.execute("UPDATE followthrough_requests SET status='dispatched',job_id=? WHERE id=?",(jid,row['id']))
@@ -309,7 +337,7 @@ def dispatch_followthrough(runner, wid):
     if not any(r['status']=='pending' for r in runner.store.snapshot(wid).get('followthrough_requests',[])):
         return None
     if not runner.gateway.status()['available']: return None
-    jid = claim_followthrough(runner.store,wid)
+    jid = claim_followthrough(runner.store,wid,gateway=runner.gateway)
     if jid:
         runner.pool.submit(runner.run_planner,jid)
     return jid

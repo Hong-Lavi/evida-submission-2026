@@ -43,7 +43,7 @@
 .reader-source-role{border-left:3px solid var(--primary);padding-left:12px;margin-bottom:22px}.reader-source-role strong{font-size:14px}.reader-pagination{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px;margin:18px 0}
 .with-reader .ui-overview-grid,.with-reader .ui-experiment-layout,.with-reader .ui-experiment-fields,.with-reader .ui-candidate-grid{grid-template-columns:1fr}.with-reader .ui-overview-grid>article+article{border-left:0;border-top:1px solid var(--line)}.with-reader .ui-section-heading{flex-wrap:wrap}
 .ui-composer-context{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:28px;padding:13px 18px;border:1px solid var(--line);border-bottom:0;background:var(--surface);border-radius:6px 6px 0 0;font-size:13px}.ui-composer-context>span{color:var(--ink-3)}.ui-composer-context strong{font-weight:550;overflow-wrap:anywhere}.ui-composer-context code{font-size:11px;overflow-wrap:anywhere}.roadmap-composer{margin-top:0!important;border-radius:0 0 6px 6px!important}.roadmap-composer textarea{font-size:15px}.roadmap-input-tools select{font-size:14px}
-.rail-heading{display:flex;align-items:center;justify-content:space-between;gap:10px}.rail-heading .brand{font-size:23px}.rail-browser input{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:5px;font-size:14px}.rail-list-modes{display:flex;gap:4px;margin:14px 0 7px}.rail-list-modes [aria-pressed=true]{font-weight:650}.project-name{font-size:14px!important;line-height:1.6}.project-status{font-size:12px!important}.project-list{overflow:auto;max-height:calc(100vh - 270px)}
+.rail-heading{display:flex;align-items:center;justify-content:space-between;gap:10px}.rail-heading .brand{font-size:23px}.rail-browser input{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:5px;font-size:14px}.rail-list-modes{display:flex;flex-wrap:wrap;gap:4px;margin:14px 0 7px}.rail-list-modes [aria-pressed=true]{font-weight:650}.project-name{font-size:14px!important;line-height:1.6}.project-status{font-size:12px!important}.project-list{overflow:auto;max-height:calc(100vh - 270px)}
 @media(min-width:851px){.ui-rail-collapsed .shell{grid-template-columns:68px minmax(0,1fr)}.ui-rail-collapsed .rail{padding:16px 9px}.ui-rail-collapsed .rail .brand,.ui-rail-collapsed .rail-browser,.ui-rail-collapsed .new-button{display:none}.ui-rail-collapsed .rail-heading{justify-content:center}}
 @media(max-width:1100px){.workspace-split.with-reader{display:block}.research-reader{position:fixed;inset:12px 12px 12px auto;top:12px;width:min(740px,calc(100vw - 24px));height:auto;max-height:none;z-index:65;box-shadow:0 0 0 100vmax #141b2d33}.ui-experiment-layout{grid-template-columns:1fr}.ui-experiment-list{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}.ui-overview-grid{grid-template-columns:1fr 1fr}.ui-overview-grid>article:last-child{grid-column:1/-1;border-left:0;border-top:1px solid var(--line)}}
 @media(max-width:850px){.rail{display:block}.rail-heading{display:flex}.rail .new-button{margin:10px 0}.rail-browser{display:block}.rail-browser .project-list{display:block;max-height:230px}.ui-rail-collapsed .rail-browser,.ui-rail-collapsed .rail .new-button{display:none}.ui-rail-collapsed .rail{padding:10px 18px}.ui-workspace-heading h1{font-size:22px}.ui-stage-nav{gap:3px}.ui-stage{padding:9px 10px;font-size:14px}.ui-judgment{padding:20px}.ui-judgment h2{font-size:19px}.reader-body{padding:17px}.reader-candidate-identity{grid-template-columns:120px 1fr}.research-reader{inset:0;width:100%;height:100dvh;border-radius:0;border:0}.reader-heading{padding-top:max(15px,env(safe-area-inset-top))}.reader-body{padding-bottom:max(20px,env(safe-area-inset-bottom))}}
@@ -81,3 +81,28 @@
 .source-bibliography {margin:16px 0;line-height:1.6}
 .source-technical-locator {font-size:12px;margin:10px 0;color:var(--muted)}
 @media(max-width:430px){.ui-structure-pair {grid-template-columns:1fr}.ui-generated-row{grid-template-columns:1fr}.ui-generated-row .structure-thumb{max-width:260px}}
+
+/* A reading path, not a completion indicator. Native scientific state is unchanged. */
+.ui-judge-path{margin:0 0 18px;padding:12px 16px;border:1px solid var(--line);border-radius:7px;background:var(--surface)}
+.ui-judge-path ol{display:flex;flex-wrap:wrap;gap:4px 10px;list-style:none;padding:0;margin:7px 0 0}.ui-judge-path li{margin:0}.ui-judge-path button{padding:5px 7px;white-space:normal;text-align:left}.ui-judge-path button span{color:var(--primary);font-weight:600;margin-right:3px}
+.ui-field-caution{background:var(--surface-sunken);border-left:3px solid var(--line);padding:10px 12px;margin:10px 0;color:var(--ink-2)}
+.ui-field-caution p:last-child{margin-bottom:0}.ui-field-original{margin:9px 0 0}.ui-field-original summary{font-size:12px;color:var(--ink-3)}.ui-field-original .prose{white-space:pre-wrap;overflow-wrap:anywhere;padding-top:10px}
+.ui-measurement-summary>details{margin-bottom:12px}.ui-result-feedback{border-top:1px solid var(--line);margin-top:20px;padding-top:20px}
+@media(max-width:600px){.ui-judge-path{padding:10px 12px}.ui-judge-path ol{display:grid;grid-template-columns:1fr 1fr;gap:3px}.ui-judge-path button{font-size:12px;width:100%}.ui-field-caution{padding:9px 10px}.ui-field-original summary{padding:5px 0}}
+
+.ui-evidence-scope{border:1px solid var(--line);border-radius:6px;padding:12px 14px;margin:16px 0}.ui-evidence-scope legend{font-size:13px}.ui-evidence-scope input[type=date]{display:block;max-width:220px;margin:6px 0}.ui-evidence-boundary{padding:12px 16px;border:1px solid var(--line);border-radius:6px;margin:0 0 12px;background:var(--surface)}.ui-evidence-boundary p{margin:5px 0 0}
+
+.ui-discrimination-summary{margin:0 0 18px;padding:10px 12px;border:1px solid var(--line);border-radius:5px}.ui-discrimination-summary>strong{font-size:13px}.ui-discrimination-summary p{margin:5px 0 0}.ui-discrimination-summary .ui-field-caution{font-size:12px}
+@media(max-width:600px){.ui-judge-path ol{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:4px;margin-top:5px;scroll-snap-type:x proximity}.ui-judge-path li{flex:0 0 auto;scroll-snap-align:start}.ui-judge-path button{width:auto;white-space:nowrap;padding:5px 8px}.ui-judge-path{padding:9px 12px}.ui-discrimination-summary{padding:9px 10px}.ui-discrimination-summary p{font-size:12px}}
+
+/* Long RNA identifiers remain readable inside the experiment, not wider than mobile. */
+.ui-experiment-detail{overflow-wrap:anywhere}
+.ui-experiment-detail .table-scroll,.ui-experiment-detail pre{max-width:100%;overflow-x:auto}
+/* Scientific result previews keep values/units visible on narrow screens. */
+.ui-computation-value-table{table-layout:fixed;width:100%}
+.ui-computation-value-table th,.ui-computation-value-table td{white-space:normal;overflow-wrap:anywhere}
+.ui-computation-value-table td:nth-child(2){white-space:nowrap;overflow-wrap:normal;word-break:normal}
+.ui-computation-value-table th:nth-child(1){width:40%}
+.ui-computation-value-table th:nth-child(2){width:26%}
+.ui-computation-value-table th:nth-child(3){width:34%}
+.ui-computation-input-identity,.ui-computation-input code{overflow-wrap:anywhere}

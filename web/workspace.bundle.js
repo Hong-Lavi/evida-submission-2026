@@ -171,8 +171,216 @@ function inputProvenanceNotice(event){
 }
 function inputSourceView(event){
   if(!event)return '입력 기록을 찾지 못했습니다.';
-  return `<p class="prose">${esc(event.body.text)}</p><p class="limit">${esc(inputProvenanceLabel(event))} · ${esc(event.created)}</p>${inputProvenanceNotice(event)}${event.effective_provenance?.corrected_by?`<details class="meta-details"><summary>정정 전 원 입력 기록</summary>${json(event.body)}</details>`:''}`;
+  return `<p class="prose">${esc(event.body.text)}</p><p class="limit">${esc(inputProvenanceLabel(event))} · ${esc(event.created)}</p>${inputProvenanceNotice(event)}${typeof measurementReportView==='function'?measurementReportView(event.body):''}${event.effective_provenance?.corrected_by?`<details class="meta-details"><summary>정정 전 원 입력 기록</summary>${json(event.body)}</details>`:''}`;
 }
+
+
+;
+/* Source: observation-report.js */
+const measurementReportLabels={measurement_validity:'측정 성립',intervention_status:'개입·처리 적절성',precision:'구별에 필요한 정밀도',context_match:'원래 확인 조건과 일치'};
+let feedbackSubjectRefs=[];
+function checkSubjectBinding(decisionId,checkId){
+  if(!decisionId||!checkId)return null;
+  for(const binding of [...(state.check_subject_bindings??[])].reverse()){
+    if(binding.decision_id!==decisionId)continue;
+    const check=binding.checks?.find(item=>item.check_id===checkId);
+    if(check)return check;
+  }
+  return null;
+}
+function subjectRecordsView(subjects){
+  const roles={candidate:'측정 대상',comparator:'비교 대상',condition:'조건 원자료'};
+  return (subjects??[]).map(subject=>{
+    const display=subject.display??{},reference=subject.context?.reference??{};
+    const transcript=display.transcript_id??reference.transcript_id;
+    const version=display.version??reference.version;
+    const facts=[display.guide_5to3?['가이드 서열 (5′→3′)',display.guide_5to3]:null,
+      transcript?['전사체',`${transcript}${version!=null?` · 버전 ${version}`:''}`]:null,
+      display.chemistry?['화학 수정',display.chemistry==='unknown'?'미확인':display.chemistry]:null].filter(Boolean);
+    const row=String(subject.json_pointer??'').match(/^\/rows\/(\d+)$/);
+    const attrs=`data-id="${esc(subject.artifact_id)}"${row?` data-source-offset="${Number(row[1])}"`:''}`;
+    return `<article class="subject-record" data-subject-role="${esc(subject.role)}"><p class="small muted">${esc(roles[subject.role]??subject.role)}</p><strong>${esc(display.label??subject.artifact_title??'연결한 대상')}</strong>${facts.length?`<dl class="context-facts">${facts.map(([label,value])=>`<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`).join('')}</dl>`:''}<p class="small">${esc(subject.artifact_title??'')}${row?` · 원자료 ${Number(row[1])+1}행`:''}</p>${button('source',row?'대상 원자료의 이 행 열기':'대상 원자료 열기',attrs,'link-button small')}<details><summary>보존한 대상·조건의 원기록</summary>${display.smiles?`<p class="small">구조 (SMILES)</p><pre class="raw">${esc(display.smiles)}</pre>`:''}<pre class="raw">${esc(JSON.stringify({row:subject.snapshot,context:subject.context,source_context:subject.source_context},null,2))}</pre><p class="small">원자료 위치: <code>${esc(subject.json_pointer??'')}</code></p><p class="small">원자료 판본: <code>${esc(subject.artifact_sha256??'')}</code></p></details></article>`;
+  }).join('');
+}
+function checkSubjectsView(check,decisionId=state.decision_id){
+  const binding=checkSubjectBinding(decisionId,check?.id);
+  if(!binding)return check?.subject_refs?.length?'<p class="small">이 확인의 대상 원기록을 불러와 대조해 주세요.</p>':'';
+  return `<section class="check-subjects"><h4>이 확인에 연결한 후보·조건</h4>${subjectRecordsView(binding.subjects)}</section>`;
+}
+function subjectConfirmationForm(check,decisionId){
+  feedbackSubjectRefs=[];
+  const binding=checkSubjectBinding(decisionId,check?.id);
+  if(!binding)return '';
+  feedbackSubjectRefs=(binding.subject_refs??[]).map(ref=>({...ref}));
+  return `<section class="feedback-subject-confirmation"><h4>원래 확인하려던 대상</h4>${subjectRecordsView(binding.subjects)}<label class="checkbox"><input type="checkbox" id="feedback-subject-confirm"> 위 후보·조건 기록을 대상으로 한 관측입니다</label><p class="small muted">대상이 다르거나 확인 중이면 새 내용에 적고 관련 자료를 연결해 주세요. 대상 기록이 확인되면 결과에 따른 판단 계산을 이어갑니다.</p></section>`;
+}
+function reportedSubjectBindingView(binding){
+  if(!binding||binding.comparison?.status==='not_declared')return '';
+  const labels={same_record:'연결한 대상 기록이 일치합니다',mismatch:'보고한 대상 기록이 원래 확인과 다릅니다',unknown:'어느 대상의 관측인지 확인이 필요합니다'};
+  const expected=Array.isArray(binding.expected)?binding.expected:binding.expected?.subjects??[];
+  const reported=Array.isArray(binding.reported)?binding.reported:binding.reported?.subjects??[];
+  return `<section class="reported-subject-binding"><h4>${esc(labels[binding.comparison?.status]??'연결한 대상 기록 확인')}</h4><details><summary>원래 확인과 보고의 대상 대조</summary><h4>원래 확인의 대상</h4>${subjectRecordsView(expected)}${reported.length?`<h4>보고에 명시한 대상</h4>${subjectRecordsView(reported)}`:'<p class="small">관측한 후보·조건 기록을 확인해 연결하면 대조할 수 있습니다.</p>'}</details><p class="small">측정 조건의 성립은 보고한 조건과 원자료를 함께 확인합니다.</p></section>`;
+}
+function measurementReportValue(field,value){
+  if(field==='context_match')return value===true?'일치':value===false?'불일치':'미확인';
+  return {validated:'성립 확인',failed:'실패',adequate:'충분',insufficient:'부족',unknown:'미확인'}[value]??String(value??'미입력');
+}
+function measurementReportForm(check=null,decisionId=null){
+  const allowed=new Set(status.observation_source_kinds??[]);
+  const sources=(state.artifacts??[]).filter(a=>allowed.has(a.kind));
+  const select=(field,options)=>`<label>${measurementReportLabels[field]}<select id="feedback-report-${field}">${options.map(([value,label])=>`<option value="${value}">${label}</option>`).join('')}</select></label>`;
+  return `${subjectConfirmationForm(check,decisionId)}<section class="feedback-measurement-report">
+    <label class="checkbox"><input type="checkbox" id="feedback-report-enabled"> 측정 조건에 대한 내 확인도 함께 기록</label>
+    <fieldset id="feedback-report-fields" disabled hidden><legend>연구자가 보고하는 측정 조건</legend><div class="upload-fields">
+      ${select('measurement_validity',[['unknown','미확인'],['validated','측정이 성립함을 확인'],['failed','측정 실패']])}
+      ${select('intervention_status',[['unknown','미확인'],['validated','의도한 개입·처리가 이뤄짐을 확인'],['failed','개입·처리 실패']])}
+      ${select('precision',[['unknown','미확인'],['adequate','예상들을 구별하기에 충분'],['insufficient','예상들을 구별하기에 부족']])}
+      ${select('context_match',[['unknown','미확인'],['true','원래 확인 조건과 일치'],['false','원래 확인 조건과 다름']])}
+    </div><label>판단한 근거·검출한계·대조 조건<textarea id="feedback-report-basis" maxlength="10000" placeholder="어떤 기준으로 확인했는지, 관련 원자료의 페이지·문단·행을 함께 적어 주세요."></textarea></label><p class="small muted">이 보고를 보존해 이후 모델 해석과 대조합니다.</p></fieldset>
+    <details class="feedback-source-selection"><summary>함께 검토할 원자료·계산 결과 연결 (선택)</summary>${sources.length?`<label>자료 이름으로 찾기<input type="search" id="feedback-source-search" placeholder="자료 이름 또는 종류"></label><div class="feedback-source-list">${sources.map(a=>`<label class="checkbox" data-feedback-source><input type="checkbox" name="feedback-source" value="${esc(a.id)}"><span>${esc(artifactName(a.id))}<small>${esc(labels[a.kind]??a.kind)}</small></span></label>`).join('')}</div><p class="small muted">선택한 자료의 현재 판본과 원문을 이 관측에 함께 보존합니다.</p>`:'<p class="small muted">‘자료와 도구’에서 원자료를 추가하면 이 관측에 연결할 수 있습니다.</p>'}</details>
+  </section>`;
+}
+function measurementReportInput(){
+  const payload={},sourceIds=[...dialog.querySelectorAll('input[name="feedback-source"]:checked')].map(node=>node.value);
+  if(sourceIds.length>24)throw Error('연결할 원자료는 24개 이내로 선택해 주세요.');
+  if(sourceIds.length)payload.source_artifact_ids=sourceIds;
+  if(dialog.querySelector('#feedback-subject-confirm')?.checked&&feedbackSubjectRefs.length)payload.reported_subject_refs=feedbackSubjectRefs.map(ref=>({...ref}));
+  if(dialog.querySelector('#feedback-report-enabled')?.checked){
+    const value=field=>dialog.querySelector(`#feedback-report-${field}`).value;
+    const context=value('context_match');
+    payload.measurement_report={measurement_validity:value('measurement_validity'),intervention_status:value('intervention_status'),precision:value('precision'),context_match:context==='true'?true:context==='false'?false:null,assessment_basis:dialog.querySelector('#feedback-report-basis').value.trim()};
+  }
+  return payload;
+}
+document.addEventListener('change',event=>{
+  if(event.target.id!=='feedback-report-enabled')return;
+  const fields=dialog.querySelector('#feedback-report-fields');if(fields){fields.disabled=!event.target.checked;fields.hidden=!event.target.checked;}
+});
+document.addEventListener('input',event=>{
+  if(event.target.id!=='feedback-source-search')return;
+  const query=event.target.value.trim().toLocaleLowerCase();
+  for(const node of dialog.querySelectorAll('[data-feedback-source]'))node.hidden=!node.textContent.toLocaleLowerCase().includes(query);
+});
+function measurementReportView(body){
+  const report=body?.measurement_report,refs=body?.source_artifact_refs??[];
+  if(!report&&!refs.length&&!body?.subject_binding)return '';
+  return `<section class="saved-measurement-report">${reportedSubjectBindingView(body?.subject_binding)}${report?`<h4>입력자가 보고한 측정 조건</h4><dl class="context-facts">${Object.entries(measurementReportLabels).map(([field,label])=>`<div><dt>${label}</dt><dd>${esc(measurementReportValue(field,report[field]))}</dd></div>`).join('')}</dl>${report.assessment_basis?`<p class="prose small">${esc(report.assessment_basis)}</p>`:''}`:''}${refs.length?`<h4>함께 보존한 원자료·계산 결과</h4>${sourceLinks(refs.map(ref=>ref.id))}<details><summary>연결 당시 자료 판본</summary>${refs.map(ref=>`<p class="small">${esc(ref.title??ref.id)} · ${esc(labels[ref.kind]??ref.kind)}<br><code>${esc(ref.sha256)}</code></p>`).join('')}</details>`:''}</section>`;
+}
+function measurementReportComparisonView(result){
+  const comparisons=(result.measurement_report_comparison??[]).filter(item=>item.differences?.length);
+  if(!comparisons.length)return '';
+  return `<section class="measurement-report-comparison"><h4>관측 보고와 모델 해석이 다른 부분</h4>${comparisons.map(item=>`<div class="table-scroll"><table><thead><tr><th>항목</th><th>입력자가 보고한 조건</th><th>모델 해석</th></tr></thead><tbody>${item.differences.map(d=>`<tr><td>${esc(measurementReportLabels[d.field]??d.field)}</td><td>${esc(measurementReportValue(d.field,d.reported))}</td><td>${esc(measurementReportValue(d.field,d.interpreted))}</td></tr>`).join('')}</tbody></table></div>`).join('')}<p class="small">연결한 원자료와 측정 조건으로 이 차이를 먼저 확인하세요.</p></section>`;
+}
+
+
+;
+/* Source: observation-amendment.js */
+// A report amendment preserves the original physical observation and its interpretation.
+let observationAmendmentDialog=null;
+let observationAmendmentRequest=0;
+
+function observationAmendmentEntry(result){
+  if(!['report_confirmation_required','subject_confirmation_required'].includes(result.summary?.selection_status)
+    ||!result.result_assessment||typeof selected!=='string'||!selected)return '';
+  return `<section data-observation-amendment-entry><h4>확인한 대상·조건 반영</h4><p>이 관측의 대상이나 측정 조건을 확인했다면, 정정 근거를 남기고 같은 관측의 조건부 판단을 다시 계산할 수 있습니다.</p>${button('observation-amendment-open','이 관측의 대상·조건 확인',`data-artifact="${esc(selected)}"`,'small')}</section>`;
+}
+
+function observationAmendmentHistory(result){
+  const amendment=result.observation_amendment;
+  if(!amendment)return '';
+  const original=(result.observed_events??[]).find(row=>row.message_id===amendment.original_observation_message_id);
+  const before=original?.measurement_report,after=amendment.effective_measurement_report;
+  const rows=after?Object.entries(measurementReportLabels).map(([field,label])=>`<tr><th>${esc(label)}</th><td>${esc(before?measurementReportValue(field,before[field]):'최초 보고 없음')}</td><td>${esc(measurementReportValue(field,after[field]))}</td></tr>`).join(''):'';
+  const sources=[amendment.original_selection_id].filter(Boolean);
+  const originalComparison=typeof measurementReportComparisonView==='function'?measurementReportComparisonView(result):'';
+  return `<section data-observation-amendment-history><h4>같은 관측에서 확인한 보고</h4><p>원 관측과 모델의 결과 해석을 유지하고, 정정한 대상·조건으로 한 번 평가한 분기입니다.</p>${amendment.reason?`<p class="prose">${esc(amendment.reason)}</p>`:''}${rows?`<div class="table-scroll"><table><thead><tr><th>측정 조건</th><th>최초 보고</th><th>이 정정에서 적용한 보고</th></tr></thead><tbody>${rows}</tbody></table></div>`:''}${amendment.effective_subject_binding?reportedSubjectBindingView(amendment.effective_subject_binding):''}${originalComparison?`<details><summary>원 보고와 당시 해석의 차이</summary>${originalComparison}</details>`:''}${sources.length?`<p class="small">정정하기 전 계산${sourceLinks(sources)}</p>`:''}${amendment.amendment_message_id?button('message-source','정정 원문·근거 열기',`data-id="${esc(amendment.amendment_message_id)}"`,'link-button small'):''}</section>`;
+}
+
+function observationAmendmentForm(context,result,original){
+  const assessment=result.result_assessment??{};
+  const check=(result.checks??[]).find(row=>row.id===assessment.check_id);
+  const question=check?.question??'보존된 관측';
+  const outcome=assessment.outcome_index==null?'아직 결과 범주를 정하지 않은 해석':check?.possible_outcomes?.[assessment.outcome_index]?.observation??'원 결과 해석의 범주 확인 필요';
+  const provenance=context.origin==='synthetic'?'합성 개발 사례의 관측':context.origin==='researcher_report'?'연구자가 보고한 관측':'출처 분류를 함께 확인할 관측';
+  const expected=context.expected_subjects??[];
+  const subjects=expected.length?`<section><h4>원래 확인하려던 대상</h4>${subjectRecordsView(expected)}<label class="checkbox"><input type="checkbox" id="amend-subject-enabled"> 대상에 대한 보고를 이번에 정정</label><fieldset id="amend-subject-fields" disabled hidden><legend>관측한 대상 확인</legend><label>확인한 내용<select id="amend-subject-state"><option value="">확인한 내용을 선택해 주세요</option><option value="expected">위 원기록을 대상으로 한 관측임을 확인</option><option value="unknown">관측한 대상을 아직 확인하는 중</option></select></label></fieldset></section>`:'';
+  const originalView=original?`<details><summary>보존된 관측 원문·최초 보고</summary><p class="prose">${esc(original.text??'')}</p>${measurementReportView(original)}</details>`:'';
+  return `<p class="feedback-question">${esc(question)}</p><p class="small muted">${esc(provenance)}</p><p>같은 측정에서 확인한 사실과 대상 기록을 정정합니다. 새로 측정한 결과는 ‘새 관측’으로 연결해 주세요.</p>${originalView}<details><summary>이번 계산이 유지할 원 결과 해석</summary><p>모델이 기록한 결과 범주: ${esc(outcome)}</p><dl class="context-facts">${Object.entries(measurementReportLabels).map(([field,label])=>`<div><dt>${esc(label)}</dt><dd>${esc(measurementReportValue(field,assessment[field]))}</dd></div>`).join('')}</dl><p class="prose small">${esc(assessment.assessment_basis??'')}</p></details>${subjects}${measurementReportForm()}<label>정정한 내용과 근거<textarea id="amend-reason" maxlength="4000" placeholder="예: 원 시료 기록을 확인해 이 관측의 대상이 같은 후보 행임을 확인했습니다."></textarea></label><p class="small muted">선택한 보고 항목만 바뀝니다. 원 관측·원자료·이전 계산은 함께 보존됩니다.</p><div class="dialog-actions">${button('observation-amendment-save','정정 저장·같은 관측 재계산','','primary')}</div>`;
+}
+
+function observationAmendmentPayload(context,report,subjectChange,subjectState,reason){
+  const text=reason.trim();
+  if(!text)throw Error('무엇을 확인해 정정하는지 근거와 함께 적어 주세요.');
+  if(text.length>4000)throw Error('정정 이유는 4,000자 이내로 적어 주세요.');
+  const updates={};
+  for(const key of ['measurement_report','source_artifact_ids'])if(key in report)updates[key]=report[key];
+  if(subjectChange){
+    if(!['expected','unknown'].includes(subjectState))throw Error('관측한 대상에 대해 확인한 내용을 선택해 주세요.');
+    if(subjectState==='expected'&&!(context.expected_subject_refs??[]).length)throw Error('확인할 원 대상 기록을 다시 불러와 주세요.');
+    updates.reported_subject_refs=subjectState==='expected'?context.expected_subject_refs.map(ref=>({...ref})):[];
+  }
+  if(!('measurement_report' in updates)&&!('reported_subject_refs' in updates))throw Error('정정할 측정 조건 또는 대상 보고를 선택해 주세요.');
+  return {kind:'correction',text,observation_amendment:{target_message_id:context.target_message_id,
+    prior_selection_id:context.prior_selection_id,reason:text},...updates,recalculate_held_selection:true};
+}
+
+async function observationAmendmentAction(action,node){
+  if(busy||node.disabled)return;
+  if(action==='observation-amendment-open'){
+    const request=++observationAmendmentRequest,wid=state.id,id=node.dataset.artifact;
+    const visible=typeof currentReader==='function'?currentReader()?.id:selected;
+    node.disabled=true;
+    try{
+      const [context,data]=await Promise.all([
+        api(`/api/workspaces/${wid}/observation-amendments?selection_id=${encodeURIComponent(id)}`),
+        api(`/api/workspaces/${wid}/artifacts/${encodeURIComponent(id)}`)
+      ]);
+      if(state?.id!==wid||request!==observationAmendmentRequest||visible!==(typeof currentReader==='function'?currentReader()?.id:selected))return;
+      if(!context.eligible)throw Error(context.reason??'이 계산에 이어진 기록을 먼저 확인해 주세요.');
+      if(!Number.isInteger(context.expected_rev))throw Error('연구의 현재 판본을 확인한 뒤 다시 열어 주세요.');
+      const original=state.events.find(event=>event.body?.message_id===context.target_message_id)?.body;
+      observationAmendmentDialog={...context,workspace_id:wid,command_id:crypto.randomUUID()};
+      showDialog('이 관측의 대상·조건 확인',observationAmendmentForm(context,data.result,original));
+      const report=context.effective_measurement_report;
+      if(report){
+        for(const field of Object.keys(measurementReportLabels)){
+          const value=field==='context_match'?(report[field]===true?'true':report[field]===false?'false':'unknown'):report[field];
+          dialog.querySelector(`#feedback-report-${field}`).value=value??'unknown';
+        }
+        dialog.querySelector('#feedback-report-basis').value=report.assessment_basis??'';
+      }
+      const enabled=dialog.querySelector('#feedback-report-enabled');
+      enabled.parentElement.lastChild.textContent=' 측정 조건에 대한 보고를 이번에 정정';
+    }catch(error){if(state?.id===wid&&request===observationAmendmentRequest){actionError=error.message;notice(error.message)}}
+    finally{node.disabled=false}
+    return;
+  }
+  if(action!=='observation-amendment-save')return;
+  const context=observationAmendmentDialog;
+  busy=true;node.disabled=true;
+  try{
+    if(!context||state?.id!==context.workspace_id)throw Error('열어 둔 연구가 바뀌었습니다. 정정할 관측을 다시 열어 주세요.');
+    const body=observationAmendmentPayload(context,measurementReportInput(),
+      dialog.querySelector('#amend-subject-enabled')?.checked??false,
+      dialog.querySelector('#amend-subject-state')?.value??'',dialog.querySelector('#amend-reason').value);
+    const response=await api(`/api/workspaces/${context.workspace_id}/commands`,{
+      expected_rev:context.expected_rev,command_id:context.command_id,body});
+    dialog.close();observationAmendmentDialog=null;
+    if(state?.id===context.workspace_id){
+      await refresh();
+      const job=state.jobs.find(row=>row.id===response.job_id);
+      if(job?.output_id)await chooseArtifact(job.output_id);
+      notice('정정을 보존하고 같은 관측의 조건부 계산을 접수했습니다. 완료 결과에서 이전 계산과 비교할 수 있습니다.');
+    }
+  }catch(error){actionError=error.message;notice(error.message)}
+  finally{busy=false;node.disabled=false;render()}
+}
+
+document.addEventListener('change',event=>{
+  if(event.target.id!=='amend-subject-enabled')return;
+  const fields=dialog.querySelector('#amend-subject-fields');
+  if(fields){fields.disabled=!event.target.checked;fields.hidden=!event.target.checked;}
+});
 
 
 ;
@@ -184,7 +392,9 @@ function inputSourceView(event){
 function structureFigure(depiction, label) {
   if (!depiction || depiction.status !== 'drawn' || !depiction.svg) {
     const why = depiction && depiction.status === 'unparsed'
-      ? '구조 문자열을 읽지 못했습니다' : '구조 그림 없음';
+      ? '저장된 구조 문자열을 읽지 못했습니다' : depiction?.status === 'failed'
+        ? '2D 그림 생성에 실패했습니다. 원 구조 문자열은 보존되어 있습니다.'
+        : '2D 그림 데이터가 반환되지 않았습니다.';
     return `<div class="structure-figure empty"><span class="small muted">${esc(why)}</span></div>`;
   }
   // The drawing is inert markup produced by RDKit from the stored string.
@@ -310,10 +520,10 @@ function reviewAxisCells(aspects) {
 }
 
 // A clause carries the sentence it was anchored to, so the reader checks the paper rather than us.
-function reviewClauses(basis) {
+function reviewClauses(basis,check) {
   const clauses = (basis && basis.clauses) || [];
   if (!clauses.length) return '';
-  return `<ol class="mechanism-clauses">${clauses.map(c => {
+  return `<ol class="mechanism-clauses">${clauses.map((c,index) => {
     const where = [c.context && c.context.disease, c.context && c.context.species,
                    c.context && c.context.tissue].filter(Boolean).join(' · ');
     const anchor = c.anchor || {};
@@ -322,7 +532,7 @@ function reviewClauses(basis) {
       ${anchor.quote ? `<blockquote class="clause-quote">${esc(anchor.quote)}</blockquote>` : ''}
       <p class="small muted">${esc(where || '조건 미기재')}${
         c.disease_match ? ` · ${esc(REVIEW_MATCH[c.disease_match] || c.disease_match)}` : ''}</p>
-      ${anchor.artifact_id ? sourceLinks([anchor.artifact_id]) : ''}
+      ${typeof sourceAssertionAnchorView==='function'?sourceAssertionAnchorView(anchor,check?.clauses?.find(item=>item.clause_index===index)):anchor.artifact_id?sourceLinks([anchor.artifact_id]):''}
     </li>`;
   }).join('')}</ol>`;
 }
@@ -373,7 +583,7 @@ function reviewAssessment(row, options) {
           ? ` · ${esc(row.comparison_group)} ${esc(row.priority)}순위` : ''}</p>
     </header>
     ${reviewAxisCells(row.aspects)}
-    ${reviewClauses(basis)}
+    ${reviewClauses(basis,row.basis_check)}
     ${reviewGaps(basis)}
     ${reviewBasisCheck(row.basis_check)}
     ${row.reason ? `<p class="mechanism-reason">${esc(row.reason)}</p>` : ''}
@@ -569,18 +779,19 @@ function mechanismFigures(row, limit) {
 }
 
 // A clause is shown with the sentence it was anchored to, so the reader checks the paper, not us.
-function mechanismClauses(basis) {
+function mechanismClauses(basis,check) {
   const clauses = (basis && basis.clauses) || [];
   if (!clauses.length) return '';
   const where = c => [c.context && c.context.disease, c.context && c.context.species,
                       c.context && c.context.tissue].filter(Boolean).join(' · ');
-  return `<ol class="mechanism-clauses">${clauses.map(c => `<li>
+  return `<ol class="mechanism-clauses">${clauses.map((c,index) => `<li>
     <p class="clause-text">${esc(c.text || '')}</p>
     ${c.anchor && c.anchor.quote
       ? `<blockquote class="clause-quote">${esc(c.anchor.quote)}</blockquote>` : ''}
     ${quoteSupport(c)}
     <p class="small muted">${esc(where(c) || '조건 미기재')}${
       c.disease_match ? ` · ${esc(c.disease_match)}` : ''}</p>
+    ${typeof sourceAssertionAnchorView==='function'?sourceAssertionAnchorView(c.anchor,check?.clauses?.find(item=>item.clause_index===index)):''}
   </li>`).join('')}</ol>`;
 }
 
@@ -615,7 +826,7 @@ function mechanismGaps(basis) {
 // so the page stays readable, but a clause whose quote reads against it is named on the summary
 // line, because a warning behind a closed fold is a warning nobody sees.
 function mechanismBasis(basis, lead, row) {
-  const body = mechanismClauses(basis) + mechanismGaps(basis)
+  const body = mechanismClauses(basis,row?.basis_check) + mechanismGaps(basis)
     + (lead ? '' : mechanismFigures(row, 1));
   if (!body) return '';
   if (lead) return body;
@@ -916,15 +1127,15 @@ function mechanismRankSection() {
 // Source-backed discovery and researcher choices. Recommendations never truncate the pool.
 let goalApproach='', optionsOpen=false, optionsQuery='', optionsKind='', optionsOffset=0, optionsStage='';
 let optionsPage=null, optionsError='', optionsWorkspace=null, optionsCursor=null, optionsLoadVersion=0;
-const optionKinds={mechanism:'질환 기전',target:'표적',approach:'치료 접근',source_candidate:'문헌에서 찾은 후보·치료 참조',molecule:'구조·활성 조회 물질',rna_candidate:'RNA 후보·참조 조건',researcher_proposal:'연구자 제안'};
+const optionKinds={mechanism:'질환 기전',target:'표적',approach:'치료 접근',source_candidate:'원문에서 찾은 후보·치료 참조',molecule:'구조·활성 조회 물질',rna_candidate:'RNA 후보·참조 조건',researcher_proposal:'연구자 제안'};
 const optionStatus={recommended:'추천',alternative:'대안',needs_evidence:'근거 확인 필요',deferred:'현재 보류',unreviewed:'아직 미검토'};
 function renderGoalWelcome(){
  if(intakeMode!=='question')return renderWelcome();
  return `<div class="welcome goal-home"><div class="welcome-heading"><div><span class="eyebrow">EVIDA · 연구 의사결정</span><h1>어떤 문제를 해결하고 싶으세요?</h1><p class="description">질환과 목표에서 출발해, 근거를 찾고 다음 실험을 결정합니다.</p></div></div>
  <section class="goal-start" aria-label="질환에서 연구 시작"><label class="input-label" for="message">연구할 질환·현상과 바꾸고 싶은 결과</label><textarea id="message" placeholder="예: 유전성 ATTR 아밀로이드증의 단백질 축적을 줄이고 싶어요. 관련 기전을 비교하고, 검토할 후보를 찾아 주세요.">${esc(draft)}</textarea>
  <fieldset class="approach-choices"><legend>우선 검토할 접근 <span class="muted">· 아직 정하지 않아도 됩니다</span></legend>${[['','함께 비교'],['small_molecule','저분자부터'],['sirna','siRNA부터']].map(([id,label])=>`<label class="approach-choice ${goalApproach===id?'selected':''}"><input type="radio" name="goal-approach" value="${id}" ${goalApproach===id?'checked':''}>${label}</label>`).join('')}</fieldset>
- <p class="goal-promise">후보 이름이나 서열이 없어도 시작할 수 있습니다. 기전과 표적의 근거를 찾고, 추천 이유와 다른 선택지를 함께 남깁니다.</p>
- ${intakeError?`<p class="form-error" role="alert">${esc(intakeError)}</p>`:''}<div class="input-bottom"><span class="small muted">공개 자료 조회와 실제 모델 검토가 시작됩니다.</span>${modelChoice()}${button('create-message','목표에서 연구 시작',busy?'disabled':'','primary')}</div></section>
+ ${renderIntakeEvidenceScope()}<p class="goal-promise">후보 이름이나 서열이 없어도 시작할 수 있습니다. 기전과 표적의 근거를 찾고, 추천 이유와 다른 선택지를 함께 남깁니다.</p>
+ ${intakeError?`<p class="form-error" role="alert">${esc(intakeError)}</p>`:''}<div class="input-bottom"><span class="small muted">${intakeSuppliedEvidenceOnly?'제공한 근거에서 실제 모델 검토가 시작됩니다.':'공개 자료 조회와 실제 모델 검토가 시작됩니다.'}</span>${modelChoice()}${button('create-message','목표에서 연구 시작',busy?'disabled':'','primary')}</div></section>
  <div class="goal-journey" aria-label="연구 흐름">${[['01','구조화된 질문과 목표','무엇을, 왜 바꿀지'],['02','기전과 접근','어떤 방향을 검토할지'],['03','후보 발굴','무엇을 실제로 비교할지'],['04','근거와 계산','어디까지 확인했는지'],['05','EVIDA 실험 권고','다음에 무엇을 해볼지']].map(([n,t,d])=>`<div><span>${n}</span><strong>${t}</strong><p>${d}</p></div>`).join('')}</div>
  <section class="existing-entry"><h2>이미 진행 중인 연구가 있나요?</h2><p>가진 자료부터 시작하거나, 위 목표에 알려진 내용을 함께 적어 주세요.</p><div class="entry-help-actions">${ENTRY_PATHS.filter(x=>x.id!=='question').map(x=>button('choose-path',esc(x.name),`data-mode="${x.id}"`,'small')).join('')}${button('usage-help','사용법 보기','','quiet small')}</div></section>
  <section class="goal-examples"><h2>입력 예시</h2><div class="example-choices">${[['small_molecule','저분자 경로','유전성 ATTR 아밀로이드증의 축적을 줄이는 기전과 저분자 접근을 비교하고 싶어요. 후보가 없으니 근거로 찾고 실제 계산까지 이어 주세요.'],['sirna','siRNA 경로','간에서 만들어지는 TTR를 줄이는 접근이 유전성 ATTR 아밀로이드증에 타당한지 확인하고, 근거가 맞으면 실제 전사체에서 siRNA 후보를 만들어 비교해 주세요.']].map(([id,label,text])=>`<article><h3>${label}</h3><p>${text}</p>${button('discovery-example','이 질문으로 시작하기',`data-example="${id}"`,'small')}</article>`).join('')}</div><p class="small muted">예시 버튼은 질문을 채웁니다. 시작 버튼을 누르면 새 연구를 실행합니다.</p></section></div>`;
@@ -937,7 +1148,7 @@ function rnaOptionContext(item){
  return `<p class="small muted">같은 가이드라도 전사체별 계산 조건은 다릅니다. 계산 참조: ${esc(artifactName(reference))}</p>`;
 }
 function optionKind(item){return item.kind??item.option_id.split(':')[0]}
-function optionActionLabel(item,selected){const kind=optionKind(item);const base=({mechanism:'이 기전',target:'이 표적',approach:'이 접근',source_candidate:'이 문헌 후보',molecule:'이 화합물',rna_candidate:'이 RNA 후보',rna:'이 RNA 후보'})[kind]??'이 선택지';return base+(selected?'로 계속':' 검토하기')}
+function optionActionLabel(item,selected){const kind=optionKind(item);const base=({mechanism:'이 기전',target:'이 표적',approach:'이 접근',source_candidate:'이 원문 후보',molecule:'이 화합물',rna_candidate:'이 RNA 후보',rna:'이 RNA 후보'})[kind]??'이 선택지';return base+(selected?'로 계속':' 검토하기')}
 function groupedRecommendations(items){
  const groups=[['mechanism','target'],['approach'],['source_candidate','molecule','rna_candidate','rna'],['researcher_proposal']];
  const titles=['바꾸려는 기전과 표적','치료 접근','실제로 비교할 후보','연구자의 새 제안'];
@@ -1047,7 +1258,7 @@ function sourceCandidateInfo(item,detail=false){
  const identity=linked.length?'데이터베이스 구조 회수 · 원 시료 대응은 별도 확인':((item.identity_links??[]).length?'구조 조회 결과 미확인 · 원문 후보 보존':item.identity?.lookup_name?'원문 식별명 확보 · 구조 조회 전':'구조 식별 확인 필요');
  const brief=`<p class="small muted">${esc(modality)} · ${item.role==='reference_treatment'?'비교를 위한 치료 참조':'원문 후보'} · ${esc(identity)}</p>`;
  if(!detail)return brief;
- return brief+`<h3>목록에 남긴 이유와 적용 조건</h3>${list(item.conditions)}<p>${esc(item.next_check)}</p>${item.identity?.lookup_name?`<p>원문에서 확인한 조회명: ${esc(item.identity.lookup_name)}</p>`:''}<details><summary>정확한 원문 이름·위치와 식별 이력</summary>${(item.candidate_records??[]).map(x=>`<p>${esc(x.record.mention.row_id??x.record.mention.locator)}</p><blockquote>${esc(x.record.mention.quote)}</blockquote>${sourceLinks([x.record.mention.artifact_id])}`).join('')}${(item.identity_links??[]).map(x=>`<p>${esc(x.candidate_id)} · ${x.structure_status==='available'?'구조 반환':'식별 미확인'}</p>${x.next_identity_check?`<p>${esc(x.next_identity_check)}</p>`:''}${sourceLinks([x.artifact_id])}`).join('')}</details>`;
+ return brief+`<h3>목록에 남긴 이유와 적용 조건</h3>${list(item.conditions)}<p>${esc(item.next_check)}</p>${item.identity?.lookup_name?`<p>원문에서 확인한 조회명: ${esc(item.identity.lookup_name)}</p>`:''}<details><summary>정확한 원문 이름·위치와 식별 이력</summary>${(item.candidate_records??[]).map(x=>`<p>${esc(x.record.mention.row_id??x.record.mention.locator)}</p><blockquote>${esc(x.record.mention.quote)}</blockquote>${typeof sourceAssertionAnchorView==='function'?sourceAssertionAnchorView(x.record.mention):sourceLinks([x.record.mention.artifact_id])}`).join('')}${(item.identity_links??[]).map(x=>`<p>${esc(x.candidate_id)} · ${x.structure_status==='available'?'구조 반환':'식별 미확인'}</p>${x.next_identity_check?`<p>${esc(x.next_identity_check)}</p>`:''}${sourceLinks([x.artifact_id])}`).join('')}</details>`;
 }
 
 
@@ -1081,6 +1292,129 @@ function regulonActivityTable(result){
 
 
 ;
+/* Source: pathway-node-states.js */
+function pathwayStateText(value){
+ if(value===1)return '상승 (+1)';
+ if(value===-1)return '하강 (−1)';
+ if(value===0)return '변화 미사용 (0)';
+ return '계산 상태 확인 필요';
+}
+
+function pathwaySignedEdgeText(edge){
+ const relation=edge.sign===1?'→':edge.sign===-1?'⊣':'?';
+ return `${edge.source} ${relation} ${edge.target}`;
+}
+
+function pathwayAlternativeEdges(before,after){
+ if(!Array.isArray(before?.edges)||!Array.isArray(after?.edges))return '<p class="small muted">두 계산의 유효한 연결 결과가 필요합니다.</p>';
+ const key=edge=>JSON.stringify([edge.source,edge.sign,edge.target]);
+ const baseline=new Map((before?.edges??[]).map(edge=>[key(edge),edge]));
+ const alternative=new Map((after?.edges??[]).map(edge=>[key(edge),edge]));
+ const all=new Map([...baseline,...alternative]);
+ if(!all.size)return '<p class="small muted">반환된 설명 연결이 없습니다.</p>';
+ return `<div class="table-scroll"><table><thead><tr><th>설명 연결</th><th>원 경로</th><th>질의 경로</th></tr></thead><tbody>${[...all].map(([id,edge])=>`<tr><td>${esc(pathwaySignedEdgeText(edge))}</td><td>${baseline.has(id)?'포함':'미사용'}</td><td>${alternative.has(id)?'포함':'미사용'}</td></tr>`).join('')}</tbody></table></div>`;
+}
+
+function pathwayAlternativeStates(before,after){
+ if(!Array.isArray(before?.nodes)||!Array.isArray(after?.nodes))return '<p class="small muted">두 계산의 유효한 상태 결과가 필요합니다.</p>';
+ const baseline=new Map((before?.nodes??[]).map(row=>[row.node,row.state]));
+ const alternative=new Map((after?.nodes??[]).map(row=>[row.node,row.state]));
+ const nodes=[...new Set([...baseline.keys(),...alternative.keys()])].sort();
+ // Only absent rows in a valid sparse graph denote zero; an unknown stored state stays unknown.
+ const stateFor=(graph,node)=>graph.has(node)?graph.get(node):0;
+ const changes=nodes.filter(node=>{
+  const a=stateFor(baseline,node),b=stateFor(alternative,node);
+  return ![-1,0,1].includes(a)||![-1,0,1].includes(b)||a!==b;
+ });
+ if(!changes.length)return '<p class="small muted">반환된 생물학 요소의 변화 상태가 같습니다.</p>';
+ return `<div class="table-scroll"><table><thead><tr><th>계산 요소</th><th>원 경로</th><th>질의 경로</th></tr></thead><tbody>${changes.map(node=>`<tr><td>${esc(node)}</td><td>${pathwayStateText(stateFor(baseline,node))}</td><td>${pathwayStateText(stateFor(alternative,node))}</td></tr>`).join('')}</tbody></table></div><p class="small muted">0은 이 설명에서 변화 상태를 사용하지 않았다는 뜻입니다. 다음 관측을 고를 때 각 요소의 실제 측정법과 조건을 함께 정합니다.</p>`;
+}
+
+function pathwayQueryEntry(result){
+ const summary=result.solver_package_summary;
+ if(summary?.supported!==true)return '<details class="outcome-details"><summary>같은 입력에서 다른 경로를 확인하려면</summary><p>새 경로를 계산할 때 원 계산 묶음을 함께 보존하면, 선택한 요소의 변화 없이도 설명되는 경로를 이어서 질의할 수 있습니다.</p></details>';
+ const id=typeof selected==='string'?selected:'';
+ if(!id)return '';
+ return `<section class="outcome-details"><h4>이 요소의 변화 없이도 설명될까</h4><p>현재 경로의 요소를 고르면 같은 입력·상호작용망에서 대안 경로를 실제 계산합니다.</p>${button('science-pathway-node-dialog','확인할 요소 고르기',`data-artifact="${esc(id)}"`,'small')}</section>`;
+}
+
+let pathwayNodeDialogRequest=0;
+async function pathwayNodeStatesAction(action,node){
+ if(busy||node.disabled)return;
+ const workspaceId=state.id;
+ if(action==='science-pathway-node-dialog'){
+  const requestId=++pathwayNodeDialogRequest;
+  const visibleArtifact=typeof selected==='string'?selected:null;
+  node.disabled=true;
+  try{
+   const id=node.dataset.artifact;
+   const data=await api(`/api/workspaces/${workspaceId}/artifacts/${encodeURIComponent(id)}`);
+   if(state.id!==workspaceId||requestId!==pathwayNodeDialogRequest||(typeof selected==='string'?selected:null)!==visibleArtifact)return;
+   const summary=data.result?.solver_package_summary;
+   if(summary?.supported!==true)throw Error(summary?.reason??'이 경로의 원 계산 묶음을 확인해 주세요.');
+   const options=summary.selectable_nodes??[];
+   showDialog('같은 입력에서 다른 설명 확인',`<p>확인할 요소를 1~2개 고르세요. 각 요소의 상승·하강 변화 상태를 사용하지 않는 별도 경로를 계산합니다.</p><p class="small muted">입력 신호와 상호작용망은 유지됩니다. 이 질의의 0은 계산의 변화 상태 미사용을 뜻합니다.</p><div>${options.map(row=>`<div><label class="check-line"><input type="checkbox" data-pathway-node value="${esc(row.node_id)}">${esc(row.node_id)} · ${pathwayStateText(row.state)}</label></div>`).join('')}</div><label>이 요소를 확인하는 이유<textarea id="pathway-node-reason" maxlength="2000" placeholder="예: 이 요소에만 후속 검증을 집중해도 되는지 확인하고 싶다"></textarea></label><p class="small">선택한 요소마다 별도 계산하며, 각 계산의 제한 시간은 2분입니다.</p><div class="dialog-actions">${button('science-pathway-node-run','대안 경로 실제 계산',`data-artifact="${esc(id)}" data-workspace="${esc(workspaceId)}"`,'primary')}</div>`);
+  }catch(error){if(state.id===workspaceId&&requestId===pathwayNodeDialogRequest){actionError=error.message;notice(error.message)}}finally{node.disabled=false}
+  return;
+ }
+ if(action!=='science-pathway-node-run')return;
+ ++pathwayNodeDialogRequest;
+ busy=true;node.disabled=true;
+ try{
+  if(node.dataset.workspace!==state.id)throw Error('열어 둔 연구가 바뀌었습니다. 현재 연구에서 확인할 경로를 다시 선택해 주세요.');
+  const nodeIds=[...dialog.querySelectorAll('[data-pathway-node]:checked')].map(input=>input.value);
+  const reason=document.getElementById('pathway-node-reason')?.value.trim()??'';
+  if(nodeIds.length<1||nodeIds.length>2)throw Error('확인할 요소를 1~2개 선택해 주세요.');
+  if(!reason)throw Error('이 요소를 확인하는 이유를 적어 주세요.');
+  await runTool('pathway_node_states',{artifact_id:node.dataset.artifact,node_ids:nodeIds,reason});
+  dialog.close();notice('선택한 요소별 대안 경로를 계산하고 있습니다. 결과에서 원 경로와 비교할 수 있습니다.');
+ }catch(error){actionError=error.message;notice(error.message)}finally{busy=false;node.disabled=false;render()}
+}
+
+function pathwayMetric(value){return typeof value==='number'&&Number.isFinite(value)?number(value):'미제공'}
+
+function pathwayObservationComparison(before,after){
+ const baseline=new Map((before??[]).map(row=>[row.node,row]));
+ const alternative=new Map((after??[]).map(row=>[row.node,row]));
+ const nodes=[...new Set([...baseline.keys(),...alternative.keys()])];
+ const sign=value=>value===1?'+1':value===-1?'−1':value===0?'0':'확인 필요';
+ return `<div class="table-scroll"><table data-pathway-tf-comparison><thead><tr><th>입력 TF</th><th>원 경로</th><th>질의 경로</th></tr></thead><tbody>${nodes.map(node=>{
+  const a=baseline.get(node),b=alternative.get(node);
+  return `<tr><td>${esc(node)}<br><span class="muted">${sign(a?.target_sign??b?.target_sign)}</span></td><td>${sign(a?.fitted_sign)}</td><td>${sign(b?.fitted_sign)}</td></tr>`;
+ }).join('')}</tbody></table></div><p class="small muted">+1은 상승, −1은 하강, 0은 변화 미사용입니다.</p>`;
+}
+
+function pathwayQueryConclusion(row){
+ if(row.validation?.valid!==true)return '유효한 대안 해 확인 필요';
+ if(typeof row.comparison?.same_objective!=='boolean'||typeof row.comparison?.same_observation_fit!=='boolean')return '목적값·입력 부호 적합도 비교 확인 필요';
+ if(row.comparison?.same_objective===true&&row.comparison?.same_observation_fit===true)return '같은 목적값·같은 입력 부호 적합도의 대안 경로';
+ if(row.comparison?.same_objective===true)return '목적값은 같고, 입력 부호 적합도는 달라진 경로';
+ if(row.comparison?.same_observation_fit===true)return '입력 부호 적합도는 같고, 목적값이 달라진 경로';
+ return '입력 부호 적합도와 목적값을 함께 검토할 대안 경로';
+}
+
+function pathwayArtificialComparison(before,after,changed){
+ if(!changed)return '';
+ const a=before?.artificial_root?.state,b=after?.artificial_root?.state;
+ const stateChanged=[-1,0,1].includes(a)&&[-1,0,1].includes(b)&&a!==b;
+ const sentence=stateChanged?`가상 시작점도 ${pathwayStateText(a)}에서 ${pathwayStateText(b)}로 달라졌습니다.`:'가상 시작점의 연결도 달라졌습니다.';
+ const edges=graph=>(graph?.artificial_edges??[]).map(pathwaySignedEdgeText).join(', ')||'반환된 연결 없음';
+ return `<p class="notice-inline">${sentence} 원 문제에서 자유롭게 선택하는 계산 상태입니다.</p><details><summary>가상 시작점의 원 연결과 질의 연결</summary><p>원 경로: ${esc(edges(before))}</p><p>질의 경로: ${esc(edges(after))}</p></details>`;
+}
+
+function pathwayNodeStatesTable(result){
+ const baseline=result.baseline??{},rows=result.rows??[];
+ const solverLabels={optimal_reported:'계산기가 최적해로 보고',optimal_within_relative_gap:'설정한 상대 오차 범위에서 계산 종료',solver_time_limit:'계산 시간 제한',outer_wall_timeout:'전체 실행 시간 제한',infeasible_reported:'계산기가 추가 조건에서 해 없음으로 보고',process_failure:'실행 확인 필요',process_or_validation_failure:'실행·해 검증 확인 필요',unclassified_solver_termination:'계산 종료 상태 확인 필요',not_started_after_stop:'앞선 계산 종료 후 미실행'};
+ const objectiveRow=(label,key,row)=>`<tr><td>${label}</td><td>${pathwayMetric(baseline.objective?.[key])}</td><td>${pathwayMetric(row.objective?.[key])}</td></tr>`;
+ const ownId=typeof selected==='string'?selected:'';
+ return `<section data-pathway-node-states><h3>선택 요소의 변화 없이 설명되는 경로</h3><p>${esc(result.reason??'')}</p><p>같은 입력과 상호작용망에서 ${number(result.summary?.planned_queries??rows.length)}개 요소를 따로 확인하는 비교입니다.</p>${sourceLinks([result.source_binding?.artifact_id].filter(Boolean))}${rows.map(row=>{
+  const valid=row.validation?.valid===true;
+  return `<article class="panel" data-pathway-node-result="${esc(row.node_id)}"><h4>${esc(row.node_id)}의 변화 상태를 사용하지 않을 때</h4><p><strong>${pathwayQueryConclusion(row)}</strong></p><p class="small">${esc(solverLabels[row.solver?.termination]??'계산 종료 상태 확인 필요')}${row.solver?.elapsed_seconds!=null?` · ${pathwayMetric(row.solver.elapsed_seconds)}초`:''}</p>${valid?`<div class="table-scroll"><table><thead><tr><th>비교 항목</th><th>원 경로</th><th>질의 경로</th></tr></thead><tbody>${objectiveRow('총 목적값','total',row)}${objectiveRow('입력 부호의 가중 오차','weighted_sign_error',row)}${objectiveRow('변화 상태의 복잡도 항','state_penalty',row)}</tbody></table></div><p class="small muted">입력 부호를 설명하는 정도와 경로 복잡도를 함께 계산한 값입니다.</p><h4>어떤 입력을 같은 방향으로 설명하나</h4>${pathwayObservationComparison(baseline.measurements,row.measurements)}${pathwayArtificialComparison(baseline.graph,row.graph,row.artificial_source_changed)}<h4>대안에서 달라진 설명</h4>${pathwayAlternativeStates(baseline.graph,row.graph)}<details><summary>원 경로와 대안의 연결 비교</summary>${pathwayAlternativeEdges(baseline.graph,row.graph)}</details>`:`<p>${esc(row.reason??row.error??row.message??'보존된 실행 조건과 로그를 확인해 다음 질의를 정합니다.')}</p>`}<details><summary>계산 조건과 원 기록</summary><p>원 문제에 선택 요소의 양·음 변화 상태를 0으로 두는 조건을 더했습니다.</p><p class="small">가상 시작점: ${result.scope?.artificial_source_free===true?'원 문제에서 자유롭게 선택':result.scope?.artificial_source_free===false?'원 문제의 고정 조건 유지':'원 문제 확인 필요'}</p>${json({constraints:row.constraints,validation:row.validation,comparison:row.comparison,solver:row.solver,source_binding:result.source_binding})}</details></article>`;
+ }).join('')}${ownId?`<div class="detail-actions">${button('science-review','대안 경로를 현재 가설과 검토',`data-id="${esc(ownId)}"`,'small')}</div>`:''}<p class="small muted">바뀐 계산 요소를 바탕으로 실제 구별할 관측의 측정법·조건을 검토합니다.</p></section>`;
+}
+
+
+;
 /* Source: pathway-hypotheses.js */
 function pathwayHypothesesEntry(){
  const results=state.artifacts.filter(a=>a.kind==='regulon_activity'&&a.meta?.result_status==='succeeded');
@@ -1089,6 +1423,8 @@ function pathwayHypothesesEntry(){
 }
 
 async function pathwayHypothesesAction(action,node){
+ if(action.startsWith('science-pathway-node-'))return pathwayNodeStatesAction(action,node);
+ if(action==='science-pathway-compare')return pathwayComparisonAction(node);
  if(action==='science-pathway-section'){
   const id=node.dataset.artifact??selected,section=node.dataset.section,start=Number(node.dataset.offset??0);
   const data=await api(`/api/workspaces/${state.id}/artifacts/${encodeURIComponent(id)}?calculation_section=${encodeURIComponent(section)}&offset=${start}&limit=30`);
@@ -1115,14 +1451,160 @@ async function pathwayHypothesesAction(action,node){
 function pathwayHypothesesTable(result){
  const real=(result.rows??[]).filter(r=>!r.artificial_root_edge),artificial=(result.rows??[]).filter(r=>r.artificial_root_edge);
  const rows=items=>`<div class="table-scroll"><table><thead><tr><th>후보 경로</th><th>앞선 요소</th><th>관계</th><th>다음 요소</th></tr></thead><tbody>${items.map(r=>`<tr><td>${number(r.network_index)}</td><td>${esc(r.source)}</td><td>${r.sign===1?'활성 방향':'억제 방향'}</td><td>${esc(r.target)}</td></tr>`).join('')}</tbody></table></div>`;
- return `<section class="pathway-result"><h3>조절 패턴을 설명하는 경로 후보</h3><p>${esc(result.selection_reason??'')}</p><p>계산에 사용한 추정 신호: ${(result.selected_inferred_observations??[]).map(x=>`${esc(x.source)} (${number(x.score)})`).join(', ')}</p>${rows(real)}<p>고정 상호작용 ${number(result.search_scope?.full_prior_edges)}개 중 이번 범위의 ${number(result.search_scope?.selected_prior_edges)}개를 사용했습니다. 계산 범위 밖은 미탐색입니다.</p><p>${result.solver_review?.optimal_reported?'이 범위의 목적함수에서 최적해가 보고됐습니다. 유일한 생물학적 설명을 뜻하지는 않습니다.':'최적성 확인이 끝나지 않은 계산 결과입니다. 실행 조건을 먼저 검토합니다.'}</p><details><summary>계산 조건과 해석 범위</summary><ul>${[...(result.source_conditions??[]),...(result.conditions??[]),...(result.limits??[])].map(x=>`<li>${esc(x)}</li>`).join('')}</ul><p>${esc(result.method??'')} · ${esc(JSON.stringify(result.versions??{}))}</p></details>${(result.calculation_sections??[]).length?`<details class="calculation-section-navigation"><summary>전체 계산표에서 필요한 범위 확인</summary><p>기본 화면은 반환된 경로를 보여줍니다. 내부 표는 필요할 때 열 수 있으며 원자료에서 삭제하지 않습니다.</p>${result.calculation_sections.map(x=>button('science-pathway-section',`${x.label} · ${number(x.total_rows)}행`,`data-section="${esc(x.section)}" data-offset="0"`,'small')).join('')}</details>`:''}${artificial.length?`<details><summary>최적화의 가상 시작점 · 실제 원인과 구별</summary><p>Perturbation은 최적화 표현입니다. 실제 약물이나 원인으로 확정하지 않습니다.</p>${rows(artificial)}</details>`:''}</section>`;
+ return `<section class="pathway-result"><h3>조절 패턴을 설명하는 경로 후보</h3><p>${esc(result.selection_reason??'')}</p><p>계산에 사용한 추정 신호: ${(result.selected_inferred_observations??[]).map(x=>`${esc(x.source)} (${number(x.score)})`).join(', ')}</p>${rows(real)}${typeof pathwayQueryEntry==='function'?pathwayQueryEntry(result):''}<p>고정 상호작용 ${number(result.search_scope?.full_prior_edges)}개 중 이번 범위의 ${number(result.search_scope?.selected_prior_edges)}개를 사용했습니다. 계산 범위 밖은 미탐색입니다.</p><p>${result.solver_review?.optimal_reported?'이 범위의 목적함수에서 최적해가 보고됐습니다. 유일한 생물학적 설명을 뜻하지는 않습니다.':'최적성 확인이 끝나지 않은 계산 결과입니다. 실행 조건을 먼저 검토합니다.'}</p><details><summary>계산 조건과 해석 범위</summary><ul>${[...(result.source_conditions??[]),...(result.conditions??[]),...(result.limits??[])].map(x=>`<li>${esc(x)}</li>`).join('')}</ul><p>${esc(result.method??'')} · ${esc(JSON.stringify(result.versions??{}))}</p></details>${(result.calculation_sections??[]).length?`<details class="calculation-section-navigation"><summary>전체 계산표에서 필요한 범위 확인</summary><p>기본 화면은 반환된 경로를 보여줍니다. 내부 표는 필요할 때 열 수 있으며 원자료에서 삭제하지 않습니다.</p>${result.calculation_sections.map(x=>button('science-pathway-section',`${x.label} · ${number(x.total_rows)}행`,`data-section="${esc(x.section)}" data-offset="0"`,'small')).join('')}</details>`:''}${artificial.length?`<details><summary>최적화의 가상 시작점 · 실제 원인과 구별</summary><p>Perturbation은 최적화 표현입니다. 실제 약물이나 원인으로 확정하지 않습니다.</p>${rows(artificial)}</details>`:''}</section>`;
+}
+
+
+;
+/* Source: pathway-robustness.js */
+const pathwayAxisLabels={prior_signed_edges:'상호작용망',prior_order:'상호작용 입력 순서',selected_tf_ids:'선택한 전사인자',selected_tf_order:'전사인자 입력 순서',selected_tf_scores:'입력 점수',selected_tf_signs:'입력 방향',regulon_name:'조절망 종류',regulon_definition:'조절망 판본',dataset:'발현 원자료',solver_options:'계산 설정',engine:'계산 프로그램'};
+const pathwayStateLabels={returned:'반환됨',not_selected:'탐색했으나 반환되지 않음',outside_search_scope:'탐색 범위 밖',not_returned_scope_unknown:'반환되지 않음 · 범위 미확인',unassessed:'계산 미완료·미확인'};
+function pathwayComparisonEntry(){
+  const runs=state.artifacts.filter(a=>a.kind==='pathway_hypotheses');
+  if(runs.length<2)return '';
+  const previous=state.artifacts.filter(a=>a.kind==='pathway_robustness');
+  return `<details class="panel science-form"><summary>조건을 바꾼 설명 경로 비교</summary><p>저장된 계산 2~8개에서 입력 조건과 유지되거나 달라지는 연결을 함께 확인합니다.</p>${runs.map(a=>`<label class="check-line"><input type="checkbox" data-pathway-compare value="${esc(a.id)}">${esc(a.title)}</label>`).join('')}${button('science-pathway-compare','선택한 경로 비교','','primary small')}${previous.length?`<p>저장된 비교</p>${sourceLinks(previous.map(a=>a.id))}`:''}</details>`;
+}
+async function pathwayComparisonAction(node){
+  if(busy||node.disabled)return;
+  node.disabled=true;
+  try{
+    const ids=[...document.querySelectorAll('[data-pathway-compare]:checked')].map(n=>n.value);
+    if(ids.length<2||ids.length>8)throw Error('비교할 경로 결과를 2~8개 선택해 주세요.');
+    await runTool('pathway_robustness',{artifact_ids:ids});
+    notice('저장된 경로와 계산 조건을 비교합니다.');
+  }catch(error){actionError=error.message;notice(error.message)}finally{node.disabled=false;render()}
+}
+function pathwayRobustnessTable(result){
+  const runs=result.runs??[],summary=result.summary??{};
+  const runName=id=>runs.find(r=>r.run_id===id)?.title??'계산 확인 필요';
+  const inputNodes=new Set(runs.flatMap(r=>r.input_facts?.selected_tf_ids??[]));
+  const names=keys=>keys.map(k=>pathwayAxisLabels[k]??k).join(', ')||'없음';
+  const edgeText=e=>`${e.source} ${e.sign===1?'→':'⊣'} ${e.target}`;
+  const values=(rows,formatter)=>rows.length?list(rows.map(formatter)):'<p class="small muted">해당 연결 없음</p>';
+  const stateCell=(row,run)=>{
+    const s=row.states.find(s=>s.run_id===run.run_id);
+    if(!s)return '미확인';
+    const input=row.record_type==='node'&&(run.input_facts?.selected_tf_ids??[]).includes(row.node);
+    return `${esc(s.status==='returned'&&row.record_type==='node'?(s.state>0?'활성 방향':s.state<0?'억제 방향':'0 상태'):pathwayStateLabels[s.status]??s.status)}${input?'<br><small>입력으로 지정</small>':''}${s.run_status!=='succeeded'?`<br><small>${esc({partial:'부분 계산',failed:'실패',unassessed:'미확인'}[s.run_status]??s.run_status)}</small>`:''}`;
+  };
+  return `<section data-pathway-comparison><h3>조건을 바꾸면 설명 경로가 유지되나</h3><p>저장된 계산 ${number(runs.length)}개의 원 입력과 반환 경로를 비교했습니다.</p><p class="small">입력으로 지정한 전사인자: ${esc([...inputNodes].join(', ')||'미확인')}. 이 방향의 일치는 독립적인 검증으로 세지 않습니다.</p><details open><summary>계산별 입력과 탐색 범위</summary><div class="table-scroll"><table><thead><tr><th>계산</th><th>조절망·입력</th><th>탐색 범위·완료 상태</th></tr></thead><tbody>${runs.map(r=>`<tr><td>${esc(r.title)}${sourceLinks([r.artifact_id])}</td><td>${esc(r.input_facts?.regulon_name??'조절망 미확인')}<br>${esc((r.input_facts?.selected_tf_ids??[]).join(', ')||'입력 미확인')}</td><td>${r.search_scope?.selected_prior_edges!=null?number(r.search_scope.selected_prior_edges):r.input_coverage?.selected_prior_edge_count!=null?number(r.input_coverage.selected_prior_edge_count):'미확인'} 연결${r.input_coverage?.full_selected_prior_recorded?'':' · 원 탐색망 미확인'}<br>${esc({succeeded:'계산 완료',partial:'부분 결과',failed:'실패',unassessed:'미확인'}[r.status]??r.status)}</td></tr>`).join('')}</tbody></table></div></details><h4>어느 조건에서 달라지는가</h4>${(result.pairwise??[]).map(p=>`<details class="outcome-details"><summary>${esc(runName(p.left_run_id))} ↔ ${esc(runName(p.right_run_id))}</summary><p><strong>달라진 입력·설정:</strong> ${esc(names(p.changed_axes))}</p><p><strong>동일 여부를 확인하지 못한 항목:</strong> ${esc(names(p.unexamined_axes))}</p>${p.output_comparison_status==='unassessed'?'<p>계산이 완료되지 않아 경로 차이를 판정하지 않았습니다.</p>':`<h4>두 계산에 함께 나온 연결</h4>${values(p.conserved_signed_edges,edgeText)}<h4>앞 계산에만 나온 연결</h4>${values(p.left_only_edges,edgeText)}<h4>뒤 계산에만 나온 연결</h4>${values(p.right_only_edges,edgeText)}${p.different_signed_nodes.length?`<h4>방향이 달라진 요소</h4>${values(p.different_signed_nodes,x=>`${x.node}: ${x.left_state} → ${x.right_state}`)}`:''}`}<p class="small muted">반환되지 않은 연결의 탐색 범위는 아래 표에서 따로 확인할 수 있습니다. 여러 설정이 바뀐 비교는 한 가지 원인으로 해석하지 않습니다.</p></details>`).join('')}<details><summary>요소·연결별 전체 비교표</summary><div class="table-scroll"><table><thead><tr><th>요소 또는 연결</th>${runs.map(r=>`<th>${esc(r.title)}</th>`).join('')}</tr></thead><tbody>${(result.rows??[]).map(row=>`<tr><td>${esc(row.record_type==='node'?row.node:edgeText(row))}</td>${runs.map(r=>`<td>${stateCell(row,r)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>${result.has_more?'<p>현재 페이지의 원행입니다. 다음 페이지에서 나머지 요소·연결을 확인할 수 있습니다.</p>':''}</details><p class="small muted">확인한 계산들의 비교입니다. 공통 연결과 같은 목적값은 유일한 기전이나 인과 확률을 뜻하지 않습니다.</p></section>`;
+}
+
+
+;
+/* Source: next-observation-selection.js */
+function nextObservationResourceView(result,checkName) {
+  const summary=result.summary??{},problem=result.problem??{},assessment=result.resource_assessment;
+  const selected=summary.selected_check_ids??[];
+  const unit=summary.cost_unit??problem.cost_unit??'선언한 단위';
+  const repair=['repair_readout','measurement_failure','repair_intervention','intervention_failure'].includes(summary.selection_status);
+  const information=values=>values?.length?`<ul class="list">${values.map(value=>`<li>${esc(value)}</li>`).join('')}</ul>`:'';
+  const budgetLabel={within_declared_budget:'선언한 비용 기준으로 입력 예산 이내',
+    over_declared_budget:'알려진 비용만으로 입력 예산을 초과합니다',unresolved:'실행 가능 여부는 비용 확인 후 판단합니다'};
+  let current='';
+  if(summary.selection_status==='decision_region_reached'){
+    current='<p class="small">이 판단을 위한 추가 확인 없이 다음 단계로 이어집니다.</p>';
+  }else if(assessment){
+    if(assessment.cost_status==='known'&&selected.length&&Number.isFinite(summary.cost)){
+      current=`<p class="small">선택한 확인의 선언 비용: ${esc(summary.cost)} ${esc(unit)}</p>`;
+    }else if(assessment.cost_status==='unknown'){
+      current=`<p>${repair?'수리비용은 미정입니다. 복구 방법과 반복 측정까지의 비용을 확인해 주세요.':assessment.budget_status==='over_declared_budget'?'유용한 대안의 알려진 비용이 예산을 넘습니다. 검사 범위와 사용할 예산을 함께 검토해 주세요.':'총비용을 정하려면 미정 항목의 견적이 필요합니다.'}</p>`;
+      if(Number.isFinite(assessment.known_subtotal))current+=`<p class="small">선언된 비용의 소계: ${esc(assessment.known_subtotal)} ${esc(unit)} · 미정 항목을 더하기 전 금액</p>`;
+    }
+    if(budgetLabel[assessment.budget_status])current+=`<p class="small">${esc(budgetLabel[assessment.budget_status])}</p>`;
+    current+=information(assessment.required_information);
+  }else if(repair){
+    // Historical artifacts retain their original zero placeholder. It is not a
+    // repair estimate, so present the recorded state without rewriting history.
+    current='<p>이 기록의 수리 견적은 미정입니다. 복구 방법·견적과 반복 측정에 사용할 예산을 확인해 주세요.</p>';
+  }else if(selected.length&&['conditional_plan','partial_only'].includes(summary.selection_status)&&Number.isFinite(summary.cost)){
+    current=`<p class="small">선택한 확인의 선언 비용: ${esc(summary.cost)} ${esc(unit)}</p>`;
+  }
+  const options=result.pending_cost_options??[];
+  const optionView=option=>`<div class="outcome"><strong>${esc((option.check_ids??[]).map(checkName).join(' + '))}</strong><p class="small">${esc(option.resolution==='full'?'명시한 결과별로 다음 판단을 정할 수 있는 조합':'남은 판단의 일부를 가르는 확인')}</p>${Number.isFinite(option.known_subtotal)?`<p class="small">선언된 비용의 소계: ${esc(option.known_subtotal)} ${esc(unit)} · 총비용은 미정</p>`:''}<p>${esc(budgetLabel[option.budget_status]??'필요한 견적을 확인한 뒤 실행 가능 여부를 판단합니다.')}</p>${information(option.required_information)}</div>`;
+  const pending=options.length?`<details class="outcome-details"><summary>견적을 확인할 관측 대안 ${esc(options.length)}개</summary><p class="small">명시한 예상에서 판단을 가를 수 있는 대안입니다. 보존된 항목 순서로 표시합니다. 견적을 확인하면 비용을 비교할 수 있습니다.</p>${options.slice(0,12).map(optionView).join('')}${options.length>12?`<details class="outcome-details"><summary>나머지 ${esc(options.length-12)}개 대안 보기</summary>${options.slice(12).map(optionView).join('')}</details>`:''}</details>`:'';
+  return current||pending?`<section data-next-observation-resources><h4>실행 조건과 비용</h4>${current}${pending}</section>`:'';
+}
+
+// Read the labels and conditions bound to this saved calculation, including
+// historical checks. A newer workspace decision must not relabel its outcomes.
+function nextObservationSelectionTable(result) {
+  const problem=result.problem??{},summary=result.summary??{},binding=result.binding??{};
+  const checks=result.checks??[],worlds=problem.worlds??[],decisions=problem.decisions??[];
+  const checkName=id=>checks.find(c=>c.id===id)?.question??'확인 항목의 원문 필요';
+  const worldName=id=>worlds.find(w=>w.id===id)?.description??'상황의 원문 필요';
+  const decisionName=id=>decisions.find(d=>d.id===id)?.label??'다음 판단의 원문 필요';
+  const items=(values,format)=>values?.length?`<ul class="list">${values.map(v=>`<li>${esc(format(v))}</li>`).join('')}</ul>`:'<p class="small muted">이 기록에서 정한 항목 없음</p>';
+  const statuses={
+    conditional_plan:'먼저 확인할 관측',
+    decision_region_reached:'남은 설명들이 같은 다음 판단으로 이어집니다',
+    partial_only:'판단의 일부를 가르는 확인',
+    stop_specific_claim:'이 판단을 가를 확인을 더 찾아야 합니다',
+    intervention_failure:'개입 조건을 복구한 뒤 다시 판단',
+    repair_intervention:'개입 조건을 복구한 뒤 다시 판단',
+    measurement_failure:'측정을 복구한 뒤 다시 판단',
+    repair_readout:'측정을 복구한 뒤 다시 판단',
+    validity_unresolved:'측정과 개입의 성립 조건 확인',
+    insufficient_precision:'구별에 필요한 정밀도 확인',
+    precision_check:'구별에 필요한 정밀도 확인',
+    context_unresolved:'결과가 나온 조건과 원 관측의 연결 확인',
+    model_gap:'원 예측표에 담기지 않은 설명과 조건 검토',
+    unmeasured:'결과를 기다리는 확인',
+    conditional_update:'입력한 결과에 따른 다음 판단',
+    report_confirmation_required:'보고한 측정 조건을 먼저 확인해야 합니다',
+    subject_confirmation_required:'관측한 후보·조건 기록을 먼저 확인해야 합니다',
+    needs_cost_information:'유용한 확인의 비용을 먼저 알아야 합니다',
+    needs_budget_adjustment:'현재 예산에 맞는 확인 방법을 정해야 합니다'
+  };
+  const declaration={model_assumptions:'모델이 제시한 조건',researcher_assumptions:'연구자 발언과 연결해 확인할 조건',synthetic_fixture:'합성 개발 사례의 조건'};
+  const origins={prospective:'이 측정 결과 전에 제시한 예상',previously_recorded:'이전에 보존한 예상',reconstructed_after_result:'이 결과를 본 뒤 구성한 설명'};
+  const selected=summary.selected_check_ids??[];
+  const retained=summary.retained_configuration_ids??worlds.map(w=>w.id);
+  const next=summary.common_next_decisions??[];
+  const outcomeText=(id,index)=>{
+    const check=checks.find(c=>c.id===id),outcome=check?.possible_outcomes?.[index];
+    return `${checkName(id)}: ${outcome?.observation??'결과의 원문 확인 필요'}`;
+  };
+  const rows=result.rows??[];
+  const savedObservations=(result.observed_events??[]).map(event=>{
+    const effective=event.effective_provenance?.origin??event.origin;
+    const label={synthetic:'합성 개발 사례의 관측 원문',researcher_report:'연구자가 입력한 관측 원문'}[effective]??'연결한 관측 원문';
+    const correction=event.effective_provenance?.corrected_by?'<p class="small">출처 정정을 반영한 분류입니다. 입력 당시의 원문은 아래에 보존합니다.</p>':'';
+    return `<details class="outcome-details"><summary>${esc(label)}</summary>${correction}<p class="prose">${esc(event.text??'')}</p>${typeof measurementReportView==='function'?measurementReportView(event):''}</details>`;
+  }).join('');
+  const sourceEvents=(result.source_events??[]).map(event=>{
+    const effective=event.effective_provenance?.origin??event.body?.origin;
+    const label=effective==='synthetic'?'합성 사례의 저장 원문':effective==='researcher_report'?'연구자가 입력한 원문':'연결한 저장 원문';
+    const correction=event.effective_provenance?.corrected_by?'<p class="small">출처 정정을 반영한 분류입니다. 입력 당시의 원문은 아래에 보존합니다.</p>':'';
+    return `<details class="outcome-details"><summary>${esc(label)}</summary>${correction}<p class="prose">${esc(event.body?.text??'')}</p></details>`;
+  }).join('');
+  const assessment=result.result_assessment;
+  const reportComparison=result.observation_amendment?{measurement_report_comparison:[result.observation_amendment.effective_report_comparison].filter(Boolean)}:result;
+  const usableResult=assessment?.context_match&&assessment.intervention_status==='validated'&&assessment.measurement_validity==='validated'&&assessment.precision==='adequate'&&!result.report_guard?.applied&&!result.subject_guard?.applied;
+  const pendingResult=result.subject_guard?.applied?'관측한 후보·조건 기록을 확인한 뒤 결과를 연결합니다.':'생물학적 결과 분류는 측정 조건 확인 후 정합니다.';
+  const observed=assessment?`<section><h4>연결한 결과의 해석</h4><p>${esc(checkName(assessment.check_id))}</p><p>${esc(!usableResult?pendingResult:assessment.outcome_index==null?'아직 유효한 결과에 대응시키지 않은 관측':outcomeText(assessment.check_id,assessment.outcome_index))}</p><p class="small">${esc([
+    assessment.context_match?'원 관측과 조건이 일치한다고 해석':'원 관측과 조건의 일치 확인 필요',
+    {validated:'개입 조건 성립으로 해석',failed:'개입 조건 실패로 해석',unknown:'개입 조건 확인 필요'}[assessment.intervention_status],
+    {validated:'측정 성립으로 해석',failed:'측정 실패로 해석',unknown:'측정 성립 확인 필요'}[assessment.measurement_validity],
+    {adequate:'구별에 충분한 정밀도로 해석',insufficient:'구별에 필요한 정밀도 부족',unknown:'정밀도 확인 필요'}[assessment.precision]
+  ].filter(Boolean).join(' · '))}</p><p>${esc(assessment.assessment_basis??'')}</p></section>`:'';
+  const sources=[binding.decision_id,binding.hypothesis_review_id,binding.prior_selection_id].filter(Boolean);
+  const cost=nextObservationResourceView(result,checkName);
+  const table=rows.length?`<div class="table-scroll"><table><thead><tr><th>이 관측이 나오면</th><th>남아 있는 상황</th><th>이어서 할 판단</th></tr></thead><tbody>${rows.map(row=>`<tr><td>${items(Object.entries(row.outcome_by_check??{}),([id,index])=>outcomeText(id,index))}</td><td>${items(row.retained_configuration_ids,worldName)}</td><td>${row.common_next_decisions?.length?items(row.common_next_decisions,decisionName):'<p>남은 상황을 더 가를 확인이 필요합니다.</p>'}</td></tr>`).join('')}</tbody></table></div>`:'';
+  const assumptions=problem.declaration??{};
+  const actionDetails=(problem.actions??[]).map(action=>{
+    const checksStatus=[action.available?'이용 가능하다고 기록':'가용성 확인 필요',action.design_validated?'설계 조건이 적절하다고 선언':'설계 조건 확인 필요',action.precision_plan_defined?'정밀도 계획 기록':'정밀도 계획 필요'];
+    return `<details class="outcome-details"><summary>${esc(checkName(action.check_id))}</summary><p class="small">${esc(checksStatus.join(' · '))}</p><p>${esc(action.declaration_basis??'')}</p><p>${esc(action.precision_rule??'')}</p>${(action.predictions??[]).map(prediction=>`<div class="outcome"><strong>${esc(worldName(prediction.world_id))}</strong><p>${esc(origins[prediction.origin]??'예측 시점 확인 필요')} · ${esc({complete:'명시한 결과 범위를 검토',partial:'결과 범위 일부 검토',unknown:'결과 범위 확인 필요'}[prediction.coverage]??'결과 범위 확인 필요')}</p>${items(prediction.outcome_indices??[],index=>outcomeText(action.check_id,index))}<p class="small">${esc(prediction.condition_basis??'')}</p><p class="small">${esc(prediction.basis??'')}</p></div>`).join('')}</details>`;
+  }).join('');
+  return `<section data-next-observation-selection><h3>다음 확인을 고르는 근거</h3><p>${esc(problem.immediate_decision??'보존된 판단의 다음 확인을 검토합니다.')}</p><p class="small muted">이 계산이 참조한 판단과 원자료${sources.length?sourceLinks(sources):' · 연결 확인 필요'}</p>${savedObservations}${observed}${typeof measurementReportComparisonView==='function'?measurementReportComparisonView(reportComparison):''}<h4>${esc(statuses[summary.selection_status]??'계산 기록 확인 필요')}</h4>${selected.length?items(selected,checkName):''}${cost}${typeof observationAmendmentEntry==='function'?observationAmendmentEntry(result):''}${next.length?items(next,decisionName):''}<h4>현재 함께 남겨 둔 상황</h4>${items(retained,worldName)}${typeof observationAmendmentHistory==='function'?observationAmendmentHistory(result):''}${table?`<h4>관측에서 다음 판단까지</h4>${table}`:''}${result.has_more?'<p class="small">현재 페이지에 표시한 결과입니다. 나머지 결과는 다음 페이지에서 확인할 수 있습니다.</p>':''}<details class="outcome-details"><summary>선언한 조건과 근거</summary><p>${esc(declaration[summary.declaration_kind??assumptions.kind]??'조건의 작성 경위 확인 필요')}</p><p>${esc(assumptions.basis??'')}</p>${items(assumptions.conditions??[],v=>v)}${sourceEvents?`<h4>조건을 구성할 때 참조한 원문</h4>${sourceEvents}`:''}${actionDetails}</details><p class="small muted">이 판단은 위에 선언한 조건과 결과 범위에 대한 계산입니다. 실제 관측을 연결할 때 측정의 성립 조건과 정밀도를 함께 검토합니다.</p></section>`;
 }
 
 
 ;
 /* Source: science-workbench.js */
 // Optional scientific entry points. A displayed stage is not a completed claim.
-const SCIENCE_LABELS={pathway_hypotheses:'관측을 설명하는 경로 후보',regulon_activity:'발현 자료의 조절 패턴',gene_contrast_statistics:'유전자별 대비 통계',disease_targets:'질환–표적 근거',target_disease_evidence:'개별 표적 근거',chembl_search:'표적·화합물 식별',bioactivities:'보고 활성·실험 조건',binding_pose_review:'포즈 순위·기준 구조 비교',target_structure:'표적 구조·결합 부위',molecular_docking:'결합 포즈 계산',rna_reference:'RNA 전사체·참조',rna_sequence_evaluation:'RNA 서열·접근성',rna_candidate_generation:'RNA 결합 영역 후보'};
+const SCIENCE_LABELS={pathway_node_states:'선택 요소의 변화 없이 설명되는 경로',next_observation_selection:'관측에 따른 다음 판단',hypothesis_review:'인과 근거·구별할 관측 검토',pathway_robustness:'설명 경로의 조건별 비교',pathway_hypotheses:'관측을 설명하는 경로 후보',regulon_activity:'발현 자료의 조절 패턴',gene_contrast_statistics:'유전자별 대비 통계',disease_targets:'질환–표적 근거',target_disease_evidence:'개별 표적 근거',chembl_search:'표적·화합물 식별',bioactivities:'보고 활성·실험 조건',binding_pose_review:'포즈 순위·기준 구조 비교',target_structure:'표적 구조·결합 부위',molecular_docking:'결합 포즈 계산',rna_reference:'RNA 전사체·참조',rna_sequence_evaluation:'RNA 서열·접근성',rna_candidate_generation:'RNA 결합 영역 후보'};
 Object.assign(SCIENCE_LABELS,{rna_seed_sites:'3′UTR seed·간 발현',rna_chemistry_evidence:'수식·안정성·조직 노출 근거',rna_reference_archive:'보존 참조 · 판본 명시',rna_transcriptome_search:'전체 전사체 상호작용',rna_author_full:'전체 ENsiRNA · 조건부 core 점수',rna_activity_score:'탐색용 활성 모델 점수',rna_delivery_simulation:'전달·시간경과 모형'});
 let scienceScope='evidence';
 const scienceDrafts=new Map();
@@ -1132,12 +1614,12 @@ document.addEventListener('input',e=>{if(e.target.matches('[data-science-input]'
 document.addEventListener('change',e=>{if(e.target.matches('[data-science-input]'))scienceDraft()[e.target.id]=e.target.value;if(e.target.id==='dock-csv')loadDockCandidates(e.target.value).catch(e=>notice(e.message))});
 function scienceInput(id,label,placeholder,value=''){return `<label>${esc(label)}<input id="${id}" data-science-input value="${scienceValue(id,value)}" placeholder="${esc(placeholder)}"></label>`}
 function scienceOptions(kind){return state.artifacts.filter(a=>a.kind===kind).map(a=>`<option value="${a.id}">${esc(a.title)}</option>`).join('')}
-function scienceRecent(){const groups={evidence:['pathway_hypotheses','regulon_activity','gene_contrast_statistics','lens_literature','gtopdb_pharmacology',...CLINICAL_SOURCE_KINDS,'target_context','entity_search','disease_targets','target_disease_evidence','intervention_direction_audit','chembl_search','bioactivities','literature'],binding:['kinetic_conditions','exposure_requirements','research_evidence','target_structure','molecular_docking','binding_pose_review','molecule_csv','admet'],rna:['rna_author_mod','chemical_sirna_evidence','research_evidence','rna_duplex','rna_duplex_seed','rna_duplex_transcriptome','rna_region_annotation','rna_delivery_response','rna_tissue_context','rna_variant_catalog','rna_allele_scenario','rna_candidate_space','rna_reference_panel','rna_seed_sites','rna_chemistry_evidence','rna_reference','rna_reference_archive','rna_transcriptome_search','rna_activity_score','rna_author_full','rna_delivery_simulation','rna_sequence_evaluation','rna_candidate_generation','rna_seed_analysis','rna_table']};const items=state.artifacts.filter(a=>groups[scienceScope].includes(a.kind)).slice(-6).reverse();return `<section class="science-results"><h2>이 연구에서 얻은 자료와 결과</h2>${items.length?items.map(a=>`<button data-action="source" data-id="${a.id}" class="science-result"><span><small>${esc(SCIENCE_LABELS[a.kind]??labels[a.kind])}</small><strong>${esc(artifactName(a.id))}</strong></span><span>${a.meta.result_status?esc(jobLabels[a.meta.result_status]??a.meta.result_status):'원자료'} →</span></button>`).join(''):'<p class="muted">위에서 조회하거나 자료를 넣으면 결과가 여기에 나타납니다.</p>'}<p class="limit">결과를 열면 조건·단위·원행과 다음 작업을 확인할 수 있습니다. 계산 완료가 가설의 입증을 뜻하지는 않습니다.</p></section>`}
+function scienceRecent(){const groups={evidence:['reported_activity_comparison','pathway_node_states','next_observation_selection','hypothesis_review','pathway_robustness','pathway_hypotheses','regulon_activity','gene_contrast_statistics','lens_literature','gtopdb_pharmacology',...CLINICAL_SOURCE_KINDS,'target_context','entity_search','disease_targets','target_disease_evidence','intervention_direction_audit','chembl_search','bioactivities','literature'],binding:['reported_activity_comparison','kinetic_conditions','exposure_requirements','research_evidence','target_structure','molecular_docking','binding_pose_review','molecule_csv','admet'],rna:['rna_author_mod','chemical_sirna_evidence','research_evidence','rna_duplex','rna_duplex_seed','rna_duplex_transcriptome','rna_region_annotation','rna_delivery_response','rna_tissue_context','rna_variant_catalog','rna_allele_scenario','rna_candidate_space','rna_reference_panel','rna_seed_sites','rna_chemistry_evidence','rna_reference','rna_reference_archive','rna_transcriptome_search','rna_activity_score','rna_author_full','rna_delivery_simulation','rna_sequence_evaluation','rna_candidate_generation','rna_seed_analysis','rna_table']};const items=state.artifacts.filter(a=>groups[scienceScope].includes(a.kind)).slice(-6).reverse();return `<section class="science-results"><h2>이 연구에서 얻은 자료와 결과</h2>${items.length?items.map(a=>`<button data-action="source" data-id="${a.id}" class="science-result"><span><small>${esc(SCIENCE_LABELS[a.kind]??labels[a.kind])}</small><strong>${esc(artifactName(a.id))}</strong></span><span>${a.meta.result_status?esc(jobLabels[a.meta.result_status]??a.meta.result_status):'원자료'} →</span></button>`).join(''):'<p class="muted">위에서 조회하거나 자료를 넣으면 결과가 여기에 나타납니다.</p>'}<p class="limit">결과를 열면 조건·단위·원행과 다음 작업을 확인할 수 있습니다. 계산 완료가 가설의 입증을 뜻하지는 않습니다.</p></section>`}
 function renderScienceWorkbench(){
  const groups=[['evidence','기전과 표적','질환에서 근거와 접근 찾기'],['binding','저분자 결합','구조·활성·포즈 함께 보기'],['rna','RNA 서열','참조와 후보를 실제 계산하기']];
  // Rendered inside the 자료 tab's "직접 조회" drawer, which already says what this is for, so the
  // former full-page intro and its tab jump are gone. The job list lives in 변경 기록.
- return `<p class="small muted">질환부터 시작해도, 이미 가진 후보나 관측에서 시작해도 됩니다. 결과와 맞지 않는 가정은 연구 탭에서 다시 검토합니다.</p><nav class="science-paths" aria-label="과학 작업 종류">${groups.map(([id,title,desc])=>button('science-scope',`<strong>${title}</strong><span>${desc}</span>`,`data-scope="${id}" aria-pressed="${scienceScope===id}"`,`science-path ${scienceScope===id?'active':''}`)).join('')}</nav><div class="science-columns"><div>${scienceScope==='evidence'?(scienceEvidenceForm()+regulonActivityEntry()+pathwayHypothesesEntry()+lensEntry()+gtopdbEntry()+clinicalSourcesEntry()+targetContextEntry()):scienceScope==='binding'?scienceBindingForm():scienceRnaForm()}</div><div>${scienceRecent()}</div></div>`;
+ return `<p class="small muted">질환부터 시작해도, 이미 가진 후보나 관측에서 시작해도 됩니다. 결과와 맞지 않는 가정은 연구 탭에서 다시 검토합니다.</p><nav class="science-paths" aria-label="과학 작업 종류">${groups.map(([id,title,desc])=>button('science-scope',`<strong>${title}</strong><span>${desc}</span>`,`data-scope="${id}" aria-pressed="${scienceScope===id}"`,`science-path ${scienceScope===id?'active':''}`)).join('')}</nav><div class="science-columns"><div>${scienceScope==='evidence'?(scienceEvidenceForm()+regulonActivityEntry()+pathwayHypothesesEntry()+(typeof pathwayComparisonEntry==='function'?pathwayComparisonEntry():'')+lensEntry()+gtopdbEntry()+clinicalSourcesEntry()+targetContextEntry()):scienceScope==='binding'?scienceBindingForm():scienceRnaForm()}</div><div>${scienceRecent()}</div></div>`;
 }
 function scienceEvidenceForm(){return `<section class="panel science-form"><h3>질환·표적 이름에서 시작</h3><p>정확한 대상과 질환 범위를 먼저 확인합니다. 결과의 이름을 누르면 표적 근거 또는 RNA 참조로 이어집니다.</p>${scienceInput('science-name','공개 질환명 또는 유전자명','예: transthyretin amyloidosis, TTR')}<div class="detail-actions">${button('science-find-disease','질환 찾기',busy?'disabled':'','primary small')}${button('science-find-target','표적 찾기',busy?'disabled':'','small')}</div></section><section class="panel science-form"><h3>보고된 화합물·표적 활성 확인</h3><p>실험의 종류·종·단위·측정 조건을 함께 확인합니다.</p>${scienceInput('science-chembl-name','공개 화합물 또는 표적 이름','예: tafamidis, transthyretin')}<div class="detail-actions">${button('science-find-molecule','화합물 찾기',busy?'disabled':'','small')}${button('science-find-chembl-target','활성 DB의 표적 찾기',busy?'disabled':'','small')}</div></section>`}
 function scienceBindingForm(){return `<section class="panel science-form"><h3>1. 표적 구조와 결합 부위 확인</h3><p>PDB의 생물학적 조립체를 받아 실제 사슬과 공결정 성분을 확인합니다. 구조를 열고 평가할 부위를 선택하세요.</p><div class="science-fields">${scienceInput('science-pdb','PDB ID','예: 6E6Z')}${scienceInput('science-assembly','조립체 번호','1','1')}</div>${button('science-structure','구조·부위 가져오기',busy?'disabled':'','primary small')}<p class="limit">표적 이름만으로 도메인·변이·상태가 같은 구조라고 판단하지 않습니다.</p></section><section class="panel science-form"><h3>2. 후보와 구조를 연결해 포즈 계산</h3><p>후보 ID와 SMILES가 있는 CSV를 올리고, 받은 구조의 부위에서 계산할 후보를 고릅니다.</p>${button('upload','후보 CSV 올리기','','small')}<p class="limit">현재는 알려진 공결정 부위의 rigid docking을 지원합니다. 점수와 포즈 검사는 실제 활성·선택성 측정을 대체하지 않습니다.</p></section><section class="panel"><h3>3. 측정 근거와 불일치 확인</h3><p>포즈 결과를 활성 기록·용해도·실험 조건과 대조하세요. 맞지 않으면 후보뿐 아니라 구조 상태·시료·측정 가정도 다시 검토할 수 있습니다.</p>${button('science-scope','활성·표적 근거 찾기','data-scope="evidence"','small')}</section>`}
@@ -1145,6 +1627,7 @@ function scienceRnaForm(){const refs=state.artifacts.filter(a=>['rna_reference',
 async function openDocking(structureId,siteId){showDialog('선택한 부위에서 후보 포즈 계산',`<p class="small">부위 ${esc(siteId)} · 원 구조와 후보의 전하/성분은 보존합니다. 점수는 새 친화도 측정이 아닙니다.</p><label>후보 CSV<select id="dock-csv"><option value="">후보 자료 선택</option>${scienceOptions('molecule_csv')}</select></label><div id="dock-candidates" class="dock-candidates"></div><div class="science-fields"><label>탐색량<select id="dock-effort"><option value="8">8 · 첫 탐색</option><option value="16" selected>16</option><option value="32">32 · 더 넓은 탐색</option></select></label><label>초기 구조·탐색 공통 시드<input id="dock-seed" value="20260925" type="number"></label></div><div class="dialog-actions">${button('science-run-docking','선택 후보 실제 계산',`data-structure="${esc(structureId)}" data-site="${esc(siteId)}"`,'primary')}</div>`)}
 async function loadDockCandidates(id){const box=document.querySelector('#dock-candidates');if(!id){box.textContent='';return}const value=await api(`/api/workspaces/${state.id}/artifacts/${id}?limit=100`);const r=value.result;box.innerHTML=`<p class="small">계산할 후보를 최대12개 고르세요. ${r.has_more?'앞100행을 표시합니다. 더 큰 목록은 조건으로 선별한 뒤 요청하세요.':''}</p>${r.rows.map(x=>`<label><input type="checkbox" name="dock-candidate" value="${esc(x.candidate_id??'')}" ${!x.candidate_id||!x.width_matches?'disabled':''}> ${esc(x.candidate_id??'ID 없음')} <small>${esc(x.smiles??'구조 없음')}</small></label>`).join('')}`}
 async function scienceAction(action,node){
+ if(action==='science-qualify-proposals'){await qualifyProposalsAction(node);return}
  if(action.startsWith('science-pathway-')){await pathwayHypothesesAction(action,node);return}
  if(action.startsWith('science-regulon-')){await regulonActivityAction(action,node);return}
  if(action.startsWith('science-lens-')){await lensAction(action,node);return}
@@ -1191,6 +1674,11 @@ async function scienceAction(action,node){
  }catch(error){actionError=error.message;notice(error.message)}finally{busy=false;render()}
 }
 function scienceTable(result,kind){
+ if(kind==='reported_activity_comparison')return reportedActivityComparisonTable(result);
+ if(kind==='pathway_node_states')return pathwayNodeStatesTable(result);
+ if(kind==='next_observation_selection')return nextObservationSelectionTable(result);
+ if(kind==='hypothesis_review')return hypothesisReviewRecordTable(result);
+ if(kind==='pathway_robustness')return pathwayRobustnessTable(result);
  if(kind==='pathway_hypotheses')return pathwayHypothesesTable(result);
  if(kind==='regulon_activity')return regulonActivityTable(result);
  if(kind==='exposure_requirements')return exposureRequirementsTable(result);
@@ -1200,6 +1688,7 @@ function scienceTable(result,kind){
  if(kind==='target_context')return targetContextTable(result);
  if(CLINICAL_SOURCE_KINDS.includes(kind))return clinicalSourceTable(result,kind);
  if(kind==='analogue_proposal')return proposalTable(result);
+ if(kind==='proposal_qualification')return proposalQualificationTable(result);
  if(kind==='rna_author_mod')return authorModTable(result);
  if(kind==='rna_duplex')return duplexTable(result);
  if(kind==='rna_duplex_seed')return duplexSeedTable(result);
@@ -1267,6 +1756,100 @@ function rnaThermodynamicDetails(result){
 
 
 ;
+/* Source: reported-activity-comparison.js */
+Object.assign(SCIENCE_LABELS,{reported_activity_comparison:'같은 화합물의 두 표적 보고값 대비'});
+
+function reportedActivityNumber(value){
+ return typeof value==='number'&&Number.isFinite(value)
+  ? new Intl.NumberFormat('ko-KR',{maximumSignificantDigits:6}).format(value)
+  : null;
+}
+
+function reportedActivityRange(quantity,logarithmic=false){
+ if(!quantity||!['point','interval'].includes(quantity.kind))return '원값 확인 필요';
+ if(quantity.kind==='point')return reportedActivityNumber(quantity.point)??'원값 확인 필요';
+ if(quantity.lower_unbounded===true&&!logarithmic)return '범위 확인 필요';
+ const lower=quantity.lower_unbounded===true?'−∞':reportedActivityNumber(quantity.lower);
+ const upper=quantity.upper_unbounded===true?'+∞':reportedActivityNumber(quantity.upper);
+ if(lower===null||upper===null||typeof quantity.lower_closed!=='boolean'||typeof quantity.upper_closed!=='boolean')return '범위 확인 필요';
+ const left=quantity.lower_unbounded===true||quantity.lower_closed===false?'(':'[';
+ const right=quantity.upper_unbounded===true||quantity.upper_closed===false?')':']';
+ return `${left}${lower}, ${upper}${right}`;
+}
+
+function reportedActivityTarget(measurement){
+ return measurement?.target_name??measurement?.raw_record?.target_pref_name??measurement?.target_id??'표적 확인 필요';
+}
+
+function reportedActivityValue(measurement){
+ if(!measurement)return '원 측정 확인 필요';
+ return [measurement.endpoint??'측정량 미상',measurement.relation??'관계 미상',
+  measurement.value??'값 미상',measurement.units??'단위 미상'].map(value=>esc(value)).join(' ');
+}
+
+function reportedActivityDirection(row){
+ if(!['computed_exact','computed_interval'].includes(row.status))return '대응할 원행과 조건을 확인해 다시 비교합니다.';
+ const endpoint=esc(row.reference?.endpoint??'보고 농도');
+ const reference=esc(reportedActivityTarget(row.reference)),comparator=esc(reportedActivityTarget(row.comparator));
+ if(row.direction==='reference_lower')return `${reference}의 보고 ${endpoint}가 더 낮습니다.`;
+ if(row.direction==='comparator_lower')return `${comparator}의 보고 ${endpoint}가 더 낮습니다.`;
+ if(row.direction==='equal')return `두 표적의 보고 ${endpoint}가 같습니다.`;
+ return '측정 범위를 좁히면 두 표적의 농도 차이를 구별할 수 있습니다.';
+}
+
+const REPORTED_ACTIVITY_CONDITION_LABELS={assay_organism:'종',target_organism:'표적 종',
+ assay_cell_type:'세포',assay_tissue:'조직',assay_type:'시험 유형',bao_format:'측정 형식',
+ bao_label:'측정 형식',assay_parameters:'상세 시험 조건',assay_strain:'균주',assay_subcellular_fraction:'시료 분획',
+ substrate_concentration:'기질 농도',preincubation_time:'전처리 시간',readout_time:'판독 시간'};
+Object.assign(REPORTED_ACTIVITY_CONDITION_LABELS,{'activity.target_organism':'표적 종','activity.target_tax_id':'표적 종 식별자',
+ 'activity.assay_type':'시험 유형','activity.bao_format':'측정 형식','activity.bao_endpoint':'측정값 정의',
+ complete_protocol_and_construct_comparability:'전체 시험법·단백질 구성의 대응'});
+
+function reportedActivityConditions(measurement){
+ if(!measurement)return '<p>원 측정 자료를 확인해 주세요.</p>';
+ const context=measurement.condition_context??{},raw=measurement.raw_record??{};
+ const authority=measurement.assay_context_status==='retained_assay_response'
+  ?'보존된 시험 조건 원응답과 대조한 내용입니다.'
+  :'시험 조건의 원응답을 확인하면 세부 조건의 대응을 판단할 수 있습니다.';
+ const fields=['assay_organism','assay_cell_type','assay_tissue','assay_strain','assay_subcellular_fraction','assay_type','bao_format'];
+ const values=fields.map(key=>{
+  const value=context[key]??raw[key];
+  return `<li>${esc(REPORTED_ACTIVITY_CONDITION_LABELS[key]??key)}: ${esc(value===null||value===undefined||value===''?'미기록':value)}</li>`;
+ }).join('');
+ const description=measurement.assay_description??context.description??raw.assay_description;
+ const aid=measurement.source_ref?.artifact_id;
+ const row=/^\/rows\/(0|[1-9]\d*)(?:\/|$)/.exec(measurement.source_ref?.json_pointer??'');
+ const link=aid?button('source','보존 원측정 보기',`data-id="${esc(aid)}"${row?` data-source-offset="${Number(row[1])}"`:''}`,'link-button small'):'';
+ return `<section><h5>${esc(reportedActivityTarget(measurement))} · ${esc(measurement.assay_id??'시험 ID 미상')}</h5><p>${description?esc(description):'원 시험 설명을 이어서 확인합니다.'}</p><p class="small muted">${authority}</p><ul>${values}</ul>${measurement.assay_context_status==='unverified_copy'?`<details><summary>보존된 조건 사본 · 원응답 확인 필요</summary><pre class="raw">${esc(JSON.stringify(measurement.assay_context??{},null,2))}</pre></details>`:''}${link}</section>`;
+}
+
+function reportedActivityPairDetails(row){
+ const review=row.condition_review??{},unknown=Array.isArray(review.unknown_fields)?review.unknown_fields:[];
+ const mismatches=Array.isArray(review.mismatches)?review.mismatches:[];
+ const reasons=Array.isArray(row.reasons)?row.reasons:[];
+ const correspondence=['computed_exact','computed_interval'].includes(row.status)
+  ?'같은 문헌의 화합물 기록을 대응했습니다. 원 실험의 시료·기질 농도·측정법을 함께 확인해 적용 범위를 정합니다.'
+  :'문헌·화합물·원행의 대응과 조건 차이를 확인하면 두 측정값을 다시 비교할 수 있습니다.';
+ return `<details><summary>두 측정의 조건과 원행</summary><p class="small">${esc(row.document_id??'문헌 확인 필요')} · 원 화합물 기록 ${esc(row.source_record_id??'확인 필요')}</p>${reportedActivityConditions(row.reference)}${reportedActivityConditions(row.comparator)}${unknown.length?`<p class="small">다음에 확인할 조건: ${unknown.map(key=>esc(REPORTED_ACTIVITY_CONDITION_LABELS[key]??key)).join(', ')}</p>`:''}${mismatches.length?`<p class="notice-inline">두 기록의 조건 차이를 먼저 검토합니다.</p><pre class="raw">${esc(JSON.stringify(mismatches,null,2))}</pre>`:''}${reasons.length?`<details><summary>계산 검토 기록</summary><pre class="raw">${esc(JSON.stringify(reasons,null,2))}</pre></details>`:''}<p class="small muted">${correspondence}</p></details>`;
+}
+
+function reportedActivityComparisonTable(result){
+ const rows=Array.isArray(result.rows)?result.rows:[],summary=result.summary??{};
+ const pieces=[['점값',summary.computed_exact],['보고 범위',summary.computed_interval],['원행·조건 확인',summary.unresolved]]
+  .filter(([,value])=>typeof value==='number'&&value>0).map(([label,value])=>`${label} ${reportedActivityNumber(value)}쌍`);
+ const ownId=typeof selected==='string'?selected:'';
+ const start=Number.isInteger(result.offset)&&result.offset>=0?result.offset:0;
+ const total=Number.isInteger(result.total_rows)?result.total_rows:(summary.requested_pairs??rows.length);
+ const table=rows.length?`<div class="table-scroll"><table data-reported-activity-comparison><thead><tr><th>화합물 · 원 조건<br>두 표적의 보고값</th><th>비교 / 기준</th></tr></thead><tbody>${rows.map(row=>{
+  const computed=['computed_exact','computed_interval'].includes(row.status);
+  return `<tr data-activity-contrast-index="${esc(row.pair_index)}"><td><strong>${esc(row.candidate_id??'화합물 확인 필요')}</strong><p><span class="small">기준 · ${esc(reportedActivityTarget(row.reference))}</span><br>${reportedActivityValue(row.reference)}</p><p><span class="small">비교 · ${esc(reportedActivityTarget(row.comparator))}</span><br>${reportedActivityValue(row.comparator)}</p>${reportedActivityPairDetails(row)}</td><td>${computed?`<strong>${esc(reportedActivityRange(row.ratio))}</strong><p class="small">log₁₀ 대비 ${esc(reportedActivityRange(row.log10_ratio,true))}</p>${row.ratio?.lower_decimal?`<details><summary>전체 계산값</summary><pre class="raw">${esc(JSON.stringify({ratio:row.ratio,log10_ratio:row.log10_ratio},null,2))}</pre></details>`:''}`:'<strong>원행·조건 확인</strong>'}<p class="small">${reportedActivityDirection(row)}</p></td></tr>`;
+ }).join('')}</tbody></table></div>`:'<p>대응할 두 원 측정 기록을 선택하면 대비값을 확인할 수 있습니다.</p>';
+ const pagination=Number.isInteger(result.total_rows)?`<div class="pagination"><span>${rows.length?`${start+1}–${start+rows.length}`:'0'} / ${esc(total)}쌍</span><div>${button('prev','이전',start===0?'disabled':'','small')}${button('next','다음',result.has_more===true?'':'disabled','small')}</div></div>`:'';
+ return `<section data-reported-activity-result><h3>같은 화합물의 두 표적 보고값 대비</h3><p>${esc(result.reason??'')}</p>${pieces.length?`<p>${pieces.join(' · ')}</p>`:''}<p class="small">비율은 비교 표적의 농도를 기준 표적의 농도로 나눈 값입니다. 1보다 크면 기준 표적의 보고 농도가 더 낮습니다.</p>${table}${pagination}<p class="small muted">대괄호는 경계값 포함, 소괄호는 경계값 제외입니다. 범위는 원보고의 부등호를 계산한 결과입니다. 대비값은 유효숫자 6자리로 표시하며 방향은 원값으로 계산합니다.</p>${ownId?`<div class="detail-actions">${button('science-review','두 표적의 보고값으로 다음 확인 검토',`data-id="${esc(ownId)}" ${typeof busy!=='undefined'&&busy?'disabled':''}`,'small')}</div>`:''}</section>`;
+}
+
+
+;
 /* Source: source-evidence.js */
 // Show source conditions before a result is carried into another decision.
 Object.assign(SCIENCE_LABELS,{chemical_sirna_evidence:'표적별 수식 원자료',research_evidence:'실제 시험·원전 조건 검토',source_image:'공개 원 그림'});
@@ -1301,6 +1884,61 @@ function modificationCheckpointTable(row){
  return `<details class="modification-checkpoints"><summary>수식 모델의 조건별 원점수 보기</summary><p class="limit">${esc(row.score_comparison_label??'같은 모델·입력 조건의 기록입니다. 실제 억제율이나 효과 확률로 환산하지 않습니다.')}</p>
  <div class="table-scroll"><table><thead><tr><th>체크포인트</th><th>${esc(row.score_left_label??'저자 무수식 입력')}</th><th>${esc(row.score_right_label??'AS2 2′-OMe 입력')}</th></tr></thead><tbody>${values.map(v=>`<tr><td>${esc(v.checkpoint)}</td><td>${score(v.left_score)}</td><td>${score(v.right_score)}</td></tr>`).join('')}</tbody></table></div>
  <details class="modification-diagnostics"><summary>별도 입력 표현 진단</summary><p class="limit">수식 위치 표지만 서로 바꾼 계산입니다. 실제 분자나 측정된 화학 효과가 아닙니다.</p><div class="table-scroll"><table><thead><tr><th>체크포인트</th><th>왼쪽 화학·오른쪽 위치 표지</th><th>오른쪽 화학·왼쪽 위치 표지</th></tr></thead><tbody>${values.map(v=>`<tr><td>${esc(v.checkpoint)}</td><td>${score(v.left_chemistry_right_mask)}</td><td>${score(v.right_chemistry_left_mask)}</td></tr>`).join('')}</tbody></table></div></details></details>`;
+}
+
+
+;
+/* Source: source-documents.js */
+// Uploaded originals and extracted text remain separate, linked records.
+function uploadedSourceOriginalURL(id){
+  return `/api/workspaces/${encodeURIComponent(state.id)}/artifacts/${encodeURIComponent(id)}?original=1`;
+}
+function uploadedSourceMetadata(result){
+  const metadata=result.supplied_metadata??{};
+  return metadata.context||metadata.citation
+    ? `<details class="meta-details"><summary>연구자가 함께 적은 조건·출처</summary>${metadata.context?`<p class="prose small">${esc(metadata.context)}</p>`:''}${metadata.citation?`<p class="prose small">${esc(typeof metadata.citation==='string'?metadata.citation:JSON.stringify(metadata.citation))}</p>`:''}</details>`:'';
+}
+function uploadedSourceReadingScope(result){
+  return result.limits?.length?`<details class="meta-details"><summary>읽은 범위와 원본에서 확인할 부분</summary>${result.limits.map(value=>`<p class="small">${esc(value)}</p>`).join('')}</details>`:'';
+}
+function uploadedSourceFileView(result,artifact){
+  const original=uploadedSourceOriginalURL(artifact.id);
+  // A source drawer retains its original reading snapshot. Job status and newly
+  // linked extraction records come from the current workspace, as in native inspect.
+  const currentJobs=(state.jobs??[]).filter(job=>job.kind==='source_document'&&job.request?.artifact_id===artifact.id);
+  const jobs=currentJobs.length?currentJobs.slice(-1):result.extraction_jobs??(result.extraction_job?[result.extraction_job]:[]);
+  const derived=[...new Set([...(result.source_document_artifact_ids??result.derived_artifact_ids??[]),
+    ...(state.artifacts??[]).filter(item=>item.kind==='source_document'&&item.meta?.consumed_artifacts?.includes(artifact.id)).map(item=>item.id)])];
+  const statusLabels={queued:'본문 준비 대기',running:'문서의 문자층 읽는 중',succeeded:'문서 본문 준비 완료',partial:'일부 본문 준비',failed:'문서 판독 확인 필요',interrupted:'문서 판독 중단'};
+  return `<p>업로드한 원본 파일을 보존했습니다.</p><a href="${original}" target="_blank" rel="noopener noreferrer">보존한 원본 파일 열기 ↗</a>${uploadedSourceMetadata(result)}
+    ${jobs.map(job=>`<p class="small" role="status">${esc(statusLabels[job.status]??job.status)}${job.error?` · ${esc(job.error)}`:''}</p>`).join('')}
+    ${derived.length?`<h3>원본에서 읽은 문서 본문</h3>${sourceLinks(derived)}<p class="small muted">본문의 문단·페이지와 읽기 상태를 확인한 뒤 연구 질문에 연결하세요.</p>`:'<p class="small muted">문자층 읽기가 끝나면 여기에서 문서 본문을 열 수 있습니다.</p>'}${uploadedSourceReadingScope(result)}`;
+}
+function uploadedSourceDocumentView(result){
+  const extraction=result.extraction??{},rows=result.rows??[];
+  const original=uploadedSourceOriginalURL(result.source_artifact_id);
+  const outcome={text_extracted:'문서 본문 준비 완료',partial_text:'일부 본문 준비 · 원본 확인 필요',no_text:'읽을 수 있는 문자층을 찾지 못했습니다',failed:'문서 판독 확인 필요'};
+  const warnings=extraction.warnings??[];
+  const emptyPages=Array.isArray(extraction.empty_text_pages)?extraction.empty_text_pages:rows.filter(row=>row.kind==='pdf_page'&&!row.text).map(row=>row.page_number);
+  const emptyCount=typeof result.summary?.empty_text_pages==='number'?result.summary.empty_text_pages:emptyPages.length;
+  const pageLabel=result.document_format==='pdf'?'페이지':'문단';
+  const start=result.offset??0,total=result.total_rows??rows.length;
+  return `<p><strong>${esc(outcome[extraction.status]??'보존한 원본에서 읽은 본문')}</strong></p>
+    <a href="${original}" target="_blank" rel="noopener noreferrer">보존한 원본 파일 열기 ↗</a>
+    ${uploadedSourceMetadata(result)}
+    ${uploadedSourceReadingScope(result)}
+    ${warnings.length?`<aside class="notice-inline"><strong>원본과 대조할 부분</strong>${warnings.map(w=>`<p class="small">${esc(typeof w==='string'?w:w.message??JSON.stringify(w))}</p>`).join('')}</aside>`:''}
+    ${emptyCount?`<p class="limit">문자층이 없는 페이지 ${number(emptyCount)}개${emptyPages.length?` · 현재 범위의 ${emptyPages.map(esc).join(', ')}쪽`:''}. 해당 페이지의 그림·표는 원본에서 확인하세요.</p>`:''}
+    ${!rows.length?'<p class="small">원본을 열어 내용을 확인하고, 필요한 본문을 UTF-8 텍스트로 추가하면 문단 위치와 연결해 검토할 수 있습니다.</p>':''}
+    ${rows.map((row,index)=>{
+      const pdf=row.kind==='pdf_page',position=pdf?`원문 ${row.page_number}쪽`:`문단 ${row.paragraph_number??start+index+1}`;
+      const pageURL=pdf&&Number.isInteger(row.page_number)&&row.page_number>0?`${original}#page=${row.page_number}`:original;
+      return `<article class="article-block source-document-block"><h3>${esc(position)}</h3>${row.text?`<pre class="raw">${esc(row.text)}</pre>`:'<p class="small muted">이 위치의 문자층이 비어 있습니다. 보존한 원본에서 확인하세요.</p>'}
+        <a class="small" href="${pageURL}" target="_blank" rel="noopener noreferrer">${pdf?'보존한 원본의 이 페이지 열기':'보존한 원본 파일 열기'} ↗</a>
+        <details class="source-technical-locator"><summary>이 ${pdf?'페이지':'문단'}의 원본 위치</summary><p class="small">${esc(row.row_id??'')} · 저장된 본문 ${number(start+index+1)}행</p>${Number.isInteger(row.line_start)?`<p class="small">원본 텍스트 ${number(row.line_start)}–${number(row.line_end)}행</p>`:''}${Number.isInteger(row.byte_start)?`<p class="small">원본 바이트 ${number(row.byte_start)}–${number(row.byte_end)} (끝 위치 제외)</p>`:''}</details>
+      </article>`;
+    }).join('')}
+    <div class="pagination"><span>${pageLabel} ${rows.length?start+1:0}–${start+rows.length} / ${number(total)}</span><div>${button('prev','이전',start===0?'disabled':'','small')}${button('next','다음',!result.has_more?'disabled':'','small')}</div></div>`;
 }
 
 
@@ -1790,6 +2428,28 @@ function bindingPoseTable(result) {
 // is the result.
 if (typeof SCIENCE_LABELS !== 'undefined') SCIENCE_LABELS.analogue_proposal = '공개 화합물에서 설계한 후보';
 
+function proposalModelComparison(model) {
+  const selection = model.model_selection;
+  if (!selection) return '';
+  const candidates = selection.candidates || [];
+  const chosen = candidates.find(candidate => candidate.id === selection.selected);
+  const number = value => Number.isFinite(value) ? value.toFixed(3) : '—';
+  const status = candidate => candidate.id === selection.selected ? '선택'
+    : candidate.status === 'fitted' ? (candidate.usable ? '비교 완료' : '검증 기준 미충족')
+    : ({disabled: '비교 설정 꺼짐', resource_bound: '자료 크기에 맞는 비교 필요',
+        environment_mismatch: '실행환경 확인 필요', dependency_unavailable: '실행환경 연결 필요',
+        failed: '계산 오류 확인 필요'}[candidate.status] || '확인 필요');
+  return `<details class="proposal-model-comparison" data-detail-key="activity-model-comparison">
+    <summary>${chosen ? `이 자료에서 선택한 예측법: ${esc(chosen.name)}` : '예측법 비교와 다음 확인'}</summary>
+    <p class="small">같은 학습 ${esc(selection.training_rows)}개 · 골격 검증 ${esc(selection.validation_rows)}개로 비교했습니다.
+      평균값만 예측했을 때의 오차 ${esc(number(selection.mean_baseline_mae))} p활성 단위</p>
+    <div class="table-scroll"><table><thead><tr><th>예측법</th><th>검증 오차</th><th>순위 상관</th><th>판단</th></tr></thead>
+      <tbody>${candidates.map(candidate => `<tr><td>${esc(candidate.name)}</td>
+        <td>${esc(number(candidate.validation_mae))}</td><td>${esc(number(candidate.validation_spearman))}</td>
+        <td>${esc(status(candidate))}${candidate.reason ? `<small>${esc(candidate.reason)}</small>` : ''}</td></tr>`).join('')}</tbody></table></div>
+    <p class="small muted">${esc(selection.reading || '')}</p></details>`;
+}
+
 function proposalModelVerdict(result) {
   const model = result.activity_model;
   if (!model) return '';
@@ -1799,18 +2459,40 @@ function proposalModelVerdict(result) {
     원자료에 보존한 경계값 ${esc(review.retained_bound_records)}건</p>` : '';
   if (!model.usable) {
     return `<p class="notice-inline proposal-refusal"><strong>활성 평가에 필요한 자료를 확인해 주세요.</strong>
-      ${esc(model.meaning || '')}</p>${preparation}`;
+      ${esc(model.meaning || '')}</p>${preparation}${proposalModelComparison(model)}`;
   }
   const summary = model.summary || {};
-  const sources = Object.entries(summary.sources || {}).map(([name, count]) => `${name} ${count}`).join(' · ');
+  const sourceId = result.generation_source_binding?.artifact_id || result.source_artifact_id;
+  const source = typeof state !== 'undefined' ? state?.artifacts?.find(item => item.id === sourceId) : null;
+  const sourceLabel = source?.title || source?.source_title;
+  // Parser source keys describe row formats, not proof of a live retrieval.
+  const formats = Object.entries(summary.sources || {}).map(([name, count]) => `${name} ${count}`).join(' · ');
+  const provenance = sourceLabel ? `<p class="small">학습에 연결한 입력: ${esc(sourceLabel)}
+      ${source.meta?.source_reading ? `<small>${esc(source.meta.source_reading)}</small>` : ''}</p>` : '';
   return `<div class="proposal-model">
-    <p><strong>${review ? '골격을 나눈 공개 활성 자료 예측 시험' : '이전 데이터 처리 방식의 예측 기록 · 재검토 대상'}</strong> · 순위 상관
+    <p><strong>${review ? (model.model_selection ? '모델 선택에 쓴 골격 검증 성적' : '골격을 나눈 공개 활성 자료 예측 시험') : '이전 데이터 처리 방식의 예측 기록 · 재검토 대상'}</strong> · 순위 상관
       ${esc(summary.held_out_spearman)} (기준 ${esc(summary.minimum_spearman_to_use)})</p>
-    <p class="small muted">학습 ${esc(summary.trained_on)}개 · 시험 ${esc(summary.held_out)}개 ·
-      골격 ${esc(summary.scaffolds)}종 · 자료원 ${esc(sources || '기록 없음')}
+    <p class="small muted">학습 ${esc(summary.trained_on)}개 · ${model.model_selection ? '모델 선택용 검증' : '시험'} ${esc(summary.held_out)}개 ·
+      골격 ${esc(summary.scaffolds)}종 · 입력 레코드 형식 ${esc(formats || '기록 없음')}
       ${summary.pooled_assay_types && summary.pooled_assay_types.length
         ? ` · 보고된 측정 종류 ${esc(summary.pooled_assay_types.join(', '))}` : ''}</p>
-    ${preparation}<p class="limit">공개 시험 기록을 예측한 값입니다. 후보의 실제 활성은 후속 실험에서 확인합니다.</p></div>`;
+    ${provenance}${preparation}${proposalModelComparison(model)}<p class="limit">공개 시험 기록을 예측한 값입니다. 후보의 실제 활성은 후속 실험에서 확인합니다.</p></div>`;
+}
+
+function proposalSelectionReading(result) {
+  const selection = result.proposal_selection;
+  if (result.guided_search?.ran) return '';
+  if (selection?.activity_scoring_stage !== 'after_structural_shortlist') {
+    return result.activity_model?.scoring?.scored
+      ? '<p class="small muted">구조를 추린 순서와 활성 예측을 적용한 순서는 이 기록에 명시되지 않았습니다.</p>' : '';
+  }
+  const structural = Array.isArray(selection.shortlist_basis)
+    && selection.shortlist_basis.join(',') === 'retrieved_structure_similarity,QED';
+  return `<p class="small proposal-selection-order">${structural
+    ? '구조 유사도와 QED 순서로 먼저 추린 후보입니다.' : '구조 기준으로 먼저 추린 후보입니다.'}
+    ${result.activity_model?.scoring?.scored > 0
+      ? '활성 예측값은 그 뒤에 붙였으며, 이 후보 목록을 활성 점수로 선택하거나 정렬한 것은 아닙니다.'
+      : '활성 예측은 이 구조 목록을 추린 뒤에 평가했습니다.'}</p>`;
 }
 
 function proposalSearchTrajectory(result) {
@@ -1884,14 +2566,140 @@ function proposalTable(result) {
       ${database ? ` · 조각 사전은 이 실행이 회수한 화합물 ${esc(database.compounds)}개로 그때 만들었습니다(문맥 반경 ${esc((database.radii || []).join(', '))})` : ''}
       ${result.generator_error ? ` · 첫 생성기가 실패해 대체 방식으로 돌았습니다: ${esc(result.generator_error)}` : ''}</p>
     <p class="small muted">회수 구조 ${esc(summary.retrieved_inputs ?? '—')}개 → 열거 ${esc(summary.enumerated ?? '—')}개 →
-      필터 통과 ${esc(summary.returned ?? '—')}개
+      ${Number.isInteger(result.proposal_selection?.filtered_count)
+        ? `필터 통과 ${esc(result.proposal_selection.filtered_count)}개 → ` : ''}구조 기준으로 추린 ${esc(summary.returned ?? '—')}개
       ${summary.dropped ? ` · 걸러짐: ${esc(Object.entries(summary.dropped).map(([k, v]) => `${({property_window: '물성창', synthetic_accessibility: '합성 난이도', structural_alert: '구조 경보', unstable_motif: '불안정 구조'})[k] || k} ${v}`).join(' · '))}` : ''}</p>
     ${proposalModelVerdict(result)}
+    ${proposalSelectionReading(result)}
+    ${typeof proposalQualificationEntry === 'function' && typeof detail !== 'undefined' ? proposalQualificationEntry(detail?.artifact_id) : ''}
     ${proposalRows(result)}
     ${proposalSearchTrajectory(result)}
     ${(result.limits || []).length ? `<details class="proposal-limits"><summary>해석 범위와 다음 확인 ${esc(result.limits.length)}개</summary>
       <ul>${result.limits.map(line => `<li>${esc(line)}</li>`).join('')}</ul></details>` : ''}
   </section>`;
+}
+
+
+;
+/* Source: proposal-qualification.js */
+// Retained measurements, generated structures and pending comparisons stay distinct.
+const qualificationStatusLabels = {
+  proposed_unmeasured: '출처·구조 연결됨 · 새 비교 전',
+  stereo_resolution_needed: '입체정보 확인 필요',
+  identity_hold: '구조 확인 전 비교 보류',
+  source_or_parent_unresolved: '출처·측정 조건 확인 필요',
+};
+const qualificationIssueLabels = {
+  assay_context_unresolved: '원 측정의 표적·시험 조건 확인 필요',
+  assay_context_incomplete: '원 측정값은 연결됐지만 시험 조건이 불완전함',
+  original_measurement_source_unresolved: '측정 원행과 구조의 연결 확인 필요',
+  proposal_structure_unresolved: '후보 구조를 해석할 수 없어 확인 필요',
+  actual_generation_parent_unresolved: '실제 생성 부모 확인 필요',
+  protected_core_changed: '보존하기로 한 부모 골격이 달라짐',
+  parent_core_stereo_lost_or_changed: '부모의 명시된 입체정보가 소실되거나 달라짐',
+  parent_core_unavailable: '부모 골격 확인 필요',
+};
+if (typeof SCIENCE_LABELS !== 'undefined') SCIENCE_LABELS.proposal_qualification = '후보의 원 측정·구조 검토';
+
+function qualificationRecord(proposalId) {
+  if (typeof state === 'undefined' || !state) return null;
+  return [...state.artifacts].reverse().find(a => a.kind === 'proposal_qualification'
+    && a.meta?.result_status === 'succeeded' && a.meta?.arguments?.artifact_id === proposalId) || null;
+}
+function qualificationCounts(summary) {
+  return Object.entries(summary?.status_counts || {}).map(([key, count]) =>
+    `${qualificationStatusLabels[key] || key} ${count}개`).join(' · ');
+}
+function proposalQualificationEntry(proposalId) {
+  if (!proposalId || typeof state === 'undefined' || !state) return '';
+  const retained = qualificationRecord(proposalId);
+  const pending = state.jobs?.some(j => j.kind === 'proposal_qualification'
+    && ['queued', 'running'].includes(j.status) && j.request?.artifact_id === proposalId);
+  return retained
+    ? `<div class="proposal-qualification-entry"><p class="small">${esc(qualificationCounts(retained.meta?.summary))}</p>${button('source', '원 측정·구조 검토 보기', `data-id="${esc(retained.id)}"`, 'link-button small')}</div>`
+    : `<div class="proposal-qualification-entry">${button('science-qualify-proposals', pending ? '원 측정·구조 확인 중' : '원 측정·구조 확인하기', `data-id="${esc(proposalId)}" ${pending || busy ? 'disabled' : ''}`, 'small')}<p class="small muted">생성 부모·보고된 측정·입체정보를 대조합니다.</p></div>`;
+}
+function proposalQualificationCollection() {
+  if (typeof state === 'undefined' || !state) return '';
+  const results = state.artifacts.filter(a => a.kind === 'proposal_qualification'
+    && a.meta?.result_status === 'succeeded' && qualificationRecord(a.meta?.arguments?.artifact_id)?.id === a.id);
+  const pending = state.artifacts.filter(a => a.kind === 'analogue_proposal'
+    && a.meta?.result_status === 'succeeded' && a.meta?.summary?.returned > 0 && !qualificationRecord(a.id));
+  if (!results.length && !pending.length) return '';
+  return `<section class="panel" aria-label="후보의 원 측정과 구조 검토"><h3>후보의 원 측정·구조</h3>${results.map(a => `<p>${esc(qualificationCounts(a.meta?.summary))} ${button('source', '비교 조건 보기', `data-id="${esc(a.id)}"`, 'link-button small')}</p>`).join('')}${pending.length ? `<details ${!results.length ? 'open' : ''}><summary>원 측정 검토 전 생성 집합 ${pending.length}개</summary>${pending.map(a => `<p class="small">생성 후보 ${esc(a.meta.summary.returned)}개 · ${esc(new Date(a.created).toLocaleString('ko-KR'))}</p>${proposalQualificationEntry(a.id)}`).join('')}</details>` : ''}<p class="small muted">기존 추천 순서와 모든 후보를 보존합니다. 이 검토는 실제 활성 측정이 아닙니다.</p></section>`;
+}
+async function qualifyProposalsAction(node) {
+  if (busy) return;
+  const wid = state.id;
+  busy = true; node.disabled = true; actionError = '';
+  try {
+  const view = await api(`/api/workspaces/${encodeURIComponent(wid)}/artifacts/${encodeURIComponent(node.dataset.id)}?offset=0&limit=1`);
+  if (state?.id !== wid) throw Error('연구가 바뀌었습니다. 현재 연구에서 다시 선택해 주세요.');
+  const sourceId = view.result?.source_artifact_id;
+  if (!sourceId) throw Error('생성 결과의 원출처 연결을 먼저 확인해 주세요.');
+  await runTool('proposal_qualification', {artifact_id: node.dataset.id, source_artifact_id: sourceId});
+  } catch (error) { actionError = error.message; notice(error.message); }
+  finally { busy = false; render(); }
+}
+function qualificationConditionFields(context) {
+  if (!context || !Object.keys(context).length) return '<p class="small">원 측정 조건 미확인</p>';
+  const values = {...context, ...(context.description_bound_conditions || {})};
+  const labels = {assay_id:'시험 ID', assay_chembl_id:'시험 ID', target:'측정 표적', target_id:'표적 ID',
+    description:'시험 설명', assay_description:'시험 설명', species:'종', organism:'종',
+    target_organism:'표적 생물종', isoform:'단백질형', format:'측정 방식', substrate:'기질',
+    substrate_concentration:'기질 농도', temperature:'온도', duration:'시간', incubation:'반응 시간',
+    endpoint:'측정값', readout:'판독', source_url:'원문 주소', cAMP_final_nM:'cAMP 농도 · nM',
+    enzyme_incubation:'효소 반응 조건', preincubation_minutes:'사전 반응 · 분', dose_points:'농도 수',
+    replication_wording:'원문 반복 수 표기', buffer:'완충액', pH:'pH', document_id:'문서 ID', patent_id:'특허 ID'};
+  const rows = Object.entries(labels).filter(([key]) => values[key] !== undefined && values[key] !== null && values[key] !== '')
+    .map(([key, label]) => `<dt>${esc(label)}</dt><dd>${esc(typeof values[key] === 'object' ? JSON.stringify(values[key]) : values[key])}</dd>`).join('');
+  return rows ? `<dl class="context-grid">${rows}</dl>${context.unresolved_before_experiment?.length ? '<p class="small">정확한 농도별 값·시료 준비·순도·측정 정밀도는 추가 확인이 필요합니다.</p>' : ''}` : '<p class="small">구체 시험 조건은 아래 원자료에서 확인하세요.</p>';
+}
+function qualificationParent(parent) {
+  const original = parent.original_parent || {}, label = original.label || {};
+  const values = label.source_values_nm || [];
+  const observations = (parent.reported_measurements || parent.original_measurements || []).map(o => {
+    const original = o.original_measurement || o;
+    return {...(original.raw || {}), ...original, assay_id: o.assay_id || original.assay_id,
+      assay_description: original.assay_description || o.assay_context?.assay_description || o.assay_context?.description,
+      measurement_source_ref: o.source_ref};
+  });
+  const reports = values.length ? `<p><strong>원 보고값 · IC50</strong> ${values.map(x => `${esc(x)} nM`).join(' · ')}${label.activity_ids?.length ? ` <span class="small">(측정 기록 ${esc(label.activity_ids.join(', '))})</span>` : ''}</p>` : '';
+  const observed = observations.length ? `<div class="table-scroll"><table><thead><tr><th>측정 종류</th><th>원 보고값</th><th>시험·조건</th></tr></thead><tbody>${observations.map(o => `<tr><td>${esc(o.standard_type || o.endpoint || o.affinity_type || '확인 필요')}</td><td>${esc(o.standard_relation || o.reported_relation || '')} ${esc(o.standard_value ?? o.reported_value_nm ?? o.raw_value ?? o.affinity ?? '확인 필요')} ${esc(o.standard_units || o.reported_units || (o.reported_value_nm !== undefined ? 'nM' : '단위 미확인'))}</td><td>${esc(o.assay_chembl_id || o.assay_id || '시험 ID 미확인')} ${esc(o.assay_description || '')}</td></tr>`).join('')}</tbody></table></div>` : '';
+  const parentLabel = parent.exact_match ? '원출처의 동일 구조' : parent.parent_kind === 'generated_unmeasured' ? '출발 구조 · 생성 중간체' : '출발 화합물';
+  return `<article class="source-paragraph"><h4>${parentLabel} · ${qualificationId(parent.parent_id)}</h4>${reports}${observed}${!reports && !observed ? '<p>이 구조의 원 측정값은 연결된 자료에서 확인이 필요합니다.</p>' : ''}${parent.source_ref?.artifact_id ? sourceLinks([parent.source_ref.artifact_id]) : ''}${sourceLinks([...new Set(observations.map(o=>o.measurement_source_ref?.artifact_id).filter(Boolean))])}${parent.assay_context || original.assay_context ? qualificationConditionFields(parent.assay_context || original.assay_context) : ''}<details><summary>구조·원 기록</summary><code class="proposal-smiles">${esc(original.smiles || '')}</code>${json(original)}</details></article>`;
+}
+function qualificationId(id) { return `<span title="${esc(id)}">${esc(id?.length > 24 ? id.slice(0, 12) + '…' : id)}</span>`; }
+function qualificationCandidate(row) {
+  const prediction = row.original_prediction || {};
+  const p = prediction.predicted_pIC50 ?? prediction.predicted_p_activity;
+  const exact = row.exact_source_matches || [];
+  const problems = (row.issues || []).map(x => qualificationIssueLabels[x] || x);
+  return `<details class="source-paragraph" data-qualification-candidate="${esc(row.candidate_id)}"><summary><strong>${qualificationId(row.candidate_id)}</strong> · ${esc(qualificationStatusLabels[row.proposal_status] || row.proposal_status)}</summary>
+    ${typeof structureThumb === 'function' ? structureThumb(row) : ''}<code class="proposal-smiles">${esc(row.original_smiles || row.smiles || '')}</code>
+    <p>${p !== null && p !== undefined ? `<strong>후보 예측값</strong> ${esc(Number.isFinite(Number(p)) ? Number(p).toFixed(3) : p)} · ${prediction.predicted_pIC50 !== undefined ? 'pIC50' : '원 모델의 p활성값'} · 새 측정값 아님` : '이 행에 저장된 후보 예측값 없음'}</p>
+    ${exact.length ? `<p class="notice-inline">원출처의 동일 구조 ${exact.length}건과 일치합니다. 기존 측정은 아래에 남고, 이번 부모–후보 비교는 아직 수행되지 않았습니다.</p>${exact.map(m => qualificationParent({parent_id:m.parent_id,source_ref:m.source_ref,original_parent:m.original_parent,exact_match:true})).join('')}` : ''}
+    ${problems.length ? `<ul>${problems.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}
+    ${row.unspecified_stereo?.length ? `<p>정해지지 않은 입체정보 ${row.unspecified_stereo.length}곳을 확인해야 합니다.</p>` : ''}
+    ${(row.actual_parents || []).map(qualificationParent).join('') || '<p>실제 생성 부모 연결이 미확인입니다. 최근접 구조를 생성 부모로 대신하지 않습니다.</p>'}
+    ${Object.keys(row.reported_assay_context || {}).length ? qualificationConditionFields(row.reported_assay_context) : ''}
+    <p><strong>다음 비교</strong> 부모의 원 측정값과 시료·시험 조건을 확인하고 같은 조건에서 후보와 비교합니다. 부모 결과 재현 여부와 판독 간섭도 함께 확인하세요.</p>
+    ${row.original_row_locator?.artifact_id ? sourceLinks([row.original_row_locator.artifact_id]) : ''}
+    <details><summary>변환·조건 검토의 전체 기록</summary>${json(row)}</details></details>`;
+}
+function proposalQualificationTable(result) {
+  const summary = result.summary || {}, rows = result.rows || [];
+  const aid = typeof selected !== 'undefined' ? selected : null;
+  const chosen = result.selected_preview || [];
+  const selection = chosen.length ? `<details open><summary>기존 선택 ${summary.selected ?? chosen.length}개 · 원 순서</summary><p class="small">${esc(qualificationCounts({status_counts: summary.selected_status_counts}))}</p><div class="table-scroll"><table><thead><tr><th>원 순서</th><th>후보</th><th>비교 전 확인</th></tr></thead><tbody>${chosen.map(r => `<tr><td>${esc(r.original_rank)}</td><td>${aid ? button('source', qualificationId(r.candidate_id), `data-id="${esc(aid)}" data-source-offset="${esc(r.row_index)}"`, 'link-button small') : qualificationId(r.candidate_id)}</td><td>${esc(qualificationStatusLabels[r.proposal_status] || r.proposal_status)}</td></tr>`).join('')}</tbody></table></div><p class="small">후보를 누르면 해당 구조와 출발 화합물의 측정값을 엽니다.</p></details>` : '';
+  return `<section class="proposal-qualification-result"><h3>후보의 원 측정·구조 검토</h3><p>${esc(qualificationCounts(summary))}</p>
+    <p>보고된 부모 측정과 후보 예측을 나란히 보며 다음 비교를 정합니다. 기존 추천 순서는 유지됩니다.</p>
+    ${summary.core_preservation_required ? '<p class="small">원 생성 계약이 지정한 부모 골격·입체정보 보존 조건을 대조했습니다.</p>' : ''}
+    ${selection}
+    ${Object.keys(result.reported_assay_context || {}).length ? `<details><summary>원 측정의 표적·시험 조건</summary>${qualificationConditionFields(result.reported_assay_context)}</details>` : ''}
+    ${rows.map(qualificationCandidate).join('')}
+    <div class="pagination"><span>${esc((result.offset ?? 0) + (rows.length ? 1 : 0))}–${esc((result.offset ?? 0) + rows.length)} / ${esc(result.total_rows ?? summary.rows ?? rows.length)}개</span>${button('prev','이전',(result.offset ?? 0) === 0 ? 'disabled' : '', 'small')}${button('next','다음',result.has_more ? '' : 'disabled','small')}</div>
+    <p class="limit">연결됨은 신규 활성이나 실험 준비 완료의 판정이 아닙니다. 원자료와 미확인 조건을 함께 보존합니다.</p></section>`;
 }
 
 
@@ -2490,37 +3298,67 @@ document.addEventListener('close',e=>{
 // Product guidance and entry points. Guidance is local; scientific results require real jobs.
 let intakeMode = 'question', intakeFile = null, intakeContext = '', intakeError = '', actionError = '', submitPhase = '';
 let intakeDelimiter = ',', intakeSmiles = 'smiles', intakeId = 'cid';
+let intakeSuppliedEvidenceOnly=false,intakeEvidenceAsOf='',pendingInitialEvidenceScope=null;
+function intakeEvidenceScope(){
+  if(!intakeSuppliedEvidenceOnly)return null;
+  const date=intakeEvidenceAsOf.trim();
+  if(date&&(!/^\d{4}-\d{2}-\d{2}$/.test(date)||Number.isNaN(Date.parse(date+'T00:00:00Z'))||new Date(date+'T00:00:00Z').toISOString().slice(0,10)!==date))throw Error('근거 기준일을 올바른 날짜로 입력해 주세요.');
+  return {mode:'supplied_only',as_of:date||null,note:'Researcher supplied evidence boundary'};
+}
+function renderIntakeEvidenceScope(){
+  return `<fieldset class="ui-evidence-scope"><legend>검토할 근거 범위</legend><label class="checkbox"><input id="intake-supplied-evidence" type="checkbox" ${intakeSuppliedEvidenceOnly?'checked':''}> 제공한 근거만</label><p class="small muted">선택하면 추가 공개 자료를 조회하지 않고 제공한 자료에서 검토합니다. 필요한 근거는 질문에 적거나 자료 입력으로 연결해 주세요.</p>${intakeSuppliedEvidenceOnly?`<label>근거 기준일 <span class="muted">· 선택 사항</span><input id="intake-evidence-as-of" type="date" value="${esc(intakeEvidenceAsOf)}"></label><p class="small muted">기준일을 적어도 모델의 사전지식까지 제거되는 것은 아닙니다.</p>`:''}</fieldset>`;
+}
+function renderCurrentEvidenceScope(){
+  const scope=state?.evidence_scope;
+  return scope?.mode==='supplied_only'?`<aside class="ui-evidence-boundary" aria-label="현재 근거 범위"><strong>제공한 근거만 검토</strong><span>${scope.as_of?` · 근거 기준일 ${esc(scope.as_of)}`:' · 기준일 미지정'}</span><p class="small muted">추가 조회는 제공된 자료 범위 안에서 진행합니다. 해석에는 모델의 사전지식도 사용됩니다.</p></aside>`:'';
+}
+
 // null keeps the server's default route (the competition API). The server rechecks every choice.
 // A subscription route is only ever chosen by the visitor, after the caution below; never automatically.
 let chosenModel = null, modelChoiceLoaded = false;
+// Per-view acknowledgement only. Existing history/config/routes are untouched.
+const continuationRouteChoices = new Map();
+function latestWorkspaceRoute(){
+  const jobs=[...(state?.jobs??[])].sort((a,b)=>String(b.created??'').localeCompare(String(a.created??'')));
+  return jobs.find(job=>typeof job.request?.model==='string'&&job.request.model)?.request.model??null;
+}
+function unresolvedContinuationRoute(){
+  if(!state?.id)return null;
+  const prior=latestWorkspaceRoute(),accepted=continuationRouteChoices.get(state.id);
+  return prior&&!offeredModels().includes(prior)&&!offeredModels().includes(accepted)?prior:null;
+}
 const shownQuotaJobs = new Set();
 function loadModelChoice(){if(modelChoiceLoaded)return;modelChoiceLoaded=true;try{chosenModel=evidaStorage.getItem('evida-model-choice')||null}catch{}}
-function rememberModelChoice(name){chosenModel=name||null;try{chosenModel?evidaStorage.setItem('evida-model-choice',chosenModel):evidaStorage.removeItem('evida-model-choice')}catch{}}
+function rememberModelChoice(name){chosenModel=name||null;if(state?.id)continuationRouteChoices.set(state.id,name||status?.gateway?.requested_model);try{chosenModel?evidaStorage.setItem('evida-model-choice',chosenModel):evidaStorage.removeItem('evida-model-choice')}catch{}}
 function gatewayRoutes(){return Array.isArray(status?.gateway?.routes)?status.gateway.routes:[]}
 function routeFor(name){return gatewayRoutes().find(r=>r.id===name)}
 function isSubscriptionRoute(name){return routeFor(name)?.kind==='subscription'}
 function subscriptionAccount(route){return route?.provider==='anthropic'?'Claude':'ChatGPT'}
 function offeredModels(){return [...new Set((status?.gateway?.approved_models??[]).filter(name=>typeof name==='string'&&name))]}
-function currentModel(){loadModelChoice();return chosenModel&&offeredModels().includes(chosenModel)?chosenModel:status?.gateway?.requested_model}
+function currentModel(){loadModelChoice();const missing=unresolvedContinuationRoute();return missing??(chosenModel&&offeredModels().includes(chosenModel)?chosenModel:status?.gateway?.requested_model)}
 function modelDisplayName(name){const r=routeFor(name);if(r)return r.kind==='subscription'?`${r.label} · 제출자 구독`:`${r.label} · 대회 API`;return name==='claude-opus-5'?'Claude Opus 5':String(name??'모델 확인 필요')}
 function modelEffortLabel(name=currentModel()){return routeFor(name)?.effort??status?.gateway?.requested_effort??'설정 확인 필요'}
-function modelUsable(name){const r=routeFor(name);return r?r.available===true:status?.gateway?.available===true}
+function modelUsable(name){if(offeredModels().length&&!offeredModels().includes(name))return false;const r=routeFor(name);return r?r.available===true:status?.gateway?.available===true}
 function modelAccessButton(){
   const name=currentModel(),label=modelDisplayName(name),ok=modelUsable(name);
   return button('model-help',`${esc(label)} · ${esc(modelEffortLabel(name))}${ok?'':' · 확인'}`,`aria-label="모델 이용 안내 · ${esc(label)} · ${esc(modelEffortLabel(name))}${ok?' · 사용 가능':' · 연결 상태 확인 필요'}" title="모델 이용 안내"`,`quiet small${isSubscriptionRoute(name)?' subscription-chip':''}`);
 }
-function competitionStateText(g){return g.competition_quota?'토큰 사용량 한도 소진 (HTTP 403) · 자동 전환 없음':g.competition_available===false?(g.message??'연결 확인 필요'):'기본 실행 경로 · 사용 가능'}
+function resourceAllowanceText(g,shared=false){const max=g?.maximum_requests,left=g?.requests_remaining;return Number.isInteger(max)&&Number.isInteger(left)?`${shared?'모든 저장소가 공유하는 이 구독 경로의 예산':'이 저장소의 이번 서버 실행 예산'} · ${left} / ${max}회 남음`:''}
+function plannerExecutionText(){const p=status?.planner_execution;if(!p)return '';return p.mode==='goal_completion'?'목표 완료까지 계획 계속 · 자원 예산은 별도 적용':`판단 응답 ${p.response_limit}회 · 수정 포함 최대 ${p.maximum_responses_including_corrections}회`}
+function competitionStateText(g){const state=g.competition_quota?'토큰 사용량 한도 소진 (HTTP 403) · 자동 전환 없음':g.competition_available===false||g.available===false?(g.message??'연결 확인 필요'):'기본 실행 경로 · 사용 가능';return [state,resourceAllowanceText(g),plannerExecutionText()].filter(Boolean).join(' · ')}
 function subscriptionCaution(text){return `<div class="subscription-caution" role="alert"><strong>주의 · 제출자(연구자) 개인 구독으로 운용됩니다</strong><p>${text}</p></div>`}
-function modelRouteRow(r,action,label){const selected=currentModel()===r.id;return `<div class="model-route ${esc(r.kind)}"><div><strong>${esc(r.label)}</strong> <span class="muted">· ${esc(r.effort)} · ${r.kind==='subscription'?'제출자 '+esc(subscriptionAccount(r))+' 구독':'대회 API'}</span>${r.available?'':`<p class="small">${esc(r.message)}</p>`}</div>${button(action,selected?'선택됨':label,`data-model="${esc(r.id)}" ${r.available&&!selected?'':'disabled'}`,r.kind==='subscription'?'small':'quiet small')}</div>`}
+function modelRouteRow(r,action,label){const selected=currentModel()===r.id;return `<div class="model-route ${esc(r.kind)}"><div><strong>${esc(r.label)}</strong> <span class="muted">· ${esc(r.effort)} · ${r.kind==='subscription'?'제출자 '+esc(subscriptionAccount(r))+' 구독':'대회 API'}</span>${r.kind==='subscription'&&resourceAllowanceText(r,true)?`<p class="small">${esc(resourceAllowanceText(r,true))}</p>`:''}${r.available?'':`<p class="small">${esc(r.message)}</p>`}</div>${button(action,selected?'선택됨':label,`data-model="${esc(r.id)}" ${r.available&&!selected?'':'disabled'}`,r.kind==='subscription'?'small':'quiet small')}</div>`}
 async function openModelAccessHelp(){
   await refreshGatewayStatus({force:true});
   const g=status.gateway??{},name=currentModel(),routes=gatewayRoutes();
   if(!routes.length){
-    showDialog('모델 이용 안내',`<dl><dt>현재 연결</dt><dd>${esc(modelDisplayName(name))} · ${esc(modelEffortLabel(name))}</dd><dt>연결 상태</dt><dd role="status">${g.available?'사용 가능':esc(g.message??'현재 모델 연결을 확인해야 합니다.')}</dd></dl><details><summary>현재 연결에서 허용된 모델</summary>${list(offeredModels().map(modelDisplayName))||'<p>허용된 모델 확인 필요</p>'}</details>`);
+    showDialog('모델 이용 안내',`<dl><dt>현재 연결</dt><dd>${esc(modelDisplayName(name))} · ${esc(modelEffortLabel(name))}</dd><dt>연결 상태</dt><dd role="status">${esc(competitionStateText(g))}</dd></dl><details><summary>현재 연결에서 허용된 모델</summary>${list(offeredModels().map(modelDisplayName))||'<p>허용된 모델 확인 필요</p>'}</details>`);
     return;
   }
   const competition=routes.filter(r=>r.kind==='competition'),subscriptions=routes.filter(r=>r.kind==='subscription');
-  showDialog('모델 이용 안내',`<dl><dt>현재 선택</dt><dd>${esc(modelDisplayName(name))} · ${esc(modelEffortLabel(name))}</dd><dt>대회 API</dt><dd role="status">${esc(competitionStateText(g))}</dd></dl><p>기본 실행은 대회에서 제공한 API입니다. 대회 API 토큰이 소진되면 아래 제출자 구독 모델을 직접 골라 다시 실행할 수 있습니다. 모델은 자동으로 바뀌지 않습니다.</p><h3 class="model-route-heading">대회 API</h3><div class="model-route-list">${competition.map(r=>modelRouteRow(r,'choose-model','이 모델 선택')).join('')}</div>${subscriptions.length?`<h3 class="model-route-heading">제출자 구독</h3>${subscriptionCaution('아래 모델은 대회 API가 아니라 제출자(연구자)의 개인 Claude·ChatGPT 구독으로 실행됩니다. 확인 후 선택해 주세요.')}<div class="model-route-list">${subscriptions.map(r=>modelRouteRow(r,'confirm-model','확인하고 이 모델 사용')).join('')}</div>`:''}`);
+  const missing=unresolvedContinuationRoute();
+  const continuationNotice=missing?`<p class="notice-inline" role="alert">이 연구의 이전 모델 경로(${esc(missing)})는 현재 제공되지 않습니다. 이전 결과는 보존됩니다. 아래에서 실행 경로를 직접 선택한 뒤 검토를 다시 실행해 주세요.</p>`:'';
+  showDialog('모델 이용 안내',`<dl><dt>현재 선택</dt><dd>${esc(modelDisplayName(name))} · ${esc(modelEffortLabel(name))}</dd><dt>대회 API</dt><dd role="status">${esc(competitionStateText(g))}</dd></dl>${continuationNotice}<p>기본 실행은 대회에서 제공한 API입니다. 대회 API 토큰이 소진되면 아래 제출자 구독 모델을 직접 골라 다시 실행할 수 있습니다. 모델은 자동으로 바뀌지 않습니다.</p><h3 class="model-route-heading">대회 API</h3><div class="model-route-list">${competition.map(r=>modelRouteRow(r,'choose-model','이 모델 선택')).join('')}</div>${subscriptions.length?`<h3 class="model-route-heading">제출자 구독</h3>${subscriptionCaution('아래 모델은 대회 API가 아니라 제출자(연구자)의 개인 Claude·ChatGPT 구독으로 실행됩니다. 확인 후 선택해 주세요.')}<div class="model-route-list">${subscriptions.map(r=>modelRouteRow(r,'confirm-model','확인하고 이 모델 사용')).join('')}</div>`:''}`);
 }
 function openSubscriptionCaution(name){
   const r=routeFor(name);if(!r)return;
@@ -2633,7 +3471,7 @@ function renderWelcome(){
   <section class="intake-panel" aria-label="연구 입력"><div class="intake-contract"><div><span class="section-mark">넣을 것</span><p>${esc(p.input)}</p></div><span aria-hidden="true">→</span><div><span class="section-mark">받을 것</span><p>${esc(p.output)}</p></div></div>
   ${['molecule','rna'].includes(p.id)?`<div class="intake-upload"><label class="input-label" for="intake-file">1. 분석할 파일</label><input type="file" id="intake-file" accept="${p.id==='molecule'?'.csv,.tsv,.txt':'.tsv,.txt,.gz'}"><p id="intake-file-name" class="small muted">${intakeFile?esc(intakeFile.name)+' 선택됨':'파일을 선택하세요. 아직 서버로 전송되지 않습니다.'}</p>${p.id==='molecule'?`<details><summary>CSV 열 이름·구분자 설정</summary><div class="upload-fields"><label>구분자<select id="intake-delimiter"><option value="," ${intakeDelimiter===','?'selected':''}>쉼표</option><option value=";" ${intakeDelimiter===';'?'selected':''}>세미콜론</option><option value="tab" ${intakeDelimiter==='tab'?'selected':''}>탭</option></select></label><label>후보 ID 열<input id="intake-id" type="text" value="${esc(intakeId)}"></label><label>SMILES 열<input id="intake-smiles" type="text" value="${esc(intakeSmiles)}"></label></div><a href="/templates/molecules.csv" download>빈 CSV 양식 받기</a></details>`:`<details><summary>지원하는 RNA 결과표 형식</summary><p class="small">UTF-8, 탭으로 구분된 DESeq2 결과표입니다. FASTQ나 raw count matrix는 이 입력에 해당하지 않습니다.</p><p class="mono">${RNA_COLUMNS.join(' · ')}</p><p class="small">열 이름을 확인하고, 결측은 NA로 유지하세요. 임의의 값이나 p값을 채우지 마세요.</p><a href="/templates/rna-results.tsv" download>빈 TSV 양식 받기</a></details>`}</div><label class="input-label" for="intake-context">2. 자료의 조건</label><textarea id="intake-context" class="short-input" placeholder="${p.id==='molecule'?'표적, 후보 출처, 측정값이 있다면 단위·측정 조건. 모르는 항목은 미확인으로 적어 주세요.':'표적 유전자, 종·조직, 처리군과 대조군, 용량·시점, 공유 대조군 여부. 모르는 항목은 미확인으로 적어 주세요.'}">${esc(intakeContext)}</textarea>`:''}
   <label class="input-label" for="message">${!['molecule','rna'].includes(p.id)?'지금 궁금한 질문': '3. 이번에 확인할 질문'}</label><textarea id="message" placeholder="${esc(p.placeholder)}">${esc(draft)}</textarea>
-  ${intakeError?`<p class="form-error" role="alert">${esc(intakeError)}</p>`:''}
+  ${renderIntakeEvidenceScope()}${intakeError?`<p class="form-error" role="alert">${esc(intakeError)}</p>`:''}
   <div class="input-bottom"><span class="small muted">${!['molecule','rna'].includes(p.id)?'접근·표적이 미정이어도 연구 목표와 질문으로 시작할 수 있습니다.':'원자료를 보존하고 실제 계산 결과를 연결합니다.'}</span>${modelChoice()}${button('create-message',!['molecule','rna'].includes(p.id)?'질문 검토 시작':'자료 분석 시작',busy?'disabled':'','primary')}</div><p class="small muted submit-note">분석·검토 시작은 실제 모델과 도구를 실행하며 수분이 걸릴 수 있습니다. 사용법 안내에는 모델을 호출하지 않습니다.</p>
   <details class="support-scope"><summary>현재 이 작업에서 가능한 범위</summary><p class="small">${esc(p.limit)}</p></details></section>
   <section class="try-examples"><div><h2>자료 없이 먼저 살펴보세요</h2><p class="small muted">완료한 결과를 보거나, 같은 공개 원자료로 새 분석을 시작할 수 있습니다.</p></div><div class="example-choices">${ENTRY_PATHS.filter(x=>x.example).map(x=>`<article><h3>${esc(x.name)}</h3><p class="small">${x.id==='molecule'?'LRRK2 공개 후보73개 · CACHE 자료':'랫드 간 Ttr 처리표3개 · 공개 RNA 자료'}</p><div class="detail-actions">${projects.some(p=>p.id===x.workspace)?`<a href="/?workspace=${x.workspace}&guide=${x.id==='molecule'?'molecule':'rna'}">완료 결과 열기</a>`:''}${button('intake-example','예제 자료로 새 분석',`data-id="${x.example}" ${!status.gateway.available||busy?'disabled':''}`,'small')}</div></article>`).join('')}</div>${finishedResearch()}</section></div>`;
@@ -2690,7 +3528,12 @@ function headerFields(text,delimiter){
 }
 async function validateInputFile(file,kind,meta){
   if(!file)throw Error('먼저 분석할 파일을 선택해 주세요. 자료가 없으면 “연구 질문부터 정리”를 선택할 수 있습니다.');
-  if(!file.size||file.size>10*1024*1024)throw Error('내용이 있는 10 MiB 이내 파일을 선택해 주세요.');
+  if(file.size>10*1024*1024)throw Error('10 MiB 이내 파일을 선택해 주세요.');
+  if(kind==='source_file'){
+    if(!/\.(txt|pdf)$/i.test(file.name))throw Error('논문·연구 문서는 TXT 또는 PDF 파일을 선택해 주세요.');
+    return;
+  }
+  if(!file.size)throw Error('내용이 있는 파일을 선택해 주세요.');
   if(kind==='rna_table'&&file.name.toLowerCase().endsWith('.gz'))return;
   let text;
   try{text=new TextDecoder('utf-8',{fatal:true}).decode(await file.slice(0,65536).arrayBuffer(),{stream:true})}catch{throw Error('파일을 UTF-8로 저장해 주세요. 원본은 변경하지 않았습니다.')}
@@ -2702,8 +3545,9 @@ async function validateInputFile(file,kind,meta){
 async function uploadInput(file,kind,meta){
   const bytes=new Uint8Array(await file.arrayBuffer());let binary='';
   for(let i=0;i<bytes.length;i+=16384)binary+=String.fromCharCode(...bytes.subarray(i,i+16384));
-  await api(`/api/workspaces/${state.id}/artifacts`,{title:file.name,kind,content_base64:btoa(binary),meta:{original_filename:file.name,encoding:'utf-8-sig',...meta}});
+  const result=await api(`/api/workspaces/${state.id}/artifacts`,{title:file.name,kind,content_base64:btoa(binary),meta:{original_filename:file.name,...(kind==='source_file'?{}:{encoding:'utf-8-sig'}),...meta}});
   await refresh();
+  return result;
 }
 function rememberWorkspace(){
   const u=new URL(location.href);u.searchParams.delete('guide');u.searchParams.set('workspace',state.id);history.replaceState(null,'',u);
@@ -2712,6 +3556,7 @@ function rememberWorkspace(){
 async function startIntake(){
   if(isUsageQuestion(draft)){openUsageHelp(draft);return}
   const p=entryPath();
+  pendingInitialEvidenceScope=intakeEvidenceScope();
   if(!draft.trim())throw Error('이번에 알고 싶은 질문을 적어 주세요. 사용법이 궁금하면 “사용법 보기”를 누르세요.');
   if(!await refreshGatewayStatus({force:true,renderChanges:false}))throw Error('현재 모델 연결을 사용할 수 없습니다. 입력 초안은 그대로 남아 있습니다.');
   const kind=p.id==='rna'?'rna_table':'molecule_csv';
@@ -2727,6 +3572,7 @@ async function startIntake(){
   await runTool('planner',plannerOptions());
 }
 function plannerOptions(){
+  if(unresolvedContinuationRoute())throw Error('이 연구의 이전 모델 경로는 현재 제공되지 않습니다. 모델 이용 안내에서 실행 경로를 직접 선택해 주세요.');
   // Omitted entirely when the reader kept the server's model, so a run that made no choice
   // carries no claim to have made one.
   // With several routes the visible selection is always sent: otherwise a research that once ran
@@ -2768,11 +3614,19 @@ document.addEventListener('change',event=>{
   if(event.target.id==='upload-kind')updateUploadKind();
 });
 function updateUploadKind(){
-  const rna=dialog.querySelector('#upload-kind')?.value==='rna_table';
-  for(const el of dialog.querySelectorAll('[data-molecule-field]'))el.hidden=rna;
+  const kind=dialog.querySelector('#upload-kind')?.value,rna=kind==='rna_table',documentFile=kind==='source_file';
+  for(const el of dialog.querySelectorAll('[data-molecule-field]'))el.hidden=rna||documentFile;
+  const file=dialog.querySelector('#upload-file');if(file)file.accept=documentFile?'.txt,.pdf':rna?'.tsv,.txt,.gz':'.csv,.tsv,.txt';
+  for(const el of dialog.querySelectorAll('[data-document-field]'))el.hidden=!documentFile;
   const d=dialog.querySelector('#upload-delimiter');if(d)d.value=rna?'tab':',';
-  const help=dialog.querySelector('#upload-format-help');if(help)help.innerHTML=deploymentHTML(rna?`<p>UTF-8·탭 구분의 기존 차등발현 결과표입니다. 필수 열:</p><p class="mono">${RNA_COLUMNS.join(' · ')}</p><a href="/templates/rna-results.tsv" download>빈 TSV 양식 받기</a>`:'<p>후보 ID와 SMILES가 있는 CSV입니다. 열 이름과 구분자를 맞춰 주세요.</p><a href="/templates/molecules.csv" download>빈 CSV 양식 받기</a>');
+  const help=dialog.querySelector('#upload-format-help');if(help)help.innerHTML=deploymentHTML(documentFile?'<p>UTF-8 텍스트 또는 PDF입니다. 원본을 보존하고 문단·페이지별로 문자층을 읽습니다. 이미지로만 된 페이지는 원본에서 확인할 수 있습니다.</p>':rna?`<p>UTF-8·탭 구분의 기존 차등발현 결과표입니다. 필수 열:</p><p class="mono">${RNA_COLUMNS.join(' · ')}</p><a href="/templates/rna-results.tsv" download>빈 TSV 양식 받기</a>`:'<p>후보 ID와 SMILES가 있는 CSV입니다. 열 이름과 구분자를 맞춰 주세요.</p><a href="/templates/molecules.csv" download>빈 CSV 양식 받기</a>');
 }
+
+document.addEventListener('change',event=>{
+  if(event.target.id==='intake-supplied-evidence'){intakeSuppliedEvidenceOnly=event.target.checked;render()}
+  if(event.target.id==='intake-evidence-as-of')intakeEvidenceAsOf=event.target.value;
+});
+document.addEventListener('input',event=>{if(event.target.id==='intake-evidence-as-of')intakeEvidenceAsOf=event.target.value});
 
 
 ;
@@ -2964,6 +3818,87 @@ async function teamAction(action){
 
 
 ;
+/* Source: reasoning-card-display-ko.js */
+/* View-only Korean card overlay. No model/context/catalog mutation or network access. */
+(function(global){
+'use strict';
+const entries=[{"card_id":"RC01","field_path":"principle","source_text":"Generate an upstream production-suppression hypothesis alongside treating the damaged tissue; test the production-to-disease link in steps.","source_text_sha256":"b540d0121fa64f5cf10d3f1454a322623928d80c5e3ff6bd0711ecbca5b1576f","text_ko":"손상된 조직을 치료하는 접근과 함께, 그 손상을 일으키는 물질의 생산을 줄이는 가설도 세웁니다. 생산 감소가 질병 변화로 이어지는지는 단계별로 시험합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC01","field_path":"falsifier_template.H1","source_text":"Suppressing production of X in tissue T lowers downstream injury readout Y under condition C.","source_text_sha256":"ca14316ca916d5741631c0e20de047c6805a8d872a260c0f4a0f2467fdf30caf","text_ko":"조건 C에서 조직 T의 X 생산을 줄이면 이후 손상 지표 Y가 낮아집니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC01","field_path":"falsifier_template.H0","source_text":"With equally verified delivery, lowering X does not improve Y under C.","source_text_sha256":"6353fee94948ec7a4dbd15ae7f6a4d5ad6778170b56be432515a2ac905bb4a54","text_ko":"전달이 같은 수준으로 확인되어도, 조건 C에서 X를 줄이는 것이 Y를 개선하지 못합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC01","field_path":"falsifier_template.refuting_result","source_text":"X is adequately reduced but Y shows a precise lack of the prespecified improvement.","source_text_sha256":"7534846c2dd4e06ca78cc297b86067a7b596c0f2bf106dec1becc3f36eb1f900","text_ko":"X가 충분히 줄었지만, 사전에 정한 Y의 개선이 없다는 것을 충분한 정밀도로 확인합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC01","field_path":"falsifier_template.experiment_failure","source_text":"Delivery or X assay fails; Y cannot be interpreted.","source_text_sha256":"39fa3d6a11befd565fa5e98b0628f2cbbc1ce63fdcbfa50211f16ac9fd474cfd","text_ko":"전달 또는 X 측정에 실패하여 Y를 해석할 수 없습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC01","field_path":"worked_examples[0].observation_to_decision","source_text":"Hepatocyte-derived disease protein motivated production suppression; a later controlled study assessed neuropathy rather than protein alone.","source_text_sha256":"8baaf7eeb456dd774756a1df36d3d4d66691f1b077c79c9ead95f4faa4f1295d","text_ko":"간세포에서 만들어지는 질병 관련 단백질을 줄이는 접근을 검토했습니다. 이후 대조 연구에서는 단백질뿐 아니라 신경병증도 평가했습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC01","field_path":"worked_examples[0].limits","source_text":"Clinical regimen benefit does not isolate every molecular step; source trace has documentary gaps.","source_text_sha256":"98740d5ef51776cec98ae7245feccd070f5d511c21eb99192904e057ef486476","text_ko":"임상 투여법의 이득만으로 모든 분자 단계를 따로 입증할 수는 없습니다. 원자료 추적 기록에 문서상 공백이 있습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC01","field_path":"worked_examples[1].observation_to_decision","source_text":"Inducible hepatic precursor synthesis motivated ALAS1 suppression; development separately measured attacks.","source_text_sha256":"37e425b52c1adcc76f06a5d60e68cc7171e621781a4feb70d671fc298e6b32df","text_ko":"간에서 전구물질 생산이 유도된다는 점에서 ALAS1 억제를 검토했습니다. 개발 과정에서는 발작도 별도로 측정했습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC01","field_path":"worked_examples[1].limits","source_text":"Animal induction models and human attacks are different evidence levels.","source_text_sha256":"931b61a7715c6a9ee0410006dd6be28bc8032b7860c00da5b7e10100357a9cc4","text_ko":"동물의 유도 모델과 사람의 발작은 서로 다른 수준의 근거입니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC01","field_path":"falsifier_template.provenance","source_text":"METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification.","source_text_sha256":"fc036a90f7a8f1f14c721d337b3a9f422dc1a37b748a8738309e11b53c7733bd","text_ko":"방법 작성자가 앞으로 시험하도록 만든 틀입니다. 과거 연구에서 실제로 수행한 절차가 아닙니다. 각 조건값은 현재 사례에 맞는 근거가 필요합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC02","field_path":"principle","source_text":"Generate substrate-reduction and terminal-production hypotheses rather than assuming the missing enzyme must be repaired.","source_text_sha256":"4ce15560ad05bad6baa05f79d45a48d09942437dd4ccbb82d74bc8d2c8697304","text_ko":"결손 효소를 반드시 복구해야 한다고 가정하지 말고, 원료 공급을 줄이거나 최종 생성 단계를 줄이는 가설도 세웁니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC02","field_path":"falsifier_template.H1","source_text":"Reducing enzyme X activity lowers harmful flux Y despite the unchanged primary defect.","source_text_sha256":"4bd30567ada7f7d3f75e71393545ddec1a3a51b9c279e2b27fb0aa49bc052bed","text_ko":"원래 결함이 그대로 있어도 효소 X의 활성을 줄이면 유해 물질의 생성 흐름 Y가 줄어듭니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC02","field_path":"falsifier_template.H0","source_text":"Adequate reduction of X leaves Y unchanged under the same substrate conditions.","source_text_sha256":"b933727c8bae77b842776e97e79472aff6ddd318a25ab29eb52d291512b67399","text_ko":"같은 원료 조건에서 X를 충분히 줄여도 Y는 변하지 않습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC02","field_path":"falsifier_template.refuting_result","source_text":"X is reduced and the assay recovers product, but harmful flux does not decline with adequate precision.","source_text_sha256":"cf1bcb8fe5b38732c3f06930d780296bfb6acb95bbf8e461715b8c7427671cb2","text_ko":"X가 줄었고 측정법이 생성물을 제대로 회수하지만, 유해 물질의 생성 흐름이 줄지 않는다는 것을 충분한 정밀도로 확인합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC02","field_path":"falsifier_template.experiment_failure","source_text":"Failed collection, altered clearance or no X suppression prevents flux inference.","source_text_sha256":"e11d4283254a32a74c2d3fb039f5cfaf57bd930c553d6596fa96bf2b79847843","text_ko":"시료 수집 실패, 제거 속도의 변화 또는 X 억제 실패로 생성 흐름을 추론할 수 없습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC02","field_path":"worked_examples[0].observation_to_decision","source_text":"Upstream glycolate-oxidase suppression was proposed to deplete substrate; pharmacodynamic and safety review informed dose expansion.","source_text_sha256":"1ae54412739f3b2ea5ef770915956432ac0b645daec79db971db862904214744","text_ko":"원료를 줄이기 위해 상위 단계의 glycolate oxidase 억제를 제안했습니다. 약력학 및 안전성 검토가 용량 범위 확대에 활용되었습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC02","field_path":"worked_examples[0].limits","source_text":"Biochemical lowering is not proof of long-term organ preservation.","source_text_sha256":"7c80269e8445a6076fd679c95b7a0e639522cba0f05508c7f4bee626579c181e","text_ko":"생화학 지표 감소만으로 장기적인 장기 보존이 입증되지는 않습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC02","field_path":"worked_examples[1].observation_to_decision","source_text":"Final-step hepatic enzyme suppression was proposed as another way to reduce oxalate; subtype responses remained distinct.","source_text_sha256":"eb83c6c547fe352f42a57e4f278fd5155a500f8cb955f5b3a4b8ea09744490b2","text_ko":"옥살산을 줄이는 또 다른 방법으로 간의 최종 단계 효소 억제를 제안했습니다. 아형별 반응은 구분해 유지했습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC02","field_path":"worked_examples[1].limits","source_text":"The small PH2 cohort cannot establish a universal negative mechanism verdict.","source_text_sha256":"6bb2f32f3da3093b5e5168b445d2ab685a4f7d4085275120236490b54491f865","text_ko":"소규모 PH2 집단만으로 이 기전이 보편적으로 효과 없다고 판단할 수는 없습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC02","field_path":"falsifier_template.provenance","source_text":"METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification.","source_text_sha256":"fc036a90f7a8f1f14c721d337b3a9f422dc1a37b748a8738309e11b53c7733bd","text_ko":"방법 작성자가 앞으로 시험하도록 만든 틀입니다. 과거 연구에서 실제로 수행한 절차가 아닙니다. 각 조건값은 현재 사례에 맞는 근거가 필요합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC03","field_path":"principle","source_text":"Generate a compensation hypothesis: reducing the opposing process may restore balance without replacing the deficient component.","source_text_sha256":"09244426cd5c84b29ab67bccf0d1905fa0a80095a0ca0059aa70fb2ec0bea8de","text_ko":"부족한 성분을 보충하지 않고도 반대 작용을 줄여 균형을 회복할 수 있는지 보상 가설을 세웁니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC03","field_path":"falsifier_template.H1","source_text":"At the fixed exposure, reducing opposing process X restores functional readout Y by a prospectively justified amount.","source_text_sha256":"13373b40a55822c75b94937c7a905b87b9ee444886e5c06b1c1dbc47c1e20afb","text_ko":"노출을 고정한 상태에서 반대 작용 X를 줄이면, 미리 근거를 정한 크기만큼 기능 지표 Y가 회복됩니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC03","field_path":"falsifier_template.H0","source_text":"Adequate X reduction does not achieve that functional improvement under these conditions.","source_text_sha256":"c532f2b5822541c797019a949b0a54f50ea362c96102bed2f6ee27e36422fd2d","text_ko":"이 조건에서 X를 충분히 줄여도 그 기능 개선에 도달하지 못합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC03","field_path":"falsifier_template.refuting_result","source_text":"With valid controls and adequate X reduction, the uncertainty interval excludes the required functional improvement. Excess correction is a separate safety decision, not erasure of activity.","source_text_sha256":"0385e6d11c0bc8dfb20592ca4324010a28acfc91bbab11f12cf78ed03f461042","text_ko":"대조가 유효하고 X가 충분히 줄었는데도 불확실성 구간이 필요한 기능 개선을 배제합니다. 과도한 교정은 별도의 안전성 판단이며, 활성이 있었다는 사실을 없애지는 않습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC03","field_path":"falsifier_template.experiment_failure","source_text":"Failed engagement or dysfunctional challenge assay.","source_text_sha256":"8f3f5025a3c88ed4a96f6b2c311883a0ee2143041fac56323235a6e14fc3d9eb","text_ko":"표적 작용 확인 또는 기능을 시험하는 부하 검사에 실패합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC03","field_path":"worked_examples[0].observation_to_decision","source_text":"Co-inherited prothrombotic observations motivated antithrombin reduction rather than factor replacement; early investigators expanded the tested population.","source_text_sha256":"41454151b21f50f1cd04acaf013e738bdfb84738f4e04f9102990c229b622be9","text_ko":"함께 유전되는 혈전 성향의 관찰을 바탕으로 응고인자 보충 대신 antithrombin 감소를 검토했습니다. 초기 연구진은 시험 대상 집단을 확대했습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC03","field_path":"worked_examples[0].limits","source_text":"A compensation rationale is a hypothesis, not a rule that more suppression is better.","source_text_sha256":"de821513c373d5dfd227663dd4b818c2f3e82e97ae233a66d5f83448ceaef2a4","text_ko":"보상 원리는 가설입니다. 억제를 강하게 할수록 좋다는 규칙은 아닙니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC03","field_path":"falsifier_template.provenance","source_text":"METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification.","source_text_sha256":"fc036a90f7a8f1f14c721d337b3a9f422dc1a37b748a8738309e11b53c7733bd","text_ko":"방법 작성자가 앞으로 시험하도록 만든 틀입니다. 과거 연구에서 실제로 수행한 절차가 아닙니다. 각 조건값은 현재 사례에 맞는 근거가 필요합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC04","field_path":"principle","source_text":"Generate a selective-dependency hypothesis by asking which compensating function becomes necessary in the defective state.","source_text_sha256":"7a33bab418cd94d563998abeed86b3c5abde18be85fa946ee3b247153a6d2a97","text_ko":"결함이 있는 상태에서 어떤 보상 기능이 꼭 필요해지는지 물어, 그 상태만 선택적으로 겨냥하는 가설을 세웁니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC04","field_path":"falsifier_template.H1","source_text":"Inhibiting X selectively impairs defect-D cells compared with matched D-restored cells.","source_text_sha256":"accb298b09515fbda2bd1003d4dc1380056cea3ef775ad91babd21d1d029538b","text_ko":"X를 억제하면 D가 복구된 대응 세포보다 결함 D가 있는 세포가 선택적으로 손상됩니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC04","field_path":"falsifier_template.H0","source_text":"The effect of X inhibition does not depend on D.","source_text_sha256":"df382bddf708b71c8528da838d79df315bf823d3e100a13746af65f86cd6965d","text_ko":"X 억제 효과는 D의 유무에 따라 달라지지 않습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC04","field_path":"falsifier_template.refuting_result","source_text":"Adequate X inhibition produces no selective deficit in D cells with sufficient precision.","source_text_sha256":"530e1fbd6759a667320f049db380674825fd65d5f7cea17ed7379c82d8573b74","text_ko":"X가 충분히 억제되었는데도 D 세포의 선택적 손상이 없다는 것을 충분한 정밀도로 확인합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC04","field_path":"falsifier_template.experiment_failure","source_text":"D status or X engagement fails verification.","source_text_sha256":"9f6c8d681b75a91acfef647927ea905f85558e99f6692cc3d526f5c0b3b98465","text_ko":"D 상태 또는 X에 대한 작용을 확인하지 못합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC04","field_path":"worked_examples[0].observation_to_decision","source_text":"Repair-deficient cellular sensitivity motivated a biomarker-conditioned treatment hypothesis and subsequent maintenance study.","source_text_sha256":"bd4342c0ac02029ef697af8d57f45f4c16f7f1a0d8de5972506f10a1c9881559","text_ko":"복구 기능이 결핍된 세포의 민감성을 바탕으로 바이오마커 조건에 따른 치료 가설을 세우고, 이후 유지 치료 연구로 이어졌습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC04","field_path":"worked_examples[0].limits","source_text":"The clinical population was also conditioned on platinum response; it is not an unrestricted cancer claim.","source_text_sha256":"8cd3cbf12f776df230630e5320dd31274da0dda085f781f27fd36491ec550c20","text_ko":"임상 대상은 백금 치료에 대한 반응이라는 조건도 충족했습니다. 모든 암에 제한 없이 적용되는 주장은 아닙니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC04","field_path":"falsifier_template.provenance","source_text":"METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification.","source_text_sha256":"fc036a90f7a8f1f14c721d337b3a9f422dc1a37b748a8738309e11b53c7733bd","text_ko":"방법 작성자가 앞으로 시험하도록 만든 틀입니다. 과거 연구에서 실제로 수행한 절차가 아닙니다. 각 조건값은 현재 사례에 맞는 근거가 필요합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC05","field_path":"principle","source_text":"Generate competing biomarker-conditioned hypotheses; distinguish a predictor of treatment effect from a marker of generally good prognosis.","source_text_sha256":"a996a703d3b8adc77173df97f5845d782a21997a785cb37b3c521241299584bd","text_ko":"바이오마커 상태별로 다른 가설을 세웁니다. 치료 효과를 예측하는 표지와, 치료와 무관하게 예후가 좋은 상태를 나타내는 표지를 구별합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC05","field_path":"falsifier_template.H1","source_text":"Treatment X improves outcome specifically in state B relative to control.","source_text_sha256":"a19e76eafe7b92106388ef2b95e514d0db25f9e5ca57907adc1947aa6681dff1","text_ko":"상태 B에서 치료 X가 대조군에 비해 결과를 특별히 개선합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC05","field_path":"falsifier_template.H0","source_text":"Treatment effect does not differ by B after the same comparison.","source_text_sha256":"e062997f927cd378c0caaeab9ce8c17a06bd8944732e2086f57aad3f850650c6","text_ko":"같은 방식으로 비교하면 치료 효과는 B에 따라 달라지지 않습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC05","field_path":"falsifier_template.refuting_result","source_text":"Reliable B classification and exposure show a precise absence of the proposed interaction.","source_text_sha256":"391c7df62c3c1b799bdf45bf1988fb6af50b0576b2553ff587989a3972d5b863","text_ko":"B의 분류와 노출이 신뢰할 만한데도, 제안한 상호작용이 없다는 것을 충분한 정밀도로 확인합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC05","field_path":"falsifier_template.experiment_failure","source_text":"Unreliable biomarker classification or missing comparator prevents the test.","source_text_sha256":"0eb406f0aa7fc83350edb9c19f16e5efd7a760985a36f9fb1de2dd16f98cb33b","text_ko":"바이오마커 분류를 신뢰할 수 없거나 비교군이 없어 시험할 수 없습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC05","field_path":"worked_examples[0].observation_to_decision","source_text":"Mutation-linked responsiveness led to testing molecular subgroups; the randomized comparison differed by mutation status.","source_text_sha256":"dbd897cd3addfdb3d1bbcd4ffc5fb1adeecb46d5c77246d051484e776cfc19de","text_ko":"변이와 연결된 반응을 바탕으로 분자 아형을 시험했습니다. 무작위 비교 결과는 변이 상태에 따라 달랐습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC05","field_path":"worked_examples[0].limits","source_text":"Subgroup estimates alone do not reconstruct a prospectively validated interaction protocol.","source_text_sha256":"0a3eb2c124d5575904ea779b082e7219ba64f5beb8e5ac3f9858317dad9bdc09","text_ko":"아형별 추정치만으로 사전에 검증된 상호작용 시험 절차가 있었다고 재구성할 수는 없습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC05","field_path":"worked_examples[1].observation_to_decision","source_text":"Selective altered-target activity motivated a fusion-defined clinical population and a randomized comparison.","source_text_sha256":"14555f75b96616d4a14a093cd61c66f2a59307d8d21b96ef46325dd7731d5d2d","text_ko":"변형된 표적에 대한 선택적 활성을 바탕으로 융합 유전자가 확인된 임상 집단과 무작위 비교를 검토했습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC05","field_path":"worked_examples[1].limits","source_text":"Clinical benefit does not isolate selectivity or brain penetration as its sole cause.","source_text_sha256":"11d87d7c9c262cb05631db547b3503e5e52ea4d5cf5ea6701103c4da9a1d0fe2","text_ko":"임상 이득만으로 선택성이나 뇌 침투가 유일한 원인이었다고 입증할 수는 없습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC05","field_path":"falsifier_template.provenance","source_text":"METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification.","source_text_sha256":"fc036a90f7a8f1f14c721d337b3a9f422dc1a37b748a8738309e11b53c7733bd","text_ko":"방법 작성자가 앞으로 시험하도록 만든 틀입니다. 과거 연구에서 실제로 수행한 절차가 아닙니다. 각 조건값은 현재 사례에 맞는 근거가 필요합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC06","field_path":"principle","source_text":"Generate resistance-state hypotheses from the current sample; the initial target label may no longer describe the dependency.","source_text_sha256":"330ebd55a13fe74c13f4f1b0a72cbf4c0833f50d19082e6fc4bdfd106bf2bb64","text_ko":"현재 시료에서 내성 상태에 대한 가설을 세웁니다. 처음의 표적 이름이 현재 질병의 의존성을 그대로 설명하지 않을 수 있습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC06","field_path":"falsifier_template.H1","source_text":"A verified acquired state R maintains disease dependence on X and is inhibited by candidate C.","source_text_sha256":"737c416fa4887e38958abb47501b25bda106b7eaa5faa03a6cc8e55876e51373","text_ko":"확인된 후천적 상태 R에서도 질병은 X에 의존하며, 후보 C가 이를 억제합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC06","field_path":"falsifier_template.H0","source_text":"R-positive disease is not selectively dependent on the proposed C-sensitive process.","source_text_sha256":"8a9215bea397eff089aee9b8d89befa870a6bebc9ed114de36fcae2782c56546","text_ko":"R 양성 질병은 제안한 C 감수성 과정에 선택적으로 의존하지 않습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC06","field_path":"falsifier_template.refuting_result","source_text":"C engages the proposed target but fails to suppress the predicted R-linked signal/phenotype precisely.","source_text_sha256":"38c5f581f176dbb0b755a59ff6c1590f74489e69613968e4f8e4934f674d9eb4","text_ko":"C가 제안한 표적에 작용하지만, 예상한 R 관련 신호나 표현형을 억제하지 못한다는 것을 충분한 정밀도로 확인합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC06","field_path":"falsifier_template.experiment_failure","source_text":"Inadequate sample or unreliable R assay; absence cannot be distinguished from assay failure.","source_text_sha256":"d23ddc05c03f1b7d40957a357c7efd6e0b245842af723f4085853df34796c838","text_ko":"시료가 부적절하거나 R 측정을 신뢰할 수 없어, 실제 부재와 측정 실패를 구별할 수 없습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC06","field_path":"worked_examples[0].observation_to_decision","source_text":"A resistance mutation motivated mutant-selective inhibition and a study in verified post-progression disease.","source_text_sha256":"e030aa40a386dcc5f75bf6657034b951cad1e7e0f5bf1a6c8099f049a94527b1","text_ko":"내성 변이를 바탕으로 변이 선택적 억제와, 진행 후 상태가 확인된 환자 집단의 연구를 검토했습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC06","field_path":"worked_examples[0].limits","source_text":"Not evidence that every resistant case has the same mutation or dependency.","source_text_sha256":"1cdf4a33018de75baff2b545acd05b5590cc6d49f2d313cbbbb5cd357e2803cf","text_ko":"모든 내성 사례에 같은 변이나 의존성이 있다는 근거는 아닙니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC06","field_path":"falsifier_template.provenance","source_text":"METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification.","source_text_sha256":"fc036a90f7a8f1f14c721d337b3a9f422dc1a37b748a8738309e11b53c7733bd","text_ko":"방법 작성자가 앞으로 시험하도록 만든 틀입니다. 과거 연구에서 실제로 수행한 절차가 아닙니다. 각 조건값은 현재 사례에 맞는 근거가 필요합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC07","field_path":"principle","source_text":"Generate a selectivity hypothesis that preserves the desired effect while reducing the specific liability; measure both.","source_text_sha256":"f3d4efb7ca8ab8bf95cdfdf9176e7f76063ae8a31db3ebe8e367c2abbca67acb","text_ko":"원하는 효과를 유지하면서 특정 위해 요인을 줄이는 선택성 가설을 세우고, 효과와 위해를 모두 측정합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC07","field_path":"falsifier_template.H1","source_text":"Candidate C retains X-dependent efficacy while sparing liability target Z more than reference R.","source_text_sha256":"a39af37a50d8ca175663702b0d8ed77d5fd55c363eaaf84fe3958b666556e626","text_ko":"후보 C는 기준 물질 R보다 위해 표적 Z에 덜 작용하면서 X 의존적 효능을 유지합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC07","field_path":"falsifier_template.H0","source_text":"C loses desired activity or does not spare Z at efficacy-relevant exposure.","source_text_sha256":"be5e67a76c57092042612bcd60dadf018762a75ba644fb87946f1c8af62b1621","text_ko":"C가 원하는 활성을 잃거나, 효능과 관련된 노출에서 Z에 대한 작용을 줄이지 못합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC07","field_path":"falsifier_template.refuting_result","source_text":"At matched X engagement, C fails the predeclared efficacy or liability improvement criterion.","source_text_sha256":"cbf1bd739a913fd16bf4fd5277369106e68c8882c52974afa50a8d8cbd350401","text_ko":"X에 대한 작용을 맞췄는데도 C가 미리 정한 효능 또는 위해 개선 기준을 충족하지 못합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC07","field_path":"falsifier_template.experiment_failure","source_text":"Unable to match/verify X engagement or to measure Z-dependent liability.","source_text_sha256":"28fca5855d3eca72b692361c1fb8f4f17f2ecde9611e49a2fa1a467f9a0b43e6","text_ko":"X에 대한 작용을 맞추거나 확인할 수 없고, 또는 Z 의존적 위해를 측정할 수 없습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC07","field_path":"worked_examples[0].observation_to_decision","source_text":"Family selectivity was engineered to retain antitumor activity while sparing platelets.","source_text_sha256":"d1f249d9b092f6eea79a9b545e20dfb263220570580bf3c872fc5211116bc61e","text_ko":"항종양 활성을 유지하면서 혈소판 영향을 줄이도록 같은 계열 내 선택성을 설계했습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC07","field_path":"worked_examples[0].limits","source_text":"Initial human activity was uncontrolled; platelet sparing does not remove other safety hazards.","source_text_sha256":"ae81b9ae5fbdb64af4c2b5ff4323e8aefb857263e17611ca9431e655c653adb7","text_ko":"초기 사람에서의 활성에는 대조군이 없었습니다. 혈소판 영향을 줄였다고 다른 안전성 위험까지 없어지는 것은 아닙니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC07","field_path":"falsifier_template.provenance","source_text":"METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification.","source_text_sha256":"fc036a90f7a8f1f14c721d337b3a9f422dc1a37b748a8738309e11b53c7733bd","text_ko":"방법 작성자가 앞으로 시험하도록 만든 틀입니다. 과거 연구에서 실제로 수행한 절차가 아닙니다. 각 조건값은 현재 사례에 맞는 근거가 필요합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC08","field_path":"principle","source_text":"Generate a state-selective binding hypothesis and connect binding to function; covalent attachment alone is not efficacy.","source_text_sha256":"14442be715517b049e436179e8a180e211f2eee12c50851e793692a0ec5a3043","text_ko":"특정 상태에 선택적으로 결합한다는 가설을 세우고 결합을 기능과 연결합니다. 공유결합이 생겼다는 사실만으로 효능이 입증되지는 않습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC08","field_path":"falsifier_template.H1","source_text":"Binding feature F with C selectively suppresses the disease-linked state of X.","source_text_sha256":"e0f0528d1460dc6695563d1c35a1af831e67425218c0a7422b46faf8cefec5f7","text_ko":"C가 특징 F에 결합하면 X의 질병 관련 상태가 선택적으로 억제됩니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC08","field_path":"falsifier_template.H0","source_text":"C binding does not selectively suppress that state or acts independently of F.","source_text_sha256":"cf768e5124da9b99712ffd37602b0b383ceab3c4da1bab6aaf0f0110c12a5f21","text_ko":"C의 결합이 그 상태를 선택적으로 억제하지 않거나, 효과가 F와 무관하게 나타납니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC08","field_path":"falsifier_template.refuting_result","source_text":"Verified occupancy leaves proximal function unchanged, or matched control reproduces the effect without F.","source_text_sha256":"d0dbf6bf5152d057ffcec7d2ce603ee2b89da3798da9925211228e2617acf6e8","text_ko":"결합 점유를 확인해도 가까운 기능 지표가 변하지 않거나, F가 없는 대응 대조에서도 같은 효과가 나타납니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC08","field_path":"falsifier_template.experiment_failure","source_text":"Binding assay fails or exposure is insufficient.","source_text_sha256":"a52d6794dcc26e0578b852c9d981b8434a15e16695438293a46dc66366ea48ba","text_ko":"결합 측정이 실패하거나 노출이 부족합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC08","field_path":"worked_examples[0].observation_to_decision","source_text":"A mutant cysteine offered a covalent targeting rationale; later active-comparator work assessed clinical utility.","source_text_sha256":"42098624b0350b357c61bd1d723e76ccda02f5a91ddffdaa177f188b23d13a45","text_ko":"변이로 생긴 cysteine을 공유결합으로 겨냥하는 근거를 세웠습니다. 이후 활성 대조 치료와의 비교에서 임상적 유용성을 평가했습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC08","field_path":"worked_examples[0].limits","source_text":"The clinical trial does not prove every binding-to-immunity step in the preclinical story.","source_text_sha256":"3ca9b29348665d686a1efd63fdaa6a7fa2ad04d5dc5fb97878917a167fa8458e","text_ko":"임상시험이 전임상 설명의 결합부터 면역까지 모든 단계를 입증하는 것은 아닙니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC08","field_path":"falsifier_template.provenance","source_text":"METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification.","source_text_sha256":"fc036a90f7a8f1f14c721d337b3a9f422dc1a37b748a8738309e11b53c7733bd","text_ko":"방법 작성자가 앞으로 시험하도록 만든 틀입니다. 과거 연구에서 실제로 수행한 절차가 아닙니다. 각 조건값은 현재 사례에 맞는 근거가 필요합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC09","field_path":"principle","source_text":"Generate distinct intervention hypotheses at production and structural conversion steps; compare one step at a time without claiming clinical modality superiority.","source_text_sha256":"453813d1a3dfeabc6b4971c8e6a8029bdd3de8be39be462f0d7b5083b7cc2898","text_ko":"생산 단계와 구조 전환 단계에 각각 개입하는 가설을 세웁니다. 한 번에 한 단계를 비교하며, 그 비교로 임상 치료 방식의 우열을 주장하지 않습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC09","field_path":"falsifier_template.H1","source_text":"Stabilizing state S reduces harmful conversion Y at unchanged protein amount.","source_text_sha256":"403c831dd09454e2cc77dd398a016628031697aa2061d3001e3c3313e65ac4a5","text_ko":"단백질 양이 같은 상태에서 S를 안정화하면 유해한 전환 Y가 줄어듭니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC09","field_path":"falsifier_template.H0","source_text":"Verified stabilization does not reduce Y under matched amount and challenge.","source_text_sha256":"d483aacd270b986cae10a0a220be3b76d8a9d4e9f511f31986d77541f04719d2","text_ko":"양과 부하 조건을 맞추고 안정화를 확인해도 Y가 줄지 않습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC09","field_path":"falsifier_template.refuting_result","source_text":"S is stabilized but harmful conversion remains precisely unchanged.","source_text_sha256":"549ed77df9aa2a3001a3e67d5676c86a8d7e64ef79cd09fe97afd902f01753be","text_ko":"S가 안정화되었지만 유해한 전환이 변하지 않는다는 것을 충분한 정밀도로 확인합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC09","field_path":"falsifier_template.experiment_failure","source_text":"Unmeasured protein amount or failed challenge/stability assay.","source_text_sha256":"1cb52c20bd1c85af42f6347267c4b72d3fe469ea939ecdfda5ff41698c164558","text_ko":"단백질 양을 측정하지 못했거나 부하·안정성 측정이 실패합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC09","field_path":"worked_examples[0].observation_to_decision","source_text":"Matched-plasma stabilization work motivated a conversion-blocking approach, followed by clinical outcome testing.","source_text_sha256":"5fb4447fe43c69bf95c5eb71f420a6473518d686f6762f26d547f5ae81647621","text_ko":"조건을 맞춘 혈장 안정화 연구를 바탕으로 전환을 막는 접근을 검토하고, 이후 임상 결과를 시험했습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC09","field_path":"worked_examples[0].limits","source_text":"The patient trial was not a head-to-head comparison with production suppression.","source_text_sha256":"fd3b584c9153ab60717ebc519fb924e244f3d38d9cb540e8587c38b58a555688","text_ko":"이 환자 시험은 생산 억제와 직접 비교한 시험이 아닙니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC09","field_path":"worked_examples[1].observation_to_decision","source_text":"The same protein disease also motivated a production-suppression route, illustrating a different intervention point.","source_text_sha256":"592bff30cf6b6fe9303b0ddeb453a24bce0fcdc5ccce094107c3ad84750a5e78","text_ko":"같은 단백질 질환에서 생산 억제도 검토하여, 다른 개입 지점을 보여 줍니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC09","field_path":"worked_examples[1].limits","source_text":"Cross-programme comparison generates alternatives; it does not rank their clinical efficacy.","source_text_sha256":"d261885113a9771e97ddd3244f73e376446b177d6d10460a6368f2f8cac53106","text_ko":"서로 다른 프로그램의 비교는 대안을 만드는 데 쓰입니다. 임상 효능의 순위를 정해 주지는 않습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC09","field_path":"falsifier_template.provenance","source_text":"METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification.","source_text_sha256":"fc036a90f7a8f1f14c721d337b3a9f422dc1a37b748a8738309e11b53c7733bd","text_ko":"방법 작성자가 앞으로 시험하도록 만든 틀입니다. 과거 연구에서 실제로 수행한 절차가 아닙니다. 각 조건값은 현재 사례에 맞는 근거가 필요합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC10","field_path":"principle","source_text":"Generate a direct effector-cell hypothesis alongside immune mediation and test its proximal prediction independently.","source_text_sha256":"639a7adc78cfc87b73fba0216ec616181a39398191046f3dc612661e99f304d5","text_ko":"면역 매개 설명과 함께 질병을 직접 일으키는 세포에 대한 가설도 세우고, 그 세포의 가까운 반응을 독립적으로 시험합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC10","field_path":"falsifier_template.H1","source_text":"C directly reduces pathological output Y in isolated disease effector cells.","source_text_sha256":"8b52ae22a429298a86cdcf97245665569ec061e47ad59ebfb2360c9d5b46c889","text_ko":"분리한 질병 작동 세포에서 C가 병적 산출물 Y를 직접 줄입니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC10","field_path":"falsifier_template.H0","source_text":"C does not reduce Y directly at verified active exposure.","source_text_sha256":"c08dbb779a90516d62c7fe6b6f4757d71e52c50d7994d230125b0f71bd595c67","text_ko":"활성에 필요한 노출을 확인해도 C가 Y를 직접 줄이지 못합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC10","field_path":"falsifier_template.refuting_result","source_text":"Engagement occurs without a precise reduction in Y, or Y loss is explained by nonspecific cell loss.","source_text_sha256":"2efa0f994d3344f9989658fb5511c30dfbc45999f35b43628a2d38c932828ffb","text_ko":"표적 작용이 확인되었지만 Y가 줄지 않는다는 것을 충분한 정밀도로 확인하거나, Y 감소가 비특이적인 세포 소실로 설명됩니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC10","field_path":"falsifier_template.experiment_failure","source_text":"Unresponsive preparation or unverified active exposure.","source_text_sha256":"4e22d359bccf43b326aa31318fdc03ee6eddf7c841c6c5b9dad0db04ce85b108","text_ko":"시료가 반응하지 않거나 활성에 필요한 노출을 확인하지 못합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC10","field_path":"worked_examples[0].observation_to_decision","source_text":"Preclinical work tested fibroblast effects separately from inflammatory-cell suppression.","source_text_sha256":"b8f5f8ce2655bca8c8c63f3064280512550d7875650028a919bdd51ca234b767","text_ko":"전임상에서 염증세포 억제와 별도로 섬유아세포에 대한 효과를 시험했습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC10","field_path":"worked_examples[0].limits","source_text":"Clinical lung-function preservation does not identify a single cellular mediator.","source_text_sha256":"c48cc7941ecc50565a231edb78c856a819b1d45a0f891afdadb044406131f65a","text_ko":"임상에서 폐 기능이 보존되었다고 하나의 세포 매개 원인을 특정할 수는 없습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC10","field_path":"worked_examples[1].observation_to_decision","source_text":"Hepatic pharmacodynamic activity without antifibrotic benefit shows why a proximal signal is insufficient.","source_text_sha256":"bb7c874c070e0fdb9fcf6e99ca87d8a6d7e93bf771ad199aeb703c59ee872bd2","text_ko":"간의 약력학적 작용이 있어도 항섬유화 이득이 없을 수 있어, 가까운 신호만으로는 충분하지 않음을 보여 줍니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC10","field_path":"worked_examples[1].limits","source_text":"This does not prove why monotherapy failed or invalidate every ASK1 intervention.","source_text_sha256":"0207fc3b843b7fd11ca9aebad2daefb698bf116e838e570140a28395c9ae7288","text_ko":"이 결과만으로 단독 치료의 실패 원인을 입증하거나 모든 ASK1 개입을 부정할 수는 없습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC10","field_path":"falsifier_template.provenance","source_text":"METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification.","source_text_sha256":"fc036a90f7a8f1f14c721d337b3a9f422dc1a37b748a8738309e11b53c7733bd","text_ko":"방법 작성자가 앞으로 시험하도록 만든 틀입니다. 과거 연구에서 실제로 수행한 절차가 아닙니다. 각 조건값은 현재 사례에 맞는 근거가 필요합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC11","field_path":"principle","source_text":"Generate a duration hypothesis at the target and disease readout; measure the weakest part of the interval, not only the peak.","source_text_sha256":"2d42b1ed86e01717a9d8b4648d86cae052101bf0414d8a88c3eb939a8fe77787","text_ko":"표적과 질병 지표에서 작용 지속성 가설을 세웁니다. 최고 효과뿐 아니라 투여 사이에 효과가 가장 약해지는 구간도 측정합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC11","field_path":"falsifier_template.H1","source_text":"One specified regimen maintains X suppression and downstream Y through the proposed interval.","source_text_sha256":"ddaa7a4a9d957f0222d0540352594a487b7658c963cd392fbdd07c646023ac71","text_ko":"정해진 한 투여법이 제안한 기간 동안 X 억제와 이후 지표 Y를 유지합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC11","field_path":"falsifier_template.H0","source_text":"X or Y returns beyond the prespecified acceptable range before the interval ends.","source_text_sha256":"abec65a24cd36187b2eb7bb4e47507ae8cd6cbdc04234f2c80b4c233e378788c","text_ko":"기간이 끝나기 전에 X 또는 Y가 사전에 정한 허용 범위를 벗어납니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC11","field_path":"falsifier_template.refuting_result","source_text":"Reproducible loss of engagement or Y control before the intended interval contradicts durability.","source_text_sha256":"1bf587d8667e48e2cc10de112fc4a33cc513b6fb78cb1a883a795a2fbf7f2b37","text_ko":"의도한 기간이 끝나기 전에 표적 작용이나 Y 조절이 반복해서 소실되면 지속성 가설에 어긋납니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC11","field_path":"falsifier_template.experiment_failure","source_text":"Missed dose or unreliable trough sampling invalidates the interval test.","source_text_sha256":"831c01069397a9b5c02df2746452986de2943532bad489483e770a7aaaefcf41","text_ko":"투여를 놓쳤거나 최저 효과 구간의 채혈을 신뢰할 수 없어 기간을 시험할 수 없습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC11","field_path":"worked_examples[0].observation_to_decision","source_text":"Early single/repeated-dose work assessed durable protein/LDL effects; later trials used spaced dosing.","source_text_sha256":"b29ee1e26f36204c2a3e809168b68a84b9cdb23adeece3ab96e12437e87d85b7","text_ko":"초기 단회·반복 투여 연구에서 단백질과 LDL에 대한 지속 효과를 평가했고, 이후 시험에서는 간격을 둔 투여를 사용했습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC11","field_path":"worked_examples[0].limits","source_text":"LDL lowering is not evidence of clinical event reduction.","source_text_sha256":"dd6d7f49a2dd91295fc133c5df6923acea7b13970a693877513ddccdcda6e9ad","text_ko":"LDL 감소는 임상 사건 감소의 근거가 아닙니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC11","field_path":"worked_examples[1].observation_to_decision","source_text":"Brief plasma exposure with sustained liver-directed pharmacodynamics motivated durability assessment.","source_text_sha256":"ff00ea68f6754b9e9636e932f243d38c4d0ebf9ebfb17135cdc227686f24ad9a","text_ko":"혈장 노출은 짧아도 간을 겨냥한 약력학적 작용이 지속되어, 지속성을 평가했습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC11","field_path":"worked_examples[1].limits","source_text":"Duration is distinct from comparative disease efficacy.","source_text_sha256":"2f124e67b2d8d7a152447f6aeb5ab798dadb0b522032399a66e5415820106c8d","text_ko":"작용 기간과 질병 효능의 상대적 우열은 별개의 문제입니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC11","field_path":"falsifier_template.provenance","source_text":"METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification.","source_text_sha256":"fc036a90f7a8f1f14c721d337b3a9f422dc1a37b748a8738309e11b53c7733bd","text_ko":"방법 작성자가 앞으로 시험하도록 만든 틀입니다. 과거 연구에서 실제로 수행한 절차가 아닙니다. 각 조건값은 현재 사례에 맞는 근거가 필요합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC12","field_path":"principle","source_text":"Generate compartment-specific alternatives: absent delivery, biochemical activity without downstream response, or wrong causal link.","source_text_sha256":"f823b75713e1aee394a46d199ec80d0d152460b880f7cf2834533ce2b715c87e","text_ko":"질병이 일어나는 구획별로 전달 실패, 생화학적 작용은 있지만 이후 반응은 없는 경우, 인과 연결이 잘못된 경우를 대안으로 세웁니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC12","field_path":"falsifier_template.H1","source_text":"C perturbs X in disease compartment T and changes downstream Y there.","source_text_sha256":"a4e0666c0399ad89774d9ddbfbff29f43558e157a2e4e03d394c823fa9bb2fa9","text_ko":"C가 질병 구획 T에서 X를 바꾸고, 그곳의 이후 지표 Y도 바꿉니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC12","field_path":"falsifier_template.H0","source_text":"Verified T engagement does not change Y in T.","source_text_sha256":"6f7a9eacc7f9718c5bbccdcd1187619ea95cd95fed52b6185c366158bc5cf9ae","text_ko":"T에서 표적 작용을 확인해도 T의 Y는 변하지 않습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC12","field_path":"falsifier_template.refuting_result","source_text":"Adequate T engagement with precise absence of Y change challenges the link.","source_text_sha256":"e8a59e427edae2d70a3d4866daa354398a0a214701612fbddce85e5237cee9f8","text_ko":"T에서 충분한 표적 작용이 있는데도 Y 변화가 없다는 것을 충분한 정밀도로 확인하면 그 연결에 의문이 생깁니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC12","field_path":"falsifier_template.experiment_failure","source_text":"Peripheral response with no interpretable T engagement is not a mechanistic refutation.","source_text_sha256":"bd0c2bcb5bcb445cd5dab533ecba2639345848af5be343a88ff3d98af5f594cf","text_ko":"말초 반응은 있어도 T에서 표적 작용을 해석할 수 없다면 기전 가설의 반박이 아닙니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC12","field_path":"worked_examples[0].observation_to_decision","source_text":"Early plasma response did not establish CSF response; later clinical failure required a bounded interpretation.","source_text_sha256":"996dd1cce8010fe0f61b10ca91a3d578ab91e807dcd93ac03c666d932ab42207","text_ko":"초기 혈장 반응만으로 뇌척수액 반응이 확인되지는 않았습니다. 이후 임상 실패도 범위를 한정해 해석해야 했습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC12","field_path":"worked_examples[0].limits","source_text":"These findings do not identify a specific substrate as the cause of harm.","source_text_sha256":"d650db059fd813d123814bb1d3a75d384685b2290f544ad7af578ffb86fdb9c4","text_ko":"이 관찰로 특정 기질이 위해의 원인이라고 지목할 수는 없습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC12","field_path":"worked_examples[1].observation_to_decision","source_text":"Biochemical lowering and later cognitive/functional outcomes were distinct tests.","source_text_sha256":"2784471dc6da7c675a5c8adda615c68165157c1212c107a7bfc64edaca2e0392","text_ko":"생화학 지표 감소와 이후 인지·기능 결과는 서로 다른 시험이었습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC12","field_path":"worked_examples[1].limits","source_text":"Disease-stage and exposure conditions limit the inference.","source_text_sha256":"2598701f6deda5a20a55fd848447810485b8aa5a4afc5d925690cd90ba81d08b","text_ko":"질병 단계와 노출 조건이 추론 범위를 제한합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC12","field_path":"falsifier_template.provenance","source_text":"METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification.","source_text_sha256":"fc036a90f7a8f1f14c721d337b3a9f422dc1a37b748a8738309e11b53c7733bd","text_ko":"방법 작성자가 앞으로 시험하도록 만든 틀입니다. 과거 연구에서 실제로 수행한 절차가 아닙니다. 각 조건값은 현재 사례에 맞는 근거가 필요합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC13","field_path":"principle","source_text":"Try to falsify the target assignment with orthogonal biochemical and cellular assays and working reference compounds.","source_text_sha256":"39d40fabaa731517c47074b08258360687b36283564343c496f0ae1d572bc336","text_ko":"서로 다른 원리의 생화학·세포 검사와 제대로 작동하는 기준 물질을 사용해, 주장한 표적이 맞는지 반박을 시도합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC13","field_path":"falsifier_template.H1","source_text":"C inhibits X in both biochemical and cellular assays at interpretable exposure.","source_text_sha256":"9c1a4c01e843683b470d0030a9c6961df16faa887548cf15424b1fb8b447dc62","text_ko":"해석 가능한 노출에서 C가 생화학 검사와 세포 검사 모두에서 X를 억제합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC13","field_path":"falsifier_template.H0","source_text":"C lacks X inhibition while authentic X inhibitors work under the same assays.","source_text_sha256":"88af3670d3f125dd7dc4cb217b3cdce5cbe274066b040aed2b1d50121e8b7443","text_ko":"같은 검사에서 확인된 X 억제제는 작동하지만 C는 X를 억제하지 못합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC13","field_path":"falsifier_template.refuting_result","source_text":"Reference works but C lacks X inhibition with precise measurements at interpretable concentration.","source_text_sha256":"8029cc1de05857b611f6f326320ac7fdd64cd4f4949cbc09c367792a1fc9aa24","text_ko":"기준 물질은 작동하는데, 해석 가능한 농도에서 C의 X 억제가 없다는 것을 정밀한 측정으로 확인합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC13","field_path":"falsifier_template.experiment_failure","source_text":"Positive control fails or C interferes with readout; no target verdict.","source_text_sha256":"82f0bc5efa115581681267d59ba0c933556f1a7b3ef54d6300071923cf1f9415","text_ko":"양성 대조가 실패하거나 C가 판독을 방해하므로 표적에 대한 결론을 내릴 수 없습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC13","field_path":"worked_examples[0].observation_to_decision","source_text":"Biochemical/cellular comparisons with authentic inhibitors challenged the PARP assignment and supported nonspecific protein modification.","source_text_sha256":"4c9805e2f5cce0940883075e0c158ae49634e7ab1c2d85bb43402a931dabee23","text_ko":"확인된 억제제와의 생화학·세포 비교가 PARP 표적 주장을 흔들었고, 비특이적 단백질 수식을 뒷받침했습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC13","field_path":"worked_examples[0].limits","source_text":"Independent reassessment appeared after programme initiation; it is not original pretrial knowledge.","source_text_sha256":"0de4cba729532e34e8f6a0a6352b0ced7fa85d1a32affabba91ffe2703b867c8","text_ko":"독립적인 재평가는 프로그램 시작 후에 나왔습니다. 최초 임상시험 전부터 알려진 사실은 아닙니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC13","field_path":"falsifier_template.provenance","source_text":"METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification.","source_text_sha256":"fc036a90f7a8f1f14c721d337b3a9f422dc1a37b748a8738309e11b53c7733bd","text_ko":"방법 작성자가 앞으로 시험하도록 만든 틀입니다. 과거 연구에서 실제로 수행한 절차가 아닙니다. 각 조건값은 현재 사례에 맞는 근거가 필요합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC14","field_path":"principle","source_text":"Keep the backbone identical and test one added component; a whole-regimen comparison cannot identify both components separately.","source_text_sha256":"ad363d6994c5587908e52b9994aff4c4351caf0c6ada524c0d5ea752087424c1","text_ko":"기본 치료를 같게 유지하고 한 성분만 추가해 시험합니다. 전체 투여법끼리의 비교로는 각 성분의 효과를 따로 알 수 없습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC14","field_path":"falsifier_template.H1","source_text":"Adding B to fixed A improves Y versus fixed A alone.","source_text_sha256":"ee3e44e166346681efb29a5bf05cec470c29d3eabcf7e90d00b49c22f889aa80","text_ko":"고정한 A에 B를 추가하면 A만 사용했을 때보다 Y가 개선됩니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC14","field_path":"falsifier_template.H0","source_text":"Adding B to fixed A does not improve Y under the same conditions.","source_text_sha256":"00036d9acca27d16aca2fb996dd6e3c117ccb81c804dccfa4873c9369cd8a624","text_ko":"같은 조건에서 고정한 A에 B를 추가해도 Y가 개선되지 않습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC14","field_path":"falsifier_template.refuting_result","source_text":"With adequate B exposure and valid controls, the uncertainty interval for added-Y effect excludes the prespecified required improvement.","source_text_sha256":"4f7d32e3f48ab5e421bbc09c315c9464603552184ef868a2fe188e33a924b879","text_ko":"B의 노출이 충분하고 대조가 유효한데도, 추가된 Y 효과의 불확실성 구간이 사전에 정한 필요한 개선을 배제합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC14","field_path":"falsifier_template.experiment_failure","source_text":"Backbone differs or B exposure/assessment fails.","source_text_sha256":"96db7a281ddff9cb7444242329c39556ce790a5e5858ae8b7d9164917cb51554","text_ko":"기본 치료가 다르거나 B의 노출·평가에 실패합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC14","field_path":"worked_examples[0].observation_to_decision","source_text":"Pathway-combination rationale was tested with a common BRAF-inhibitor backbone and an added MEK inhibitor.","source_text_sha256":"92ed9a1a7320e7c270f2e32225785d19aeb2559a214fa07f1297b339dc55780c","text_ko":"같은 BRAF 억제제를 기본 치료로 두고 MEK 억제제를 추가하여 경로 조합의 근거를 시험했습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC14","field_path":"worked_examples[0].limits","source_text":"Outcome estimates establish the contrast, not a complete causal proof of synergy.","source_text_sha256":"4fcdff1f280a14ccce9244df3c8fe90e47cda6720abfc21257aa165f757185e2","text_ko":"결과 추정치는 이 비교를 뒷받침하지만, 상승작용 전체를 인과적으로 입증하지는 않습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC14","field_path":"falsifier_template.provenance","source_text":"METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification.","source_text_sha256":"fc036a90f7a8f1f14c721d337b3a9f422dc1a37b748a8738309e11b53c7733bd","text_ko":"방법 작성자가 앞으로 시험하도록 만든 틀입니다. 과거 연구에서 실제로 수행한 절차가 아닙니다. 각 조건값은 현재 사례에 맞는 근거가 필요합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC15","field_path":"principle","source_text":"Use a justified active comparator and the endpoint the decision needs; activity and comparative utility are different claims.","source_text_sha256":"00f265e319fc1475f7a12ece7ce647c6dde8ea63bdb9d0b283a2e71629602c17","text_ko":"근거 있는 활성 대조 치료와 의사결정에 필요한 종점을 사용합니다. 활성이 있다는 주장과 대안보다 유용하다는 주장은 다릅니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC15","field_path":"falsifier_template.H1","source_text":"Regimen C improves prespecified outcome Y compared with appropriate active alternative A.","source_text_sha256":"92cf075184e224a0e27ea7ddf82e9ecfdfc325febf07144a02c10fcdd54cca25","text_ko":"투여법 C가 적절한 활성 대안 A보다 사전에 정한 결과 Y를 개선합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC15","field_path":"falsifier_template.H0","source_text":"C does not improve Y relative to A in the tested population.","source_text_sha256":"30a9e0e7f2e37bb922eeb32db142c6a361a8d2e56f2d84d1c26b0bc2019b1200","text_ko":"시험한 집단에서 C는 A보다 Y를 개선하지 못합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC15","field_path":"falsifier_template.refuting_result","source_text":"Sufficiently precise failure of the prespecified benefit criterion contradicts comparative benefit.","source_text_sha256":"7d9155f6a2d7b5797efa756cf4f1a328ded8b12dd5a962508616eddd12bfea3c","text_ko":"사전에 정한 이득 기준을 충족하지 못한다는 것을 충분한 정밀도로 확인하면 상대적 이득 주장에 어긋납니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC15","field_path":"falsifier_template.experiment_failure","source_text":"Biased ascertainment, inadequate exposure or compromised comparator prevents the intended estimate.","source_text_sha256":"8347b7050cf03b43c287777c8d3621ab972fc1468a787d99f7b5a733cf51f690","text_ko":"편향된 결과 확인, 부족한 노출 또는 비교 치료의 문제로 의도한 추정이 불가능합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC15","field_path":"worked_examples[0].observation_to_decision","source_text":"An active comparison tested clinical utility beyond target plausibility and supported a later regulatory decision.","source_text_sha256":"2eca05455b294c2a614486f8f23ef6f35c7d84caf12bd53807dfea022c203cb4","text_ko":"활성 대조 치료와 비교하여 표적의 개연성을 넘어 임상적 유용성을 시험했고, 이후 규제 결정의 근거가 되었습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC15","field_path":"worked_examples[0].limits","source_text":"The comparison does not isolate target engagement from all regimen effects.","source_text_sha256":"fb036383a407a300e173fdd35bb9a0c4640c02333a05500291a1f8d663e1b0a6","text_ko":"이 비교만으로 표적 작용을 투여법의 다른 모든 효과와 분리할 수는 없습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC15","field_path":"worked_examples[1].observation_to_decision","source_text":"A randomized active comparison followed earlier activity; regulatory review separately examined its evidentiary role.","source_text_sha256":"ba19ff8e5e818a4a7acf5ec9356d849343f30364f128e14010a57c50f1f6770a","text_ko":"초기 활성 관찰 뒤에 무작위 활성 대조 비교가 이어졌습니다. 규제 검토에서는 그 근거의 역할을 별도로 살폈습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC15","field_path":"worked_examples[1].limits","source_text":"An active comparator alone does not guarantee an unbiased or sufficient approval dataset.","source_text_sha256":"303056d38f5df2514bef020d18415f2493f51b0cf28cc2591fb0c737d010c854","text_ko":"활성 대조군이 있다는 사실만으로 편향이 없거나 승인에 충분한 자료라고 보장되지는 않습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC15","field_path":"falsifier_template.provenance","source_text":"METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification.","source_text_sha256":"fc036a90f7a8f1f14c721d337b3a9f422dc1a37b748a8738309e11b53c7733bd","text_ko":"방법 작성자가 앞으로 시험하도록 만든 틀입니다. 과거 연구에서 실제로 수행한 절차가 아닙니다. 각 조건값은 현재 사례에 맞는 근거가 필요합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC16","field_path":"principle","source_text":"Generate transportability and confounding alternatives explicitly; use a new concurrent test when the causal distinction matters.","source_text_sha256":"3e5bda2cad318ba9c750f5726dd429d476662e03c52c204451ac58b0c021c70e","text_ko":"다른 집단으로 결과를 옮길 수 있는지와 교란 가능성을 대안으로 명시합니다. 인과 구별이 중요하면 새 동시 대조 시험을 사용합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC16","field_path":"falsifier_template.H1","source_text":"C improves Y beyond differences in cohort composition and care conditions.","source_text_sha256":"9d3e45ed6dc55a1965040852ebda17dd6563c447efdcee21ced439032dc22f65","text_ko":"C는 집단 구성과 진료 조건의 차이를 넘어 Y를 개선합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC16","field_path":"falsifier_template.H0","source_text":"The observed C–external difference can arise without a treatment effect.","source_text_sha256":"1c12b335ab226d0a0d3d45f69d0086d03ab17a93567c238bcdc894251a45d9e5","text_ko":"C와 외부 집단의 관찰된 차이는 치료 효과 없이도 생길 수 있습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC16","field_path":"falsifier_template.refuting_result","source_text":"A precise absence of benefit in the concurrent contrast challenges the transported benefit claim.","source_text_sha256":"2d98fc9ee71e67dcbbf4b4107f595b7cd7ee928289722a20b394b6dc838d9576","text_ko":"동시 대조 비교에서 이득이 없다는 것을 충분한 정밀도로 확인하면 다른 집단으로 옮긴 이득 주장에 의문이 생깁니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC16","field_path":"falsifier_template.experiment_failure","source_text":"No concurrent comparator: cannot claim all other variables were held constant.","source_text_sha256":"63f11f78e104e8dd90a7273f4ebe234660c7b426ebf95263c052f3b9c30ac122","text_ko":"동시 비교군이 없어 다른 모든 변수를 같게 유지했다고 주장할 수 없습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC16","field_path":"worked_examples[0].observation_to_decision","source_text":"Clinical efficacy used an external placebo while a within-study active reference informed pharmacodynamics; regulatory review required comparability reasoning.","source_text_sha256":"7e921efa67aad38aad93331cd425c75f4b6da74cd71786d0571baf31ba0f42bd","text_ko":"임상 효능에는 외부 위약군을 사용했고, 시험 내 활성 기준군은 약력학 정보를 제공했습니다. 규제 검토에서는 비교 가능성에 대한 설명이 필요했습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC16","field_path":"worked_examples[0].limits","source_text":"This card proposes a cleaner falsifier; it does not claim the historical study performed it.","source_text_sha256":"142706b8b838cad76a5bc8cad3e9a9343c9ca0aef0df150f49de61d7162bb353","text_ko":"이 카드는 더 명확한 반박 시험을 제안합니다. 과거 연구에서 그 시험을 실제로 했다고 주장하지 않습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC16","field_path":"falsifier_template.provenance","source_text":"METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification.","source_text_sha256":"fc036a90f7a8f1f14c721d337b3a9f422dc1a37b748a8738309e11b53c7733bd","text_ko":"방법 작성자가 앞으로 시험하도록 만든 틀입니다. 과거 연구에서 실제로 수행한 절차가 아닙니다. 각 조건값은 현재 사례에 맞는 근거가 필요합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC17","field_path":"principle","source_text":"Generate a second hypothesis for meaningful benefit rather than assuming the mediator is a sufficient surrogate.","source_text_sha256":"37572e1ae221bd21a31e16e9d55c5c2f73c922937a10f86013d430b22362227a","text_ko":"매개 지표가 충분한 대리지표라고 가정하지 말고, 환자에게 의미 있는 이득에 대한 두 번째 가설을 세웁니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC17","field_path":"falsifier_template.H1","source_text":"C improves clinical Y, beyond its established change in mediator M.","source_text_sha256":"7427bc71402ce9fd23fed8fe673d3feaf6f5bd940630382b100ec739f5ad6274","text_ko":"C는 이미 확인된 매개 지표 M의 변화에 더해 임상 결과 Y를 개선합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC17","field_path":"falsifier_template.H0","source_text":"C changes M but does not improve clinical Y under these conditions.","source_text_sha256":"337b9715efb288d10d5f0fe6c3768b8e09738d57c51b7f9876d03dc4a8747f71","text_ko":"이 조건에서 C는 M을 바꾸지만 임상 결과 Y를 개선하지 못합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC17","field_path":"falsifier_template.refuting_result","source_text":"Verified M change with precise lack of Y benefit challenges the surrogate-to-benefit link.","source_text_sha256":"c10bd322b4e9466a459b23e476d6862d514021a6d0427341143ddd886a1684ac","text_ko":"M의 변화를 확인했는데도 Y의 이득이 없다는 것을 충분한 정밀도로 확인하면 대리지표와 이득의 연결에 의문이 생깁니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC17","field_path":"falsifier_template.experiment_failure","source_text":"Absent mediator change, failed outcome capture or failed exposure verification prevents the intended mechanistic interpretation.","source_text_sha256":"d2b3f8793cc372ad48cee849f9730077231f0e26c2b19ccc9a3efe3e5bcd3b43","text_ko":"매개 지표가 변하지 않았거나, 결과 수집 또는 노출 확인에 실패하여 의도한 기전 해석이 불가능합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC17","field_path":"worked_examples[0].observation_to_decision","source_text":"A favorable lipid signal preceded an adverse clinical comparison and programme termination.","source_text_sha256":"86924ca578463e0f2c54b7b43b36009c9551eda9dfdfd3d82e6965c787736f5d","text_ko":"좋아 보이는 지질 신호 이후 임상 비교에서 해로운 결과가 나타났고 프로그램이 종료되었습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC17","field_path":"worked_examples[0].limits","source_text":"The cause of harm remained unresolved; this is not a universal lipid-target verdict.","source_text_sha256":"2ea55e42869e5bcb5a802dc05450d6da8b9893e7a2cb3fde323812d7453d401e","text_ko":"위해의 원인은 미해결이었습니다. 모든 지질 표적에 대한 보편적 판정은 아닙니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC17","field_path":"worked_examples[1].observation_to_decision","source_text":"Development separately assessed triglycerides and complications; the recorded regulatory indication concerns triglyceride reduction.","source_text_sha256":"d9c70c28b36a760107f704f4728d6f220bde70f8e01493ce5bae93fa16bea849","text_ko":"개발 과정에서 중성지방과 합병증을 별도로 평가했습니다. 기록된 규제 적응증은 중성지방 감소에 관한 것입니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC17","field_path":"worked_examples[1].limits","source_text":"A biomarker indication does not itself establish prevention of every complication.","source_text_sha256":"403e54a7675462fb75f9821a13c15a512365d49cda1b582db0d178fa193db0b5","text_ko":"바이오마커에 관한 적응증만으로 모든 합병증의 예방이 입증되는 것은 아닙니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC17","field_path":"falsifier_template.provenance","source_text":"METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification.","source_text_sha256":"fc036a90f7a8f1f14c721d337b3a9f422dc1a37b748a8738309e11b53c7733bd","text_ko":"방법 작성자가 앞으로 시험하도록 만든 틀입니다. 과거 연구에서 실제로 수행한 절차가 아닙니다. 각 조건값은 현재 사례에 맞는 근거가 필요합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC18","field_path":"principle","source_text":"Generate subtype-specific links and retain nonresponse uncertainty; an underpowered subgroup is neither proof of no effect nor permission to average it away.","source_text_sha256":"27c18e532e1a3ef0e7c107c0659ef06838d7e6d78d427a5886215dc3db82e374","text_ko":"아형별 연결 가설을 세우고 무반응의 불확실성을 남깁니다. 검정력이 부족한 아형은 무효과의 증거도 아니고, 전체 평균에 묻어도 된다는 뜻도 아닙니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC18","field_path":"falsifier_template.H1","source_text":"X perturbation changes Y in prespecified subtype S through the proposed link.","source_text_sha256":"eda568f1c5aa4072d8be857d46f504b14236f6247ccbf2fa48591000151b0a0b","text_ko":"사전에 정한 아형 S에서 X를 바꾸면 제안한 연결을 통해 Y가 변합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC18","field_path":"falsifier_template.H0","source_text":"Verified X perturbation leaves Y unchanged within S.","source_text_sha256":"93e66100da744080d116410db028823030dd5e8a23fe04a6fd8fdda50cc3bde3","text_ko":"S 안에서 X를 바꾼 것을 확인해도 Y는 변하지 않습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC18","field_path":"falsifier_template.refuting_result","source_text":"A precise within-S lack of Y response with engagement challenges the S-specific link.","source_text_sha256":"20ca9569b45abd2f01c9985d661ec5cd4207db377efacd2dec423de0f06dc0d1","text_ko":"표적 작용이 있는데도 S 안의 Y 반응이 없다는 것을 충분한 정밀도로 확인하면 S에 한정한 연결에 의문이 생깁니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC18","field_path":"falsifier_template.experiment_failure","source_text":"Subtype classification, engagement assay or outcome capture fails its validity checks.","source_text_sha256":"057da4e8a5a30f71d31d7370a97ad3886bf6338d7899e0bce724865d92d27596","text_ko":"아형 분류, 표적 작용 측정 또는 결과 수집이 유효성 검사를 통과하지 못합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC18","field_path":"worked_examples[0].observation_to_decision","source_text":"PH1 and the small PH2 cohort did not support identical response conclusions; later indication remained subtype-bounded.","source_text_sha256":"4f94dbc1b93d2b4eea39ddd1ee66466840d173e3a130fb44d90a744d5a3048f6","text_ko":"PH1과 소규모 PH2 집단에서 같은 반응 결론을 내릴 수는 없었습니다. 이후 적응증도 아형 범위로 한정되었습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC18","field_path":"worked_examples[0].limits","source_text":"PH2 numbers are too small for a universal efficacy rejection.","source_text_sha256":"2d7ffc71435a5609fc08055cd9d0ca520e6c68bc9cf73a49f5889767affb5b46","text_ko":"PH2의 수가 너무 적어 보편적인 효능 부정을 뒷받침하지 못합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC18","field_path":"worked_examples[1].observation_to_decision","source_text":"Molecular subgroups showed different treatment directions despite one broader clinical diagnosis.","source_text_sha256":"90de57cc95ec814e0fa14de632c9b8fa8e51de276a2ea600399306321a576972","text_ko":"같은 넓은 임상 진단 안에서도 분자 아형에 따라 치료 효과의 방향이 달랐습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC18","field_path":"worked_examples[1].limits","source_text":"Retrospective subgroup evidence requires explicit validation limits.","source_text_sha256":"83b3fd103c8a6ed9c4dd45e2d4490a5e3aec3fc2c706434a2536513ff94c54b0","text_ko":"후향적 아형 근거에는 검증 범위를 명시해야 합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC18","field_path":"falsifier_template.provenance","source_text":"METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification.","source_text_sha256":"fc036a90f7a8f1f14c721d337b3a9f422dc1a37b748a8738309e11b53c7733bd","text_ko":"방법 작성자가 앞으로 시험하도록 만든 틀입니다. 과거 연구에서 실제로 수행한 절차가 아닙니다. 각 조건값은 현재 사례에 맞는 근거가 필요합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC19","field_path":"principle","source_text":"Generate a replication hypothesis with a prospectively chosen endpoint and success rule; preserve endpoint hierarchy rather than moving it after results.","source_text_sha256":"74d971450a890985eb2e3cb6c02079875172eee40c8cf7881a7c5742083bcdbd","text_ko":"종점과 성공 기준을 사전에 정해 재현 가설을 세웁니다. 결과를 본 뒤 종점의 우선순위를 바꾸지 않습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC19","field_path":"falsifier_template.H1","source_text":"C improves primary Y by at least a prospectively justified clinically or scientifically relevant delta in this population and exposure.","source_text_sha256":"fa1a3dbe0adf1f8a03f5d0d056229f14c44e5c15230f2c99af3ea6a929e83526","text_ko":"이 집단과 노출에서 C가 일차 결과 Y를, 임상적 또는 과학적 의미에 대해 사전에 근거를 정한 차이 delta 이상 개선합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC19","field_path":"falsifier_template.H0","source_text":"C does not achieve that required improvement under the same conditions.","source_text_sha256":"f25bdb0ee2237716ce73bd2f2444a7cdab04be75ecee675eba8fc02161f9ffee","text_ko":"같은 조건에서 C는 필요한 그 개선에 도달하지 못합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC19","field_path":"falsifier_template.refuting_result","source_text":"With valid controls, the uncertainty interval excludes the required benefit. Missing the protocol alpha or multiplicity criterion alone fails confirmation; it does not prove no benefit.","source_text_sha256":"6ed4498644e34480498a36cad8e56d09511010c7c9fbe6373cc9087f96faf8f8","text_ko":"대조가 유효한 상태에서 불확실성 구간이 필요한 이득을 배제합니다. 프로토콜의 유의수준이나 다중검정 기준 미충족만으로는 확증에 실패한 것이며, 이득이 없다고 입증한 것은 아닙니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC19","field_path":"falsifier_template.experiment_failure","source_text":"Compromised endpoint measurement, exposure or control validity prevents the intended estimate. Insufficient valid information remains inconclusive.","source_text_sha256":"3916b9b93f968b77e28e182c735fe9193faf67c9db5cda6d909a56f8f91a6bcd","text_ko":"종점 측정, 노출 또는 대조의 유효성에 문제가 있어 의도한 추정이 불가능합니다. 유효한 정보가 부족하면 결론은 불확실합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC19","field_path":"worked_examples[0].observation_to_decision","source_text":"A secondary fibrosis signal motivated confirmation; the larger phase III primary endpoint did not replicate benefit.","source_text_sha256":"8a6b28c37a8c3d3cb75bbed366cb352639268b688d00a64eda2dc4865c9d98cb","text_ko":"이차 섬유화 지표의 신호를 바탕으로 확증을 시도했으나, 더 큰 3상 시험의 일차 종점에서 이득이 재현되지 않았습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC19","field_path":"worked_examples[0].limits","source_text":"This does not isolate inadequate engagement from target biology.","source_text_sha256":"64f82d609c7da7532a5bd982fc4742fae925927a035de06d39e505b3e922ef11","text_ko":"이 결과만으로 불충분한 표적 작용과 표적 생물학을 분리할 수는 없습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC19","field_path":"worked_examples[1].observation_to_decision","source_text":"A nominal PFS P value did not satisfy the reported coprimary success criteria.","source_text_sha256":"6b0c08ce86e8fdb0445226362a519bb29fec122afdb3101b1578ef59664973a2","text_ko":"명목상 PFS P값이 보고된 공동 일차 종점의 성공 기준을 충족하지 못했습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC19","field_path":"worked_examples[1].limits","source_text":"Exact alpha thresholds are absent from the trace and are not invented here.","source_text_sha256":"b8f524f6306bbc6359577fdb2d90b1a4a46356572685096970a021d47840f3f8","text_ko":"원 추적 기록에는 정확한 유의수준 기준이 없어 여기서 만들어 넣지 않았습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC19","field_path":"falsifier_template.provenance","source_text":"METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification.","source_text_sha256":"fc036a90f7a8f1f14c721d337b3a9f422dc1a37b748a8738309e11b53c7733bd","text_ko":"방법 작성자가 앞으로 시험하도록 만든 틀입니다. 과거 연구에서 실제로 수행한 절차가 아닙니다. 각 조건값은 현재 사례에 맞는 근거가 필요합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC20","field_path":"principle","source_text":"Generate drug-specific and target-related safety alternatives without treating safety termination as disproof of efficacy biology; use independent safety ascertainment.","source_text_sha256":"2c1650b6d39e33383207b72f5cb5bc5f18c5997b975250909a5542e141b322a7","text_ko":"약물 고유의 안전성 문제와 표적 관련 문제를 대안으로 세웁니다. 안전성 때문에 중단했다고 효능의 생물학이 반박된 것으로 보지 말고, 안전성을 독립적으로 확인합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC20","field_path":"falsifier_template.H1","source_text":"At fixed intended exposure, excess organ injury is below the prospectively justified acceptable margin delta.","source_text_sha256":"ac692698ff07c4567060e642af9fa7060d0cecf2e2acddcc1bb985b636b8a4f9","text_ko":"의도한 노출을 고정했을 때 추가적인 장기 손상이 사전에 근거를 정한 허용 한계 delta보다 작습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC20","field_path":"falsifier_template.H0","source_text":"At that same exposure, excess organ injury meets or exceeds the same margin delta.","source_text_sha256":"de5a88ffb63c964873ed35f954862035f1c9e78b8169bb8f17d71d5a64911e70","text_ko":"같은 노출에서 추가적인 장기 손상이 같은 한계 delta 이상입니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC20","field_path":"falsifier_template.refuting_result","source_text":"Valid surveillance and the prospectively specified uncertainty rule place excess injury at or beyond delta. Without a justified margin, safety acceptability remains unresolved.","source_text_sha256":"831c940dc618124b8c437fffee509b5e6491ef098edb3e6ae055412a4bbd69fa","text_ko":"유효한 감시와 사전에 정한 불확실성 판정 규칙에 따라 추가 손상이 delta 이상으로 판단됩니다. 근거 있는 한계가 없으면 안전성 허용 여부는 미해결입니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC20","field_path":"falsifier_template.experiment_failure","source_text":"Inconsistent surveillance, unverified exposure or confounded injury ascertainment.","source_text_sha256":"9d199bf3fa77e9c53e4a242ddcaf420318427ea3d9428b1e17e88da31c6a93ef","text_ko":"감시가 일관되지 않거나, 노출이 확인되지 않거나, 손상 확인에 교란이 있습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC20","field_path":"worked_examples[0].observation_to_decision","source_text":"Central liver measurements identified a signal and Takeda terminated development for liver safety concerns.","source_text_sha256":"d5ecb5c4d73aee715328cffdf992dd898cc7f609a8f064a9ec53c9cd740317ad","text_ko":"중앙 간 측정에서 신호를 확인했고 Takeda는 간 안전성 우려로 개발을 종료했습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC20","field_path":"worked_examples[0].limits","source_text":"Pooled programme denominators and molecular toxicology remain incomplete.","source_text_sha256":"109742c0c58cc93646c1e7e66c406671168d87670874344a9d0a3715f01931f0","text_ko":"통합 프로그램의 분모와 분자 독성 설명은 아직 불완전합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC20","field_path":"worked_examples[1].observation_to_decision","source_text":"Adverse clinical outcomes led to stopping while target versus off-target harm remained unresolved.","source_text_sha256":"16f309fc36e85822b344371a0cde75daa039c1b2bb5c6693eb6c9766a1a25536","text_ko":"해로운 임상 결과로 중단했지만, 표적 관련 위해인지 표적 외 위해인지는 미해결이었습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC20","field_path":"worked_examples[1].limits","source_text":"Final report and interim stopping data are temporally distinct.","source_text_sha256":"6a1c25c0cf618170b212b5508faab33055385aeaab0a5d41ffdca358d09e2130","text_ko":"최종 보고와 중간 중단 자료는 시점이 다릅니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC20","field_path":"falsifier_template.provenance","source_text":"METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification.","source_text_sha256":"fc036a90f7a8f1f14c721d337b3a9f422dc1a37b748a8738309e11b53c7733bd","text_ko":"방법 작성자가 앞으로 시험하도록 만든 틀입니다. 과거 연구에서 실제로 수행한 절차가 아닙니다. 각 조건값은 현재 사례에 맞는 근거가 필요합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC21","field_path":"principle","source_text":"Turn the result into a testable next policy or withdrawal question; compare one policy element at a time and do not treat an uncontrolled amendment as causal proof.","source_text_sha256":"895dcb26eb2a80af70008128386e625421439ff63ee824db329248aeba7b4e05","text_ko":"결과를 바탕으로 다음 투여 정책이나 중단 후 확인을 시험 가능한 질문으로 만듭니다. 한 번에 정책 요소 하나를 비교하고, 대조 없는 변경을 인과적 증거로 보지 않습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC21","field_path":"falsifier_template.H1","source_text":"Changing one policy element P reduces hazard Y while preserving prespecified biological activity.","source_text_sha256":"44ac4dd839182299a6379ac05d8eaccfe626f1fbd6293e134dd358b38eb848ed","text_ko":"정책 요소 P 하나를 바꾸면 사전에 정한 생물학적 활성을 유지하면서 위해 Y가 줄어듭니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC21","field_path":"falsifier_template.H0","source_text":"P does not reduce Y or sacrifices required activity.","source_text_sha256":"644fbe6b1dd817f3c99cc4a7a522ba88a33e2869033106b3a494086d7a7dac3f","text_ko":"P가 Y를 줄이지 못하거나 필요한 활성을 잃게 합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC21","field_path":"falsifier_template.refuting_result","source_text":"The changed policy fails its safety or retained-activity criterion with adequate information.","source_text_sha256":"185b68bc56dc95f12617c38b405d79358ba036cefe9e62386474455cb81d797b","text_ko":"정보가 충분한데도 변경한 정책이 안전성 또는 활성 유지 기준을 충족하지 못합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC21","field_path":"falsifier_template.experiment_failure","source_text":"Several policy elements or cohorts change together, preventing attribution to P.","source_text_sha256":"8fc922af095c802024ffecf67ea960259d996dc786f2f9426d1f9d50cb16df34","text_ko":"정책 요소 여러 개나 집단이 함께 바뀌어 결과를 P에 귀속할 수 없습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC21","field_path":"worked_examples[0].observation_to_decision","source_text":"A later antithrombin-guided regimen replaced fixed dosing to mitigate thrombosis risk.","source_text_sha256":"6cba73bdfea5cb66f2cf569d2e21bc2b6fe5c12252036c7e0a3cc679ba5b41f6","text_ko":"이후 혈전 위험을 줄이기 위해 고정 용량 대신 antithrombin 수치에 따른 투여법을 사용했습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC21","field_path":"worked_examples[0].limits","source_text":"The later activity window is not an earlier trial falsification threshold; amendment causality is not randomized.","source_text_sha256":"c844e26e82579e65d2a0f5fd7423fb45c2bd1ef7c625f1530b44810e11caba68","text_ko":"나중의 활성 범위는 이전 시험의 반박 기준이 아닙니다. 투여법 변경의 인과 효과도 무작위 비교로 확인된 것은 아닙니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC21","field_path":"worked_examples[1].observation_to_decision","source_text":"After stopping dosing, Lilly planned follow-up to ask whether adverse group differences persisted.","source_text_sha256":"4f238d1abac81031a92f058b2e743fb436b02fc399e095b7655712989d0adfe6","text_ko":"투여 중단 후 Lilly는 집단 간 해로운 차이가 지속되는지 알아보기 위한 추적을 계획했습니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC21","field_path":"worked_examples[1].limits","source_text":"A withdrawal follow-up answers persistence, not a complete molecular explanation; this policy template is an author-designed next test.","source_text_sha256":"3541ba8359453b2cb8b718e58878f6c8a28a55483adfa759bc330b41a79cfcee","text_ko":"중단 후 추적은 지속 여부를 묻습니다. 완전한 분자 설명은 아닙니다. 이 정책 틀은 작성자가 설계한 다음 시험입니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"},{"card_id":"RC21","field_path":"falsifier_template.provenance","source_text":"METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification.","source_text_sha256":"fc036a90f7a8f1f14c721d337b3a9f422dc1a37b748a8738309e11b53c7733bd","text_ko":"방법 작성자가 앞으로 시험하도록 만든 틀입니다. 과거 연구에서 실제로 수행한 절차가 아닙니다. 각 조건값은 현재 사례에 맞는 근거가 필요합니다.","scope":"DISPLAY_ONLY_NOT_MODEL_INPUT"}];
+const K=new Uint32Array([0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2]);
+function sha256(text){
+ const raw=new TextEncoder().encode(text), size=Math.ceil((raw.length+9)/64)*64;
+ const bytes=new Uint8Array(size);bytes.set(raw);bytes[raw.length]=128;
+ const view=new DataView(bytes.buffer);view.setUint32(size-8,Math.floor(raw.length/0x20000000));view.setUint32(size-4,(raw.length*8)>>>0);
+ const h=new Uint32Array([0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19]);
+ const rotr=(x,n)=>(x>>>n)|(x<<(32-n)), w=new Uint32Array(64);
+ for(let offset=0;offset<size;offset+=64){
+  for(let i=0;i<16;i++)w[i]=view.getUint32(offset+i*4);
+  for(let i=16;i<64;i++){const x=w[i-15],y=w[i-2];w[i]=((rotr(x,7)^rotr(x,18)^(x>>>3))+w[i-16]+(rotr(y,17)^rotr(y,19)^(y>>>10))+w[i-7])>>>0;}
+  let [a,b,c,d,e,f,g,j]=h;
+  for(let i=0;i<64;i++){const t1=(j+(rotr(e,6)^rotr(e,11)^rotr(e,25))+((e&f)^(~e&g))+K[i]+w[i])>>>0,t2=((rotr(a,2)^rotr(a,13)^rotr(a,22))+((a&b)^(a&c)^(b&c)))>>>0;j=g;g=f;f=e;e=(d+t1)>>>0;d=c;c=b;b=a;a=(t1+t2)>>>0;}
+  [a,b,c,d,e,f,g,j].forEach((x,i)=>{h[i]=(h[i]+x)>>>0;});
+ }
+ return [...h].map(x=>x.toString(16).padStart(8,'0')).join('');
+}
+const index=new Map();
+for(const e of entries){const key=e.card_id+'\0'+e.field_path;if(index.has(key)){index.set(key,null);}else index.set(key,e);}
+function translate(cardId,path,source){
+ const e=index.get(cardId+'\0'+path);
+ if(!e||typeof source!=='string'||source!==e.source_text||typeof e.text_ko!=='string')return source;
+ try{if(sha256(source)!==e.source_text_sha256)return source;}catch(_){return source;}
+ return e.text_ko;
+}
+function cardView(card){
+ if(!card||typeof card.id!=='string')return card;
+ // Never mutate the model-delivered/context object, its examples or source refs.
+ const result={...card,principle:translate(card.id,'principle',card.principle)};
+ if(card.falsifier_template){result.falsifier_template={...card.falsifier_template};for(const field of ['H1','H0','refuting_result','experiment_failure','provenance'])result.falsifier_template[field]=translate(card.id,'falsifier_template.'+field,card.falsifier_template[field]);}
+ if(Array.isArray(card.worked_examples))result.worked_examples=card.worked_examples.map((e,i)=>({...e,observation_to_decision:translate(card.id,`worked_examples[${i}].observation_to_decision`,e.observation_to_decision),limits:translate(card.id,`worked_examples[${i}].limits`,e.limits)}));
+ return result;
+}
+global.reasoningCardView=cardView;
+global.reasoningCardTranslation=Object.freeze({translate,sha256});
+})(globalThis);
+
+
+;
+/* Source: reasoning-design.js */
+function reasoningPrediction(p){
+  if(p.kind==='direction')return {increase:'증가',no_change:'변화 없음',decrease:'감소',presence:'검출됨',absence:'검출되지 않음'}[p.value];
+  return `${p.lower_inclusive?'[':'('}${p.lower??'−∞'}, ${p.upper??'∞'}${p.upper_inclusive?']':')'}`;
+}
+
+function renderReasoningDesign(h){
+  const d=h?.reasoning_design;
+  if(!d)return '';
+  const review=state.reasoning_design_review;
+  const cards=[...(review?.context?.cards??[]),...(review?.context?.perspectives??[])];
+  const roles={intervention:'개입군',reference:'기준군'};
+  const outcomes={supports:'예상과 맞음',refutes:'가설을 반박함',inconclusive:'아직 구별되지 않음',experiment_failure:'실험이 유효하지 않음'};
+  return `<section class="reasoning-design" data-reasoning-design="${esc(h.id)}">
+    <h4>이 설명을 어떻게 시험하는가</h4>
+    <p><strong>가설</strong> ${esc(d.H1)}</p><p><strong>비교할 설명</strong> ${esc(d.H0)}</p>
+    <p><strong>시험 대상</strong> ${esc(d.specimen)}</p>
+    <div class="table-scroll reasoning-condition-scroll"><table class="reasoning-conditions"><thead><tr><th scope="col">조건</th>${d.arms.map(a=>`<th scope="col">${roles[a.role]}</th>`).join('')}<th scope="col">비교 방식</th></tr></thead><tbody>${d.factors.map(f=>`<tr><th scope="row">${esc(f.name)}</th>${d.arms.map(a=>`<td data-label="${roles[a.role]}">${esc(a.levels.find(x=>x.factor_id===f.id)?.value??'미확인')}</td>`).join('')}<td data-label="비교 방식">${f.id===d.changed_variable_id?'이 조건만 바꿈':'동일하게 유지'}</td></tr>`).join('')}</tbody></table></div>
+    <p><strong>측정</strong> ${esc(d.readout.name)} · ${esc(d.readout.contrast)} · ${esc(d.readout.unit)} · ${esc(d.readout.timepoint)}</p>
+    <div class="table-scroll"><table><thead><tr><th>설명</th><th>같은 측정에서의 예상</th></tr></thead><tbody><tr><td>${esc(d.H1)}</td><td>${esc(reasoningPrediction(d.predictions.H1))}</td></tr><tr><td>${esc(d.H0)}</td><td>${esc(reasoningPrediction(d.predictions.H0))}</td></tr></tbody></table></div>
+    <p class="small muted">${d.prediction_basis.origin==='proposed'?'검증할 설계 가정입니다.':'연결한 원자료에서 보고한 예상입니다.'} ${esc(d.prediction_basis.rationale)}</p>
+    <details class="outcome-details"><summary>비교가 유효하기 위한 통제</summary>${d.controls.map(c=>`<p><strong>${esc(c.description)}</strong><br>${esc(c.validity_criterion)}</p>`).join('')}</details>
+    <p><strong>가설을 반박하는 결과</strong> 위 통제가 모두 유효하고, 같은 측정에서 ‘${esc(reasoningPrediction(d.predictions.H0))}’가 사전 판정 기준을 충족함.</p>
+    <p><strong>실험 자체의 실패</strong> 위 통제 중 하나라도 유효성 기준을 충족하지 못하면 가설 반박으로 해석하지 않습니다.</p>
+    <details class="outcome-details"><summary>모델의 결과 해석 설명 · 위 판정과의 일치 검토 필요</summary><p>${esc(d.refuting_result.description)}</p><p>${esc(d.experiment_failure.description)}</p></details>
+    <details class="outcome-details"><summary>결과별 다음 행동</summary>${Object.entries(outcomes).map(([k,label])=>`<p><strong>${label}</strong><br>${esc(d.next_actions[k])}</p>`).join('')}</details>
+    ${d.unresolved_requirements.length?`<h4>실행 전에 정할 것</h4>${list(d.unresolved_requirements)}`:''}
+    <details class="outcome-details"><summary>이 비교로 알 수 있는 범위</summary>${list(d.interpretation_limits)}<p class="small muted">두 설명의 예측과 고정 조건을 함께 확인하세요. 실행할 모델·대조군·측정법은 아래 적용 범위에 맞춰 정합니다.</p></details>
+    ${d.cards_used.length?`<details class="outcome-details reasoning-cards"><summary>이 가설에 사용한 추론 관점 ${d.cards_used.length}개</summary>${d.cards_used.map(use=>{const originalCard=cards.find(c=>c.id===use.id);const card=typeof reasoningCardView==='function'?reasoningCardView(originalCard):originalCard;return `<article><h4>${esc(card?.title_ko??'원래 실행의 카드 확인 필요')}</h4><p>${esc(use.application)}</p>${card?`<p class="small muted">${esc(card.principle)}</p><p class="small">이 관점의 적용 조건과 원출처를 확인할 수 있습니다.</p>${originalCard?.detail_function==='read_reasoning_principle'?button('ui-reasoning-principle','적용 조건·판단 흐름·원출처 보기',`data-id="${esc(use.id)}"`,'link-button small'):''}${card.worked_examples.map(e=>`<details><summary>${esc(e.case_id)} 사례와 한계</summary><p>${esc(e.observation_to_decision)}</p>${Array.isArray(e.limits)?list(e.limits):`<p>${esc(e.limits)}</p>`}${e.source_refs.map(s=>`<p><a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.title)}</a></p>`).join('')}</details>`).join('')}`:''}</article>`;}).join('')}</details>`:''}
+  </section>`;
+}
+
+function reasoningCheckHypothesis(check){
+  return state.decision?.research_loop?.hypotheses?.find(h=>h.id===check.design_hypothesis_id);
+}
+
+
+;
 /* Source: research.js */
 // Public rationale and actual work are shown together without conflating their status.
 const hypothesisLabels = {proposed:'잠정 가설',inconclusive:'다음 확인 필요',consistent_in_context:'현재 근거와 부합',challenged:'다시 검토할 근거 있음'};
@@ -2991,7 +3926,14 @@ function researcherWording(value) {
   return text.replace(/\bBindingDB(?:\s+출처)?\s+부모(?=[\s·–—\-의로에대비별보를와가은는,.()]|$)/g,
     'BindingDB에 기록된 출발 화합물');
 }
+// Stable retained list order is a display number, never an efficacy ranking.
+function rnaDisplayOptions(){
+  return (state?.discovery?.reviewed_options??[]).filter(x=>x.kind==='rna_candidate'&&typeof x.option_id==='string'&&/^guide_[0-9a-f]+$/.test(String(x.label??'')));
+}
 function candidateDisplayName(item) {
+  const known=rnaDisplayOptions();
+  const index=known.findIndex(x=>item?.kind==='rna_candidate'&&x.option_id===item.option_id&&x.label===item.label);
+  if(index>=0)return `RNA 후보 ${index+1}`;
   const matched=item?.origin==='generated_structure_proposal'&&String(item.label??'').match(/^proposed-(\d+)$/);
   return matched?`설계 후보 ${matched[1]}`:String(item?.label??'');
 }
@@ -3011,9 +3953,9 @@ function judgmentText(value) {
 const relationLabels = {supports:'지지 근거',challenges:'반대·제한 근거',context:'해석 맥락'};
 let feedbackContext = null;
 
-function decisionChangeList(rows){
+function decisionChangeList(rows,renderText=judgmentText){
  if(!rows?.length)return '<p class="small muted">기록된 항목 없음</p>';
- const render=items=>`<ul class="list">${items.map(v=>`<li>${judgmentText(v)}</li>`).join('')}</ul>`;
+ const render=items=>`<ul class="list">${items.map(v=>`<li>${renderText(v)}</li>`).join('')}</ul>`;
  const technical=v=>/record_(?:judgment_context|discovery_review)|\bpriority\b[\s\S]*\bnull\b/.test(v);
  const scientific=rows.filter(v=>!technical(v)),records=rows.filter(technical);
  return (scientific.length?render(scientific.slice(0,2)):'')+
@@ -3077,8 +4019,8 @@ function experimentRequest(request, operation) {
     + (rest.length?`<details class="experiment-additional"><summary>추가 조건과 적용 범위</summary>${rest.map(line => `<p class="check-request">${esc(researcherWording(line))}</p>`).join('')}</details>`:'') + grounding;
 }
 
-// What each result would change, side by side rather than folded away: an experiment whose
-// outcomes both lead to the same judgement is not worth running, and that has to be visible.
+// Preserve the proposed outcomes while distinguishing current interpretation
+// checks from the original authored explanation.
 function outcomeBranches(check) {
   const outcomes = check.possible_outcomes || [];
   if (outcomes.length < 2) return '';
@@ -3091,8 +4033,17 @@ function outcomeBranches(check) {
     return `<div class="outcome-branch">
     <span class="branch-mark">결과 ${String.fromCharCode(65 + i)}</span>
     <strong>${esc(researcherWording(o.observation))}</strong>
-    <p>${judgmentText(researcherWording(o.implication))}</p>${links || `<p class="outcome-unlinked">가설 연결 필요: 지지·반증 결과에 따라 수정할 가설을 연결하면 후속 판단을 이어갈 수 있습니다.</p>`}</div>`;
+    ${renderOutcomeInterpretation(check,i)}${links?'':`<p class="outcome-unlinked">가설 연결 필요: 지지·반증 결과에 따라 수정할 가설을 연결하면 후속 판단을 이어갈 수 있습니다.</p>`}</div>`;
   }).join('')}</div>`;
+}
+
+function renderOutcomeInterpretation(check,index,format=value=>judgmentText(researcherWording(value))){
+  const outcome=check.possible_outcomes?.[index];
+  if(!outcome)return '';
+  const review=typeof outcomeInterpretationReview==='function'?outcomeInterpretationReview(check,index):null;
+  const checked=typeof renderObservationOutcome==='function'?renderObservationOutcome(check,index):'';
+  const original=`<p>${format(outcome.implication)}</p>${renderOutcomeLinks(check,index)}`;
+  return review?.needs_review?`${checked}<details class="outcome-authored-needs-review"><summary>원래 기록한 해석·근거 · 재검토 필요</summary><p class="small muted">당시 문안을 그대로 보존합니다. 위 검토를 해결하기 전 현재의 지지·반박 해석으로 채택하지 않습니다.</p>${original}</details>`:`${checked}${original}`;
 }
 
 function renderCheck(check, current, index) {
@@ -3101,6 +4052,7 @@ function renderCheck(check, current, index) {
   const review = run && state.jobs.find(j=>j.id===run.review_job_id);
   const readiness = state.check_readiness?.[check.id];
   const op = check.operation;
+  const designed = reasoningCheckHypothesis(check);
   let control;
   if (job) {
     control = `<p class="check-status">확인 작업: ${esc(jobLabels[job.status]??job.status)}${review?` · 결과 해석: ${esc(jobLabels[review.status]??review.status)}`:' · 해석 갱신은 별도 확인'}${job.output_id?sourceLinks([job.output_id]):''}</p>`;
@@ -3110,12 +4062,14 @@ function renderCheck(check, current, index) {
   } else if (op.kind==='unconnected_method') {
     control = `<p class="small muted">연결 검토가 필요한 방법: ${esc(op.method)}</p>${list(op.needed_inputs)}${button('check-feedback','관련 자료·생각 추가',`data-check="${esc(check.id)}"`,'small')}`;
   } else {
-    control = `${op.kind==='external_observation'?experimentRequest(op.request, op):`<p class="check-request">${esc(op.request)}</p>`}${button('check-feedback',op.kind==='researcher_input'?'정보 보완하기':'관측 결과 남기기',`data-check="${esc(check.id)}"`,'primary small')}`;
+    const observation = designed ? `${renderReasoningDesign(designed)}<details class="outcome-details"><summary>모델이 덧붙인 설명 · 조건표와의 일치 검토 필요</summary><p>${esc(op.request)}</p></details>` : experimentRequest(op.request, op);
+    control = `${op.kind==='external_observation'?observation:`<p class="check-request">${esc(op.request)}</p>`}${button('check-feedback',op.kind==='researcher_input'?'정보 보완하기':'관측 결과 남기기',`data-check="${esc(check.id)}"`,'primary small')}`;
     if(['researcher_input','external_observation'].includes(op.kind)) control += `${button('delegate-check',op.kind==='external_observation'?'기존 자료 먼저 검토':'이 확인을 맡기기',`data-check="${esc(check.id)}" ${!current||busy?'disabled':''}`,'small')}<p class="small muted">${op.kind==='external_observation'?'보존 자료와 이미 끝난 계산을 먼저 확인합니다. 새 실험 결과를 만든다는 뜻은 아닙니다.':'공개 자료나 연결된 도구로 확인할 일이라면 연구를 이어 맡길 수 있습니다.'}</p>`;
   }
   const targets = (check.scope_targets??[]).flatMap(t=>(state.decision?.research_loop?.hypotheses.find(h=>h.id===t.hypothesis_id)?.assessment_scope?.parts??[]).filter(p=>t.part_ids.includes(p.id)).map(p=>p.statement));
+  if(typeof checkSubjectsView==='function')control=checkSubjectsView(check)+control;
   const experiment = op.kind==='external_observation';
-  const content = `<h3><span class="check-kind ${esc(op.kind)}">${esc(CHECK_KIND[op.kind]??op.kind)}</span> ${esc(researcherWording(check.question))}</h3><details class="check-reason"><summary>이 확인을 제안한 이유</summary><p class="check-purpose">${esc(researcherWording(check.purpose))}</p>${targets.length?`<div class="small"><strong>확인할 가설</strong>${list(targets.map(researcherWording))}</div>`:''}</details><div class="check-controls">${control}</div>${experiment&&index===0&&check.possible_outcomes.length?`<details class="outcome-details"><summary>결과별 다음 결정 ${check.possible_outcomes.length}가지</summary>${outcomeBranches(check)}</details>`:''}${check.possible_outcomes.length&&!(experiment&&index===0)?`<details class="outcome-details"><summary>결과에 따라 달라질 판단</summary>${check.possible_outcomes.map((o,i)=>`<div class="outcome"><strong>${esc(researcherWording(o.observation))}</strong><p>${judgmentText(researcherWording(o.implication))}</p>${renderOutcomeLinks(check,i)}</div>`).join('')}</details>`:''}`;
+  const content = `<h3><span class="check-kind ${esc(op.kind)}">${esc(CHECK_KIND[op.kind]??op.kind)}</span> ${esc(researcherWording(check.question))}</h3><details class="check-reason"><summary>이 확인을 제안한 이유</summary><p class="check-purpose">${esc(researcherWording(check.purpose))}</p>${targets.length?`<div class="small"><strong>확인할 가설</strong>${list(targets.map(researcherWording))}</div>`:''}</details><div class="check-controls">${control}</div>${experiment&&index===0&&check.possible_outcomes.length?`<details class="outcome-details"><summary>결과별 다음 결정 ${check.possible_outcomes.length}가지</summary>${outcomeBranches(check)}</details>`:''}${check.possible_outcomes.length&&!(experiment&&index===0)?`<details class="outcome-details"><summary>결과에 따라 달라질 판단</summary>${check.possible_outcomes.map((o,i)=>`<div class="outcome"><strong>${esc(researcherWording(o.observation))}</strong>${renderOutcomeInterpretation(check,i)}</div>`).join('')}</details>`:''}`;
   const headline = op.kind==='external_observation' ? researcherWording(experimentHeadline(op.request)) : '';
   return index===0?`<article class="primary-check" data-research-check="${esc(check.id)}">${content}</article>`:`<details class="further-check" data-research-check="${esc(check.id)}"><summary>${esc(headline||check.question)}</summary>${content}</details>`;
 }
@@ -3123,12 +4077,14 @@ function renderCheck(check, current, index) {
 function renderOutcomeLinks(check, index) {
   const loop = state.decision?.research_loop;
   const labels = {supports:'지지할 수 있음',challenges:'다시 검토할 근거',unresolved:'이 결과만으로 구별되지 않음'};
+  const review=typeof outcomeInterpretationReview==='function'?outcomeInterpretationReview(check,index):null;
+  const originalLabels={supports:'원래 기록한 지지 관계',challenges:'원래 기록한 반박·재검토 관계',unresolved:'원래 기록한 미해결 관계'};
   return (check.outcome_links??[]).filter(l=>l.outcome_index===index).map(l=>
     l.effects.map(e=>{
       const h=loop?.hypotheses.find(h=>h.id===e.hypothesis_id);
       const parts=(h?.assessment_scope?.parts??[]).filter(p=>e.part_ids.includes(p.id)).map(p=>p.statement);
       const alternatives=(h?.conditional_alternatives??[]).filter(a=>e.alternative_ids.includes(a.id)).map(a=>a.statement);
-      return `<div class="outcome-effect"><strong>${esc(labels[e.relation])}</strong>${list([...parts,...alternatives].map(researcherWording))}<p class="small">${judgmentText(researcherWording(e.rationale))}</p></div>`;
+      return `<div class="outcome-effect"><strong>${esc(review?.needs_review?`${originalLabels[e.relation]} · 재검토 필요`:labels[e.relation])}</strong>${list([...parts,...alternatives].map(researcherWording))}<p class="small">${judgmentText(researcherWording(e.rationale))}</p></div>`;
     }).join('')+l.followup_check_ids.map(id=>{
       const next=loop?.next_checks.find(c=>c.id===id);
       return next?button('show-check',esc(next.question),`data-check="${esc(id)}"`,'link-button small'):'';
@@ -3162,7 +4118,7 @@ function renderHypothesis(h, canFeedback) {
   const checks = canFeedback ? (state.decision?.research_loop?.next_checks??[]).filter(c=>c.hypothesis_ids.includes(h.id)) : [];
   return `<details class="hypothesis"><summary><span>${esc(h.statement)}</span><span class="assessment ${esc(h.assessment)}">${h.assessment_scope?'전체 판단: ':''}${esc(hypothesisLabels[h.assessment]??h.assessment)}</span></summary>
     <p class="hypothesis-expectation"><span>예상한 관측</span>${judgmentText(h.expected_observation)}</p><p class="prose small">${judgmentText(h.rationale)}</p>
-    ${renderHypothesisParts(h, canFeedback)}${renderConditionalAlternatives(h)}${renderJudgmentContext(h)}
+    ${renderReasoningDesign(h)}${renderHypothesisParts(h, canFeedback)}${renderConditionalAlternatives(h)}${renderJudgmentContext(h)}${canFeedback&&typeof renderHypothesisReview==='function'?renderHypothesisReview(h):''}
     ${checks.length?`<div class="hypothesis-next"><h3>다음 판단을 위해 확인할 것</h3>${checks.map(c=>`<div>${button('show-check',esc(c.question),`data-check="${esc(c.id)}"`,'link-button small')}<p class="small muted">${esc(c.purpose)}</p></div>`).join('')}</div>`:canFeedback&&['proposed','inconclusive'].includes(h.assessment)?'<p class="limit">이 가설에는 다음 확인이 아직 연결되지 않았습니다. 연구를 이어갈 때 필요한 근거와 확인 방법을 함께 검토해야 합니다.</p>':''}
     ${wordingChanged?`<details class="outcome-details"><summary>처음 남긴 가설·예상과 비교</summary><p class="prose small">${esc(original.statement)}</p><p class="prose small">${esc(original.expected_observation)}</p><p class="limit">${esc(first.created)}에 남긴 원문입니다. 현재 표현과 의미가 같은지 검토할 수 있습니다.</p></details>`:''}
     ${recordedChange?`<details class="outcome-details"><summary>이전 판단에서 바뀐 문구</summary>${recordedChange.changed_fields.map(c=>`<h3>${c.field==='statement'?'가설':'예상한 관측'}</h3><p class="prose small">이전: ${esc(c.before)}</p><p class="prose small">현재: ${esc(c.after)}</p>`).join('')}<p class="limit">문구 차이를 자동 기록했습니다. 의미가 같거나 과학적으로 개선됐다는 판정은 아닙니다.</p></details>`:''}
@@ -3189,7 +4145,7 @@ function openResearchFeedback(checkId, hypothesisId, partId=null, reference=null
     <label class="input-label" for="feedback-text">새로 확인한 내용과 조건</label><textarea id="feedback-text" placeholder="후보·자료가 무엇인지, 어떤 조건에서 무엇을 관측했는지 알려주세요."></textarea>
     <div class="upload-fields"><label>기록 종류<select id="feedback-kind">${[['observation','새 관측'],['message','정보 보완'],['correction','기존 해석 정정']].map(([v,t])=>`<option value="${v}" ${kind===v?'selected':''}>${t}</option>`).join('')}</select></label><label>원래 예상과 비교<select id="feedback-comparison"><option value="unclear">아직 판단하기 어려움</option><option value="consistent">예상과 부합하는 관측</option><option value="different">예상과 다른 관측</option></select></label></div>
     <label class="checkbox"><input type="checkbox" id="feedback-synthetic"> 실제 측정이 아닌 가상 관측·개발 시험</label>
-    <p class="limit">원자료 파일은 ‘자료와 도구’에서 추가할 수 있습니다. 짧은 보고만으로 원인이나 효능을 확정하지 않습니다.</p>
+    ${measurementReportForm(check,referenceId)}
     <div class="dialog-actions">${button('save-feedback','기록만 저장','data-review="false"')}${button('save-feedback','반영해 다시 검토',`data-review="true" ${!status.gateway.available?'disabled':''}`,'primary')}</div>`);
 }
 
@@ -3197,7 +4153,7 @@ async function saveResearchFeedback(review) {
   const text = dialog.querySelector('#feedback-text').value.trim();
   if (!text) throw Error('새로 확인한 내용이나 정정할 내용을 적어 주세요.');
   const context = {...feedbackContext,comparison:dialog.querySelector('#feedback-comparison').value};
-  await api(`/api/workspaces/${state.id}/commands`,{expected_rev:state.rev,command_id:crypto.randomUUID(),body:{kind:dialog.querySelector('#feedback-kind').value,text,synthetic:dialog.querySelector('#feedback-synthetic').checked,review_requested:review,research_context:context}});
+  await api(`/api/workspaces/${state.id}/commands`,{expected_rev:state.rev,command_id:crypto.randomUUID(),body:{kind:dialog.querySelector('#feedback-kind').value,text,synthetic:dialog.querySelector('#feedback-synthetic').checked,review_requested:review,research_context:context,...measurementReportInput()}});
   dialog.close();feedbackContext=null;await refresh();
   if (review) notice('관측과 후속 검토를 함께 접수했습니다.');
   else notice('이전 판단과 연결해 기록했습니다. 현재 가설을 확정한 것은 아닙니다.');
@@ -3264,6 +4220,20 @@ function openCheckDelegation(checkId) {
   dialog.querySelector('[data-action="save-feedback"][data-review="true"]').textContent='이 확인 이어서 검토';
 }
 
+function scientificWebpageView(result) {
+  const scope={text_acquired:'웹 본문 확보',metadata_only:'논문 정보 확보',challenge:'접근 확인 화면',access_denied:'접근 제한',redirect_refused:'인증·외부 이동 확인 필요',extraction_failed:'본문 추출 확인 필요',insufficient_content:'본문 확인 필요',retrieval_failed:'자료 접근 확인 필요'};
+  const recovered=result.identifier_recovery?.status==='matched'?result.identifier_recovery.article_ids:null;
+  const pmc=/^PMC\d+$/.test(recovered?.pmcid??'')?recovered.pmcid:null;
+  const rows=result.rows??[];
+  const source=result.source?.resolved_url??result.source?.url;
+  return `<h3>${esc(result.title||'과학 웹 자료')}</h3><p class="small"><strong>${esc(scope[result.acquisition_status]??'자료 접근 결과 확인')}</strong>${result.article_ids?.doi?' · DOI '+esc(result.article_ids.doi):''}</p>
+    ${source?`<p><a href="${esc(safeUrl(source))}" target="_blank" rel="noopener noreferrer">출판사 페이지 열기 ↗</a></p>`:''}
+    ${pmc?`<div class="notice-inline"><p>연결된 공개 원문에서 표·그림과 적용 조건을 이어서 확인할 수 있습니다.</p><p><a href="https://europepmc.org/articles/${esc(pmc)}" target="_blank" rel="noopener noreferrer">공개 원문 사이트 열기 · ${esc(pmc)} ↗</a></p>${button('science-delivery-paper','연구에 원문·표·그림 가져오기',`data-pmc="${esc(pmc)}"`,'small')}</div>`:''}
+    ${rows.map((r,i)=>`<article class="article-block"><div class="small muted">웹 본문 위치 ${(result.offset??0)+i+1}</div><p class="prose small">${esc(r.text)}</p></article>`).join('')}
+    ${!rows.length?'<p class="small">확보한 문헌 식별자나 다른 공개 자료에서 해당 질문의 근거를 이어서 찾습니다.</p>':''}
+    <div class="pagination"><span>본문 ${rows.length?(result.offset??0)+1:0}–${(result.offset??0)+rows.length} / ${result.total_rows??rows.length}</span><div>${button('prev','이전',offset===0?'disabled':'','small')}${button('next','다음',!result.has_more?'disabled':'','small')}</div></div>`;
+}
+
 function articleView(result) {
   if(result.view_kind==='article_references')return articleReferencesView(result);
   const span=value=>/^\d+$/.test(String(value))&&Number(value)>0&&Number(value)<=1000?Number(value):1;
@@ -3317,11 +4287,193 @@ function renderJudgmentContext(h){
  const observations=x.observation_reviews.filter(o=>o.hypothesis_id===h.id);
  return `<section class="judgment-context"><h3>이 가설의 조건과 다시 볼 가정</h3><p class="limit">${linked?'현재 표시한 판단에 연결된 설명':'별도 보존된 문맥 초안 · 현재 판단과 연결 확인 필요'} · 설명 기록이며 과학적 검증 상태와 구분합니다.</p>${bindings}${observations.length?`<h4>조건별 관측 연결 ${observations.length}개</h4><p class="small muted">반대 결과와 다른 조건의 관측도 함께 보존했습니다. 연결 개수는 독립 실험 횟수가 아닙니다.</p>${observations.map(o=>contextObservationView(x,o)).join('')}`:''}</section>`;
 }
+function intentConsumerText(item){
+  const value=item.content;
+  return typeof value==='string'?value:value?.question??value?.statement??value?.recommendation??item.consumer_id;
+}
+function intentConsumerLink(item){
+  const name=({question:'현재 질문',recommendation:'추천',hypothesis:'가설',check:'다음 확인'})[item.consumer_kind]??item.consumer_kind;
+  if(item.consumer_kind==='recommendation'&&state.decision)return button('ui-judgment',esc(name),'','link-button small');
+  if(item.consumer_kind==='check'&&state.decision?.research_loop?.next_checks?.some(c=>c.id===item.consumer_id))return button('ui-overview-experiment',esc(name),`data-id="${esc(item.consumer_id)}"`,'link-button small');
+  return button('ui-stage',esc(name),`data-stage="${item.consumer_kind==='hypothesis'?'mechanisms':'goal'}"`,'link-button small');
+}
+function intentInputText(input){
+  const record=input.record??{};
+  const origin=input.record_basis?.startsWith('model_structured_')||record.origin==='inferred'?'모델의 잠정 해석':record.origin==='researcher'?'연구자가 기록한 조건':'출처 확인 필요';
+  return `${record.label??input.intent_id}: ${record.text??''} (${origin})`;
+}
+function renderIntentReassessment(detailed=false){
+  const v=state.intent_dependencies;
+  if(!v||(!state.decision&&!v.latest_publication_conflict))return '';
+  const pending=v.required_reassessments??[],reviews=v.latest_reassessments??[],consumers=v.latest_consumers??[];
+  const conflict=v.latest_publication_conflict;
+  if(!pending.length&&!reviews.length&&!conflict)return '';
+  const title=pending.length?(v.changed_intent_ids.length?'목표·조건 수정으로 다시 검토할 부분':'목표와 판단의 연결 검토'):'목표·조건을 반영한 판단';
+  const names={changed:'변경',retained:'유지',removed:'이번 판단에서 제외',unknown:'추가 검토'};
+  const changedLabels=v.changed_intent_ids.map(id=>v.input_snapshot.intents[id]?.record.label??id);
+  const rows=pending.map(item=>`<li>${intentConsumerLink(item)} <span>${esc(intentConsumerText(item))}</span><p class="small muted">${item.trigger==='consumption_unknown'?'어떤 목표·조건을 사용했는지 연결이 필요합니다.':item.trigger==='prior_review_unknown'?'이전 검토에서 남긴 판단 이유를 이어 확인합니다.':'지금 목표·조건에서 유지할지 바꿀지 확인합니다.'}</p></li>`);
+  const reasons=reviews.map(item=>{
+    const consumer=consumers.find(c=>c.consumer_kind===item.consumer_kind&&c.consumer_id===item.consumer_id);
+    return `<li><strong>${esc(names[item.outcome]??item.outcome)}</strong> · ${intentConsumerLink(item)}${consumer?`<p class="small">${esc(intentConsumerText(consumer))}</p>`:''}<p>${esc(item.reason)}</p></li>`;
+  });
+  const used=consumers.map(c=>`<li>${intentConsumerLink(c)} <span>${esc(intentConsumerText(c))}</span><p class="small">사용한 목표·조건: ${esc(c.inputs?.map(intentInputText).join(' · ')||'연결 확인 필요')}</p><p class="small">${esc(c.reason)}</p></li>`);
+  const original=conflict&&state.artifacts.some(a=>a.id===conflict.receipt_id)?sourceLinks([conflict.receipt_id]):'';
+  const body=`${changedLabels.length?`<p class="small">수정된 항목: ${esc(changedLabels.join(', '))}</p>`:''}${conflict?`<p class="notice-inline">저장한 목표·조건과 다른 제안은 별도 기록에 보존했습니다. 현재 입력으로 질문과 추천을 다시 검토하면 이어집니다.</p>${original}`:''}${rows.length?`<ul class="list">${(detailed?rows:rows.slice(0,3)).join('')}</ul>`:''}${detailed?`<p class="small muted">아래 연결과 유지·변경 이유는 모델이 기록했습니다. 입력과 판단의 원 기록을 함께 확인할 수 있습니다.</p>${reasons.length?`<ul class="list">${reasons.join('')}</ul>`:''}<details><summary>질문·추천·확인이 사용한 목표와 이유</summary><ul class="list">${used.join('')}</ul></details>${v.prior_record_id?sourceLinks([v.prior_record_id]):''}`:`${pending.length>3?`<p class="small">총 ${pending.length}개 판단 항목을 다시 검토합니다.</p>`:''}${button('ui-stage','목표 수정과 판단 연결 보기','data-stage="changes"','link-button small')}`}`;
+  return pending.length||conflict||detailed?`<section class="context-change-review" data-intent-reassessment><h3>${title}</h3>${body}</section>`:`<details class="ui-secondary" data-detail-key="intent-reassessment" data-intent-reassessment><summary>${title} · 유지·변경 이유 ${reviews.length}건</summary>${body}</details>`;
+}
 function renderContextChanges(){const v=state.judgment_context;if(!v?.pending_changes.length)return '';return `<section class="panel context-change-review"><h3>정정에 따라 다시 검토할 부분</h3>${v.pending_changes.map(c=>`<p>${esc(c.text)}</p><p class="small">직접 연결: ${esc(c.impact.direct_hypotheses.join(', '))} · 상위 검토: ${esc(c.impact.upstream_review.join(', ')||'명시된 경로 없음')}</p>${c.impact.review_paths.map(p=>`<p class="small">${esc(p.reason)}</p>`).join('')}`).join('')}<p class="limit">명시된 의존 경로를 따라 재검토 대상을 표시했습니다. 관측 삭제·가설 폐기·계산 재실행을 자동 결정하지 않습니다.</p></section>`}
 let conditionEdit=null;
 function openConditionEdit(node){const v=state.judgment_context,c=v.context.contexts.find(c=>c.id===node.dataset.context);conditionEdit={context_artifact_id:v.artifact_id,context_id:c.id,hypothesis_id:node.dataset.hypothesis,part_id:node.dataset.part??'',decision_id:v.published_decision_id};showDialog('조건을 정정하고 영향 확인',`<p class="small">원 조건과 계산은 보존됩니다. 정정은 새 입력으로 저장하고, 연결된 가정의 검토를 요청합니다.</p><label>정정할 조건<select id="condition-field">${Object.entries(contextLabels).map(([k,l])=>`<option value="${k}">${l}</option>`).join('')}</select></label><p id="condition-before" class="notice-inline">현재: ${esc(c.organism||'미확인')}</p><label>수정할 내용<input id="condition-after"></label><label>정정 근거·이유<textarea id="condition-reason"></textarea></label><label class="check-line"><input type="checkbox" id="condition-synthetic">시연 가정·가상 조건 (실제 관측 아님)</label><div class="dialog-actions">${button('context-save','정정 저장·영향 보기','data-review="false"')}${button('context-save','정정하고 판단 갱신',`data-review="true" ${!status.gateway.available?'disabled':''}`,'primary')}</div>`)}
 document.addEventListener('change',e=>{if(e.target.id==='condition-field'&&conditionEdit){const c=state.judgment_context.context.contexts.find(c=>c.id===conditionEdit.context_id);document.querySelector('#condition-before').textContent='현재: '+(c[e.target.value]||'미확인')}});
 async function saveConditionEdit(review){const c=state.judgment_context.context.contexts.find(c=>c.id===conditionEdit.context_id),field=dialog.querySelector('#condition-field').value,after=dialog.querySelector('#condition-after').value.trim(),reason=dialog.querySelector('#condition-reason').value.trim();if(!after||!reason)throw Error('새 조건과 정정 이유를 입력해 주세요.');const rc={decision_id:conditionEdit.decision_id,check_id:null,hypothesis_ids:[conditionEdit.hypothesis_id],comparison:'unclear'};if(conditionEdit.part_id)rc.scope_targets=[{hypothesis_id:conditionEdit.hypothesis_id,part_ids:[conditionEdit.part_id]}];await api(`/api/workspaces/${state.id}/commands`,{expected_rev:state.rev,command_id:crypto.randomUUID(),body:{kind:'correction',text:`${contextLabels[field]} 조건 정정: ${c[field]||'미확인'} → ${after}. 근거: ${reason}`,synthetic:dialog.querySelector('#condition-synthetic').checked,review_requested:review,research_context:rc,context_update:{context_artifact_id:conditionEdit.context_artifact_id,context_id:c.id,field,before:c[field],after,reason}}});dialog.close();conditionEdit=null;await refresh();if(review)notice('조건 정정과 후속 검토를 접수했습니다.');else notice('원 조건을 보존하고 정정을 저장했습니다. 연결된 가정의 검토 범위를 확인하세요.')}
+
+
+;
+/* Source: hypothesis-review.js */
+const hypothesisReviewLabels = {
+  text:{supports:'모델은 지지 근거로 읽음',contradicts:'모델은 반대 근거로 읽음',partial:'모델은 일부만 다룬다고 읽음',not_addressed:'모델은 이 주장을 다루지 않는다고 읽음',unknown:'모델의 문장 관계 검토 미확인'},
+  causal:{supports_step:'해당 인과 단계의 근거',association_only:'연관성까지 확인',intervention_response_only:'개입 뒤 변화까지 확인',not_established:'인과 연결 미확정',unknown:'인과 검토 미확인'},
+  applicability:{direct:'기록한 조건에 적용',conditional:'추가 조건이 필요',mismatch:'적용 조건이 다름',unknown:'적용 조건 미확인'},
+  interpretation:{adequate_measurement:'유효한 측정일 때',measurement_failure:'측정 실패 · 설명 판단 보류',insufficient_precision:'정밀도 부족 · 설명 판단 보류',not_applicable:'조건 불일치 · 설명 판단 보류'},
+  origin:{prospective:'관측 전 예상',previously_recorded:'이전에 기록한 예상',reconstructed_after_result:'관측 뒤 구성한 예상'},
+};
+
+function currentHypothesisReview(){
+  const review=state.hypothesis_review;
+  return review?.status==='available'&&review?.review&&review.published_decision_id===state.decision_id ? review : null;
+}
+
+function hypothesisReviewScope(field,id,record=currentHypothesisReview()){
+  const key=field==='hypotheses'?'hypothesis_id':'check_id';
+  return record?.review?.scope?.[field]?.find(row=>row[key]===id)??null;
+}
+
+function hypothesisReviewScopeLabel(row){
+  return {reviewed:'검토 기록 있음',not_reviewed:'아직 검토하지 않음',not_applicable:'이번 검토 대상에 해당하지 않음'}[row?.status]??'검토 범위 미확인';
+}
+
+function renderHypothesisReviewScope(row){
+  if(!row)return '';
+  return `<p class="small" data-review-scope="${esc(row.status)}"><strong>${esc(hypothesisReviewScopeLabel(row))}</strong> · ${esc(row.reason)}</p>`;
+}
+
+function hypothesisReviewSource(anchor,checked){
+  const row=/^\/rows\/(\d+)(?:\/|$)/.exec(anchor.path??'');
+  const source=state.artifacts.find(a=>a.id===anchor.artifact_id);
+  const link=source?button('source',esc(artifactName(source.id)),`data-id="${esc(source.id)}"${row?` data-source-offset="${Number(row[1])}"`:''}`,'link-button small'):'<span>현재 연구에서 찾지 못한 출처</span>';
+  const matched=checked?.status==='matched'||checked?.status==='verified';
+  return `<div class="evidence-relation">${link}<blockquote>${esc(anchor.quote)}</blockquote><p class="small muted">${matched?'저장 자료와 인용 위치 일치':'저장 자료의 위치 대조 결과 확인 필요'}</p><details><summary>정확한 자료 위치·대조 기록</summary><p>${esc(anchor.path)}</p>${checked?json(checked):'<p>대조 기록 없음</p>'}</details></div>`;
+}
+
+function renderHypothesisReview(h,review=currentHypothesisReview()){
+  const steps=review?.review?.causal_steps?.filter(s=>s.hypothesis_id===h.id)??[];
+  const scope=renderHypothesisReviewScope(hypothesisReviewScope('hypotheses',h.id,review));
+  if(!steps.length)return scope;
+  return `<section class="hypothesis-causal-review" data-hypothesis-review="${esc(h.id)}"><h3>인과 연결마다 근거 확인</h3>${scope}${steps.map(step=>{
+    const checks=review.causal_step_checks?.find(c=>c.step_id===step.id);
+    return `<article><h4>${esc(step.claim)}</h4><p class="small">적용하려는 조건: ${esc(step.target_context||'미확인')}</p>${step.evidence_groups.map(group=>{
+      const groupCheck=checks?.evidence_groups?.find(g=>g.group_id===group.id),anchors=groupCheck?.anchor_checks??[];
+      const checkOpposition=group.text_support==='contradicts'&&['not_established','unknown'].includes(group.causal_support);
+      const interpretationNote=checkOpposition?'<p class="notice-inline" data-evidence-interpretation-review="opposition-unestablished">미입증과 반대 관측을 구분해 확인하세요. 검출력·대조군·측정 시점·시험 조건이 이 해석을 뒷받침하는지 원자료에서 확인합니다. 인용 위치의 일치가 이 과학적 해석의 타당성을 확인한 것은 아닙니다.</p>':'';
+      return `<details class="outcome-details"><summary>${checkOpposition?'미입증·반대 근거 구분 확인 · ':''}${groupCheck?.all_anchors_verified?'':'인용 위치 미확인 · '}${esc(hypothesisReviewLabels.causal[group.causal_support]??group.causal_support)} · ${esc(hypothesisReviewLabels.applicability[group.applicability]??group.applicability)}</summary><dl><dt>인용이 말하는 범위</dt><dd>${esc(hypothesisReviewLabels.text[group.text_support]??group.text_support)} · ${esc(group.text_support_rationale)}</dd><dt>인과 연결</dt><dd>${esc(group.causal_support_rationale)}</dd><dt>원 연구 조건</dt><dd>${esc(group.reported_context||'미확인')}</dd><dt>현재 조건에 옮길 때</dt><dd>${esc(group.applicability_rationale)}</dd></dl>${interpretationNote}${group.missing_assumptions.length?`<h4>확인할 가정</h4>${list(group.missing_assumptions)}`:''}${group.anchors.length?group.anchors.map((a,i)=>hypothesisReviewSource(a,anchors[i])).join(''):'<p>연결한 원문 인용이 없습니다. 근거를 확인해야 합니다.</p>'}</details>`;
+    }).join('')}${!step.evidence_groups.length?'<p>이 연결의 근거 묶음은 아직 없습니다.</p>':''}${step.missing_assumptions.length?`<p><strong>남은 연결</strong></p>${list(step.missing_assumptions)}`:''}</article>`;
+  }).join('')}<p class="small muted">근거·인과·적용 범위는 모델의 검토입니다. 저장 자료의 위치 대조와 구별해 표시합니다.</p></section>`;
+}
+
+function hypothesisReviewRecordTable(record){
+  const ids=[...new Set([...(record.review?.causal_steps??[]).map(s=>s.hypothesis_id),...(record.review?.scope?.hypotheses??[]).map(s=>s.hypothesis_id)])];
+  return `<section><h3>보존된 인과 근거·관측 검토</h3><p>해당 판단에 함께 기록한 검토입니다. 현재 판단으로 자동 승계하지 않습니다.</p>${ids.map(id=>renderHypothesisReview({id},record)).join('')}${(record.observation_checks??[]).map(o=>`<details><summary>구별할 관측 · ${esc(o.outcomes?.[0]?.observation??'검토 전')}</summary>${renderHypothesisReviewScope(hypothesisReviewScope('checks',o.check_id,record))}${o.explanations.map(e=>`<h4>${esc(e.statement)}</h4><p>${esc(e.prediction?.rationale??'예상 미확인')}</p>`).join('')}${o.outcomes.map(out=>`<p>${esc(out.observation)} · ${esc(hypothesisReviewLabels.interpretation[out.interpretation]??'해석 조건 미확인')}</p>`).join('')}</details>`).join('')}</section>`;
+}
+
+function renderHypothesisReviewSummary(){
+  const review=currentHypothesisReview();
+  if(!review)return '';
+  const steps=review.review.causal_steps;
+  const hs=state.decision?.research_loop?.hypotheses??[];
+  const checks=state.decision?.research_loop?.next_checks??[],scopes=review.review.scope;
+  if(!steps.length&&!review.review.observations.length&&!scopes?.hypotheses?.length&&!scopes?.checks?.length)return '';
+  const headline=steps.length||review.review.observations.length?`인과 연결 ${number(steps.length)}개의 근거 검토와 다음 확인 ${number(review.review.observations.length)}개의 예상 비교가 있습니다.`:'이번 판단에는 인과 근거·관측 비교를 마친 항목이 없습니다. 아래에서 검토 범위와 남은 이유를 확인할 수 있습니다.';
+  return `<section class="panel" data-science-review="hypotheses"><h3>가설과 근거의 연결</h3><p>${headline}</p>${review.is_current_input?'':'<p class="notice-inline">이 검토 뒤 연구 입력이 바뀌었습니다. 아래는 해당 판단에 보존된 검토입니다.</p>'}${hs.filter(h=>steps.some(s=>s.hypothesis_id===h.id)||hypothesisReviewScope('hypotheses',h.id)).map(h=>{const scope=hypothesisReviewScope('hypotheses',h.id);return `<details class="outcome-details"><summary>${esc(h.statement)}${scope?` · ${esc(hypothesisReviewScopeLabel(scope))}`:''}</summary>${renderHypothesisReview(h)}</details>`;}).join('')}${(scopes?.checks??[]).map(row=>`<div><h4>${esc(checks.find(c=>c.id===row.check_id)?.question??'다음 확인')}</h4>${renderHypothesisReviewScope(row)}</div>`).join('')}${sourceLinks([review.artifact_id])}</section>`;
+}
+
+function observationReview(check){
+  return currentHypothesisReview()?.observation_checks?.find(c=>c.check_id===check.id)??null;
+}
+
+function outcomeInterpretationReview(check,index){
+  const review=observationReview(check);
+  if(!review)return null; // Legacy decisions have no new review to attribute to them.
+  const outcome=review.outcomes?.find(o=>o.outcome_index===index);
+  const reasons=new Set(outcome?.guard_reasons??[]);
+  if(!outcome||review.status==='not_reviewed')reasons.add('outcome_not_reviewed');
+  if(outcome?.interpretation!=='adequate_measurement')reasons.add(outcome?.interpretation??'outcome_not_reviewed');
+  const pairs=outcome?.pairs??[];
+  if(pairs.some(p=>p.requires_joint_prediction))reasons.add('joint_prediction_required');
+  if(pairs.some(p=>p.retrospective))reasons.add('retrospective_prediction');
+  for(const pair of pairs)for(const reason of pair.reasons??[]){
+    if(['missing_prediction','incomplete_or_unknown_prediction_set','prediction_source_unresolved','explanation_relationship_unknown'].includes(reason))reasons.add(reason);
+  }
+  const diagnostics=(review.outcome_link_diagnostics??[]).filter(d=>d.outcome_index===index);
+  for(const diagnostic of diagnostics){
+    if(!['consistent_with_prediction_set','declared_unresolved'].includes(diagnostic.status))reasons.add(diagnostic.status);
+  }
+  if(pairs.length&&pairs.every(p=>p.status==='neither_predicted'))reasons.add('outcome_outside_all_prediction_sets');
+  const labels={
+    measurement_failure:'측정 실패 · 설명 판단 보류',insufficient_precision:'정밀도 부족 · 설명 판단 보류',
+    not_applicable:'조건 불일치 · 설명 판단 보류',outcome_not_reviewed:'이 결과의 설명 구별 가능성 미검토',
+    measurement_validity_requirements_missing:'측정의 유효 조건 미확인',precision_requirement_missing:'구별에 필요한 정밀도 미확인',
+    conflicts_with_prediction_set:'원래 해석과 기록한 예상 결과가 서로 맞지 않음',
+    joint_prediction_required:'공존 가능한 설명의 결합 예측 필요',retrospective_prediction:'관측 뒤 구성한 예상 · 사전 예측과 구분 필요',
+    explanation_relationship_unknown:'예상 결과는 다르지만 설명들의 공존·배타 관계가 미확인',
+    missing_prediction:'비교할 설명의 예상 누락',incomplete_or_unknown_prediction_set:'설명별 예상 범위 미확인',
+    incomplete_prediction_set:'설명별 예상이 일부만 기록됨',prediction_source_unresolved:'예상 근거 출처 확인 필요',
+    parent_effect_not_directly_comparable:'전체 가설 해석과 설명별 예측의 연결 확인 필요',
+    unresolved_comparison:'기록한 해석과 예측의 관계 미확인',
+    compatible_but_not_discriminating:'이 결과와 맞지만 특정 설명을 구별하지 못함',
+    outcome_outside_all_prediction_sets:'기록한 모든 예상에서 벗어남 · 설명과 측정 재검토 필요',
+  };
+  return {needs_review:reasons.size>0,
+    blocks_all_comparisons:!outcome||review.status==='not_reviewed'||outcome.interpretation!=='adequate_measurement'||(outcome.guard_reasons??[]).length>0,
+    reasons:[...reasons],
+    label:labels[[...reasons][0]]??'기록한 결과 해석 재검토 필요',
+    explanations:[...reasons].map(reason=>labels[reason]??'결과 해석의 전제 확인 필요')};
+}
+
+function reviewExplanationLabel(ref,review){
+  return review?.explanations?.find(e=>e.hypothesis_id===ref.hypothesis_id&&e.alternative_id===ref.alternative_id)?.statement??'설명 확인 필요';
+}
+
+function renderObservationReview(check){
+  const review=observationReview(check);
+  const scope=hypothesisReviewScope('checks',check.id);
+  if(!review||review.status==='not_reviewed')return scope?`<div data-observation-review="unreviewed">${renderHypothesisReviewScope(scope)}</div>`:'<p class="small muted" data-observation-review="unreviewed">이 관측이 어떤 설명을 구별하는지는 아직 검토하지 않았습니다.</p>';
+  const source=currentHypothesisReview().review.observations.find(o=>o.check_id===check.id);
+  const pairs=(review.outcomes??[]).flatMap(o=>o.pairs??[]);
+  const useful=pairs.some(p=>p.selection_eligible);
+  const usable=(review.outcomes??[]).filter(o=>o.interpretation==='adequate_measurement'&&!(o.guard_reasons??[]).length).flatMap(o=>o.pairs??[]);
+  const complete=review.explanations.length>1&&review.explanations.every(e=>e.prediction?.coverage==='complete');
+  const same=complete&&usable.length&&usable.every(p=>['shared','neither_predicted'].includes(p.status));
+  const patterns=review.explanations.map(e=>e.prediction).filter(p=>['partial','complete'].includes(p?.coverage)&&p.outcome_indices?.length).map(p=>JSON.stringify([...new Set(p.outcome_indices)].sort((a,b)=>a-b)));
+  const differentPatterns=new Set(patterns).size>1;
+  const headline=useful?'명시한 조건에서 일부 설명을 구별할 결과가 있습니다.':same?'기록된 설명들이 같은 결과를 예상합니다.':differentPatterns?'일부 예상 패턴은 다릅니다. 전체 예상·측정 조건·정밀도를 확인하기 전에는 판별 준비를 확정하지 않습니다.':'설명을 구별할 수 있는지 아직 정하지 못했습니다.';
+  const outcomes=check.possible_outcomes??[];
+  return `<section class="panel" data-observation-review="${esc(check.id)}"><h4>설명마다 어떤 결과를 예상하나</h4><p>${esc(headline)}</p><p class="small muted">예상 비교 · 실제 관측 결과와 구분합니다.</p>${review.explanations.some(e=>e.prediction?.origin==='reconstructed_after_result')?'<p class="ui-field-caution">관측 뒤에 구성한 예상이 포함됩니다. 독립적인 사전 예측 시험이 아닙니다.</p>':''}<div class="table-scroll"><table><thead><tr><th>비교할 설명</th><th>이 설명과 양립할 결과</th><th>예상의 범위</th></tr></thead><tbody>${review.explanations.map(e=>{
+    const p=e.prediction;
+    return `<tr><td>${esc(e.statement)}</td><td>${p?.outcome_indices?.length?p.outcome_indices.map(i=>`${i+1}. ${esc(outcomes[i]?.observation??'결과 확인 필요')}`).join('<br>'):p?.coverage==='complete'?'기록한 결과 중 없음':'예상 미확인'}</td><td>${p?`${esc({complete:'해당 조건의 전체 예상',partial:'일부 예상만 기록',unknown:'예상 범위 미확인'}[p.coverage])}<br>${esc(hypothesisReviewLabels.origin[p.origin])}`:'아직 예상하지 않은 설명'}</td></tr>`;
+  }).join('')}</tbody></table></div>${review.missing_explanations?.length?`<p>예상을 기록하지 않은 설명 ${number(review.missing_explanations.length)}개도 비교 목록에 남겨 두었습니다.</p>`:''}<details><summary>구별에 필요한 조건·정밀도·예상 근거</summary><h4>먼저 확인할 측정 조건</h4>${source?.validity_requirements?.length?list(source.validity_requirements):'<p>미확인</p>'}<h4>예상 차이를 가를 정밀도</h4><p>${esc(source?.precision_requirement||'미확인 · 정밀도를 정하기 전에는 구별 가능성을 확정하지 않습니다.')}</p>${review.explanations.filter(e=>e.prediction).map(e=>`<h4>${esc(e.statement)}</h4><p>${esc(e.prediction.rationale)}</p>${list(e.prediction.assumptions)}${sourceLinks(e.prediction.source_ids)}`).join('')}</details><p class="small muted">예상 결과를 비교한 기록입니다. 측정 실패나 정밀도 부족은 설명의 반박으로 처리하지 않습니다.</p></section>`;
+}
+
+function renderObservationOutcome(check,index){
+  const review=observationReview(check),outcome=review?.outcomes?.find(o=>o.outcome_index===index);
+  if(!outcome)return '';
+  const interpretation=outcomeInterpretationReview(check,index);
+  const blocked=interpretation?.blocks_all_comparisons;
+  const separating=blocked?[]:(outcome.pairs??[]).filter(p=>p.selection_eligible&&!p.requires_joint_prediction&&!p.retrospective);
+  const unresolved=blocked?[]:(outcome.pairs??[]).filter(p=>p.status==='unresolved'||p.requires_joint_prediction||p.retrospective||(p.status==='separating'&&!p.selection_eligible));
+  const warning=interpretation?.needs_review?`${blocked?'<p>이 결과로 어느 설명이 맞는지 정하지 않습니다. 기록한 해석의 전제를 먼저 확인합니다.</p>':'<p>원래 해석에는 재검토할 전제가 남아 있습니다. 아래 비교는 명시한 두 설명에만 해당합니다.</p>'}${list(interpretation.explanations)}`:'';
+  const comparison=blocked?'':separating.length?`<p>명시한 예측과 조건이 성립하면, 비교한 두 설명 중 더 잘 맞는 설명:</p>${list(separating.map(p=>`${reviewExplanationLabel(p.compatible_explanation,review)} (비교 대상: ${reviewExplanationLabel(p.excluded_explanation,review)})`))}`:'<p>이 결과만으로 특정 설명을 더 지지할 근거가 정해지지 않았습니다.</p>';
+  return `<section class="outcome-effect" data-observation-outcome="${index}"><strong>${esc(interpretation?.needs_review?interpretation.label:hypothesisReviewLabels.interpretation[outcome.interpretation]??'해석 조건 미확인')}</strong>${warning}${comparison}${unresolved.length?`<p>아직 비교할 수 없는 설명 쌍:</p>${list(unresolved.map(p=>`${reviewExplanationLabel(p.left,review)} · ${reviewExplanationLabel(p.right,review)}`))}`:''}${(outcome.pairs??[]).some(p=>p.requires_joint_prediction)?'<p>함께 성립할 수 있는 설명이 있습니다. 결합된 설명의 예상도 확인해야 합니다.</p>':''}${(outcome.pairs??[]).some(p=>p.retrospective)?'<p class="small muted">관측 뒤에 구성한 예상이 포함됩니다. 독립적인 사전 예측 시험과 구별해야 합니다.</p>':''}</section>`;
+}
 
 
 ;
@@ -3345,7 +4497,7 @@ async function openEvidenceHistory(hypothesisId,offset=0) {
   const value=await api(`/api/workspaces/${encodeURIComponent(wid)}/hypothesis-history?hypothesis_id=${encodeURIComponent(hypothesisId)}&offset=${offset}&limit=4`);
   if(state.id!==wid||state.decision_id!==decisionId)throw Error('판단이 바뀌었습니다. 최신 화면에서 다시 열어 주세요.');
   evidenceHistorySelection={wid,decisionId,value};
-  showDialog('이전 근거와 적용 조건',`<p class="notice-inline">${esc(value.meaning)}</p>${value.current_content_status!=='available'?'<p class="limit">현재 판단의 원본을 확인하지 못했습니다. 비교 상태를 확정하지 마세요.</p>':''}${value.rows.map(r=>`<details class="history-evidence-decision" ${!r.is_current?'open':''}><summary>${r.is_current?'현재 판단':'이전 판단'} · 연구 기록 ${r.state_revision} · ${esc(time(r.created))}</summary>${r.content_status!=='available'?'<p class="limit">원 판단을 읽을 수 없거나 무결성 검사가 실패했습니다. 이는 과학적 반대 근거가 아닙니다.</p>':r.hypothesis?`<h3>${esc(r.hypothesis.statement)}</h3><p class="small">당시 예상: ${esc(r.hypothesis.expected_observation)}</p><p>당시 판단: ${esc(hypothesisLabels[r.hypothesis.assessment])}</p>${r.claim_comparison==='literal_claim_changed'?'<p class="notice-inline">현재 가설과 문구가 다릅니다. 아래 관계는 당시 주장에 대한 기록입니다.</p>':'<p class="small muted">같은 문구여도 대상·시험·조건이 달라질 수 있습니다. 현재 지지로 자동 승계하지 않습니다.</p>'}${r.evidence_comparison.length?r.evidence_comparison.map(historyEvidenceRow).join(''):'<p class="small muted">이 판단에는 근거 연결이 기록되어 있지 않습니다. 앞선 판단과 원자료는 계속 확인할 수 있습니다.</p>'}${r.context_artifact_id?`<p>당시 별도로 기록한 조건</p>${sourceLinks([r.context_artifact_id])}`:''}${sourceLinks([r.decision_id])}${button('history-evidence-feedback','이 근거를 현재 질문에서 다시 검토',`data-decision="${esc(r.decision_id)}"`,'small')}`:'<p class="small muted">이 판단에는 해당 ID의 가설이 없습니다. 기각으로 해석하지 않습니다.</p>'}</details>`).join('')}${value.lineage_gap?'<p class="limit">기록된 이전 판단 연결이 여기서 끊깁니다. 임의의 다른 판단으로 이어 붙이지 않았습니다.</p>':''}<div class="detail-actions">${offset?button('evidence-history','더 최근 판단',`data-hypothesis="${esc(hypothesisId)}" data-offset="${Math.max(0,offset-4)}"`,'small'):''}${value.has_more?button('evidence-history','더 이전 판단',`data-hypothesis="${esc(hypothesisId)}" data-offset="${offset+4}"`,'small'):''}</div><p class="small muted">이 화면을 열어도 새 조사나 평가 변경은 실행되지 않습니다.</p>`);
+  showDialog('이전 근거와 적용 조건',`<p class="notice-inline">${esc(value.meaning)}</p>${value.current_content_status!=='available'?'<p class="limit">현재 판단의 원본을 확인하지 못했습니다. 비교 상태를 확정하지 마세요.</p>':''}${value.rows.map(r=>`<details class="history-evidence-decision" ${!r.is_current?'open':''}><summary>${r.is_current?'현재 판단':'이전 판단'} · 연구 기록 ${r.state_revision} · ${esc(time(r.created))}</summary>${r.content_status!=='available'?'<p class="limit">원 판단을 읽을 수 없거나 무결성 검사가 실패했습니다. 이는 과학적 반대 근거가 아닙니다.</p>':r.hypothesis?`<h3>${esc(r.hypothesis.statement)}</h3><p class="small">당시 예상: ${esc(r.hypothesis.expected_observation)}</p><p>당시 판단: ${esc(hypothesisLabels[r.hypothesis.assessment])}</p>${r.claim_comparison==='literal_claim_changed'?'<p class="notice-inline">현재 가설과 문구가 다릅니다. 아래 관계는 당시 주장에 대한 기록입니다.</p>':'<p class="small muted">같은 문구여도 대상·시험·조건이 달라질 수 있습니다. 현재 지지로 자동 승계하지 않습니다.</p>'}${r.evidence_comparison.length?r.evidence_comparison.map(historyEvidenceRow).join(''):'<p class="small muted">이 판단에는 근거 연결이 기록되어 있지 않습니다. 앞선 판단과 원자료는 계속 확인할 수 있습니다.</p>'}${r.context_artifact_id?`<p>당시 별도로 기록한 조건</p>${sourceLinks([r.context_artifact_id])}`:''}${r.hypothesis_review_artifact_id?`<p>당시 인과 근거·구별할 관측 검토</p>${sourceLinks([r.hypothesis_review_artifact_id])}`:''}${sourceLinks([r.decision_id])}${button('history-evidence-feedback','이 근거를 현재 질문에서 다시 검토',`data-decision="${esc(r.decision_id)}"`,'small')}`:'<p class="small muted">이 판단에는 해당 ID의 가설이 없습니다. 기각으로 해석하지 않습니다.</p>'}</details>`).join('')}${value.lineage_gap?'<p class="limit">기록된 이전 판단 연결이 여기서 끊깁니다. 임의의 다른 판단으로 이어 붙이지 않았습니다.</p>':''}<div class="detail-actions">${offset?button('evidence-history','더 최근 판단',`data-hypothesis="${esc(hypothesisId)}" data-offset="${Math.max(0,offset-4)}"`,'small'):''}${value.has_more?button('evidence-history','더 이전 판단',`data-hypothesis="${esc(hypothesisId)}" data-offset="${offset+4}"`,'small'):''}</div><p class="small muted">이 화면을 열어도 새 조사나 평가 변경은 실행되지 않습니다.</p>`);
 }
 
 async function reviewHistoricalEvidence(decisionId) {
@@ -3486,7 +4638,7 @@ async function interactionAction(action,node){
     evidaStorage.setItem(draftKey(),draft);render();document.querySelector('#message')?.focus();return;
   }
   if(action==='interaction-review-current'){
-    await api(`/api/workspaces/${state.id}/review-requests`,{expected_rev:state.rev,command_id:crypto.randomUUID()});
+    await api(`/api/workspaces/${state.id}/review-requests`,{expected_rev:state.rev,command_id:crypto.randomUUID(),...plannerOptions()});
     await refresh();notice('현재 조건의 후속 검토를 접수했습니다.');return;
   }
   if(action!=='interaction-explain'||explanationSending)return;
@@ -3507,7 +4659,7 @@ async function submitResearchFollowthrough(){
     await api(`/api/workspaces/${state.id}/commands`,{expected_rev:state.rev,command_id:crypto.randomUUID(),body});
     draft='';syntheticDraft=false;evidaStorage.removeItem(draftKey());
   }else{
-    await api(`/api/workspaces/${state.id}/review-requests`,{expected_rev:state.rev,command_id:crypto.randomUUID()});
+    await api(`/api/workspaces/${state.id}/review-requests`,{expected_rev:state.rev,command_id:crypto.randomUUID(),...plannerOptions()});
   }
   await refresh();notice('이 조건으로 검토하도록 접수했습니다.');
 }
@@ -3692,7 +4844,24 @@ function buildResearchRoadmap(snapshot,goalRows=[],history={status:'unread'}){
 }
 
 // Match by the exact result artifact, never by a reused NC number or array order.
+function goalLifecycleStoppedJob(snapshot){
+  if(!snapshot?.decision||!snapshot.decision_id)return null;
+  const latest=[...(snapshot.jobs??[])].reverse().find(j=>j.kind==='planner'&&j.based_rev===snapshot.rev);
+  const stopped=['failed','quota_exhausted','quota_or_rate_limit','refused','identity_unverified','outcome_unknown','paused','interrupted','route_unavailable','input_missing'];
+  if(!latest||!stopped.includes(latest.status))return null;
+  return (snapshot.artifacts??[]).some(a=>['goal_coverage_pending','goal_coverage_review','goal_coverage_binding'].includes(a.kind)&&a.meta?.based_rev===snapshot.rev&&a.meta?.decision_id===snapshot.decision_id&&a.meta?.job_id===latest.id)?latest:null;
+}
+function goalLifecycleActivity(snapshot){
+  const artifacts=(snapshot?.artifacts??[]).filter(a=>['goal_coverage_pending','goal_coverage_review','goal_coverage_binding'].includes(a.kind)&&a.meta?.based_rev===snapshot.rev&&a.meta?.decision_id===snapshot.decision_id);
+  const last=artifacts.at(-1);if(!last)return null;
+  const job=(snapshot.jobs??[]).find(j=>j.id===last.meta?.job_id);if(!job)return null;
+  const active=['queued','running'].includes(job.status),kind=last.meta?.goal_status;
+  if(active)return {plannerJobId:job.id,question:kind==='continue_internal_work'?'원래 요청에서 남은 정보와 선택 근거를 검토하고 있습니다.':'게시한 가설·후보·다음 확인을 원래 요청과 대조하고 있습니다.',status:kind==='continue_internal_work'?'부분 판단 보존 · 남은 연구 연결 진행 중':'부분 판단 게시 · 원목표 연결 검토 중'};
+  if(job.status==='succeeded'&&kind==='awaiting_researcher_input')return {plannerJobId:job.id,question:'현재 계획을 진행하기 위해 기록된 필수 선택·입력 확인이 남았습니다.',status:'조건부 판단 보존 · 연구자 선택 확인 필요'};
+  return null;
+}
 function currentResearchActivity(snapshot){
+  const goalActivity=goalLifecycleActivity(snapshot);if(goalActivity)return goalActivity;
   const jobs=snapshot?.jobs??[], active=j=>['queued','running'].includes(j.status);
   const recent=rows=>[...rows].sort((a,b)=>String(b.updated??b.created??'').localeCompare(String(a.updated??a.created??'')));
   const direct=recent(jobs.filter(j=>j.kind==='research_check'&&active(j)&&j.request?.check?.question))[0];
@@ -3881,15 +5050,19 @@ function roadmapFoot(model){
   const changed=model.changedNodes.length;
   return `<div class="roadmap-foot"><details class="roadmap-reading-note"><summary>${changed?`이전 판단에서 달라진 단계 ${changed}개`:'이 화면의 기록 읽기'}</summary><p class="small muted">단계를 열면 판단 이유와 다른 선택지, 원자료를 확인할 수 있습니다. 기록의 변화는 과학적 재검증이나 인과의 증거와 구분합니다.</p></details>${state.decision?button('roadmap-open','변경 전후 보기','id="roadmap-open-changes" data-stage="changes"','small'):''}</div>`;
 }
-const roadmapFunctionNames={search_literature:'문헌 검색',find_entities:'표적·질환 식별',read_open_article:'공개 원문 읽기',inspect_article_references:'참고문헌 확인',collect_public_evidence:'공개 근거 함께 조회',inspect_artifact:'저장 자료 다시 보기',read_evidence_bundle:'근거 묶음 읽기',read_clinical_trial:'임상시험 상세',read_drug_label:'약물 라벨 원문',resolve_literature_compounds:'문헌 화합물 구조',materialize_compound_candidates:'후보 구조 연결',compute_properties:'분자 물성 계산',predict_admet:'ADMET 예측',record_source_candidates:'출처 후보 기록',record_discovery_review:'선택지 검토 기록',inspect_discovery_options:'선택지 살펴보기'};
+const roadmapFunctionNames={read_scientific_webpage:'과학 웹 자료 읽기',search_literature:'문헌 검색',find_entities:'표적·질환 식별',read_open_article:'공개 원문 읽기',inspect_article_references:'참고문헌 확인',collect_public_evidence:'공개 근거 함께 조회',inspect_artifact:'저장 자료 다시 보기',read_evidence_bundle:'근거 묶음 읽기',read_clinical_trial:'임상시험 상세',read_drug_label:'약물 라벨 원문',resolve_literature_compounds:'문헌 화합물 구조',materialize_compound_candidates:'후보 구조 연결',compute_properties:'분자 물성 계산',predict_admet:'ADMET 예측',record_source_candidates:'출처 후보 기록',record_discovery_review:'선택지 검토 기록',inspect_discovery_options:'선택지 살펴보기'};
 function roadmapLiveCard(){
   const p=roadmapLiveProgress(state);if(!p)return '';
-  const used=Object.entries(p.functions).map(([f,n])=>`${roadmapFunctionNames[f]??f} ${n}회`).join(' · ');
+  const liveNames={lookup_target:'표적 정보 조회',read_curated_pharmacology:'검토된 약리 자료 읽기',search_clinical_trials:'임상시험 검색',search_drug_labels:'허가 약물 설명서 검색',prepare_molecular_states:'분자 상태·3D 준비',score_synthetic_complexity:'합성 복잡도 계산'};
+  const used=Object.entries(p.functions).map(([f,n])=>`${roadmapFunctionNames[f]??liveNames[f]??f} ${n}회`).join(' · ');
+  const toolCalls=Object.values(p.functions).reduce((a,b)=>a+b,0);
   const call=p.completedCalls+(p.status==='running'?1:0);
+  const researchQuestion=latestFrame()?.current_question??'';
   return `<div class="roadmap-activity roadmap-live" role="status" aria-live="polite"><span class="section-mark">${p.status==='queued'?'조사 대기 중':'조사 진행 중'} · 시작 ${esc(time(p.started))}${p.elapsedMinutes===null?'':` · ${p.elapsedMinutes}분 경과`}${call?` · 모델 호출 ${call}회째`:''}</span>
-    ${p.nextGoal?`<p><strong>지금 확인하려는 것</strong> · ${esc(roadmapSummary(p.nextGoal,240))} <span class="small muted">(모델의 잠정 메모)</span></p>`:'<p>질문을 정리하고 필요한 자료를 찾고 있습니다.</p>'}
-    ${used?`<p class="small">지금까지 실행한 도구: ${esc(used)}</p>`:''}
-    <p class="small muted">첫 판단이 게시되면 기전과 접근부터 실험 권고까지 채워집니다. 보통 20–60분 걸리며 화면은 자동으로 갱신됩니다.${p.findings?` 잠정 발견 ${p.findings}개는 판단 전 메모입니다.`:''}</p>
+    ${researchQuestion?`<p><strong>연구 질문</strong> · ${esc(roadmapSummary(researchQuestion,240))}</p>`:'<p>질문을 정리하고 필요한 자료를 찾고 있습니다.</p>'}
+    ${p.nextGoal?`<details data-detail-key="live-research-notes"><summary>현재 조사 계획 자세히 보기</summary><p>${esc(p.nextGoal)}</p><p class="small muted">조사 중 작성한 잠정 메모입니다.</p></details>`:''}
+    ${used?`<details data-detail-key="live-tool-summary"><summary>지금까지 자료 조회·도구 실행 ${toolCalls}회</summary><p class="small">${esc(used)}</p></details>`:''}
+    <p class="small muted">자료와 계산 결과를 모아 첫 판단을 작성하고 있습니다. 진행 내용은 자동으로 갱신됩니다.${p.findings?` 잠정 메모 ${p.findings}개를 기록했습니다.`:''}</p>
     ${button('roadmap-progress-open','조사 과정 자세히 보기','','small')}</div>`;
 }
 function roadmapActivity(){
@@ -3944,7 +5117,7 @@ async function loadCandidateStructures(){
     candidateStructures=value;
     candidateStructuresFor=key;
   }catch(error){
-    if(candidateStructuresKey()===key&&version===candidateStructuresVersion){candidateStructures=null;candidateStructuresFor=key}
+    if(candidateStructuresKey()===key&&version===candidateStructuresVersion){candidateStructures={rows:[],load_error:true};candidateStructuresFor=key}
   }finally{
     if(version===candidateStructuresVersion)candidateStructuresPendingFor=null;
     if(candidateStructuresKey()===key&&version===candidateStructuresVersion)render();
@@ -4038,6 +5211,7 @@ function roadmapEvidencePanel(){
   return `<p class="small muted">${current?'현재 판단의 가설과 실제 결과를 나란히 확인합니다.':'새 입력이 반영되기 전 기록 또는 검토 중인 초안입니다.'} 계산이 성공했다는 사실은 그 자체로 가설을 지지하지 않습니다.</p>
     ${unfinished.length?`<p class="notice-inline">완료되지 않은 조회·계산 ${unfinished.length}건이 있습니다. 결과가 없다는 것과 실행에 실패했다는 것을 구별하세요.</p>`:''}
     ${roadmapToolPanel()}
+    ${typeof renderHypothesisReviewSummary==='function'?renderHypothesisReviewSummary():''}
     ${roadmapEvidenceLedger()}
     <details class="roadmap-hypothesis-text" data-detail-key="complete-hypothesis-text"><summary>가설의 전체 설명·예상과 피드백</summary><div class="hypotheses-section">${hs.map(h=>renderHypothesis(h,!!dec?.research_loop&&(!frame||current))).join('')}${renderOmittedHypotheses()}</div></details>
     <details class="roadmap-results" data-detail-key="actual-results"><summary>실제 계산·조회 결과 ${results.length}개 열기</summary><p class="small muted">최신 자료가 있다는 것과 그 원문을 읽었다는 것은 다릅니다. 읽기 완료 표시는 만들지 않습니다.</p><div class="roadmap-result-list">${results.slice().reverse().map(a=>`<div>${button('source',esc(artifactName(a.id)),`data-id="${esc(a.id)}"`,'link-button')}<span>${esc(labels[a.kind]??a.kind)} · ${esc(jobLabels[a.meta.result_status]??a.meta.result_status)}</span></div>`).join('')||'<p>아직 계산·조회 결과가 없습니다.</p>'}</div></details>
@@ -4098,13 +5272,62 @@ function roadmapNextPanel(model){
     ${roadmapExistingDrug(model)}
     <section class="next-research">${checks.map((c,i)=>renderCheck(c,current,i)).join('')||list(d?.next_actions)||'<p>아직 다음 확인이 제안되지 않았습니다.</p>'}</section>`;
 }
+// Only displayed reassessment prose is translated; original record remains below.
+function roadmapPlainRationale(value,model){
+  const raw=String(value??'');
+  const fields={statement:'가설 문장',expected_observation:'예상 관측',reasoning_design:'판별 실험 설계',assessment_scope:'부분별 판단',conditional_alternatives:'조건부 설명',assessment:'평가',rationale:'판단 이유',evidence:'근거',research_loop:'연구 판단',next_checks:'다음 확인',hypothesis_ids:'연결 가설',possible_outcomes:'결과별 해석',revision_rationale:'유지·변경 이유',scope_targets:'판단 대상',no_change:'변화 없는 상태',changed:'변경 상태',question:'확인 질문',purpose:'목적',operation:'실행 방법',outcome_links:'결과 연결'};
+  const candidates=new Map();
+  const add=(id,label,kind)=>{
+    if(typeof id!=='string'||!id||typeof label!=='string'||!label.trim())return;
+    const rows=candidates.get(id)??[];
+    if(!rows.some(x=>x.label===label&&x.kind===kind))rows.push({label,kind});
+    candidates.set(id,rows);
+  };
+  for(const d of [state.decision,model?.previous]){
+    const loop=d?.research_loop??{};
+    for(const h of loop.hypotheses??[]){
+      add(h.id,h.statement,'가설');
+      for(const a of h.conditional_alternatives??[])add(a.id,a.label??a.statement,'조건부 설명');
+    }
+    for(const c of loop.next_checks??[])add(c.id,c.question||c.purpose,'확인');
+  }
+  // Split complete identifier tokens only, never a substring inside a longer ID.
+  const unknownHypothesisIds=new Set((raw.match(/(?<![A-Za-z0-9_])H_[A-Za-z0-9_]+(?![A-Za-z0-9_])/g)??[]).filter(id=>!candidates.has(id)));
+  const keys=[...new Set([...Object.keys(fields),...candidates.keys(),...unknownHypothesisIds])].sort((a,b)=>b.length-a.length);
+  const escapeRegex=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  const pattern=new RegExp('(?<![A-Za-z0-9_])('+keys.map(escapeRegex).join('|')+')(?![A-Za-z0-9_])','g');
+  const rendered=raw.split(pattern).map(token=>{
+    if(unknownHypothesisIds.has(token))return `<span title="${esc(token)}">가설 참조(원문 확인)</span>`;
+    const rows=candidates.get(token);
+    if(rows?.length){
+      // Ambiguous labels stay unresolved; show the kind and keep exact IDs in the raw foldout.
+      if(rows.length!==1){
+        const kinds=[...new Set(rows.map(x=>x.kind))];
+        const label=kinds.length===1?`${kinds[0]}(문구 차이 · 원문 확인)`:'참조 항목(여러 기록 · 원문 확인)';
+        return `<span title="${esc(token)}">${esc(label)}</span>`;
+      }
+      const {label,kind}=rows[0],short=label.length>72?label.slice(0,72)+'…':label;
+      return `<span title="${esc(kind+' · '+token+' · '+label)}">${esc(kind+': '+short)}</span>`;
+    }
+    return Object.hasOwn(fields,token)?esc(fields[token]):judgmentText(token);
+  }).join('');
+  return `${rendered}<details class="rejudgment-original"><summary>이 문장의 원문·ID 보기</summary><p class="prose">${esc(raw)}</p></details>`;
+}
+
 function roadmapChangesPanel(model){
   const previous=model.previous,d=state.decision,history=roadmapHistory.get(roadmapHistoryKey());
+  const events=state.events??[];
+  const latestObservationIndex=events.map(e=>e.kind).lastIndexOf('observation');
+  const currentPublicationIndex=events.findLastIndex(e=>e.kind==='decision_published'&&e.body?.receipt_id===state.decision_id);
+  const currentAfterObservation=model.current===true&&latestObservationIndex>=0&&currentPublicationIndex>latestObservationIndex;
+  const recordedReasonTitle=currentAfterObservation?'관측 이후 현재 판단이 설명한 유지·변경 이유':latestObservationIndex>=0?'마지막 게시 판단의 유지·변경 이유 · 새 관측 반영 미확인':'이번 판단이 설명한 변경·유지 이유';
   const names={statement:'가설 문장',expected_observation:'예상 관측',assessment:'평가',rationale:'이유',evidence:'연결 근거',assessment_scope:'부분별 판단',conditional_alternatives:'조건부 설명',question:'확인 질문',purpose:'목적',hypothesis_ids:'연결 가설',operation:'실행 방법',possible_outcomes:'결과별 해석',outcome_links:'결과 연결',scope_targets:'대상 부분',label:'항목 이름',text:'조건 내용',origin:'입력 출처',source_refs:'원 입력'};
-  const record=(x)=>`<article class="roadmap-diff ${x.status}"><span class="roadmap-diff-tag">${({added:'＋ 새 기록',omitted:'− 이번 판단에 없음',changed:'↻ 기록 변경',unchanged:'＝ 기록 동일',unavailable:'? 비교 불가'})[x.status]}</span><strong>${esc(x.id)}</strong>${x.reason?`<p class="notice-inline">${esc(x.reason)}</p>`:''}<p>${esc(roadmapSummary(x.after?.statement??x.after?.question??x.after?.text??x.before?.statement??x.before?.question??x.before?.text,120))}</p>${x.status==='changed'?`<span class="small muted">${x.fields.map(f=>names[f]??f).join(' · ')}</span>`:''}${x.status==='omitted'?'<span class="small muted">이번 판단에 없다는 기록일 뿐 기각·반증이 아닙니다.</span>':''}${x.status!=='unchanged'?`<details><summary>정확한 이전·현재 값 비교</summary>${x.fields.map(f=>`<div class="roadmap-diff-values"><h4>${esc(names[f]??f)}</h4><div><span>이전</span>${typeof x.before?.[f]==='string'?`<p class="prose">${esc(x.before[f])}</p>`:json(x.before?.[f]??null)}</div><div><span>현재</span>${typeof x.after?.[f]==='string'?`<p class="prose">${esc(x.after[f])}</p>`:json(x.after?.[f]??null)}</div></div>`).join('')}</details>`:''}</article>`;
+  const record=(x)=>`<article class="roadmap-diff ${x.status}"><span class="roadmap-diff-tag">${({added:'＋ 새 기록',omitted:'− 이번 판단에 없음',changed:'↻ 기록 변경',unchanged:'＝ 기록 동일',unavailable:'? 비교 불가'})[x.status]}</span><strong>${esc(x.id)}</strong>${x.reason?`<div class="notice-inline">${roadmapPlainRationale(x.reason,model)}</div>`:''}<p>${esc(roadmapSummary(x.after?.statement??x.after?.question??x.after?.text??x.before?.statement??x.before?.question??x.before?.text,120))}</p>${x.status==='changed'?`<span class="small muted">${x.fields.map(f=>names[f]??f).join(' · ')}</span>`:''}${x.status==='omitted'?'<span class="small muted">이번 판단에 없다는 기록일 뿐 기각·반증이 아닙니다.</span>':''}${x.status!=='unchanged'?`<details><summary>정확한 이전·현재 값 비교</summary>${x.fields.map(f=>`<div class="roadmap-diff-values"><h4>${esc(names[f]??f)}</h4><div><span>이전</span>${typeof x.before?.[f]==='string'?`<p class="prose">${esc(x.before[f])}</p>`:json(x.before?.[f]??null)}</div><div><span>현재</span>${typeof x.after?.[f]==='string'?`<p class="prose">${esc(x.after[f])}</p>`:json(x.after?.[f]??null)}</div></div>`).join('')}</details>`:''}</article>`;
   return `${!model.current?'<p class="notice-inline">새 입력의 반영은 아직 확인되지 않았습니다. 아래 변경은 마지막으로 발표된 두 판단 사이의 기록입니다.</p>':''}
+    ${d?`<details ${currentAfterObservation?'open':''}><summary>${esc(recordedReasonTitle)}</summary><div class="change-grid"><div><h4>바꾼 내용</h4>${decisionChangeList(d.changed,v=>roadmapPlainRationale(v,model))}</div><div><h4>유지한 내용</h4>${decisionChangeList(d.preserved,v=>roadmapPlainRationale(v,model))}</div></div>${d.research_loop?.revision_rationale?`<div class="prose small">${roadmapPlainRationale(d.research_loop.revision_rationale,model)}</div>`:''}${currentAfterObservation?'<p class="small muted">관측 뒤에 기록한 현재 판단입니다. 바뀐 내용·유지한 내용과 연결 근거를 함께 읽어 반영 범위를 확인하세요.</p>':''}</details>`:''}
+    ${typeof uiObservationBridge==='function'?uiObservationBridge():''}
     ${renderInputChanges()}
-    ${d?`<details><summary>이번 판단이 설명한 변경·유지 이유</summary><div class="change-grid"><div><h4>바꾼 내용</h4>${decisionChangeList(d.changed)}</div><div><h4>유지한 내용</h4>${decisionChangeList(d.preserved)}</div></div>${d.research_loop?.revision_rationale?`<p class="prose small">${judgmentText(d.research_loop.revision_rationale)}</p>`:''}</details>`:''}
+    ${renderIntentReassessment(true)}
     ${previous?`<p class="small muted">원본의 값과 연결을 비교했습니다. 같은 문구가 과학적 재검증을 뜻하지 않으며, 바뀐 기록 모두가 새 입력 때문이라고 추정하지 않습니다.</p>${[['goals','목표·조건'],['hypotheses','전체 가설·근거'],['claims','가설의 부분·조건부 설명'],['checks','다음 확인']].map(([key,title])=>`<details data-detail-key="diff:${key}"><summary>${title}의 이전·현재 비교</summary>${model.diffs[key].map(record).join('')||'<p>비교할 항목이 없습니다.</p>'}</details>`).join('')}<div class="detail-actions">${button('source','이전 판단 원문',`data-id="${esc(model.priorLink.decision_id)}"`,'small')}${button('source','현재 판단 원문',`data-id="${esc(state.decision_id)}"`,'small')}</div>`:
       model.historyStatus==='unavailable'?`<p class="notice-inline"><span aria-hidden="true">? </span>이전 판단 원문을 불러오지 못해 비교할 수 없습니다. 동일 여부도 변경 여부도 단정하지 않습니다.${history?.message?` (${esc(history.message)})`:''}</p>`:
       `<p class="small muted">${model.historyStatus==='first'?'이전에 발표된 판단과의 비교 기록이 아직 없습니다.':'이전 판단 원문을 확인하고 있습니다.'}</p>`}
@@ -4123,7 +5346,7 @@ function roadmapObservationAnswer(model){
   if(!changed.length&&!preserved.length&&!rationale)return '';
   return `<section class="observation-answer" aria-label="입력한 결과 이후 달라진 것">
     <span class="roadmap-label">입력한 결과 이후 · 이 판단이 설명한 것</span>
-    <p class="prose small">${esc(roadmapSummary(event.body.text,220))}</p>
+    <p class="prose small">${esc(roadmapSummary(typeof uiObservationDisplayText==='function'?uiObservationDisplayText(event.body.text):event.body.text,220))}</p>
     ${rationale?`<p class="prose">${judgmentText(rationale)}</p>`:''}
     <div class="change-grid">
       <div><h4>바꾼 내용 ${changed.length?`· ${esc(changed.length)}`:''}</h4>${
@@ -4280,12 +5503,11 @@ function pathLinkedCandidates(id) {
 }
 function pathCurrent(assessment) {
   if (!assessment) return false;
-  return Number.isInteger(assessment.based_rev)
-    ? assessment.based_rev === state.rev : assessment.current_conditions === true;
+  return assessment.applicability?.current === true;
 }
 function pathRevision(assessment) {
   if (!assessment) return '검토 기록 없음';
-  if (Number.isInteger(assessment.based_rev)) return `연구 기록 ${assessment.based_rev}${pathCurrent(assessment)?' · 현재':' · 이전 조건'}`;
+  if (Number.isInteger(assessment.based_rev)) return `연구 기록 ${assessment.based_rev}${pathCurrent(assessment)?' · 현재 입력에서 검토 유지':' · 근거·조건 재검토 필요'}`;
   return assessment.current_conditions === true ? '현재 입력의 검토' : '검토 입력 확인 필요';
 }
 function pathEvidenceIds(assessment) {
@@ -4510,6 +5732,7 @@ function sourceDisplayLabel(artifact,result,row){
  if(b)return [b.authors?.includes(',')?b.authors.split(',')[0]+' 외':b.authors,b.year,b.title.length>130?b.title.slice(0,130)+'…':b.title].filter(Boolean).join(' · ');
  if(artifact?.kind==='literature')return '검색 결과 묶음';
  if(artifact?.kind==='public_lookup_bundle')return '공개 자료 조회 묶음';
+ if(artifact?.kind==='webpage')return '웹 자료 · '+sourceDisplayText(artifact.source_title??artifact.title??'문헌');
  if(artifact?.kind==='article')return '보존한 원문 · '+sourceDisplayText(artifact.title??'문헌');
  return sourceDisplayText(artifact?.title??'자료 묶음');
 }
@@ -4518,6 +5741,27 @@ function sourceBibliographyView(result,row){
  return `<section class="source-bibliography"><strong>${esc(b.title)}</strong><p class="small">${[b.authors,b.year,Array.isArray(b.studyType)?b.studyType.join(' · '):b.studyType].filter(Boolean).map(esc).join(' · ')}</p>${b.pmid||b.doi?`<p class="small">${b.pmid?'PMID '+esc(b.pmid):''}${b.doi?' · DOI '+esc(b.doi):''}</p>`:''}</section>`;
 }
 function sourceLocatorDetails(artifact,anchor){return `<details class="source-technical-locator"><summary>출처 위치·조회 기록</summary><p>${esc(artifact?.title??'')} · <code>${esc(artifact?.id??'')}</code></p>${Number.isInteger(anchor?.offset)?`<p>저장 원행 인덱스 ${anchor.offset} · 0부터 셈</p>`:''}${Number.isInteger(anchor?.row_index)?`<p>저장 원행 인덱스 ${anchor.row_index} · 0부터 셈</p>`:''}</details>`;}
+function sourceAssertionAnchorView(anchor,check){
+ if(!anchor?.artifact_id)return '';
+ const binding=check?.source_binding??anchor.source_binding,location=binding?.location??{},original=binding?.original??{};
+ const row=Number.isInteger(anchor.row_index)?anchor.row_index:binding?.row_index;
+ const located=Number.isInteger(row)&&row>=0;
+ const page=Number.isInteger(location.page_number)&&location.page_number>0?location.page_number:null;
+ const paragraph=Number.isInteger(location.paragraph_number)&&location.paragraph_number>0?location.paragraph_number:null;
+ const position=page?`원문 ${page}쪽`:paragraph?`원문 문단 ${paragraph}`:located?`보존한 본문 ${row+1}행`:'';
+ const origin=binding?.source_kind==='source_document'?'연구자가 제공한 문서':binding?.source_kind==='webpage'?'웹에서 가져온 본문':'';
+ const attrs=`data-id="${esc(anchor.artifact_id)}"${located?` data-source-offset="${row}"`:''}${anchor.quote?` data-source-quote="${esc(anchor.quote)}"`:''}`;
+ let originalLink='';
+ if(binding?.source_kind==='source_document'&&original.artifact_id){
+  const href=`/api/workspaces/${encodeURIComponent(state.id)}/artifacts/${encodeURIComponent(original.artifact_id)}?original=1${page?`#page=${page}`:''}`;
+  originalLink=`<a class="source-link" href="${href}" target="_blank" rel="noopener noreferrer">${page?'보존한 원본의 이 페이지 열기':'보존한 원본 파일 열기'} ↗</a>`;
+ }else if(binding?.source_kind==='webpage'&&typeof externalAnchor==='function'){
+  originalLink=externalAnchor('url',original.resolved_url??original.url,'웹 원본 열기 ↗');
+ }
+ const technical=binding?`<details class="source-technical-locator"><summary>연결한 원문 판본·위치</summary><p class="small">${esc(binding.text_locator??'')} · ${esc(binding.row_id??'')}</p>${Number.isInteger(location.line_start)?`<p class="small">원본 텍스트 ${location.line_start}–${esc(location.line_end)}행</p>`:''}${Number.isInteger(location.byte_start)?`<p class="small">원본 바이트 ${location.byte_start}–${esc(location.byte_end)} (끝 위치 제외)</p>`:''}${original.sha256?`<p class="small">원본 SHA256 <code>${esc(original.sha256)}</code></p>`:''}${binding.artifact_sha256?`<p class="small">인용 자료 SHA256 <code>${esc(binding.artifact_sha256)}</code></p>`:''}</details>`:'';
+ const extractionNote=binding?.extraction?.details?.status==='partial_text'?'<p class="small">문서에 추출 한계가 있습니다. 인용한 위치를 원본과 대조해 주세요.</p>':'';
+ return `<div class="source-assertion" data-source-assertion="${esc(anchor.artifact_id)}">${origin||position?`<p class="small muted">${esc([origin,position].filter(Boolean).join(' · '))}</p>`:''}${extractionNote}<div class="source-links">${button('source',located?'인용한 원문 위치 열기':'연결한 원문 열기',attrs,'link-button small')}${originalLink}</div>${technical}</div>`;
+}
 // Call only for display titles in an already-created source view. TextContent prevents external HTML execution.
 function normalizeSourceTitleNodes(container){for(const node of container.querySelectorAll('.source-bibliography strong, .source-paragraph h3, td a[href*="europepmc.org"]'))node.textContent=sourceDisplayText(node.textContent);}
 function sourceFigureScope(figure){
@@ -4586,7 +5830,7 @@ function uiGenerationLink(item){
   if(item?.origin!=='generated_structure_proposal'||!item.candidate_artifact_id)return '';
   const count=uiGenerationCount(item);
   queueMicrotask(()=>uiLoadGeneration(item.candidate_artifact_id));
-  return button('ui-generated-group',count!=null?`같은 생성 집합 ${count}개 · 출발 화합물 보기`:'같은 생성 집합 · 출발 화합물 보기',`data-id="${esc(item.candidate_artifact_id)}"`,'link-button small');
+  return button('ui-generated-group',count!=null?`같은 생성 집합 ${count}개 · 출발 화합물 보기`:'같은 생성 집합 · 출발 화합물 보기',`data-id="${esc(item.candidate_artifact_id)}"`,'link-button small') + (typeof proposalQualificationEntry==='function'?proposalQualificationEntry(item.candidate_artifact_id):'');
 }
 function uiGeneratedGroup(panel){
   const data=uiGenerationData(panel.id);if(!data||data.loading)return '<p role="status">보존된 생성 목록을 읽고 있습니다.</p>';
@@ -4662,11 +5906,11 @@ function uiCandidateProperties(row){
   return `${massConflict}${structureFacts(copy)}<dl class="ui-facts">${defs.filter(([key])=>row[key]!==undefined).map(([key,label,meaning])=>`<div><dt>${label}</dt><dd>${esc(row[key])}<small>${meaning}</small></dd></div>`).join('')}</dl><p class="small muted">물성·구조 기반 지표이며 활성, 체내 효능, 실제 합성 성공은 각 실험으로 확인합니다.</p><details><summary>계산별 원값·구조·생성 기록</summary><p>반올림 차이는 생성 기록의 정밀도로 표시하며, 그보다 큰 차이는 별도로 표시합니다. 각 계산의 원값을 보존합니다.</p>${json(Object.fromEntries(Object.entries(row).filter(([k])=>k!=='depiction')))}${json(Object.fromEntries(Object.entries(row.depiction??{}).filter(([k])=>k!=='svg')))}</details>`;
 }
 function uiExperimentAlias(check){
-  const text=[check.question,check.operation?.request].join(' '),read=experimentFields(check).found;
-  const targets=[...new Set(text.match(/\b(?:PDE\d+[A-Z]\d*|LPAR\d+|STMN\d+|FAAH|LOX|FTIR|sFlt-?1|TTR)\b/g)??[])];
-  if(targets.length)return targets.slice(0,3).join(' · ')+(text.includes('IC50')?' 효소 기능 비교':text.includes('칼슘')?' 기능 반응 비교':' 판별 실험');
+  const question=String(check.question??'').trim();
+  if(question)return roadmapSummary(researcherWording(question),86);
+  const read=experimentFields(check).found;
   const n=(state.decision?.research_loop?.next_checks??[]).findIndex(c=>c.id===check.id)+1;
-  return `${CHECK_KIND[check.operation?.kind]??'확인'} ${n>0?n:''} · ${roadmapSummary(researcherWording(read['측정 대상']?.[0]??check.question),42)}`;
+  return `${CHECK_KIND[check.operation?.kind]??'확인'} ${n>0?n:''} · ${roadmapSummary(researcherWording(read['측정 대상']?.[0]??'질문 확인 필요'),42)}`;
 }
 function uiExecutionConditions(check){
   if(check.operation?.kind!=='external_observation')return '';
@@ -4685,7 +5929,7 @@ function uiWarmSources(){const key=candidateStructuresKey();if(uiSourcesWarmed.h
 const researchReaders = new Map(), experimentSelections = new Map(), candidateViews = new Map();
 const researchSubjects = new Map(), outcomeSelections = new Map();
 let workspaceWide=false, conversationOpen=false;
-let readerRequest = 0, researchSearch = '', researchListMode = 'recent', researchRailCollapsed = true;
+let readerRequest = 0, researchSearch = '', researchListMode = document.querySelector('meta[name="evida-demo-workspaces"]') ? 'demo' : 'recent', researchRailCollapsed = true;
 const readerHistoryFrames=new Map();
 let renderedResearchPanel=null;
 const workspaceTabs = [['','한눈에 보기'],['mechanisms','기전'],['candidates','후보'],['next','실험'],['evidence','근거']];
@@ -4697,14 +5941,260 @@ function uiQuickLinks(){return `<nav class="ui-quick-links" aria-label="연구 �
 function readerState(){return state?researchReaders.get(state.id):null}
 function currentReader(){return readerState()?.stack.at(-1)??null}
 function uiText(value){return judgmentText(researcherWording(value))}
+// Recommendation display only; source quotations and stored text are untouched.
+function uiRecommendationText(value){
+  const raw=String(value??''),known=rnaDisplayOptions();let changed=false;
+  const text=raw.replace(/(?<![A-Za-z0-9_])guide_[0-9a-f]+(?![A-Za-z0-9_])/g,id=>{
+    const matches=known.filter(x=>x.label===id);
+    if(matches.length!==1)return id;
+    changed=true;return candidateDisplayName(matches[0]);
+  });
+  return `${uiText(text)}${changed?`<p class="small muted">RNA 후보 번호는 보존 목록의 표시 순서입니다. 후보별 추천 근거는 아래에서 확인하세요.</p><details><summary>추천 원문·후보 ID 보기</summary><p class="prose">${esc(raw)}</p></details>`:''}`;
+}
 function uiEmpty(text){return `<p class="ui-missing">${esc(text)}</p>`}
 function syntheticInputNotice(){const rows=state.events.filter(e=>['message','observation','correction'].includes(e.kind)&&inputProvenance(e).synthetic);return rows.length?`<details><summary>가상 목표·입력 ${rows.length}건 포함</summary>${rows.map(e=>button('message-source','입력 원문',`data-id="${esc(e.body.message_id)}"`,'link-button small')).join('')}<p>가상 시연 입력으로 구분해 보존했습니다.</p></details>`:''}
-function uiRevision(a){return !a?'검토 전':a.current_conditions===true?'현재 조건':a.current_conditions===false?'이전 조건':'적용 조건 확인 필요'}
+function uiRevision(a){return !a?'검토 전':a.applicability?.current===true?'현재 입력에서 검토 유지':a.applicability?'근거·조건 재검토 필요':'적용 조건 확인 필요'}
 function uiExcerpt(value){
   // A labelled verbatim first paragraph/sentence, never an inferred scientific summary.
   const text=String(value??'').trim();
   const boundary=text.search(/(?:[.!?。](?=\s|$)|\n)/);
   return boundary>=0?text.slice(0,boundary+1):text;
+}
+// Presentation excerpts preserve the original wording and keep explicit cautions visible.
+function uiReadableExperimentText(value){
+  return String(value??'')
+    .replace(/\bmeasurement_context(?:는|은)?/g,match=>/[는은]$/.test(match)?'측정 조건은':'측정 조건')
+    .replace(/\bunknown\b/gi,'미확인')
+    .replace(/\(D\d{4},\s*s-[a-f0-9]+-p\d+\.txt,[^)]*\)/g,'')
+    .replace(/\/rows\/\d+(?:\/[A-Za-z0-9_~.-]+)*/g,'')
+    .replace(/[ \t]{2,}/g,' ').trim();
+}
+function uiExperimentExcerpt(value){
+  const text=String(value??'').trim();
+  if(!text)return uiEmpty('확인 필요 · 권고에 구분해 기록된 값이 없습니다.');
+  const sentences=text.split(/(?<=[.!?。])\s+|\n+/).filter(Boolean);
+  const caution=/미확인|확인\s*필요|불명|미정|미측정|불확실|지정하지|확정하지|검증하지|정하지|가정|추정|unknown|unmeasured|uncertain|not established|not measured/i;
+  const lead=sentences[0]??text,cautions=sentences.slice(1).filter(line=>caution.test(line));
+  const readable=value=>esc(uiReadableExperimentText(value));
+  return `<div class="ui-field-excerpt"><p>${readable(lead)}</p>${cautions.length?`<div class="ui-field-caution"><strong class="small">남은 불확실성·조건</strong>${cautions.map(line=>`<p>${readable(line)}</p>`).join('')}</div>`:''}${sentences.length>1||uiReadableExperimentText(text)!==text?`<details class="ui-field-original"><summary>전체 원문·정확한 조건 보기</summary><p class="prose">${esc(text)}</p></details>`:''}</div>`;
+}
+const uiComputationKinds={
+  "pose_interactions":{"kind":"pose_interactions","label":"포즈별 접촉 · ProLIF"},
+  "protonation_states":{"kind":"protonation_states","label":"분자 전하상태 · Dimorphite-DL"},
+  "rdkit":{"kind":"rdkit","label":"분자 물성 · RDKit"},
+  "admet":{"kind":"admet","label":"ADMET 예측 · ADMET-AI"},
+  "molecular_docking":{"kind":"molecular_docking","label":"결합 포즈 · Vina/PoseBusters"},
+  "binding_pose_review":{"kind":"binding_pose_review","label":"포즈 순위·기준 구조 비교"},
+  "analogue_proposal":{"kind":"analogue_proposal","label":"회수 구조 재조합 제안"},
+  "molecule_preparation":{"kind":"molecule_preparation","label":"분자 상태·3D 준비 · Gypsum-DL"},
+  "synthetic_complexity":{"kind":"synthetic_complexity","label":"합성 복잡도 · SCScore"},
+  "xtb_geometry":{"kind":"xtb_geometry","label":"분자 기하 최적화 · xTB"},
+  "crest_conformers":{"kind":"crest_conformers","label":"배좌 탐색 · CREST"},
+  "rna_weighted_distribution":{"kind":"rna_weighted_distribution","label":"RNA 평균·전체 분포 비교"},
+  "rna_seed_analysis":{"kind":"rna_seed_analysis","label":"RNA seed 분포 분석"},
+  "rna_sequence_evaluation":{"kind":"rna_sequence_evaluation","label":"RNA 서열·접근성 계산"},
+  "rna_candidate_generation":{"kind":"rna_candidate_generation","label":"RNA 결합 영역 후보 생성"},
+  "rna_author_full":{"kind":"rna_author_full","label":"전체 ENsiRNA · 조건부 core 계산"},
+  "rna_author_mod":{"kind":"rna_author_mod","label":"ENsiRNA-mod · 수식 위치 비교"},
+  "rna_transcriptome_search":{"kind":"rna_transcriptome_search","label":"전체 전사체 상호작용 · RIsearch2"},
+  "rna_activity_score":{"kind":"rna_activity_score","label":"RNA 활성 점수"},
+  "rna_delivery_simulation":{"kind":"rna_delivery_simulation","label":"전달·RNA·단백질 모형 비교"},
+  "rna_seed_sites":{"kind":"rna_seed_sites","label":"3′UTR seed·간 발현 근거"},
+  "rna_allele_scenario":{"kind":"rna_allele_scenario","label":"변이 조건에서 후보 다시 비교"},
+  "rna_candidate_space":{"kind":"rna_candidate_space","label":"RNA 전체 후보 구간"},
+  "rna_candidate_selection":{"kind":"rna_sequence_evaluation","label":"선택한 RNA 후보 실제 계산"},
+  "rna_duplex_transcriptome":{"kind":"rna_duplex_transcriptome","label":"가닥별 긴 상보성 검색"},
+  "rna_duplex":{"kind":"rna_duplex","label":"가이드·보조 가닥 설계안"},
+  "rna_duplex_seed":{"kind":"rna_duplex_seed","label":"양 가닥의 seed 위치"},
+  "rna_region_annotation":{"kind":"rna_candidate_space","label":"RNA 후보의 CDS·UTR 구간"},
+  "rna_delivery_response":{"kind":"rna_delivery_response","label":"전달 모형의 시점별 민감도"},
+  "regulon_activity":{"kind":"regulon_activity","label":"발현 자료의 조절 패턴 비교"},
+  "pathway_hypotheses":{"kind":"pathway_hypotheses","label":"관측을 설명하는 경로 후보 계산"},
+  "pathway_node_states":{"kind":"pathway_node_states","label":"선택 요소의 변화 없이 설명되는 경로"},
+  "pathway_robustness":{"kind":"pathway_robustness","label":"설명 경로의 조건별 비교"},
+  "exposure_requirements":{"kind":"exposure_requirements","label":"노출과 시험 농도의 연결 조건"},
+  "kinetic_conditions":{"kind":"kinetic_conditions","label":"효소 속도의 조건별 비교"},
+  "next_observation_selection":{"kind":"next_observation_selection","label":"다음 확인의 조건별 선택"},
+  "reported_activity_comparison":{"kind":"reported_activity_comparison","label":"보고 농도 대비"},
+  "retrosynthesis":{"kind":"retrosynthesis","label":"역합성 경로 · AiZynthFinder"},
+  "structure_pockets":{"kind":"structure_pockets","label":"구조 포켓 · fpocket"},
+  "protein_dynamics":{"kind":"protein_dynamics","label":"단백질 동역학 · OpenMM"},
+  "trajectory_analysis":{"kind":"trajectory_analysis","label":"궤적 분석 · MDAnalysis"},
+  "rna_interactions":{"kind":"rna_interactions","label":"RNA 상호작용 · IntaRNA"},
+  "pocket_docking":{"kind":"molecular_docking","label":"명시 포켓 도킹 · fpocket/Vina"},
+  "rna_reference":{"kind":"rna_reference","label":"RNA 참조 조회"},
+  "rna_reference_release":{"kind":"rna_reference_archive","label":"RNA 참조 보존본"},
+  "rna_reference_archive":{"kind":"rna_reference_archive","label":"RNA 참조 보존본"},
+  "rna_reference_panel":{"kind":"rna_reference_panel","label":"RNA 참조 패널 비교"},
+  "rna_tissue_context":{"kind":"rna_tissue_context","label":"조직 발현 맥락 조회"},
+  "target_structure":{"kind":"target_structure","label":"표적 구조 조회"}
+};
+const uiComputationResults=new Map();
+function uiComputationDescriptor(artifact,job){return uiComputationKinds[job?.kind]??Object.values(uiComputationKinds).find(x=>x.kind===artifact?.kind)}
+function uiComputationRecords(){
+  const jobs=state?.jobs??[],artifacts=state?.artifacts??[];
+  return [...artifacts].reverse().filter(a=>uiComputationDescriptor(a)).map(a=>{
+    const matches=jobs.filter(j=>j.output_id===a.id),job=matches.at(-1),status=a.meta?.result_status;
+    const linked=uiComputationKinds[job?.kind]?.kind===a.kind;
+    const completed=linked&&status==='succeeded'&&['succeeded','reused'].includes(job?.status);
+    const partial=linked&&status==='partial'&&job?.status==='partial';
+    return {artifact:a,job,completed,partial,label:uiComputationDescriptor(a,job).label};
+  });
+}
+function uiCompletedComputations(){return uiComputationRecords().filter(r=>r.completed).map(r=>r.artifact)}
+function uiComputationCacheKey(a){return `${state.id}:${a.id}:${a.sha256??'unknown'}`}
+const uiComputationMetricLabels={average_mass:'원자료 평균질량',exact_mass:'원자료 정확질량',MolWt:'분자량',LogP:'계산 logP',TPSA:'극성 표면적',HBD:'수소결합 주개',HBA:'수소결합 받개',QED:'QED 기술자',energy_hartree:'계산 에너지',final_potential_energy_kj_mol:'마지막 퍼텐셜 에너지',rmsd_angstrom:'RMSD',rg_angstrom:'회전반경',gc_fraction:'GC 비율',guide_mfe_kcal_mol:'가이드 접힘에너지',duplex_mfe_kcal_mol:'이중가닥 접힘에너지',length:'길이',formal_charge:'형식 전하'};
+const uiComputationOperationalKeys=new Set(['record_index','returncode','elapsed_seconds','model_calls','offset','limit','total','total_rows','total_count','calculated','not_calculated','candidates','unique_model_inputs','conformer_count','frames','atoms','steps','total_picoseconds','source_ref','raw_values','summary','configuration','parameters','simulation_conditions','metadata_response','original_response','runtime_manifest','limits','command','input','files','source_row','row_index','logical_csv_record_0_based']);
+function uiComputationIdentity(row,result,index){
+  const headers=Array.isArray(result.header)?result.header:[],nameIndex=headers.findIndex(h=>/^(name|compound_name|preferred_name|label)$/i.test(String(h)));
+  const name=row.name??row.compound_name??(nameIndex>=0?row.raw_values?.[nameIndex]:null),id=row.candidate_id??row.guide_id??row.id??row.row_id??(typeof row.smiles==='string'?`SMILES ${row.smiles}`:null);
+  return [name,id].filter(v=>typeof v==='string'&&v.trim()).join(' · ')||`원결과 입력 ${index+1}`;
+}
+function uiComputationValues(result){
+  const found=[],units=result.units??{},columns=result.columns??{},namedUnits={energy_hartree:'Hartree',potential_energy_kj_per_mol:'kJ/mol',potential_energy_kj_mol:'kJ/mol',final_potential_energy_kj_mol:'kJ/mol',affinity_kcal_mol:'kcal/mol',binding_score_kcal_mol:'kcal/mol',guide_mfe_kcal_mol:'kcal/mol',duplex_mfe_kcal_mol:'kcal/mol',rmsd_angstrom:'Å',rg_angstrom:'Å',temperature_kelvin:'K',total_picoseconds:'ps',timestep_femtoseconds:'fs'};
+  function walk(value,path,group,depth=0,parent={}){
+    // Inline drawing metadata belongs to the preview, not the source metric table.
+    const key=path.split('.').at(-1);if(key==='depiction'||uiComputationOperationalKeys.has(key)||depth>6||found.filter(r=>r.group===group.id).length>=8)return;
+    if(typeof value==='number'&&Number.isFinite(value)){
+      const column=Array.isArray(columns)?columns.find(c=>c&&typeof c==='object'&&[c.key,c.name,c.field].includes(key)):null;
+      const unit=typeof units[key]==='string'?units[key]:!Array.isArray(columns)&&typeof columns[key]==='string'?columns[key]:typeof column?.unit==='string'?column.unit:typeof parent.unit==='string'?parent.unit:namedUnits[key]?`${namedUnits[key]} · 필드명`:'원기록에서 단위 확인';
+      found.push({path,value,unit,label:uiComputationMetricLabels[key]??key,group:group.id,identity:group.identity});return;
+    }
+    if(Array.isArray(value)){value.slice(0,3).forEach((v,i)=>walk(v,`${path}.${i}`,group,depth+1));return}
+    if(value&&typeof value==='object')for(const [k,v]of Object.entries(value))if(!['source_ref','raw_values','summary','configuration','parameters','simulation_conditions','metadata_response','original_response','runtime_manifest','limits','command','input','files'].includes(k))walk(v,path?`${path}.${k}`:k,group,depth+1,value);
+  }
+  if(Array.isArray(result.rows)&&result.rows.length){
+    result.rows.slice(0,3).forEach((row,index)=>{
+      const group={id:`row-${index}`,identity:uiComputationIdentity(row,result,index)},base=`rows.${index}`;
+      // Explicit per-compound properties precede any other numerical result.
+      if(row.properties&&typeof row.properties==='object')walk(row.properties,base+'.properties',group);
+      for(const [key,value]of Object.entries(row))if(key!=='properties')walk(value,base+'.'+key,group,0,row);
+    });
+  }else{
+    const group={id:'result',identity:'보존된 원결과'};
+    for(const [key,value]of Object.entries(result))if(!['summary','simulation_conditions','metadata_response','original_response','configuration','parameters','runtime_manifest','limits'].includes(key))walk(value,key,group);
+  }
+  return found;
+}
+function uiComputationDisplayValue(value){return Object.is(value,-0)?'-0':Number.isInteger(value)&&Math.abs(value)<1e9?String(value):String(Number(value.toPrecision(6)))}
+function uiComputationResultView(a){
+  const item=uiComputationResults.get(uiComputationCacheKey(a));
+  if(!item)return '<p class="small muted">펼치면 보존된 원결과에서 값을 읽습니다.</p>';
+  if(item.status==='loading')return '<p class="small muted">원결과를 읽고 있습니다.</p>';
+  if(item.status==='failed')return '<p class="ui-missing">원결과 조회에 실패했습니다. 실행 상태는 위 카드에서, 보존 자료는 원자료 링크에서 확인하세요.</p>';
+  const value=item.value.result,rows=uiComputationValues(value),groups=[...new Set(rows.map(r=>r.group))];
+  const knownSemantic={computed_geometry_or_conformer_ensemble_not_binding_or_efficacy:'분자 구조·배좌 계산',rna_sequence_thermodynamics_and_exact_mapping:'서열·열역학과 참조 일치 계산'};
+  const lead=[value.method,value.solvent,knownSemantic[value.semantic_type]].filter(v=>typeof v==='string');
+  const unitText=unit=>({'Wildman–Crippen calculated logP':'계산 logP · Wildman–Crippen','dimensionless descriptor':'무차원 기술자','count':'개수'})[unit]??unit;
+  const table=group=>{const cells=rows.filter(r=>r.group===group),index=Number(group.replace('row-','')),original=value.rows?.[index]??{},context=['atoms','frames','conformer_count','steps','total_picoseconds'].filter(k=>typeof original[k]==='number').map(k=>`${({atoms:'원자 수',frames:'프레임 수',conformer_count:'배좌 수',steps:'계산 단계 수',total_picoseconds:'시간 · ps'})[k]} ${original[k]}`).join(' · ');return `<section class="ui-computation-input"><h4 class="ui-computation-input-identity">${esc(cells[0].identity)}</h4>${context?`<p class="small muted">입력·계산 조건: ${esc(context)}</p>`:''}<div class="table-scroll"><table class="ui-computation-value-table"><thead><tr><th>항목</th><th>값</th><th>단위·원정의</th></tr></thead><tbody>${cells.map(r=>`<tr data-value-path="${esc(r.path)}" data-raw-value="${esc(r.value)}"><th>${esc(r.label)}</th><td>${esc(uiComputationDisplayValue(r.value))}</td><td>${esc(unitText(r.unit))}</td></tr>`).join('')}</tbody></table></div><details><summary>원기록 항목·단위 확인</summary>${cells.map(r=>`<p class="small"><code>${esc(r.path)}</code> · 원값 ${esc(r.value)} · ${esc(r.unit)}</p>`).join('')}</details></section>`;};
+  const metadata=[...Object.entries(value.summary??{}),...['atoms','frames','conformer_count'].filter(k=>typeof value[k]==='number').map(k=>[k,value[k]])].filter(([k,v])=>typeof v==='number');
+  return `<p class="small">${esc(lead.join(' · '))}</p>${rows.length?groups.map(table).join(''):'<p class="small">이 조회 범위에 수치 결과가 없습니다. 원결과에서 상태·문자 결과를 확인하세요.</p>'}<p class="small muted">입력은 원순서의 앞 3개, 각 입력의 수치는 최대 8개를 유효숫자 6자리로 표시합니다. 정확한 값은 원기록 항목에서, 전체 값·조건은 원결과에서 확인하세요.</p><details><summary>입력·실행 구분 기록</summary>${metadata.map(([key,v])=>`<p class="small">${esc(key)}: ${esc(v)}</p>`).join('')}${value.semantic_type?`<p class="small">원실행 구분값: <code>${esc(value.semantic_type)}</code></p>`:''}</details>`;
+}
+async function uiLoadComputationResult(id){
+  const wid=state?.id,a=state?.artifacts?.find(x=>x.id===id);if(!a||!uiComputationDescriptor(a))return;
+  const key=uiComputationCacheKey(a),old=uiComputationResults.get(key);if(old?.status==='loaded'||old?.status==='loading')return;
+  uiComputationResults.set(key,{status:'loading'});
+  try{
+    const value=await api(`/api/workspaces/${wid}/artifacts/${id}?offset=0&limit=3`);
+    if(value.artifact_id!==id||value.kind!==a.kind||!value.result||typeof value.result!=='object')throw Error('RESULT_IDENTITY_MISMATCH');
+    uiComputationResults.set(key,{status:'loaded',value});
+  }catch(error){uiComputationResults.set(key,{status:'failed'})}
+  if(state?.id===wid&&state.artifacts.some(x=>x.id===id&&x.sha256===a.sha256))render();
+}
+function uiComputationSummary(){
+  const records=uiComputationRecords(),jobs=state?.jobs??[],issues=jobs.filter(j=>uiComputationKinds[j.kind]&&(!j.output_id||!records.some(r=>r.artifact.id===j.output_id)));
+  if(!records.length&&!issues.length)return '';
+  const done=records.filter(r=>r.completed).length;
+  const card=r=>{
+    const a=r.artifact,summary=a.meta?.summary??{},status=r.completed?(r.job?.status==='reused'?'보존 결과 재사용':'완료 결과'):r.partial?'부분 결과':r.job?.status==='failed'?'실패 결과':'완료 상태·작업 연결 미확인';
+    const counts=[['calculated','계산 행'],['total_rows','전체 행'],['endpoints','예측 항목'],['unique_model_inputs','모델 입력']].filter(([k])=>Number.isInteger(summary[k])&&summary[k]>=0).map(([k,label])=>`${label} ${summary[k]}`).join(' · ');
+    return `<article class="ui-computation-card" data-computation-kind="${esc(a.kind)}" data-computation-artifact="${esc(a.id)}"><p>${button('source',esc(r.label),`data-id="${esc(a.id)}"`,'link-button')} · ${esc(status)}${counts?` · ${esc(counts)}`:''}</p><details data-computation-result="${esc(a.id)}" data-detail-key="computation-result:${esc(a.id)}:${esc(a.sha256)}"><summary>실제 계산값 보기 · 수치·단위·입력 조건</summary>${uiComputationResultView(a)}<p>${button('source','수치 상세 비교·원결과 전체',`data-id="${esc(a.id)}"`,'link-button small')}</p><p class="small muted">${Number.isInteger(a.meta?.based_rev)?`연구 기록 ${a.meta.based_rev} 당시 조건`:'계산 당시 조건은 원결과에서 확인'} · ${esc(a.id)}</p>${(a.meta?.consumed_artifacts??[]).length?`<details><summary>입력·근거 보기</summary>${sourceLinks(a.meta.consumed_artifacts)}</details>`:''}<details><summary>원본 식별 정보</summary><p class="mono">SHA256 ${esc(a.sha256??'미확인')}</p><p class="small">${esc(r.job?.id??'완료 작업 연결 미확인')}</p></details></details></article>`;
+  };
+  return `<section class="panel ui-computation-summary" aria-label="조회·계산 결과"><h3>조회·계산 결과 · 완료 ${done}개</h3>${records.slice(0,6).map(card).join('')}${records.length>6?`<details data-detail-key="computation-earlier"><summary>다른 보존 결과 ${records.length-6}개 더 보기</summary>${records.slice(6).map(card).join('')}</details>`:''}${issues.length?`<details><summary>결과 없는 실행 기록 ${issues.length}건</summary>${issues.map(j=>`<p>${esc(uiComputationKinds[j.kind].label)} · ${esc(({failed:'실패',partial:'부분 완료',running:'진행 중',queued:'대기 중',succeeded:'완료 작업의 원결과 미확인',reused:'재사용한 원결과 미확인'})[j.status]??'미완료·상태 확인 필요')} <span class="small muted">${esc(j.id)}</span></p>`).join('')}</details>`:''}<p class="small muted">계산 당시의 입력·조건과 결과를 함께 보존합니다. 재사용한 결과에는 재사용 표시가 있습니다. 질환·표적과의 연결은 연구 판단에서 확인하세요.</p></section>`;
+}
+document.addEventListener('toggle',event=>{
+  const node=event.target;if(node?.matches?.('details[data-computation-result]')&&node.open)uiLoadComputationResult(node.dataset.computationResult);
+},true);
+function uiJudgePath(){
+  const steps=[['goal','무엇을 해결하려는가'],['evidence','근거와 조건은 무엇인가'],['mechanisms','어떤 설명을 비교했는가'],['candidates','어떤 후보를 검토했는가'],['',`실제 조회·계산은${uiCompletedComputations().length?' · '+uiCompletedComputations().length+'건':''}`],['next','무엇을 시험하면 구별되는가'],['changes','결과 뒤 무엇을 유지·변경했는가']];
+  return `<nav class="ui-judge-path" aria-label="연구 검토 순서"><span class="ui-eyebrow">질문에서 결과 반영까지</span><ol>${steps.map(([stage,label],i)=>`<li>${button('ui-stage',`<span aria-hidden="true">${i+1}</span> ${label}`,`data-stage="${stage}"`,'quiet small')}</li>`).join('')}</ol></nav>`;
+}
+function uiDiscriminationSummary(){
+  const summary=state.demo_discrimination;if(!summary)return '';
+  const count=summary.experiments_with_structural_difference,total=summary.experiments_denominator;
+  const known=Number.isInteger(count)&&Number.isInteger(total)&&count>=0&&total>=0&&count<=total;
+  const current=summary.current_input_accepted===true;
+  const label=!known?'등록된 예상 표 비교 미확인':total===0?'등록된 예상 표 비교 전':`등록된 설명별 예상 표에서 차이가 확인된 실험 ${count}/${total}`;
+  const mapping=summary.experiments_needing_textual_alternative_mapping;
+  const mappingNote=Number.isInteger(mapping)&&mapping>0&&Number.isInteger(total)&&mapping<=total?`<p class="ui-field-caution">본문의 대안을 예상 표에 연결해야 하는 실험 ${mapping}개</p>`:'';
+  return `<aside class="ui-discrimination-summary" data-current-input="${current}"><strong>${esc(label)}</strong>${!current?'<p class="ui-field-caution">현재 입력에 맞춰 설명별 예상과 비교 조건을 다시 확인할 차례입니다. 이전 검토 기록은 보존되어 있습니다.</p>':''}${mappingNote}<p class="small muted">각 설명이 예측한 결과를 비교합니다. 표에 연결된 설명·비교 조건·측정 정밀도를 함께 확인하고, 실제 관측을 연결해 판단을 갱신하세요.</p></aside>`;
+}
+function uiDemoResearchIds(){
+  // Display-only catalogue. Empty configuration preserves ordinary navigation.
+  const setting=document.querySelector('meta[name="evida-demo-workspaces"]');
+  if(!setting)return null;
+  try{const value=JSON.parse(setting.content);if(!Array.isArray(value))return new Set();
+    if(value.length===0)return null;
+    return new Set(value.filter(id=>typeof id==='string'&&/^ws_[A-Za-z0-9_-]+$/.test(id)));
+  }catch{return new Set()}
+}
+function uiDemoResearchLabel(workspace){
+  const original=workspace?.title??'새 연구';
+  const setting=document.querySelector('meta[name="evida-demo-labels"]');
+  if(!setting||typeof workspace?.id!=='string')return original;
+  try{const labels=JSON.parse(setting.content);
+    if(!labels||typeof labels!=='object'||Array.isArray(labels)||!Object.hasOwn(labels,workspace.id))return original;
+    const label=labels[workspace.id];
+    return typeof label==='string'&&label.trim()&&label.length<=200?label.trim():original;
+  }catch{return original}
+}
+function uiDemoOriginalTitle(workspace){
+  return workspace&&uiDemoResearchLabel(workspace)!==workspace.title?`<details class="ui-secondary"><summary>원래 연구 이름</summary><p>${esc(workspace.title)}</p></details>`:'';
+}
+function uiDemoResearchRows(rows,current){
+  const configured=uiDemoResearchIds();
+  if(configured===null)return rows;
+  // Explicitly opened/current or newly created work remains usable without widening the saved catalogue.
+  const visible=rows.filter(p=>configured.has(p.id)||p.id===current?.id);
+  if(current?.id&&!visible.some(p=>p.id===current.id))visible.push({id:current.id,title:current.title??'현재 연구',rev:current.rev,review_status:current.review_status});
+  return visible;
+}
+
+// Display only: the stored observation and raw reader remain unchanged.
+function uiObservationDisplayText(value){
+  const raw=String(value??'');
+  const prefix="Published literature source-context observation, NOT execution or outcome of the proposed check. Original source assay conditions differ or remain unresolved; no plan outcome is mapped. Reassess only condition-bounded relevance and preserve competing explanations.\n";
+  // Hide only this exact driver prefix, and only with the Korean provenance notice.
+  const rest=raw.startsWith(prefix)?raw.slice(prefix.length):'';
+  const notices=['[기존 문헌 결과 · EVIDA가 수행한 실험 아님]','[문헌의 후대 동물 관찰 · EVIDA가 수행한 실험 아님]'];
+  return notices.some(notice=>rest.startsWith(notice))?rest:raw;
+}
+function uiObservationText(event){
+  const text=uiObservationDisplayText(event.body?.text);
+  const compact=text.length>240?text.slice(0,240)+'…':text;
+  return `<p class="prose">${esc(compact)}</p><details><summary>관측 전문·조건 펼치기</summary><p class="prose ui-observation-full-text">${esc(text)}</p></details>`;
+}
+
+function uiObservationBridge(){
+  const events=state?.events??[];
+  const observations=events.filter(e=>e.kind==='observation'&&e.body?.message_id);
+  if(!observations.length)return '';
+  const event=observations.at(-1),index=events.indexOf(event),context=event.body.research_context??{};
+  const published=e=>e.kind==='decision_published'&&typeof e.body?.receipt_id==='string'&&e.body.receipt_id;
+  const prior=events.slice(0,index).reverse().find(published);
+  const following=events.slice(index+1).find(published);
+  const bound=events.find(e=>published(e)&&e.body.receipt_id===context.decision_id);
+  const original=bound??prior;
+  const exact=typeof context.check_id==='string'&&context.check_id.length>0;
+  const sources=(event.body.source_artifact_ids??[]).filter(id=>(state.artifacts??[]).some(a=>a.id===id));
+  return `<section class="panel ui-observation-bridge" aria-label="관측 기록에서 이후 판단으로"><h3>관측 기록과 이후 판단</h3><p class="small">${exact?'기록 당시의 확인에 연결한 관측입니다. 현재 확인의 결과인지는 당시 조건과 연결을 함께 보세요.':'연결 범위: 관측·문헌 맥락. 개별 확인과의 결과 연결은 미지정입니다. 원자료의 대상과 조건을 함께 확인하세요.'}</p>${typeof inputProvenanceNotice==='function'?inputProvenanceNotice(event):''}${uiObservationText(event)}${sources.length?`<div>${sourceLinks(sources)}</div>`:''}<p class="small muted">${following?'이 관측 뒤에 게시된 판단이 있습니다. 실제로 무엇을 유지하거나 바꿨는지는 판단 내용과 근거를 비교하세요.':'관측은 저장되어 있으며, 이후 게시된 판단은 아직 없습니다.'} 유지·변경 이유와 연결 근거에서 관측이 반영된 범위를 확인할 수 있습니다.</p><div class="detail-actions">${button('message-source','관측 원문·출처',`data-id="${esc(event.body.message_id)}"`,'link-button small')}${original?button('source',bound?'관측이 참조한 당시 판단':'관측 전 마지막 판단',`data-id="${esc(original.body.receipt_id)}"`,'link-button small'):''}${following?button('source','관측 후 첫 게시 판단',`data-id="${esc(following.body.receipt_id)}"`,'link-button small'):''}${state.decision_id&&following&&state.decision_id!==following.body.receipt_id?button('source','현재 게시 판단',`data-id="${esc(state.decision_id)}"`,'link-button small'):''}${following?button('ui-stage','유지·변경 이유와 실제 값 비교','data-stage="changes"','link-button small'):''}</div>${observations.length>1?`<p class="small muted">관측 ${observations.length}건 중 최근 기록입니다. ${button('tab','모든 관측 기록','data-id="history"','link-button small')}</p>`:''}</section>`;
+}
+function uiResultFeedback(check){
+  const events=state.events??[],linked=events.filter(event=>event.kind==='observation'&&event.body?.research_context?.check_id===check.id);
+  const latest=linked.at(-1);
+  if(!latest)return `<section class="ui-result-feedback"><h4>결과를 연결하면 판단을 다시 검토합니다</h4><p>연결된 관측: 아직 없음. 위 표는 가능한 결과의 예상과 결과별 다음 행동입니다.</p></section>`;
+  const observedAt=events.indexOf(latest),judgedAfter=events.slice(observedAt+1).some(event=>event.kind==='decision_published');
+  return `<section class="ui-result-feedback"><h4>연결된 관측과 이후 판단</h4>${typeof inputProvenanceNotice==='function'?inputProvenanceNotice(latest):''}${uiObservationText(latest)}<p class="small">${judgedAfter?'이 관측이 저장된 뒤 판단 기록이 있습니다. 무엇을 유지하거나 바꿨는지 비교하세요.':'관측은 저장되어 있습니다. 이후 판단 기록은 아직 확인되지 않았습니다.'}</p>${button('ui-stage','관측 전후 판단 비교','data-stage="changes"','link-button small')}${button('message-source','관측 원문·출처',`data-id="${esc(latest.body.message_id)}"`,'link-button small')}</section>`;
 }
 function uiStage(){return tab==='research'?(roadmapChosen()??''):tab}
 // Navigation preferences only. These IDs never enter a scientific ranking or a job.
@@ -4727,10 +6217,13 @@ function pinnedResearchIds(){
   }catch{return []}
 }
 function researchRailGroups(){
-  const q=researchSearch.toLocaleLowerCase(),pins=pinnedResearchIds(),rows=projects.filter(p=>!q||p.title.toLocaleLowerCase().includes(q));
+  const q=researchSearch.trim().toLocaleLowerCase(),pins=pinnedResearchIds(),allRows=[...projects];
+  if(state?.id&&!allRows.some(p=>p.id===state.id))allRows.push({id:state.id,title:state.title??'현재 연구',rev:state.rev,review_status:state.review_status});
+  const scope=!q&&researchListMode==='demo'?uiDemoResearchRows(allRows,state):allRows;
+  const rows=scope.filter(p=>!q||(p.title??'').toLocaleLowerCase().includes(q)||p.id.toLocaleLowerCase().includes(q)||uiDemoResearchLabel(p).toLocaleLowerCase().includes(q));
   const pinned=pins.map(id=>rows.find(p=>p.id===id)).filter(Boolean),unpinned=rows.filter(p=>!pins.includes(p.id));
   const archived=unpinned.filter(p=>isArchivedResearchExample(p.id)),others=unpinned.filter(p=>!isArchivedResearchExample(p.id));
-  return {pinned,archived,visibleTotal:pinned.length+others.length,others:researchListMode==='recent'&&!q?others.slice(0,8):others,hasMore:researchListMode==='recent'&&!q&&others.length>8};
+  return {pinned,archived,totalCount:allRows.length,matchedCount:rows.length,visibleTotal:pinned.length+others.length,others:researchListMode==='recent'&&!q?others.slice(0,8):others,hasMore:researchListMode==='recent'&&!q&&others.length>8};
 }
 function toggleResearchPin(id){
   if(!projects.some(p=>p.id===id))return false;
@@ -4740,7 +6233,7 @@ function toggleResearchPin(id){
 }
 function researchRailRow(p,pinned){
   const pinIcon='<svg class="ui-line-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m9 3 6 0-1 6 4 4v2H6v-2l4-4-1-6ZM12 15v7"/></svg>';
-  return `<div class="ui-project-row ${pinned?'is-pinned':''}" data-research-id="${esc(p.id)}">${button('project',`<span class="project-name">${esc(p.title)}</span><small class="project-status">${isArchivedResearchExample(p.id)?'개발 예시 · ':''}${Number.isInteger(p.rev)?'연구 기록 '+p.rev+' · ':''}${esc(({reviewed:'판단 기록 있음',needs_review:'판단 갱신 필요',awaiting_input:'입력 대기'})[p.review_status]??'상태 확인 필요')}</small>`,`data-id="${esc(p.id)}" aria-current="${p.id===state?.id?'page':'false'}"`,`project ${p.id===state?.id?'active':''}`)}${button('ui-pin-research',pinIcon,`data-id="${esc(p.id)}" aria-label="${esc(p.title)} · ${pinned?'고정 해제':'연구 고정'}" title="${pinned?'고정 해제':'연구 고정'}" aria-pressed="${pinned}"`,'ui-project-pin quiet small')}</div>`;
+  return `<div class="ui-project-row ${pinned?'is-pinned':''}" data-research-id="${esc(p.id)}">${button('project',`<span class="project-name" title="${esc(p.title)}">${esc(uiDemoResearchLabel(p))}</span><small class="project-status">${isArchivedResearchExample(p.id)?'개발 예시 · ':''}${Number.isInteger(p.rev)?'연구 기록 '+p.rev+' · ':''}${esc(({reviewed:'판단 기록 있음',needs_review:'판단 갱신 필요',awaiting_input:'입력 대기'})[p.review_status]??'상태 확인 필요')}</small>`,`data-id="${esc(p.id)}" aria-current="${p.id===state?.id?'page':'false'}"`,`project ${p.id===state?.id?'active':''}`)}${button('ui-pin-research',pinIcon,`data-id="${esc(p.id)}" aria-label="${esc(uiDemoResearchLabel(p))} · ${pinned?'고정 해제':'연구 고정'}" title="${pinned?'고정 해제':'연구 고정'}" aria-pressed="${pinned}"`,'ui-project-pin quiet small')}</div>`;
 }
 function uiDecisionRecord(id){
   const event=[...(state?.events??[])].reverse().find(e=>e.kind==='decision_published'&&e.body.receipt_id===id);
@@ -4749,22 +6242,47 @@ function uiDecisionRecord(id){
   return {id,rev:event.body.state_rev,current,title:`${current?'현재 게시 판단':'이전 판단'} · 연구 기록 ${event.body.state_rev}`};
 }
 function renderResearchRail(){
-  const {pinned,others,archived,hasMore,visibleTotal}=researchRailGroups();
+  const {pinned,others,archived,hasMore,visibleTotal,totalCount,matchedCount}=researchRailGroups();
   return `<div class="rail-heading"><div class="brand">EVIDA</div>${button('ui-rail',uiIcon('menu'),`aria-label="연구 목록 ${researchRailCollapsed?'펼치기':'접기'}" aria-expanded="${!researchRailCollapsed}"`,'quiet small')}</div>
     ${button('new','＋ 새 연구','','new-button')}
-    <div class="rail-browser"><label class="sr-only" for="research-search">저장된 연구 검색</label><input id="research-search" type="search" value="${esc(researchSearch)}" placeholder="연구 검색">
-    <div class="rail-list-modes">${[['recent','최근 연구'],['all','전체 연구']].map(([id,label])=>button('ui-research-mode',label,`data-mode="${id}" aria-pressed="${researchListMode===id}"`,'quiet small')).join('')}</div>
+    <div class="rail-browser"><label class="sr-only" for="research-search">저장된 연구 검색</label><input id="research-search" type="search" value="${esc(researchSearch)}" placeholder="모든 연구 이름·ID 검색">
+    <div class="rail-list-modes">${[['demo','시연 연구'],['recent','최근 연구'],['all',`전체 연구 (${totalCount})`]].map(([id,label])=>button('ui-research-mode',label,`data-mode="${id}" aria-pressed="${researchListMode===id}"`,'quiet small')).join('')}</div>
+    <p class="small muted" role="status">${researchSearch?`전체 ${totalCount}개 중 검색 결과 ${matchedCount}개`:researchListMode==='demo'?`시연 연구를 보고 있습니다. 저장된 전체 연구 ${totalCount}개는 위에서 열 수 있습니다.`:`저장된 전체 연구 ${totalCount}개 · 개발 예시는 아래 보관함에 있습니다.`}</p>
     <div class="project-list"><nav aria-label="저장된 연구">${pinned.length?`<p class="rail-group-label">고정한 연구 <small>이 브라우저</small></p>${pinned.map(p=>researchRailRow(p,true)).join('')}`:''}${others.length?`<p class="rail-group-label">${researchListMode==='recent'&&!researchSearch?'최근 연구':'다른 연구'}</p>${others.map(p=>researchRailRow(p,false)).join('')}`:''}${!pinned.length&&!others.length?uiEmpty('일치하는 연구가 없습니다.'):''}</nav>
     ${hasMore?button('ui-research-mode',`연구 ${visibleTotal}개 보기`,'data-mode="all"','quiet small'):''}
     ${archived.length?`<details class="ui-secondary" data-detail-key="research-archive"><summary>개발 예시 보관함 · ${archived.length}개</summary><p class="small muted">화면 점검용 기록입니다. 원문과 후보를 그대로 보존합니다.</p><nav aria-label="보관된 개발 예시">${archived.map(p=>researchRailRow(p,false)).join('')}</nav></details>`:''}</div></div>`;
 }
+function uiPlannerStoppedState(){
+  const goalStopped=goalLifecycleStoppedJob(state);
+  if(state.decision&&!goalStopped)return null;
+  const latest=goalStopped??[...(state.jobs??[])].reverse().find(j=>j.kind==='planner'&&j.based_rev===state.rev);
+  const states={
+    failed:['이번 검토가 실패해 판단을 만들지 못했습니다.','질문과 자료는 저장되어 있습니다. 실행 기록을 확인한 뒤 같은 질문으로 다시 검토할 수 있습니다.'],
+    quota_exhausted:['대회 API 토큰 한도로 이번 검토가 중단됐습니다.','완료한 자료와 요청은 저장되어 있습니다. 모델 이용 안내에서 다음에 사용할 경로를 선택하세요.'],
+    quota_or_rate_limit:['서비스 한도로 이번 검토가 중단됐습니다.','완료한 조회는 저장되어 있습니다. 이어가기 가능 여부와 실행 기록을 확인하세요.'],
+    refused:['서비스가 응답을 거절해 이번 검토가 중단됐습니다.','완료된 자료는 저장되어 있습니다. 실행 기록에서 거절 사유를 확인하세요.'],
+    identity_unverified:['응답 모델을 확인하지 못해 판단을 게시하지 않았습니다.','검토를 이어가기 전에 실행 기록에서 요청한 모델과 실제 응답 모델을 확인하세요.'],
+    outcome_unknown:['응답 완료 여부를 확인하지 못했습니다.','저장된 실행 기록에서 응답 도착 여부와 마지막 완료 단계를 확인하세요.'],
+    paused:['판단 생성이 일시 중단됐습니다.','완료한 조회는 저장되어 있습니다. 실행 기록에서 중단 이유와 이어갈 조건을 확인하세요.'],
+    interrupted:['판단 생성의 중단 기록이 있습니다.','완료한 자료는 보존되어 있습니다. 실행 기록에서 어디까지 완료됐는지 확인하세요.'],
+    route_unavailable:['선택한 모델 경로를 현재 사용할 수 없습니다.','모델 이용 안내에서 경로의 현재 상태를 확인하고 실행 기록을 살펴보세요.'],
+    input_missing:['판단에 필요한 입력을 확인해야 합니다.','실행 기록에 남은 입력 항목을 확인하세요. 저장된 자료와 기존 판단은 보존됩니다.']};
+  return latest&&states[latest.status]?{job:latest,title:goalStopped&&latest.status==='failed'?'부분 판단을 보존한 채 원목표 검토가 중단됐습니다.':states[latest.status][0],next:states[latest.status][1],partial_preserved:!!goalStopped}:null;
+}
+function uiPlannerFailureNotice(){
+  const stopped=uiPlannerStoppedState();if(!stopped)return '';
+  const latest=stopped.job,reason=typeof latest.error==='string'&&latest.error.trim()?latest.error.slice(0,700):'자세한 원인은 실행 기록에서 확인하세요.';
+  const retry=latest.status==='failed'?button('retry-planner',`${modelDisplayName(currentModel())}로 저장한 질문 다시 검토`,!status.gateway.available||busy?'disabled':'','primary small'):'';
+  const modelInfo=['quota_exhausted','route_unavailable'].includes(latest.status)?button('model-help','모델 이용 안내','','small'):'';
+  return `<section class="notice-inline" role="status" aria-label="판단 생성 중단"><h2>${esc(stopped.title)}</h2>${stopped.partial_preserved?'<p>게시한 부분 판단과 원자료는 보존되어 있습니다. 원목표의 남은 연결을 검토하려면 아래 실행 상태와 모델 이용 안내를 확인하세요.</p>':''}<p>${esc(reason)}</p><p class="small">${esc(stopped.next)}</p><div class="detail-actions">${retry}${modelInfo}${button('show-jobs','실행 기록 보기','','small')}</div></section>`;
+}
 function renderDecisionWorkspace(){
   const stage=uiStage(),model=roadmapModel(),reading=currentReader();
-  if(tab==='research'){queueMicrotask(()=>loadCandidateStructures());queueMicrotask(()=>loadMechanismRanking());queueMicrotask(()=>uiWarmSources())}
+  if(tab==='research'){queueMicrotask(()=>loadCandidateStructures());queueMicrotask(()=>loadMechanismRanking());queueMicrotask(()=>uiWarmSources());if(stage==='candidates')queueMicrotask(()=>uiLoadComputedInputStructures())}
   const active=state.jobs.some(j=>['running','queued'].includes(j.status));
   const body=tab==='data'?dataView():tab==='history'?historyPanel():stage==='mechanisms'?renderResearchPath():stage==='candidates'?uiCandidates():stage==='next'?uiExperiments():stage==='evidence'?`${renderEvidenceWorkbench()}<details class="ui-secondary"><summary>계산·조회·근거의 전체 기록</summary>${roadmapEvidencePanel()}</details>`:stage==='goal'?roadmapGoalPanel():stage==='changes'?roadmapChangesPanel(model):uiOverview(model);
-  return `${archivedResearchNotice()}<header class="ui-workspace-heading"><div><span class="ui-eyebrow">연구 워크스페이스</span><h1>${esc(state.title)}</h1><p>${esc(roadmapRevisionText(model))}</p></div><div class="ui-workspace-tools">${button('ui-question','질문하기',`aria-expanded="${conversationOpen}"`,'small ui-question-button')}${button('ui-wide',workspaceWide?'대화와 함께 보기':'넓게 보기',`aria-pressed="${workspaceWide}"`,'small quiet')}${button('ui-stage','목표·조건','data-stage="goal"','small quiet')}</div></header>
-    ${quotaNotice()}${active?roadmapActivity():''}
+  return `${archivedResearchNotice()}<header class="ui-workspace-heading"><div><span class="ui-eyebrow">연구 워크스페이스</span><h1>${esc(uiDemoResearchLabel(state))}</h1>${uiDemoOriginalTitle(state)}<p>${esc(roadmapRevisionText(model))}</p></div><div class="ui-workspace-tools">${button('ui-question','질문하기',`aria-expanded="${conversationOpen}"`,'small ui-question-button')}${button('ui-wide',workspaceWide?'대화와 함께 보기':'넓게 보기',`aria-pressed="${workspaceWide}"`,'small quiet')}${button('ui-stage','목표·조건','data-stage="goal"','small quiet')}</div></header>
+    ${uiPlannerFailureNotice()}${quotaNotice()}${typeof renderCurrentEvidenceScope==='function'?renderCurrentEvidenceScope():''}${uiJudgePath()}${active||goalLifecycleActivity(state)?roadmapActivity():''}
     <div class="ui-research-layout"><aside class="ui-conversation" aria-label="연구 대화"><header class="ui-conversation-heading"><h2>연구 대화</h2>${button('ui-question-close','닫기','aria-label="연구 대화 닫기"','small quiet ui-conversation-close')}</header>${uiConversation()}${uiQuickLinks()}<div class="ui-conversation-compose">${uiComposer(active)}</div><details class="ui-secondary" data-detail-key="workspace-log"><summary>입력 변경·실행 기록</summary>${roadmapRunLine(active)}${renderInputChanges()}${syntheticInputNotice()}</details></aside>
     <div class="ui-work-product"><header class="ui-product-heading"><span>작업물</span><nav class="ui-stage-nav" aria-label="연구 작업 화면">${[...workspaceTabs,['data','원자료']].map(([id,label])=>button('ui-stage',label,`data-stage="${id}" aria-current="${stage===id?'page':'false'}"`,`ui-stage ${stage===id?'active':''}`)).join('')}</nav></header><div class="workspace-split ${reading?'with-reader':''}"><div class="workspace-content" id="workspace-content"><section id="roadmap-inspector" tabindex="-1">${body}</section></div>${reading?renderResearchPanel():''}</div></div></div>`;
 }
@@ -4782,29 +6300,81 @@ function uiOverview(model){
   const paths=uiCurrentPaths();
   const row=candidate&&candidateStructureRow(candidate.option_id),picture=row&&structureThumb(row),assessment=candidate?.assessment,parent=row?.transformed_from??row?.core_from;
   return `<section class="ui-overview" aria-label="연구 핵심 요약">
-    <article class="ui-judgment"><span class="ui-eyebrow">${model.current?'현재 판단':'마지막으로 기록한 판단'}</span><h2>${d?esc(uiDecisionScope()):'연구 질문을 검토하고 있습니다.'}</h2>${d?`<p class="ui-overview-decision-text">${uiText(d.recommendation)}</p>`:''}
-      <div class="ui-judgment-links">${d?'<span class="small muted">저장된 현재 검토와 다음 확인</span>':''}${d?button('ui-judgment','판단 전체·근거 보기','','link-button small'):uiEmpty('자료 조회 후 판단이 기록되면 이곳에서 확인할 수 있습니다.')}</div></article>
-    <div class="ui-overview-grid"><div class="ui-overview-visual" ${candidate?`data-candidate-option="${esc(candidate.option_id)}"`:''}><div class="ui-candidate-picture">${picture||uiEmpty(candidate&&['rna','rna_candidate'].includes(optionKind(candidate))?'RNA 서열·전사체 조건':'2D 구조 확인 필요')}</div>${candidate?button('discovery-detail',`${esc(candidateDisplayName(candidate))} · 구조 상세`, `data-id="${esc(candidate.option_id)}"`,'link-button small'):''}</div>
+    ${renderIntentReassessment()}
+    <article class="ui-judgment"><span class="ui-eyebrow">${model.current?(state.intent_dependencies?.latest_review_status==='unknown'&&state.intent_dependencies?.prior_record_status==='available'?'잠정 판단 · 목표 연결 검토 필요':'현재 판단'):'마지막으로 기록한 판단'}</span><h2>${d?esc(uiDecisionScope()):uiPlannerStoppedState()?esc(uiPlannerStoppedState().title):'연구 질문을 검토하고 있습니다.'}</h2>${d?`<div class="ui-overview-decision-text">${uiRecommendationText(d.recommendation)}</div>${typeof d.reason==='string'&&d.reason.trim()?`<p class="small"><strong>추천 이유 · 첫 문장</strong> ${uiText(uiExcerpt(d.reason))}</p>`:''}`:''}
+      <div class="ui-judgment-links">${d?'<span class="small muted">저장된 현재 검토와 다음 확인</span>':''}${d?button('ui-judgment','추천 이유·판단 전체 보기','','link-button small'):uiEmpty(uiPlannerStoppedState()?'실행이 중단되어 새 판단이 아직 없습니다. 위 상태와 실행 기록을 확인하세요.':'자료 조회 후 판단이 기록되면 이곳에서 확인할 수 있습니다.')}</div></article>
+    ${uiObservationBridge()}
+    <div class="ui-overview-grid"><div class="ui-overview-visual" ${candidate?`data-candidate-option="${esc(candidate.option_id)}"`:''}><div class="ui-candidate-picture">${picture||uiEmpty(candidate&&['rna','rna_candidate'].includes(optionKind(candidate))?'RNA 서열·전사체 조건':!candidate?(uiCompletedComputations().length?'계산 결과와 입력 조건 확인':'아직 구조가 확인된 후보가 없습니다.'):'2D 구조 확인 필요')}</div>${candidate?button('discovery-detail',`${esc(candidateDisplayName(candidate))} · 후보 상세`, `data-id="${esc(candidate.option_id)}"`,'link-button small'):''}</div>
     <article class="ui-overview-mechanisms"><h3>검토 기전·접근</h3>${paths.length?`<ul class="ui-path-list">${paths.map(p=>`<li><span class="ui-eyebrow">${esc(uiPathKind(p))}</span><strong>${esc(researcherWording(p.label))}</strong><span>${esc(optionStatus[p.assessment?.status??'unreviewed'])} · ${uiRevision(p.assessment)}</span>${p.assessment?.priority!=null?`<small>${esc(researcherWording(p.assessment.comparison_group??'기록한 비교 범위'))} · ${p.assessment.priority}</small>`:''}</li>`).join('')}</ul>`:uiEmpty('검토할 기전과 질환의 연결 근거 확인 필요')}${button('ui-stage',paths.length>1?`기전·접근 ${paths.length}개와 질환 연결 보기`:'질환과의 연결 보기','data-stage="mechanisms"','link-button small')}</article>
-    <article class="ui-overview-candidate"><h3>${selected?'현재 추천에 포함된 후보':'확대해서 보는 후보'}</h3>${candidate?`<h4>${esc(candidateDisplayName(candidate))}</h4>${uiCandidateRole(candidate)}${uiGenerationLink(candidate)}${parent?`<p class="small muted">출발 화합물 ${esc(parent)}</p>`:''}<p class="small">${esc(optionStatus[assessment?.status??'unreviewed'])} · ${uiRevision(assessment)}</p>${candidate.origin==='generated_structure_proposal'?'<p class="small muted">설계 구조 · 생성 단계 활성 미측정</p>':''}`:uiEmpty('비교할 후보와 구조 확인 필요')}${button('ui-stage','후보 전체 비교','data-stage="candidates"','link-button small')}</article>
+    <article class="ui-overview-candidate"><h3>${selected?'현재 추천에 포함된 후보':'확대해서 보는 후보'}</h3>${candidate?`<h4>${esc(candidateDisplayName(candidate))}</h4>${uiCandidateRole(candidate)}${uiGenerationLink(candidate)}${parent?`<p class="small muted">출발 화합물 ${esc(parent)}</p>`:''}<p class="small">${esc(optionStatus[assessment?.status??'unreviewed'])} · ${uiRevision(assessment)}</p>${candidate.origin==='generated_structure_proposal'?'<p class="small muted">설계 구조 · 생성 단계 활성 미측정</p>':''}`:uiEmpty(uiCompletedComputations().length?'조회·계산은 보존되어 있습니다. 치료 추천 후보·기전 연결은 아직 등록되지 않았습니다.':'비교할 후보와 구조 확인 필요')}${button('ui-stage','수치·후보 상세 비교','data-stage="candidates"','link-button small')}</article>
     <article class="ui-overview-next"><h3>다음 실험·확인</h3>${checks.length?`<ul class="ui-overview-checks">${checks.map(c=>`<li>${button('ui-overview-experiment',esc(uiExperimentAlias(c)),`data-id="${esc(c.id)}"`,'link-button')}<span class="small muted">${esc(uiExperimentStatus(c))}</span></li>`).join('')}</ul>`:uiEmpty('다음 실험 권고 확인 필요')}${button('ui-stage','대상·대조군·판독 검토','data-stage="next"','link-button small')}</article></div>
+    <nav class="detail-actions" aria-label="수치와 판단의 상세 확인">${button('ui-stage','추천 행동·판독 보기','data-stage="next"','small')}${button('ui-stage','수치·후보 상세 비교','data-stage="candidates"','small')}${button('ui-stage','근거 보기','data-stage="evidence"','small')}</nav>
+    ${uiComputationSummary()}
     ${d?`<div class="ui-overview-foot">${button('ui-stage','이전 판단과 비교','data-stage="changes"','quiet small')}<span class="small muted">추천·계산·실제 관측은 각 근거에서 확인합니다.</span></div>`:''}</section>`;
+}
+const uiInputStructureViews=new Map();
+function uiComputedStructureArtifact(){return uiCompletedComputations().find(a=>a.kind==='rdkit')??null}
+async function uiLoadComputedInputStructures(){
+  const artifact=uiComputedStructureArtifact();if(!artifact)return;
+  const wid=state.id,key=candidateStructuresKey()+':'+artifact.id;if(uiInputStructureViews.has(key))return;
+  uiInputStructureViews.set(key,{status:'loading',artifact_id:artifact.id});
+  try{const value=await api(`/api/workspaces/${encodeURIComponent(wid)}/artifacts/${encodeURIComponent(artifact.id)}?offset=0&limit=30`);uiInputStructureViews.set(key,{status:'ready',artifact_id:artifact.id,value})}
+  catch{uiInputStructureViews.set(key,{status:'failed',artifact_id:artifact.id})}
+  if(state?.id===wid&&key===candidateStructuresKey()+':'+artifact.id)render();
+}
+function uiComputedInputStructures(){
+  const artifact=uiComputedStructureArtifact();if(!artifact)return '';
+  const view=uiInputStructureViews.get(candidateStructuresKey()+':'+artifact.id);
+  const value=view?.value,result=value?.result??value,rows=result?.rows??[];
+  return `<section class="ui-secondary" aria-label="계산한 입력 구조" data-source-artifact="${esc(artifact.id)}"><h3>실제 계산에 사용한 입력 구조</h3><p class="small muted">원 계산의 입력 구조입니다. 후보와의 동일성·적용 가능성은 해당 후보의 검토 상태에서 확인하세요.</p>${view?.status==='failed'?uiEmpty('입력 구조 표시를 불러오지 못했습니다. 아래 원 계산 결과는 보존되어 있습니다.'):view?.status!=='ready'?uiEmpty('계산한 입력의 2D 구조를 불러오고 있습니다.'):`<div class="ui-candidate-grid">${rows.map(row=>`<article class="ui-candidate compact"><div class="ui-candidate-picture">${structureFigure(row.depiction,row.candidate_id??row.name??'계산 입력')}</div><div><strong>${esc(row.candidate_id??row.name??'원 계산 입력')}</strong><p class="small muted">원 계산 결과의 입력 구조</p></div></article>`).join('')||uiEmpty('원 계산 반환 범위에 구조 행이 없습니다.')}</div>${result?.has_more||rows.length===30?'<p class="small muted">반환된 첫 30행입니다. 나머지는 원 계산 결과에서 확인하세요.</p>':''}`}${sourceLinks([artifact.id])}</section>`;
+}
+function uiCandidateStructureReason(item,row){
+  if(['rna','rna_candidate'].includes(optionKind(item)))return 'RNA 서열·전사체 조건을 근거에서 확인하세요.';
+  if(item.structure_status==='not_resolved'&&!row?.depiction)return '출처에 나온 후보 이름은 보존되어 있지만 분자 구조와의 연결은 아직 확인되지 않았습니다.';
+  const key=candidateStructuresKey();
+  if(candidateStructuresPendingFor===key)return '저장된 구조의 2D 그림을 불러오고 있습니다.';
+  if(candidateStructuresFor===key&&candidateStructures?.load_error)return '구조 표시 요청을 완료하지 못했습니다. 후보 원자료는 보존되어 있습니다.';
+  if(row?.depiction?.status==='unparsed')return '저장된 구조 문자열을 읽지 못해 2D 그림을 그리지 못했습니다.';
+  if(row?.depiction?.status==='failed'||candidateStructures?.depiction_status?.startsWith('unavailable'))return '저장된 구조의 2D 그림을 만들지 못했습니다. 원자료의 SMILES를 확인할 수 있습니다.';
+  if(row){const smiles=row.depiction?.smiles??row.smiles??row.structure?.canonical_smiles;return smiles?'저장된 구조는 있지만 2D 그림이 반환되지 않았습니다.':'이 후보 기록에 구조 문자열(SMILES)이 없습니다.';}
+  return candidateStructuresFor===key?'이 후보와 연결된 구조 기록을 찾지 못했습니다. 후보 상세와 원자료를 확인하세요.':'2D 구조를 불러오는 중입니다.';
 }
 function uiCandidateTile(item,compact=false){
   const row=candidateStructureRow(item.option_id),picture=row&&structureThumb(row),a=item.assessment,parent=row?.transformed_from??row?.core_from;
-  return `<article class="ui-candidate ${compact?'compact':''} ${readerState()?.stack[0]?.id===item.option_id?'is-selected':''}" data-candidate-option="${esc(item.option_id)}"><div class="ui-candidate-picture">${picture||uiEmpty(['rna','rna_candidate'].includes(optionKind(item))?'RNA 서열·전사체 조건':'2D 구조 확인 필요')}</div><div><h4>${esc(candidateDisplayName(item))}</h4>${uiCandidateRole(item)}${uiGenerationLink(item)}${parent?`<p class="small muted">출발 화합물 ${esc(parent)}</p>`:''}<p class="small">${esc(optionStatus[a?.status??'unreviewed'])} · ${uiRevision(a)}</p>${item.origin==='generated_structure_proposal'?'<p class="small muted">설계 구조 · 생성 단계 활성 미측정</p>':''}${a?.priority?`<p class="small muted">${esc(researcherWording(a.comparison_group))} 내 검토 순서 ${esc(a.priority)}</p>`:''}${button('discovery-detail','후보 상세',`data-id="${esc(item.option_id)}"`,'small')}</div></article>`;
+  return `<article class="ui-candidate ${compact?'compact':''} ${readerState()?.stack[0]?.id===item.option_id?'is-selected':''}" data-candidate-option="${esc(item.option_id)}"><div class="ui-candidate-picture">${picture||uiEmpty(uiCandidateStructureReason(item,row))}</div><div><h4>${esc(candidateDisplayName(item))}</h4>${uiCandidateRole(item)}${uiGenerationLink(item)}${parent?`<p class="small muted">출발 화합물 ${esc(parent)}</p>`:''}<p class="small">${esc(optionStatus[a?.status??'unreviewed'])} · ${uiRevision(a)}</p>${item.origin==='generated_structure_proposal'?'<p class="small muted">설계 구조 · 생성 단계 활성 미측정</p>':''}${a?.priority?`<p class="small muted">${esc(researcherWording(a.comparison_group))} 내 검토 순서 ${esc(a.priority)}</p>`:''}${button('discovery-detail','후보 상세',`data-id="${esc(item.option_id)}"`,'small')}</div></article>`;
+}
+const uiReturnedStructureExpanded=new Map();
+function uiReturnedStructureRecords(){
+  if(candidateStructuresFor!==candidateStructuresKey())return '';
+  const rows=(candidateStructures?.rows??[]).filter(row=>row.depiction?.status==='drawn'&&row.depiction?.svg);
+  if(!rows.length)return '';
+  const expanded=uiReturnedStructureExpanded.get(candidateStructuresKey())===true,shown=expanded?rows:rows.slice(0,6);
+  const toggle=rows.length>6?button('ui-returned-structures',expanded?'접기':'더 보기',`aria-expanded="${expanded}"`,'small'):'';
+  return `<section class="ui-secondary" aria-label="조회된 구조 기록"><h3>조회된 구조와 후보별 검토</h3><p class="small muted">조회 목록에서 구조가 확보된 ${rows.length}건입니다. 원 자료의 반환 순서로 표시하며, 개별 추천 근거·검토 상태·출처는 발견 기록에서 확인할 수 있습니다.</p><p class="small">구조 ${rows.length}개 중 ${shown.length}개 · 원 자료의 반환 순서입니다. ${toggle}</p><div class="ui-candidate-grid">${shown.map(row=>`<article class="ui-candidate compact" data-source-candidate-option="${esc(row.option_id)}"><div class="ui-candidate-picture">${structureFigure(row.depiction,row.candidate_id??row.name)}</div><div><strong>${esc(row.candidate_id??row.name??'조회 구조')}</strong><p class="small muted">조회 자료의 구조 · 추천 검토 대기</p><details><summary>원 구조 문자열·기록 ID</summary><p class="mono">${esc(row.depiction.smiles??row.smiles??'')}</p><code>${esc(row.option_id)}</code></details></div></article>`).join('')}</div>${expanded?toggle:''}</section>`;
 }
 function uiCandidates(){
-  const all=candidateOptions(),mode=candidateViews.get(state.id)??'current',focus=mechanismFocus.get(state.id);
+  const all=candidateOptions(),focus=mechanismFocus.get(state.id);
   const groups={current:all.filter(x=>x.assessment?.current_conditions===true&&x.assessment?.status!=='deferred'),earlier:all.filter(x=>x.assessment?.current_conditions!==true||x.assessment?.status==='deferred')};
+  const mode=candidateViews.get(state.id)??(groups.current.length?'current':groups.earlier.length?'earlier':'current');
+  const showingRetainedDefault=!candidateViews.has(state.id)&&mode==='earlier';
   const rows=(groups[mode]??[]).filter(x=>!focus||candidateMechanismId(x)===focus);
   return `<section class="ui-candidates"><div class="ui-section-heading"><div><h2>후보·구조</h2><p>같은 이름도 출처와 기록 ID를 기준으로 구분합니다.</p></div>${button('discovery-propose','다른 후보·경로 제안','','small')}</div>
+    ${typeof proposalQualificationCollection==='function'?proposalQualificationCollection():''}
     <nav class="ui-subnav" aria-label="후보 범위">${[['current',`현재 검토 ${groups.current.length}건`],['earlier',`보류·이전·미확인 ${groups.earlier.length}건`],['all','발견 기록 전체']].map(([id,label])=>button('ui-candidate-view',label,`data-view="${id}" aria-pressed="${mode===id}"`,'small')).join('')}</nav>
+    ${showingRetainedDefault?'<p class="small muted" role="status">현재 조건의 검토 후보: 0개. 보류·이전·미확인 후보는 원래 검토 상태와 함께 아래에 보존돼 있습니다.</p>':''}
     ${focus?`<p>연결 기전: ${esc(candidateMechanismLabel(focus))} ${button('roadmap-focus-clear','필터 해제','','small')}</p>`:''}
     ${mode==='all'?`<p class="small muted">전체 ${number(state.discovery?.total??0)}개 선택지 기록입니다. 기전·표적·접근도 포함하며, 화합물의 고유 개수와 구분합니다.</p>${renderOptionBrowser()}`:`<div class="ui-candidate-grid">${rows.map(x=>uiCandidateTile(x)).join('')||uiEmpty('이 범위의 후보 기록이 없습니다. 발견 기록 전체에서 미검토 후보를 확인할 수 있습니다.')}</div>`}
+    ${!all.length?uiReturnedStructureRecords():''}${uiComputedInputStructures()}
+    ${uiComputationSummary()}
     ${state.artifacts.filter(a=>a.kind==='rna_candidate_space').map(a=>`<div class="ui-secondary"><strong>보존한 RNA 서열 ${number(a.meta.summary?.unique_guide_sequences)}개</strong>${sourceLinks([a.id])}</div>`).join('')}</section>`;
 }
 function experimentFields(check){
+  const selected=state.measurement_selections?.[check.id];
+  if(selected){
+    const design=selected.handoff.next_check;
+    return {found:{'측정 대상':[design.specimen.description], '조건·비교군':[design.controls.description],
+      '판독 지표':[design.readout.description,design.precision.description]},rest:[]};
+  }
   const lines=String(check.operation?.request??'').split(/\r?\n/).map(x=>x.trim()).filter(Boolean),found={},rest=[];
   for(const line of lines){const match=REQUEST_FIELDS.map(([key,re])=>[key,line.match(re)]).find(([,m])=>m);if(match){(found[match[0]]??=[]).push(match[1][1])}else rest.push(line)}
   return {found,rest};
@@ -4821,29 +6391,51 @@ function uiExperiments(){
   const checks=state.decision?.research_loop?.next_checks??[],selected=selectedExperiment();
   return `<section class="ui-experiments"><div class="ui-section-heading"><div><h2>다음 실험·확인</h2><p>무엇을 비교하고, 어떤 결과에 따라 판단을 바꿀지 검토합니다.</p></div></div>
     ${!roadmapModel().current&&state.decision?uiEmpty('이전 조건의 권고입니다. 새 입력에 맞춘 검토가 필요합니다.'):''}
-    ${uiExperimentReturns.has(state.id)?button('ui-candidate-return','← 후보 상세로 돌아가기','','quiet small'):''}<div class="ui-experiment-layout"><nav class="ui-experiment-list" aria-label="실험·확인 목록">${checks.map(c=>button('ui-experiment',`<span class="ui-eyebrow">${esc(CHECK_KIND[c.operation.kind])}</span><strong>${esc(uiExperimentAlias(c))}</strong><small>${esc(uiExperimentStatus(c))}</small>`,`data-id="${esc(c.id)}" aria-pressed="${selected?.id===c.id}"`,'ui-experiment-choice')).join('')||uiEmpty('실험·확인 제안이 아직 없습니다.')}</nav>${selected?uiExperimentDetail(selected):''}</div></section>`;
+    ${uiExperimentReturns.has(state.id)?button('ui-candidate-return','← 후보 상세로 돌아가기','','quiet small'):''}${uiDiscriminationSummary()}<div class="ui-experiment-layout"><nav class="ui-experiment-list" aria-label="실험·확인 목록">${checks.map(c=>button('ui-experiment',`<span class="ui-eyebrow">${esc(CHECK_KIND[c.operation.kind])}</span><strong>${esc(uiExperimentAlias(c))}</strong><small>${esc(uiExperimentStatus(c))}</small>`,`data-id="${esc(c.id)}" aria-pressed="${selected?.id===c.id}"`,'ui-experiment-choice')).join('')||uiEmpty('실험·확인 제안이 아직 없습니다.')}</nav>${selected?uiExperimentDetail(selected):''}</div></section>`;
 }
 function uiExperimentDetail(check){
   const {found,rest}=experimentFields(check),op=check.operation,loop=state.decision.research_loop;
-  const field=(key)=>found[key]?.map(x=>`<p>${uiText(x)}</p>`).join('')||uiEmpty('확인 필요 · 권고에 구분해 기록된 값이 없습니다.');
+  const designed=reasoningCheckHypothesis(check);
+  const field=(key)=>found[key]?.map(uiExperimentExcerpt).join('')||uiEmpty('확인 필요 · 권고에 구분해 기록된 값이 없습니다.');
   const hypotheses=(check.hypothesis_ids??[]).map(id=>loop.hypotheses.find(h=>h.id===id)).filter(Boolean);
   const scopes=(check.scope_targets??[]).flatMap(t=>(loop.hypotheses.find(h=>h.id===t.hypothesis_id)?.assessment_scope?.parts??[]).filter(p=>t.part_ids.includes(p.id)).map(p=>p.statement));
   return `<article class="ui-experiment-detail" data-research-check="${esc(check.id)}"><header><span class="ui-eyebrow">판별 질문 · ${esc(CHECK_KIND[op.kind])} · 연구 기록 ${state.decision_rev}</span><h3>${esc(uiExperimentAlias(check))}</h3><p class="small muted">${esc(uiExperimentStatus(check))}</p></header>
     <details class="ui-check-question" data-detail-key="check-question:${esc(check.id)}"><summary>전체 질문·권고 목적·연결 가설</summary><h4>원 질문</h4><p>${uiText(check.question)}</p>${check.purpose?`<p>${uiText(check.purpose)}</p>`:''}${scopes.length?list(scopes.map(researcherWording)):hypotheses.length?list(hypotheses.map(h=>researcherWording(h.statement))):uiEmpty('연결된 가설 확인 필요')}</details>
-    <div class="ui-experiment-fields"><section><h4>시험 대상·시료</h4>${field('측정 대상')}</section><section><h4>비교 대상·대조</h4>${field('조건·비교군')}</section></div>
-    <section class="ui-experiment-readout"><h4>읽을 값·단위와 시점</h4>${field('판독 지표')}</section>
-    <section class="ui-experiment-outcomes"><h4>결과별 다음 행동</h4>${uiOutcomeBranches(check)}</section>${uiExecutionConditions(check)}
-    <details class="ui-check-conditions" data-detail-key="check-conditions:${esc(check.id)}"><summary>전체 조건·설계 원문</summary>${rest.length?rest.map(x=>`<p>${uiText(x)}</p>`).join(''):''}<p class="prose">${uiText(op.request??op.method??'연결된 도구로 자료를 확인하는 단계입니다.')}</p>${op.needed_inputs?list(op.needed_inputs):''}</details>
+    ${typeof renderObservationReview==='function'?renderObservationReview(check):''}
+    ${uiMeasurementSelection(check)}
+    ${designed?renderReasoningDesign(designed):`<div class="ui-experiment-fields"><section><h4>시험 대상·시료</h4>${field('측정 대상')}</section><section><h4>비교 대상·대조</h4>${field('조건·비교군')}</section></div><section class="ui-experiment-readout"><h4>읽을 값·단위와 시점</h4>${field('판독 지표')}</section>`}
+    <section class="ui-experiment-outcomes"><h4>${designed?'관측을 연결할 모델 해석 · 조건표와 일치하는지 확인':'결과별 다음 행동 · 아직 예상입니다'}</h4>${uiOutcomeBranches(check)}</section>${uiResultFeedback(check)}${designed?'':uiExecutionConditions(check)}
+    <details class="ui-check-conditions" data-detail-key="check-conditions:${esc(check.id)}"><summary>${designed?'모델의 추가 설명 · 위 조건표와의 일치 검토 필요':'전체 조건·설계 원문'}</summary>${rest.length?rest.map(x=>`<p>${uiText(x)}</p>`).join(''):''}<p class="prose">${esc(op.request??op.method??'연결된 도구로 자료를 확인하는 단계입니다.')}</p>${op.needed_inputs?list(op.needed_inputs):''}</details>
     <details class="ui-secondary" data-detail-key="check-sources:${esc(check.id)}"><summary>실험 제안에 연결된 원자료 ${op.grounded_in?.length??0}건</summary><p class="small">실험 기록 ID: <code>${esc(check.id)}</code></p>${op.grounded_in?.length?sourceLinks(op.grounded_in):uiEmpty('구체적인 근거 자료 연결 확인 필요')}</details>
     ${uiExperimentControls(check)}
     </article>`;
 }
+
+function uiMeasurementSelection(check){
+  const selected=state.measurement_selections?.[check.id];if(!selected)return '';
+  const h=selected.handoff,e=selected.evaluation;
+  const options=typeof candidateOptions==='function'?candidateOptions():[];
+  const names=ids=>(ids??[]).map(id=>{const candidate=options.find(option=>[option.option_id,option.entity_id,option.candidate_id].includes(id));return candidate&&typeof candidateDisplayName==='function'?candidateDisplayName(candidate):'이름 확인이 필요한 후보'});
+  const arms=selected.arms??[],sets=arms.map(arm=>[...new Set(arm.planned_ids??[])].sort().join('|'));
+  const same=sets.length>1&&sets.every(set=>set===sets[0]);
+  return `<section class="ui-secondary ui-measurement-summary"><h4>어떤 후보를 먼저 측정하나</h4>
+    <p>측정할 고유 후보 ${h.planned_ids.length}개 · 계획 비용 ${esc(String(h.cost.total))} ${esc(h.cost.unit??'')}</p>
+    ${same?'<p class="ui-field-caution">비교한 선택 방법들이 같은 후보를 골랐습니다. 이 비교에서는 계산 순위가 후보 선택을 개선했다고 말할 수 없습니다.</p>':''}
+    <p>${e.ranking_value==='ranking_value_unproven'?'계산 순위의 선택 가치: 같은 조건의 실측 비교가 다음 확인입니다.':uiText(e.ranking_value)}</p>
+    <details><summary>선택 방법별 후보·이유와 원기록</summary>${arms.map((a,index)=>`<h5>선택 방법 ${index+1} · ${esc(names(a.planned_ids).join(' · '))}</h5>${uiExperimentExcerpt(a.reason)}<details><summary>정확한 방법·후보 식별자</summary><p>${esc(a.id)} · ${esc((a.planned_ids??[]).join(' · '))}</p></details>`).join('')}${sourceLinks([selected.artifact_id])}</details>
+    ${!selected.current?uiEmpty('설명 또는 입력 조건이 바뀌었습니다. 이 측정 계획을 다시 검토하세요.'):''}
+    <p class="small">${h.status==='declared_ready'?'기록한 준비 조건이 갖춰졌습니다. 실험실 검토 후 진행하세요.':'실행 준비: 시료·물질·대조와 판독 정밀도를 확인하면 이 계획을 확정할 수 있습니다.'}</p></section>`;
+}
 function uiOutcomeBranches(check){
   const outcomes=check.possible_outcomes??[],key=`${state.id}:${state.decision_id}:${check.id}`;
   const chosen=Math.min(outcomeSelections.get(key)??0,Math.max(0,outcomes.length-1));
-  const label=(i)=>{const relations=[...new Set((check.outcome_links??[]).filter(x=>x.outcome_index===i).flatMap(x=>x.effects??[]).map(x=>x.relation))];return relations.map(x=>({supports:'가설에 부합',challenges:'재검토',unresolved:'판정 불가 · 추가 구별'})[x]).filter(Boolean).join(' · ')||`예상 결과 ${i+1}`};
+  const label=(i)=>{
+    const text=String(outcomes[i]?.observation??'').replace(/\s+/g,' ').trim();
+    return `${i+1}. ${text.length>64?text.slice(0,64)+'…':text||'예상 결과 확인 필요'}`;
+  };
+  const reviewStatus=(i)=>typeof outcomeInterpretationReview==='function'?outcomeInterpretationReview(check,i):null;
   if(!outcomes.length)return uiEmpty('결과별 판단 분기 확인 필요');
-  return `<nav class="ui-result-tabs" aria-label="예상 결과별 해석">${outcomes.map((o,i)=>button('ui-outcome',esc(label(i)),`data-key="${esc(key)}" data-index="${i}" aria-pressed="${chosen===i}" aria-controls="outcome-${i}"`,'small')).join('')}</nav><div class="ui-result-branches">${outcomes.map((o,i)=>`<article id="outcome-${i}" ${chosen!==i?'hidden':''}><span class="ui-eyebrow">${esc(label(i))} · 예상 결과, 실제 관측 전</span><h5>관측할 결과</h5><p>${uiText(o.observation)}</p><h5>판단·후속 확인</h5><p>${uiText(o.implication)}</p><details><summary>연결된 가설·판단 이유</summary>${renderOutcomeLinks(check,i)}</details></article>`).join('')}</div>`;
+  return `<nav class="ui-result-tabs" aria-label="예상 결과별 해석">${outcomes.map((o,i)=>button('ui-outcome',esc(label(i)),`data-key="${esc(key)}" data-index="${i}" aria-pressed="${chosen===i}" aria-controls="outcome-${i}"`,'small')).join('')}</nav><div class="ui-result-branches">${outcomes.map((o,i)=>`<article id="outcome-${i}" ${chosen!==i?'hidden':''}><span class="ui-eyebrow">예상 결과 ${i+1} · 실제 관측 전</span>${reviewStatus(i)?.needs_review?`<p class="small ui-field-caution">해석 조건: ${esc(reviewStatus(i).label)}</p>`:''}<h5>관측할 결과</h5><p>${uiText(o.observation)}</p><h5>판단·후속 확인</h5>${renderOutcomeInterpretation(check,i,uiText)}</article>`).join('')}</div>`;
 }
 function uiExperimentControls(check){
   const current=roadmapModel().current,op=check.operation,running=state.jobs.some(j=>['running','queued'].includes(j.status)),ready=state.check_readiness?.[check.id];
@@ -4908,6 +6500,56 @@ function renderResearchPanel(){
     <div class="reader-context"><span>${esc(panel.subject?.label??state.title)}</span><small>열어본 시점 · 연구 기록 ${panel.rev}${panel.rev!==state.rev?` · 현재 연구 기록 ${state.rev}, 새 판단 확인 필요`:''}</small>${panel.subject&&panel.kind!=='candidate'&&panel.kind!=='local-draft'?button('ui-subject','이 대상에 질문',`data-kind="${esc(panel.subject.kind)}" data-id="${esc(panel.subject.id)}" data-label="${esc(panel.subject.label)}"`,'link-button small'):''}</div>
     <div id="research-reader-body" class="reader-body">${body}</div></aside>`;
 }
+const uiKnownReadScopes={
+  'Whitespace-normalized itertext of exact p element, 1-based document order':{read:'원문의 해당 본문 단락 · 문서 순서 기준'},
+  'Exact normalized main paragraph; cited prior work not independently verified':{read:'해당 논문의 본문 단락',next:'본문에서 인용한 선행 연구의 원자료'},
+  'Mainparagraphtext,not independent validation of its citedearlierwork':{read:'해당 논문의 본문 단락',next:'본문에서 인용한 선행 연구의 원자료'},
+  'Caption/table text; no independent panel remeasurement':{read:'그림 설명과 표의 문자 내용',next:'그림 패널의 원자료와 별도 정량 검토'},
+  'Caption/tabletext; quantitativepanel reanalysis not claimed':{read:'그림 설명과 표의 문자 내용',next:'그림 패널의 원자료와 별도 정량 검토'},
+  'Main PDF page text; whitespace-normalized pypdf6.14.2 extract_text; page number1-based':{read:'원문 PDF의 해당 페이지 문자 내용'},
+  'Actual DOCX text/table read;embedded forest image visually inspected':{read:'보충 문서의 글·표와 삽입된 forest 그림'},
+  'Actual forest-plot numerical rows and footnotes visually read':{read:'forest 그림의 수치 행과 각주'},
+  'Complete caption text read; images/traces not requantified':{read:'그림 설명 전체',next:'이미지·신호 궤적의 원자료와 별도 정량 검토'},
+  'Published caption text, not image reanalysis':{read:'발표된 그림 설명',next:'이미지 원자료와 별도 정량 검토'}
+};
+function uiSourceLocatorLabel(locator){
+  const original=String(locator??''),match=/^body\.p([1-9]\d*)(?:;\s*xml_id=[A-Za-z0-9_.:-]+)?$/.exec(original);
+  return match?`본문 ${match[1]}번째 단락`:'원문 위치는 식별 기록에서 확인';
+}
+function uiReadScopePresentation(scope){
+  const known=uiKnownReadScopes[String(scope??'')];
+  return known?`<p class="small">읽은 문헌: ${esc(known.read)}</p>${known.next?`<p class="small muted">추가 확인 대상: ${esc(known.next)}</p>`:''}`:scope?'<p class="small">읽은 범위의 원기록은 아래에서 확인할 수 있습니다.</p>':'';
+}
+function uiReasoningPrincipleBody(result){
+  const section=result.section,id=result.principle_id;
+  const select=(part,label)=>button('ui-reasoning-principle',label,`data-id="${esc(id)}" data-section="${part}"`,'quiet small');
+  const nav=`<nav aria-label="추론 관점 상세">${select('principle','적용 조건과 판단 흐름')}${select('sources','원출처 위치')}${select('cases','도출 사례와 한계')}</nav>`;
+  const text=value=>typeof value==='string'?`<p>${esc(value)}</p>`:Array.isArray(value)?list(value):Object.entries(value??{}).map(([key,v])=>`<p><strong>${esc(({distinctive_prediction_supported:'구별 예측이 지지된 경우',valid_null_or_opposite:'유효한 음성 또는 반대 결과',measurement_or_intervention_failure:'측정·개입이 유효하지 않은 경우'})[key]??key.replaceAll('_',' '))}</strong><br>${esc(v)}</p>`).join('');
+  let body='';
+  if(section==='principle')body=result.rows.map(row=>`<h3>${esc(row.title_ko)}</h3><h4>언제 참고하는가</h4>${text(row.when_to_use)}<h4>가설을 만드는 관점</h4>${text(row.principle)}${[['investigate','선택할 정보와 이유'],['compare','설명을 구별하는 비교'],['update','결과에 따른 재판단']].map(([key,label])=>`<h4>${label}</h4>${text(row.stage_use?.[key])}`).join('')}${row.limits?`<h4>적용 한계</h4>${text(row.limits)}`:''}`).join('');
+  else if(section==='sources')body=result.rows.map(row=>`<article><h3>${externalAnchor('pmcid',row.id,row.id)}</h3><p>원문 위치: ${esc(uiSourceLocatorLabel(row.locator))}</p>${uiReadScopePresentation(row.read_scope)}<details><summary>원출처 식별 기록</summary><p>위치 원문 <code>${esc(row.locator)}</code></p>${row.read_scope?`<p>읽은 범위 원문: ${esc(row.read_scope)}</p>`:''}<p>문서 SHA256 <code>${esc(row.source_sha256)}</code></p><p>위치 SHA256 <code>${esc(row.locator_sha256)}</code></p></details></article>`).join('');
+  else body=result.rows.map(row=>`<article><h3>${externalAnchor('pmcid',row.pmcid,row.pmcid)}</h3>${text(row.reason)}${row.source_argument_amendment?`<h4>독립 검수의 정정·제한</h4>${text(row.source_argument_amendment.text)}`:''}<details><summary>논증과 검수 범위</summary><p>${esc(row.case_id)}</p>${text(row.review_scope)}</details></article>`).join('');
+  if(!result.rows.length)body=uiEmpty(result.historical_examples_suppressed?'현재 허용된 자료 범위에서는 과거 도출 사례와 출처 상세를 제공하지 않습니다.':'이 조회 범위에 기록이 없습니다.');
+  const total=result.total_rows,offset=result.offset;
+  const page=(next,label)=>button('ui-reasoning-principle',label,`data-id="${esc(id)}" data-section="${esc(section)}" data-offset="${next}"`,'small');
+  return `<p class="small muted">문헌 속 연구자의 판단을 추상화한 관점입니다. 적용 조건과 원출처를 확인하고 현재 연구의 관측과 연결해 사용합니다.</p>${nav}${body}${total>10?`<nav aria-label="추론 관점 페이지">${offset>0?page(Math.max(0,offset-10),'이전'):''}<span>${offset+1}–${Math.min(offset+10,total)} / ${total}</span>${offset+10<total?page(offset+10,'다음'):''}</nav>`:''}`;
+}
+async function uiOpenReasoningPrinciple(id,section='principle',offset=0){
+  const wid=state.id,token=++readerRequest,current=currentReader();
+  // Only a stored compact perspective with an explicit detail route offers this
+  // control. Old RP contexts keep their own historical examples unchanged.
+  const allowed=state.reasoning_design_review?.context?.perspectives?.some(p=>p.id===id&&p.detail_function==='read_reasoning_principle');
+  if(!allowed)return;
+  let panel;
+  if(current?.kind==='reasoning-principle'&&current.id===id){panel=current;panel.body=uiEmpty('추론 관점 기록을 읽고 있습니다.');render()}
+  else{await openResearchPanel({kind:'reasoning-principle',id,title:'사용한 추론 관점 · 적용 조건과 원출처',body:uiEmpty('추론 관점 기록을 읽고 있습니다.')});panel=currentReader()}
+  try{
+    const query=new URLSearchParams({principle_id:id,section,offset:String(offset),limit:'10'});
+    const value=await api(`/api/workspaces/${encodeURIComponent(wid)}/reasoning-principle?${query}`);
+    if(token!==readerRequest||state?.id!==wid||currentReader()!==panel)return;
+    panel.body=uiReasoningPrincipleBody(value.result);render();
+  }catch(error){if(token===readerRequest&&currentReader()===panel){panel.body=uiEmpty(error.message);render()}}
+}
 async function uiOpenCandidate(id){
   const token=++readerRequest,item=await getOption(id);if(token!==readerRequest)return;
   await loadCandidateStructures();if(token!==readerRequest)return;
@@ -4937,10 +6579,10 @@ function uiCandidateDetail(panel){
   const tabs=[['summary','요약'],['evidence','근거'],['properties','구조·물성'],['experiments','관련 실험']];
   let content='';
   if(section==='summary')content=`<p>${esc(item.description??'')}</p>${a?`<h3>검토 이유</h3><p>${uiText(a.reason)}</p><h3>다음 확인</h3><p>${uiText(a.next_action)}</p>${a.priority?`<p class="small">비교 집합: ${esc(researcherWording(a.comparison_group))} · 검토 순서 ${a.priority}</p>`:''}`:uiEmpty('후보의 개별 검토 기록 확인 필요')}${parent?`<p>출발 화합물: <strong>${esc(parent)}</strong></p><p class="small muted">구조를 생성한 이력입니다. 기능 비교는 관련 실험에서 확인합니다.</p>`:''}${sourceCandidateInfo(item,true)}${rnaOptionContext(item)}`;
-  if(section==='evidence')content=`<h3>평가의 지지 근거</h3>${sourceLinks(a?.support_source_ids)||uiEmpty('연결된 지지 근거 확인 필요')}<h3>반대 근거·적용 조건</h3>${sourceLinks(a?.challenge_source_ids)}${list(a?.uncertainties)}<h3>발견한 원자료</h3>${sourceLinks((item.sources??[]).map(x=>x.artifact_id))}${(row?.name_mentions??[]).filter(m=>state.artifacts.some(a=>a.id===m.artifact_id)&&/^rows\/\d+$/.test(m.locator??'')).length?`<h3>이름이 등장한 원문 구절</h3><p class="small muted">원문 이름 등장과 데이터베이스 구조 연결입니다. 효능·시료 동일성 확인은 아닙니다.</p>${(row.name_mentions??[]).filter(m=>state.artifacts.some(a=>a.id===m.artifact_id)&&/^rows\/\d+$/.test(m.locator??'')).map(m=>button('source',esc(artifactName(m.artifact_id))+' · 원문 '+esc(m.locator),`data-id="${esc(m.artifact_id)}" data-source-offset="${Number(m.locator.split('/')[1])}"`,'link-button small')).join('')}`:''}${sourceCandidateInfo(item,true)}${item.assessments?.length>1?`<details><summary>이전 검토 ${item.assessments.length-1}개</summary>${item.assessments.slice(0,-1).reverse().map(x=>`<p>${esc(optionStatus[x.status])} · ${uiRevision(x)}</p><p>${uiText(x.reason)}</p>${sourceLinks([x.artifact_id])}`).join('')}</details>`:''}`;
+  if(section==='evidence')content=`<h3>평가의 지지 근거</h3>${sourceLinks(a?.support_source_ids)||uiEmpty('연결된 지지 근거 확인 필요')}<h3>반대 근거·적용 조건</h3>${sourceLinks(a?.challenge_source_ids)}${list(a?.uncertainties)}<h3>발견한 원자료</h3>${sourceLinks((item.sources??[]).map(x=>x.artifact_id))}${(row?.name_mentions??[]).filter(m=>state.artifacts.some(a=>a.id===m.artifact_id)&&/^rows\/\d+$/.test(m.locator??'')).length?`<h3>이름이 등장한 원문 구절</h3><p class="small muted">원문에 등장한 이름과 데이터베이스 구조를 연결한 기록입니다. 활성·시료 동일성 확인 상태는 해당 후보의 평가에서 확인하세요.</p>${(row.name_mentions??[]).filter(m=>state.artifacts.some(a=>a.id===m.artifact_id)&&/^rows\/\d+$/.test(m.locator??'')).map(m=>button('source',esc(artifactName(m.artifact_id))+' · 원문 '+esc(m.locator),`data-id="${esc(m.artifact_id)}" data-source-offset="${Number(m.locator.split('/')[1])}"`,'link-button small')).join('')}`:''}${sourceCandidateInfo(item,true)}${item.assessments?.length>1?`<details><summary>이전 검토 ${item.assessments.length-1}개</summary>${item.assessments.slice(0,-1).reverse().map(x=>`<p>${esc(optionStatus[x.status])} · ${uiRevision(x)}</p><p>${uiText(x.reason)}</p>${sourceLinks([x.artifact_id])}`).join('')}</details>`:''}`;
   if(section==='properties')content=row?`${uiCandidatePair(panel,row)}${uiCandidateProperties(row)}${item.candidate_artifact_id?sourceLinks([item.candidate_artifact_id]):''}`:uiEmpty('이 후보에 연결된 구조·물성 기록 확인 필요');
   if(section==='experiments')content=uiRelatedExperiments(item,row);
-  return `${panel.structureError?`<p role="status">${esc(panel.structureError)}</p>`:''}<div class="reader-candidate-identity">${row&&structureThumb(row)?structureFigure(row.depiction,name):uiEmpty(['rna','rna_candidate'].includes(optionKind(item))?'RNA 서열과 참조 조건을 아래 근거에서 확인하세요.':'2D 구조 확인 필요')}<div><strong>${esc(name)}</strong>${uiCandidateRole(item)}${uiGenerationLink(item)}<p>${esc(optionStatus[a?.status??'unreviewed'])} · ${uiRevision(a)}</p>${item.origin==='generated_structure_proposal'?'<p>설계 구조 · 생성 단계 활성 미측정</p>':''}<details><summary>정확한 후보 식별자</summary><code>${esc(item.option_id)}</code>${item.label!==name?`<p>원 기록명: ${esc(item.label)}</p>`:''}</details></div></div>
+  return `${panel.structureError?`<p role="status">${esc(panel.structureError)}</p>`:''}<div class="reader-candidate-identity">${row&&structureThumb(row)?structureFigure(row.depiction,name):uiEmpty(uiCandidateStructureReason(item,row))}<div><strong>${esc(name)}</strong>${uiCandidateRole(item)}${uiGenerationLink(item)}<p>${esc(optionStatus[a?.status??'unreviewed'])} · ${uiRevision(a)}</p>${item.origin==='generated_structure_proposal'?'<p>설계 구조 · 생성 단계 활성 미측정</p>':''}<details><summary>정확한 후보 식별자</summary><code>${esc(item.option_id)}</code>${item.label!==name?`<p>원 기록명: ${esc(item.label)}</p>`:''}</details></div></div>
     <nav class="ui-subnav" aria-label="후보 상세 항목">${tabs.map(([id,label])=>button('ui-candidate-tab',label,`data-section="${id}" aria-pressed="${section===id}"`,'small')).join('')}</nav>${content}
     <footer class="reader-candidate-footer">${index>0?button('discovery-detail','← 이전 후보',`data-id="${esc(siblings[index-1].option_id)}"`,'small'):''}${index>=0&&index<siblings.length-1?button('discovery-detail','다음 후보 →',`data-id="${esc(siblings[index+1].option_id)}"`,'small'):''}${button('ui-subject','이 후보에 질문·정정',`data-kind="candidate" data-id="${esc(item.option_id)}" data-label="${esc(name)}"`,'small')}</footer>`;
 }
@@ -5025,6 +6667,7 @@ async function workspaceAction(action,node){
   if(action==='source'&&state){await uiOpenSource(node.dataset.id,{offset:node.dataset.sourceOffset===undefined?undefined:Number(node.dataset.sourceOffset),quote:node.dataset.sourceQuote});return true}
   if(action==='show-check'){researchSubjects.delete(state.id);experimentSelections.set(state.id,node.dataset.check);closeResearchPanel();tab='research';roadmapSelections.set(state.id,'next');render();return true}
   if(!action.startsWith('ui-'))return false;
+  if(action==='ui-reasoning-principle'){await uiOpenReasoningPrinciple(node.dataset.id,node.dataset.section??'principle',Number(node.dataset.offset??0));return true}
   if(action==='ui-pin-research'){if(toggleResearchPin(node.dataset.id)){const id=node.dataset.id;render();[...document.querySelectorAll('[data-action="ui-pin-research"]')].find(n=>n.dataset.id===id)?.focus()}return true}
   if(action==='ui-history-return'){const previous=currentReader()?.historyContext;if(previous){closeResearchPanel();await openEvidenceHistory(previous.hypothesisId,previous.offset)}return true}
   if(action==='ui-stage'){
@@ -5039,6 +6682,7 @@ async function workspaceAction(action,node){
   if(action==='ui-research-mode'){researchListMode=node.dataset.mode;render();return true}
   if(action==='ui-reader-close'||action==='ui-reader-back'){closeResearchPanel(action==='ui-reader-back');return true}
   if(action==='ui-judgment'){await openResearchPanel({kind:'judgment',title:'판단 전체와 근거',subject:{kind:'research',id:state.id,label:state.title},body:`<h3>판단 원문</h3><p>${uiText(state.decision.recommendation)}</p><h3>판단 이유</h3><p>${uiText(state.decision.reason)}</p>${sourceLinks(state.decision.evidence_refs)}${questions(state.decision.questions)}`});return true}
+  if(action==='ui-returned-structures'){const key=candidateStructuresKey();uiReturnedStructureExpanded.set(key,uiReturnedStructureExpanded.get(key)!==true);render();return true}
   if(action==='ui-candidate-view'){candidateViews.set(state.id,node.dataset.view);if(node.dataset.view==='all'){optionsOpen=true;optionsStage='candidates';optionsOffset=0;optionsKind='';optionsPage=null;render();await loadOptions()}else render();return true}
   if(action==='ui-candidate-tab'){readerSnapshot();Object.assign(currentReader(),{section:node.dataset.section,scroll:0,openDetails:[]});render();return true}
   if(action==='ui-generated-group'){await uiLoadGeneration(node.dataset.id);await openResearchPanel({kind:'generated-group',id:node.dataset.id,title:'같은 생성 집합',subject:uiCurrentSubject()});return true}
@@ -5242,11 +6886,15 @@ let status, projects = [], state = null, tab = 'research', selected = null, deta
 let offset = 0, query = '', busy = false, noticeTimer, draft = '', inputKind = 'message', syntheticDraft = false;
 let intentEditBase = null;
 let projectLoadVersion = 0;
-const labels = {tool_reading:'확인한 원문·결과',public_method_background:'공개 방법 배경',source_visual_review:'원문 시각 검토',rna_seed_analysis:'RNA seed 분포 분석',rna_seed_reference:'RNA 참조 전사체',rna_guide:'출처가 확인된 RNA 서열',repository_document:'공개 자료 설명',protocol_snapshot:'판단 생성 방식',article:'공개 원문',entity_search:'표적·질환 후보',rna_gene_review:'RNA 유전자 관측 대조',evidence_view:'확인한 자료 범위',research_check:'후속 연구 확인',molecule_csv:'후보 원자료',rna_table:'RNA 원자료',rdkit:'계산 물성',admet:'모델 예측',rna_observations:'관측 검토',open_targets:'공개 표적 속성',literature:'문헌 검색',model_receipt:'모델 실행 기록',decision_proposal:'판단 제안'};
+let detailRequestVersion = 0;
+const labels = {webpage:'과학 웹 자료',tool_reading:'확인한 원문·결과',public_method_background:'공개 방법 배경',source_visual_review:'원문 시각 검토',rna_seed_analysis:'RNA seed 분포 분석',rna_seed_reference:'RNA 참조 전사체',rna_guide:'출처가 확인된 RNA 서열',repository_document:'공개 자료 설명',protocol_snapshot:'판단 생성 방식',article:'공개 원문',entity_search:'표적·질환 후보',rna_gene_review:'RNA 유전자 관측 대조',evidence_view:'확인한 자료 범위',research_check:'후속 연구 확인',molecule_csv:'후보 원자료',rna_table:'RNA 원자료',rdkit:'계산 물성',admet:'모델 예측',rna_observations:'관측 검토',open_targets:'공개 표적 속성',literature:'문헌 검색',model_receipt:'모델 실행 기록',decision_proposal:'판단 제안'};
 labels.rna_method_review = 'RNA 실제 방법 비교';
 Object.assign(labels,{explanation:'저장된 판단 설명',explanation_context:'설명 기준',explanation_answer:'질문에 대한 설명',explanation_model_output:'설명 응답 기록',explanation_reading:'설명에 사용한 원문'});
 Object.assign(labels,SCIENCE_LABELS);
 labels.rna_seed_sensitivity = 'RNA 참조·발현 민감도';
+labels.intent_dependencies = '목표·조건과 판단의 연결';
+Object.assign(labels,{reassessment_delivery:'재검토 입력 기록',reassessment_bundle:'재검토 결과 연결',reassessment_draft:'재검토 중간 기록',reasoning_design_review:'가설·실험 설계 검토',judgment_context:'판단 조건',hypothesis_review:'가설 검토',discovery_review:'기전·후보 검토',measurement_selection_plan:'다음 확인 선택 계획',measurement_selection_evaluation:'다음 확인 선택 검토'});
+Object.assign(labels,{source_file:'업로드한 원본 문서',source_document:'문서 본문·원문 위치'});
 const jobLabels = {queued:'대기',running:'실행 중',succeeded:'완료',reused:'기존 계산 재사용',failed:'실패',partial:'일부 반환',interrupted:'중단 기록',stale:'이전 조건의 작업',paused:'추가 실행 가능',refused:'서비스 응답 거절',input_missing:'입력 필요',outcome_unknown:'완료 여부 미확인',quota_or_rate_limit:'서비스 한도',identity_unverified:'모델 확인 필요',quota_exhausted:'대회 API 토큰 한도',route_unavailable:'선택한 모델 사용 불가'};
 const eventLabels = {reading_focus_set:'현재 질문의 자료 선택',research_check_requested:'다음 확인 실행',research_check_review_pending:'확인 결과의 해석 대기',created:'연구 시작',message:'연구 요청',correction:'조건 정정',observation:'새 관측',intent_edit:'연구자의 의도 수정',artifact_added:'자료 저장',job_queued:'작업 요청',job_started:'작업 실행',job_finished:'실행 결과',work_framed:'의도와 작업 분해',decision_published:'판단 갱신',decision_stale:'이전 조건의 판단 보존',job_interrupted:'중단된 작업 보존',source_import_failed:'공개 자료 수신 오류',hypothesis_wording_compared:'가설 문구 비교',decision_preservation_checked:'판단 보존 항목 확인',explanation_requested:'설명 요청',followthrough_requested:'후속 검토 요청',followthrough_dispatched:'후속 검토 시작',followthrough_attention:'후속 검토 확인 필요',research_check_result_delivery:'확인 결과 전달'};
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -5256,21 +6904,26 @@ const list = values => values?.length ? `<ul class="list">${values.map(v=>`<li>$
 const json = value => `<pre class="raw">${esc(JSON.stringify(value,null,2))}</pre>`;
 const time = value => new Date(value).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'});
 Object.assign(labels,{chemical_sirna_evidence:'수식 siRNA 원자료',research_evidence:'시험·원전 조건 검토'});
-const artifactName = id => {const a=state?.artifacts.find(a=>a.id===id.split('#')[0]);if(!a)return id;if(a.kind==='decision_proposal'&&typeof uiDecisionRecord==='function')return uiDecisionRecord(a.id)?.title??'게시 전 판단 제안';if(a.kind==='article'&&typeof a.source_title==='string'&&a.source_title.trim())return a.source_title;if(a.kind==='clinical_trial'&&a.meta.summary?.title)return a.meta.summary.title;if(a.kind==='gtopdb_pharmacology'&&a.meta.summary?.gene_symbol)return a.meta.summary.gene_symbol+' · '+a.title;if(a.kind==='target_context'&&a.meta.summary?.symbol)return `${a.meta.summary.symbol} · ${a.title}`;if(['rna_reference','rna_reference_archive'].includes(a.kind)&&a.meta.arguments?.ensembl_id)return `${a.title} · ${a.meta.arguments.ensembl_id}`;if(a.kind==='tool_reading'){const source=state.artifacts.find(x=>x.id===a.meta.source_artifact_id);return source?`${artifactName(source.id)} · 확인한 부분`:'확인한 원문·결과';}return a.title;};
+const artifactName = id => {const a=state?.artifacts.find(a=>a.id===id.split('#')[0]);if(!a)return id;if(a.kind==='decision_proposal'&&typeof uiDecisionRecord==='function')return uiDecisionRecord(a.id)?.title??'게시 전 판단 제안';if(['article','webpage'].includes(a.kind)&&typeof a.source_title==='string'&&a.source_title.trim())return a.source_title;if(a.kind==='clinical_trial'&&a.meta.summary?.title)return a.meta.summary.title;if(a.kind==='gtopdb_pharmacology'&&a.meta.summary?.gene_symbol)return a.meta.summary.gene_symbol+' · '+a.title;if(a.kind==='target_context'&&a.meta.summary?.symbol)return `${a.meta.summary.symbol} · ${a.title}`;if(['rna_reference','rna_reference_archive'].includes(a.kind)&&a.meta.arguments?.ensembl_id)return `${a.title} · ${a.meta.arguments.ensembl_id}`;if(a.kind==='tool_reading'){const source=state.artifacts.find(x=>x.id===a.meta.source_artifact_id);return source?`${artifactName(source.id)} · 확인한 부분`:'확인한 원문·결과';}return a.title;};
 const inputContext = a => a.meta.contrast ?? state?.artifacts.find(i=>i.id===a.meta.consumed_artifacts?.[0])?.meta.contrast;
 function notice(message){clearTimeout(noticeTimer);const n=document.querySelector('#notice');n.textContent=message;n.classList.add('visible');noticeTimer=setTimeout(()=>n.classList.remove('visible'),7000)}
 async function api(path,body){const response=await fetch(deploymentURL(path),{method:body?'POST':'GET',headers:body?{'Content-Type':'application/json','X-Evida-Request':'1'}:{},body:body?JSON.stringify(body):undefined});const data=await response.json();if(!response.ok){const error=Error(data.error||'요청을 완료하지 못했습니다.');error.status=data.status;throw error}return data}
-let gatewayStatusPending=null;
-function gatewayDisplayState(value){const g=value?.gateway??{};return JSON.stringify([g.available,g.message,g.requested_model,g.requested_effort,g.approved_models,Boolean(g.competition_quota),(g.routes??[]).map(r=>[r.id,r.available,r.message]),value?.read_only_preview])}
+let gatewayStatusPending=null, gatewayStatusContext=null;
+function gatewayDisplayState(value){const g=value?.gateway??{};return JSON.stringify([g.available,g.message,g.requested_model,g.requested_effort,g.approved_models,g.maximum_requests,g.requests_remaining,g.resource_exhausted,value?.planner_execution,Boolean(g.competition_quota),(g.routes??[]).map(r=>[r.id,r.available,r.message,r.maximum_requests,r.requests_remaining]),value?.read_only_preview])}
 async function refreshGatewayStatus({force=false,renderChanges=true}={}){
- if(gatewayStatusPending){if(!force)return gatewayStatusPending;await gatewayStatusPending}
+ const context=state?.id??null;
+ if(gatewayStatusPending){if(!force&&gatewayStatusContext===context)return gatewayStatusPending;await gatewayStatusPending}
+ if((state?.id??null)!==context)return false;
+ gatewayStatusContext=context;
  const pending=(async()=>{
   const before=gatewayDisplayState(status);
   try{
-   const response=await fetch(deploymentURL('/api/status'),{cache:'no-store',signal:AbortSignal.timeout(5000)}),fresh=await response.json();
+   const response=await fetch(deploymentURL(context?`/api/workspaces/${encodeURIComponent(context)}/execution-status`:'/api/status'),{cache:'no-store',signal:AbortSignal.timeout(5000)}),fresh=await response.json();
    if(!response.ok||typeof fresh.gateway?.available!=='boolean')throw Error('모델 연결 상태 확인 실패');
+   if((state?.id??null)!==context)return false;
    status=fresh;
   }catch{
+   if((state?.id??null)!==context)return false;
    status={...status,gateway:{...status?.gateway,available:false,message:'모델 연결 상태를 확인하지 못했습니다. 입력 초안은 유지됩니다.'}};
   }
   if(renderChanges&&before!==gatewayDisplayState(status)&&!busy)render();
@@ -5287,8 +6940,9 @@ function sourceLinks(refs){return refs?.length?`<div class="source-links">${refs
 function draftKey(){return `evida-draft-${state?.id??'new'}`}
 function latestFrame(){return state?.events.filter(e=>e.kind==='work_framed'&&e.body.based_rev===state.rev).at(-1)?.body}
 function latestIntentEdit(){return state?.events.filter(e=>e.kind==='intent_edit').at(-1)?.body}
-function editableIntents(){if(state?.intent.length||latestIntentEdit())return state.intent;return latestFrame()?.intent_records??state?.decision?.intent_records??[]}
+function editableIntents(){if(Array.isArray(state?.editable_intents))return state.editable_intents;if(state?.decision_rev===state?.rev||state?.intent.length||latestIntentEdit())return state?.intent??[];return latestFrame()?.intent_records??state?.decision?.intent_records??[]}
 function intents(){
+ if(Array.isArray(state?.editable_intents))return state.editable_intents;
  if(state?.decision_rev===state?.rev)return state?.intent??[];
  const records=latestFrame()?.intent_records??editableIntents(),edit=latestIntentEdit();
  const merged=new Map(records.map(r=>[r.id,r]));
@@ -5324,7 +6978,7 @@ function render(){
   const focused=document.activeElement?.id, start=document.activeElement?.selectionStart;
   const active=state?.jobs.some(j=>['running','queued'].includes(j.status));
   app.innerHTML=deploymentHTML(`<div class="shell"><aside class="rail">${renderResearchRail()}</aside>
-    <div class="main-shell"><header class="topbar"><div class="breadcrumb"><span>워크스페이스</span><span>/</span><strong>${esc(state?.title??'새 연구')}</strong></div><div class="top-actions">${previewReadOnly()||status.gateway.available?'':`<span class="gateway-warning" role="status">${esc(status.gateway.message??'모델 연결 확인 필요')}</span>`}${!previewReadOnly()&&status.gateway.available&&status.gateway.competition_quota&&!isSubscriptionRoute(currentModel())?`<span class="gateway-warning" role="status">대회 API 토큰 한도 소진 · 모델 이용 안내에서 구독 모델을 고를 수 있습니다</span>`:''}${modelAccessButton()}${button('usage-help','도움말','','quiet small')}${state?button('tab','변경 기록',`data-id="history"`,'quiet small'):''}<span class="saved">${active?'작업 실행 중':state?'저장됨 · 연구 기록 '+state.rev:'연구 준비'}</span>${state?button('export','기록 내보내기','','small'):''}</div></header>
+    <div class="main-shell"><header class="topbar"><div class="breadcrumb"><span>워크스페이스</span><span>/</span><strong title="${esc(state?.title??'새 연구')}">${esc(typeof uiDemoResearchLabel==='function'?uiDemoResearchLabel(state):state?.title??'새 연구')}</strong></div><div class="top-actions">${previewReadOnly()||status.gateway.available?'':`<span class="gateway-warning" role="status">${esc(status.gateway.message??'모델 연결 확인 필요')}</span>`}${!previewReadOnly()&&status.gateway.available&&status.gateway.competition_quota&&!isSubscriptionRoute(currentModel())?`<span class="gateway-warning" role="status">대회 API 토큰 한도 소진 · 모델 이용 안내에서 구독 모델을 고를 수 있습니다</span>`:''}${modelAccessButton()}${button('usage-help','도움말','','quiet small')}${state?button('tab','변경 기록',`data-id="history"`,'quiet small'):''}<span class="saved">${active?'작업 실행 중':state?'저장됨 · 연구 기록 '+state.rev:'연구 준비'}</span>${state?button('export','기록 내보내기','','small'):''}</div></header>
     <main class="page" id="main">${renderPreviewNotice()}${submitPhase?`<p class="submitting" role="status">${esc(submitPhase)}</p>`:''}${actionError?`<p class="action-error" role="alert">${esc(actionError)}</p>`:''}${state?teamGuide():''}${state?workspace():welcome()}</main></div></div>`);
   lastRenderedView=JSON.stringify([state?.id??'new',tab,tab==='data'?selected:null]);
   const panelStates=detailPanelStates.get(lastRenderedView);
@@ -5345,8 +6999,8 @@ function questions(items){return items?.length?`<div class="questions">${items.m
 function quotaNotice(){return state.quota_resume?`<section class="notice-inline"><p>서비스 한도로 중단됐습니다. 완료한 조회는 저장돼 있습니다.</p>${button('resume-planner','중단한 판단 이어가기',`data-id="${esc(state.quota_resume.source_job)}" ${busy?'disabled':''}`,'small')}</section>`:''}
 function jobsPanel(){return state.jobs.length?`<section class="panel"><h2>실행 기록</h2><div class="jobs">${state.jobs.slice(-6).reverse().map(j=>`<div><div class="job"><span class="job-name">${esc(j.kind==='planner'?'근거 검토와 판단':labels[j.kind]??j.kind)}</span><span class="status-word ${j.status}">${esc(jobStatus(j))}</span></div>${j.error?`<p class="job-error">${esc(j.error)}</p>`:''}</div>`).join('')}</div></section>`:''}
 function dataView(){const artifacts=state.artifacts.filter(a=>!['model_receipt','decision_proposal','research_notes','tool_reading','protocol_snapshot','explanation_context','explanation_answer','explanation_model_output','explanation_reading'].includes(a.kind)&&(!query||[a.title,a.meta.arguments?.ensembl_id??''].join(' ').toLowerCase().includes(query.toLowerCase())));return `<div class="data-toolbar"><input id="artifact-search" type="text" placeholder="자료 이름으로 찾기" value="${esc(query)}" aria-label="자료 검색">${button('upload','＋ 자료 추가')}</div><div class="data-layout ${selected?'has-selection':''}"><div><div class="artifact-list">${artifacts.map(a=>button('source',`<span class="artifact-title">${esc(artifactName(a.id))}${inputContext(a)?`<span class="muted"> · ${esc(inputContext(a).candidate_label)} / ${esc(inputContext(a).cohort)}</span>`:''}</span><span class="artifact-meta"><span>${esc(labels[a.kind]??a.kind)}</span><span>${a.meta.result_status?esc(jobLabels[a.meta.result_status]??a.meta.result_status):'원자료'}</span></span>`,`data-id="${a.id}"`,`artifact ${selected===a.id?'active':''}`)).join('')||'<div class="panel empty">아직 연결된 자료가 없습니다.</div>'}</div><div class="rule"></div><details class="tool-drawer" data-detail-key="direct-lookup"><summary>직접 조회 · 도구 실행<small>필요할 때만 엽니다. 평소에는 연구 탭의 단계가 필요한 조회를 스스로 합니다.</small></summary><section class="panel"><h3>공개 문헌 찾기</h3><div class="tool-form"><label>과학 질문<input type="text" id="literature-query" placeholder="표적, 기전, 관측…"></label>${button('literature','검색',busy?'disabled':'')}</div><p class="limit">Europe PMC 문헌·초록을 조회합니다.</p></section><section class="panel"><h3>표적 속성 조회</h3><div class="tool-form"><label>인간 Ensembl ID<input type="text" id="target-id" placeholder="ENSG…"></label>${button('target','조회',busy?'disabled':'')}</div><p class="limit">Open Targets의 표적 수준 속성입니다.</p></section>${renderScienceWorkbench()}</details></div><div class="data-detail">${selected?artifactDetail():'<section class="panel empty"><strong>검토할 자료를 선택하세요.</strong>원자료를 보존한 상태에서 계산하거나 출처와 관측을 확인합니다.</section>'}</div></div>`}
-function artifactDetail(){const a=state.artifacts.find(a=>a.id===selected);if(!a)return '';if(!detail||detail.artifact_id!==selected)return '<section class="panel">자료를 읽고 있습니다.</section>';const result=detail.result;const handledLimits=['target_context','gtopdb_pharmacology'].includes(a.kind)||result?.view_kind==='article_references';const total=result?.retained_total_rows??result?.panel_total_rows??result?.total_rows??result?.rows?.length;const capability=status.capabilities.find(c=>c.input_kind===a.kind&&['rdkit','admet','rna_observations','rna_weighted_distribution'].includes(c.id));return `<section class="panel"><div class="section-mark">${esc(labels[a.kind]??a.kind)}</div><h2>${esc(artifactName(a.id))}</h2><div class="source-summary"><span>${a.meta.source_mode==='public_download'?'공개 원자료 수신':a.meta.source_mode==='researcher_upload'?'연구자 업로드':a.meta.result_status?'실제 도구 실행':'보존 자료'}</span><span>${new Date(a.created).toLocaleString('ko-KR')}</span>${total!==undefined?`<span>${number(total)}행 보존</span>`:''}${result?.content_coverage?`<span>${result.content_coverage.scope==='body_available'?'본문 XML 포함':result.content_coverage.scope==='abstract_only'?'초록만 수신 · 본문 미반환':'본문 미반환'}</span>`:''}</div><div class="detail-actions">${capability?button('tool',capability.id==='rdkit'?'물성 계산':capability.id==='admet'?'ADMET 예측':capability.id==='rna_weighted_distribution'?'평균·분포 계산':'관측 검토',`data-tool="${capability.id}" data-id="${a.id}" ${busy?'disabled':''}`,'primary small'):''}${button('download','원본·전체 결과 내려받기',`data-id="${a.id}"`,'small')}</div>
- ${result?.error?`<div class="notice-inline">${esc(result.error)}</div>`:''}${result?.contrast?`<p class="small muted">${esc(result.contrast.candidate_label)} · ${esc(result.contrast.cohort)} · ${esc(result.context)}</p>`:''}${!handledLimits&&a.kind!=='rna_candidate_space'&&result?.limits?.[0]?`<p class="limit">${esc(result.limits[0])}</p>`:''}${a.kind==='rna_seed_analysis'?seedSummary(result):''}${a.kind==='source_image'?`<img class="source-original-image" alt="${esc(a.title)}" src="/api/workspaces/${state.id}/artifacts/${a.id}?image=1"><p class="limit">공개 원 이미지입니다. 자동 판독이나 새 실험 결과가 아닙니다.</p>`:a.kind==='public_lookup_bundle'?publicLookupBundleView(result):a.kind==='compound_selection'?compoundSelectionView(result):a.kind==='research_evidence'?researchEvidenceView(result):a.kind==='chemical_sirna_evidence'?chemicalSourceView(result):a.kind==='discovery_review'?reviewRecordView(result,a.meta):a.kind==='tool_reading'?readingSnapshotView(result):a.kind==='source_visual_review'&&result?.rows?sourceVisualReviewView(result):a.kind==='article'&&result?.rows?articleView(result):a.kind==='repository_document'&&result?.rows?repositoryDocumentView(result):result?.rows?renderTable(result,a.kind):result?.response?.data?.target?targetTable(result.response.data.target):detail.preview?`<p class="limit">원자료 앞부분입니다. 계산 결과가 아닙니다.</p><pre class="raw">${esc(detail.preview)}</pre>`:result?json(result):''}
+function artifactDetail(){const a=state.artifacts.find(a=>a.id===selected);if(!a)return '';if(!detail||detail.artifact_id!==selected)return '<section class="panel">자료를 읽고 있습니다.</section>';const result=detail.result;const handledLimits=['target_context','gtopdb_pharmacology','source_file','source_document'].includes(a.kind)||result?.view_kind==='article_references';const total=result?.retained_total_rows??result?.panel_total_rows??result?.total_rows??result?.rows?.length;const capability=status.capabilities.find(c=>c.input_kind===a.kind&&['rdkit','admet','rna_observations','rna_weighted_distribution'].includes(c.id));return `<section class="panel"><div class="section-mark">${esc(labels[a.kind]??a.kind)}</div><h2>${esc(artifactName(a.id))}</h2><div class="source-summary"><span>${a.meta.source_mode==='public_download'?'공개 원자료 수신':a.meta.source_mode==='researcher_upload'?'연구자 업로드':a.meta.result_status?'실제 도구 실행':'보존 자료'}</span><span>${new Date(a.created).toLocaleString('ko-KR')}</span>${total!==undefined?`<span>${number(total)}행 보존</span>`:''}${result?.content_coverage?`<span>${result.content_coverage.scope==='body_available'?'본문 XML 포함':result.content_coverage.scope==='abstract_only'?'초록만 수신 · 본문 미반환':result.content_coverage.scope==='extracted_webpage_text'?'추출한 웹 본문':'본문 미반환'}</span>`:''}</div><div class="detail-actions">${capability?button('tool',capability.id==='rdkit'?'물성 계산':capability.id==='admet'?'ADMET 예측':capability.id==='rna_weighted_distribution'?'평균·분포 계산':'관측 검토',`data-tool="${capability.id}" data-id="${a.id}" ${busy?'disabled':''}`,'primary small'):''}${button('download','원본·전체 결과 내려받기',`data-id="${a.id}"`,'small')}</div>
+ ${result?.error?`<div class="notice-inline">${esc(result.error)}</div>`:''}${result?.contrast?`<p class="small muted">${esc(result.contrast.candidate_label)} · ${esc(result.contrast.cohort)} · ${esc(result.context)}</p>`:''}${!handledLimits&&a.kind!=='rna_candidate_space'&&result?.limits?.[0]?`<p class="limit">${esc(result.limits[0])}</p>`:''}${a.kind==='rna_seed_analysis'?seedSummary(result):''}${a.kind==='source_image'?`<img class="source-original-image" alt="${esc(a.title)}" src="/api/workspaces/${state.id}/artifacts/${a.id}?image=1"><p class="limit">공개 원 이미지입니다. 자동 판독이나 새 실험 결과가 아닙니다.</p>`:a.kind==='public_lookup_bundle'?publicLookupBundleView(result):a.kind==='compound_selection'?compoundSelectionView(result):a.kind==='research_evidence'?researchEvidenceView(result):a.kind==='chemical_sirna_evidence'?chemicalSourceView(result):a.kind==='discovery_review'?reviewRecordView(result,a.meta):a.kind==='tool_reading'?readingSnapshotView(result):a.kind==='source_visual_review'&&result?.rows?sourceVisualReviewView(result):a.kind==='webpage'?scientificWebpageView(result):a.kind==='source_file'?uploadedSourceFileView(result??{},a):a.kind==='source_document'?uploadedSourceDocumentView(result??{}):a.kind==='article'&&result?.rows?articleView(result):a.kind==='repository_document'&&result?.rows?repositoryDocumentView(result):result?.rows?renderTable(result,a.kind):result?.response?.data?.target?targetTable(result.response.data.target):detail.preview?`<p class="limit">원자료 앞부분입니다. 계산 결과가 아닙니다.</p><pre class="raw">${esc(detail.preview)}</pre>`:result?json(result):''}
  ${handledLimits?'':['rna_candidate_space','rna_duplex','rna_duplex_seed','rna_duplex_transcriptome','rna_delivery_response'].includes(a.kind)?`<details class="meta-details"><summary>계산 범위와 아직 확인하지 않은 조건</summary>${(result?.limits??[]).map(l=>`<p class="limit">${esc(l)}</p>`).join('')}</details>`:(result?.limits??a.meta.limits??[]).map(l=>`<p class="limit">${esc(l)}</p>`).join('')}
  ${a.meta.consumed_artifacts?.length?sourceLinks(a.meta.consumed_artifacts):''}
  <details class="meta-details"><summary>출처·조건·도구 버전</summary>${a.meta.source?.url?`<p class="limit"><a href="${esc(safeUrl(a.meta.source.url))}" target="_blank" rel="noopener noreferrer">공개 원자료 열기 ↗</a></p>`:''}${json(a.meta)}${result?.endpoint_metadata?json({endpoint_metadata:result.endpoint_metadata,versions:result.versions}):''}${result?.columns?json({columns:result.columns,versions:result.versions}):''}<p class="mono">SHA256 ${esc(a.sha256)}</p></details></section>`}
@@ -5378,19 +7032,34 @@ async function loadProject(id){
  tab='research';state=fresh;evidaStorage.setItem('evida-project',id);draft=evidaStorage.getItem(draftKey())??'';
  if(typeof rememberShownQuotaJobs==='function')rememberShownQuotaJobs();
  selected=null;detail=null;offset=0;query='';optionsOffset=0;optionsPage=null;optionsWorkspace=null;
- render();if(optionsOpen)await loadOptions();if(version===projectLoadVersion)window.scrollTo(0,0);
+ render();refreshGatewayStatus({force:true}).catch(()=>{});if(optionsOpen)await loadOptions();if(version===projectLoadVersion)window.scrollTo(0,0);
 }
-async function refresh(){if(!state)return;const wid=state.id;const fresh=await api(`/api/workspaces/${wid}`);if(state?.id!==wid)return;const changed=fresh.event_cursor!==state.event_cursor;state=fresh;if(changed){projects=await api('/api/workspaces');render();if(optionsOpen)await loadOptions()}if(typeof checkQuotaJobs==='function')checkQuotaJobs()}
+async function refresh(){if(!state)return;const wid=state.id;const fresh=await api(`/api/workspaces/${wid}`);if(state?.id!==wid)return;const changed=fresh.event_cursor!==state.event_cursor;state=fresh;if(changed){projects=await api('/api/workspaces');render();if(tab==='data'&&state.artifacts.find(a=>a.id===selected)?.kind==='source_file')await readDetail();if(optionsOpen)await loadOptions()}if(typeof checkQuotaJobs==='function')checkQuotaJobs()}
 async function chooseArtifact(id){selected=id;offset=0;detail=null;tab='data';render();await readDetail()}
 async function openArticleSection(node){articleReferenceModes.delete(selected);const next=Number(node.dataset.offset);if(!Number.isInteger(next)||next<0)return;offset=next;await readDetail();document.querySelector('.data-detail')?.scrollIntoView({block:'start'});}
-async function readDetail(){const id=selected,data=await api(`/api/workspaces/${state.id}/artifacts/${id}?offset=${offset}&limit=${state.artifacts.find(a=>a.id===id)?.kind==='rna_delivery_response'?100:30}${candidateSpaceQuery(id)}${rnaContextQuery(id)}${articleReferenceQuery(id)}`);if(id===selected){detail=data;render()}}
-async function saveMessage(){if(!draft.trim())return;const body={kind:inputKind,text:draft.trim(),synthetic:syntheticDraft};await api(`/api/workspaces/${state.id}/commands`,{expected_rev:state.rev,command_id:crypto.randomUUID(),body});draft='';syntheticDraft=false;evidaStorage.removeItem(draftKey());await refresh()}
+async function readDetail(){
+ const id=selected,wid=state.id,start=offset,version=++detailRequestVersion;
+ const current=()=>version===detailRequestVersion&&state?.id===wid&&selected===id&&offset===start;
+ try{
+  const data=await api(`/api/workspaces/${wid}/artifacts/${id}?offset=${start}&limit=${state.artifacts.find(a=>a.id===id)?.kind==='rna_delivery_response'?100:30}${candidateSpaceQuery(id)}${rnaContextQuery(id)}${articleReferenceQuery(id)}`);
+  if(current()){detail=data;render()}
+ }catch(error){if(current())throw error}
+}
+async function saveMessage(){if(!draft.trim())return;const body={kind:inputKind,text:draft.trim(),synthetic:syntheticDraft,...(typeof pendingInitialEvidenceScope!=='undefined'&&pendingInitialEvidenceScope?{evidence_scope:pendingInitialEvidenceScope}:{})};await api(`/api/workspaces/${state.id}/commands`,{expected_rev:state.rev,command_id:crypto.randomUUID(),body});if(typeof pendingInitialEvidenceScope!=='undefined')pendingInitialEvidenceScope=null;draft='';syntheticDraft=false;evidaStorage.removeItem(draftKey());await refresh()}
 async function runTool(tool,args){if(tool==='planner'&&args&&args.model===undefined&&typeof plannerOptions==='function')args={...args,...plannerOptions()};const response=await api(`/api/workspaces/${state.id}/jobs`,{expected_rev:state.rev,tool,arguments:args});await refresh();notice('작업을 시작했습니다. 결과와 원자료를 함께 보존합니다.');return response}
 function showDialog(title,content){dialog.innerHTML=deploymentHTML(`<div class="dialog-title"><h2 id="editor-title">${esc(title)}</h2>${button('close-dialog','닫기','','quiet small')}</div>${content}`);dialog.showModal()}
 function editIntents(){const records=structuredClone(editableIntents());intentEditBase={workspace:state.id,rev:state.rev,records};showDialog('연구 의도 수정',`<p class="small muted">저장된 의도를 편집합니다. 바꾼 항목만 연구자의 수정으로 기록하고, 나머지 내용과 출처는 유지합니다.</p><div id="intent-rows">${records.map(intentRow).join('')||intentRow({label:'',text:''})}</div><div class="dialog-actions">${button('add-intent','＋ 항목 추가')}${button('save-intent','수정 내용 저장','','primary')}</div>`)}
 function intentRow(r={}){return `<div class="edit-row" data-record-id="${esc(r.id??'')}"><input type="text" class="intent-label" aria-label="의도 항목 이름" placeholder="예: 판단 기준" value="${esc(r.label??'')}"><textarea class="intent-text" aria-label="의도 항목 내용" placeholder="내용 또는 미확인 사항">${esc(r.text??'')}</textarea>${button('remove-intent','×','aria-label="이 항목 삭제"','quiet')}</div>`}
-function uploadDialog(){showDialog('기존 자료 추가',`<p class="small muted">원본 파일을 보존합니다. 모르는 조건은 맥락에 미확인으로 적어 주세요.</p><label class="input-label" for="upload-file">자료 파일</label><input type="file" id="upload-file" accept=".csv,.tsv,.txt,.gz"><div class="upload-fields"><label>자료 종류<select id="upload-kind"><option value="molecule_csv">기존 분자 후보 CSV</option><option value="rna_table">기존 RNA 차등발현표</option></select></label><label data-molecule-field>CSV 구분자<select id="upload-delimiter"><option value=",">쉼표</option><option value=";">세미콜론</option><option value="tab">탭</option></select></label><label data-molecule-field>SMILES 열 이름<input type="text" id="upload-smiles" value="smiles"></label><label data-molecule-field>후보 식별자 열 이름<input type="text" id="upload-id" value="cid"></label></div><div id="upload-format-help" class="small muted"><p>후보 ID와 SMILES가 있는 CSV입니다. 열 이름과 구분자를 맞춰 주세요.</p><a href="/templates/molecules.csv" download>빈 CSV 양식 받기</a></div><label class="input-label" for="upload-context">자료의 대상·조건·출처</label><textarea id="upload-context" placeholder="어떤 후보 또는 시료의 자료인지, 단위·시점·대조군 등 알려진 내용을 적어 주세요."></textarea><div class="dialog-actions"><span class="small muted">파일당 10 MiB</span>${button('save-upload','자료 저장','','primary')}</div>`)}
+function uploadDialog(){showDialog('기존 자료 추가',`<p class="small muted">원본 파일을 보존합니다. 알려진 조건과 출처를 함께 적어 주세요.</p>
+  <label class="input-label" for="upload-kind">자료 종류</label><select id="upload-kind"><option value="molecule_csv">기존 분자 후보 CSV</option><option value="rna_table">기존 RNA 차등발현표</option><option value="source_file">논문·연구 문서 (TXT/PDF)</option></select>
+  <label class="input-label" for="upload-file">자료 파일</label><input type="file" id="upload-file" accept=".csv,.tsv,.txt">
+  <div class="upload-fields"><label data-molecule-field>CSV 구분자<select id="upload-delimiter"><option value=",">쉼표</option><option value=";">세미콜론</option><option value="tab">탭</option></select></label><label data-molecule-field>SMILES 열 이름<input type="text" id="upload-smiles" value="smiles"></label><label data-molecule-field>후보 식별자 열 이름<input type="text" id="upload-id" value="cid"></label></div>
+  <div id="upload-format-help" class="small muted"><p>후보 ID와 SMILES가 있는 CSV입니다. 열 이름과 구분자를 맞춰 주세요.</p><a href="/templates/molecules.csv" download>빈 CSV 양식 받기</a></div>
+  <label class="input-label" for="upload-context">자료의 대상·조건·출처</label><textarea id="upload-context" placeholder="어떤 후보 또는 시료의 자료인지, 단위·시점·대조군 등 알려진 내용을 적어 주세요."></textarea>
+  <label data-document-field hidden>논문 제목·저자·DOI 등 (선택)<input type="text" id="upload-citation" placeholder="원본과 함께 보존할 출처 정보"></label>
+  <div class="dialog-actions"><span class="small muted">파일당 10 MiB</span>${button('save-upload','자료 저장','','primary')}</div>`)}
 async function act(action,node){
+ if(action.startsWith('observation-amendment-')){await observationAmendmentAction(action,node);return}
  if(await semanticLiteratureAction(action,node))return;
  if(await workspaceAction(action,node))return;
  if(busy && !['close-dialog','usage-help','model-help','choose-model','confirm-model'].includes(action))return;
@@ -5430,7 +7099,7 @@ async function act(action,node){
  if(action==='message-source'){const e=state.events.find(e=>e.body.message_id===node.dataset.id);showDialog('원래 입력',inputSourceView(e));return}
  if(action==='export'){window.location.href=deploymentURL(`/api/workspaces/${state.id}/export`);return}
  if(action==='download'){window.location.href=deploymentURL(`/api/workspaces/${state.id}/artifacts/${node.dataset.id}?download=1`);return}
- if(action==='new'){++projectLoadVersion;intakeError='';actionError='';intakeFile=null;intakeContext='';intakeMode='question';optionsOpen=false;inputKind='message';syntheticDraft=false;history.replaceState(null,'',deploymentURL('/'));state=null;selected=null;detail=null;draft=evidaStorage.getItem(draftKey())??'';tab='research';evidaStorage.removeItem('evida-project');render();return}
+ if(action==='new'){intakeSuppliedEvidenceOnly=false;intakeEvidenceAsOf='';pendingInitialEvidenceScope=null;++projectLoadVersion;intakeError='';actionError='';intakeFile=null;intakeContext='';intakeMode='question';optionsOpen=false;inputKind='message';syntheticDraft=false;history.replaceState(null,'',deploymentURL('/'));state=null;selected=null;detail=null;draft=evidaStorage.getItem(draftKey())??'';tab='research';evidaStorage.removeItem('evida-project');render();return}
  if(action==='tab'){tab=node.dataset.id;render();window.scrollTo(0,0);return}
  if(action==='source'){if(dialog.open)dialog.close();await chooseArtifact(node.dataset.id);return}
  if(action==='article-section'){await openArticleSection(node);return}
@@ -5446,6 +7115,7 @@ async function act(action,node){
   if(action==='save-feedback'){await saveResearchFeedback(node.dataset.review==='true')}
   if(action==='save-message'){await saveMessage();notice('내용을 저장했습니다. 이전 원문과 결과는 유지됩니다.')}
   if(action==='resume-planner'){await api(`/api/workspaces/${state.id}/resume-planner`,{expected_rev:state.rev,source_job:node.dataset.id});await refresh();notice('완료한 조회를 유지하며 중단한 판단을 이어갑니다.')}
+  if(action==='retry-planner'){await api(`/api/workspaces/${state.id}/review-requests`,{expected_rev:state.rev,command_id:crypto.randomUUID(),...plannerOptions(),model:currentModel()});await refresh();notice('저장한 질문의 재검토를 접수했습니다. 작성 중인 초안은 보내지 않았습니다.')}
   if(action==='plan'){await submitResearchFollowthrough()}
   if(action==='synthesize'){await saveMessage();await runTool('planner',{synthesis_only:true})}
   if(action==='tool'){await runTool(node.dataset.tool,{artifact_id:node.dataset.id})}
@@ -5462,8 +7132,15 @@ async function act(action,node){
   if(action==='save-upload'){
     const file=dialog.querySelector('#upload-file').files[0], kind=dialog.querySelector('#upload-kind').value;
     const d=dialog.querySelector('#upload-delimiter').value;
-    const meta={delimiter:kind==='rna_table'?'\t':d==='tab'?'\t':d,smiles_column:dialog.querySelector('#upload-smiles').value,id_column:dialog.querySelector('#upload-id').value,context:dialog.querySelector('#upload-context').value};
-    await validateInputFile(file,kind,meta);await uploadInput(file,kind,meta);dialog.close();notice('원자료를 저장했습니다. 분석을 시작하면 실제 결과를 확인할 수 있습니다.');
+    const context=dialog.querySelector('#upload-context').value;
+    const meta=kind==='source_file'
+      ? {document_format:file?.name.toLowerCase().endsWith('.pdf')?'pdf':'text',context,citation:dialog.querySelector('#upload-citation').value}
+      : {delimiter:kind==='rna_table'?'\t':d==='tab'?'\t':d,smiles_column:dialog.querySelector('#upload-smiles').value,id_column:dialog.querySelector('#upload-id').value,context};
+    await validateInputFile(file,kind,meta);const saved=await uploadInput(file,kind,meta);dialog.close();
+    if(kind==='source_file'){
+      await chooseArtifact(saved.source_artifact_id??saved.artifact_id);
+      notice(saved.extraction_status==='failed'?'원본은 저장됐습니다. 문서 판독 상태에서 다음 확인을 볼 수 있습니다.':'원본을 저장했습니다. 문단·페이지별 본문을 준비하고 있습니다.');
+    }else notice('원자료를 저장했습니다. 분석을 시작하면 실제 결과를 확인할 수 있습니다.');
   }
  }finally{busy=false;submitPhase='';render()}
 }
@@ -5472,7 +7149,7 @@ document.addEventListener('input',event=>{if(event.target.id==='message'){draft=
 document.addEventListener('change',event=>{if(event.target.id==='input-kind')inputKind=event.target.value;if(event.target.id==='synthetic')syntheticDraft=event.target.checked});
 document.addEventListener('input',event=>{if(event.target.id==='semantic-literature-query'&&state){const view=semanticView(state.id),wasLoading=view.loading;if(wasLoading)semanticStop(state.id,'검색어가 바뀌어 이전 검색 기다림을 닫았습니다.');view.query=event.target.value;if(wasLoading){view.result=null;render()}}});
 document.addEventListener('keydown',event=>{if(event.key==='Enter'&&event.target.id==='semantic-literature-query'){event.preventDefault();act('semantic-literature-search',event.target)}});
-async function init(){[status,projects]=await Promise.all([api('/api/status'),api('/api/workspaces')]);const id=new URLSearchParams(location.search).get('workspace')??evidaStorage.getItem('evida-project');if(id&&projects.some(p=>p.id===id))await loadProject(id);else{draft=evidaStorage.getItem(draftKey())??'';render()}setInterval(()=>{if(state&&!busy)refresh().catch(()=>{})},2500);setInterval(checkGatewayWhenVisible,10000)}
+async function init(){[status,projects]=await Promise.all([api('/api/status'),api('/api/workspaces')]);const direct=new URLSearchParams(location.search).get('workspace'),remembered=evidaStorage.getItem('evida-project'),configured=typeof uiDemoResearchIds==='function'?uiDemoResearchIds():null;const id=direct??(configured===null||configured.has(remembered)?remembered:null);if(id&&projects.some(p=>p.id===id))await loadProject(id);else{draft=evidaStorage.getItem(draftKey())??'';render()}setInterval(()=>{if(state&&!busy)refresh().catch(()=>{})},2500);setInterval(checkGatewayWhenVisible,10000)}
 init().catch(e=>{app.innerHTML=`<p class="boot">${esc(e.message)}</p>`});
 
 function sourceVisualReviewView(result){return `<p class="limit">보존된 원문 페이지를 읽고 남긴 판독 기록입니다. 새 실험 결과나 독립 검증은 아닙니다.</p>${result.source_artifact_id?sourceLinks([result.source_artifact_id]):''}${result.rows.map(r=>`<article class="source-paragraph"><h3>${esc(r.page)}쪽 · ${esc(r.region_ko??r.region)}</h3><p class="prose">${esc(r.finding_ko??r.finding)}</p><p class="limit">${esc(r.limit_ko??r.limit)}</p></article>`).join('')}`;}

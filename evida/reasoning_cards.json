@@ -1,0 +1,1671 @@
+{
+  "version": "p1-cards-v1",
+  "status": "INTERNAL_REVIEW_REVISED_NOT_EMPIRICALLY_VALIDATED",
+  "cards": [
+    {
+      "id": "RC01",
+      "title_ko": "병변의 원료가 만들어지는 곳을 겨냥하기",
+      "when_to_use": "A harmful circulating protein or metabolite has an identified production tissue.",
+      "principle": "Generate an upstream production-suppression hypothesis alongside treating the damaged tissue; test the production-to-disease link in steps.",
+      "usual_hypothesis_level": "source tissue → mediator → phenotype",
+      "modality_tags": [
+        "siRNA",
+        "general"
+      ],
+      "situation_tags": [
+        "generation",
+        "source_tissue",
+        "upstream"
+      ],
+      "falsifier_template": {
+        "H1": "Suppressing production of X in tissue T lowers downstream injury readout Y under condition C.",
+        "H0": "With equally verified delivery, lowering X does not improve Y under C.",
+        "single_changed_variable": "Target-X siRNA versus non-targeting siRNA",
+        "held_constant": [
+          "Cell/model identity",
+          "Delivery chemistry and amount",
+          "Exposure window"
+        ],
+        "controls": [
+          "Non-targeting siRNA",
+          "Independent X mRNA/protein assay",
+          "Assay-positive reference"
+        ],
+        "readout": "X suppression plus prespecified downstream Y; report each separately",
+        "timepoint": "Specify target-response and disease-response windows before testing",
+        "refuting_result": "X is adequately reduced but Y shows a precise lack of the prespecified improvement.",
+        "experiment_failure": "Delivery or X assay fails; Y cannot be interpreted.",
+        "next_actions": {
+          "supports": "Retain the bounded link; replicate with an independent perturbation before extending to clinical benefit.",
+          "refutes": "Revise this causal link or its stated conditions; retain alternatives consistent with the readout.",
+          "inconclusive": "Resolve the named precision, timing or compartment uncertainty before choosing between H1 and H0.",
+          "experiment_failure": "Repair the failed assay, exposure or control and repeat the same contrast."
+        },
+        "provenance": "METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification."
+      },
+      "common_failure_modes": [
+        "Assuming the tissue with visible injury must be the best delivery site",
+        "Calling a mediator decrease a clinical benefit"
+      ],
+      "worked_examples": [
+        {
+          "case_id": "patisiran",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/sirna/patisiran.json",
+          "trace_sha256": "ed7a1693e47939b06c94e67fe7a8e95b0f791b91602407ebe8b9872d4d783e91",
+          "source_refs": [
+            {
+              "id": "S2",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/23984729/",
+              "title": "Safety and efficacy of RNAi therapy for transthyretin amyloidosis"
+            },
+            {
+              "id": "S1",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/29972753/",
+              "title": "Patisiran, an RNAi Therapeutic, for Hereditary Transthyretin Amyloidosis"
+            }
+          ],
+          "observation_to_decision": "Hepatocyte-derived disease protein motivated production suppression; a later controlled study assessed neuropathy rather than protein alone.",
+          "limits": "Clinical regimen benefit does not isolate every molecular step; source trace has documentary gaps.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        },
+        {
+          "case_id": "givosiran",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/sirna/givosiran.json",
+          "trace_sha256": "60f64fd33486b857beaff3aa94433ae2450a025954fa98368f1b0837f9194a8f",
+          "source_refs": [
+            {
+              "id": "S2",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/24821812/",
+              "title": "RNAi-mediated silencing of hepatic Alas1 effectively prevents and treats the induced acute attacks in acute intermittent porphyria mice"
+            },
+            {
+              "id": "S1",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/32521132/",
+              "title": "Phase 3 Trial of RNAi Therapeutic Givosiran for Acute Intermittent Porphyria"
+            }
+          ],
+          "observation_to_decision": "Inducible hepatic precursor synthesis motivated ALAS1 suppression; development separately measured attacks.",
+          "limits": "Animal induction models and human attacks are different evidence levels.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        }
+      ]
+    },
+    {
+      "id": "RC02",
+      "title_ko": "결손 효소 대신 독성 물질의 공급을 줄이기",
+      "when_to_use": "A defective metabolic step accumulates a harmful product and another enzyme supplies its precursor.",
+      "principle": "Generate substrate-reduction and terminal-production hypotheses rather than assuming the missing enzyme must be repaired.",
+      "usual_hypothesis_level": "metabolic flux",
+      "modality_tags": [
+        "siRNA",
+        "small_molecule"
+      ],
+      "situation_tags": [
+        "generation",
+        "substrate_reduction",
+        "metabolism"
+      ],
+      "falsifier_template": {
+        "H1": "Reducing enzyme X activity lowers harmful flux Y despite the unchanged primary defect.",
+        "H0": "Adequate reduction of X leaves Y unchanged under the same substrate conditions.",
+        "single_changed_variable": "X suppression versus matched non-targeting control",
+        "held_constant": [
+          "Primary defect",
+          "Substrate supply",
+          "Cell number",
+          "Collection duration"
+        ],
+        "controls": [
+          "Non-targeting control",
+          "X engagement assay",
+          "Substrate/product recovery control"
+        ],
+        "readout": "X engagement, precursor and product quantified separately",
+        "timepoint": "Prespecify after steady-state exposure and matched collection",
+        "refuting_result": "X is reduced and the assay recovers product, but harmful flux does not decline with adequate precision.",
+        "experiment_failure": "Failed collection, altered clearance or no X suppression prevents flux inference.",
+        "next_actions": {
+          "supports": "Retain the bounded link; replicate with an independent perturbation before extending to clinical benefit.",
+          "refutes": "Revise this causal link or its stated conditions; retain alternatives consistent with the readout.",
+          "inconclusive": "Resolve the named precision, timing or compartment uncertainty before choosing between H1 and H0.",
+          "experiment_failure": "Repair the failed assay, exposure or control and repeat the same contrast."
+        },
+        "provenance": "METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification."
+      },
+      "common_failure_modes": [
+        "Confusing excretion with synthesis",
+        "Ignoring alternative precursor sources"
+      ],
+      "worked_examples": [
+        {
+          "case_id": "lumasiran",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/sirna/lumasiran.json",
+          "trace_sha256": "87f35e8b58ff6386114bcd0d15c5a4f86f2cb20efa7f1c3ae22db3f07c53d6f4",
+          "source_refs": [
+            {
+              "id": "S2",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/27432743/",
+              "title": "An Investigational RNAi Therapeutic Targeting Glycolate Oxidase Reduces Oxalate Production in Models of Primary Hyperoxaluria"
+            },
+            {
+              "id": "S4",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8425611/",
+              "title": "Phase 1/2 Study of Lumasiran for Treatment of Primary Hyperoxaluria Type 1: A Placebo-Controlled Randomized Clinical Trial"
+            }
+          ],
+          "observation_to_decision": "Upstream glycolate-oxidase suppression was proposed to deplete substrate; pharmacodynamic and safety review informed dose expansion.",
+          "limits": "Biochemical lowering is not proof of long-term organ preservation.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        },
+        {
+          "case_id": "nedosiran",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/sirna/nedosiran.json",
+          "trace_sha256": "8cc1bfb66f476e4de248b4539de2bf7d1fe37d568ccabb96a4c4ed028d4bf72a",
+          "source_refs": [
+            {
+              "id": "S3",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/29914758/",
+              "title": "Specific Inhibition of Hepatic Lactate Dehydrogenase Reduces Oxalate Production in Mouse Models of Primary Hyperoxaluria"
+            },
+            {
+              "id": "S1",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/36007597/",
+              "title": "PHYOX2: a pivotal randomized study of nedosiran in primary hyperoxaluria type 1 or 2"
+            }
+          ],
+          "observation_to_decision": "Final-step hepatic enzyme suppression was proposed as another way to reduce oxalate; subtype responses remained distinct.",
+          "limits": "The small PH2 cohort cannot establish a universal negative mechanism verdict.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        }
+      ]
+    },
+    {
+      "id": "RC03",
+      "title_ko": "부족한 성분을 보충하는 대신 반대 경로를 조절하기",
+      "when_to_use": "A missing function is opposed by a measurable endogenous brake.",
+      "principle": "Generate a compensation hypothesis: reducing the opposing process may restore balance without replacing the deficient component.",
+      "usual_hypothesis_level": "pathway balance",
+      "modality_tags": [
+        "siRNA",
+        "general"
+      ],
+      "situation_tags": [
+        "generation",
+        "compensation",
+        "opposing_pathways"
+      ],
+      "falsifier_template": {
+        "H1": "At the fixed exposure, reducing opposing process X restores functional readout Y by a prospectively justified amount.",
+        "H0": "Adequate X reduction does not achieve that functional improvement under these conditions.",
+        "single_changed_variable": "Partial X suppression versus non-targeting control",
+        "held_constant": [
+          "Deficient model",
+          "Trigger intensity",
+          "Delivery",
+          "Assay time"
+        ],
+        "controls": [
+          "Non-targeting control",
+          "Healthy reference for assay range",
+          "X activity assay"
+        ],
+        "readout": "Functional output and excess-correction safety readout, separately",
+        "timepoint": "Specify engagement window and downstream challenge time",
+        "refuting_result": "With valid controls and adequate X reduction, the uncertainty interval excludes the required functional improvement. Excess correction is a separate safety decision, not erasure of activity.",
+        "experiment_failure": "Failed engagement or dysfunctional challenge assay.",
+        "next_actions": {
+          "supports": "Retain the activity observation. Separately assess excess-correction safety; active but unsafe does not support escalation. Test any degree-of-suppression change as a new controlled contrast.",
+          "refutes": "Revise this causal link or its stated conditions; retain alternatives consistent with the readout.",
+          "inconclusive": "Resolve the named precision, timing or compartment uncertainty before choosing between H1 and H0.",
+          "experiment_failure": "Repair the failed assay, exposure or control and repeat the same contrast."
+        },
+        "provenance": "METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification."
+      },
+      "common_failure_modes": [
+        "Assuming maximal knockdown is optimal",
+        "Equating restored assay output with acceptable clinical safety"
+      ],
+      "worked_examples": [
+        {
+          "case_id": "fitusiran",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/sirna/fitusiran.json",
+          "trace_sha256": "93d27b23a18f05e7387e808354637639948b253ec0822ac1e5194c111deb7ea2",
+          "source_refs": [
+            {
+              "id": "S2",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/25849132/",
+              "title": "An RNAi therapeutic targeting antithrombin to rebalance the coagulation system and promote hemostasis in hemophilia"
+            },
+            {
+              "id": "S4",
+              "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa1616569",
+              "title": "Targeting of Antithrombin in Hemophilia A or B with RNAi Therapy"
+            }
+          ],
+          "observation_to_decision": "Co-inherited prothrombotic observations motivated antithrombin reduction rather than factor replacement; early investigators expanded the tested population.",
+          "limits": "A compensation rationale is a hypothesis, not a rule that more suppression is better.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        }
+      ]
+    },
+    {
+      "id": "RC04",
+      "title_ko": "약점이 있는 세포에서만 필요한 우회 기능 찾기",
+      "when_to_use": "Disease cells have a defined repair or survival defect absent from a matched reference.",
+      "principle": "Generate a selective-dependency hypothesis by asking which compensating function becomes necessary in the defective state.",
+      "usual_hypothesis_level": "conditional vulnerability",
+      "modality_tags": [
+        "small_molecule",
+        "general"
+      ],
+      "situation_tags": [
+        "generation",
+        "synthetic_vulnerability",
+        "context"
+      ],
+      "falsifier_template": {
+        "H1": "Inhibiting X selectively impairs defect-D cells compared with matched D-restored cells.",
+        "H0": "The effect of X inhibition does not depend on D.",
+        "single_changed_variable": "X inhibitor versus vehicle within each pre-specified isogenic context",
+        "held_constant": [
+          "Genetic background except D",
+          "Dose",
+          "Exposure",
+          "Viability method"
+        ],
+        "controls": [
+          "Vehicle",
+          "D-restored reference",
+          "X engagement assay"
+        ],
+        "readout": "Pre-specified treatment-by-D interaction in damage and survival readouts",
+        "timepoint": "Matched early damage and later viability windows",
+        "refuting_result": "Adequate X inhibition produces no selective deficit in D cells with sufficient precision.",
+        "experiment_failure": "D status or X engagement fails verification.",
+        "next_actions": {
+          "supports": "Retain the bounded link; replicate with an independent perturbation before extending to clinical benefit.",
+          "refutes": "Revise this causal link or its stated conditions; retain alternatives consistent with the readout.",
+          "inconclusive": "Resolve the named precision, timing or compartment uncertainty before choosing between H1 and H0.",
+          "experiment_failure": "Repair the failed assay, exposure or control and repeat the same contrast."
+        },
+        "provenance": "METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification."
+      },
+      "common_failure_modes": [
+        "Testing only sensitive cells",
+        "Inferring mechanism solely from tumor shrinkage"
+      ],
+      "worked_examples": [
+        {
+          "case_id": "olaparib",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/small_molecule/olaparib.json",
+          "trace_sha256": "0d6e01c42dfd32344df7a7ec8497a5440034baea2731b100512e89436da6eb60",
+          "source_refs": [
+            {
+              "id": "S2",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/15829967/",
+              "title": "Targeting the DNA repair defect in BRCA mutant cells as a therapeutic strategy"
+            },
+            {
+              "id": "S1",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/30345884/",
+              "title": "Maintenance Olaparib in Patients with Newly Diagnosed Advanced Ovarian Cancer"
+            }
+          ],
+          "observation_to_decision": "Repair-deficient cellular sensitivity motivated a biomarker-conditioned treatment hypothesis and subsequent maintenance study.",
+          "limits": "The clinical population was also conditioned on platinum response; it is not an unrestricted cancer claim.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        }
+      ],
+      "operationalization_note": "A single within-context contrast does not establish selectivity or an interaction across contexts. Represent each context with its own one-factor contrast and evaluate the difference between effects separately; do not rename two manipulated factors as one."
+    },
+    {
+      "id": "RC05",
+      "title_ko": "질병 이름보다 반응을 바꾸는 분자 상태 찾기",
+      "when_to_use": "Responses vary within one diagnosis and a candidate molecular state is measurable.",
+      "principle": "Generate competing biomarker-conditioned hypotheses; distinguish a predictor of treatment effect from a marker of generally good prognosis.",
+      "usual_hypothesis_level": "target state × treatment interaction",
+      "modality_tags": [
+        "small_molecule",
+        "general"
+      ],
+      "situation_tags": [
+        "generation",
+        "biomarker",
+        "predictive_interaction"
+      ],
+      "falsifier_template": {
+        "H1": "Treatment X improves outcome specifically in state B relative to control.",
+        "H0": "Treatment effect does not differ by B after the same comparison.",
+        "single_changed_variable": "Treatment X versus the same comparator within prespecified B strata",
+        "held_constant": [
+          "Endpoint definition",
+          "Treatment line",
+          "Assessment schedule"
+        ],
+        "controls": [
+          "B-positive and B-negative strata",
+          "Validated B assay",
+          "Concurrent comparator"
+        ],
+        "readout": "Treatment-by-biomarker interaction, with stratum denominators",
+        "timepoint": "Prespecified common outcome window",
+        "refuting_result": "Reliable B classification and exposure show a precise absence of the proposed interaction.",
+        "experiment_failure": "Unreliable biomarker classification or missing comparator prevents the test.",
+        "next_actions": {
+          "supports": "Retain the bounded link; replicate with an independent perturbation before extending to clinical benefit.",
+          "refutes": "Revise this causal link or its stated conditions; retain alternatives consistent with the readout.",
+          "inconclusive": "Resolve the named precision, timing or compartment uncertainty before choosing between H1 and H0.",
+          "experiment_failure": "Repair the failed assay, exposure or control and repeat the same contrast."
+        },
+        "provenance": "METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification."
+      },
+      "common_failure_modes": [
+        "Using smoking or clinical enrichment as a substitute for target state",
+        "Averaging opposite treatment directions"
+      ],
+      "worked_examples": [
+        {
+          "case_id": "gefitinib",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/small_molecule/gefitinib.json",
+          "trace_sha256": "effdf122bf2176d6bcbf3900b5c2fa1a88acbb008613fd43662179eb650ea52f",
+          "source_refs": [
+            {
+              "id": "S2",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/15118073/",
+              "title": "Activating mutations in the epidermal growth factor receptor underlying responsiveness of non-small-cell lung cancer to gefitinib"
+            },
+            {
+              "id": "S1",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/19692680/",
+              "title": "Gefitinib or carboplatin-paclitaxel in pulmonary adenocarcinoma"
+            }
+          ],
+          "observation_to_decision": "Mutation-linked responsiveness led to testing molecular subgroups; the randomized comparison differed by mutation status.",
+          "limits": "Subgroup estimates alone do not reconstruct a prospectively validated interaction protocol.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        },
+        {
+          "case_id": "selpercatinib",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/small_molecule/selpercatinib.json",
+          "trace_sha256": "506b6d728f60c22e32d4b7e2184dcbaf0560c4a4805a96a9f967a9c8ade705b8",
+          "source_refs": [
+            {
+              "id": "S2",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/29912274/",
+              "title": "Selective RET kinase inhibition for patients with RET-altered cancers"
+            },
+            {
+              "id": "S1",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/37870973/",
+              "title": "First-Line Selpercatinib or Chemotherapy and Pembrolizumab in RET Fusion-Positive NSCLC"
+            }
+          ],
+          "observation_to_decision": "Selective altered-target activity motivated a fusion-defined clinical population and a randomized comparison.",
+          "limits": "Clinical benefit does not isolate selectivity or brain penetration as its sole cause.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        }
+      ],
+      "operationalization_note": "A single within-context contrast does not establish selectivity or an interaction across contexts. Represent each context with its own one-factor contrast and evaluate the difference between effects separately; do not rename two manipulated factors as one."
+    },
+    {
+      "id": "RC06",
+      "title_ko": "내성 이후에는 새 상태를 다시 측정하기",
+      "when_to_use": "A previously responsive disease progresses during targeted treatment.",
+      "principle": "Generate resistance-state hypotheses from the current sample; the initial target label may no longer describe the dependency.",
+      "usual_hypothesis_level": "acquired resistance",
+      "modality_tags": [
+        "small_molecule",
+        "general"
+      ],
+      "situation_tags": [
+        "generation",
+        "resistance",
+        "resampling"
+      ],
+      "falsifier_template": {
+        "H1": "A verified acquired state R maintains disease dependence on X and is inhibited by candidate C.",
+        "H0": "R-positive disease is not selectively dependent on the proposed C-sensitive process.",
+        "single_changed_variable": "Candidate C versus matched vehicle in the current R-positive model",
+        "held_constant": [
+          "Current sample/model",
+          "Prior-treatment history",
+          "Exposure",
+          "Assay timing"
+        ],
+        "controls": [
+          "Validated R assay",
+          "R-negative or reverted reference",
+          "Engagement readout"
+        ],
+        "readout": "R-specific signaling change followed by growth/survival",
+        "timepoint": "Define early signaling then later phenotype windows",
+        "refuting_result": "C engages the proposed target but fails to suppress the predicted R-linked signal/phenotype precisely.",
+        "experiment_failure": "Inadequate sample or unreliable R assay; absence cannot be distinguished from assay failure.",
+        "next_actions": {
+          "supports": "Retain the bounded link; replicate with an independent perturbation before extending to clinical benefit.",
+          "refutes": "Revise this causal link or its stated conditions; retain alternatives consistent with the readout.",
+          "inconclusive": "Resolve the named precision, timing or compartment uncertainty before choosing between H1 and H0.",
+          "experiment_failure": "Repair the failed assay, exposure or control and repeat the same contrast."
+        },
+        "provenance": "METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification."
+      },
+      "common_failure_modes": [
+        "Reusing baseline samples as current resistance truth",
+        "Calling any progression an on-target mutation"
+      ],
+      "worked_examples": [
+        {
+          "case_id": "osimertinib",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/small_molecule/osimertinib.json",
+          "trace_sha256": "79eca3857085342050dbc2fb32ca4951138e0035b3b9b37d7021f44eb8c8ff69",
+          "source_refs": [
+            {
+              "id": "S2",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/24893891/",
+              "title": "AZD9291, an irreversible EGFR TKI, overcomes T790M-mediated resistance to EGFR inhibitors in lung cancer"
+            },
+            {
+              "id": "S1",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/27959700/",
+              "title": "Osimertinib or Platinum-Pemetrexed in EGFR T790M-Positive Lung Cancer"
+            }
+          ],
+          "observation_to_decision": "A resistance mutation motivated mutant-selective inhibition and a study in verified post-progression disease.",
+          "limits": "Not evidence that every resistant case has the same mutation or dependency.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        }
+      ],
+      "operationalization_note": "A single within-context contrast does not establish selectivity or an interaction across contexts. Represent each context with its own one-factor contrast and evaluate the difference between effects separately; do not rename two manipulated factors as one."
+    },
+    {
+      "id": "RC07",
+      "title_ko": "효능 표적과 같은 계열의 독성 표적을 분리하기",
+      "when_to_use": "Desired activity and a family-member liability occur together.",
+      "principle": "Generate a selectivity hypothesis that preserves the desired effect while reducing the specific liability; measure both.",
+      "usual_hypothesis_level": "compound selectivity",
+      "modality_tags": [
+        "small_molecule"
+      ],
+      "situation_tags": [
+        "generation",
+        "selectivity",
+        "therapeutic_window"
+      ],
+      "falsifier_template": {
+        "H1": "Candidate C retains X-dependent efficacy while sparing liability target Z more than reference R.",
+        "H0": "C loses desired activity or does not spare Z at efficacy-relevant exposure.",
+        "single_changed_variable": "Compound C versus reference R at matched X engagement",
+        "held_constant": [
+          "Biological model",
+          "X engagement level",
+          "Exposure duration",
+          "Readout methods"
+        ],
+        "controls": [
+          "Vehicle",
+          "X engagement assay",
+          "Z-sensitive normal-cell assay"
+        ],
+        "readout": "Disease efficacy and Z-linked toxicity measured separately",
+        "timepoint": "Matched exposure; early engagement and later injury",
+        "refuting_result": "At matched X engagement, C fails the predeclared efficacy or liability improvement criterion.",
+        "experiment_failure": "Unable to match/verify X engagement or to measure Z-dependent liability.",
+        "next_actions": {
+          "supports": "Retain the bounded link; replicate with an independent perturbation before extending to clinical benefit.",
+          "refutes": "Revise this causal link or its stated conditions; retain alternatives consistent with the readout.",
+          "inconclusive": "Resolve the named precision, timing or compartment uncertainty before choosing between H1 and H0.",
+          "experiment_failure": "Repair the failed assay, exposure or control and repeat the same contrast."
+        },
+        "provenance": "METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification."
+      },
+      "common_failure_modes": [
+        "Comparing unequal active exposure",
+        "Optimizing safety while silently losing efficacy"
+      ],
+      "worked_examples": [
+        {
+          "case_id": "venetoclax",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/small_molecule/venetoclax.json",
+          "trace_sha256": "bf11405710266298df1bc8b7d0fe3697ca5b1dc0c107f9edf4e473299750de93",
+          "source_refs": [
+            {
+              "id": "S1",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/23291630/",
+              "title": "ABT-199, a potent and selective BCL-2 inhibitor, achieves antitumor activity while sparing platelets"
+            }
+          ],
+          "observation_to_decision": "Family selectivity was engineered to retain antitumor activity while sparing platelets.",
+          "limits": "Initial human activity was uncontrolled; platelet sparing does not remove other safety hazards.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        }
+      ],
+      "operationalization_note": "Matched engagement may require differing concentrations. Record compound identity and concentration explicitly; this can test a matched-engagement regimen, but is not a one-factor molecular identity comparison. Use separate equal-concentration contrasts or a clearly scoped dose-response analysis; do not hide the second change."
+    },
+    {
+      "id": "RC08",
+      "title_ko": "변이로 생긴 화학적 손잡이를 활용하기",
+      "when_to_use": "A disease-linked protein state exposes a selectively addressable chemical feature.",
+      "principle": "Generate a state-selective binding hypothesis and connect binding to function; covalent attachment alone is not efficacy.",
+      "usual_hypothesis_level": "chemical tractability → function",
+      "modality_tags": [
+        "small_molecule"
+      ],
+      "situation_tags": [
+        "generation",
+        "chemical_handle",
+        "state_selective"
+      ],
+      "falsifier_template": {
+        "H1": "Binding feature F with C selectively suppresses the disease-linked state of X.",
+        "H0": "C binding does not selectively suppress that state or acts independently of F.",
+        "single_changed_variable": "C versus matched inactive analog in the same disease-linked model",
+        "held_constant": [
+          "Protein state",
+          "Exposure",
+          "Assay conditions"
+        ],
+        "controls": [
+          "Binding/occupancy assay",
+          "F-altered reference tested as a separate context",
+          "Vehicle"
+        ],
+        "readout": "Occupancy then proximal signaling then phenotype",
+        "timepoint": "Predefine sequential windows",
+        "refuting_result": "Verified occupancy leaves proximal function unchanged, or matched control reproduces the effect without F.",
+        "experiment_failure": "Binding assay fails or exposure is insufficient.",
+        "next_actions": {
+          "supports": "Retain the bounded link; replicate with an independent perturbation before extending to clinical benefit.",
+          "refutes": "Revise this causal link or its stated conditions; retain alternatives consistent with the readout.",
+          "inconclusive": "Resolve the named precision, timing or compartment uncertainty before choosing between H1 and H0.",
+          "experiment_failure": "Repair the failed assay, exposure or control and repeat the same contrast."
+        },
+        "provenance": "METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification."
+      },
+      "common_failure_modes": [
+        "Equating docking with binding",
+        "Equating binding with functional inhibition"
+      ],
+      "worked_examples": [
+        {
+          "case_id": "sotorasib",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/small_molecule/sotorasib.json",
+          "trace_sha256": "4578f14e3aba59b674a720160bf8a58b58ffcc5e5c0db01f5c4556479209d41c",
+          "source_refs": [
+            {
+              "id": "S2",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/31666701/",
+              "title": "The clinical KRAS(G12C) inhibitor AMG 510 drives anti-tumour immunity"
+            },
+            {
+              "id": "S1",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/36764316/",
+              "title": "Sotorasib versus docetaxel for previously treated non-small-cell lung cancer with KRASG12C mutation: a randomised, open-label, phase 3 trial"
+            }
+          ],
+          "observation_to_decision": "A mutant cysteine offered a covalent targeting rationale; later active-comparator work assessed clinical utility.",
+          "limits": "The clinical trial does not prove every binding-to-immunity step in the preclinical story.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        }
+      ],
+      "operationalization_note": "A single within-context contrast does not establish selectivity or an interaction across contexts. Represent each context with its own one-factor contrast and evaluate the difference between effects separately; do not rename two manipulated factors as one."
+    },
+    {
+      "id": "RC09",
+      "title_ko": "양을 줄일지 구조를 안정화할지 나누어 생각하기",
+      "when_to_use": "Toxicity may arise from a protein’s abundance, conversion or unstable state.",
+      "principle": "Generate distinct intervention hypotheses at production and structural conversion steps; compare one step at a time without claiming clinical modality superiority.",
+      "usual_hypothesis_level": "protein production versus conversion",
+      "modality_tags": [
+        "small_molecule",
+        "siRNA"
+      ],
+      "situation_tags": [
+        "generation",
+        "protein_state",
+        "alternative_interventions"
+      ],
+      "falsifier_template": {
+        "H1": "Stabilizing state S reduces harmful conversion Y at unchanged protein amount.",
+        "H0": "Verified stabilization does not reduce Y under matched amount and challenge.",
+        "single_changed_variable": "Stabilizer versus vehicle in matched aliquots",
+        "held_constant": [
+          "Protein amount",
+          "Specimen source",
+          "Challenge",
+          "Temperature and time"
+        ],
+        "controls": [
+          "Vehicle",
+          "State-stability assay",
+          "Product recovery control"
+        ],
+        "readout": "State stability and harmful conversion, separately",
+        "timepoint": "Predefined challenge duration",
+        "refuting_result": "S is stabilized but harmful conversion remains precisely unchanged.",
+        "experiment_failure": "Unmeasured protein amount or failed challenge/stability assay.",
+        "next_actions": {
+          "supports": "Retain the bounded link; replicate with an independent perturbation before extending to clinical benefit.",
+          "refutes": "Revise this causal link or its stated conditions; retain alternatives consistent with the readout.",
+          "inconclusive": "Resolve the named precision, timing or compartment uncertainty before choosing between H1 and H0.",
+          "experiment_failure": "Repair the failed assay, exposure or control and repeat the same contrast."
+        },
+        "provenance": "METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification."
+      },
+      "common_failure_modes": [
+        "Comparing unrelated clinical populations as modality superiority",
+        "Assuming prevention removes existing deposits"
+      ],
+      "worked_examples": [
+        {
+          "case_id": "tafamidis",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/small_molecule/tafamidis.json",
+          "trace_sha256": "1952d24f150e8f0652c532bd9de9dd2e974b1ac8c46ca11a8f91452448aa8b80",
+          "source_refs": [
+            {
+              "id": "S2",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3386102/",
+              "title": "Tafamidis, a potent and selective transthyretin kinetic stabilizer that inhibits the amyloid cascade"
+            },
+            {
+              "id": "S1",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/30145929/",
+              "title": "Tafamidis Treatment for Patients with Transthyretin Amyloid Cardiomyopathy"
+            }
+          ],
+          "observation_to_decision": "Matched-plasma stabilization work motivated a conversion-blocking approach, followed by clinical outcome testing.",
+          "limits": "The patient trial was not a head-to-head comparison with production suppression.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        },
+        {
+          "case_id": "patisiran",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/sirna/patisiran.json",
+          "trace_sha256": "ed7a1693e47939b06c94e67fe7a8e95b0f791b91602407ebe8b9872d4d783e91",
+          "source_refs": [
+            {
+              "id": "S2",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/23984729/",
+              "title": "Safety and efficacy of RNAi therapy for transthyretin amyloidosis"
+            }
+          ],
+          "observation_to_decision": "The same protein disease also motivated a production-suppression route, illustrating a different intervention point.",
+          "limits": "Cross-programme comparison generates alternatives; it does not rank their clinical efficacy.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        }
+      ]
+    },
+    {
+      "id": "RC10",
+      "title_ko": "염증 지표 외에 병변을 만드는 세포를 직접 시험하기",
+      "when_to_use": "An anti-inflammatory rationale leaves uncertain whether the tissue effector process changes.",
+      "principle": "Generate a direct effector-cell hypothesis alongside immune mediation and test its proximal prediction independently.",
+      "usual_hypothesis_level": "cellular process",
+      "modality_tags": [
+        "small_molecule",
+        "general"
+      ],
+      "situation_tags": [
+        "generation",
+        "effector_cell",
+        "alternative_mechanism"
+      ],
+      "falsifier_template": {
+        "H1": "C directly reduces pathological output Y in isolated disease effector cells.",
+        "H0": "C does not reduce Y directly at verified active exposure.",
+        "single_changed_variable": "C versus vehicle in the same effector-cell preparation",
+        "held_constant": [
+          "Cell state",
+          "Stimulus",
+          "Exposure",
+          "Cell number"
+        ],
+        "controls": [
+          "Vehicle",
+          "Viability assay",
+          "Positive Y-response control",
+          "Engagement assay"
+        ],
+        "readout": "Effector output normalized to viable cells plus proximal engagement",
+        "timepoint": "Predefine after engagement and before nonspecific toxicity dominates",
+        "refuting_result": "Engagement occurs without a precise reduction in Y, or Y loss is explained by nonspecific cell loss.",
+        "experiment_failure": "Unresponsive preparation or unverified active exposure.",
+        "next_actions": {
+          "supports": "Retain the bounded link; replicate with an independent perturbation before extending to clinical benefit.",
+          "refutes": "Revise this causal link or its stated conditions; retain alternatives consistent with the readout.",
+          "inconclusive": "Resolve the named precision, timing or compartment uncertainty before choosing between H1 and H0.",
+          "experiment_failure": "Repair the failed assay, exposure or control and repeat the same contrast."
+        },
+        "provenance": "METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification."
+      },
+      "common_failure_modes": [
+        "Attributing every tissue effect to inflammation",
+        "Reading reduced cell number as selective antifibrotic action"
+      ],
+      "worked_examples": [
+        {
+          "case_id": "nerandomilast",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/small_molecule/nerandomilast.json",
+          "trace_sha256": "bd87c27971c5b750c4a12c482ec6d0b964989271858bfe34629dc6661bdb2462",
+          "source_refs": [
+            {
+              "id": "S2",
+              "url": "https://www.frontiersin.org/journals/pharmacology/articles/10.3389/fphar.2022.838449/full",
+              "title": "BI 1015550 is a PDE4B Inhibitor and a Clinical Drug Candidate for the Oral Treatment of Idiopathic Pulmonary Fibrosis"
+            }
+          ],
+          "observation_to_decision": "Preclinical work tested fibroblast effects separately from inflammatory-cell suppression.",
+          "limits": "Clinical lung-function preservation does not identify a single cellular mediator.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        },
+        {
+          "case_id": "selonsertib",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/clinical_failure/selonsertib.json",
+          "trace_sha256": "4cf70fee8853181c7462442ca4c94b0dc93034f36f7316308ada16838627a815",
+          "source_refs": [
+            {
+              "id": "L2",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/32147362/",
+              "title": "Selonsertib for patients with bridging fibrosis or compensated cirrhosis due to NASH: Results from randomized phase III STELLAR trials"
+            }
+          ],
+          "observation_to_decision": "Hepatic pharmacodynamic activity without antifibrotic benefit shows why a proximal signal is insufficient.",
+          "limits": "This does not prove why monotherapy failed or invalidate every ASK1 intervention.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        }
+      ]
+    },
+    {
+      "id": "RC11",
+      "title_ko": "혈중 농도보다 투여 사이의 작용 지속성을 시험하기",
+      "when_to_use": "A dosing interval is proposed from brief systemic exposure or durable intracellular action.",
+      "principle": "Generate a duration hypothesis at the target and disease readout; measure the weakest part of the interval, not only the peak.",
+      "usual_hypothesis_level": "exposure → engagement duration",
+      "modality_tags": [
+        "siRNA",
+        "small_molecule"
+      ],
+      "situation_tags": [
+        "generation",
+        "durability",
+        "dose_interval"
+      ],
+      "falsifier_template": {
+        "H1": "One specified regimen maintains X suppression and downstream Y through the proposed interval.",
+        "H0": "X or Y returns beyond the prespecified acceptable range before the interval ends.",
+        "single_changed_variable": "Candidate regimen versus matched control regimen",
+        "held_constant": [
+          "Sampling times",
+          "Model/population",
+          "Background treatment",
+          "Assays"
+        ],
+        "controls": [
+          "Matched control",
+          "Independent target assay",
+          "Dose/exposure verification"
+        ],
+        "readout": "X and Y at peak and predefined trough times",
+        "timepoint": "Prospectively set full interval including trough",
+        "refuting_result": "Reproducible loss of engagement or Y control before the intended interval contradicts durability.",
+        "experiment_failure": "Missed dose or unreliable trough sampling invalidates the interval test.",
+        "next_actions": {
+          "supports": "Retain the bounded link; replicate with an independent perturbation before extending to clinical benefit.",
+          "refutes": "Revise this causal link or its stated conditions; retain alternatives consistent with the readout.",
+          "inconclusive": "Resolve the named precision, timing or compartment uncertainty before choosing between H1 and H0.",
+          "experiment_failure": "Repair the failed assay, exposure or control and repeat the same contrast."
+        },
+        "provenance": "METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification."
+      },
+      "common_failure_modes": [
+        "Using plasma half-life as intracellular duration",
+        "Selecting only favorable sampling times"
+      ],
+      "worked_examples": [
+        {
+          "case_id": "inclisiran",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/sirna/inclisiran.json",
+          "trace_sha256": "eaf903056e122d55476862d7083d968847ebe171c72fce677fdda396fb30bf3a",
+          "source_refs": [
+            {
+              "id": "S3",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/27959715/",
+              "title": "A Highly Durable RNAi Therapeutic Inhibitor of PCSK9"
+            },
+            {
+              "id": "S1",
+              "url": "https://spiral.imperial.ac.uk/entities/publication/33a245d4-bab9-4baa-b8f8-78c8995e3f38",
+              "title": "Two Phase 3 Trials of Inclisiran in Patients with Elevated LDL Cholesterol"
+            }
+          ],
+          "observation_to_decision": "Early single/repeated-dose work assessed durable protein/LDL effects; later trials used spaced dosing.",
+          "limits": "LDL lowering is not evidence of clinical event reduction.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        },
+        {
+          "case_id": "vutrisiran",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/sirna/vutrisiran.json",
+          "trace_sha256": "89f419ec149fb43748c36813b5b8d62482f716f41d2e0f56318e39c49cab19c0",
+          "source_refs": [
+            {
+              "id": "S3",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/32599652/",
+              "title": "Single-Dose Pharmacokinetics and Pharmacodynamics of Transthyretin Targeting N-acetylgalactosamine-Small Interfering Ribonucleic Acid Conjugate, Vutrisiran, in Healthy Subjects"
+            }
+          ],
+          "observation_to_decision": "Brief plasma exposure with sustained liver-directed pharmacodynamics motivated durability assessment.",
+          "limits": "Duration is distinct from comparative disease efficacy.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        }
+      ]
+    },
+    {
+      "id": "RC12",
+      "title_ko": "질병이 일어나는 구획에서 표적 작용을 확인하기",
+      "when_to_use": "A convenient peripheral marker may differ from the disease compartment.",
+      "principle": "Generate compartment-specific alternatives: absent delivery, biochemical activity without downstream response, or wrong causal link.",
+      "usual_hypothesis_level": "engagement compartment",
+      "modality_tags": [
+        "siRNA",
+        "small_molecule",
+        "general"
+      ],
+      "situation_tags": [
+        "discrimination",
+        "compartment",
+        "engagement"
+      ],
+      "falsifier_template": {
+        "H1": "C perturbs X in disease compartment T and changes downstream Y there.",
+        "H0": "Verified T engagement does not change Y in T.",
+        "single_changed_variable": "C versus matched control",
+        "held_constant": [
+          "Compartment sampling",
+          "Exposure schedule",
+          "Disease stage",
+          "Assays"
+        ],
+        "controls": [
+          "Peripheral and T assays kept separate",
+          "Positive recovery control",
+          "Matched control"
+        ],
+        "readout": "T engagement and downstream disease readout; peripheral marker auxiliary",
+        "timepoint": "Specify target and downstream times before experiment",
+        "refuting_result": "Adequate T engagement with precise absence of Y change challenges the link.",
+        "experiment_failure": "Peripheral response with no interpretable T engagement is not a mechanistic refutation.",
+        "next_actions": {
+          "supports": "Retain the bounded link; replicate with an independent perturbation before extending to clinical benefit.",
+          "refutes": "Revise this causal link or its stated conditions; retain alternatives consistent with the readout.",
+          "inconclusive": "Resolve the named precision, timing or compartment uncertainty before choosing between H1 and H0.",
+          "experiment_failure": "Repair the failed assay, exposure or control and repeat the same contrast."
+        },
+        "provenance": "METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification."
+      },
+      "common_failure_modes": [
+        "Calling plasma change brain engagement",
+        "Pooling marker and functional outcomes"
+      ],
+      "worked_examples": [
+        {
+          "case_id": "semagacestat",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/clinical_failure/semagacestat.json",
+          "trace_sha256": "73213f8803b231358a483110aeed5fd24adba400ed0bf58c78ec7c7b990f480a",
+          "source_refs": [
+            {
+              "id": "S1",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/18695053/",
+              "title": "Phase 2 safety trial targeting amyloid beta production with a gamma-secretase inhibitor in Alzheimer disease"
+            },
+            {
+              "id": "S2",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/23883379/",
+              "title": "A phase 3 trial of semagacestat for treatment of Alzheimer disease"
+            }
+          ],
+          "observation_to_decision": "Early plasma response did not establish CSF response; later clinical failure required a bounded interpretation.",
+          "limits": "These findings do not identify a specific substrate as the cause of harm.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        },
+        {
+          "case_id": "verubecestat",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/clinical_failure/verubecestat.json",
+          "trace_sha256": "e30095471414cefdf7eded5ea246e9d6757e8fba06e498097913175f3efb1212",
+          "source_refs": [
+            {
+              "id": "V1",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/27807285/",
+              "title": "The BACE1 inhibitor verubecestat (MK-8931) reduces CNS beta-amyloid in animal models and in Alzheimer disease patients"
+            },
+            {
+              "id": "V2",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/29719179/",
+              "title": "Randomized Trial of Verubecestat for Mild-to-Moderate Alzheimer Disease"
+            }
+          ],
+          "observation_to_decision": "Biochemical lowering and later cognitive/functional outcomes were distinct tests.",
+          "limits": "Disease-stage and exposure conditions limit the inference.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        }
+      ]
+    },
+    {
+      "id": "RC13",
+      "title_ko": "표적 이름을 믿기 전에 독립된 검사로 확인하기",
+      "when_to_use": "A compound is assigned to a target class but the assignment controls the scientific conclusion.",
+      "principle": "Try to falsify the target assignment with orthogonal biochemical and cellular assays and working reference compounds.",
+      "usual_hypothesis_level": "compound mechanism",
+      "modality_tags": [
+        "small_molecule"
+      ],
+      "situation_tags": [
+        "discrimination",
+        "orthogonal_assays",
+        "target_assignment"
+      ],
+      "falsifier_template": {
+        "H1": "C inhibits X in both biochemical and cellular assays at interpretable exposure.",
+        "H0": "C lacks X inhibition while authentic X inhibitors work under the same assays.",
+        "single_changed_variable": "C versus vehicle; each reference compound is a separately specified contrast",
+        "held_constant": [
+          "Assay substrate",
+          "Cell context",
+          "Exposure",
+          "Analysis rules"
+        ],
+        "controls": [
+          "Authentic X inhibitor",
+          "Vehicle",
+          "Interference/cytotoxicity assay"
+        ],
+        "readout": "Enzymatic X activity and independent cellular X readout",
+        "timepoint": "Matched assay-specific prespecified windows",
+        "refuting_result": "Reference works but C lacks X inhibition with precise measurements at interpretable concentration.",
+        "experiment_failure": "Positive control fails or C interferes with readout; no target verdict.",
+        "next_actions": {
+          "supports": "Retain the bounded link; replicate with an independent perturbation before extending to clinical benefit.",
+          "refutes": "Revise this causal link or its stated conditions; retain alternatives consistent with the readout.",
+          "inconclusive": "Resolve the named precision, timing or compartment uncertainty before choosing between H1 and H0.",
+          "experiment_failure": "Repair the failed assay, exposure or control and repeat the same contrast."
+        },
+        "provenance": "METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification."
+      },
+      "common_failure_modes": [
+        "Treating a label as verified pharmacology",
+        "Using clinical failure to refute the misassigned class"
+      ],
+      "worked_examples": [
+        {
+          "case_id": "iniparib",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/clinical_failure/iniparib.json",
+          "trace_sha256": "e7cb5ae575c3266569f1206a64045f5da63828483b75c645bb377996cdb18130",
+          "source_refs": [
+            {
+              "id": "I2",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/22128301/",
+              "title": "Iniparib nonselectively modifies cysteine-containing proteins in tumor cells and is not a bona fide PARP inhibitor"
+            }
+          ],
+          "observation_to_decision": "Biochemical/cellular comparisons with authentic inhibitors challenged the PARP assignment and supported nonspecific protein modification.",
+          "limits": "Independent reassessment appeared after programme initiation; it is not original pretrial knowledge.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        }
+      ]
+    },
+    {
+      "id": "RC14",
+      "title_ko": "조합에서는 공통 치료를 고정하고 하나만 더하기",
+      "when_to_use": "A combination has a mechanistic rationale but its added contribution is unknown.",
+      "principle": "Keep the backbone identical and test one added component; a whole-regimen comparison cannot identify both components separately.",
+      "usual_hypothesis_level": "added component",
+      "modality_tags": [
+        "small_molecule",
+        "general"
+      ],
+      "situation_tags": [
+        "discrimination",
+        "combination",
+        "shared_backbone"
+      ],
+      "falsifier_template": {
+        "H1": "Adding B to fixed A improves Y versus fixed A alone.",
+        "H0": "Adding B to fixed A does not improve Y under the same conditions.",
+        "single_changed_variable": "B versus matched placebo on fixed A",
+        "held_constant": [
+          "A dose and schedule",
+          "Eligibility",
+          "Assessment",
+          "Supportive care"
+        ],
+        "controls": [
+          "A plus placebo",
+          "B engagement assay where feasible",
+          "Matched outcome assessment"
+        ],
+        "readout": "Prespecified efficacy and toxicity outcomes, separately",
+        "timepoint": "Same predeclared window in both arms",
+        "refuting_result": "With adequate B exposure and valid controls, the uncertainty interval for added-Y effect excludes the prespecified required improvement.",
+        "experiment_failure": "Backbone differs or B exposure/assessment fails.",
+        "next_actions": {
+          "supports": "Retain the added efficacy estimate. A separately prespecified unacceptable toxicity increase prevents escalation regardless of efficacy. Report efficacy and safety separately; any exposure change is a new contrast.",
+          "refutes": "Revise this causal link or its stated conditions; retain alternatives consistent with the readout.",
+          "inconclusive": "Resolve the named precision, timing or compartment uncertainty before choosing between H1 and H0.",
+          "experiment_failure": "Repair the failed assay, exposure or control and repeat the same contrast."
+        },
+        "provenance": "METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification."
+      },
+      "common_failure_modes": [
+        "Changing backbone and added drug together",
+        "Attributing regimen benefit solely to pathway synergy"
+      ],
+      "worked_examples": [
+        {
+          "case_id": "dabrafenib",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/small_molecule/dabrafenib.json",
+          "trace_sha256": "ca9afce82058164f27da2bc216a80667d1146e419adcd6edb87473fe4537d965",
+          "source_refs": [
+            {
+              "id": "S2",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/23844038/",
+              "title": "Dabrafenib; preclinical characterization, increased efficacy when combined with trametinib, while BRAF/MEK tool combination reduced skin lesions"
+            },
+            {
+              "id": "S1",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/25265492/",
+              "title": "Combined BRAF and MEK inhibition versus BRAF inhibition alone in melanoma"
+            }
+          ],
+          "observation_to_decision": "Pathway-combination rationale was tested with a common BRAF-inhibitor backbone and an added MEK inhibitor.",
+          "limits": "Outcome estimates establish the contrast, not a complete causal proof of synergy.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        }
+      ]
+    },
+    {
+      "id": "RC15",
+      "title_ko": "표적의 개연성 다음에는 실제 대안 치료와 비교하기",
+      "when_to_use": "A single-arm activity signal exists and the decision concerns practical added value.",
+      "principle": "Use a justified active comparator and the endpoint the decision needs; activity and comparative utility are different claims.",
+      "usual_hypothesis_level": "regimen utility",
+      "modality_tags": [
+        "small_molecule",
+        "general"
+      ],
+      "situation_tags": [
+        "discrimination",
+        "active_comparator",
+        "clinical_utility"
+      ],
+      "falsifier_template": {
+        "H1": "Regimen C improves prespecified outcome Y compared with appropriate active alternative A.",
+        "H0": "C does not improve Y relative to A in the tested population.",
+        "single_changed_variable": "Assignment to C versus A",
+        "held_constant": [
+          "Eligibility",
+          "Treatment line",
+          "Endpoint adjudication",
+          "Follow-up"
+        ],
+        "controls": [
+          "Concurrent A",
+          "Exposure/adherence checks",
+          "Blinded outcome assessment where feasible"
+        ],
+        "readout": "Prespecified patient-relevant Y and safety",
+        "timepoint": "Predeclared adequate follow-up",
+        "refuting_result": "Sufficiently precise failure of the prespecified benefit criterion contradicts comparative benefit.",
+        "experiment_failure": "Biased ascertainment, inadequate exposure or compromised comparator prevents the intended estimate.",
+        "next_actions": {
+          "supports": "Retain the bounded link; replicate with an independent perturbation before extending to clinical benefit.",
+          "refutes": "Revise this causal link or its stated conditions; retain alternatives consistent with the readout.",
+          "inconclusive": "Resolve the named precision, timing or compartment uncertainty before choosing between H1 and H0.",
+          "experiment_failure": "Repair the failed assay, exposure or control and repeat the same contrast."
+        },
+        "provenance": "METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification."
+      },
+      "common_failure_modes": [
+        "Replacing an outcome decision with response rate",
+        "Equating a regimen comparison with isolated target causality"
+      ],
+      "worked_examples": [
+        {
+          "case_id": "ibrutinib",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/small_molecule/ibrutinib.json",
+          "trace_sha256": "f60f242077fcdb13b7c2c0c6f243eb9b3555ad37f660faa1a5fb8a819cd6911d",
+          "source_refs": [
+            {
+              "id": "S1",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/24881631/",
+              "title": "Ibrutinib versus ofatumumab in previously treated chronic lymphoid leukemia"
+            }
+          ],
+          "observation_to_decision": "An active comparison tested clinical utility beyond target plausibility and supported a later regulatory decision.",
+          "limits": "The comparison does not isolate target engagement from all regimen effects.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        },
+        {
+          "case_id": "sotorasib",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/small_molecule/sotorasib.json",
+          "trace_sha256": "4578f14e3aba59b674a720160bf8a58b58ffcc5e5c0db01f5c4556479209d41c",
+          "source_refs": [
+            {
+              "id": "S1",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/36764316/",
+              "title": "Sotorasib versus docetaxel for previously treated non-small-cell lung cancer with KRASG12C mutation: a randomised, open-label, phase 3 trial"
+            },
+            {
+              "id": "S3",
+              "url": "https://www.fda.gov/media/172698/download",
+              "title": "October 5 2023 ODAC sotorasib briefing"
+            }
+          ],
+          "observation_to_decision": "A randomized active comparison followed earlier activity; regulatory review separately examined its evidentiary role.",
+          "limits": "An active comparator alone does not guarantee an unbiased or sufficient approval dataset.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        }
+      ]
+    },
+    {
+      "id": "RC16",
+      "title_ko": "외부 대조군의 차이를 변수 하나로 숨기지 않기",
+      "when_to_use": "A historical/external control is proposed instead of a concurrent randomized placebo.",
+      "principle": "Generate transportability and confounding alternatives explicitly; use a new concurrent test when the causal distinction matters.",
+      "usual_hypothesis_level": "comparability of evidence",
+      "modality_tags": [
+        "general"
+      ],
+      "situation_tags": [
+        "discrimination",
+        "external_control",
+        "transportability"
+      ],
+      "falsifier_template": {
+        "H1": "C improves Y beyond differences in cohort composition and care conditions.",
+        "H0": "The observed C–external difference can arise without a treatment effect.",
+        "single_changed_variable": "For a new falsifier, randomized C versus concurrent comparator",
+        "held_constant": [
+          "Eligibility",
+          "Calendar window",
+          "Care",
+          "Assays and outcome schedule"
+        ],
+        "controls": [
+          "Concurrent randomized comparator",
+          "Predeclared analysis",
+          "Covariate/missingness audit"
+        ],
+        "readout": "Same endpoint in both arms with explicit analysis denominator",
+        "timepoint": "Prospective common window",
+        "refuting_result": "A precise absence of benefit in the concurrent contrast challenges the transported benefit claim.",
+        "experiment_failure": "No concurrent comparator: cannot claim all other variables were held constant.",
+        "next_actions": {
+          "supports": "Retain the bounded link; replicate with an independent perturbation before extending to clinical benefit.",
+          "refutes": "Revise this causal link or its stated conditions; retain alternatives consistent with the readout.",
+          "inconclusive": "Resolve the named precision, timing or compartment uncertainty before choosing between H1 and H0.",
+          "experiment_failure": "Repair the failed assay, exposure or control and repeat the same contrast."
+        },
+        "provenance": "METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification."
+      },
+      "common_failure_modes": [
+        "Calling historical comparison randomized placebo evidence",
+        "Treating pharmacodynamic noninferiority as clinical superiority"
+      ],
+      "worked_examples": [
+        {
+          "case_id": "vutrisiran",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/sirna/vutrisiran.json",
+          "trace_sha256": "89f419ec149fb43748c36813b5b8d62482f716f41d2e0f56318e39c49cab19c0",
+          "source_refs": [
+            {
+              "id": "S1",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/35875890/",
+              "title": "Efficacy and safety of vutrisiran for patients with hereditary transthyretin-mediated amyloidosis with polyneuropathy: a randomized clinical trial"
+            },
+            {
+              "id": "S2",
+              "url": "https://www.fda.gov/media/186134/download",
+              "title": "FDA Amvuttra external-control evidence case study"
+            }
+          ],
+          "observation_to_decision": "Clinical efficacy used an external placebo while a within-study active reference informed pharmacodynamics; regulatory review required comparability reasoning.",
+          "limits": "This card proposes a cleaner falsifier; it does not claim the historical study performed it.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        }
+      ]
+    },
+    {
+      "id": "RC17",
+      "title_ko": "중간 지표와 환자에게 중요한 결과를 별도 연결로 두기",
+      "when_to_use": "A treatment changes a mediator or risk biomarker.",
+      "principle": "Generate a second hypothesis for meaningful benefit rather than assuming the mediator is a sufficient surrogate.",
+      "usual_hypothesis_level": "mediator → clinical outcome",
+      "modality_tags": [
+        "general",
+        "siRNA",
+        "small_molecule"
+      ],
+      "situation_tags": [
+        "discrimination",
+        "surrogate",
+        "causal_chain"
+      ],
+      "falsifier_template": {
+        "H1": "C improves clinical Y, beyond its established change in mediator M.",
+        "H0": "C changes M but does not improve clinical Y under these conditions.",
+        "single_changed_variable": "C versus the same concurrent comparator",
+        "held_constant": [
+          "Background care",
+          "Eligibility",
+          "Outcome definition",
+          "Follow-up"
+        ],
+        "controls": [
+          "Independent M assay",
+          "Blinded clinical Y adjudication",
+          "Exposure checks"
+        ],
+        "readout": "M and clinical Y reported separately",
+        "timepoint": "M early; clinical Y at a prespecified disease-relevant duration",
+        "refuting_result": "Verified M change with precise lack of Y benefit challenges the surrogate-to-benefit link.",
+        "experiment_failure": "Absent mediator change, failed outcome capture or failed exposure verification prevents the intended mechanistic interpretation.",
+        "next_actions": {
+          "supports": "Retain the bounded link; replicate with an independent perturbation before extending to clinical benefit.",
+          "refutes": "Revise this causal link or its stated conditions; retain alternatives consistent with the readout.",
+          "inconclusive": "If valid follow-up is too short or imprecise to separate benefit regions, preserve the uncertainty and specify additional duration/information. Do not call valid sparse follow-up a failed assay.",
+          "experiment_failure": "Repair the failed assay, exposure or control and repeat the same contrast."
+        },
+        "provenance": "METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification."
+      },
+      "common_failure_modes": [
+        "Presenting biomarker lowering as event prevention",
+        "Suppressing a harmful clinical signal because biomarkers improved"
+      ],
+      "worked_examples": [
+        {
+          "case_id": "torcetrapib",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/clinical_failure/torcetrapib.json",
+          "trace_sha256": "f431cf6bdbc09dea9e85bdcbda799a38fc63e58862de09a87e12351372fbcc30",
+          "source_refs": [
+            {
+              "id": "T1",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/15071125/",
+              "title": "Effects of an inhibitor of cholesteryl ester transfer protein on HDL cholesterol"
+            },
+            {
+              "id": "T2",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/17984165/",
+              "title": "Effects of torcetrapib in patients at high risk for coronary events"
+            }
+          ],
+          "observation_to_decision": "A favorable lipid signal preceded an adverse clinical comparison and programme termination.",
+          "limits": "The cause of harm remained unresolved; this is not a universal lipid-target verdict.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        },
+        {
+          "case_id": "plozasiran",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/sirna/plozasiran.json",
+          "trace_sha256": "cf6e77353a0e731f295dc72fd8f9f473e8b0816aea60be034093e348e5c79052",
+          "source_refs": [
+            {
+              "id": "S1",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/39225259/",
+              "title": "Plozasiran for Managing Persistent Chylomicronemia and Pancreatitis Risk"
+            },
+            {
+              "id": "S2",
+              "url": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2025/219947s000lbl.pdf",
+              "title": "FDA REDEMPLO original prescribing information"
+            }
+          ],
+          "observation_to_decision": "Development separately assessed triglycerides and complications; the recorded regulatory indication concerns triglyceride reduction.",
+          "limits": "A biomarker indication does not itself establish prevention of every complication.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        }
+      ]
+    },
+    {
+      "id": "RC18",
+      "title_ko": "같은 진단 안의 반응 차이를 보존하기",
+      "when_to_use": "A pooled response may conceal subtypes with distinct causal dependence.",
+      "principle": "Generate subtype-specific links and retain nonresponse uncertainty; an underpowered subgroup is neither proof of no effect nor permission to average it away.",
+      "usual_hypothesis_level": "subtype dependence",
+      "modality_tags": [
+        "siRNA",
+        "small_molecule",
+        "general"
+      ],
+      "situation_tags": [
+        "discrimination",
+        "heterogeneity",
+        "subgroup"
+      ],
+      "falsifier_template": {
+        "H1": "X perturbation changes Y in prespecified subtype S through the proposed link.",
+        "H0": "Verified X perturbation leaves Y unchanged within S.",
+        "single_changed_variable": "X perturbation versus matched control within S",
+        "held_constant": [
+          "Subtype definition",
+          "Collection",
+          "Exposure",
+          "Endpoint timing"
+        ],
+        "controls": [
+          "Validated subtype assay",
+          "Concurrent control",
+          "Engagement assay"
+        ],
+        "readout": "Within-subtype effect and uncertainty; interaction if comparing subtypes",
+        "timepoint": "Common prespecified window",
+        "refuting_result": "A precise within-S lack of Y response with engagement challenges the S-specific link.",
+        "experiment_failure": "Subtype classification, engagement assay or outcome capture fails its validity checks.",
+        "next_actions": {
+          "supports": "Retain the bounded link; replicate with an independent perturbation before extending to clinical benefit.",
+          "refutes": "Revise this causal link or its stated conditions; retain alternatives consistent with the readout.",
+          "inconclusive": "Preserve the valid subgroup estimate and uncertainty. If information is insufficient to separate benefit and no-benefit regions, address recruitment, duration or design rather than treating the assay as failed.",
+          "experiment_failure": "Repair the failed assay, exposure or control and repeat the same contrast."
+        },
+        "provenance": "METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification."
+      },
+      "common_failure_modes": [
+        "Using tiny subgroups to declare target failure",
+        "Hiding nonresponse in a favorable pooled mean"
+      ],
+      "worked_examples": [
+        {
+          "case_id": "nedosiran",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/sirna/nedosiran.json",
+          "trace_sha256": "8cc1bfb66f476e4de248b4539de2bf7d1fe37d568ccabb96a4c4ed028d4bf72a",
+          "source_refs": [
+            {
+              "id": "S1",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/36007597/",
+              "title": "PHYOX2: a pivotal randomized study of nedosiran in primary hyperoxaluria type 1 or 2"
+            },
+            {
+              "id": "S2",
+              "url": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2023/215842s000lbl.pdf",
+              "title": "FDA RIVFLOZA original prescribing information"
+            }
+          ],
+          "observation_to_decision": "PH1 and the small PH2 cohort did not support identical response conclusions; later indication remained subtype-bounded.",
+          "limits": "PH2 numbers are too small for a universal efficacy rejection.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        },
+        {
+          "case_id": "gefitinib",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/small_molecule/gefitinib.json",
+          "trace_sha256": "effdf122bf2176d6bcbf3900b5c2fa1a88acbb008613fd43662179eb650ea52f",
+          "source_refs": [
+            {
+              "id": "S1",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/19692680/",
+              "title": "Gefitinib or carboplatin-paclitaxel in pulmonary adenocarcinoma"
+            }
+          ],
+          "observation_to_decision": "Molecular subgroups showed different treatment directions despite one broader clinical diagnosis.",
+          "limits": "Retrospective subgroup evidence requires explicit validation limits.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        }
+      ],
+      "operationalization_note": "A single within-context contrast does not establish selectivity or an interaction across contexts. Represent each context with its own one-factor contrast and evaluate the difference between effects separately; do not rename two manipulated factors as one."
+    },
+    {
+      "id": "RC19",
+      "title_ko": "초기 신호의 판독 규칙을 확증시험 전에 고정하기",
+      "when_to_use": "An early secondary endpoint or nominal significance motivates escalation.",
+      "principle": "Generate a replication hypothesis with a prospectively chosen endpoint and success rule; preserve endpoint hierarchy rather than moving it after results.",
+      "usual_hypothesis_level": "confirmatory evidence",
+      "modality_tags": [
+        "general"
+      ],
+      "situation_tags": [
+        "learning",
+        "replication",
+        "endpoint_hierarchy"
+      ],
+      "falsifier_template": {
+        "H1": "C improves primary Y by at least a prospectively justified clinically or scientifically relevant delta in this population and exposure.",
+        "H0": "C does not achieve that required improvement under the same conditions.",
+        "single_changed_variable": "C versus matched concurrent comparator",
+        "held_constant": [
+          "Primary Y definition",
+          "Population",
+          "Assessment",
+          "Analysis hierarchy"
+        ],
+        "controls": [
+          "Predeclared protocol",
+          "Concurrent control",
+          "Outcome quality checks"
+        ],
+        "readout": "Primary Y with uncertainty; secondary results separately labelled",
+        "timepoint": "Prospectively fixed endpoint time",
+        "refuting_result": "With valid controls, the uncertainty interval excludes the required benefit. Missing the protocol alpha or multiplicity criterion alone fails confirmation; it does not prove no benefit.",
+        "experiment_failure": "Compromised endpoint measurement, exposure or control validity prevents the intended estimate. Insufficient valid information remains inconclusive.",
+        "next_actions": {
+          "supports": "Retain the bounded link; replicate with an independent perturbation before extending to clinical benefit.",
+          "refutes": "Revise this causal link or its stated conditions; retain alternatives consistent with the readout.",
+          "inconclusive": "Preserve effect size and interval; report the prespecified alpha/multiplicity confirmation decision separately. Resolve information size or endpoint assumptions without moving the original success rule.",
+          "experiment_failure": "Repair the failed assay, exposure or control and repeat the same contrast."
+        },
+        "provenance": "METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification."
+      },
+      "common_failure_modes": [
+        "Using .05 when multiplicity rules differ",
+        "Retrospectively promoting the most favorable endpoint"
+      ],
+      "worked_examples": [
+        {
+          "case_id": "cenicriviroc",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/clinical_failure/cenicriviroc.json",
+          "trace_sha256": "63e78c1c4e3cd3f5d220925d046f483affd1f55e850207902c9c8e7faff88342",
+          "source_refs": [
+            {
+              "id": "C1",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/28833331/",
+              "title": "A randomized placebo-controlled trial of cenicriviroc for treatment of nonalcoholic steatohepatitis with fibrosis"
+            },
+            {
+              "id": "C3",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/37061109/",
+              "title": "Cenicriviroc Lacked Efficacy to Treat Liver Fibrosis in Nonalcoholic Steatohepatitis: AURORA Phase III Randomized Study"
+            }
+          ],
+          "observation_to_decision": "A secondary fibrosis signal motivated confirmation; the larger phase III primary endpoint did not replicate benefit.",
+          "limits": "This does not isolate inadequate engagement from target biology.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        },
+        {
+          "case_id": "iniparib",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/clinical_failure/iniparib.json",
+          "trace_sha256": "e7cb5ae575c3266569f1206a64045f5da63828483b75c645bb377996cdb18130",
+          "source_refs": [
+            {
+              "id": "I3",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/25349301/",
+              "title": "Phase III study of iniparib plus gemcitabine and carboplatin versus gemcitabine and carboplatin in patients with metastatic triple-negative breast cancer"
+            }
+          ],
+          "observation_to_decision": "A nominal PFS P value did not satisfy the reported coprimary success criteria.",
+          "limits": "Exact alpha thresholds are absent from the trace and are not invented here.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        }
+      ]
+    },
+    {
+      "id": "RC20",
+      "title_ko": "효능과 독성의 판정 경로를 분리하기",
+      "when_to_use": "An efficacious or promising programme develops a safety signal.",
+      "principle": "Generate drug-specific and target-related safety alternatives without treating safety termination as disproof of efficacy biology; use independent safety ascertainment.",
+      "usual_hypothesis_level": "benefit–harm development decision",
+      "modality_tags": [
+        "general",
+        "small_molecule"
+      ],
+      "situation_tags": [
+        "learning",
+        "safety",
+        "causal_scope"
+      ],
+      "falsifier_template": {
+        "H1": "At fixed intended exposure, excess organ injury is below the prospectively justified acceptable margin delta.",
+        "H0": "At that same exposure, excess organ injury meets or exceeds the same margin delta.",
+        "single_changed_variable": "C versus matched comparator at the intended exposure",
+        "held_constant": [
+          "Surveillance frequency",
+          "Laboratory methods",
+          "Baseline eligibility",
+          "Follow-up"
+        ],
+        "controls": [
+          "Concurrent comparator",
+          "Central laboratory",
+          "Independent event adjudication"
+        ],
+        "readout": "Organ chemistry/injury and efficacy reported separately",
+        "timepoint": "Predetermined acute and delayed injury windows",
+        "refuting_result": "Valid surveillance and the prospectively specified uncertainty rule place excess injury at or beyond delta. Without a justified margin, safety acceptability remains unresolved.",
+        "experiment_failure": "Inconsistent surveillance, unverified exposure or confounded injury ascertainment.",
+        "next_actions": {
+          "supports": "Retain the bounded safety estimate and uncertainty; rare-event and delayed safety are not established.",
+          "refutes": "Do not advance this regimen under the bounded safety claim. Preserve efficacy observations separately; investigate hazard attribution or a new exposure policy.",
+          "inconclusive": "Resolve the named precision, timing or compartment uncertainty before choosing between H1 and H0.",
+          "experiment_failure": "Repair the failed assay, exposure or control and repeat the same contrast."
+        },
+        "provenance": "METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification."
+      },
+      "common_failure_modes": [
+        "Equating routine adverse-event summaries with complete safety",
+        "Declaring an entire target class refuted after one compound"
+      ],
+      "worked_examples": [
+        {
+          "case_id": "fasiglifam",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/clinical_failure/fasiglifam.json",
+          "trace_sha256": "ac8d2a3df3da9722d12bd4bdb08c61b1430b8d0d69f90a5fc739c4250bcee306",
+          "source_refs": [
+            {
+              "id": "F2",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/30880443/",
+              "title": "Determination of fasiglifam-induced liver toxicity: Insights from the data monitoring committee of the fasiglifam clinical trials program"
+            },
+            {
+              "id": "F3",
+              "url": "https://fs2.magicalir.net/tdnet/2013/4502/20131226078148.pdf",
+              "title": "Takeda announces termination of fasiglifam development"
+            }
+          ],
+          "observation_to_decision": "Central liver measurements identified a signal and Takeda terminated development for liver safety concerns.",
+          "limits": "Pooled programme denominators and molecular toxicology remain incomplete.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        },
+        {
+          "case_id": "torcetrapib",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/clinical_failure/torcetrapib.json",
+          "trace_sha256": "f431cf6bdbc09dea9e85bdcbda799a38fc63e58862de09a87e12351372fbcc30",
+          "source_refs": [
+            {
+              "id": "T2",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/17984165/",
+              "title": "Effects of torcetrapib in patients at high risk for coronary events"
+            },
+            {
+              "id": "T3",
+              "url": "https://www.sec.gov/Archives/edgar/data/78003/000007800306000334/ex991202.htm",
+              "title": "Pfizer stops all torcetrapib clinical trials"
+            }
+          ],
+          "observation_to_decision": "Adverse clinical outcomes led to stopping while target versus off-target harm remained unresolved.",
+          "limits": "Final report and interim stopping data are temporally distinct.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        }
+      ]
+    },
+    {
+      "id": "RC21",
+      "title_ko": "결과를 다음 노출 정책과 판독으로 되돌리기",
+      "when_to_use": "A response-associated hazard or persistent adverse change appears during development.",
+      "principle": "Turn the result into a testable next policy or withdrawal question; compare one policy element at a time and do not treat an uncontrolled amendment as causal proof.",
+      "usual_hypothesis_level": "learning from outcome to next experiment",
+      "modality_tags": [
+        "general",
+        "siRNA",
+        "small_molecule"
+      ],
+      "situation_tags": [
+        "learning",
+        "dose_adaptation",
+        "withdrawal"
+      ],
+      "falsifier_template": {
+        "H1": "Changing one policy element P reduces hazard Y while preserving prespecified biological activity.",
+        "H0": "P does not reduce Y or sacrifices required activity.",
+        "single_changed_variable": "One policy element P versus the prior matched policy",
+        "held_constant": [
+          "Eligibility/risk strata",
+          "Other dosing elements",
+          "Surveillance",
+          "Endpoint definitions"
+        ],
+        "controls": [
+          "Matched concurrent policy comparator where feasible",
+          "Activity assay",
+          "Safety ascertainment"
+        ],
+        "readout": "Safety Y and retained activity; report observational comparisons as observational",
+        "timepoint": "Predefine exposure and delayed follow-up windows",
+        "refuting_result": "The changed policy fails its safety or retained-activity criterion with adequate information.",
+        "experiment_failure": "Several policy elements or cohorts change together, preventing attribution to P.",
+        "next_actions": {
+          "supports": "Retain the bounded link; replicate with an independent perturbation before extending to clinical benefit.",
+          "refutes": "Revise this causal link or its stated conditions; retain alternatives consistent with the readout.",
+          "inconclusive": "Resolve the named precision, timing or compartment uncertainty before choosing between H1 and H0.",
+          "experiment_failure": "Repair the failed assay, exposure or control and repeat the same contrast."
+        },
+        "provenance": "METHOD_AUTHOR_PROSPECTIVE_TEMPLATE; not the historically performed protocol. Parameters require current-case justification."
+      },
+      "common_failure_modes": [
+        "Calling an amendment a randomized rescue",
+        "Optimizing efficacy without constraining excess correction"
+      ],
+      "worked_examples": [
+        {
+          "case_id": "fitusiran",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/sirna/fitusiran.json",
+          "trace_sha256": "93d27b23a18f05e7387e808354637639948b253ec0822ac1e5194c111deb7ea2",
+          "source_refs": [
+            {
+              "id": "S3",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/40053895/",
+              "title": "Safety and efficacy of a fitusiran antithrombin-based dose regimen in people with hemophilia A or B: the ATLAS-OLE study"
+            }
+          ],
+          "observation_to_decision": "A later antithrombin-guided regimen replaced fixed dosing to mitigate thrombosis risk.",
+          "limits": "The later activity window is not an earlier trial falsification threshold; amendment causality is not randomized.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        },
+        {
+          "case_id": "semagacestat",
+          "trace_relative_path": "audit/evida-plan-20261027/traces/clinical_failure/semagacestat.json",
+          "trace_sha256": "73213f8803b231358a483110aeed5fd24adba400ed0bf58c78ec7c7b990f480a",
+          "source_refs": [
+            {
+              "id": "S3",
+              "url": "https://investor.lilly.com/node/21566",
+              "title": "Lilly halts development of semagacestat"
+            }
+          ],
+          "observation_to_decision": "After stopping dosing, Lilly planned follow-up to ask whether adverse group differences persisted.",
+          "limits": "A withdrawal follow-up answers persistence, not a complete molecular explanation; this policy template is an author-designed next test.",
+          "derivation": "source_supported_perspective_not_universal_rule"
+        }
+      ]
+    }
+  ],
+  "construction_notes": {
+    "templates": "Method-author prospective reconstruction, not a claim these exact experiments were historically performed.",
+    "thresholds": "Set prospectively for the actual assay; no unreported numerical thresholds supplied.",
+    "source_state": "Training traces remain documentary and partly source-gapped; all examples inherit those limits.",
+    "historical_limits": "Examples use known historical outcomes for construction; this is not discovery or proof of model blinding.",
+    "actual_answering_model": "Not exposed to this worker; no science model/API calls made."
+  },
+  "review_resolution": "Applied card-review F01-F06; 6 primary-source spot checks, not fully independent external review."
+}

@@ -116,7 +116,7 @@ async function interactionAction(action,node){
     evidaStorage.setItem(draftKey(),draft);render();document.querySelector('#message')?.focus();return;
   }
   if(action==='interaction-review-current'){
-    await api(`/api/workspaces/${state.id}/review-requests`,{expected_rev:state.rev,command_id:crypto.randomUUID()});
+    await api(`/api/workspaces/${state.id}/review-requests`,{expected_rev:state.rev,command_id:crypto.randomUUID(),...plannerOptions()});
     await refresh();notice('현재 조건의 후속 검토를 접수했습니다.');return;
   }
   if(action!=='interaction-explain'||explanationSending)return;
@@ -137,7 +137,7 @@ async function submitResearchFollowthrough(){
     await api(`/api/workspaces/${state.id}/commands`,{expected_rev:state.rev,command_id:crypto.randomUUID(),body});
     draft='';syntheticDraft=false;evidaStorage.removeItem(draftKey());
   }else{
-    await api(`/api/workspaces/${state.id}/review-requests`,{expected_rev:state.rev,command_id:crypto.randomUUID()});
+    await api(`/api/workspaces/${state.id}/review-requests`,{expected_rev:state.rev,command_id:crypto.randomUUID(),...plannerOptions()});
   }
   await refresh();notice('이 조건으로 검토하도록 접수했습니다.');
 }

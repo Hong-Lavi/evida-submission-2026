@@ -19,6 +19,7 @@ function sourceDisplayLabel(artifact,result,row){
  if(b)return [b.authors?.includes(',')?b.authors.split(',')[0]+' 외':b.authors,b.year,b.title.length>130?b.title.slice(0,130)+'…':b.title].filter(Boolean).join(' · ');
  if(artifact?.kind==='literature')return '검색 결과 묶음';
  if(artifact?.kind==='public_lookup_bundle')return '공개 자료 조회 묶음';
+ if(artifact?.kind==='webpage')return '웹 자료 · '+sourceDisplayText(artifact.source_title??artifact.title??'문헌');
  if(artifact?.kind==='article')return '보존한 원문 · '+sourceDisplayText(artifact.title??'문헌');
  return sourceDisplayText(artifact?.title??'자료 묶음');
 }
@@ -27,6 +28,27 @@ function sourceBibliographyView(result,row){
  return `<section class="source-bibliography"><strong>${esc(b.title)}</strong><p class="small">${[b.authors,b.year,Array.isArray(b.studyType)?b.studyType.join(' · '):b.studyType].filter(Boolean).map(esc).join(' · ')}</p>${b.pmid||b.doi?`<p class="small">${b.pmid?'PMID '+esc(b.pmid):''}${b.doi?' · DOI '+esc(b.doi):''}</p>`:''}</section>`;
 }
 function sourceLocatorDetails(artifact,anchor){return `<details class="source-technical-locator"><summary>출처 위치·조회 기록</summary><p>${esc(artifact?.title??'')} · <code>${esc(artifact?.id??'')}</code></p>${Number.isInteger(anchor?.offset)?`<p>저장 원행 인덱스 ${anchor.offset} · 0부터 셈</p>`:''}${Number.isInteger(anchor?.row_index)?`<p>저장 원행 인덱스 ${anchor.row_index} · 0부터 셈</p>`:''}</details>`;}
+function sourceAssertionAnchorView(anchor,check){
+ if(!anchor?.artifact_id)return '';
+ const binding=check?.source_binding??anchor.source_binding,location=binding?.location??{},original=binding?.original??{};
+ const row=Number.isInteger(anchor.row_index)?anchor.row_index:binding?.row_index;
+ const located=Number.isInteger(row)&&row>=0;
+ const page=Number.isInteger(location.page_number)&&location.page_number>0?location.page_number:null;
+ const paragraph=Number.isInteger(location.paragraph_number)&&location.paragraph_number>0?location.paragraph_number:null;
+ const position=page?`원문 ${page}쪽`:paragraph?`원문 문단 ${paragraph}`:located?`보존한 본문 ${row+1}행`:'';
+ const origin=binding?.source_kind==='source_document'?'연구자가 제공한 문서':binding?.source_kind==='webpage'?'웹에서 가져온 본문':'';
+ const attrs=`data-id="${esc(anchor.artifact_id)}"${located?` data-source-offset="${row}"`:''}${anchor.quote?` data-source-quote="${esc(anchor.quote)}"`:''}`;
+ let originalLink='';
+ if(binding?.source_kind==='source_document'&&original.artifact_id){
+  const href=`/api/workspaces/${encodeURIComponent(state.id)}/artifacts/${encodeURIComponent(original.artifact_id)}?original=1${page?`#page=${page}`:''}`;
+  originalLink=`<a class="source-link" href="${href}" target="_blank" rel="noopener noreferrer">${page?'보존한 원본의 이 페이지 열기':'보존한 원본 파일 열기'} ↗</a>`;
+ }else if(binding?.source_kind==='webpage'&&typeof externalAnchor==='function'){
+  originalLink=externalAnchor('url',original.resolved_url??original.url,'웹 원본 열기 ↗');
+ }
+ const technical=binding?`<details class="source-technical-locator"><summary>연결한 원문 판본·위치</summary><p class="small">${esc(binding.text_locator??'')} · ${esc(binding.row_id??'')}</p>${Number.isInteger(location.line_start)?`<p class="small">원본 텍스트 ${location.line_start}–${esc(location.line_end)}행</p>`:''}${Number.isInteger(location.byte_start)?`<p class="small">원본 바이트 ${location.byte_start}–${esc(location.byte_end)} (끝 위치 제외)</p>`:''}${original.sha256?`<p class="small">원본 SHA256 <code>${esc(original.sha256)}</code></p>`:''}${binding.artifact_sha256?`<p class="small">인용 자료 SHA256 <code>${esc(binding.artifact_sha256)}</code></p>`:''}</details>`:'';
+ const extractionNote=binding?.extraction?.details?.status==='partial_text'?'<p class="small">문서에 추출 한계가 있습니다. 인용한 위치를 원본과 대조해 주세요.</p>':'';
+ return `<div class="source-assertion" data-source-assertion="${esc(anchor.artifact_id)}">${origin||position?`<p class="small muted">${esc([origin,position].filter(Boolean).join(' · '))}</p>`:''}${extractionNote}<div class="source-links">${button('source',located?'인용한 원문 위치 열기':'연결한 원문 열기',attrs,'link-button small')}${originalLink}</div>${technical}</div>`;
+}
 // Call only for display titles in an already-created source view. TextContent prevents external HTML execution.
 function normalizeSourceTitleNodes(container){for(const node of container.querySelectorAll('.source-bibliography strong, .source-paragraph h3, td a[href*="europepmc.org"]'))node.textContent=sourceDisplayText(node.textContent);}
 function sourceFigureScope(figure){

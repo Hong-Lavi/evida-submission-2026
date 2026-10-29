@@ -24,7 +24,7 @@ import time
 BASE = Path(__file__).resolve().parent
 RUNTIME = BASE.parent
 ROOT = Path('/data/user_home/hsm927/projects/EVIDA_finals_research_2026')
-BRIDGE = ROOT / 'audit/evida-final-ui-20261002/subscription-format-repair-05/transport'
+BRIDGE = RUNTIME / 'bridge'
 if not os.environ.get('EVIDA_SUBSCRIPTION_PRODUCT'):
     raise RuntimeError('The launcher must name the exact product before loading the bridge')
 sys.path.insert(0, str(BRIDGE))
@@ -273,6 +273,8 @@ class SubscriptionRouteGateway:
 def build_subscription_routes(runtime=RUNTIME):
     authorization, sha = load_authorization(Path(runtime) / 'authorization.json')
     calls = Path(authorization['provider_calls']).resolve()
-    if not calls.is_relative_to(Path(runtime).resolve()):
-        raise ValueError('Subscription call records must stay inside this runtime')
+    # Preserve the exact original call ledger and quotas across this reviewed transport copy.
+    preserved_calls = (ROOT / 'audit/evida-final-ui-20261002/model-routes-10/provider-calls').resolve()
+    if not calls.is_relative_to(Path(runtime).resolve()) and calls != preserved_calls:
+        raise ValueError('Subscription call records must use this runtime or the exact preserved ledger')
     return [SubscriptionRouteGateway(spec, authorization, sha, calls) for spec in authorization['routes']]

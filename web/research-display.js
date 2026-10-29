@@ -36,7 +36,7 @@ function uiGenerationLink(item){
   if(item?.origin!=='generated_structure_proposal'||!item.candidate_artifact_id)return '';
   const count=uiGenerationCount(item);
   queueMicrotask(()=>uiLoadGeneration(item.candidate_artifact_id));
-  return button('ui-generated-group',count!=null?`같은 생성 집합 ${count}개 · 출발 화합물 보기`:'같은 생성 집합 · 출발 화합물 보기',`data-id="${esc(item.candidate_artifact_id)}"`,'link-button small');
+  return button('ui-generated-group',count!=null?`같은 생성 집합 ${count}개 · 출발 화합물 보기`:'같은 생성 집합 · 출발 화합물 보기',`data-id="${esc(item.candidate_artifact_id)}"`,'link-button small') + (typeof proposalQualificationEntry==='function'?proposalQualificationEntry(item.candidate_artifact_id):'');
 }
 function uiGeneratedGroup(panel){
   const data=uiGenerationData(panel.id);if(!data||data.loading)return '<p role="status">보존된 생성 목록을 읽고 있습니다.</p>';
@@ -112,11 +112,11 @@ function uiCandidateProperties(row){
   return `${massConflict}${structureFacts(copy)}<dl class="ui-facts">${defs.filter(([key])=>row[key]!==undefined).map(([key,label,meaning])=>`<div><dt>${label}</dt><dd>${esc(row[key])}<small>${meaning}</small></dd></div>`).join('')}</dl><p class="small muted">물성·구조 기반 지표이며 활성, 체내 효능, 실제 합성 성공은 각 실험으로 확인합니다.</p><details><summary>계산별 원값·구조·생성 기록</summary><p>반올림 차이는 생성 기록의 정밀도로 표시하며, 그보다 큰 차이는 별도로 표시합니다. 각 계산의 원값을 보존합니다.</p>${json(Object.fromEntries(Object.entries(row).filter(([k])=>k!=='depiction')))}${json(Object.fromEntries(Object.entries(row.depiction??{}).filter(([k])=>k!=='svg')))}</details>`;
 }
 function uiExperimentAlias(check){
-  const text=[check.question,check.operation?.request].join(' '),read=experimentFields(check).found;
-  const targets=[...new Set(text.match(/\b(?:PDE\d+[A-Z]\d*|LPAR\d+|STMN\d+|FAAH|LOX|FTIR|sFlt-?1|TTR)\b/g)??[])];
-  if(targets.length)return targets.slice(0,3).join(' · ')+(text.includes('IC50')?' 효소 기능 비교':text.includes('칼슘')?' 기능 반응 비교':' 판별 실험');
+  const question=String(check.question??'').trim();
+  if(question)return roadmapSummary(researcherWording(question),86);
+  const read=experimentFields(check).found;
   const n=(state.decision?.research_loop?.next_checks??[]).findIndex(c=>c.id===check.id)+1;
-  return `${CHECK_KIND[check.operation?.kind]??'확인'} ${n>0?n:''} · ${roadmapSummary(researcherWording(read['측정 대상']?.[0]??check.question),42)}`;
+  return `${CHECK_KIND[check.operation?.kind]??'확인'} ${n>0?n:''} · ${roadmapSummary(researcherWording(read['측정 대상']?.[0]??'질문 확인 필요'),42)}`;
 }
 function uiExecutionConditions(check){
   if(check.operation?.kind!=='external_observation')return '';

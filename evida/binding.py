@@ -153,8 +153,7 @@ def prepare_receptor(structure_data, site_id, work):
     receptor = work / 'receptor-source.pdb'
     structure.write_pdb(str(receptor))
     output = work / 'receptor'
-    command = [sys.executable, str(Path(sys.executable).parent / 'mk_prepare_receptor.py'),
-               '--read_pdb', str(receptor), '-o', str(output), '-p', '--write_pdb', str(work / 'receptor-prepared.pdb')]
+    command = [sys.executable, '-m', 'evida.receptor_graph_worker', str(work)]
     with (work / 'receptor-preparation.log').open('wb') as log:
         completed = subprocess.run(command, stdout=log, stderr=subprocess.STDOUT, timeout=240, check=False)
     if completed.returncode != 0 or not output.with_suffix('.pdbqt').exists():
@@ -162,10 +161,11 @@ def prepare_receptor(structure_data, site_id, work):
     return output.with_suffix('.pdbqt'), {'site': site, 'chain_renaming': renamed, 'removed_components': removed,
         'alternate_location_policy': 'Gemmi first conformer; original mmCIF retained',
         'hydrogen_charge_preparation': 'Meeko 0.7.1 default residue templates and Gasteiger; no allow_bad_res',
+        'graph_retention': ({'status':'retained','file':'receptor-graph.json'}if(work/'receptor-graph.json').exists()else json.loads((work/'receptor-graph-unavailable.json').read_text())if(work/'receptor-graph-unavailable.json').exists()else{'status':'unavailable'}),
         'limitations': ['Rigid receptor; removed waters and co-crystal ligand(s)', 'Terminal truncations/alternate states and protonation require scientific review; no implicit missing-atom repair']}
 
 
-def dock_molecules(content, meta, structure_data, arguments, work):
+def dock_molecules(content, meta, structure_data, arguments, work, *, receptor_preparer=None, progress_callback=None):
     from rdkit import Chem
     from rdkit.Chem import AllChem
     from vina import Vina
@@ -183,14 +183,16 @@ def dock_molecules(content, meta, structure_data, arguments, work):
     chosen = [r for r in inputs if r.get('candidate_id') in selected]
     if len(chosen) != len(selected) or {r['candidate_id'] for r in chosen} != set(selected):
         raise ValueError('후보 ID의 누락 또는 중복이 있습니다. 원행을 확인해 주세요.')
-    receptor, preparation = prepare_receptor(structure_data, arguments['site_id'], work)
+    receptor, preparation = (receptor_preparer or prepare_receptor)(structure_data, arguments['site_id'], work)
     exhaustiveness = arguments['exhaustiveness']
     if exhaustiveness not in (8, 16, 32) or type(arguments['seed']) is not int or not 1 <= arguments['seed'] <= 2147483647:
         raise ValueError('도킹 계산량과 난수 시드를 확인해 주세요.')
     center = preparation['site']['center_angstrom']
-    protocol = {'method': 'AutoDock Vina rigid receptor, known co-crystal site', 'pdb_id': structure_data['pdb_id'],
+    box_size = preparation['site'].get('box_size_angstrom', DOCKING_BOX_ANGSTROM)
+    method = ('AutoDock Vina rigid receptor, explicitly selected fpocket geometry' if preparation['site'].get('site_mode')=='explicit_fpocket_geometry' else 'AutoDock Vina rigid receptor, known co-crystal site')
+    protocol = {'method': method, 'pdb_id': structure_data['pdb_id'],
                 'assembly_id': structure_data['assembly_id'], 'structure_sha256': structure_data['source']['sha256'],
-                'center_angstrom': center, 'box_size_angstrom': DOCKING_BOX_ANGSTROM, 'seed': arguments['seed'],
+                'center_angstrom': center, 'box_size_angstrom': box_size, 'seed': arguments['seed'],
                 'seed_roles': {'initial_conformer_generation': arguments['seed'],
                                'vina_search_stream_initialization': arguments['seed'],
                                'coupled_in_this_interface': True,
@@ -200,15 +202,16 @@ def dock_molecules(content, meta, structure_data, arguments, work):
                 'exhaustiveness': exhaustiveness, 'cpu': 2, 'requested_poses': 5,
                 'versions': {p: importlib.metadata.version(p) for p in ('vina', 'meeko', 'gemmi', 'posebusters', 'rdkit')},
                 'preparation': preparation}
-    receptor_files = {name: (work / name).read_text() for name in
-                      ('receptor.pdbqt', 'receptor-source.pdb', 'receptor-prepared.pdb')}
+    receptor_names=['receptor.pdbqt','receptor-source.pdb','receptor-prepared.pdb']
+    receptor_names.extend(name for name in ('receptor-graph.json','receptor-graph-unavailable.json')if(work/name).is_file())
+    receptor_files = {name:(work/name).read_text()for name in receptor_names}
     protocol['receptor_files_sha256'] = {name: hashlib.sha256(raw.encode()).hexdigest()
                                         for name, raw in receptor_files.items()}
     (work / 'protocol.json').write_text(json.dumps(protocol, indent=2) + '\n')
     v = Vina(sf_name='vina', cpu=2, seed=arguments['seed'], verbosity=0)
     v.set_receptor(str(receptor))
     # Compute all atom-type maps before setting any one ligand.
-    v.compute_vina_maps(center=center, box_size=DOCKING_BOX_ANGSTROM)
+    v.compute_vina_maps(center=center, box_size=box_size)
     rows, files = [], dict(receptor_files)
     for index, source in enumerate(chosen):
         row = {'candidate_id': source['candidate_id'], 'input_smiles': source['smiles'], 'source_row': source}
@@ -269,6 +272,7 @@ def dock_molecules(content, meta, structure_data, arguments, work):
         except Exception as exc:
             row.update(status='failed', error=str(exc)[:600])
         rows.append(row)
+        if progress_callback:progress_callback(rows)
     succeeded = sum(r['status'] == 'succeeded' for r in rows)
     return {'status': 'succeeded' if succeeded == len(rows) else 'partial' if succeeded else 'failed',
             'semantic_type': 'rigid_receptor_docking_and_pose_checks', 'protocol': protocol, 'rows': rows,

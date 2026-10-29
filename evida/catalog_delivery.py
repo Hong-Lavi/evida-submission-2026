@@ -65,7 +65,7 @@ def compact_artifact_catalog(entry, matching_view=False):
 
 def compact_view_catalog(entry):
     output = {key: deepcopy(entry[key]) for key in
-              ('reading_id', 'sha256', 'title', 'function', 'source_artifact_id', 'based_rev', 'job_id')
+              ('reading_id', 'sha256', 'title', 'function', 'source_artifact_id', 'based_rev', 'job_id', 'call_id')
               if key in entry}
     if 'arguments' in entry:
         output['arguments_sha256'] = hashlib.sha256(encoded(entry['arguments'])).hexdigest()

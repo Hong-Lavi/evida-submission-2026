@@ -3,7 +3,7 @@ import hashlib
 
 import jsonschema
 
-from .contracts import DECISION, FINAL_DECISION
+from .contracts import DECISION, FINAL_DECISION, REVIEWED_FINAL_DECISION, CURRENT_FINAL_DECISION
 from .decision_preservation import DecisionPreservationError, check as check_preservation, preserve_rejection
 from .discovery import validate_review, resolve_review_ids
 from .judgment_context import validate as validate_context
@@ -41,15 +41,25 @@ def check_requested_operations(proposal, expected):
                 '원 과학 문안·근거·결과 연결은 유지하고 요청한 operation을 실제 필드에 반영해 주세요.')
 
 
-def prepare(store, wid, rev, value, framed, expected_operations=None, decision_preservation=None):
+def prepare(store, wid, rev, value, framed, expected_operations=None, decision_preservation=None,
+            *, legacy_response=False, require_intent_review=False, expected_intent_snapshot=None,
+            reassessment_received=None, job_id=None, reasoning_context=None):
     # Check before schema correction: missing protected fields must not trigger
     # an automatic model rewrite of an explicitly bounded scientific revision.
     draft = value.get('decision', value) if isinstance(value, dict) else value
     check_preservation(store, wid, decision_preservation, draft)
-    # Preserve old frozen responses and explicit-synthesis callers. The new
-    # provider request itself uses FINAL_DECISION and is checked by the gateway.
-    if 'decision' in value:
-        jsonschema.validate(value, FINAL_DECISION)
+    # Publishing a new response requires authored review coverage. Loading old
+    # decisions never passes here; frozen-response replay must be explicit.
+    if not legacy_response:
+        if not isinstance(value, dict) or not isinstance(value.get('hypothesis_review'), dict):
+            raise ValueError('새 판단에는 hypothesis_review 검토 객체가 필요합니다. 가설·다음 확인별로 '
+                             '실제 검토 또는 명시적 미검토·적용 불가 사유를 기록하세요. '
+                             '근거가 없으면 인용을 만들지 말고 unknown 평가와 빈 anchors를 사용하세요.')
+        jsonschema.validate(value, CURRENT_FINAL_DECISION)
+        proposal = value['decision']
+        discovery, context = value['discovery_review'], value['judgment_context']
+    elif 'decision' in value:
+        jsonschema.validate(value, REVIEWED_FINAL_DECISION if 'hypothesis_review' in value else FINAL_DECISION)
         proposal = value['decision']
         discovery, context = value['discovery_review'], value['judgment_context']
     else:
@@ -63,10 +73,36 @@ def prepare(store, wid, rev, value, framed, expected_operations=None, decision_p
     expected = requested_operations(state, expected_operations)
     check_requested_operations(proposal, expected)
     validate_loop(proposal['research_loop'], state)
+    reasoning_record = None
+    if reasoning_context is not None:
+        from .reasoning_core import validate_hypothesis_designs
+        from .reasoning_perspectives import allowed_ids, cards_required
+        checks = validate_hypothesis_designs(proposal['research_loop']['hypotheses'], required=True,
+            allowed_cards=allowed_ids(reasoning_context),
+            cards_required=cards_required(reasoning_context),
+            source_ids={a['id'] for a in state['artifacts']})
+        for check in proposal['research_loop']['next_checks']:
+            if check['operation']['kind'] == 'external_observation' and not check.get('design_hypothesis_id'):
+                raise ValueError('외부 실험은 실행할 가설의 design_hypothesis_id를 연결해야 합니다.')
+        reasoning_record = {'kind': 'reasoning_design_review', 'title': '가설을 구별하는 실험 설계',
+            'value': {'context': reasoning_context, 'checks': checks},
+            'meta': {'meaning': 'declared_design_structure_not_biological_validation'}}
+    from .check_subject_binding import bind_refs
+    with store.connect() as db:
+        for check in proposal['research_loop']['next_checks']:
+            if 'subject_refs' in check:
+                bind_refs(db, wid, check['subject_refs'], expected=True)
     known = {a['id'] for a in state['artifacts']}
     if any(ref.split('#',1)[0] not in known for ref in proposal['evidence_refs']):
         raise ValueError('존재하지 않는 근거 참조를 사용한 판단은 게시하지 않았습니다.')
     records = []
+    if reasoning_record is not None:
+        records.append(reasoning_record)
+    from .intent_dependencies import prepare as prepare_intents
+    intent_record = prepare_intents(store, wid, state, proposal, value.get('intent_review'),
+        required=require_intent_review, expected_snapshot=expected_intent_snapshot)
+    if intent_record is not None:
+        records.append(intent_record)
     if discovery is not None:
         discovery,mappings=resolve_review_ids(store,wid,discovery)
         validate_review(store, wid, rev, discovery)
@@ -83,13 +119,25 @@ def prepare(store, wid, rev, value, framed, expected_operations=None, decision_p
                         'value':{'schema_version':'1','context':context,'hypothesis_wording':hypotheses,
                                  'supersedes':previous,'semantic_type':'model_authored_context_and_review_links_not_scientific_validation'},
                         'meta':{'supersedes':previous}})
+    if value.get('hypothesis_review') is not None:
+        from .hypothesis_review import prepare as prepare_review
+        records.append(prepare_review(store, wid, rev, value['hypothesis_review'], proposal['research_loop']))
+    from .reassessment import snapshot as science_snapshot, prepare_bundle
+    guard = science_snapshot(store, wid)
+    if reassessment_received is not None:
+        records.append(prepare_bundle(store, wid, proposal, discovery,
+            value.get('reassessment_review_ids', []), reassessment_received, job_id))
+    from .measurement_selection_native import validate_final as validate_measurement_selection
+    validate_measurement_selection(store, wid, proposal, records, reassessment_received, job_id)
+    # Applies even without an intent sidecar: sources can arrive at the same rev.
+    records.append({'kind': '_reassessment_guard', 'value': guard})
     return proposal, records
 
 
 def commit(store, wid, rev, jid, proposal, records, model_receipts, protocol_id, decision_preservation=None):
     """No external work in the transaction; stale answers never apply sidecars."""
-    def artifact(db, title, kind, value, meta):
-        aid=uid('art');content=dump(value).encode()
+    def artifact(db, title, kind, value, meta, aid=None):
+        aid=aid or uid('art');content=dump(value).encode()
         db.execute('INSERT INTO artifacts VALUES(?,?,?,?,?,?,?,?,?)',
             (aid,wid,title,kind,hashlib.sha256(content).hexdigest(),'application/json',now(),dump(meta),content))
         store.event(db,wid,'artifact_added',{'artifact_id':aid,'title':title,'kind':kind})
@@ -100,25 +148,66 @@ def commit(store, wid, rev, jid, proposal, records, model_receipts, protocol_id,
         preservation = check_preservation(store, wid, decision_preservation, proposal, db)
         current=store.workspace(db,wid)
         sidecars={}
-        if current['rev']==rev:
+        decision_aid=uid('art')
+        from .intent_dependencies import input_snapshot, transaction_state, protected_conflicts, digest
+        locked_state = transaction_state(store, db, wid)
+        intent_record = next((r for r in records if r['kind'] == 'intent_dependencies'), None)
+        input_changed = bool(intent_record and intent_record['value'].get('received_input_snapshot', intent_record['value']['input_snapshot'])['snapshot_sha256']
+                             != input_snapshot(locked_state)['snapshot_sha256'])
+        from .reassessment import snapshot as science_snapshot, bind_bundle
+        science_guard = next((r for r in records if r['kind'] == '_reassessment_guard'), None)
+        science_changed = bool(science_guard and science_guard['value']['snapshot_sha256'] !=
+                               science_snapshot(store, wid, db)['snapshot_sha256'])
+        conflicts = protected_conflicts(locked_state, proposal['intent_records'])
+        if current['rev']==rev and not input_changed and not science_changed and not conflicts:
             for record in records:
+                if record['kind'] == '_reassessment_guard':
+                    continue
+                if record['kind'] == 'reassessment_bundle':
+                    discovery = next((r['value'] for r in records if r['kind'] == 'discovery_review'), None)
+                    record = bind_bundle(record, decision_aid, sidecars.get('discovery_review'), proposal, discovery)
+                if record['kind'] == 'intent_dependencies':
+                    record = {**record, 'value': {**record['value'], 'decision_id': decision_aid,
+                                                  'decision_sha256': digest(proposal)}}
+                if record['kind']=='hypothesis_review':
+                    from .hypothesis_review import bind_record
+                    record=bind_record(record, decision_aid)
                 sidecars[record['kind']]=artifact(db,record['title'],record['kind'],record['value'],
-                    {**record['meta'],'based_rev':rev,'job_id':jid,'submission':'same_model_final_bundle'})
+                    {**record['meta'],'based_rev':rev,'job_id':jid,'submission':'same_model_final_bundle',
+                     **({'decision_id': decision_aid} if record['kind'] == 'reasoning_design_review' else {})})
         aid=artifact(db,'현재 판단 제안','decision_proposal',proposal,
             {'based_rev':rev,'job_id':jid,'model_receipts':model_receipts,'protocol_id':protocol_id,
-             'finalization_records':sidecars,'scientific_validation':False})
+             'finalization_records':sidecars,'scientific_validation':False}, aid=decision_aid)
         if preservation is not None:
             store.event(db,wid,'decision_preservation_checked',
                 {'receipt_id':aid,'contract':preservation,'status':'protected_fields_preserved'})
-        published=store._publish_decision(db,wid,rev,proposal,aid)
+        if input_changed and current['rev'] == rev:
+            store.event(db, wid, 'decision_intent_snapshot_stale', {
+                'receipt_id': aid, 'state_rev': rev, 'published': False,
+                'reason': 'Intent input or published decision changed after preparation, including at the same revision.'})
+            published = False
+        elif science_changed and current['rev'] == rev:
+            store.event(db, wid, 'decision_science_snapshot_stale', {
+                'receipt_id': aid, 'state_rev': rev, 'published': False,
+                'reason': 'Source, assessment, parent decision or condition changed after preparation.'})
+            published = False
+        else:
+            published=store._publish_decision(db,wid,rev,proposal,aid)
+        if published and intent_record and intent_record['value']['review_status'] == 'unknown':
+            db.execute("UPDATE workspaces SET review_status='needs_review' WHERE id=?", (wid,))
         return aid,published
 
 
 def finalize(store, wid, rev, jid, value, framed, model_receipts, protocol_id, expected_operations=None,
-             decision_preservation=None):
+             decision_preservation=None, *, legacy_response=False, require_intent_review=False,
+             expected_intent_snapshot=None, reassessment_received=None, reasoning_context=None):
     try:
         proposal, records=prepare(store,wid,rev,value,framed,expected_operations=expected_operations,
-                                  decision_preservation=decision_preservation)
+                                  decision_preservation=decision_preservation, legacy_response=legacy_response,
+                                  require_intent_review=require_intent_review,
+                                  expected_intent_snapshot=expected_intent_snapshot,
+                                  reassessment_received=reassessment_received, job_id=jid,
+                                  reasoning_context=reasoning_context)
         return commit(store,wid,rev,jid,proposal,records,model_receipts,protocol_id,
                       decision_preservation=decision_preservation)
     except DecisionPreservationError as rejection:

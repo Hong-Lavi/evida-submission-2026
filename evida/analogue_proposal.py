@@ -483,6 +483,16 @@ def propose(value, arguments):
                      'core_from': origin.get(core_source, core_source),
                      'substituent_from': origin.get(substituent_source, substituent_source),
                      'core': core, 'substituent': substituent,
+                     'paths': ([{'parent_id': origin.get(extra['seed'], extra['seed']),
+                                 'parent_smiles': extra['seed'], 'generated_smiles': smiles,
+                                 'role': 'transformation_parent', 'parent_branch': 'source',
+                                 'parent_round': 0, 'transformation': extra['transformation'],
+                                 'context_radius': extra['context_radius']}] if extra else
+                               [{'parent_id': origin.get(parent, parent), 'parent_smiles': parent,
+                                 'generated_smiles': smiles, 'role': role,
+                                 'parent_branch': 'source', 'parent_round': 0}
+                                for parent, role in ((core_source, 'core_donor'),
+                                                     (substituent_source, 'substituent_donor'))]),
                      **({'alerts_shared_with_retrieved': sorted(carried)} if carried else {}),
                      **({'transformed_from': origin.get(extra['seed'], extra['seed']),
                          'transformation': extra['transformation'],

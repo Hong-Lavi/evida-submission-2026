@@ -71,7 +71,7 @@ def load_prior(cfg):
     return rows
 
 
-def analyze(arguments, source, root, work):
+def analyze(arguments, source, root, work, source_sha256=None):
     cfg, fingerprint = verified_resources(root)
     prepared = prepare(arguments, source, load_prior(cfg))
     work.mkdir(exist_ok=False)
@@ -98,4 +98,5 @@ def analyze(arguments, source, root, work):
             'unique_optimum_established': False}, resource_fingerprint=fingerprint,
         source_binding={'artifact_id': arguments['artifact_id'], 'resource': arguments['resource'],
             'selected_TFs': arguments['tf_ids']})
-    return result
+    from .pathway_node_states import attach_package
+    return attach_package(result, work, {**result['source_binding'], 'sha256': source_sha256}, fingerprint)

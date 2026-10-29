@@ -396,7 +396,28 @@ def normalize_inspect_read_metadata(body, schema, envelope):
 def wire_output(envelope, request, call_id, normalization_directory=None):
     """Enforce the original product schema and forced-tool semantics, fail closed."""
     jsonschema.validate(envelope, ENVELOPE)
-    body = json.loads(envelope['body_json'])
+    from single_object_closer import strict_load, candidate_bounded
+    try:
+        body = strict_load(envelope['body_json'])
+    except json.JSONDecodeError:
+        # Syntax-only proposal: original envelope remains untouched. No final
+        # decision or unregistered/disabled tool receives structural recovery.
+        choice = request.get('tool_choice', 'auto')
+        specs = {f['name']: f for f in request.get('tools', [])}
+        name = envelope['name']
+        if (envelope['kind'] != 'function' or choice == 'none'
+                or name not in specs
+                or (isinstance(choice, dict) and name != choice.get('name'))):
+            raise ValueError('No eligible registered function for syntax recovery')
+        if normalization_directory is None:
+            raise ValueError('Syntax recovery requires a persistent receipt directory')
+        repaired, body, structural_receipt = candidate_bounded(
+            envelope['body_json'], specs[name]['parameters'])
+        directory = Path(normalization_directory)
+        save(directory / 'original-structural-envelope.json', envelope)
+        save(directory / 'structural-recovery-wire-string.json', repaired)
+        save(directory / 'structural-recovery-candidate.json', body)
+        save(directory / 'structural-recovery-receipt.json', structural_receipt)
     choice = request.get('tool_choice', 'auto')
     if envelope['kind'] == 'function':
         if choice == 'none': raise ValueError('Tools are disabled for this step')

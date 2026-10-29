@@ -281,9 +281,25 @@ def main():
         tool = request["tool"]
         if tool in handlers:
             result = handlers[tool](content, request.get("input_meta", {}))
+        elif tool in ('pubmed_search','pubmed_abstracts'):
+            from .ncbi_pubmed import retrieve
+            result=retrieve(tool,request['arguments'],Path(request['output_path']).parent/'pubmed-responses',
+                request['pubmed_rate_lock'],request.get('pubmed_source_scope'),request.get('pubmed_search_binding'))
+        elif tool=='pocket_docking':
+            from .pocket_docking import run
+            result=run(content,request['input_meta'],request['pocket_docking_input'],Path(request['output_path']).parent/'pocket-docking')
+        elif tool == 'webpage':
+            from .web_sources import read_webpage
+            result = read_webpage(request['arguments'])
+        elif tool in ('public_web_search', 'public_research_page'):
+            from .literature_access import run
+            result = run(tool, request['arguments'], Path(request['output_path']).parent/'public-web-access')
         elif tool == 'gtopdb_pharmacology':
             from .gtopdb import retrieve
             result = retrieve(request['arguments'], Path(request['output_path']).parent / 'gtopdb-responses')
+        elif tool in ('gwas_studies', 'perturbagen_metadata'):
+            from .research_apis import retrieve
+            result = retrieve(tool, request['arguments'], Path(request['output_path']).parent / 'research-api-responses')
         elif tool == 'lens_literature':
             from .lens_sources import retrieve
             result = retrieve(request['arguments'], Path(request['output_path']).parent / 'lens-responses')
@@ -296,6 +312,42 @@ def main():
         elif tool == "rna_weighted_distribution":
             from .rna_distribution import analyze
             result = analyze(json.loads(content))
+        elif tool == 'pose_interactions':
+            from .pose_interactions import analyze, digest
+            if digest(content)!=request['pose_interaction_input']['source_artifact_sha256']:
+                raise ValueError('Staged docking content SHA mismatch.')
+            result=analyze(request['pose_interaction_input'],Path(request['output_path']).parent)
+        elif tool in ('structure_pockets','protein_dynamics','trajectory_analysis'):
+            from .protein_computation import run, digest
+            if digest(content) != request['protein_computation_input']['source_artifact_sha256']:
+                raise ValueError('Staged protein computation source SHA mismatch.')
+            result = run(request['protein_computation_input'], Path(request['output_path']).parent/tool)
+        elif tool == 'retrosynthesis':
+            from .retrosynthesis import run, digest
+            if digest(content) != request['retrosynthesis_input']['source_artifact_sha256']:
+                raise ValueError('Staged retrosynthesis source SHA mismatch.')
+            result = run(request['retrosynthesis_input'], Path(request['output_path']).parent/tool)
+        elif tool in ('xtb_geometry','crest_conformers'):
+            from .molecular_physics import run, digest
+            if digest(content)!=request['molecular_physics_input']['source_artifact_sha256']:
+                raise ValueError('Staged molecular physics source SHA mismatch.')
+            result=run(request['molecular_physics_input'],Path(request['output_path']).parent/tool)
+        elif tool in ('molecule_preparation','synthetic_complexity'):
+            from .molecular_preparation import run, digest
+            if digest(content)!=request['molecular_preparation_input']['source_artifact_sha256']:
+                raise ValueError('Staged molecular source SHA mismatch.')
+            result=run(request['molecular_preparation_input'],Path(request['output_path']).parent/tool)
+        elif tool == 'rna_interactions':
+            from .rna_interaction import run, digest
+            bound=request['intarna_input']
+            if digest(content)!=bound['source_artifact_sha256'] or digest(Path(request['reference_path']).read_bytes())!=bound['reference_artifact_sha256']:
+                raise ValueError('Staged guide/reference Store SHA mismatch.')
+            result=run(bound,Path(request['output_path']).parent/'intarna')
+        elif tool == 'protonation_states':
+            from .protonation import run, digest
+            if digest(content) != request['protonation_input']['source_artifact_sha256']:
+                raise ValueError('Staged protonation source SHA mismatch.')
+            result = run(request['protonation_input'], Path(request['output_path']).parent / 'protonation')
         elif tool == 'chemical_names':
             from .chemical_names import name_structures
             value = json.loads(content)
@@ -312,11 +364,19 @@ def main():
             result = propose(source, request['arguments'])
             result['source_artifact_id'] = request['arguments']['artifact_id']
             extra = [json.loads(Path(x['path']).read_bytes()) for x in request.get('public_source_inputs') or []]
-            fitted = fit(source, extra_sources=[x for x in extra
+            fitted = fit(source, compare_models=True, extra_sources=[x for x in extra
                                                 if x.get('semantic_type') == 'reported_bindingdb_measurements'])
             result['activity_model'] = {k: v for k, v in fitted.items()
                                         if k not in ('model', 'fingerprint') and not k.startswith('_')}
             result['activity_model']['scoring'] = score(result.get('rows') or [], fitted)
+            # Record the executed order; activity predictions do not select
+            # the initial shortlist returned by propose(). Guided rounds,
+            # when requested below, have their own model-guided selection.
+            result['proposal_selection'] = {
+                'shortlist_count': len(result.get('rows') or []),
+                'shortlist_basis': ['retrieved_structure_similarity', 'QED'],
+                'activity_scoring_stage': 'after_structural_shortlist',
+            }
             if request['arguments'].get('guided_rounds'):
                 from .guided_search import search
                 from .analogue_proposal import propose_from
@@ -330,6 +390,12 @@ def main():
                                                  {'rounds': request['arguments']['guided_rounds'],
                                                   'beam': request['arguments'].get('guided_beam')},
                                                  one_round)
+            from .generation_source_binding import attach_source_binding
+            attach_source_binding(result, source, request['arguments']['artifact_id'],
+                                  hashlib.sha256(content).hexdigest())
+        elif tool == 'proposal_qualification':
+            from .proposal_qualification_worker import run
+            result = run(request, content)
         elif tool == 'literature_compounds':
             from .literature_compounds import collect
             sources=[{**x,'value':json.loads(Path(x['path']).read_bytes())} for x in request['public_source_inputs']]
@@ -391,12 +457,34 @@ def main():
         elif tool == 'rna_duplex_seed':
             from .rna_duplex import scan_strands
             result=scan_strands(json.loads(content),request['arguments'],Path(request['output_path']).parent/'strand-seeds')
+        elif tool == 'pathway_robustness':
+            from .pathway_robustness import compare_artifacts
+            result=compare_artifacts([{**item,'content':Path(item['path']).read_bytes()}
+                                      for item in request['pathway_runs']])
         elif tool == 'pathway_hypotheses':
             from .pathway_hypotheses import analyze
             if hashlib.sha256(content).hexdigest() != request['input_sha256']:
                 raise ValueError('경로 추론의 원 조절 패턴 전달 해시가 다릅니다.')
             result = analyze(request['arguments'], json.loads(content), Path(__file__).parents[1],
-                Path(request['output_path']).parent/'pathways')
+                Path(request['output_path']).parent/'pathways', source_sha256=request['input_sha256'])
+        elif tool == 'pathway_node_states':
+            from .pathway_node_states import run
+            if hashlib.sha256(content).hexdigest() != request['input_sha256']:
+                raise ValueError('원 경로 계산 전달 해시가 다릅니다.')
+            result = run(json.loads(content), request['arguments'], Path(__file__).parents[1],
+                         Path(request['output_path']).parent/'node-states', request['input_sha256'])
+        elif tool == 'reported_activity_comparison':
+            from .reported_activity_comparison import evaluate, digest
+            bundle = request['reported_activity_input']
+            if digest(bundle) != request['reported_activity_input_sha256']:
+                raise ValueError('보고 농도 대비의 원자료 전달 해시가 다릅니다.')
+            result = evaluate(bundle)
+        elif tool == 'next_observation_selection':
+            from .next_observation_binding import run
+            result = run(request)
+        elif tool == 'source_document':
+            from .source_intake import worker
+            result = worker(request, content)
         elif tool in ('exposure_requirements', 'kinetic_conditions', 'regulon_activity'):
             if tool == 'kinetic_conditions':
                 from .kinetic_conditions import compare

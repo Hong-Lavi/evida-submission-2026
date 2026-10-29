@@ -14,11 +14,11 @@ import subprocess
 import tempfile
 from pathlib import Path
 
-SMILES_FIELDS = ('smiles', 'canonical_smiles', 'SMILES')
+SMILES_FIELDS = ('smiles', 'canonical_smiles', 'SMILES', 'original_smiles')
 # analogue_proposal belongs here for the same reason the retrieval tools do: stage 3 puts the
 # generated structures beside the retrieved ones, and a reader compares them by looking.
 DEPICTED_KINDS = ('compound_candidates', 'literature_compounds', 'compound_selection',
-                  'molecule_csv', 'rdkit', 'admet', 'analogue_proposal')
+                  'molecule_csv', 'rdkit', 'admet', 'analogue_proposal', 'proposal_qualification')
 MAXIMUM_PER_VIEW = 60
 
 

@@ -1,0 +1,37 @@
+{
+  "python": "<RESEARCH_ROOT>/audit/evida-plan-20261027/tool-expansion133/aizynth-venv/bin/python",
+  "packages": {
+    "aizynthfinder": "4.4.1",
+    "rdkit": "2023.9.6",
+    "numpy": "1.26.4",
+    "pyarrow": "17.0.0"
+  },
+  "assets": {
+    "<RESEARCH_ROOT>/audit/evida-plan-20261027/tool-expansion133/aizynth-assets-verified/uspto_model.onnx": "bd0a3cb74cd7068de474c8fb789a00a66bc42c75636d66510ccac585ebe928f8",
+    "<RESEARCH_ROOT>/audit/evida-plan-20261027/tool-expansion133/aizynth-assets-verified/uspto_filter_model.onnx": "ad29aa32bdfcbe37065045546493806cf04899c55386c438905d83fb14bb6320",
+    "<RESEARCH_ROOT>/audit/evida-plan-20261027/tool-expansion133/aizynth-assets-verified/uspto_unique_templates.csv.gz": "a4f1945e90cfa195538320833d68aed38f14e2fcc2f8afb5d958bc920edcafbe",
+    "<RESEARCH_ROOT>/audit/evida-plan-20261027/tool-expansion133/aizynth-assets-verified/zinc_stock.hdf5": "99d39a6f807c3e815487500bafc2b4a9dc66a31af189e3b1776874fb0d4a188d"
+  },
+  "author_configuration": {
+    "expansion": {
+      "uspto": [
+        "<RESEARCH_ROOT>/audit/evida-plan-20261027/tool-expansion133/aizynth-assets-verified/uspto_model.onnx",
+        "<RESEARCH_ROOT>/audit/evida-plan-20261027/tool-expansion133/aizynth-assets-verified/uspto_unique_templates.csv.gz"
+      ]
+    },
+    "filter": {
+      "uspto": "<RESEARCH_ROOT>/audit/evida-plan-20261027/tool-expansion133/aizynth-assets-verified/uspto_filter_model.onnx"
+    },
+    "stock": {
+      "zinc": "<RESEARCH_ROOT>/audit/evida-plan-20261027/tool-expansion133/aizynth-assets-verified/zinc_stock.hdf5"
+    }
+  },
+  "timeout_seconds": 420,
+  "output_limit_bytes": 32000000,
+  "log_limit_bytes": 1000000,
+  "rights": {
+    "code": "MIT",
+    "models_and_templates": "CC-BY-4.0 author Zenodo releases",
+    "stock": "Author-distributed public ZINC snapshot; no raw stock redistribution"
+  }
+}

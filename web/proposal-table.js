@@ -11,6 +11,28 @@
 // is the result.
 if (typeof SCIENCE_LABELS !== 'undefined') SCIENCE_LABELS.analogue_proposal = '공개 화합물에서 설계한 후보';
 
+function proposalModelComparison(model) {
+  const selection = model.model_selection;
+  if (!selection) return '';
+  const candidates = selection.candidates || [];
+  const chosen = candidates.find(candidate => candidate.id === selection.selected);
+  const number = value => Number.isFinite(value) ? value.toFixed(3) : '—';
+  const status = candidate => candidate.id === selection.selected ? '선택'
+    : candidate.status === 'fitted' ? (candidate.usable ? '비교 완료' : '검증 기준 미충족')
+    : ({disabled: '비교 설정 꺼짐', resource_bound: '자료 크기에 맞는 비교 필요',
+        environment_mismatch: '실행환경 확인 필요', dependency_unavailable: '실행환경 연결 필요',
+        failed: '계산 오류 확인 필요'}[candidate.status] || '확인 필요');
+  return `<details class="proposal-model-comparison" data-detail-key="activity-model-comparison">
+    <summary>${chosen ? `이 자료에서 선택한 예측법: ${esc(chosen.name)}` : '예측법 비교와 다음 확인'}</summary>
+    <p class="small">같은 학습 ${esc(selection.training_rows)}개 · 골격 검증 ${esc(selection.validation_rows)}개로 비교했습니다.
+      평균값만 예측했을 때의 오차 ${esc(number(selection.mean_baseline_mae))} p활성 단위</p>
+    <div class="table-scroll"><table><thead><tr><th>예측법</th><th>검증 오차</th><th>순위 상관</th><th>판단</th></tr></thead>
+      <tbody>${candidates.map(candidate => `<tr><td>${esc(candidate.name)}</td>
+        <td>${esc(number(candidate.validation_mae))}</td><td>${esc(number(candidate.validation_spearman))}</td>
+        <td>${esc(status(candidate))}${candidate.reason ? `<small>${esc(candidate.reason)}</small>` : ''}</td></tr>`).join('')}</tbody></table></div>
+    <p class="small muted">${esc(selection.reading || '')}</p></details>`;
+}
+
 function proposalModelVerdict(result) {
   const model = result.activity_model;
   if (!model) return '';
@@ -20,18 +42,40 @@ function proposalModelVerdict(result) {
     원자료에 보존한 경계값 ${esc(review.retained_bound_records)}건</p>` : '';
   if (!model.usable) {
     return `<p class="notice-inline proposal-refusal"><strong>활성 평가에 필요한 자료를 확인해 주세요.</strong>
-      ${esc(model.meaning || '')}</p>${preparation}`;
+      ${esc(model.meaning || '')}</p>${preparation}${proposalModelComparison(model)}`;
   }
   const summary = model.summary || {};
-  const sources = Object.entries(summary.sources || {}).map(([name, count]) => `${name} ${count}`).join(' · ');
+  const sourceId = result.generation_source_binding?.artifact_id || result.source_artifact_id;
+  const source = typeof state !== 'undefined' ? state?.artifacts?.find(item => item.id === sourceId) : null;
+  const sourceLabel = source?.title || source?.source_title;
+  // Parser source keys describe row formats, not proof of a live retrieval.
+  const formats = Object.entries(summary.sources || {}).map(([name, count]) => `${name} ${count}`).join(' · ');
+  const provenance = sourceLabel ? `<p class="small">학습에 연결한 입력: ${esc(sourceLabel)}
+      ${source.meta?.source_reading ? `<small>${esc(source.meta.source_reading)}</small>` : ''}</p>` : '';
   return `<div class="proposal-model">
-    <p><strong>${review ? '골격을 나눈 공개 활성 자료 예측 시험' : '이전 데이터 처리 방식의 예측 기록 · 재검토 대상'}</strong> · 순위 상관
+    <p><strong>${review ? (model.model_selection ? '모델 선택에 쓴 골격 검증 성적' : '골격을 나눈 공개 활성 자료 예측 시험') : '이전 데이터 처리 방식의 예측 기록 · 재검토 대상'}</strong> · 순위 상관
       ${esc(summary.held_out_spearman)} (기준 ${esc(summary.minimum_spearman_to_use)})</p>
-    <p class="small muted">학습 ${esc(summary.trained_on)}개 · 시험 ${esc(summary.held_out)}개 ·
-      골격 ${esc(summary.scaffolds)}종 · 자료원 ${esc(sources || '기록 없음')}
+    <p class="small muted">학습 ${esc(summary.trained_on)}개 · ${model.model_selection ? '모델 선택용 검증' : '시험'} ${esc(summary.held_out)}개 ·
+      골격 ${esc(summary.scaffolds)}종 · 입력 레코드 형식 ${esc(formats || '기록 없음')}
       ${summary.pooled_assay_types && summary.pooled_assay_types.length
         ? ` · 보고된 측정 종류 ${esc(summary.pooled_assay_types.join(', '))}` : ''}</p>
-    ${preparation}<p class="limit">공개 시험 기록을 예측한 값입니다. 후보의 실제 활성은 후속 실험에서 확인합니다.</p></div>`;
+    ${provenance}${preparation}${proposalModelComparison(model)}<p class="limit">공개 시험 기록을 예측한 값입니다. 후보의 실제 활성은 후속 실험에서 확인합니다.</p></div>`;
+}
+
+function proposalSelectionReading(result) {
+  const selection = result.proposal_selection;
+  if (result.guided_search?.ran) return '';
+  if (selection?.activity_scoring_stage !== 'after_structural_shortlist') {
+    return result.activity_model?.scoring?.scored
+      ? '<p class="small muted">구조를 추린 순서와 활성 예측을 적용한 순서는 이 기록에 명시되지 않았습니다.</p>' : '';
+  }
+  const structural = Array.isArray(selection.shortlist_basis)
+    && selection.shortlist_basis.join(',') === 'retrieved_structure_similarity,QED';
+  return `<p class="small proposal-selection-order">${structural
+    ? '구조 유사도와 QED 순서로 먼저 추린 후보입니다.' : '구조 기준으로 먼저 추린 후보입니다.'}
+    ${result.activity_model?.scoring?.scored > 0
+      ? '활성 예측값은 그 뒤에 붙였으며, 이 후보 목록을 활성 점수로 선택하거나 정렬한 것은 아닙니다.'
+      : '활성 예측은 이 구조 목록을 추린 뒤에 평가했습니다.'}</p>`;
 }
 
 function proposalSearchTrajectory(result) {
@@ -105,9 +149,12 @@ function proposalTable(result) {
       ${database ? ` · 조각 사전은 이 실행이 회수한 화합물 ${esc(database.compounds)}개로 그때 만들었습니다(문맥 반경 ${esc((database.radii || []).join(', '))})` : ''}
       ${result.generator_error ? ` · 첫 생성기가 실패해 대체 방식으로 돌았습니다: ${esc(result.generator_error)}` : ''}</p>
     <p class="small muted">회수 구조 ${esc(summary.retrieved_inputs ?? '—')}개 → 열거 ${esc(summary.enumerated ?? '—')}개 →
-      필터 통과 ${esc(summary.returned ?? '—')}개
+      ${Number.isInteger(result.proposal_selection?.filtered_count)
+        ? `필터 통과 ${esc(result.proposal_selection.filtered_count)}개 → ` : ''}구조 기준으로 추린 ${esc(summary.returned ?? '—')}개
       ${summary.dropped ? ` · 걸러짐: ${esc(Object.entries(summary.dropped).map(([k, v]) => `${({property_window: '물성창', synthetic_accessibility: '합성 난이도', structural_alert: '구조 경보', unstable_motif: '불안정 구조'})[k] || k} ${v}`).join(' · '))}` : ''}</p>
     ${proposalModelVerdict(result)}
+    ${proposalSelectionReading(result)}
+    ${typeof proposalQualificationEntry === 'function' && typeof detail !== 'undefined' ? proposalQualificationEntry(detail?.artifact_id) : ''}
     ${proposalRows(result)}
     ${proposalSearchTrajectory(result)}
     ${(result.limits || []).length ? `<details class="proposal-limits"><summary>해석 범위와 다음 확인 ${esc(result.limits.length)}개</summary>

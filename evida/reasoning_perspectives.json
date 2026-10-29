@@ -1,0 +1,3326 @@
+{
+  "version": "source-argument-perspectives-full-corpus-v1",
+  "method": "Published argument extraction, conditioned cross-case abstraction, independent key-source review and explicit amendments.",
+  "scope": {
+    "original_corpus": 500,
+    "source_argument_drafts": 494,
+    "excluded_without_argument_analysis": 6,
+    "retracted_historical_only": 1,
+    "all_supplements_acquired_or_read": false,
+    "principles": 48,
+    "performance_result": "pending independent comparison"
+  },
+  "perspectives": [
+    {
+      "id": "CLP01",
+      "title_ko": "적용 범위의 공백에서 새 가설을 만든다",
+      "when_to_use": "Prior evidence exists, but the researcher’s population, prior treatment, physiological state or compartment is not represented.",
+      "principle": "Replace the unqualified transfer assumption with conditional alternatives: effect persists in the new context; a context-dependent limitation changes it; or a residual source/process remains after the prior intervention. Name the changed condition without asserting it is causal.",
+      "stage_use": {
+        "investigate": "Choose the source or comparison that includes the missing context and records relevant outcomes, rather than add a molecular prediction that cannot answer applicability.",
+        "generate": "Replace the unqualified transfer assumption with conditional alternatives: effect persists in the new context; a context-dependent limitation changes it; or a residual source/process remains after the prior intervention. Name the changed condition without asserting it is causal.",
+        "compare": "Compare actual evidence within the named context with its appropriate comparator and examine treatment-by-context evidence where available; a cross-study or historical difference alone does not discriminate context causality.",
+        "update": {
+          "benefit_in_new_context": "Extend applicability only to the represented context and measured outcome.",
+          "context_difference_or_null": "Narrow the transfer claim; retain unmeasured context, exposure and competing explanations.",
+          "sparse_or_missing_context": "Keep applicability unresolved; do not equate inclusion with precise subgroup confirmation."
+        }
+      },
+      "limits": [
+        "Context change generates a candidate explanation, not proof of why a prior result failed.",
+        "No new treatment recommendation or inference that broader eligibility creates benefit in every subgroup."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P137-PMC2674555",
+          "observation_to_decision": "MTX를 못쓰는 환자에게 실제 옵션인지 알기 위해 단독요법을 위약과 비교하고 일상에 중요한 환자보고결과를 함께 보았다.",
+          "qualification": null,
+          "source_refs": [
+            {
+              "id": "PMC2674555",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2674555/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P130-PMC7614055",
+          "observation_to_decision": "A randomized blinded placebo comparison with broad eligibility was chosen to test whether the treatment effect extended across underrepresented CKD groups; prespecified subgroup and endpoint definitions address that coverage question.",
+          "qualification": null,
+          "source_refs": [
+            {
+              "id": "PMC7614055",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7614055/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC10667099",
+        "PMC2674555",
+        "PMC3145073",
+        "PMC3159415",
+        "PMC3328846",
+        "PMC3654568",
+        "PMC3888622",
+        "PMC3973038",
+        "PMC4648090",
+        "PMC5515629",
+        "PMC5777233",
+        "PMC5777572",
+        "PMC5965348",
+        "PMC6104676",
+        "PMC7245348",
+        "PMC7614055",
+        "PMC8715387",
+        "PMC8830527",
+        "PMC9018422",
+        "PMC9310767",
+        "PMC9662928",
+        "PMC9671806"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "CLP02",
+      "title_ko": "도달·작용·기능·효능의 빠진 연결을 찾는다",
+      "when_to_use": "The asserted benefit depends on a chain, but evidence measures only exposure, target abundance, peripheral engagement or a surrogate.",
+      "principle": "Generate separate accounts for inadequate access, altered activity without abundance change, activity in the measured compartment only, and downstream nontranslation. These may coexist; none is asserted from a missing observation.",
+      "stage_use": {
+        "investigate": "Use a measurement/computation of the missing link at the relevant location. An accessible assay is selected for feasibility only with its scope preserved; abundance and functional activity are different observables.",
+        "generate": "Generate separate accounts for inadequate access, altered activity without abundance change, activity in the measured compartment only, and downstream nontranslation. These may coexist; none is asserted from a missing observation.",
+        "compare": "Match each competing account to a distinct observed exposure/activity/outcome pattern; repeated measurement of the same proxy does not supply an unmeasured causal link.",
+        "update": {
+          "access_and_local_activity_observed": "Retain a stronger feasibility or engagement claim, while leaving clinical efficacy separate.",
+          "proxy_changes_without_outcome": "Keep the proxy result and narrow the outcome claim; missing tissue activity or causal translation remains unresolved.",
+          "functional_change_without_amount_change": "Do not reject activity solely because abundance is unchanged.",
+          "assay_unavailable_or_invalid": "State that the link was not tested."
+        }
+      },
+      "limits": [
+        "The chain is a question-specific representation, not a mandatory universal sequence.",
+        "No claim that missing engagement would necessarily explain or rescue a negative trial."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P137-PMC10772668",
+          "observation_to_decision": "PBMC가 endogenous RIPK1을 발현하므로 말초 활성표지로 선택했고, CSF는 비임상 일치관측을 근거로 뇌침투 surrogate로 사용했다.",
+          "qualification": null,
+          "source_refs": [
+            {
+              "id": "PMC10772668",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10772668/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P137-PMC10957469",
+          "observation_to_decision": "MYC 억제가 단백질량을 반드시 바꾸지 않으므로 기능적 전사서명을 paired biopsy에서 비교했다. 발현량만으로 환자를 제한하지 않은 이유도 전임상 무상관이었다.",
+          "qualification": null,
+          "source_refs": [
+            {
+              "id": "PMC10957469",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10957469/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC10772668",
+        "PMC10957469",
+        "PMC11031401",
+        "PMC2195739",
+        "PMC2660449",
+        "PMC2946928",
+        "PMC3070271",
+        "PMC3654568",
+        "PMC4026380",
+        "PMC4559363",
+        "PMC4596620",
+        "PMC4713865",
+        "PMC4990459",
+        "PMC5063047",
+        "PMC5306088",
+        "PMC5572576",
+        "PMC6646979",
+        "PMC6941219",
+        "PMC7042797",
+        "PMC7954267",
+        "PMC8156151",
+        "PMC8528717",
+        "PMC9372423",
+        "PMC9377734",
+        "PMC9660540",
+        "PMC9769969",
+        "PMC9804489"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "CLP03",
+      "title_ko": "서로 다른 관측의 불일치로 경쟁 설명을 만든다",
+      "when_to_use": "Several plausible processes could produce the observed endpoint or different readouts disagree.",
+      "principle": "Decompose the observed change into distinguishable accounts such as intake versus expenditure, volume versus function, measured pathway activity versus another process, or direct versus indirect symptomatic change. Allow mixed contributions and retain null information.",
+      "stage_use": {
+        "investigate": "Select orthogonal information because it separates the proposed accounts, not because it adds another favorable result. Use uncertainty and measurement sensitivity before interpreting a null as mechanism exclusion.",
+        "generate": "Decompose the observed change into distinguishable accounts such as intake versus expenditure, volume versus function, measured pathway activity versus another process, or direct versus indirect symptomatic change. Allow mixed contributions and retain null information.",
+        "compare": "Set out the different observable patterns each account predicts and compare them with existing independent dimensions; agreement strengthens compatibility but does not establish exclusive mediation.",
+        "update": {
+          "pattern_fits_one_account_better": "Increase its conditional plausibility, preserving unmeasured alternatives and sensitivity.",
+          "different_domains_disagree": "Split the claim by domain rather than force a single success/failure label.",
+          "all_accounts_fit": "The current information is nondiscriminating; name the missing dimension.",
+          "null_uncertain": "Do not use it to exclude a process."
+        }
+      },
+      "limits": [
+        "Orthogonal does not mean causally independent or independently replicated.",
+        "Do not turn unchanged autonomic markers, tau, flow or extracellular-volume estimates into proof of no contribution."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P137-PMC5573908",
+          "observation_to_decision": "개인내crossover비교로개인차를줄이며가설별다른지표를수집했다.후속식사보상이있는지같은날섭취를함께봤다.",
+          "qualification": null,
+          "source_refs": [
+            {
+              "id": "PMC5573908",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5573908/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P137-PMC3915232",
+          "observation_to_decision": "혈당조건차이의영향을줄인반복생리측정으로기전예상을검토했다.기대교감신경변화가없어기존설명을좁혔다.",
+          "qualification": null,
+          "source_refs": [
+            {
+              "id": "PMC3915232",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3915232/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC10171177",
+        "PMC12687147",
+        "PMC2212568",
+        "PMC2660449",
+        "PMC2945163",
+        "PMC2946928",
+        "PMC3109515",
+        "PMC3811149",
+        "PMC3906841",
+        "PMC3915232",
+        "PMC4713865",
+        "PMC4990459",
+        "PMC5573908",
+        "PMC6308032",
+        "PMC6972979",
+        "PMC7042797",
+        "PMC7364345",
+        "PMC7864599",
+        "PMC8247525",
+        "PMC8571425",
+        "PMC8604725",
+        "PMC9660540"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "CLP04",
+      "title_ko": "중간 표지와 목표 결과의 관계를 양방향으로 점검한다",
+      "when_to_use": "A proximal response is proposed as a screen or substitute for the desired patient outcome.",
+      "principle": "Generate a delayed-effect, parallel-harm, outcome-domain or measurement-sensitivity account when marker and clinical outcome diverge; retain both observations rather than choosing the favorable endpoint.",
+      "stage_use": {
+        "investigate": "Choose outcome information that tests the proposed link, and distinguish a prognostic association from an intervention-level surrogate. Alternative rereading or digital measurement must carry its posthoc status.",
+        "generate": "Generate a delayed-effect, parallel-harm, outcome-domain or measurement-sensitivity account when marker and clinical outcome diverge; retain both observations rather than choosing the favorable endpoint.",
+        "compare": "Compare the measured marker contrast and goal outcome within the same strategy and time hierarchy. Distinguish a precisely bounded null from a difference not detected with a wide interval. Agreement and discordance constrain different surrogate claims.",
+        "update": {
+          "marker_and_outcome_agree": "Support the observed clinical result without claiming universal surrogacy.",
+          "marker_positive_goal_null_or_harmful": "Reject marker-only validation of utility and consider parallel harms or untested translation.",
+          "new_method_only_positive": "Treat as a measurement hypothesis requiring independent calibration, not retrospective rescue.",
+          "early_marker_difference_not_detected_later_goal_positive": "No detected early between-arm MRD difference despite later survival separation; this warns against discarding solely on that observed marker contrast, not proof that the marker had no effect."
+        }
+      },
+      "limits": [
+        "These cases do not show that all surrogates fail or validate any replacement biomarker.",
+        "No ranking of digital and conventional pathology without independent reference evidence."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P137-PMC3010035",
+          "observation_to_decision": "무작위비교에공변량/지역민감도와경쟁이벤트분석을더해차이의원천을검토했다.초기MRD무차이와생존이득이충돌하여surrogate사용범위를질문했다.",
+          "qualification": null,
+          "source_refs": [
+            {
+              "id": "PMC3010035",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3010035/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P137-PMC3266479",
+          "observation_to_decision": "다기관맹검무작위trial의환자중요결과로surrogate추론을검증하고interim안전성으로조기중단했다.",
+          "qualification": null,
+          "source_refs": [
+            {
+              "id": "PMC3266479",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3266479/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC10792518",
+        "PMC11031401",
+        "PMC11134282",
+        "PMC11271400",
+        "PMC11405280",
+        "PMC12197837",
+        "PMC2195739",
+        "PMC2945163",
+        "PMC3010035",
+        "PMC3266479",
+        "PMC3465857",
+        "PMC3654568",
+        "PMC3669518",
+        "PMC3714436",
+        "PMC3811149",
+        "PMC3895846",
+        "PMC3973038",
+        "PMC4559363",
+        "PMC4644253",
+        "PMC4800035",
+        "PMC5306088",
+        "PMC5594468",
+        "PMC5947654",
+        "PMC5965348",
+        "PMC6104676",
+        "PMC6767458",
+        "PMC6839905",
+        "PMC6902191",
+        "PMC7035216",
+        "PMC7245348",
+        "PMC7547956",
+        "PMC7615774",
+        "PMC8034581",
+        "PMC8604725",
+        "PMC9005047",
+        "PMC9662919",
+        "PMC9671806",
+        "PMC9941046"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "CLP05",
+      "title_ko": "예후·표적 존재·치료 예측을 다른 가설로 둔다",
+      "when_to_use": "A marker correlates with disease, target expression or treated-patient outcome and is proposed for selection.",
+      "principle": "Construct competing prognostic, treatment-predictive and measurement/timing accounts. A failed broad comparison may motivate a conditional-response question without converting a small favorable subgroup into a validated selector.",
+      "stage_use": {
+        "investigate": "Select a comparison that distinguishes marker-by-treatment effects from outcome association; inspect specimen timing, missingness and classifier definitions before interpreting a computational signature.",
+        "generate": "Construct competing prognostic, treatment-predictive and measurement/timing accounts. A failed broad comparison may motivate a conditional-response question without converting a small favorable subgroup into a validated selector.",
+        "compare": "Treatment contrasts across a marker require an appropriate interaction or prospectively tested selection strategy; same-sample cutoff search and external biological plausibility do not replace it.",
+        "update": {
+          "prospective_interaction_supported": "Narrowly support conditional utility for the tested classification and context.",
+          "association_without_comparator": "Retain prognostic or exploratory association.",
+          "classifier_or_timepoint_discordant": "Generate a measurement-context hypothesis and leave the selector unresolved.",
+          "primary_negative_small_subgroup_positive": "Preserve the primary failure and mark the subgroup as a new confirmation question."
+        }
+      },
+      "limits": [
+        "Post-treatment response groups are not randomized baseline strata.",
+        "No new clinical selection rule, biomarker threshold or immune-manipulation recommendation is generated."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P137-PMC5052459",
+          "observation_to_decision": "관찰예후와치료변경의인과를분리하려무작위대조를선택했고비례위험위반과낮은이벤트분모를명시했다.",
+          "qualification": null,
+          "source_refs": [
+            {
+              "id": "PMC5052459",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5052459/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P137-PMC7829614",
+          "observation_to_decision": "biopsy기반층화무작위시험에RNA분류를추가해조직절편/임의cutoff/세포분화범위한계를보완하려했다.분류법불일치는측정민감도와대상세포범위질문으로해석했다.",
+          "qualification": null,
+          "source_refs": [
+            {
+              "id": "PMC7829614",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7829614/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC10171177",
+        "PMC11443208",
+        "PMC12269788",
+        "PMC2668948",
+        "PMC3070271",
+        "PMC3159415",
+        "PMC4596620",
+        "PMC4648090",
+        "PMC4758397",
+        "PMC4861368",
+        "PMC5052459",
+        "PMC5515629",
+        "PMC5520269",
+        "PMC5572576",
+        "PMC5648054",
+        "PMC5777233",
+        "PMC6767458",
+        "PMC6941219",
+        "PMC7243167",
+        "PMC7530821",
+        "PMC7768339",
+        "PMC7829614",
+        "PMC9205784",
+        "PMC9365373",
+        "PMC9397372",
+        "PMC9401461",
+        "PMC9401542",
+        "PMC9660540",
+        "PMC9662922",
+        "PMC9662928"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "CLP06",
+      "title_ko": "전체 전략의 효과와 구성 요소의 기여를 분리한다",
+      "when_to_use": "A combination, formulation or multicomponent strategy is compared with an alternative and attributed to one factor.",
+      "principle": "Generate separate whole-strategy utility, individual-component, interaction and delivery/adherence accounts. A favorable whole strategy can be useful while its molecular explanation remains unresolved; failure does not identify which component caused it.",
+      "stage_use": {
+        "investigate": "Choose the direct comparator relevant to the decision and record component-specific uncertainty. Numerical differences between separate historical-threshold cohorts are not a randomized head-to-head component comparison.",
+        "generate": "Generate separate whole-strategy utility, individual-component, interaction and delivery/adherence accounts. A favorable whole strategy can be useful while its molecular explanation remains unresolved; failure does not identify which component caused it.",
+        "compare": "Distinguish observed whole-strategy comparisons from an abstract one-factor attribution question. If no component-isolating evidence exists, report the unresolved contribution rather than inventing it.",
+        "update": {
+          "whole_strategy_benefit": "Adopt bounded utility evidence while leaving component mechanism open.",
+          "whole_strategy_failure_or_harm": "Narrow strategy utility; do not automatically refute all component biology.",
+          "separate_arms_pass_thresholds": "Retain activity signals without claiming between-arm superiority.",
+          "delivery_differs": "Preserve feasibility as part of the strategy rather than remove it as an inconvenient confounder."
+        }
+      },
+      "limits": [
+        "Abstract attribution questions are not new drug-combination or treatment protocols.",
+        "An effect of a full strategy cannot be converted into each-factor necessity or sufficiency."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P130-PMC5622179",
+          "observation_to_decision": "Open-label randomized allocation and histology stratification addressed comparative effectiveness in a rare heterogeneous cancer. Central pathology review checked classification; only15% had central imaging review. Quality-of-life intervals were99% to address multiplicity, and planned histology interactions were exploratory and underpowered.",
+          "qualification": null,
+          "source_refs": [
+            {
+              "id": "PMC5622179",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5622179/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P130-PMC6127025",
+          "observation_to_decision": "A randomized active-comparator phase 3 trial estimated utility of the tested treatment strategies. It is not a one-variable molecular experiment isolating the contribution of encapsulation or a proposed pharmacological mechanism.",
+          "qualification": null,
+          "source_refs": [
+            {
+              "id": "PMC6127025",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6127025/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC10033402",
+        "PMC10320469",
+        "PMC10767301",
+        "PMC11599768",
+        "PMC12197837",
+        "PMC2277487",
+        "PMC2668948",
+        "PMC2699702",
+        "PMC3148430",
+        "PMC3159415",
+        "PMC3328846",
+        "PMC3639680",
+        "PMC3895846",
+        "PMC5347954",
+        "PMC5555437",
+        "PMC5622179",
+        "PMC5814892",
+        "PMC6127025",
+        "PMC6308032",
+        "PMC6319250",
+        "PMC7181180",
+        "PMC7243167",
+        "PMC7479760",
+        "PMC7615774",
+        "PMC8082275",
+        "PMC8715387",
+        "PMC8974415",
+        "PMC9365373",
+        "PMC9397372",
+        "PMC9662919"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "CLP07",
+      "title_ko": "지속 노출의 새 위험을 독립적인 학습 정보로 쓴다",
+      "when_to_use": "Short observation is reassuring but the intended use is longer, or a biomarker change has multiple safety meanings.",
+      "principle": "Generate cumulative-hazard, exposure-variability, survivor-selection and alternative biomarker-origin accounts. Retain uncertainty about cause while updating acceptability from actual observed harms.",
+      "stage_use": {
+        "investigate": "Choose longitudinal safety and exposure information because it can alter feasibility before an efficacy claim is settled. Distinguish event occurrence, attribution changes and rare-event absence.",
+        "generate": "Generate cumulative-hazard, exposure-variability, survivor-selection and alternative biomarker-origin accounts. Retain uncertainty about cause while updating acceptability from actual observed harms.",
+        "compare": "Contrast early and later observations with their risk sets and exposure opportunities, and keep alternative marker-origin explanations from erasing actual safety events.",
+        "update": {
+          "late_serious_risk": "Update feasibility even if causal mechanism or efficacy remains uncertain.",
+          "marker_may_be_target_related": "Keep both on-target and injury accounts unresolved unless independently separated.",
+          "no_new_event_small_cohort": "State no observed event within the window, not zero risk.",
+          "attribution_revised": "Preserve the original reporting category and later review basis."
+        }
+      },
+      "limits": [
+        "No dose, schedule or toxicity-mitigation optimization is proposed.",
+        "An uncertain adverse-event mechanism does not require ignoring the event or declaring a whole target class unsafe.",
+        "Maintenance risk sets differ and intolerant patients could withdraw;observed lower percentages do not separate actual tolerability change from selection and exposure-window effects."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P137-PMC8791798",
+          "observation_to_decision": "초기안전성중심확장으로더긴노출의위험을조기에관찰했다.NFL상승을신경손상으로단정하지않고표적결손마우스정보로대안기전을검토했다.",
+          "qualification": null,
+          "source_refs": [
+            {
+              "id": "PMC8791798",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8791798/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P137-PMC5051080",
+          "observation_to_decision": "초기독성과느린제거정보를연결해관찰후프로토콜을바꾼실제개발결정을보고했다.기능활성은phase1의부차적신호로남겼다.",
+          "qualification": null,
+          "source_refs": [
+            {
+              "id": "PMC5051080",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5051080/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC13005179",
+        "PMC2212568",
+        "PMC2988223",
+        "PMC3640201",
+        "PMC3669518",
+        "PMC3743070",
+        "PMC4644253",
+        "PMC4758397",
+        "PMC5051080",
+        "PMC6646979",
+        "PMC7317552",
+        "PMC7617823",
+        "PMC7768339",
+        "PMC8791798",
+        "PMC9372423",
+        "PMC9377734",
+        "PMC9401487"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "CLP08",
+      "title_ko": "효과의 크기와 유지·중단 후 지속은 다른 질문이다",
+      "when_to_use": "An early or on-treatment response is used to imply durable benefit, or a long-term extension conditions on survival/participation.",
+      "principle": "Generate persistence, treatment-dependent suppression, survivor-selection and co-intervention accounts. Treat response depth as a post-baseline association unless an appropriate causal contrast exists.",
+      "stage_use": {
+        "investigate": "Choose follow-up that observes the missing period and preserves the original assignment contrast where possible; distinguish cumulative separation from ongoing hazard benefit and absence of untreated control.",
+        "generate": "Generate persistence, treatment-dependent suppression, survivor-selection and co-intervention accounts. Treat response depth as a post-baseline association unless an appropriate causal contrast exists.",
+        "compare": "Separate on-treatment, post-treatment, early/delayed-start and survivor-only observations. Existing withdrawal randomization answers a different question from an observational extension.",
+        "update": {
+          "benefit_persists_in_observed_followup": "Extend only the measured durability claim with its co-interventions and risk set.",
+          "benefit_wanes_or_rebounds": "Narrow durability without inventing the cause or an optimal duration.",
+          "selected_completers_stable": "Report their trajectory, not all-starter causal benefit.",
+          "continued_and_untreated_not_compared": "Leave continuation-versus-stopping effect unresolved."
+        }
+      },
+      "limits": [
+        "Longitudinal observations are not independent cohort replications merely because years or endpoints multiply.",
+        "No treatment-duration, retreatment or vector-engineering rule is generated."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P130-PMC9542252",
+          "observation_to_decision": "An observational off-treatment extension followed a subset of original trial completers. This added information after withdrawal but did not randomize continuing treatment against stopping it.",
+          "qualification": null,
+          "source_refs": [
+            {
+              "id": "PMC9542252",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9542252/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P137-PMC7617823",
+          "observation_to_decision": "초기성공집합을13년추적해다른시간축의판단정보를모았다.사건발생시protocol상보고와후속관련성검토를구분했다.",
+          "qualification": null,
+          "source_refs": [
+            {
+              "id": "PMC7617823",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7617823/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC11271387",
+        "PMC12723595",
+        "PMC13213590",
+        "PMC2660449",
+        "PMC3242163",
+        "PMC3714436",
+        "PMC4033144",
+        "PMC4283992",
+        "PMC4484251",
+        "PMC6839905",
+        "PMC7341568",
+        "PMC7496583",
+        "PMC7616743",
+        "PMC7617823",
+        "PMC7618089",
+        "PMC7913425",
+        "PMC8280089",
+        "PMC9377723",
+        "PMC9401543",
+        "PMC9542252",
+        "PMC9556320",
+        "PMC9662922"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "CLP09",
+      "title_ko": "분석 집합과 누락의 이유를 가설의 일부로 둔다",
+      "when_to_use": "Eligibility, rescue, discontinuation, imaging availability or responder selection changes the observed set.",
+      "principle": "Generate alternative explanations involving informative missingness, treatment intolerance, response enrichment or measurement availability. Keep them separate from true biological heterogeneity.",
+      "stage_use": {
+        "investigate": "Choose the analysis/flow/measurement record that identifies who could contribute and why. A model fills an estimand under assumptions; it does not create observed outcomes.",
+        "generate": "Generate alternative explanations involving informative missingness, treatment intolerance, response enrichment or measurement availability. Keep them separate from true biological heterogeneity.",
+        "compare": "Compare available endpoint-specific risk sets, analysis assumptions and meaningful sensitivity results; missingness mechanisms must be distinguished from a negative biological outcome.",
+        "update": {
+          "effect_stable_under_relevant_sensitivity": "Increase confidence within those assumptions, not universal robustness.",
+          "effect_depends_on_selection_or_imputation": "Narrow the claim to the supported estimand and retain the alternative account.",
+          "no_measurement": "Mark not observed, not nonresponse or success.",
+          "responder_enriched_success": "Support selected maintenance, not initial all-patient benefit."
+        }
+      },
+      "limits": [
+        "No automatic preference for complete-case, ITT, hypothetical or per-protocol estimates; match the question.",
+        "These checks are interpretation operators, not proof of independent scientific validity."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P137-PMC13213590",
+          "observation_to_decision": "초기반응자로농축해필요표본을줄이고효과유지를검토했다.그설계는처음치료하는전체환자의평균효과와다름을명시했다.",
+          "qualification": null,
+          "source_refs": [
+            {
+              "id": "PMC13213590",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13213590/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P137-PMC5541875",
+          "observation_to_decision": "비교가능성을 위해 ITT반응을 보고하고 역사대조·다변량·3개월landmark를 사용해 초기 사망의 영향을 점검했다.",
+          "qualification": null,
+          "source_refs": [
+            {
+              "id": "PMC5541875",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5541875/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC10171177",
+        "PMC10202803",
+        "PMC10320469",
+        "PMC10667099",
+        "PMC10957469",
+        "PMC11031401",
+        "PMC11271387",
+        "PMC11271400",
+        "PMC11443208",
+        "PMC11833655",
+        "PMC11894486",
+        "PMC12723595",
+        "PMC13005180",
+        "PMC13213590",
+        "PMC2195739",
+        "PMC2277487",
+        "PMC2674556",
+        "PMC2699702",
+        "PMC3148430",
+        "PMC3465857",
+        "PMC3467179",
+        "PMC3639680",
+        "PMC3640201",
+        "PMC3888622",
+        "PMC3895846",
+        "PMC3973038",
+        "PMC4033106",
+        "PMC4033144",
+        "PMC4283992",
+        "PMC4752892",
+        "PMC4872285",
+        "PMC5264214",
+        "PMC5306088",
+        "PMC5515629",
+        "PMC5541875",
+        "PMC5572576",
+        "PMC5648054",
+        "PMC5840256",
+        "PMC6972979",
+        "PMC7035216",
+        "PMC7245348",
+        "PMC7317552",
+        "PMC7479760",
+        "PMC7496583",
+        "PMC7616743",
+        "PMC7618089",
+        "PMC8247525",
+        "PMC8280089",
+        "PMC8715387",
+        "PMC8830527",
+        "PMC9005047",
+        "PMC9018422",
+        "PMC9365370",
+        "PMC9377723",
+        "PMC9386661",
+        "PMC9401461",
+        "PMC9401542",
+        "PMC9556320",
+        "PMC9662919",
+        "PMC9662922"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "CLP10",
+      "title_ko": "성공 기준은 의사결정 목표와 비교의 대가에 맞춘다",
+      "when_to_use": "The question concerns replacement, reduced burden, a prioritized composite or different benefit and harm domains.",
+      "principle": "Generate alternatives that preserve efficacy with less burden, improve one domain while worsening another, or change a composite through one dominant component. Avoid reducing all goals to a single unexamined success label.",
+      "stage_use": {
+        "investigate": "Choose endpoints, margins and uncertainty that answer the stated goal; retain separate component outcomes, safety definitions and patient/event denominators.",
+        "generate": "Generate alternatives that preserve efficacy with less burden, improve one domain while worsening another, or change a composite through one dominant component. Avoid reducing all goals to a single unexamined success label.",
+        "compare": "Evaluate the promised advantage and preserved outcome against the actual comparator and declared margin/hierarchy. Nonsignificant superiority is not noninferiority; composite success is not every-component success.",
+        "update": {
+          "declared_boundary_met": "Support that bounded decision criterion, not equality or universal substitution.",
+          "benefit_domain_positive_other_domain_null": "Keep a split conclusion.",
+          "harm_or_burden_exceeds_promise": "Update strategy utility without requiring a new mechanism claim.",
+          "boundary_or_hierarchy_not_met": "Keep exploratory observations available but preserve the confirmatory result."
+        }
+      },
+      "limits": [
+        "No fixed utility weights or universal acceptable margin are derived.",
+        "No clinical recommendation follows from an analyst-designed objective function."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P137-PMC6615016",
+          "observation_to_decision": "임상의·환자와 절대3% 차이를 사전 수용범위로 합의하고 실제 대조군4년 DFS로 HR경계를 산출하는 계획을 승인받았다.",
+          "qualification": null,
+          "source_refs": [
+            {
+              "id": "PMC6615016",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6615016/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P130-PMC2606836",
+          "observation_to_decision": "A double-dummy active/placebo design after metforminrun-in gives both placebo superiority and active-comparator noninferiority questions. Priorregimen history stratifiedrandomization butwasnotitselfrandomized; eligibility broadened beyond prior metformin-alone use tofacilitaterecruitment.",
+          "qualification": null,
+          "source_refs": [
+            {
+              "id": "PMC2606836",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2606836/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC10202803",
+        "PMC11134282",
+        "PMC12269788",
+        "PMC13005180",
+        "PMC13186568",
+        "PMC2606836",
+        "PMC2674556",
+        "PMC3109515",
+        "PMC3145073",
+        "PMC3328846",
+        "PMC3465857",
+        "PMC3743070",
+        "PMC3811149",
+        "PMC4033106",
+        "PMC4644253",
+        "PMC4861368",
+        "PMC4872285",
+        "PMC5299497",
+        "PMC5347954",
+        "PMC5539737",
+        "PMC5555437",
+        "PMC5594468",
+        "PMC5648054",
+        "PMC5777572",
+        "PMC5840256",
+        "PMC5947654",
+        "PMC6075881",
+        "PMC6319250",
+        "PMC6615016",
+        "PMC6777264",
+        "PMC7181180",
+        "PMC7768339",
+        "PMC8008435",
+        "PMC8082275",
+        "PMC8604725",
+        "PMC8830527",
+        "PMC8938265",
+        "PMC9671806"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "CLP11",
+      "title_ko": "실제 정보가 바뀐 시점과 결정을 연결한다",
+      "when_to_use": "A publication narrates a sequence, amendment, interim look or later project direction.",
+      "principle": "Generate a revised question only from documented new information: an uninformative measurement can be replaced, a feasibility gap can change scope, or a futile/harmful strategy can stop. Preserve alternative administrative causes.",
+      "stage_use": {
+        "investigate": "Choose dated amendments, monitoring records or actual decision statements rather than reconstructing chronological causality from paragraph order or later knowledge.",
+        "generate": "Generate a revised question only from documented new information: an uninformative measurement can be replaced, a feasibility gap can change scope, or a futile/harmful strategy can stop. Preserve alternative administrative causes.",
+        "compare": "Check the declared trigger against the observed information and actual action. Conditional power is model-dependent, not a probability that the mechanism is true; interim continuation is not efficacy.",
+        "update": {
+          "executed_information_based_action": "Record the actual trigger, uncertainty and bounded update.",
+          "administrative_stop": "Do not relabel it biological futility.",
+          "proposed_future_action_only": "Retain as proposal, not historical event.",
+          "chronology_missing": "Mark missing and do not force a hypothesis-to-next-project story."
+        }
+      },
+      "limits": [
+        "Actual chronology is source-specific; no imaginary H0, historical expectation or next-project decision is supplied.",
+        "These examples do not empirically establish an optimal stopping or autonomous tool-selection policy."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P130-PMC9386661",
+          "observation_to_decision": "Authors favored feasibility andpromising selected-group activity,andproposedbroader markercoverage. Their claims ofimproved therapeutic index andmaximized efficacy exceed a direct strategycomparison,which they acknowledge was lacking. Ongoingcomparative trials are mentioned,but no subsequent decision is shown tohave been causedbyCHRONOSresults.",
+          "qualification": null,
+          "source_refs": [
+            {
+              "id": "PMC9386661",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9386661/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P130-PMC10495927",
+          "observation_to_decision": "The actual futility decision stopped this program trial early. Authors state that the reason for absent clinical benefit remains uncertain and retain unmet need,not a proven alternative target or a completed replacement trial.",
+          "qualification": null,
+          "source_refs": [
+            {
+              "id": "PMC10495927",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10495927/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC10460693",
+        "PMC10495927",
+        "PMC10792518",
+        "PMC11833655",
+        "PMC12197837",
+        "PMC12723595",
+        "PMC13186568",
+        "PMC2988223",
+        "PMC3467179",
+        "PMC3640201",
+        "PMC3669518",
+        "PMC3743070",
+        "PMC4559363",
+        "PMC4752892",
+        "PMC4800035",
+        "PMC4861368",
+        "PMC5299497",
+        "PMC5814892",
+        "PMC5840256",
+        "PMC5947654",
+        "PMC6839905",
+        "PMC7479760",
+        "PMC8791798",
+        "PMC9005047",
+        "PMC9018422",
+        "PMC9205784",
+        "PMC9377723",
+        "PMC9377734",
+        "PMC9386661"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "PLAT-01",
+      "title_ko": "도달량에서 실제 작용 pool의 병목으로 질문을 나누기",
+      "when_to_use": "조직/세포 섭취는 충분해 보이는데 기능이 다르거나 효과가 오래 지속되는 경우",
+      "principle": "동일한 총량도 활성 복합체 편입·구획 방출·활성 분자형태의 비율은 다를 수 있다는 복수 가설을 만든다.",
+      "stage_use": {
+        "investigate": "기관 총량, 관련 세포/구획의 관측, 실제 기능을 서로 다른 정보로 선택한다. 한 upstream proxy를 최종효과로 치환하지 않는 이유는 단계마다 비생산적 축적/포화가 가능하기 때문이다.",
+        "generate": "동일한 총량도 활성 복합체 편입·구획 방출·활성 분자형태의 비율은 다를 수 있다는 복수 가설을 만든다.",
+        "compare": "각 비교에서 실제 맞춘 항목(총량·최대효과·작용 pool)을 구분한다. PMC7708070은 유사 최대 knockdown과 효과 시점의 RISC loading을 비교했으며 총 간 노출은 달랐다. 전달 경로·형태·용량 차이가 함께 있는 비교는 그 범위에서 해석한다.",
+        "update": "기능 pool이 시간/효과를 함께 설명하면 해당 병목 가설을 우선한다. 총량만 변하고 기능이 안 변하면 다음 단계·포화·측정차이 가설을 남긴다."
+      },
+      "limits": [
+        "단일 표적/전달체/종의 비율이나 임계값은 다른 조건에 이식하지 않는다. 미관측 방출경로는 확정하지 않는다.",
+        "published_discriminating_comparison_logic의 유사 도달량을 비교별로 실제 맞춘 총량/최대효과/작용 pool 항목으로 교체. 용량·경로·전달형태가 함께 다른 비교를 단일 원인의 완전 격리로 부르지 않기."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P131-PMC7708070",
+          "observation_to_decision": "전달경로를 바꾸어 초기 억제 수준이 비슷한 경우의 지속성과 RISC 로딩을 비교하여 전달단계와 복합체 수명 설명을 구별했다. 새 Ago2에 기존 siRNA가 로딩되는지 보아 재공급 설명을 조사했다. 생쥐 loaded RISC 반감기 추정은 약3.8일이었다. 유사한 최대 knockdown에서 LNP군보다 conjugate군의 RISC 로딩이 오래 유지됐고, 새 Ago2에 1–3주 뒤에도 siRNA가 로딩됐다.",
+          "source_refs": [
+            {
+              "id": "PMC7708070",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7708070/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P131-PMC7430635",
+          "observation_to_decision": "동일 표적 pair에서 축적량과 mRNA 억제를 함께 비교하고 두 target·여러 조직을 겹쳐 보아 총량만으로 설명되지 않는 기능차이를 찾았다. 한 비교는12/14 tissue-target combinations에서 축적이 높아졌지만 유의한 silencing 우위는2/14뿐이었다. 간에서 한 target은silencing73%→47%, 다른target22%→11%로 낮아졌다. 주요군은5–6 mice/군이었다.",
+          "source_refs": [
+            {
+              "id": "PMC7430635",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7430635/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC10201370",
+        "PMC11403602",
+        "PMC12217163",
+        "PMC12825305",
+        "PMC5389677",
+        "PMC5737438",
+        "PMC7430635",
+        "PMC7708070",
+        "PMC8178446",
+        "PMC8565336",
+        "PMC9122583",
+        "PMC9310361",
+        "PMC9976930"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "PLAT-02",
+      "title_ko": "노출·점유·표적 turnover·기능 회복의 시간을 분리하기",
+      "when_to_use": "혈중 노출이 사라져도 효과가 남거나 시험관 안정성/친화도만으로 지속성을 설명하지 못하는 경우",
+      "principle": "느린 해리, 활성 저장 pool, 재공급, 표적 재합성, 세포분열 희석이라는 조건부 설명을 제시한다.",
+      "stage_use": {
+        "investigate": "동일 시료 계열의 노출/작용/회복 시간정보를 선택하고, 계산모형의 식별가능한 상수와 가정에만 의존하는 상수를 구분한다.",
+        "generate": "느린 해리, 활성 저장 pool, 재공급, 표적 재합성, 세포분열 희석이라는 조건부 설명을 제시한다.",
+        "compare": "초기점유와 시간적분점유, 총 약물과 활성형태, 다른 전달방식의 유사 최대효과를 비교한 사례를 사용한다.",
+        "update": "시간적 예측이 맞으면 지속효과 설명의 범위를 좁힌다. 초기값만 맞거나 여러 모형이 맞으면 동일기전/완전한 kinetic identification 주장을 보류한다."
+      },
+      "limits": [
+        "긴 지속성이 항상 이로운 것은 아니며 turnover/종/세포조건이 달라진다. 미검출은 완전한 부재가 아니다.",
+        "7708070 하나를 모든 kinetic 후보의 직접 실증으로 표시하지 말고, 4472506을 독립 residence/turnover 비교 예시로 함께 연결."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P131-PMC7708070",
+          "observation_to_decision": "전달경로를 바꾸어 초기 억제 수준이 비슷한 경우의 지속성과 RISC 로딩을 비교하여 전달단계와 복합체 수명 설명을 구별했다. 새 Ago2에 기존 siRNA가 로딩되는지 보아 재공급 설명을 조사했다. 생쥐 loaded RISC 반감기 추정은 약3.8일이었다. 유사한 최대 knockdown에서 LNP군보다 conjugate군의 RISC 로딩이 오래 유지됐고, 새 Ago2에 1–3주 뒤에도 siRNA가 로딩됐다.",
+          "source_refs": [
+            {
+              "id": "PMC7708070",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7708070/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P131-PMC4472506",
+          "observation_to_decision": "continuous-exposureIC50만으로durability를모르므로kineticcompetition·washout·효소활성회복을독립확인했다. plasma농도와occupancy를동시에측정하여지속노출설명을대조했다. 한compound의biochemical residence는167±21h였고,다른고potentnoncovalentinhibitor는.46±.06h였다.254kinases중6개가한screen조건에서>90%억제됐다. in-vivo24hoccupancy는41±15%로순환량감소뒤에도남았다.",
+          "source_refs": [
+            {
+              "id": "PMC4472506",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4472506/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC12976281",
+        "PMC1331994",
+        "PMC1459537",
+        "PMC4472506",
+        "PMC4820820",
+        "PMC5766608",
+        "PMC5788414",
+        "PMC7708070",
+        "PMC9394399"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "PLAT-03",
+      "title_ko": "결합 발견에서 현상 귀속으로 넘어갈 때 별도 연결을 요구하기",
+      "when_to_use": "강한 결합/효소억제와 질환표현형이 함께 있으나 인과기여가 불분명한 경우",
+      "principle": "직접 표적기여, 다른 결합단백질, 표적과 무관한 일반손상, 맥락별 의존성이라는 후보 설명을 만든다.",
+      "stage_use": {
+        "investigate": "결합 자체, 실제 세포 작용, 표적 의존/비의존 맥락, 기능 구제 및 phenotype을 각각 어떤 주장에 필요한 정보인지 선택한다.",
+        "generate": "직접 표적기여, 다른 결합단백질, 표적과 무관한 일반손상, 맥락별 의존성이라는 후보 설명을 만든다.",
+        "compare": "저자가 사용한 target없는/구제/다른 probe 비교와 같은 결합인데 다른 phenotype 사례를 교차검토한다.",
+        "update": "작용과 기능 의존성이 연결되면 기전 귀속을 강화한다. 결합만 일치하고 기능/유전관측이 갈리면 두 번째 표적이나 다른 기능 설명을 유지한다."
+      },
+      "limits": [
+        "구제/유전의존성 한 관측은 유일기전·환자효능·전체안전성 증명이 아니다.",
+        "example rationale의 차례로를 연결하여/논문에서 제시한 비교로 교체. 실제 연대기가 근거 없이 복원되지 않도록 함."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P131-PMC8149661",
+          "observation_to_decision": "핵 이동 screen 뒤 tissue phenotype·Yap 의존성·cell-free kinase·ATP 경쟁성·kinome panel을 연결하여 확인하여 phenotype에서 표적 기전으로 연결하고 off-target을 별도 평가했다. 구조 부재 때문에 homology/docking은 가설 생성 보조로 사용했다. 314 kinases 중34개가 Lats1보다 더 강하게 결합했다. 세포 EC50는510nM였고, hair-cell 총수는 control4/TRULI5에서 유의하게 바뀌지 않았다(p=.7097). 사람 retinal organoid에서는 증식 증가가 관찰됐다(control15/treated16).",
+          "source_refs": [
+            {
+              "id": "PMC8149661",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8149661/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P131-PMC4200515",
+          "observation_to_decision": "빠르고선택적인catalytic inhibitor는genetic depletion의noncatalytic loss/느린효과를피하기위해선택했다. spike-in SILAC은sample handling을정규화하고 dose response·수식peptide직접검출로substrate판정을교차확인했다. 169MG-enriched proteins 중70은high-confidence substrate,27은lower-confidence였고56은억제에반응하지않았다.38modified peptides를직접검출했다.전체proteome1,069중>96%는유의한abundance변화가없었다.",
+          "source_refs": [
+            {
+              "id": "PMC4200515",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4200515/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC11078746",
+        "PMC4200515",
+        "PMC4843002",
+        "PMC4885109",
+        "PMC5119931",
+        "PMC5815658",
+        "PMC6004562",
+        "PMC6014687",
+        "PMC8149661",
+        "PMC9763329"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "PLAT-04",
+      "title_ko": "같은 표적이라도 바꿔야 할 기능에 따라 modality를 비교하기",
+      "when_to_use": "유전적 의존성은 있지만 특정 도메인의 억제가 현상을 재현하지 못하거나 분해/복합체 작용이 다를 경우",
+      "principle": "촉매기능, scaffold/상호작용, 복합체 조립, 단백질 전체의 필요성이 서로 다른 설명일 수 있다고 본다.",
+      "stage_use": {
+        "investigate": "무엇을 결합하는지와 무엇을 기능적으로 바꾸는지, 복합체 구성/수명과 최종기능을 분리한 자료를 선택한다.",
+        "generate": "촉매기능, scaffold/상호작용, 복합체 조립, 단백질 전체의 필요성이 서로 다른 설명일 수 있다고 본다.",
+        "compare": "binary 결합 유지 대비 ternary/세포기능 차이, 결합/억제/제거가 다른 사례를 사용한다. 원문 밖 분자 설계나 최적화 recipe를 제안하지 않는다.",
+        "update": "한 기능만 차단해도 현상이 재현되면 좁은 기능설명을 지지한다. 단백질 제거만 재현되면 추가 기능/복합체/노출 설명을 비교하고 안전성 공백을 남긴다."
+      },
+      "limits": [
+        "복합체 존재나 분해량은 생산적 기능을 보장하지 않는다. 분해가 언제나 더 낫다는 순위는 아니다. MZ1은 binary/ternary 선택성 근거로 사용한다. HER3 사례는 분해와 partner 결합 변화가 함께 있어 제거 단독 효과의 귀속을 보류한다.",
+        "MZ1은 삼자복합체 선택성의 직접근거, modality/function 전체의 관련근거로 역할 분리. 제목은 없애야 할 기능보다 바꿔야 할 기능이 범위에 맞음. 제거단독/분해항상우월 해석 금지."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P131-PMC5392356",
+          "observation_to_decision": "결정구조로 삼자 접촉 가설을 세우고 solution ITC·equilibrium 계산·proximity readout·표면교환 비교로 구조와 용액의 일관성을 확인했다. ITC 방식은 binary 경쟁에 의한 hook effect를 줄이기 위한 선택이었다. 2.7Å 삼자 구조를 얻었고 MZ1의 cooperativity α는Brd4BD2 18, Brd3BD2 11이었다. 표면 비교에서 binary Kd 변화 없이 cooperativity가 바뀌었다. AT1 처리 proteomics의5,674 detected/filtered proteins 중 Brd4가 약40%로 감소했다.",
+          "source_refs": [
+            {
+              "id": "PMC5392356",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5392356/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P131-PMC6600871",
+          "observation_to_decision": "binaryaffinity가떨어져도cooperativecomplex를만드는prototype를버리지않고구조와orthogonalbiophysicalassay로추적했다. cellproteomics와targetnull/rescue비교는표적연결과동반단백질변화를해석하기위했다. ACBI1의MV-4-11degradationDC50는SMARCA2 6nM,SMARCA4 11nM,PBRM1 32nM였다.두독립실험으로표기됐다.표적이없는NCI-H1703에서는항증식효과가없었고SMARCA2rescue는효과를완화했다.",
+          "source_refs": [
+            {
+              "id": "PMC6600871",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6600871/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC2777681",
+        "PMC4232461",
+        "PMC4718766",
+        "PMC5392356",
+        "PMC6600871",
+        "PMC6641988",
+        "PMC7486275",
+        "PMC7611906",
+        "PMC8791830"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "PLAT-05",
+      "title_ko": "방법 간 불일치를 측정대상 차이의 정보로 사용하기",
+      "when_to_use": "같은 대상에 대한 assay/도구 결과가 겹치지 않거나 양성/음성이 충돌하는 경우",
+      "principle": "기질·ATP/산화상태·matrix·표지·binding competition·평형/시간·검출범위가 서로 다르다는 설명을 만든다.",
+      "stage_use": {
+        "investigate": "각 방법의 입력과 직접 측정대상, 포획 가능한 pool, 유발하는 교란을 먼저 확인하고 다른 원리의 관측을 선택한다.",
+        "generate": "기질·ATP/산화상태·matrix·표지·binding competition·평형/시간·검출범위가 서로 다르다는 설명을 만든다.",
+        "compare": "BRET/CETSA/화학포획의 미회수, live-cell 대 정제계, 표지 변형/잔여 시약 대조를 원문 비교로 사용한다.",
+        "update": "불일치가 특정 측정조건에 따라 바뀌면 조건부 설명을 우선한다. 한 방법의 양성을 정답으로 삼지 않고 각 방법이 지지하는 주장만 분리한다."
+      },
+      "limits": [
+        "직교 방법도 공통편향이 있을 수 있다. 여러 음성이 표적 부재를 뜻하지 않으며 여러 양성이 인과를 뜻하지 않는다.",
+        "추가 필수 수정 없음. 여러 방법의 미회수는 실제 부재와 구분하는 조건 유지."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P131-PMC5814754",
+          "observation_to_decision": "막을깨지않는reversibleenergytransfer는equilibrium에서engagement를보려는선택이었다. probe농도와표적발현영향을검사하고ATP변화와membraneintegrity를동시에확인해대체설명을좁혔다. 178full-lengthkinases중한조건에서crizotinib은13개가>50%occupancy였고biochemical자료로예상된69개보다적었다. 다른약물은22대44였다. crizotinibcellengagement와phosphoELISA의R²는.95였다.",
+          "source_refs": [
+            {
+              "id": "PMC5814754",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5814754/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P131-PMC4686764",
+          "observation_to_decision": "tracer의빠른반응을먼저확인해느린compoundkinetics를구분하고,lysate에서도지속성을비교하여세포내trapping만으로설명되는지점검했다. HDAC1/2targetengagement와antiproliferation의R²는0.95/0.88이었다.FK228/TDP-A는SAHA보다느리게equilibrate하고washout후mocetinostat보다도느린dissociation을보였다.lysate에서도확인되어trapping만으로는충분하지않았다.",
+          "source_refs": [
+            {
+              "id": "PMC4686764",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4686764/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC10611796",
+        "PMC10695998",
+        "PMC11062922",
+        "PMC1888827",
+        "PMC3458529",
+        "PMC4652771",
+        "PMC4686764",
+        "PMC5030147",
+        "PMC5378956",
+        "PMC5385570",
+        "PMC5389643",
+        "PMC5519984",
+        "PMC5814754",
+        "PMC5899464",
+        "PMC5951806",
+        "PMC6226477",
+        "PMC7450057",
+        "PMC9339481"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "PLAT-06",
+      "title_ko": "정적 구조와 기능의 모순에서 상태/partner 가설을 만들기",
+      "when_to_use": "좋은 구조·안정한 pose가 있지만 활성·선택성·기능이 예상과 다른 경우",
+      "principle": "서로 다른 conformation/조립상태/partner, 관측을 위한 안정화, 동적 pocket이라는 설명을 만든다.",
+      "stage_use": {
+        "investigate": "구조 해상도와 실제 coverage, 구성체/종/지질·partner 조건, 기능·동역학 관측을 구분해 정보의 공백을 찾는다.",
+        "generate": "서로 다른 conformation/조립상태/partner, 관측을 위한 안정화, 동적 pocket이라는 설명을 만든다.",
+        "compare": "inactive-like agonist 구조, 같은 정적구조의 다른 선택성, partner가 필요한 단백질의 결과를 비교한다.",
+        "update": "구조 가설이 독립 기능차이를 설명하면 적용조건을 좁혀 지지한다. 여러 pose/trajectory가 양립하면 불확실한 ensemble로 남기고 정답 pose를 만들지 않는다."
+      },
+      "limits": [
+        "MD 안정성/낮은 RMSD/구조 일치는 실제 상태분포·시간척도·임상효능의 증명이 아니다.",
+        "낮은 RMSD/안정 pose를 기능 또는 실제 kinetic 증명으로 올리지 않는 현재 반조건 유지."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P131-PMC3074335",
+          "observation_to_decision": "해리를 막아 구조획득의 장애를 줄이되 G-protein 활성 기능을 별도로 확인했다. 구조의 예상 밖 inactive-like 상태를 해석하려고 stabilizing partner를 제거한 MD에서 active 상태 유지 여부를 조사했다. 3.5Å agonist-bound 구조는 cytoplasmic active 변화가 없었다. 최대30μs MD에서 약11μs 뒤 inactive-like 상태로 전환했으며 다른 protonation 설정에서도 비슷했다. G-protein 기능 결과는 독립3실험 각각triplicate였다.",
+          "source_refs": [
+            {
+              "id": "PMC3074335",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3074335/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P131-PMC3023143",
+          "observation_to_decision": "native receptor의detergent불안정때문에thermostabilizedconstruct를썼고,그construct가Rstate를선호한다는편향을해석에반영했다. 같은receptor의여러ligand구조를비교해효능차이에연결되는특징을찾았다. 4agonist의5구조를2.5–3.05Å에서얻었고약1Å pocket수축을보고했다.완전active의H6outward변화는없었다. full/partialligand간Hbondpattern차이를관찰했다.",
+          "source_refs": [
+            {
+              "id": "PMC3023143",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3023143/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC10147690",
+        "PMC10322706",
+        "PMC3023143",
+        "PMC3074335",
+        "PMC4853478",
+        "PMC5700043",
+        "PMC6328587",
+        "PMC6650467",
+        "PMC7462985",
+        "PMC8379219",
+        "PMC9668932"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "PLAT-07",
+      "title_ko": "표적 작용과 질환 의존성의 맥락을 별도로 묻기",
+      "when_to_use": "같은 표적 marker는 바뀌지만 생존/질환결과가 세포·조직·상태마다 다른 경우",
+      "principle": "유전배경, 환경/hostcell, 잔여기능, 적응/보상, 서로 다른 의존성이 후보 설명이 된다.",
+      "stage_use": {
+        "investigate": "민감/비민감 맥락과 실제 질환환경을 함께 보며 표적작용, 분자반응, 최종기능을 같은 층위로 합치지 않는다.",
+        "generate": "유전배경, 환경/hostcell, 잔여기능, 적응/보상, 서로 다른 의존성이 후보 설명이 된다.",
+        "compare": "culture 대 생체, 직접종양 대 host면역기여, 같은 engagement의 다른 성장효과 사례를 사용한다.",
+        "update": "같은 작용에서 다른 최종결과면 delivery실패만으로 설명하지 않고 의존성/보상 가설을 비교한다. 작용 자체가 다르면 접근/노출 가설도 공존시킨다."
+      },
+      "limits": [
+        "한 cellline/종양모형의 맥락은 환자집합의 치료창이나 전체 질환을 대표하지 않는다.",
+        "scope_and_counterevidence는 직접관측(transgene silencing)과 분석자 방법론 제한(상관/최근접 유전자 배정, PDX 한계)을 혼합하므로 attribution을 문장별 분리."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P131-PMC5896562",
+          "observation_to_decision": "microenvironment의영향을보려고parallelfunctional screen을택했다. RNA/chromatin·pausing index는발현량만이아닌transcriptional control의설명을조사하고secondary survival assay로dependency를확인하기위했다. 1,586shRNA/406regulators를screen했고in-vivo총61mice는여러마리를묶은replicate로분석됐다. 두screen 공통hit는RPA3/POLR2B/DNMT1에제한됐다. JMJD6결손군에서>25%가100일이후tumour-free라고보고했다.",
+          "source_refs": [
+            {
+              "id": "PMC5896562",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5896562/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P131-PMC4012432",
+          "observation_to_decision": "영양이소모돼완전히고갈되는일반culture를피하려continuousflow를택했다. pooledfunctionalcomparison후screen·respiration·공개expression/genome자료에서후속case를찾고rescue로상관설명을확인했다. 첫pooledcomparison은28celllines,metabolicscreen은2,752genes/15,997shRNAs였고high/lowglucose특이hit는28/36genes였다.후속lowglucose민감line들은phenformin에5–20배더민감했으며rescue가반응을완화했다.",
+          "source_refs": [
+            {
+              "id": "PMC4012432",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4012432/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC12422966",
+        "PMC3212614",
+        "PMC4012432",
+        "PMC5399304",
+        "PMC5896562",
+        "PMC6206083",
+        "PMC7615270",
+        "PMC8131624",
+        "PMC8211653",
+        "PMC8770127",
+        "PMC9551036",
+        "PMC9596369"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "PLAT-08",
+      "title_ko": "처음 실패한 범위와 대안 설명을 남겨 다음 정보로 연결하기",
+      "when_to_use": "초기 조합/assay가 실패하거나 예상 기전 marker는 음성인데 현상이 재현되는 경우",
+      "principle": "방법 전체의 무효 외에 측정감도, 불완전작용, 다른 기전, 구성체/맥락 부적합을 병렬 대안으로 남긴다.",
+      "stage_use": {
+        "investigate": "실패가 어떤 물질·기능·조건의 범위인지 먼저 정하고, 원문에서 그 설명들을 나눈 관측을 다음 정보선택의 예로 사용한다.",
+        "generate": "방법 전체의 무효 외에 측정감도, 불완전작용, 다른 기전, 구성체/맥락 부적합을 병렬 대안으로 남긴다.",
+        "compare": "강한 engagement 기준은 음성이지만 낮은 점유로 기능이 있는 사례, 초기 비활성 조합과 후속 기능, 기대 경로 대신 다른 marker 사례를 비교한다.",
+        "update": "새 관측이 특정 대안을 지지하면 가설을 바꾸되 이전 음성을 삭제하지 않는다. 여전히 식별 못하면 실패기록과 미해결을 남긴다."
+      },
+      "limits": [
+        "한 성공 반례는 모든 조합 성공을 보장하지 않는다. 실패를 이유로 다른 모델/기준으로 몰래 바꾸는 절차가 아니다.",
+        "추가 필수 수정 없음. 최초 음성을 삭제하거나 감도기준을 사후 조용히 변경하지 않는 조건 유지."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P131-PMC6592777",
+          "observation_to_decision": "competitivechemicalproteomics에서강한E3engagement를못찾자lowoccupancy의촉매적기여가능성을고려해target-affinityenrichment로측정법을바꿨다. enrichment후KO/rescue로candidateE3를구분했다. 첫방법에서>75%engagement의CRLcysteine은발견되지않았다.다른방법은DCAF16/DTL>5-foldenrichment를보였고DCAF16만기능적으로필요했다.독립KO3clones는작동하지않았고WT3clones는작동했다. endogenousDCAF16engagement는약10%/40%였다.",
+          "source_refs": [
+            {
+              "id": "PMC6592777",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6592777/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P131-PMC3442236",
+          "observation_to_decision": "randomlesion의복잡성을줄이려고definedlocus를사용하고,sourceRNA의locus특이성을비교하여RNAorigin/기능을연결했다.단순발현변화설명은proteinlevel및downstreammiRNA대조로점검했다. 원초기sequencing에서locusmappedreads는cut47/uncut20/parent0였다.후속deeper분석에서Dicer감소는smallRNA분율을유의하게줄였으나Drosha감소는유의수준에이르지않았다.γH2AX는유지되는데다른foci가감소했다.",
+          "source_refs": [
+            {
+              "id": "PMC3442236",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3442236/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC3442236",
+        "PMC3470698",
+        "PMC6348446",
+        "PMC6592777"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "PLAT-09",
+      "title_ko": "통합 근거와 검색도구를 가설 만드는 접근수단으로 쓰기",
+      "when_to_use": "많은 DB/문헌/연관 점수에서 무엇을 더 알아봐야 할지 정해야 하는 경우",
+      "principle": "질환연관, 조절 방향, 표적가능성, 발현, 안전 proxy가 서로 다른 질문을 답한다는 가설공간을 만든다.",
+      "stage_use": {
+        "investigate": "원문/버전·근거종류·ontology전파·중복·mapping을 보존해 질문에 맞는 자료를 선택하고 약한 축은 추가 정보공백으로 남긴다.",
+        "generate": "질환연관, 조절 방향, 표적가능성, 발현, 안전 proxy가 서로 다른 질문을 답한다는 가설공간을 만든다.",
+        "compare": "Open Targets의 버전별 근거/tractability 분리, reverse mapping의 구조coverage와 미회수를 비교한다.",
+        "update": "근거가 후보를 좁히면 다음 확인의 이유로 사용한다. 높은 통합점수라도 방향/맥락이 미확인이면 이를 효능 확률로 변환하지 않는다."
+      },
+      "limits": [
+        "자료량/점수/링크는 정확성·완독·인과·임상성공 확률이 아니다. 검색접근 수단은 원자료 범위를 대신하지 않는다.",
+        "PharmMapper는 구조/후보coverage, OT는 통합/전파의 직접 근거로 역할 명시. raw FAERS causal 아님 같은 자체 비평은 AUTHOR_EXPLICIT_OBSERVATION과 분리."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P131-PMC2896160",
+          "observation_to_decision": "bioactivity 부족의한계를구조기반정보로보완하고 빠른mapping으로 후보를좁힌 뒤bioassay로검증할 단서를 주려 했다. 7,302 pharmacophore 중2,241은human annotation이었다. Tamoxifen14known targets 중top100에4개,top300에10개,top1000검색(실제912hits)에11개가포함됐고 AUC는.7이었다.",
+          "source_refs": [
+            {
+              "id": "PMC2896160",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2896160/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P131-PMC7779013",
+          "observation_to_decision": "source별evidence를표준schema/validator로묶고harmonicscoring으로반복자료를집계하되유형별가중치를구분했다.모달리티가능성/안전/발현을추가정보로제공했다. 해당release는10,154,924evidencepieces와7,282,832association을통합했다.ontology변경후association은90%증가했고drugindex는6515parentmolecules였다.",
+          "source_refs": [
+            {
+              "id": "PMC7779013",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7779013/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC11701534",
+        "PMC1538869",
+        "PMC2896160",
+        "PMC3965017",
+        "PMC5210543",
+        "PMC6324073",
+        "PMC6478889",
+        "PMC7779013",
+        "PMC9825572"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "PLAT-10",
+      "title_ko": "순위/예측을 coverage와 맞는 null로 보정해 해석하기",
+      "when_to_use": "도구마다 표적순위가 다르거나 구조/연구빈도 때문에 높은 점수가 생길 수 있는 경우",
+      "principle": "실제 질환연관 외에 DB포함·node degree·구조특성수·LD/유전자수·label선정이 순위를 만들 수 있다는 설명을 만든다.",
+      "stage_use": {
+        "investigate": "대상 단위와 coverage에 맞춘 null/기준, known/unknown label의 의미, 독립/회고 평가를 구분한다.",
+        "generate": "실제 질환연관 외에 DB포함·node degree·구조특성수·LD/유전자수·label선정이 순위를 만들 수 있다는 설명을 만든다.",
+        "compare": "PharmMapper fit/Z, network degree-matched proximity, 구조검색의 known-target 회수, MR의 가정/QC를 비교한다.",
+        "update": "보정 후에도 특정 설명력이 남으면 후보 우선화에 쓴다. 보정/coverage에 따라 사라지면 도구오류를 단정하기보다 적용범위/누락을 남긴다."
+      },
+      "limits": [
+        "unknown은 negative가 아니며 회고 benchmark AUC는 새표적의 성공률이 아니다. MR은 가정조건부 인과추론이다.",
+        "이 하나의 사례가 degree-matching/MR까지 직접 검증한 것으로 표기하지 말 것. 후보 전반의 방법들은 각각 다른 직접 사례에 연결된 분석자 유비이다."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P131-PMC5793840",
+          "observation_to_decision": "특징 수에 의한 점수 편향 때문에 ligand-target fit score matrix로 우연한 일치의 분포를 추정하고 알려진 표적의 회고적 순위로 enrichment를 평가했다. 새 DB에는23,236 PDB구조와53,184 unique pharmacophore가 있었다. DrugBank의5% FPR에서 Z점수는36.78%, fit점수는32.48% 표적을 찾았다. Tamoxifen의 top1000에서는 알려진11표적 중 새 DB9개, 구 DB10개였다.",
+          "source_refs": [
+            {
+              "id": "PMC5793840",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5793840/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P131-PMC4740350",
+          "observation_to_decision": "drug가많은diseasegenes전체와가까워야할이유가없어closestmeasure를시험하고,degree/집합크기를보존한null분포로well-studiednode편향을보정했다. 238drugs/78diseases의18,564pairs중402known/18,162unknown이었다. known중237/402가proximal이었다. proximity-derivedsimilarity AUC.81대sharedtarget.80의차이는유의하지않았다(P=.12).",
+          "source_refs": [
+            {
+              "id": "PMC4740350",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4740350/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC4740350",
+        "PMC5793840",
+        "PMC6030990",
+        "PMC8688480"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "PLAT-11",
+      "title_ko": "서로 다른 정보의 증분을 비교한 뒤 통합하기",
+      "when_to_use": "방법들이 일부만 일치하지만 각각 다른 생물학적/측정 정보를 담는 경우",
+      "principle": "직접 결합, 반응 signature, 구조, 근접 partner가 상보적일 수도 중복/공통stress일 수도 있다고 본다.",
+      "stage_use": {
+        "investigate": "같은 기준집합에서 단독/통합의 실제 증분과 coverage 손실, positive/unknown label, cell-specific contrast를 비교한다.",
+        "generate": "직접 결합, 반응 signature, 구조, 근접 partner가 상보적일 수도 중복/공통stress일 수도 있다고 본다.",
+        "compare": "LiP/chemoproteomics는 측정·coverage 차이의 근거, ProTargetMiner는 실제 병합 비교의 근거로 역할을 구분한다. BANDIT은 예측→검증의 분모와 함께 해석한다.",
+        "update": "상보 증분이 관측되면 통합을 후보축소에 이용한다. 공통 신호만 남거나 일부 target가 사라지면 그 정보를 따로 유지하고 총점 하나로 덮지 않는다."
+      },
+      "limits": [
+        "병합 안정성/높은 AUC는 모든 target의 진실성이나 새 약물기전의 확인이 아니다.",
+        "illustrative role을 측정/coverage의 관련근거(LiP)와 실제 통합 비교의 직접근거(ProTargetMiner)로 구분. threshold/feature를 같은 기준집합에서 정한 성능을 독립 heldout 성능으로 부르지 말 것."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P131-PMC7442650",
+          "observation_to_decision": "single-dose위양성을줄이려고여러feature를알려진표적compound로학습/검증했고,낮은coverage관측으로더깊은측정을시도했다. single-dose는lysate52/livecell37후보.6groundtruthcompound로score를검증했다.threshold평균PPV30%,top10peptides평균70%.staurosporinekinase검출은LiP21/TPP49/kinobeads190,공통6.deep측정AUC0.76→0.81.",
+          "source_refs": [
+            {
+              "id": "PMC7442650",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7442650/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P131-PMC4885110",
+          "observation_to_decision": "primary assay가 일치하지 않아도 NMR와 구조로 단일 기술 hit를 검증했다. BET의 pleiotropic effect를 피하려 선택성을 따로 평가했고, 노출과 tolerability 확인 후 민감한 AML 모델을 선택했다. 약 1700 fragment screen에서 MST/DSF/SPR primary hit는 124/36/45였고 SPR·DSF 겹침은 10%였다. MST 단독 hit 중 NMR로 확인한 29개에서 결정구조 14개를 얻었다. AML 동물 모델에서는 median TGI 52%, median survival은 대조20일 대비2일 증가였으며 효과를 modest라고 기술했다.",
+          "source_refs": [
+            {
+              "id": "PMC4885110",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4885110/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC4885110",
+        "PMC6863850",
+        "PMC6915695",
+        "PMC7442650"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "PLAT-12",
+      "title_ko": "계산 탐색을 실제 후속 선택과 실패의 분모로 평가하기",
+      "when_to_use": "큰 library/좋은 계산 순위 또는 단일 물성이 후보선택을 지배하려는 경우",
+      "principle": "후보집합/합성가능/실제검증/기능성공의 서로 다른 병목을 가설로 만든다.",
+      "stage_use": {
+        "investigate": "선택된 모든 후보·제작실패·낮은순위·음성의 기록과 prospective 후속집합을 보존한다. affinity, binding hit, 기능을 구분한다.",
+        "generate": "후보집합/합성가능/실제검증/기능성공의 서로 다른 병목을 가설로 만든다.",
+        "compare": "ultra-large docking의 selected→synthesized→hit, LNP의 discovery→후속집합, receptor docking의 실측/종간 기능을 비교한다.",
+        "update": "범위별 실제성능이 맞으면 그 범위의 선택이유를 지지한다. 최고순위 실패나 물성 반례는 후보설명의 추가정보가 되며 분모에서 지우지 않는다."
+      },
+      "limits": [
+        "모델 추정 전체actives 수는 실측 수가 아니고 물성 하나의 상관은 충분조건이 아니다.",
+        "추가 필수 수정 없음. 일부 후보가 자동/수동 두 목록에 겹침(19)을 독립 집합으로 이중계수하지 않는 조건 유지."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P131-PMC6383769",
+          "observation_to_decision": "toprankhit만측정하면score와성공확률관계를모르므로12scorebins에서prospective합성·같은assay로확인했다. library접근성은make-on-demand성공률로별도확인했다. D4는589selected중549합성성공,122/549가단일농도bindingthreshold를넘었다. 최고scorebin hitrate22–26%에서낮은bin은0%로감소했다.453,000actives(95%range188,000–1,035,000)는실측전체수가아닌모델추정이었다.",
+          "source_refs": [
+            {
+              "id": "PMC6383769",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6383769/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P131-PMC4111939",
+          "observation_to_decision": "다양한library로chemistrybias를줄이고구조-function관계를만든뒤별도2세대library에서prospective예측을시험했다. FVII는짧은half-life와소량serum정량가능성때문에선택했다. 1,400library중82가in-vitro기준을넘었고in-vivo96materials중15가높은silencing을보였다. 후속library의예외2개는약10%silencing,나머지는>95%였다고보고했다.",
+          "source_refs": [
+            {
+              "id": "PMC4111939",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4111939/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC4111939",
+        "PMC6383769",
+        "PMC7134359"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "PLAT-13",
+      "title_ko": "원하는 효과와 피할 효과를 분리해 조건부 선택하기",
+      "when_to_use": "후보 효능과 off-target/정상조직 기능/장기선택성이 충돌하는 경우",
+      "principle": "동일 표적의 정상기능, 작용기구의 조직별 가용성, 후보특이/전체class 독성, 대사물 경로를 구분한다.",
+      "stage_use": {
+        "investigate": "온타깃 기능과 off-target/독성·실제 노출·조직 기능을 각자 측정한 근거를 선택하고 사전 다목적/anti-target 목적을 명시한다.",
+        "generate": "동일 표적의 정상기능, 작용기구의 조직별 가용성, 후보특이/전체class 독성, 대사물 경로를 구분한다.",
+        "compare": "polypharmacology의 top-rank 실패, siRNA 후보독성의 단계별 분리, platelet machinery에 따른 PROTAC 효과, cellular off-target와 ocular독성 사례를 사용한다.",
+        "update": "원하는 효과와 위해가 분리되는 조건을 찾으면 그 조건의 선택을 지지한다. 한 위험경로 음성이면 전체 안전성 대신 해당 경로의 제한근거로 남긴다."
+      },
+      "limits": [
+        "낮은 조직발현/단일효소 음성/체중불변/단기지표 음성은 독성0이나 임상 안전창의 증명이 아니다.",
+        "추가 필수 수정 없음. 75%는 저자 보고값으로 표시하고 모든 과제의 prospective 성공확률로 외삽하지 않는다."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P131-PMC3653568",
+          "observation_to_decision": "다목적 문제가 되어 adaptive exploration을 택했고, 알려진 SAR로부터 생성·예측한 후보를 합성/assay로 확인했다. 표적특이 기능인지 보려고 WT와 receptor-KO 반응을 비교했다. 저자는800 ligand-target 예측의75%가 확인됐다고 요약했다. 한 선택성 탐색에서 최고순위12는inactive였고3위13이D4 Ki8.9nM였다. 새 morpholino24종 중17종은D4 affinity를 보였고8종이1μM 미만이었다.",
+          "source_refs": [
+            {
+              "id": "PMC3653568",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3653568/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P131-PMC5818625",
+          "observation_to_decision": "노출과loading을분리측정하면서기능단계별교란을비교하고,transcriptome에서sequence-specificsignature가독성과일관되는지검사했다. 비슷한간노출에서RNAi활성차단은독성소견을줄였고loading을그대로둔경우도그랬다. RNAseq의in-vitro n3는technicalreplicates이고in-vivo는3males/군,마지막비교는4males/군이었다.",
+          "source_refs": [
+            {
+              "id": "PMC5818625",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5818625/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC11109952",
+        "PMC3653568",
+        "PMC5062570",
+        "PMC5818625",
+        "PMC6468299",
+        "PMC7181703",
+        "PMC7192627",
+        "PMC7969009",
+        "PMC9262600"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "PLAT-14",
+      "title_ko": "공유 기능과 보상 경로를 표적군/isoform 단위로 구분하기",
+      "when_to_use": "표적군 전체 개입은 효과가 있지만 단일 구성요소의 역할과 보상/독성이 섞인 경우",
+      "principle": "중복기능, 공통partner, isoform선택성, 부분적 stress보상의 설명을 함께 만든다.",
+      "stage_use": {
+        "investigate": "선택적 probe의 패널/실제세포 작용과 여러 하위기능을 비교해 어떤 구성요소를 구분할 수 있는지 묻는다.",
+        "generate": "중복기능, 공통partner, isoform선택성, 부분적 stress보상의 설명을 함께 만든다.",
+        "compare": "HOX family probe의 범위, Hsp90 isoform 억제에서 바뀐 보상과 남는 반응을 사례로 사용한다.",
+        "update": "일부 축만 분리되면 그 기능 범위로 귀속을 좁힌다. 보상 marker 하나가 줄어도 전체보상/독성 문제가 해결됐다고 합치지 않는다."
+      },
+      "limits": [
+        "공통probe는 개별familymember의 역할을 분해하지 않고 세포선택성은 전신 안전성이 아니다.",
+        "추가 필수 수정 없음. 공통probe로 개별 family 역할을 분해하거나 Hsp90 수준 감소를 전체 보상 소거로 표현하지 않는 현재 제한 유지."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P131-PMC3942264",
+          "observation_to_decision": "family 중복 때문에 상호작용 수준의 probe로 접근했다. cFos를 낮췄을 때 phenotype가 일부 회복되는지 확인해 발현과 기능의 연결을 조사했다. 일부gene만의 과거 조사 대신39개 family 발현을 비교했다. cFos 증가는세 cell line에서6.2/10.3/19.1배였다. 기능 대조에서 cell survival은12%에서37%/56%로 부분 회복됐다. xenograft52일 평균 성장배수는대조8배/처리1.5배였고 동물은8/9마리였다.",
+          "source_refs": [
+            {
+              "id": "PMC3942264",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3942264/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P131-PMC5789826",
+          "observation_to_decision": "구조기반선택성이세포의기능구분으로이어지는지client와보상단백질을분리측정했다. 세암세포생장IC50는6.74±1.10/3.01±.56/3.72±.34µM였고HEK293에서는>100µM였다.Hsp90수준유도는없었지만더높은검사범위에서Hsp27/Hsp70은유도되었다.",
+          "source_refs": [
+            {
+              "id": "PMC5789826",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5789826/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC3942264",
+        "PMC5789826"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "PLAT-15",
+      "title_ko": "모델의 우열보다 지금 결정에 맞는 질문을 지정하기",
+      "when_to_use": "질환 전체의 예측모델은 약하지만 접근/표적작용/PD 또는 특정 기능 질문은 답할 수 있는 경우",
+      "principle": "모델의 재현된 상태/누락된 환경과 측정가능한 연결을 분리해 어느 가설을 좁힐지 정한다.",
+      "stage_use": {
+        "investigate": "단일기능/표현형·사람조직·이미 진행된 질환 baseline·단기PD를 각각 어떤 주장에 맞는지 선택한다.",
+        "generate": "모델의 재현된 상태/누락된 환경과 측정가능한 연결을 분리해 어느 가설을 좁힐지 정한다.",
+        "compare": "IPF모델의 전달/PD와 임상효능 구분, LNA043 phase1의 사전안전성/사후분자분석, 제조물성의 독립기능 확인을 비교한다.",
+        "update": "묻는 연결을 재현하면 그 결정에 유용한 근거로 쓴다. 재현 못한 기능/미래임상효과는 별도 공백으로 남기고 전체모델 무용/완전성 판정을 피한다."
+      },
+      "limits": [
+        "부분모사는 모든 질환기전/임상혜택 예측성능이 아니다. 사후분자반응은 사전 임상endpoint 성공이 아니다.",
+        "추가 필수 수정 없음. 미검출을0으로, ROS surrogate 음성을 전체 안전성으로, 항체의 실패를 작은분자 안전성 우위의 직접 증거로 변환하지 않는다."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P131-PMC7334216",
+          "observation_to_decision": "humanbiopsy와공개methylation자료로질환연관성을확인하고,differentdietcontexts및두delivery방식으로일반화를점검했다.OCR/ATP/β-oxidation과synthesis/export,ROSsurrogate를함께측정했다. humanbiopsy는healthy5/NAFLD21,공개methylation비교는healthy106/NAFLD87였다.질환후mMCD비교는siMCJ6/control6,HF-HFD는각5마리였다.β-oxidation은증가하고de-novolipogenesis는유사했으며관측ROSsurrogate는악화하지않았다.",
+          "source_refs": [
+            {
+              "id": "PMC7334216",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7334216/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P131-PMC7494911",
+          "observation_to_decision": "정상/환자 조직·기능 marker·동물 PD와 disease endpoint를 연결했다. bleomycin 모델은 임상 효능을 예측하기보다 target engagement와 mechanism-specific biomarker를 확인하기 위해 사용한다고 명시했다. 정상/IPF 조직 표적량은0.18±0.02/0.51±0.11pmol/mg였고 각6 donors였다. 동물에서 약물은2시간 뒤 측정되지 않아도 pSmad2 억제는4/8/24시간에서75%/62%/9%였다. 환자 조직 slice에서는 약3nM IC50를 보고했다.",
+          "source_refs": [
+            {
+              "id": "PMC7494911",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7494911/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC3442367",
+        "PMC7334216",
+        "PMC7494911",
+        "PMC9800282"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "PLAT-16",
+      "title_ko": "부분 phenocopy와 상반 결과에서 공존 기전을 유지하기",
+      "when_to_use": "한 개입이 일부 현상은 설명하지만 다른 현상/조직결과는 설명하지 못하거나 반대인 경우",
+      "principle": "협력유전자/다른세포기여, 접근실패와 표적독립 escape, 손상감소와 기질축적의 동시작용을 후보로 만든다.",
+      "stage_use": {
+        "investigate": "분자/기능·공간/세포원천·질환시점·상반 endpoint를 분리해 어느 설명이 어느 부분에 맞는지 선택한다.",
+        "generate": "협력유전자/다른세포기여, 접근실패와 표적독립 escape, 손상감소와 기질축적의 동시작용을 후보로 만든다.",
+        "compare": "RPS14의 erythroid defect 대 clonal progression, 잔존종양의 표적marker 공간차이, CD147의 손상개선/ECM악화를 비교한다.",
+        "update": "부분만 맞으면 그 부분의 기여를 인정하고 나머지 설명을 추가한다. 상반결과를 실패 하나/성공 하나로 뭉치거나 대안을 상호배타로 강제하지 않는다."
+      },
+      "limits": [
+        "필요기여가 전체질환의 충분원인은 아니며 문서내 불일치/전신개입 confound는 그대로 남긴다.",
+        "보충 실제 locator: NIHMS354886-supplement-1.pdf physicalp24 TableS5, contents p1. 본문p9의 TableS4 표기와 실제 보충S5가 어긋남을 기록. 4명을 모두5q환자/모든 실험분모로 만들지 않는다."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P131-PMC3771855",
+          "observation_to_decision": "secondhit가없다는관측으로부분감소를모사하는functionalapproach를택하고multipleindependentreagents로off-target을줄였다. expression/GSEA와processing자료를더해표면marker만의설명을대조했다. RPS14부분감소가erythroiddefect를재현했고32MDSpatients에서remainingallele의pointmutation등을못찾았다. processing30S/18SE비는4–9배증가했다. patientcellrescue는erythroid대megakaryocytic p=.004,myeloid대p=.0003였다.",
+          "source_refs": [
+            {
+              "id": "PMC3771855",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3771855/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P131-PMC12122713",
+          "observation_to_decision": "불균일 반응의 근거를 얻기 위해 반응군·비반응군의 공간 transcriptomics를 비교하고 pathway/promoter enrichment의 예측을 별도 조직 marker로 대조했다. 사람 자료의 lymphoid signature 관계는 별도 임상 cohort에서 살폈다. 진행성 두 마우스 모델은 각각 8마리 중5 반응/3 저반응이었다. 공간 자료는 한 모델4 slides/17685 spots, 다른 모델5 slides/17130 spots였다. 치료 중단 뒤 재발했으나 두 모델 OS를 약12주/9주 연장했다고 보고했다. 사람174명 자료에서 LA71명/TLS8명이었고 높은 LA-like signature의 PFS P.0639와 OS P.000697을 보고했다.",
+          "source_refs": [
+            {
+              "id": "PMC12122713",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12122713/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC12122713",
+        "PMC3771855",
+        "PMC4116334",
+        "PMC4574480"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "PLAT-17",
+      "title_ko": "annotation이 아닌 실제 substrate/기능으로 assay를 고르기",
+      "when_to_use": "이름/기존annotation이 암시하는 assay는 음성인데 다른 기능은 재현되는 경우",
+      "principle": "실제 substrate class·생리조건·표지간섭·비고전적 기능이 누락됐을 수 있다는 대안을 만든다.",
+      "stage_use": {
+        "investigate": "product/substrate, 효소기능, 실제세포 engagement, 다른 기능 맥락을 구분한 관측을 선택한다.",
+        "generate": "실제 substrate class·생리조건·표지간섭·비고전적 기능이 누락됐을 수 있다는 대안을 만든다.",
+        "compare": "HDAC10의 substrate 재해석, NUDT5의 조건별 효소/세포연결, PHB2의 기존사멸marker 음성 사례를 사용한다.",
+        "update": "대안 substrate/조건이 현상을 설명하면 annotation에 맞추기보다 기능범위를 수정한다. 여전히 negative이면 그 검사범위에서만 보류한다."
+      },
+      "limits": [
+        "in-vitro 선호나 marker무변화는 모든세포기능의 확인/부정이 아니며 예측구조는 직접결합과 다르다.",
+        "추가 필수 수정 없음. substrate/구조 조건은 원문 범위이며 새 효소 engineering이나 최적화 처방으로 옮기지 않는다."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P131-PMC5454378",
+          "observation_to_decision": "조직·세포 위치·억제 반응의 기존 관찰이 알려지지 않은 PDAC와 맞아 후보를 세웠다. 다양한 substrate의 효소 kinetics와 구조를 함께 읽어 기능 해석을 바꿨다. 사람/물고기 HDAC10의 N8 substrate 촉매 효율은2900±200/4600±300 M−1s−1였고 비교 N1 substrate는24±5/7±2였다. 두 형광 peptide와11개 비형광 acetyllysine substrate에서는 활성이 없거나 낮았다. Fig2는 n3로 보고했다.",
+          "source_refs": [
+            {
+              "id": "PMC5454378",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5454378/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P131-PMC5772648",
+          "observation_to_decision": "기존 기능 설명을 다른 assay와 실제 세포 DNA-damage/ADPR readout으로 비교했다. 표적이 매우 열안정해 CETSA heating이 binding을 바꿀 가능성을 고려하여 DARTS를 별도 선택했다. 선별된16 inhibitors에서 biochemical potency와 cellular stabilization 순위가 달랐다. lead는 biochemical IC50 29nM/CETSA apparent EC50 2.1μM였고 DARTS도 engagement를 지지했다. 단독 처리의 큰 phenotype는 없지만 hormone-dependent cell processes는 억제했다.",
+          "source_refs": [
+            {
+              "id": "PMC5772648",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5772648/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC5454378",
+        "PMC5772648",
+        "PMC9719519"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "PLAT-18",
+      "title_ko": "측정 단위와 보이는 pool을 맞추어 비교하기",
+      "when_to_use": "isoform/조직총량/표면분자/운반체 표지/기능수치가 같은 대상처럼 비교되는 경우",
+      "principle": "공통probe의 합산, 세포구성, 표지성분 교환, 접근가능 분자상태, 측정위치가 차이를 만들 수 있다고 본다.",
+      "stage_use": {
+        "investigate": "각 수치가 어떤 세포·분자형·구획·생물학적 반복을 읽는지 먼저 맞추고 다른 원리 관측의 범위를 확인한다.",
+        "generate": "공통probe의 합산, 세포구성, 표지성분 교환, 접근가능 분자상태, 측정위치가 차이를 만들 수 있다고 본다.",
+        "compare": "ASGR의 uptake/function 비선형, amyloid-A family 공통probe, lncRNA 위치와 silencing법, PEG표지 교환, AMPAR 표면 pool을 비교한다.",
+        "update": "같은 pool을 맞추어도 차이가 남으면 생물학적 설명을 유지한다. pool이 다르면 수치를 직접 우열화하지 않고 연결할 정보가 무엇인지 명시한다."
+      },
+      "limits": [
+        "표면/조직mRNA/표지거동은 전체분자·분비·기능의 직접 관측이 아니며 유의차없음은 모든교란 부재가 아니다.",
+        "추가 필수 수정 없음. 옛PDF의 OCR에서 SAA3가 B처럼 표시되므로 표/isoform 이름을 시각 검토 없이 새 세부 수치로 확대하지 않는다."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P131-PMC5716100",
+          "observation_to_decision": "cellline간모순때문에isogenicbackground를사용하고inducibleexpression으로clonalisolationartifact를점검했다. supraphysiologicalexpression우려는in-vivoreceptor감소로확인했다. HepG2는약50% uptake증가에도potency개선이없었고primarymousehepatocyte는10배potency이득을보였다.한isogenicline의conjugate는18배potent했다. in-vivoASGR1을78%낮춰도효과가유지됐고>98%감소에서기능이소실됐다.",
+          "source_refs": [
+            {
+              "id": "PMC5716100",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5716100/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P131-PMC2188489",
+          "observation_to_decision": "family 전체 신호만으로 분자 기능/축적의 기원을 설명할 수 없어 gene별·조직별 측정을 선택했다. 기존 연구와 다른 결과의 원인으로 probe 차이와 시점 차이를 후보로 남겼다. 간 전체 SAA mRNA는 두 자극 뒤 약1000배 증가했으나 casein 조건에서 SAA1/2는SAA3보다 약50배 높고 다른 자극에서는 세 gene이 유사했다. 조직별로 서로 다른 gene 조합이 관측됐다.",
+          "source_refs": [
+            {
+              "id": "PMC2188489",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2188489/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC2188489",
+        "PMC3894582",
+        "PMC4244604",
+        "PMC4737147",
+        "PMC5385570",
+        "PMC5716100"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "MECH-01",
+      "title_ko": "빠진 구획이나 중간 전달자를 가설로 만든다",
+      "when_to_use": "원격기관 효과, 총량-기능 불일치 또는 직접시험 음성이 기존 단일구획 설명에 남는 경우.",
+      "principle": "직접작용 외에 생산·분비·운반·중간세포·반응구획의 연결이 끊기거나 달라졌다는 복수 설명을 만든다. 미관측 중간자는 이름을 확정하지 않는다.",
+      "stage_use": {
+        "investigate": "생산측과 반응측의 정보, 해당 구획의 실제 분자형과 기능을 선택한다. 같은 최종효과를 총량만으로 구분할 수 없기 때문이다.",
+        "generate": "직접작용 외에 생산·분비·운반·중간세포·반응구획의 연결이 끊기거나 달라졌다는 복수 설명을 만든다. 미관측 중간자는 이름을 확정하지 않는다.",
+        "compare": "발표된 사례에서 직접반응 대 중간구획 의존, 막형 대 가용형, 수송 대 단순섭취의 다른 예측을 대조했다. 새 운영 절차가 아니라 원문 비교의 논리이다.",
+        "update": {
+          "distinctive_prediction_supported": "특정 구획/중간기여가 기능과 함께 달라지면 해당 연결을 우선하되 다른 기여를 남긴다.",
+          "valid_null_or_opposite": "직접효과가 없고 중간정보가 지지되면 직접설명을 낮추고 간접가설을 유지한다. 관련 구획에서도 유효음성이면 그 연결만 약화한다.",
+          "measurement_or_intervention_failure": "구획분리가 안 되거나 측정접근이 없으면 식별불가로 남기고 다른 연구가지를 계속한다."
+        }
+      },
+      "limits": [
+        "공위치·proximity·분비상관만으로 직접결합/유일매개를 확정하지 않는다."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P129-PMC6442744",
+          "observation_to_decision": "골수culture에서hypocretin직접효과가없자14세포군의수용체정보를조사해중간세포기전을탐색했다. 직접음성결과를전체원격축부재로결론내리지않았다.",
+          "source_refs": [
+            {
+              "id": "PMC6442744",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6442744/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P129-PMC6642642",
+          "observation_to_decision": "혈관세포특이결손으로말초가용성VCAM1이남은상태를보았고,혈장에서가용성VCAM1만제거한대조를별도로두었다. 상관표지와작용위치를나눠비교했다.",
+          "source_refs": [
+            {
+              "id": "PMC6642642",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6642642/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC11186765",
+        "PMC2921604",
+        "PMC3103772",
+        "PMC3134999",
+        "PMC3471377",
+        "PMC3491085",
+        "PMC3522098",
+        "PMC3531883",
+        "PMC3674247",
+        "PMC3865363",
+        "PMC4184960",
+        "PMC4598654",
+        "PMC4682112",
+        "PMC4922538",
+        "PMC4949205",
+        "PMC5754356",
+        "PMC5800968",
+        "PMC5826565",
+        "PMC6197057",
+        "PMC6442744",
+        "PMC6445148",
+        "PMC6499401",
+        "PMC6631346",
+        "PMC6642642",
+        "PMC7029019",
+        "PMC7156916",
+        "PMC9402428"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "MECH-02",
+      "title_ko": "같은 분자의 양·형태·상태·역할을 분리한다",
+      "when_to_use": "발현량, 결합 또는 경로 이름이 같아도 기능 방향이나 결과가 다른 경우.",
+      "principle": "총량 변화 외에 isoform, 번역후상태, 점유, 복합체, catalytic/noncatalytic 역할이 다르다는 설명을 만든다.",
+      "stage_use": {
+        "investigate": "정체성·결합·활성·기능을 서로 다른 관측으로 선택한다. 한 단계 정보가 다음 단계를 보장하지 않기 때문이다.",
+        "generate": "총량 변화 외에 isoform, 번역후상태, 점유, 복합체, catalytic/noncatalytic 역할이 다르다는 설명을 만든다.",
+        "compare": "본문의 binding 대 효소활성, 총량 대 위치/수정, 공유locus 변화 대 형태별 기능을 비교한 논리를 따른다.",
+        "update": {
+          "distinctive_prediction_supported": "분리된 상태가 기능차이를 설명하면 분자명 전체가 아닌 해당 상태와 조건으로 주장을 좁힌다.",
+          "valid_null_or_opposite": "결합은 있으나 기능이 다르면 단순결합 설명을 수정하고 위치·partner·다른 역할을 남긴다.",
+          "measurement_or_intervention_failure": "방법이 형태를 구분하지 못하면 어느 형태의 기능인지 미확정으로 남긴다."
+        }
+      },
+      "limits": [
+        "불활성·결손·억제라는 이름을 모든 기능의 완전 소실로 해석하지 않는다."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P129-PMC2841477",
+          "observation_to_decision": "일반mitochondrial손상대안에morphology/citratesynthase를비교했고기능과binding을분리하기위해catalyticallyinactive와다른familymember자료를사용했다.",
+          "source_refs": [
+            {
+              "id": "PMC2841477",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2841477/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P129-PMC4184960",
+          "observation_to_decision": "감소가 단순 병리 표지인지 기능 기여인지,인접 유전자와의 서열 중첩 또는 단백질 매개 작용인지,단백질 양과 표적 점유 중 무엇이 바뀌는지가 질문이다.",
+          "source_refs": [
+            {
+              "id": "PMC4184960",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4184960/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC2728356",
+        "PMC2736875",
+        "PMC2809046",
+        "PMC2824149",
+        "PMC2841477",
+        "PMC2872605",
+        "PMC2882165",
+        "PMC2921604",
+        "PMC3078329",
+        "PMC3094729",
+        "PMC3102791",
+        "PMC3103772",
+        "PMC3134999",
+        "PMC3206313",
+        "PMC3493692",
+        "PMC3531883",
+        "PMC4121125",
+        "PMC4184960",
+        "PMC4477963",
+        "PMC4931325",
+        "PMC4992165",
+        "PMC5053883",
+        "PMC5053891",
+        "PMC5102256",
+        "PMC5561136",
+        "PMC5642042",
+        "PMC5785464",
+        "PMC6195768",
+        "PMC6324568",
+        "PMC6445148",
+        "PMC6499401",
+        "PMC6642642",
+        "PMC7069981",
+        "PMC7123794",
+        "PMC7422798",
+        "PMC8445024",
+        "PMC8799464",
+        "PMC9448678"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "MECH-03",
+      "title_ko": "변하지 않는 pool에서도 다른 흐름을 추론한다",
+      "when_to_use": "농도·세포수·총량이 같거나 반대방향인데 기능이나 누적손상이 달라지는 경우.",
+      "principle": "같은 stock을 생성·분해·유입·유출·분열·손실의 다른 균형이 만들 수 있다는 대안들을 만든다.",
+      "stage_use": {
+        "investigate": "시간별 변화, 실제 flux와 출처·손실 정보를 선택한다. 정적 pool만으로 내부 과정은 식별되지 않기 때문이다.",
+        "generate": "같은 stock을 생성·분해·유입·유출·분열·손실의 다른 균형이 만들 수 있다는 대안들을 만든다.",
+        "compare": "저자의 추적/독립흐름 비교와 기원 대 현재유지, 물질량 대 대사처리의 다른 예측을 연결한다.",
+        "update": {
+          "distinctive_prediction_supported": "흐름차이가 기능과 정합하면 해당 시간창·분모 아래 과정기여를 우선한다.",
+          "valid_null_or_opposite": "pool만 변하고 flux/기능은 남으면 pool을 단일 원인으로 두지 않고 다른 균형을 검토한다.",
+          "measurement_or_intervention_failure": "표지전달·추적감도·분모가 부족하면 과정별 기여율을 산출하지 않는다."
+        }
+      },
+      "limits": [
+        "모형 가정의 환산율이나 짧은 관측의 연간외삽을 보편 실제값으로 옮기지 않는다."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P129-PMC3769444",
+          "observation_to_decision": "기존의단핵구유입/최종분화설명과달리확립병변macrophage는빠르게갱신됐다. 병변이커져도macrophage부담이유사해순증가만으로유입/분열/손실을구분할수없었다.",
+          "source_refs": [
+            {
+              "id": "PMC3769444",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3769444/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P129-PMC4922538",
+          "observation_to_decision": "과영양·비만과 짧은사슬지방산 농도의 선행 연관은 증가·감소가 모두 보고됐다. 저자는 농도만으로 몸에 제시되는 부담을 나타내지 못할 가능성에서 출발했다.",
+          "source_refs": [
+            {
+              "id": "PMC4922538",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4922538/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC11186765",
+        "PMC2841477",
+        "PMC3102791",
+        "PMC3378044",
+        "PMC3674247",
+        "PMC3769444",
+        "PMC4121125",
+        "PMC4892846",
+        "PMC4922538",
+        "PMC4949205",
+        "PMC5078608",
+        "PMC5263259",
+        "PMC6214619",
+        "PMC6390935",
+        "PMC6631346",
+        "PMC6899510",
+        "PMC7484469",
+        "PMC8891020"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "MECH-04",
+      "title_ko": "발생·유지·회복과 과거 이력을 다른 가설로 둔다",
+      "when_to_use": "같은 개입이 시점에 따라 다르거나 현재상태가 과거 노출·병기와 함께 달라지는 경우.",
+      "principle": "초기 trigger, 유지 driver, 지연 feedback, 회복에 필요한 반응이라는 설명을 나누고 필요한 시점의 가설을 만든다.",
+      "stage_use": {
+        "investigate": "초기/후기 측정, 실제 관여 시점과 회복·재등장 자료를 선택한다. 후기 상관만으로 시작 기전을 알 수 없기 때문이다.",
+        "generate": "초기 trigger, 유지 driver, 지연 feedback, 회복에 필요한 반응이라는 설명을 나누고 필요한 시점의 가설을 만든다.",
+        "compare": "원문에서 같거나 확인된 관여 아래 시점별 결과, 빠른 사건과 지속표지, 현재 반응과 과거이력의 다른 예측을 비교했다.",
+        "update": {
+          "distinctive_prediction_supported": "일부 창에서만 효과가 있으면 그 단계의 필요성으로 한정하고 이후 지속필요 주장을 낮춘다.",
+          "valid_null_or_opposite": "유효한 후기음성은 초기기전을 자동 폐기하지 않고 유지가설을 약화한다. 반대 단계의 유해결과는 방향 가설을 수정한다.",
+          "measurement_or_intervention_failure": "관여 전에 endpoint가 끝났거나 시점불명은 반증이 아니라 시간정보 부족이다."
+        }
+      },
+      "limits": [
+        "단면계통 재구성을 실제 달력시간/미관측 임상 의사결정으로 발명하지 않는다."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P129-PMC5053883",
+          "observation_to_decision": "초기상호작용은일시적이지만후속methylation변화는지속됐다. 후기표적억제의음성은초기기전부재가아니라필요시점이달라진다는해석으로이어졌다.",
+          "source_refs": [
+            {
+              "id": "PMC5053883",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5053883/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P129-PMC6038912",
+          "observation_to_decision": "과거 자극이 뇌의 후속 반응에 남는지,말초와 뇌의 반응이 같은지,초기 손상과 후속 병리를 달리 바꾸는지가 질문이다.",
+          "source_refs": [
+            {
+              "id": "PMC6038912",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6038912/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC10584682",
+        "PMC10878965",
+        "PMC2759408",
+        "PMC2921604",
+        "PMC3272464",
+        "PMC3349233",
+        "PMC3378044",
+        "PMC3396711",
+        "PMC3428864",
+        "PMC3431439",
+        "PMC3493690",
+        "PMC3514498",
+        "PMC3548046",
+        "PMC3562457",
+        "PMC3865363",
+        "PMC3927368",
+        "PMC4090717",
+        "PMC4214889",
+        "PMC4255242",
+        "PMC4279183",
+        "PMC4413032",
+        "PMC4777652",
+        "PMC4899094",
+        "PMC4965268",
+        "PMC5053883",
+        "PMC5263259",
+        "PMC5542814",
+        "PMC5663386",
+        "PMC5720393",
+        "PMC5754356",
+        "PMC5785464",
+        "PMC5850938",
+        "PMC5857237",
+        "PMC6038912",
+        "PMC6047345",
+        "PMC6324568",
+        "PMC6442744",
+        "PMC6899510",
+        "PMC7599077",
+        "PMC8115394"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "MECH-05",
+      "title_ko": "대안이 다른 예측을 내는 경로 위치를 찾는다",
+      "when_to_use": "서로 다른 상류·하류·직접·간접 설명이 같은 최종결과를 예측하는 경우.",
+      "principle": "각 설명이 맞으면 보존되거나 달라져야 하는 중간반응을 도출한다. 원저자가 보고하지 않은 H0나 당시 사고순서는 만들지 않는다.",
+      "stage_use": {
+        "investigate": "대안들의 예측이 갈리는 readout/비교를 선택하고 공통으로 변할 결과의 반복만 늘리지 않는다.",
+        "generate": "각 설명이 맞으면 보존되거나 달라져야 하는 중간반응을 도출한다. 원저자가 보고하지 않은 H0나 당시 사고순서는 만들지 않는다.",
+        "compare": "발표된 bypass·기능보존대조·유사한 대사 active comparator·동일환경 비교의 논리만 요약한다.",
+        "update": {
+          "distinctive_prediction_supported": "구별예측과 최종결과가 함께 맞으면 그 경로 위치에 대한 조건부 지지를 높인다.",
+          "valid_null_or_opposite": "예측된 중간변화 없이 최종효과만 있으면 다른 작동단계/경로를 남기고 단일기전 설명을 낮춘다.",
+          "measurement_or_intervention_failure": "대조가 여러 중요변수에서 달라지거나 필요한 기능보존이 확인되지 않으면 식별력 부족으로 기록한다."
+        }
+      },
+      "limits": [
+        "비가산성·같은 최종보호·공동발현만으로 같은 표적/유일매개를 확정하지 않는다."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P129-PMC3573218",
+          "observation_to_decision": "동시 활성과 필요성,상류 자극과 하류 bypass,cAMP생성과 분해,약물의 특정 자극 효과와 더 높은 노출의 비특이적 glucose감소를 구분했다.",
+          "source_refs": [
+            {
+              "id": "PMC3573218",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3573218/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P129-PMC3471377",
+          "observation_to_decision": "넓은막표적억제와mitochondria한정억제를비교하고분획의표적위치·오염지표를검사했다. pore억제대조CsA는보호하지만MCU전류에는영향없어두readout을동일작용으로합치지않았다.",
+          "source_refs": [
+            {
+              "id": "PMC3471377",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3471377/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC10412454",
+        "PMC2809046",
+        "PMC2824149",
+        "PMC2935926",
+        "PMC3078329",
+        "PMC3383997",
+        "PMC3396711",
+        "PMC3428864",
+        "PMC3431439",
+        "PMC3471377",
+        "PMC3514498",
+        "PMC3562457",
+        "PMC3573218",
+        "PMC3657998",
+        "PMC3769444",
+        "PMC3862182",
+        "PMC4113484",
+        "PMC4255242",
+        "PMC4259491",
+        "PMC4598654",
+        "PMC4892846",
+        "PMC4899094",
+        "PMC4922538",
+        "PMC4949205",
+        "PMC4992165",
+        "PMC5053883",
+        "PMC6026158",
+        "PMC6195768",
+        "PMC6348009",
+        "PMC6390935",
+        "PMC6509403",
+        "PMC6547655",
+        "PMC6601261",
+        "PMC6642642",
+        "PMC7195385",
+        "PMC7422798",
+        "PMC7599077",
+        "PMC7841716",
+        "PMC8799464",
+        "PMC9402428"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "MECH-06",
+      "title_ko": "세포의 현재 표지와 기원·구성 변화를 나눈다",
+      "when_to_use": "혼합조직차이, 새세포표지, lineage 또는 드문 재생사건을 해석하는 경우.",
+      "principle": "세포비율 변화, 세포내 상태변화, 기존세포 전환, 다른 기원 유입, 표지누출·융합·doublet이라는 대안들을 만든다.",
+      "stage_use": {
+        "investigate": "기원 추적과 현재상태, 원조직 대 분리표본, 표지특이성과 검출효율 정보를 선택한다.",
+        "generate": "세포비율 변화, 세포내 상태변화, 기존세포 전환, 다른 기원 유입, 표지누출·융합·doublet이라는 대안들을 만든다.",
+        "compare": "원문에서 표지와 계통·배수성·세포수·원조직의 서로 다른 예측을 대조한 논리를 사용한다.",
+        "update": {
+          "distinctive_prediction_supported": "기원과 상태정보가 일치하면 주요기여를 해당 표지효율/조직범위로 한정한다.",
+          "valid_null_or_opposite": "표지양성이 다른 과정으로도 설명되면 새세포/lineage 주장 대신 상태 또는 소수가능성으로 낮춘다.",
+          "measurement_or_intervention_failure": "표지효율·특이성·원조직비율이 불명확하면 기원비율을 확정하지 않는다."
+        }
+      },
+      "limits": [
+        "수천 세포를 독립 사람수로, 존재 가능한 소수사건을 기능적으로 큰 기여로 치환하지 않는다."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P129-PMC3548046",
+          "observation_to_decision": "DNA합성이cellbirth인지repair/polyploidy/multinucleation인지,새세포의기원이기존세포인지progenitor인지별개질문이었다.",
+          "source_refs": [
+            {
+              "id": "PMC3548046",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3548046/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P129-PMC4127035",
+          "observation_to_decision": "표지된 심근세포가 새 분화인지 세포 융합·표지 누출/일시 발현인지,관측 가능한 소수 사건이 기능적 재생을 설명할 만큼 큰지가 질문이다.",
+          "source_refs": [
+            {
+              "id": "PMC4127035",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4127035/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC2597380",
+        "PMC2846535",
+        "PMC3440846",
+        "PMC3493690",
+        "PMC3548046",
+        "PMC3769444",
+        "PMC4012297",
+        "PMC4127035",
+        "PMC4214889",
+        "PMC4458138",
+        "PMC5069352",
+        "PMC5078608",
+        "PMC5512625",
+        "PMC5570525",
+        "PMC6047345",
+        "PMC6689255",
+        "PMC7545162",
+        "PMC7641189",
+        "PMC8115394"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "MECH-07",
+      "title_ko": "예측 표지와 원인·결과·목표효과를 구분한다",
+      "when_to_use": "연관표지·진단점수·위험유전형이 있지만 개입목표의 방향은 미확정인 경우.",
+      "principle": "표지가 원인, 결과, 보상 또는 공통원인의 지표라는 대안과, 원인이 아니어도 예측에 유용하다는 별도 가설을 만든다.",
+      "stage_use": {
+        "investigate": "방향별 예측/관측효과, 종단정보, 독립 질병endpoint와 예측기준을 선택해 각 질문을 분리한다.",
+        "generate": "표지가 원인, 결과, 보상 또는 공통원인의 지표라는 대안과, 원인이 아니어도 예측에 유용하다는 별도 가설을 만든다.",
+        "compare": "원문의 방향성 분석과 표지 대 질병끝점 비교, 예측cohort 검증을 별도로 읽는다.",
+        "update": {
+          "distinctive_prediction_supported": "예측이 재현되면 대표집합의 예측주장만 늘리고, 방향성 정보가 있어야 인과가설을 갱신한다.",
+          "valid_null_or_opposite": "표지는 변해도 질병끝점이 안 변하면 대리지표와 개입목표의 연결을 약화한다.",
+          "measurement_or_intervention_failure": "기준검사/추적/측정하한이 없으면 병리부재나 임상실패로 판정하지 않는다."
+        }
+      },
+      "limits": [
+        "MR가정·생애유전효과와 단기간 약물효과, 진단정확도와 치료utility는 다르다."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P129-PMC5570525",
+          "observation_to_decision": "methylation→BMI와BMI→methylation예측효과를별도로계산해관측유전효과와대조했다. 도구가노출외경로로결과에작용하지않고교란과독립이라는가정이필요하다.",
+          "source_refs": [
+            {
+              "id": "PMC5570525",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5570525/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P129-PMC3018764",
+          "observation_to_decision": "비당뇨연속형질과별도당뇨case-control,공복과부하후지표,HbA1c,비만보정전후를나눴다. GCKR의혈당상승allele은공복과2시간혈당에서반대방향이었다.",
+          "source_refs": [
+            {
+              "id": "PMC3018764",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3018764/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC10878965",
+        "PMC11031399",
+        "PMC11186765",
+        "PMC12353841",
+        "PMC2597380",
+        "PMC2921604",
+        "PMC3018764",
+        "PMC3103772",
+        "PMC3288335",
+        "PMC3320027",
+        "PMC3340926",
+        "PMC3349233",
+        "PMC3440846",
+        "PMC3465532",
+        "PMC3466113",
+        "PMC3838666",
+        "PMC4090717",
+        "PMC4279183",
+        "PMC4401634",
+        "PMC4458138",
+        "PMC4530583",
+        "PMC4636487",
+        "PMC4777652",
+        "PMC4849281",
+        "PMC5069352",
+        "PMC5420447",
+        "PMC5570525",
+        "PMC5642042",
+        "PMC5785464",
+        "PMC5798588",
+        "PMC5972004",
+        "PMC6521726",
+        "PMC6774252",
+        "PMC7025898",
+        "PMC7029019",
+        "PMC7156916",
+        "PMC7318784",
+        "PMC8249424",
+        "PMC8799464",
+        "PMC8891020"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "MECH-08",
+      "title_ko": "연관 위치에서 복수 작동 표적 가설을 만든다",
+      "when_to_use": "비암호화 locus·유전체연관·큰 후보목록에서 실제 작동gene/세포를 정해야 하는 경우.",
+      "principle": "근접gene 하나 대신 원거리조절, 연결변이, 다른 세포상태와 공유경로라는 복수 설명을 만든다.",
+      "stage_use": {
+        "investigate": "LD/조건부분석·조절연결·실제조직/세포 발현·독립기능 정보를 선택한다. 위치나 문헌친숙도만으로는 표적이 식별되지 않기 때문이다.",
+        "generate": "근접gene 하나 대신 원거리조절, 연결변이, 다른 세포상태와 공유경로라는 복수 설명을 만든다.",
+        "compare": "원문의 nearestgene 대 다층우선화, lead이동, 다른 LD집합과 기능 함의를 비교한다.",
+        "update": {
+          "distinctive_prediction_supported": "서로 다른 근거가 특정 연결을 지지하면 조건부 후보우선도를 올리되 미할당 후보를 남긴다.",
+          "valid_null_or_opposite": "정보원 불일치는 다수결로 없애지 않고 연결의 어느 단계가 미지인지 분해한다.",
+          "measurement_or_intervention_failure": "eQTL미평가·proxy부재·접근불가는 생물학 음성과 구분한다."
+        }
+      },
+      "limits": [
+        "공유annotation은 독립증거 수가 아니며 known-gene enrichment는 새표적 기능검증이 아니다."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P129-PMC3838666",
+          "observation_to_decision": "문헌·pathway·coding변이·조직eQTL·조절표지등을비교해240인근유전자중70개/44loci를우선후보로좁혔다. 다른방법이같은후보를가리키지않는경우를명시했다.",
+          "source_refs": [
+            {
+              "id": "PMC3838666",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3838666/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P129-PMC3288335",
+          "observation_to_decision": "고전allele·SNP·aminoacid위치모델을조건부분석하고복잡한전체allele모델과적은위치모델의fit을비교했다. 연관p값크기만으로원인을확정하지않았다.",
+          "source_refs": [
+            {
+              "id": "PMC3288335",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3288335/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC2671642",
+        "PMC2745122",
+        "PMC3018764",
+        "PMC3288335",
+        "PMC3340926",
+        "PMC3466113",
+        "PMC3605761",
+        "PMC3773011",
+        "PMC3838666",
+        "PMC4113484",
+        "PMC4530583",
+        "PMC5675000",
+        "PMC5798588",
+        "PMC5972004",
+        "PMC5988037",
+        "PMC6288131",
+        "PMC7641189"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "MECH-09",
+      "title_ko": "빈도를 만드는 배경 과정에서 새 설명을 얻는다",
+      "when_to_use": "반복사건·많은hit·희소미검출이 선택/원인으로 해석되는 경우.",
+      "principle": "기능적 선택 외에 생성률·관측기회·분해/제거·기술편향의 이질성이 같은 패턴을 만드는 대안을 만든다.",
+      "stage_use": {
+        "investigate": "질문에 맞는 중립배경, 길이/발현/coverage와 알려진 모형의 생성분포를 선택해 관측 초과를 비교한다.",
+        "generate": "기능적 선택 외에 생성률·관측기회·분해/제거·기술편향의 이질성이 같은 패턴을 만드는 대안을 만든다.",
+        "compare": "같은 평균의 다른 분포, 무driver simulation, 국소배경과 선택이 덜한 영역의 실제 비교 논리를 쓴다.",
+        "update": {
+          "distinctive_prediction_supported": "배경으로 설명 안 되는 초과가 남으면 후보를 우선하되 통계후보와 기능검증을 구분한다.",
+          "valid_null_or_opposite": "배경모형이 패턴을 설명하거나 작은표본에서 검정력이 낮으면 선택/부재 주장을 낮춘다.",
+          "measurement_or_intervention_failure": "검증실패·가공오류·호출불가·NA는 참음성으로 대치하지 않는다."
+        }
+      },
+      "limits": [
+        "더 많은hit나 더 적은hit 자체가 더 좋은 방법이라는 규칙은 아니다."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P129-PMC3919509",
+          "observation_to_decision": "기능상그럴듯함만으로gene를제외하지않고localmutationrate와expression/replicationtiming을조사했다. length보정만으로해결되지않는배경차이를구분했다.",
+          "source_refs": [
+            {
+              "id": "PMC3919509",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3919509/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P129-PMC3773011",
+          "observation_to_decision": "gene크기·sequence-specificrate·환자수·성별·callablecoverage를반영한null과관측수를비교했다. 같은두번발견도모두동일한통계근거가아니다.",
+          "source_refs": [
+            {
+              "id": "PMC3773011",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3773011/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC2597380",
+        "PMC2745122",
+        "PMC2826709",
+        "PMC3094729",
+        "PMC3414841",
+        "PMC3428864",
+        "PMC3773011",
+        "PMC3919509",
+        "PMC3927368",
+        "PMC4012297",
+        "PMC4048962",
+        "PMC4910866",
+        "PMC5034897",
+        "PMC5542814",
+        "PMC5720395",
+        "PMC5988037",
+        "PMC6774252",
+        "PMC7025898"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "MECH-10",
+      "title_ko": "아형·개인·단계의 혼합을 분해해 조건 가설을 만든다",
+      "when_to_use": "집합평균의관계가 약하거나 다른집합/모델에서 방향이 다른 경우.",
+      "principle": "공통효과 외에 서로 다른 아형, 단계, 계보 또는 반대과정의 혼합이 평균을 만들었다는 설명을 만든다.",
+      "stage_use": {
+        "investigate": "실제 조건분포·층내효과·효과차이검정·모형가정과 별도집합을 선택한다.",
+        "generate": "공통효과 외에 서로 다른 아형, 단계, 계보 또는 반대과정의 혼합이 평균을 만들었다는 설명을 만든다.",
+        "compare": "원문의 아형분리 대 전체모형, 개인효과 전후, 유전형/조직 안의 비교를 읽고 p값차이만으로 효과차이를 판정하지 않는다.",
+        "update": {
+          "distinctive_prediction_supported": "층내차이가 남으면 그 조건의가설을 유지하고 외부집합으로 옮길 조건을 명시한다.",
+          "valid_null_or_opposite": "조정후 차이가 사라지면 원기전보다 구성차이 설명을 높인다. 새분할이 정보증분을 못주면 보류한다.",
+          "measurement_or_intervention_failure": "표본과batch가 완전히겹치거나 작은층이면 교란/검정불능을 유지한다."
+        }
+      },
+      "limits": [
+        "연속스펙트럼도cluster를 만들 수 있고 batch보정의 매끈한 모양이 생물학 재현은 아니다."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P129-PMC10937372",
+          "observation_to_decision": "조상배경과상관하는차이를고정집단차이로두지않고BMI분포·증례대조선정에서생기는효과추정차이도조사했다.",
+          "source_refs": [
+            {
+              "id": "PMC10937372",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10937372/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P129-PMC5069352",
+          "observation_to_decision": "성별/BMI가연관돼5healthy남성만으로BMI분석을제한했고질병분석은성별검토를더했다. 충분한세포수와독립donor수는다른조건이다.",
+          "source_refs": [
+            {
+              "id": "PMC5069352",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5069352/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC10937372",
+        "PMC12353841",
+        "PMC2824149",
+        "PMC2872605",
+        "PMC2882165",
+        "PMC3077821",
+        "PMC3079517",
+        "PMC3272464",
+        "PMC3320027",
+        "PMC3349233",
+        "PMC3383997",
+        "PMC3428864",
+        "PMC3491085",
+        "PMC3605761",
+        "PMC3674247",
+        "PMC3773011",
+        "PMC3912313",
+        "PMC3927368",
+        "PMC4259491",
+        "PMC4413032",
+        "PMC4477963",
+        "PMC4598654",
+        "PMC4636487",
+        "PMC4682112",
+        "PMC4777652",
+        "PMC5069352",
+        "PMC5102256",
+        "PMC5663386",
+        "PMC5675000",
+        "PMC5720395",
+        "PMC5931508",
+        "PMC5988037",
+        "PMC6028240",
+        "PMC6189176",
+        "PMC6288131",
+        "PMC7069981",
+        "PMC7318784",
+        "PMC7484469",
+        "PMC7545162",
+        "PMC8115394",
+        "PMC8891019"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "MECH-11",
+      "title_ko": "도구 불일치와 입력 의존성을 새 정보로 사용한다",
+      "when_to_use": "동일명목대상을 측정/분류한 도구결과가 다르거나 통합분류가 입력분류를 재생산할 수 있는 경우.",
+      "principle": "생물학적이질성 외에 실제측정대상·표본조각·검출범위·가정·입력prior가 다르다는 대안들을 만든다.",
+      "stage_use": {
+        "investigate": "동일입력/조건 비교, 입력제외·대체, 독립측정과 불일치표본을 선택한다.",
+        "generate": "생물학적이질성 외에 실제측정대상·표본조각·검출범위·가정·입력prior가 다르다는 대안들을 만든다.",
+        "compare": "원문처럼 층별일치와 비합의·미분류를 보존하고 정답기준의 출처/독립성을 확인한다.",
+        "update": {
+          "distinctive_prediction_supported": "입력제외후 패턴이 남고 다른 관측이 지지하면 조건부재현으로 채택한다.",
+          "valid_null_or_opposite": "변경입력/기준이 결론을 결정하면 해당 가정에 의존하는 주장으로 낮춘다.",
+          "measurement_or_intervention_failure": "특정 형태를 못 나누는 도구의 미검출은 그 형태 기능의 부재가 아니다."
+        }
+      },
+      "limits": [
+        "합의는 진실의 보증이 아니며 같은자료의다른platform은 독립환자검증이 아니다. 필수 수치수정 없음. 원문의 4–6군 분석을 모든 분석이 동일4군을 확정했다고 좁히지 말 것."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P129-PMC3465532",
+          "observation_to_decision": "clustering3방법의concordance를보고PAM50을공통metric으로선택했다. integration에기존분류가입력돼서일치가생길수있어mRNA제외/다른분류조건으로다시비교했다.",
+          "source_refs": [
+            {
+              "id": "PMC3465532",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3465532/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P129-PMC3440846",
+          "observation_to_decision": "eQTL의 이산적 복제수 표현과 연속적 상관 분석이 포착하는 신호가 다름을 인식해 두 표현을 비교했다.",
+          "source_refs": [
+            {
+              "id": "PMC3440846",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3440846/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC10878965",
+        "PMC11031399",
+        "PMC11186765",
+        "PMC12353841",
+        "PMC2671642",
+        "PMC2745122",
+        "PMC3018764",
+        "PMC3079517",
+        "PMC3102791",
+        "PMC3206313",
+        "PMC3288335",
+        "PMC3320027",
+        "PMC3378044",
+        "PMC3414841",
+        "PMC3440846",
+        "PMC3465532",
+        "PMC3493690",
+        "PMC3531883",
+        "PMC3573218",
+        "PMC3801227",
+        "PMC3838666",
+        "PMC3919509",
+        "PMC4012297",
+        "PMC4279183",
+        "PMC4636487",
+        "PMC4777652",
+        "PMC4899094",
+        "PMC4931325",
+        "PMC5069352",
+        "PMC5102256",
+        "PMC5561136",
+        "PMC5570525",
+        "PMC5720478",
+        "PMC5722201",
+        "PMC5798588",
+        "PMC5800968",
+        "PMC5972004",
+        "PMC6189176",
+        "PMC6288131",
+        "PMC6390935",
+        "PMC6521726",
+        "PMC6601261",
+        "PMC6689255",
+        "PMC7025898",
+        "PMC7029019",
+        "PMC7318784",
+        "PMC7545162",
+        "PMC7641189",
+        "PMC8445024",
+        "PMC8891019",
+        "PMC8891020"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "MECH-12",
+      "title_ko": "연구 목표가 요구하는 기전을 갖춘 모형을 선택한다",
+      "when_to_use": "기존모형이 종·조직·발달·미세환경·병리·기능 층을 누락하는 경우.",
+      "principle": "가설실패 외에 필요한분자/세포/기능이 모형에 없거나 다른질문에 맞는 모형이라는 대안을 만든다.",
+      "stage_use": {
+        "investigate": "원조직충실성, 목표기능, 누락성분과 실제관측가능성을 비교해 정보원을 선택한다.",
+        "generate": "가설실패 외에 필요한분자/세포/기능이 모형에 없거나 다른질문에 맞는 모형이라는 대안을 만든다.",
+        "compare": "원문의 명시모형선택이유, 사람/종 비교, marker 대 실제기능과 환경복원 논리를 사용한다.",
+        "update": {
+          "distinctive_prediction_supported": "필요기능과 질환조건이 맞으면 해당질문 범위에서 모형근거를 강화한다.",
+          "valid_null_or_opposite": "marker/유전형은 같아도 기능이나환경이 다르면 해당모형의 적용을 좁힌다.",
+          "measurement_or_intervention_failure": "필수요소가 없거나 접근불가능하면 실험불능으로 남기고 독립가지의 연구를 계속한다."
+        }
+      },
+      "limits": [
+        "사람유래·높은상관·구조유사성은 환자효능/모든질환예측 검증이 아니다. 필수 사실수정 없음. 모형에필요요소가없음은 해당시험의 적용제한이지 모든연구불능은 아니다. 다른 독립정보 가지를 계속하는 runtime설계는 분석자 전이임을 표시."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P129-PMC5420447",
+          "observation_to_decision": "저자는모형을유전자발달교란회피·임상병인유사성·다양한면역과정·antiTNF불응이라는목표적합성때문에선택했다고명시했다. 선택된모형의성공을사람치료성공으로일반화하지않는다.",
+          "source_refs": [
+            {
+              "id": "PMC5420447",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5420447/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P129-PMC6348009",
+          "observation_to_decision": "환자 조직에서 단순 neuron 손상 자체의 결과라는 대안을 비교하려 TDP-43 병리가 다른 SOD1 ALS와 정상 대조를 함께 보았다. 종·분자 조건이 다른 mouse 음성은 인간 기전 반증으로 읽지 않았다.",
+          "source_refs": [
+            {
+              "id": "PMC6348009",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6348009/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC2597380",
+        "PMC2728356",
+        "PMC2824149",
+        "PMC2846535",
+        "PMC2882165",
+        "PMC2935926",
+        "PMC3272464",
+        "PMC3369107",
+        "PMC3378044",
+        "PMC3383997",
+        "PMC3396711",
+        "PMC3465532",
+        "PMC3674247",
+        "PMC3801227",
+        "PMC3862182",
+        "PMC3865363",
+        "PMC3912313",
+        "PMC4401634",
+        "PMC4458138",
+        "PMC4477963",
+        "PMC4566857",
+        "PMC4849281",
+        "PMC4892846",
+        "PMC4992165",
+        "PMC5420447",
+        "PMC5642042",
+        "PMC5722201",
+        "PMC5754356",
+        "PMC5800968",
+        "PMC5857237",
+        "PMC6195768",
+        "PMC6348009",
+        "PMC6547655",
+        "PMC6752964",
+        "PMC6899510",
+        "PMC7156916",
+        "PMC7195385",
+        "PMC7422798",
+        "PMC7583560",
+        "PMC8249424",
+        "PMC8390749",
+        "PMC9448678"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "MECH-13",
+      "title_ko": "기능 관여를 확인한 음성과 시험 실패를 다르게 갱신한다",
+      "when_to_use": "개입/시험 후 목표endpoint 변화가 없거나 실행할 수 없는 경우.",
+      "principle": "가설부재 외에 표적미도달, 기능미차단, 잔여능력, 도구간섭, 시간부적합이라는 설명을 만든다.",
+      "stage_use": {
+        "investigate": "실제관여·중간기능·측정능력·대조보존 정보를 우선한다. 이름상 개입성공은 충분하지 않기 때문이다.",
+        "generate": "가설부재 외에 표적미도달, 기능미차단, 잔여능력, 도구간섭, 시간부적합이라는 설명을 만든다.",
+        "compare": "원문의 목표기능감소 확인, 실패대조/시약간섭/대체readout과 동등관여의 비교를 따른다.",
+        "update": {
+          "distinctive_prediction_supported": "관여와 측정이 유효하면 목표가설의 조건부 지지 또는 반증을 갱신한다.",
+          "valid_null_or_opposite": "충분한관여하 유효음성은 그 기능/조건의필요성을 낮추되 다른조건에 전면확장하지 않는다.",
+          "measurement_or_intervention_failure": "관여미달·기술실패·독성대조·검출간섭은 가설실패와분리하고 필요한복구조건/다른가지진행을 남긴다."
+        }
+      },
+      "limits": [
+        "접근401/파일미취득 같은 운영문제는 생물학 H0나 전체연구중단이 아니다. limits의 HTTP401/파일취득실패 분기는 문헌에서 직접추출된 생물학사실이 아니라 root의 agent 운영 전이이다. 이를 명시적으로 구분하면 채택 가능. 충분한관여 외에 readout/정밀도/시간조건도 유효음성의 조건으로 유지. HTTP401·자료 취득 실패의 처리는 이 생물학 원리를 에이전트 운영에 옮긴 개발자의 전이 판단이다."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P129-PMC4597191",
+          "observation_to_decision": "부분적 단백질 감소에도 생성물과 기능이 남았다는 결과를 불필요한 경로라고 해석하지 않고 잔여 활성 가능성으로 남겼다. 다른 isoform의 보상 가능성과 광범위 대사 변화 때문에 추가 비교를 선택했다고 명시한다.",
+          "source_refs": [
+            {
+              "id": "PMC4597191",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4597191/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P129-PMC5053883",
+          "observation_to_decision": "초기와후기개입에서표적억제정도를함께확인해후기음성을전달실패와구분했다. 보충은혈역학부하의유사성도기재한다.",
+          "source_refs": [
+            {
+              "id": "PMC5053883",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5053883/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC10412454",
+        "PMC10584682",
+        "PMC12353841",
+        "PMC2728356",
+        "PMC2743561",
+        "PMC2745122",
+        "PMC2759408",
+        "PMC2809046",
+        "PMC2841477",
+        "PMC2872605",
+        "PMC2935926",
+        "PMC3077821",
+        "PMC3206313",
+        "PMC3320027",
+        "PMC3349233",
+        "PMC3387339",
+        "PMC3396711",
+        "PMC3414841",
+        "PMC3491085",
+        "PMC3548046",
+        "PMC3573218",
+        "PMC3605761",
+        "PMC3773011",
+        "PMC3801227",
+        "PMC3865363",
+        "PMC4214889",
+        "PMC4458138",
+        "PMC4597191",
+        "PMC4682112",
+        "PMC4849281",
+        "PMC4910866",
+        "PMC5053883",
+        "PMC5069352",
+        "PMC5078608",
+        "PMC5102256",
+        "PMC5263259",
+        "PMC5675000",
+        "PMC5720393",
+        "PMC5720395",
+        "PMC5847168",
+        "PMC5931508",
+        "PMC6026158",
+        "PMC6197057",
+        "PMC6214619",
+        "PMC6348009",
+        "PMC6499401",
+        "PMC6521726",
+        "PMC6601261",
+        "PMC6689255",
+        "PMC7025898",
+        "PMC7195385",
+        "PMC8799464",
+        "PMC8891019",
+        "PMC9402428",
+        "PMC9448678"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "MECH-14",
+      "title_ko": "후보를 늘리기보다 구별정보의 증분을 선택한다",
+      "when_to_use": "후보/peak/도구가 너무 많거나 자원이 제한돼 다음 정보를 선택해야 하는 경우.",
+      "principle": "동일패턴을 반복할 자료 외에 대안이 갈리는 음성비교, 다른 LD구조, 독립측정, 상보readout이 더 유용할 수 있다는 가설을 만든다.",
+      "stage_use": {
+        "investigate": "목표가 발견인지 정밀화인지 예측인지부터 고정하고 그 목표의 구별정보/비용을 비교한다.",
+        "generate": "동일패턴을 반복할 자료 외에 대안이 갈리는 음성비교, 다른 LD구조, 독립측정, 상보readout이 더 유용할 수 있다는 가설을 만든다.",
+        "compare": "원문의 기능을잃은 comparator, simulation예측, 같은집합의 분해/결합성능과 실제정보증분을 읽는다.",
+        "update": {
+          "distinctive_prediction_supported": "새정보가 대안을 분리하거나 재현되는증분을 주면 그 목적으로 채택한다.",
+          "valid_null_or_opposite": "추가기능/새층이증분을 안주면 불필요한복잡성을 보류하고 남은공백을다르게정의한다.",
+          "measurement_or_intervention_failure": "사용불가 자원은 대안을 기록하되 성공자료로 대치하지 않는다."
+        }
+      },
+      "limits": [
+        "쉬운대표사례·선택한benchmark로 고른방법은 외부일반화검증이 아니다. 후보 수 확대가 항상 무익하다는 규칙으로 쓰지 말 것. 구별정보/비용 선택은 이 원문에서 정량최적화된 information-gain 또는 비용우위 수치가 아니라 조건부 분석자 관점이다."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P129-PMC4949205",
+          "observation_to_decision": "초기MSpeak가너무많아직접전수동정이어려웠다. 저자는활성생성을잃은조건의음성대조를택해공유차이를줄이고독립적인분리/동정정보를추가했다고명시한다.",
+          "source_refs": [
+            {
+              "id": "PMC4949205",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4949205/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P129-PMC3838666",
+          "observation_to_decision": "GWASlead와다른변이가보이는지확인하려fine-mapping을하고인구집단별LD차이를정보로활용했다. 작은다양집단표본은큰유럽표본과동일한정보를반복하는것이아니다.",
+          "source_refs": [
+            {
+              "id": "PMC3838666",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3838666/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC10878965",
+        "PMC10937372",
+        "PMC11031399",
+        "PMC2826709",
+        "PMC3288335",
+        "PMC3340926",
+        "PMC3522098",
+        "PMC3838666",
+        "PMC3919509",
+        "PMC4048962",
+        "PMC4255242",
+        "PMC4401634",
+        "PMC4949205",
+        "PMC5034897",
+        "PMC5420447",
+        "PMC5720478",
+        "PMC5798588",
+        "PMC6026158",
+        "PMC6028240",
+        "PMC6774252"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "MECH-15",
+      "title_ko": "부분 구제와 남은 출력을 병렬 기전으로 연결한다",
+      "when_to_use": "한경로의개입이 일부endpoint만 바꾸거나 다른현상이 남는 경우.",
+      "principle": "단일매개 외에 서로 다른하위기능·병렬경로·불완전관여가 출력을 나눠만든다는 설명을 만든다.",
+      "stage_use": {
+        "investigate": "변한것/남은것/기저기능/다른입력반응을 함께 선택해 어느부분이설명됐는지 판정한다.",
+        "generate": "단일매개 외에 서로 다른하위기능·병렬경로·불완전관여가 출력을 나눠만든다는 설명을 만든다.",
+        "compare": "원문의 signal-selective기능보존, 부분복원, 다른세포군과 다른endpoint비교를 따른다.",
+        "update": {
+          "distinctive_prediction_supported": "특정출력만설명되면 해당연결의기여를올리고 잔여표현형을새질문으로보존한다.",
+          "valid_null_or_opposite": "전체상태가남으면 일부표지개선을 상태역전/치유로읽지않는다.",
+          "measurement_or_intervention_failure": "미측정출력을0이나구제로대치하지 않고 현재검사불능을따로남긴다."
+        }
+      },
+      "limits": [
+        "둘의공동변화/비가산성은 그사이직접매개 또는 유일경로의증거가 아니다. 필수 수정 없음. 부분구제의 긍정적 기여와 미해결 가지를 함께 사용하는 현재 조건 유지."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P129-PMC6442744",
+          "observation_to_decision": "CSF1연결은monocytosis를설명했지만일부구획비교에서neutrophilia는남았다. 저자도neutrophilia가같은CSF1연결에직접의존하지않는다고명시했다.",
+          "source_refs": [
+            {
+              "id": "PMC6442744",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6442744/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P129-PMC5850938",
+          "observation_to_decision": "세포 노화 자체와 염증성 SASP,IFN 반응과 NFκB 관련 염증 반응,다른 DNA/RNA 감지 경로를 구분했다.",
+          "source_refs": [
+            {
+              "id": "PMC5850938",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5850938/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC10412454",
+        "PMC2736875",
+        "PMC2743561",
+        "PMC2759408",
+        "PMC2809046",
+        "PMC2872605",
+        "PMC3077821",
+        "PMC3094729",
+        "PMC3134999",
+        "PMC3369107",
+        "PMC3387339",
+        "PMC3431439",
+        "PMC3471377",
+        "PMC3493692",
+        "PMC3522098",
+        "PMC3657998",
+        "PMC3862182",
+        "PMC4259491",
+        "PMC4401634",
+        "PMC4597191",
+        "PMC4849281",
+        "PMC4910866",
+        "PMC4931325",
+        "PMC4965268",
+        "PMC5720393",
+        "PMC5826565",
+        "PMC5847168",
+        "PMC5850938",
+        "PMC6195768",
+        "PMC6348009",
+        "PMC6442744",
+        "PMC6509403",
+        "PMC6547655",
+        "PMC6642642",
+        "PMC7069981",
+        "PMC7123794",
+        "PMC7599077",
+        "PMC8249424",
+        "PMC8891020"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "MECH-16",
+      "title_ko": "관측된 보상·피드백으로 설명을 갱신한다",
+      "when_to_use": "원인후보를낮춰도효과가없거나 약물의전신반응이 목표효과를되돌리는 경우.",
+      "principle": "원래기전외에 보상경로·대체기질·수용체상태·역방향피드백·선택대상변화가결과를만든다는 대안을 만든다.",
+      "stage_use": {
+        "investigate": "시간별상하류, 목표조직/전신, 대체경로의구체흔적과 독립기능정보를 선택한다.",
+        "generate": "원래기전외에 보상경로·대체기질·수용체상태·역방향피드백·선택대상변화가결과를만든다는 대안을 만든다.",
+        "compare": "원문의 보상복귀·기저대도전·경로이탈·반대방향관측을 나눠 읽는다.",
+        "update": {
+          "distinctive_prediction_supported": "보상/역방향근거가있으면 단일화살표를 조건부회로로갱신하고 어느가지가직접확인됐는지 표시한다.",
+          "valid_null_or_opposite": "보상근거가없으면 실패를상상한보상으로덮지않고 미해결로남긴다.",
+          "measurement_or_intervention_failure": "시간순서/측정기능부족은 feedback입증이아니다."
+        }
+      },
+      "limits": [
+        "실제로관측한후속결과만이력으로쓰며 새치료병용/최적화절차를 만들지 않는다. 제목의 실패이유를만든다를 관측된보상/feedback으로설명을갱신한다로 바꾸면 사후이유발명을 피하는 뜻이 명확하다. 현재 본문에 이미 있는 보상근거없으면미해결이라는 조건은 반드시 유지."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P129-PMC6197057",
+          "observation_to_decision": "PI3K억제에따른고혈당은임상에서주로관리할부작용으로취급되었지만,저자는보상성고인슐린혈증이종양의표적경로를다시활성화해약효를제한할수있다고물었다.",
+          "source_refs": [
+            {
+              "id": "PMC6197057",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6197057/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P129-PMC6390935",
+          "observation_to_decision": "암/비종양·고/저SCD의존성·억제전후·FADS2감소와증가·산물보완을비교하고다른FADS2기질경로의관여를별도로검사했다.",
+          "source_refs": [
+            {
+              "id": "PMC6390935",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6390935/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC2671642",
+        "PMC2743561",
+        "PMC3094729",
+        "PMC3272464",
+        "PMC3383997",
+        "PMC3862182",
+        "PMC4090717",
+        "PMC4121125",
+        "PMC4259491",
+        "PMC4598654",
+        "PMC5053891",
+        "PMC5542814",
+        "PMC5720393",
+        "PMC5800968",
+        "PMC6197057",
+        "PMC6390935",
+        "PMC7484469",
+        "PMC8115394",
+        "PMC8891019"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "MECH-17",
+      "title_ko": "같은 세포의 내재성과 공간 환경을 비교한다",
+      "when_to_use": "동일계통/유전자세포가조직위치·이웃·환경에따라다른 상태/기능을 보이는 경우.",
+      "principle": "고정내재성 외에국소신호/접근장벽/세포간배치가상태를유도하거나억제한다는 설명을 만든다.",
+      "stage_use": {
+        "investigate": "공간관측과같은환경내비교, 환경제거/복원자료, 생산자/수용자능력과 위치별기능을 선택한다.",
+        "generate": "고정내재성 외에국소신호/접근장벽/세포간배치가상태를유도하거나억제한다는 설명을 만든다.",
+        "compare": "원문에서공위치만이아닌환경변경후상태/기능및비반응이웃구역을비교한논리를쓴다.",
+        "update": {
+          "distinctive_prediction_supported": "공간/환경정보가기능예측과정합하면그조건의유도성설명을높인다.",
+          "valid_null_or_opposite": "환경을바꿔도차이가남으면내재성대안을남기고단순공간인과를낮춘다.",
+          "measurement_or_intervention_failure": "해리로환경이사라지거나세포기원이불명확하면식별제한을기록한다."
+        }
+      },
+      "limits": [
+        "계산ligand-receptor상관은실제접촉/직접인과나세포전환추적이 아니다. 필수 수정 없음. 같은세포는 동일개체세포를 시간추적했다는 뜻이 아니라 같은계통/배경의 비교라는 의미로 쓸 것. ligand-receptor 계산만으로 직접접촉/인과를 입증했다는 표현 금지."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P129-PMC7841716",
+          "observation_to_decision": "계산상중간상태가ambient RNA오염이라는대안을평가하고,공간이미징으로실제혈관거리와여러표지자의관계를직접검사했다. 배양후정체성소실과endothelial동반조건을비교했다.",
+          "source_refs": [
+            {
+              "id": "PMC7841716",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7841716/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P129-PMC3769444",
+          "observation_to_decision": "같은병변환경에서유전자형별분열을비교해미세환경차이와세포내재차이를구분하려했다. Msr1결핍단핵구의골수/혈중비율도이미조금낮아절대세포수만으로분열효과를판정하지않았다.",
+          "source_refs": [
+            {
+              "id": "PMC3769444",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3769444/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC3078329",
+        "PMC3387339",
+        "PMC3514498",
+        "PMC3769444",
+        "PMC5847168",
+        "PMC6028240",
+        "PMC6509403",
+        "PMC7318784",
+        "PMC7841716",
+        "PMC9402428"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "MECH-18",
+      "title_ko": "닮은 proxy에서 실제 기능 사건으로 질문을 옮긴다",
+      "when_to_use": "표지·광학신호·형태·구조유사성이여러사건을같이반영할수있는 경우.",
+      "principle": "기대사건외에다른상태·기술artifact·기능전단계·분리된구조변화라는 대안을 만든다.",
+      "stage_use": {
+        "investigate": "각대안에선택적인형태·가역성·실제기능·시간·기원을다른채널로선택한다.",
+        "generate": "기대사건외에다른상태·기술artifact·기능전단계·분리된구조변화라는 대안을 만든다.",
+        "compare": "저자가같은신호를직교관측으로나누고신호와목표기능을따로확인한논리를따른다.",
+        "update": {
+          "distinctive_prediction_supported": "독립기능과정체성이맞으면해당사건주장을강화하되측정단위/검출범위를보존한다.",
+          "valid_null_or_opposite": "표지만맞고기능이없으면부분상태로갱신하고목표기능사이의공백을남긴다.",
+          "measurement_or_intervention_failure": "간섭/광학해상도/원조직손실로구별못하면관측불능으로둔다."
+        }
+      },
+      "limits": [
+        "대리반응·수천영상·상관높음을인체최종결과나독립표본수로치환하지않는다. 원리의 실제사건으로질문이동은 타당하나 이예시의 새세포분열은 여러표지/배수성/기원 근거를 합친 추론이다. 모든cell의 cytokinesis를 실시간 직접관측한 것으로 쓰지 말 것. projected연간율을1년실측으로 바꾸지 않는다."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P129-PMC3548046",
+          "observation_to_decision": "안정동위원소를활용한관측은기존labeltoxicity/autofluorescence/stromalturnover문제를다루려는선택이었다. cardiomyocyte정체는sarcomere내핵위치로구분하고smallintestine을labeldelivery양성대조로썼다.",
+          "source_refs": [
+            {
+              "id": "PMC3548046",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3548046/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P129-PMC5561136",
+          "observation_to_decision": "탁도는 액체 분리와 다른 응집을 모두 반영할 수 있어 현미경 형태/융합·가역성·구조 readout을 결합했다. LLPS, soluble oligomer, amyloid를 같은 endpoint로 간주하지 않았다.",
+          "source_refs": [
+            {
+              "id": "PMC5561136",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5561136/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC2728356",
+        "PMC2759408",
+        "PMC2846535",
+        "PMC3078329",
+        "PMC3369107",
+        "PMC3431439",
+        "PMC3514498",
+        "PMC3531883",
+        "PMC3548046",
+        "PMC3801227",
+        "PMC4127035",
+        "PMC4566857",
+        "PMC4899094",
+        "PMC5078608",
+        "PMC5512625",
+        "PMC5561136",
+        "PMC5847168",
+        "PMC5850938",
+        "PMC5931508",
+        "PMC6214619",
+        "PMC6324568",
+        "PMC6509403",
+        "PMC6547655",
+        "PMC6601261",
+        "PMC6631346",
+        "PMC7123794",
+        "PMC7318784",
+        "PMC7422798",
+        "PMC7841716",
+        "PMC8390749"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    },
+    {
+      "id": "MECH-19",
+      "title_ko": "같은 기전의 이익과 해를 목표 조건별로 다시 판단한다",
+      "when_to_use": "한변화가서로다른조직·병기·질병목표에서이익과해를함께보이거나기전성공이실행가능성과갈리는 경우.",
+      "principle": "보편적활성/억제방향대신조건별보호기능·병리기능·잔여독성·노출병목이라는설명을 만든다.",
+      "stage_use": {
+        "investigate": "연구목표의실제endpoint와관련안전기능·도달가능성·종/세포/병기차이를함께선택한다.",
+        "generate": "보편적활성/억제방향대신조건별보호기능·병리기능·잔여독성·노출병목이라는설명을 만든다.",
+        "compare": "각 원문에서 실제 비교한 급성·만성 조건과 질환·조직·시점별 목표를 구분한다. 서로 다른 사례를 하나의 연구 연대기로 재구성하지 않는다.",
+        "update": {
+          "distinctive_prediction_supported": "목표조건의이익과관련손해가평가됐으면그범위의가능성만올린다.",
+          "valid_null_or_opposite": "해로운다른출력또는보호능력소실이있으면단일표지성공을전체성공으로읽지않고개입방향을재검토한다.",
+          "measurement_or_intervention_failure": "독성/생존/기술부족으로시험못한결과는효과부재와구별한다."
+        }
+      },
+      "limits": [
+        "새생물학최적화·치료권고를생성하지않으며source에없는안전성보장을추가하지않는다. 비교문장의 급성보호대후기치유를 모든사례의연대기로 강제하지 말고 각원문이 실제 비교한 급성/만성·질환목표로 표현. 현재 적용조건의 질환/조직/시점 구분은 유지 가능."
+      ],
+      "worked_examples": [
+        {
+          "case_id": "P129-PMC7484469",
+          "observation_to_decision": "평상시부분결손쥐의표현형부재와자가면역도전후취약성,종양방어강화라는서로다른상황의결과를분리했다.",
+          "source_refs": [
+            {
+              "id": "PMC7484469",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7484469/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        },
+        {
+          "case_id": "P129-PMC3103772",
+          "observation_to_decision": "myeloid VEGF결손은혈관밀도감소·낮은누출과저산소,더큰종양을동시에보였다. 항암제반응은더좋았지만무처리성장억제와같은결과가아니다.",
+          "source_refs": [
+            {
+              "id": "PMC3103772",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3103772/"
+            }
+          ],
+          "derivation": "analyst_abstraction_from_published_arguments"
+        }
+      ],
+      "construction_case_ids": [
+        "PMC10584682",
+        "PMC2824149",
+        "PMC3077821",
+        "PMC3103772",
+        "PMC3493690",
+        "PMC3562457",
+        "PMC3912313",
+        "PMC4090717",
+        "PMC4682112",
+        "PMC4892846",
+        "PMC4992165",
+        "PMC5053891",
+        "PMC5512625",
+        "PMC5663386",
+        "PMC5754356",
+        "PMC5785464",
+        "PMC5826565",
+        "PMC5850938",
+        "PMC5857237",
+        "PMC6047345",
+        "PMC6197057",
+        "PMC6324568",
+        "PMC6445148",
+        "PMC6521726",
+        "PMC6631346",
+        "PMC6752964",
+        "PMC7123794",
+        "PMC7484469",
+        "PMC7583560",
+        "PMC7599077",
+        "PMC8249424",
+        "PMC8799464"
+      ],
+      "derivation": "LLM analyst abstraction of source argument traces, with independently checked core examples and explicit amendments",
+      "evidence_status": "conditioned_method_perspective"
+    }
+  ]
+}

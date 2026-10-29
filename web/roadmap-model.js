@@ -136,7 +136,24 @@ function buildResearchRoadmap(snapshot,goalRows=[],history={status:'unread'}){
 }
 
 // Match by the exact result artifact, never by a reused NC number or array order.
+function goalLifecycleStoppedJob(snapshot){
+  if(!snapshot?.decision||!snapshot.decision_id)return null;
+  const latest=[...(snapshot.jobs??[])].reverse().find(j=>j.kind==='planner'&&j.based_rev===snapshot.rev);
+  const stopped=['failed','quota_exhausted','quota_or_rate_limit','refused','identity_unverified','outcome_unknown','paused','interrupted','route_unavailable','input_missing'];
+  if(!latest||!stopped.includes(latest.status))return null;
+  return (snapshot.artifacts??[]).some(a=>['goal_coverage_pending','goal_coverage_review','goal_coverage_binding'].includes(a.kind)&&a.meta?.based_rev===snapshot.rev&&a.meta?.decision_id===snapshot.decision_id&&a.meta?.job_id===latest.id)?latest:null;
+}
+function goalLifecycleActivity(snapshot){
+  const artifacts=(snapshot?.artifacts??[]).filter(a=>['goal_coverage_pending','goal_coverage_review','goal_coverage_binding'].includes(a.kind)&&a.meta?.based_rev===snapshot.rev&&a.meta?.decision_id===snapshot.decision_id);
+  const last=artifacts.at(-1);if(!last)return null;
+  const job=(snapshot.jobs??[]).find(j=>j.id===last.meta?.job_id);if(!job)return null;
+  const active=['queued','running'].includes(job.status),kind=last.meta?.goal_status;
+  if(active)return {plannerJobId:job.id,question:kind==='continue_internal_work'?'원래 요청에서 남은 정보와 선택 근거를 검토하고 있습니다.':'게시한 가설·후보·다음 확인을 원래 요청과 대조하고 있습니다.',status:kind==='continue_internal_work'?'부분 판단 보존 · 남은 연구 연결 진행 중':'부분 판단 게시 · 원목표 연결 검토 중'};
+  if(job.status==='succeeded'&&kind==='awaiting_researcher_input')return {plannerJobId:job.id,question:'현재 계획을 진행하기 위해 기록된 필수 선택·입력 확인이 남았습니다.',status:'조건부 판단 보존 · 연구자 선택 확인 필요'};
+  return null;
+}
 function currentResearchActivity(snapshot){
+  const goalActivity=goalLifecycleActivity(snapshot);if(goalActivity)return goalActivity;
   const jobs=snapshot?.jobs??[], active=j=>['queued','running'].includes(j.status);
   const recent=rows=>[...rows].sort((a,b)=>String(b.updated??b.created??'').localeCompare(String(a.updated??a.created??'')));
   const direct=recent(jobs.filter(j=>j.kind==='research_check'&&active(j)&&j.request?.check?.question))[0];

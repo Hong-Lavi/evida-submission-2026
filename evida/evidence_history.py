@@ -110,6 +110,7 @@ def view(store, wid, hypothesis_id, offset=0, limit=4):
                        hypothesis=hypothesis, claim_comparison=comparison,
                        evidence_comparison=compare_edges(hypothesis, current),
                        context_artifact_id=artifact['meta'].get('finalization_records', {}).get('judgment_context'),
+                       hypothesis_review_artifact_id=artifact['meta'].get('finalization_records', {}).get('hypothesis_review'),
                        comparison_is_scientific_equivalence=False)
         except (KeyError, ValueError):
             row.update(content_status='unavailable_or_integrity_failure', hypothesis=None,

@@ -1,4 +1,4 @@
-"""Resolve publicly mentioned compound names; preserve every source and unresolved name."""
+"""Resolve source-mentioned compound names; preserve every source and unresolved name."""
 import hashlib,json,re,urllib.parse
 from .science import fetch
 
@@ -6,7 +6,7 @@ from .science import fetch
 def collect(arguments,sources):
     names=arguments['names']
     if not names or len(names)>20 or len(names)!=len(set(names)) or not arguments['reason'].strip():
-        raise ValueError('공개 원문에서 확인한 이름과 회수 이유가 필요합니다.')
+        raise ValueError('보존 원문에서 확인한 이름과 구조 조회 이유가 필요합니다.')
     evidence={};bindings={}
     for name in names:
         if not isinstance(name,str) or not 1<=len(name.strip())<=300:raise ValueError('공개 화합물 이름을 확인해 주세요.')
@@ -26,6 +26,7 @@ def collect(arguments,sources):
                         'locator':mention['locator'],'row_id':mention.get('row_id'),
                         'candidate_record_artifact_id':source['artifact_id'],'source_candidate_id':row['candidate_id'],
                         'source_name':row['name'],'lookup_anchor':identity.get('lookup_anchor'),
+                        **{k:mention[k] for k in ('quote','namespace','source_binding') if k in mention},
                         'meaning':'source_membership_and_name_mapping_assertions_not_efficacy_confirmation'})
                     bound.append({'lookup_name':identity['lookup_name'],'modality':row['modality'],
                         'source_candidate_id':row['candidate_id'],'identity':identity})
@@ -83,11 +84,13 @@ def collect(arguments,sources):
             rows[cid]={'candidate_id':cid,'name':name,'smiles':None,'structure_status':'unavailable','lookup_names':[name],
                 'name_mentions':evidence[name],'source_candidate_ids':source_ids,'modalities':modalities,
                 'identity_status':'lookup_not_resolved','activities':[],'review_status':'unreviewed','target_activity_verified':False}
+    source_origins = sorted({m.get('source_binding', {}).get('origin', 'public_source') for mentions in evidence.values() for m in mentions})
     return {'status':'partial' if any(r['structure_status']!='available' for r in rows.values()) else 'succeeded',
-        'semantic_type':'public_literature_names_and_pubchem_identity_not_activity_validation',
+        'semantic_type':('source_names_and_pubchem_identity_not_activity_validation' if 'researcher_upload' in source_origins else 'public_literature_names_and_pubchem_identity_not_activity_validation'),
+        'source_origins':source_origins,
         'target_context':arguments['target_context'],'selection_reason':arguments['reason'],'rows':list(rows.values()),
         'lookups':lookups,'summary':{'requested_names':len(names),'candidates':len(rows),'unresolved':sum(r['structure_status']!='available' for r in rows.values()),
-            'rule':'All requested public-source names and returned CIDs retained; not an exhaustive target screen or automatic substitute for failed ChEMBL assays.'},
-        'limits':['공개 문헌의 이름 등장과 PubChem 이름→구조 대응을 확인한 목록입니다. 문맥상 표적·작용 방향·종·실험 조건은 별도 검토해야 합니다.',
+            'rule':'All requested source names and returned CIDs retained; not an exhaustive target screen or automatic substitute for failed ChEMBL assays.'},
+        'limits':['보존 원문의 이름 등장과 PubChem 이름→구조 대응을 연결한 목록입니다. 업로드 문서의 출처 기입은 검증되지 않았으며 공개 회수를 뜻하지 않습니다. 문맥상 표적·작용 방향·종·실험 조건은 별도 검토해야 합니다.',
             'ChEMBL 활성 서비스의 실패를 이 조회 성공으로 대체하지 않습니다. 실제 표적 결합·안정화·선택성 측정의 조회 공백은 남습니다.',
             'SMILES는 입체/동위원소 정보를 포함한 반환값 그대로이며 염/모체·입체화학·서로 다른 시료의 동일성을 자동 확정하지 않습니다.']}

@@ -90,13 +90,15 @@ class Gateway:
         return {"enabled": self.enabled, "credential_configured": configured,
                 "maximum_requests": self.maximum_requests, "requests_made": self.requests_made,
                 "requests_remaining": remaining,
-                "available": self.enabled and configured,
+                "resource_exhausted": remaining == 0,
+                "resource_scope": "this_application_server_lifetime",
+                "available": self.enabled and configured and remaining != 0,
                 "requested_model": self.model, "requested_effort": self.effort,
                 "approved_models": self.approved_models(),
                 "transport_mode": "test_fixture" if self.transport else self.transport_mode,
                 "live_verified": self.last_live_success is not None,
                 "last_live_success": self.last_live_success,
-                "message": ("대회 모델 연결 확인됨" if self.last_live_success else "대회 모델 연결 준비") if self.enabled and configured else
+                "message": "이 저장소의 모델 호출 예산을 모두 사용했습니다. 기존 결과는 보존됩니다." if remaining == 0 else ("대회 모델 연결 확인됨" if self.last_live_success else "대회 모델 연결 준비") if self.enabled and configured else
                            "대회 모델 연결 전 · 자료 검토와 계산 도구는 사용할 수 있습니다."}
 
     def approved_models(self):
@@ -134,6 +136,12 @@ class Gateway:
             raise GatewayError("invalid_input", "대회 키의 형식을 확인해야 합니다. 키 내용은 출력하지 않았습니다.")
         body = {**payload, "model": chosen, "reasoning": {"effort": self.effort},
                 "store": False, "include": ["reasoning.encrypted_content"], "max_output_tokens": self.max_output_tokens}
+        # Compile only at the competition wire boundary; internal/CLI schemas stay expanded.
+        from .wire_schema import strict_wire_payload
+        body = strict_wire_payload(body)
+        # Only the forced function can answer this step; keep the logical/CLI contract intact.
+        if body.get("tool_choice") == {"type": "function", "name": "frame_work"}:
+            body.pop("text", None)
         if self.policy.get("stream_responses"):
             body["stream"] = True
         encoded = dump(body).encode()
@@ -225,7 +233,19 @@ class Gateway:
             receipt["diagnostic_headers"] = {h: exc.headers.get(h) for h in
                 ("x-request-id", "apim-request-id", "x-ms-request-id", "retry-after")
                 if exc.headers and exc.headers.get(h) is not None}
-            # Do not persist provider error text, request headers or credentials.
+            # Retain bounded machine-readable diagnostics, never provider text or headers.
+            try:
+                raw_error = exc.read(16385)
+                if len(raw_error) <= 16384 and not (key and key.encode() in raw_error):
+                    error = json.loads(raw_error).get("error", {})
+                    if isinstance(error, dict):
+                        safe_error = {name: value for name in ("code", "type", "param")
+                            if isinstance(value := error.get(name), str)
+                            and re.fullmatch(r"[A-Za-z0-9_./\[\]#:-]{1,160}", value)}
+                        if safe_error:
+                            receipt["provider_error"] = safe_error
+            except (OSError, ValueError, AttributeError, http.client.HTTPException):
+                pass
             if exc.code == 403:
                 # The competition gateway answers 403 once the issued token allowance is spent.
                 receipt["status"] = "quota_exhausted"

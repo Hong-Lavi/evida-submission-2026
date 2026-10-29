@@ -175,7 +175,7 @@ class RouteGateway:
 
 
 def workspace_model(store, wid, gateway):
-    """The model this research last chose explicitly, if any and still offered.
+    """The model this research last chose explicitly, or a visible unavailable-route error.
 
     Follow-up runs, check reviews and explanations do not carry a model of their own; they stay
     on the route the visitor picked for this research instead of silently returning to the default."""
@@ -188,6 +188,11 @@ def workspace_model(store, wid, gateway):
             model = json.loads(row["request"]).get("model")
         except (ValueError, AttributeError):
             continue
-        if isinstance(model, str) and model in approved:
+        if isinstance(model, str) and model:
+            if model not in approved:
+                raise GatewayError("route_unavailable",
+                    "이 연구에서 마지막으로 선택한 모델 경로(" + model +
+                    ")는 현재 제공되지 않습니다. 이전 결과는 그대로 보존됩니다. "
+                    "모델 이용 안내에서 현재 제공되는 경로를 직접 선택한 뒤 새 검토를 실행해 주세요.")
             return model
     return None

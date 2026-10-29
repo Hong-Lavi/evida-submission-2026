@@ -143,18 +143,19 @@ function mechanismFigures(row, limit) {
 }
 
 // A clause is shown with the sentence it was anchored to, so the reader checks the paper, not us.
-function mechanismClauses(basis) {
+function mechanismClauses(basis,check) {
   const clauses = (basis && basis.clauses) || [];
   if (!clauses.length) return '';
   const where = c => [c.context && c.context.disease, c.context && c.context.species,
                       c.context && c.context.tissue].filter(Boolean).join(' · ');
-  return `<ol class="mechanism-clauses">${clauses.map(c => `<li>
+  return `<ol class="mechanism-clauses">${clauses.map((c,index) => `<li>
     <p class="clause-text">${esc(c.text || '')}</p>
     ${c.anchor && c.anchor.quote
       ? `<blockquote class="clause-quote">${esc(c.anchor.quote)}</blockquote>` : ''}
     ${quoteSupport(c)}
     <p class="small muted">${esc(where(c) || '조건 미기재')}${
       c.disease_match ? ` · ${esc(c.disease_match)}` : ''}</p>
+    ${typeof sourceAssertionAnchorView==='function'?sourceAssertionAnchorView(c.anchor,check?.clauses?.find(item=>item.clause_index===index)):''}
   </li>`).join('')}</ol>`;
 }
 
@@ -189,7 +190,7 @@ function mechanismGaps(basis) {
 // so the page stays readable, but a clause whose quote reads against it is named on the summary
 // line, because a warning behind a closed fold is a warning nobody sees.
 function mechanismBasis(basis, lead, row) {
-  const body = mechanismClauses(basis) + mechanismGaps(basis)
+  const body = mechanismClauses(basis,row?.basis_check) + mechanismGaps(basis)
     + (lead ? '' : mechanismFigures(row, 1));
   if (!body) return '';
   if (lead) return body;

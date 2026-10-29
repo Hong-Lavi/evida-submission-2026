@@ -43,6 +43,24 @@ def model_json(value):
     return compact_json(pack(value))
 
 
+def delivered_intent_snapshot(conversation):
+    """Read the server binding from the actual latest application context.
+
+    No model field is used to invent or select the input revision. Frozen older
+    exact requests can lack this extension and keep their original contract.
+    """
+    for message in reversed(conversation):
+        if message.get('role') != 'user' or not isinstance(message.get('content'), str):
+            continue
+        try:
+            context = unpack(json.loads(message['content']))
+        except (ValueError, TypeError):
+            continue
+        if isinstance(context, dict) and 'INTENT_DEPENDENCIES' in context:
+            return context['INTENT_DEPENDENCIES']['input_snapshot']['snapshot_sha256']
+    return None
+
+
 def artifact_overview(artifact):
     """List every available source without pretending its full content was inspected."""
     view = {key: artifact[key] for key in ("id", "title", "kind", "sha256", "meta")}
@@ -53,7 +71,8 @@ def artifact_overview(artifact):
         if isinstance(value, dict):
             # Keep scientific context, uncertainty and summary; rows remain explicitly retrievable.
             fields = ("status", "semantic_type", "summary", "limits", "context", "contrast",
-                      "versions", "columns", "header", "reference_percentiles", "sources", "pmc_id", "permissions", "title")
+                      "versions", "columns", "header", "reference_percentiles", "sources", "pmc_id", "permissions", "title",
+                      "article_ids", "acquisition_status", "identifier_recovery", "content_coverage")
             view["summary_view"] = {key: value[key] for key in fields if key in value}
             view["available_result_fields"] = list(value)
             if isinstance(value.get("rows"), list):

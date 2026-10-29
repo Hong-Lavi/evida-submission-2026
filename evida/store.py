@@ -120,7 +120,7 @@ class Store:
                 "SELECT * FROM events WHERE workspace=? ORDER BY seq", (wid,))]
             state["artifacts"] = [self.artifact_meta(r) for r in db.execute(
                 "SELECT id,workspace,title,kind,sha256,media_type,created,meta,length(content) bytes, "
-                "CASE WHEN kind='article' AND json_valid(content) THEN json_extract(content,'$.title') END source_title "
+                "CASE WHEN kind IN ('article','webpage') AND json_valid(content) THEN json_extract(content,'$.title') END source_title "
                 "FROM artifacts WHERE workspace=? ORDER BY created", (wid,))]
             state["jobs"] = [{**dict(r), "request": json.loads(r["request"])} for r in db.execute(
                 "SELECT * FROM jobs WHERE workspace=? ORDER BY created", (wid,))]
@@ -133,6 +133,8 @@ class Store:
             state["events"] = annotate_events(state["events"])
             from .input_changes import review_inputs
             state["input_changes"] = review_inputs(state)
+            from .evidence_scope import view as evidence_scope_view
+            state['evidence_scope'] = evidence_scope_view(state)
             return state
 
     def command(self, wid, expected_rev, command_id, body):
@@ -149,6 +151,16 @@ class Store:
             if state["rev"] != expected_rev:
                 raise Conflict("다른 수정이 먼저 저장되었습니다. 최신 내용을 확인해 다시 적용해 주세요.")
             kind = body.get("kind")
+            if 'evidence_scope' in body:
+                if kind != 'message':
+                    raise ValueError('근거 범위는 연구자의 새 메시지에서 지정하세요.')
+                from .evidence_scope import validate as validate_evidence_scope
+                validate_evidence_scope(body['evidence_scope'])
+            amendment_held = None
+            if "observation_amendment" in body and kind != "correction":
+                raise ValueError("같은 관측의 보고 정정은 correction으로 저장해 주세요.")
+            if "recalculate_held_selection" in body and "observation_amendment" not in body:
+                raise ValueError("관측 정정의 원 결과를 지정해 주세요.")
             if 'review_requested' in body and type(body['review_requested']) is not bool:
                 raise ValueError('후속 검토 선택을 확인해 주세요.')
             event = {**body, "state_rev": expected_rev + 1, "message_id": uid("msg")}
@@ -162,13 +174,9 @@ class Store:
                 if not isinstance(records, list) or len(records) > 100:
                     raise ValueError("의도 기록 형식이 올바르지 않습니다.")
                 if 'base_records' in body:
-                    baseline = json.loads(state['intent'])
+                    from .intent_dependencies import records as current_intents, transaction_state
+                    baseline = current_intents(transaction_state(self, db, wid))
                     previous_edit = db.execute("SELECT body FROM events WHERE workspace=? AND kind='intent_edit' ORDER BY seq DESC LIMIT 1", (wid,)).fetchone()
-                    if not baseline and previous_edit is None:
-                        frame = db.execute("SELECT body FROM events WHERE workspace=? AND kind='work_framed' ORDER BY seq DESC LIMIT 1", (wid,)).fetchone()
-                        frame = json.loads(frame['body']) if frame else None
-                        if frame and frame.get('based_rev') == expected_rev:
-                            baseline = frame.get('intent_records', [])
                     if body['base_records'] != baseline:
                         raise Conflict('편집 중 연구 의도가 바뀌었습니다. 최신 내용을 열어 다시 적용해 주세요.')
                     from .intent_records import field_edit
@@ -189,44 +197,58 @@ class Store:
                     raise ValueError("추가할 내용을 입력해 주세요.")
                 if len(body["text"]) > 40000:
                     raise ValueError("내용은 40,000자 이내로 입력해 주세요.")
-                event["origin"] = "synthetic" if body.get("synthetic") else "researcher_report"
-                if body.get("research_context") is not None:
-                    from .research_loop import validate_feedback
-                    context = body["research_context"]
-                    if not isinstance(context, dict):
-                        raise ValueError("관측의 연결 정보가 올바르지 않습니다.")
-                    source = db.execute("SELECT content,sha256,kind FROM artifacts WHERE workspace=? AND id=?",
-                                        (wid, context.get("decision_id"))).fetchone()
-                    if (not source or source["kind"] != "decision_proposal"
-                            or hashlib.sha256(source["content"]).hexdigest() != source["sha256"]):
-                        raise ValueError("관측과 연결할 기존 판단 자료를 찾지 못했습니다.")
-                    published = db.execute("SELECT body FROM events WHERE workspace=? AND kind='decision_published'", (wid,)).fetchall()
-                    if not any(json.loads(row["body"])["receipt_id"] == context.get("decision_id") for row in published):
-                        raise ValueError("게시된 판단에 관측을 연결해 주세요.")
-                    validate_feedback(context, json.loads(source["content"]))
-                if body.get('context_update') is not None:
-                    update=body['context_update']
-                    required={'context_artifact_id','context_id','field','before','after','reason'}
-                    if kind!='correction' or not isinstance(update,dict) or set(update)!=required:
-                        raise ValueError('조건 정정 형식을 확인해 주세요.')
-                    source=db.execute('SELECT content,kind,sha256 FROM artifacts WHERE workspace=? AND id=?',(wid,update['context_artifact_id'])).fetchone()
-                    if not source or source['kind']!='judgment_context' or hashlib.sha256(source['content']).hexdigest()!=source['sha256']:
-                        raise ValueError('원 조건 기록이 없습니다.')
-                    context=json.loads(source['content'])['context']
-                    original=next((c for c in context['contexts'] if c['id']==update['context_id']),None)
-                    fields={'organism','target_construct_variant','transcript_version','tissue_cell','intervention_chemistry_formulation','dose_route','time','assay_buffer','comparator'}
-                    if not original or update['field'] not in fields or update['before']!=original[update['field']]:
-                        raise ValueError('정정 전 원 조건과 일치하지 않습니다.')
-                    if not all(isinstance(update[k],str) and update[k].strip() for k in ('after','reason')):
-                        raise ValueError('새 조건과 정정 이유가 필요합니다.')
-                    rc=body.get('research_context',{})
-                    if not rc or not any(b['context_id']==update['context_id'] and b['hypothesis_id'] in rc['hypothesis_ids'] for b in context['bindings']):
-                        raise ValueError('정정할 조건과 가설의 연결이 다릅니다.')
+                if 'observation_amendment' in body:
+                    from .observation_amendment import bind_command as bind_amendment
+                    amendment_held = bind_amendment(self, db, wid, body, event)
+                else:
+                    event["origin"] = "synthetic" if body.get("synthetic") else "researcher_report"
+                    from .measurement_report import bind_command
+                    bind_command(db, wid, body, event)
+                    if body.get("research_context") is not None:
+                        from .research_loop import validate_feedback
+                        context = body["research_context"]
+                        if not isinstance(context, dict):
+                            raise ValueError("관측의 연결 정보가 올바르지 않습니다.")
+                        source = db.execute("SELECT content,sha256,kind FROM artifacts WHERE workspace=? AND id=?",
+                                            (wid, context.get("decision_id"))).fetchone()
+                        if (not source or source["kind"] != "decision_proposal"
+                                or hashlib.sha256(source["content"]).hexdigest() != source["sha256"]):
+                            raise ValueError("관측과 연결할 기존 판단 자료를 찾지 못했습니다.")
+                        published = db.execute("SELECT body FROM events WHERE workspace=? AND kind='decision_published'", (wid,)).fetchall()
+                        if not any(json.loads(row["body"])["receipt_id"] == context.get("decision_id") for row in published):
+                            raise ValueError("게시된 판단에 관측을 연결해 주세요.")
+                        validate_feedback(context, json.loads(source["content"]))
+                        from .check_subject_binding import bind_report
+                        bind_report(db, wid, body, event, json.loads(source['content']))
+                    elif 'reported_subject_refs' in body or 'subject_binding' in body:
+                        raise ValueError('대상 보고는 원 판단과 다음 확인에 연결해 주세요.')
+                    if body.get('context_update') is not None:
+                        update=body['context_update']
+                        required={'context_artifact_id','context_id','field','before','after','reason'}
+                        if kind!='correction' or not isinstance(update,dict) or set(update)!=required:
+                            raise ValueError('조건 정정 형식을 확인해 주세요.')
+                        source=db.execute('SELECT content,kind,sha256 FROM artifacts WHERE workspace=? AND id=?',(wid,update['context_artifact_id'])).fetchone()
+                        if not source or source['kind']!='judgment_context' or hashlib.sha256(source['content']).hexdigest()!=source['sha256']:
+                            raise ValueError('원 조건 기록이 없습니다.')
+                        context=json.loads(source['content'])['context']
+                        original=next((c for c in context['contexts'] if c['id']==update['context_id']),None)
+                        fields={'organism','target_construct_variant','transcript_version','tissue_cell','intervention_chemistry_formulation','dose_route','time','assay_buffer','comparator'}
+                        if not original or update['field'] not in fields or update['before']!=original[update['field']]:
+                            raise ValueError('정정 전 원 조건과 일치하지 않습니다.')
+                        if not all(isinstance(update[k],str) and update[k].strip() for k in ('after','reason')):
+                            raise ValueError('새 조건과 정정 이유가 필요합니다.')
+                        rc=body.get('research_context',{})
+                        if not rc or not any(b['context_id']==update['context_id'] and b['hypothesis_id'] in rc['hypothesis_ids'] for b in context['bindings']):
+                            raise ValueError('정정할 조건과 가설의 연결이 다릅니다.')
             else:
                 raise ValueError("지원하지 않는 수정 종류입니다.")
             db.execute("UPDATE workspaces SET rev=rev+1,review_status='needs_review' WHERE id=?", (wid,))
             self.event(db, wid, kind, event)
             result = {"state_rev": expected_rev + 1, "message_id": event["message_id"]}
+            if amendment_held is not None:
+                from .observation_amendment import enqueue as enqueue_amendment
+                result['job_id'] = enqueue_amendment(self, db, wid, expected_rev+1, event, amendment_held)
+                result['observation_amendment'] = event['amendment_receipt']
             if body.get('review_requested'):
                 from .interaction import register_followthrough
                 result['review_request_id'] = register_followthrough(self,db,wid,expected_rev+1,event['message_id'])
@@ -376,6 +398,20 @@ class Store:
         protected = {r["id"]: r for r in previous if r["id"] in edited_ids}
         proposed = {r["id"]: r for r in proposal["intent_records"] if r['id'] not in deleted_ids}
         proposed.update(protected)
+        from .intent_dependencies import protected_conflicts, transaction_state, digest
+        conflicts = protected_conflicts(transaction_state(self, db, wid), proposal['intent_records'])
+        if conflicts:
+            # Retain the existing field-level human merge, but never publish a
+            # contradictory proposal as reviewed. Events preserve direct callers'
+            # drafts too, even when their receipt is not an artifact ID.
+            db.execute("UPDATE workspaces SET intent=?,review_status='needs_review' WHERE id=?",
+                       (dump(list(proposed.values())), wid))
+            self.event(db, wid, 'decision_intent_conflict', {
+                'receipt_id': receipt_id, 'state_rev': based_rev, 'conflicts': conflicts,
+                'proposal': proposal, 'proposal_sha256': digest(proposal), 'published': False})
+            return False
+        from .check_subject_binding import publish as publish_subjects
+        publish_subjects(self, db, wid, receipt_id, proposal)
         db.execute("UPDATE workspaces SET decision=?,decision_rev=?,review_status='reviewed',intent=? WHERE id=?",
                    (dump(proposal), based_rev, dump(list(proposed.values())), wid))
         self.event(db, wid, "decision_published", {"receipt_id": receipt_id, "state_rev": based_rev})

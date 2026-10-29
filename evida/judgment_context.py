@@ -11,7 +11,12 @@ def array(x,n=60):return {'type':'array','items':x,'maxItems':n}
 CONTEXT=obj({'id':T,'organism':T,'target_construct_variant':T,'transcript_version':T,'tissue_cell':T,
     'intervention_chemistry_formulation':T,'dose_route':T,'time':T,'assay_buffer':T,'comparator':T,'unknowns':TS,'source_ids':TS})
 PREDICTION=obj({'observable':T,'direction_or_range':T,'unit':T,'time':T,'comparator':T,
-    'origin':enum('prospective','previously_recorded','reconstructed_after_result')})
+    'origin':{**enum('prospective','previously_recorded','reconstructed_after_result'),
+        'description':'Chronology for this exact context and measurement instance. A known original assay and a new replication need distinct contexts. '
+        'prospective means recorded now before this instance outcome is known, even when informed by literature; '
+        'reconstructed_after_result means constructed after seeing this same result. previously_recorded requires an actual earlier prediction record '
+        'identified in the context source_ids with its original conditions and timing; source existence alone is not chronology proof. '
+        'An earlier hindsight explanation remains reconstructed_after_result. Preserve unresolved timing in unresolved_context; do not invent a prior record.'}})
 BINDING=obj({'hypothesis_id':T,'part_id':T,'stage':enum('mechanism','target_intervention','approach','candidate'),
     'context_id':T,'assumption_ids':TS,'prediction':PREDICTION})
 ASSUMPTION=obj({'id':T,'statement':T,'status':enum('proposed','checked_in_context','challenged','unknown'),

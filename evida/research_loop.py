@@ -13,6 +13,8 @@ from .contracts import FRAME, RESEARCH_LOOP, SCOPE_TARGETS
 
 def validate_hypotheses(hypotheses, state):
     jsonschema.validate(hypotheses, FRAME["properties"]["hypotheses"])
+    from .reasoning_core import validate_hypothesis_designs
+    validate_hypothesis_designs(hypotheses, source_ids={a['id'] for a in state['artifacts']})
     ids = [h["id"] for h in hypotheses]
     if any(not i.strip() for i in ids) or len(set(ids)) != len(ids):
         raise ValueError("가설에는 중복되지 않는 ID가 필요합니다.")
@@ -88,6 +90,16 @@ def validate_loop(loop, state):
         raise ValueError("다음 확인에는 중복되지 않는 ID가 필요합니다.")
     held = {a["id"] for a in state.get("artifacts", [])}
     for check in loop["next_checks"]:
+        design_id = check.get('design_hypothesis_id')
+        if design_id is not None:
+            h = next((h for h in loop['hypotheses'] if h['id'] == design_id), None)
+            if h is None or design_id not in check['hypothesis_ids'] or 'reasoning_design' not in h:
+                raise ValueError('실험 설계는 이번 확인에 연결한 가설의 reasoning_design을 참조해야 합니다.')
+        if 'subject_refs' in check:
+            from .check_subject_binding import validate_refs
+            validate_refs(check['subject_refs'], expected=True)
+            if any(ref['artifact_id'] not in held for ref in check['subject_refs']):
+                raise ValueError('다음 확인의 대상 자료가 이 연구에 없습니다.')
         if not set(check["hypothesis_ids"]).issubset(hypotheses):
             raise ValueError("다음 확인이 존재하지 않는 가설을 참조합니다.")
         grounded_in = (check.get("operation") or {}).get("grounded_in")
@@ -189,9 +201,10 @@ def validate_feedback(context, proposal):
 # They check quotation identity, recorded search counts and check links only, never the
 # scientific truth of a clause. A failure is recorded beside the model's unchanged record
 # and shown; publication is not blocked and the model is not asked to rewrite.
-ANCHOR_KINDS = {'article', 'literature', 'lens_literature', 'repository_document', 'clinical_trial',
+ANCHOR_KINDS = {'source_document', 'article', 'webpage', 'literature', 'lens_literature', 'repository_document', 'clinical_trial',
                 'clinical_trial_search', 'drug_label', 'drug_label_search', 'target_disease_evidence',
-                'binding_measurements', 'gtopdb_pharmacology', 'compound_candidates'}
+                'binding_measurements', 'gtopdb_pharmacology', 'compound_candidates', 'public_research_page',
+                'gwas_studies', 'perturbagen_metadata'}
 COUNT_FIELDS = {'literature': 'hit_count', 'clinical_trial_search': 'total',
                 'drug_label_search': 'total', 'lens_literature': 'source_total'}
 PROFILE_KINDS = ('mechanism:', 'approach:')
@@ -226,14 +239,21 @@ def check_anchor(store, wid, anchor):
         return {'status': 'rejected', 'reason': 'not_a_public_source_row', 'kind': artifact['kind']}
     value = json.loads(artifact['content'])
     rows = value.get('rows') if isinstance(value.get('rows'), list) else []
-    if anchor['row_index'] >= len(rows):
+    if type(anchor['row_index']) is not int or anchor['row_index'] < 0 or anchor['row_index'] >= len(rows):
         return {'status': 'rejected', 'reason': 'row_not_found', 'kind': artifact['kind']}
     row = rows[anchor['row_index']]
-    texts = strings(row)
+    from .literal_source_binding import LITERAL_KINDS, row_binding
+    try:
+        texts, binding = row_binding(store, wid, artifact, value, anchor['row_index']) if artifact['kind'] in LITERAL_KINDS else (strings(row), None)
+    except (ValueError, KeyError) as exc:
+        return {'status': 'rejected', 'reason': 'original_source_binding_invalid', 'detail': str(exc), 'kind': artifact['kind']}
     base = {'kind': artifact['kind'], 'source_sha256': artifact['sha256'],
-            'locator': 'rows/' + str(anchor['row_index']), 'links': _source_links(value, row if isinstance(row, dict) else {})}
-    if any(anchor['quote'] in t for t in texts):
+            'locator': 'rows/' + str(anchor['row_index']), 'links': {} if artifact['kind'] == 'source_document' else _source_links(value, row if isinstance(row, dict) else {}),
+            **({'source_binding': binding} if binding else {})}
+    if anchor['quote'].strip() and any(anchor['quote'] in t for t in texts):
         return {**base, 'status': 'verified', 'match': 'exact'}
+    if artifact['kind'] in LITERAL_KINDS:
+        return {**base, 'status': 'rejected', 'reason': 'quote_not_in_literal_text'}
     quote = _plain(anchor['quote'])
     if quote and any(quote in _plain(t) for t in texts):
         return {**base, 'status': 'verified', 'match': 'whitespace_or_inline_markup_normalized'}

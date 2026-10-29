@@ -79,6 +79,18 @@ def search(value, fitted, arguments, propose_round):
         fresh = [row for row in produced if row.get('smiles') and row['smiles'] not in seen]
         for row in fresh:
             seen.add(row['smiles'])
+        seed_by_id = {row['candidate_id']: row for row in seeds}
+        for index, row in enumerate(fresh, 1):
+            # Local proposal numbers recur across rounds; preserve that label but
+            # give each new result an unambiguous identity for the next round.
+            local_id = row.get('candidate_id') or f'proposed-{index}'
+            row['generator_local_id'] = local_id
+            row['candidate_id'] = f'guided-{number}-{local_id}'
+            for path in row.get('paths', []):
+                parent = seed_by_id.get(path.get('parent_id'))
+                if parent is not None:
+                    path['parent_branch'] = 'source' if number == 1 else 'guided_search'
+                    path['parent_round'] = number - 1
         if not fresh:
             history.append({'round': number, 'proposed': 0, 'kept': 0,
                             'reason': '이 라운드에서 새 구조가 나오지 않았습니다.'})

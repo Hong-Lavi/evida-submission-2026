@@ -5,7 +5,9 @@
 function structureFigure(depiction, label) {
   if (!depiction || depiction.status !== 'drawn' || !depiction.svg) {
     const why = depiction && depiction.status === 'unparsed'
-      ? '구조 문자열을 읽지 못했습니다' : '구조 그림 없음';
+      ? '저장된 구조 문자열을 읽지 못했습니다' : depiction?.status === 'failed'
+        ? '2D 그림 생성에 실패했습니다. 원 구조 문자열은 보존되어 있습니다.'
+        : '2D 그림 데이터가 반환되지 않았습니다.';
     return `<div class="structure-figure empty"><span class="small muted">${esc(why)}</span></div>`;
   }
   // The drawing is inert markup produced by RDKit from the stored string.
