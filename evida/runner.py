@@ -17,6 +17,7 @@ from .decision_preservation import DecisionPreservationError
 from .schema_feedback import schema_feedback
 from .validation_help import correction_reason
 from .provenance_repair import repair_instruction
+from .frame_context import current_research_frame
 from .planner_recovery import completed_rounds, prepare_quota_resume, recorded_response_budget, SYNTHESIS_SUFFIX
 from .context_delivery import apply_context_delivery
 from .catalog_delivery import apply_catalog_delivery
@@ -1128,8 +1129,10 @@ class Runner:
         if len(args['reading_ids']) != len(set(args['reading_ids'])):
             raise ValueError('각 reading_id는 한 번씩 지정하세요.')
         state = self.store.snapshot(wid)
-        frame = next((e['body'] for e in reversed(state['events'])
-                      if e['kind'] == 'work_framed' and e['body']['based_rev'] == rev), None)
+        from .intent_dependencies import model_view as intent_dependency_view
+        intent_context = intent_dependency_view(self.store, wid, state)
+        frame = current_research_frame(state, rev,
+            question_reassessment_required=intent_context['question_reassessment_required'])
         if not frame:
             raise ValueError('현재 상태에서 먼저 frame_work로 질문을 표시하세요.')
         readings = {a['id']: a for a in state['artifacts'] if a['kind'] == 'tool_reading'
@@ -1354,26 +1357,18 @@ class Runner:
                 prior = json.loads(self.store.artifact(wid, entry["id"])["content"])
                 for finding in prior["findings"]:
                     findings[dump(finding)] = {**finding, "note_id": entry["id"], "noted_at": entry["created"]}
-        frame = next((e["body"] for e in reversed(state["events"]) if e["kind"] == "work_framed" and e["body"]["based_rev"] == rev), None)
-        if frame is None:
-            # Every command raises rev, including a continuation that says only "carry on", so a
-            # rev-bound frame vanished on each continuation and every new job reframed from
-            # scratch - one live case framed five times and never reached a review. The latest
-            # decomposition is carried forward, marked with the conditions it was made under;
-            # the model keeps it when the new input does not change the question and reframes
-            # when it does.
-            earlier = next((e["body"] for e in reversed(state["events"]) if e["kind"] == "work_framed"), None)
-            if earlier is not None:
-                frame = {**earlier, "carried_from_rev": earlier["based_rev"], "current_rev": rev}
+        from .intent_dependencies import model_view as intent_dependency_view
+        intent_context = intent_dependency_view(self.store, wid, state)
+        frame = current_research_frame(state, rev,
+            question_reassessment_required=intent_context['question_reassessment_required'])
         previous_reading = next((a for a in reversed(state["artifacts"]) if a["kind"] == "tool_reading"), None) if restore_reading else None
         focus = reading_focus(state['events'], rev, reading_jobs)
         from .judgment_context import view as context_view
         from .hypothesis_review import view as hypothesis_review_view
         from .discovery import overview as discovery_overview
-        from .intent_dependencies import model_view as intent_dependency_view
         from .check_subject_binding import view as subject_view
         context = {"CHECK_SUBJECT_BINDINGS":subject_view(self.store,wid),"DISCOVERY_OPTIONS":discovery_overview(self.store,wid,state),"JUDGMENT_CONTEXT":context_view(self.store,wid,state),"STATE_REVISION": rev, "ORIGINAL_MESSAGES": messages, "CURRENT_INTENT": state["intent"],
-                "INTENT_DEPENDENCIES": intent_dependency_view(self.store, wid, state),
+                "INTENT_DEPENDENCIES": intent_context,
                 "HYPOTHESIS_REVIEW": hypothesis_review_view(self.store,wid,state),
                 "PREVIOUS_DECISION": state["decision"], "RELEVANT_EVIDENCE": evidence,
                 "INPUT_CHANGES": state["input_changes"],
