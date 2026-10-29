@@ -1040,6 +1040,11 @@ button.axis-cell:hover{border-color:var(--line-strong)}
 .ui-computation-value-table th:nth-child(3){width:34%}
 .ui-computation-input-identity,.ui-computation-input code{overflow-wrap:anywhere}
 
+/* A reader is narrower than the viewport: keep the drawing and identifiers readable. */
+#research-reader-body .structure-card{grid-template-columns:minmax(0,1fr)}
+#research-reader-body .structure-facts{grid-template-columns:minmax(80px,110px) minmax(0,1fr);gap:4px 10px}
+#research-reader-body .structure-facts dt,#research-reader-body .structure-facts dd{min-width:0;overflow-wrap:anywhere}
+
 
 /* Source: evidence-workbench.css */
 /* The workbench inherits the active EVIDA palette and typeface. */
