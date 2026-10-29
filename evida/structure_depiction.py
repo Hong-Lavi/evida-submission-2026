@@ -18,7 +18,8 @@ SMILES_FIELDS = ('smiles', 'canonical_smiles', 'SMILES', 'original_smiles')
 # analogue_proposal belongs here for the same reason the retrieval tools do: stage 3 puts the
 # generated structures beside the retrieved ones, and a reader compares them by looking.
 DEPICTED_KINDS = ('compound_candidates', 'literature_compounds', 'compound_selection',
-                  'molecule_csv', 'rdkit', 'admet', 'analogue_proposal', 'proposal_qualification')
+                  'molecule_csv', 'rdkit', 'admet', 'analogue_proposal', 'proposal_qualification',
+                  'reported_activity_comparison')
 MAXIMUM_PER_VIEW = 60
 
 
@@ -36,6 +37,15 @@ def row_smiles(row):
             value = structure.get(field)
             if isinstance(value, str) and value.strip():
                 return value.strip()
+    # A reported activity contrast carries the exact same molecule on both sides.
+    # Only display that saved structure when identity and structure agree in both records.
+    ref, comp = row.get('reference'), row.get('comparator')
+    if isinstance(ref, dict) and isinstance(comp, dict):
+        one, two = ref.get('canonical_smiles'), comp.get('canonical_smiles')
+        cid = row.get('candidate_id')
+        if (isinstance(one, str) and one.strip() and one == two and cid
+                and ref.get('molecule_id') == cid == comp.get('molecule_id')):
+            return one.strip()
     return None
 
 

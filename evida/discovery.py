@@ -514,7 +514,7 @@ def anchored_figures(store, wid, basis, limit=3, cache=None,
     return found
 
 
-CANDIDATE_KINDS = ('molecule', 'rna_candidate')
+CANDIDATE_KINDS = ('molecule', 'rna_candidate', 'source_candidate')
 
 
 def candidate_structures_view(store, wid, state=None, limit=24, option_id=None):
@@ -544,6 +544,43 @@ def candidate_structures_view(store, wid, state=None, limit=24, option_id=None):
         entity = option.get('entity_id')
         row = {'option_id': option['option_id'], 'candidate_id': entity, 'name': option['label'],
                'structure_status': option.get('structure_status')}
+        if option['kind'] == 'source_candidate':
+            # The catalogue already records the source-mention -> retrieved row relation.
+            # Draw that exact saved row, never a fresh name match or an unrelated molecule.
+            # Conflicting linked structures remain unresolved for display.
+            from .structure_depiction import row_smiles
+            linked = []
+            for link in option.get('identity_links', []):
+                aid, index = link.get('artifact_id'), link.get('row_index')
+                if not aid or not isinstance(index, int) or isinstance(index, bool) or index < 0:
+                    continue
+                try:
+                    if aid not in seen:
+                        seen[aid] = json.loads(store.artifact(wid, aid)['content'])
+                    stored = seen[aid]['rows'][index]
+                    if (not isinstance(stored, dict)
+                            or stored.get('candidate_id') != link.get('candidate_id')
+                            or option['option_id'] not in stored.get('source_candidate_ids', [])
+                            or not row_smiles(stored)):
+                        continue
+                    linked.append((link, stored))
+                except (KeyError, IndexError, TypeError, ValueError):
+                    continue
+            structures = {row_smiles(stored) for _, stored in linked}
+            if len(structures) == 1:
+                link, stored = linked[0]
+                row.update({k: v for k, v in stored.items() if k != 'depiction'})
+                row.update(option_id=option['option_id'], name=option['label'],
+                           candidate_id=stored['candidate_id'],
+                           source_candidate_structure_status=option.get('structure_status'),
+                           depiction_source={'artifact_id': link['artifact_id'],
+                                             'row_index': link['row_index'],
+                                             'candidate_id': stored['candidate_id'],
+                                             'identity_status': link.get('identity_status')})
+            elif len(structures) > 1:
+                row['structure_display_status'] = 'ambiguous_linked_structures'
+            rows.append(row)
+            continue
         if artifact_id and entity:
             if artifact_id not in seen:
                 try:
