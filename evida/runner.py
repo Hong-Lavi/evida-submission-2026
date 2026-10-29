@@ -16,6 +16,7 @@ from .gateway import GatewayError
 from .decision_preservation import DecisionPreservationError
 from .schema_feedback import schema_feedback
 from .validation_help import correction_reason
+from .provenance_repair import repair_instruction
 from .planner_recovery import completed_rounds, prepare_quota_resume, recorded_response_budget, SYNTHESIS_SUFFIX
 from .context_delivery import apply_context_delivery
 from .catalog_delivery import apply_catalog_delivery
@@ -1990,10 +1991,12 @@ class Runner:
                                         "rejected_because": str(rejection)[:600],
                                         "rejection_artifact_id": rejection_id,
                                         "protocol_id": protocol_id}, bump=False)
+                    repair = repair_instruction(rejection, response_limit,
+                        synthesis_only=job["request"].get("synthesis_only", False))
                     conversation = next_model_context(
                         self.model_context(wid, rev, framed, restore_reading=False, current_job=jid, force_full=True),
                         result.get("output", []), []) + [
-                        {"role": "user", "content": DECISION_REJECTED.format(reason=reason)}]
+                        {"role": "user", "content": repair or DECISION_REJECTED.format(reason=reason)}]
                     continue
                 if published and response_limit is None:
                     # Keep the exact checkpoint visible and historical. A separate same-route

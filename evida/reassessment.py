@@ -9,6 +9,7 @@ import hashlib
 import json
 
 from .store import dump, now, uid
+from .provenance_repair import StaleReassessmentContextError
 
 VERSION = 'assessment-dependencies-v1'
 EPHEMERAL = frozenset({
@@ -454,7 +455,10 @@ def record_review(store, wid, rev, job_id, args, received):
 def prepare_bundle(store, wid, proposal, discovery, review_ids, received, job_id):
     snap = snapshot(store, wid)
     if received.get('snapshot_sha256') != snap['snapshot_sha256']:
-        raise ValueError('최종 응답이 받은 근거·조건 묶음이 현재 상태와 다릅니다.')
+        raise StaleReassessmentContextError(
+            '최종 응답이 받은 근거·조건 묶음이 현재 상태와 다릅니다.',
+            current_snapshot=snap['snapshot_sha256'],
+            previous_snapshot=received.get('snapshot_sha256'))
     rows = assessments(store, wid)
     previous = prior_bundle(store, wid, snap)
     plan = build_plan(rows, snap, previous)
@@ -465,8 +469,14 @@ def prepare_bundle(store, wid, proposal, discovery, review_ids, received, job_id
     for aid in review_ids:
         artifact = store.artifact(wid, aid)
         value = json.loads(artifact['content'])
-        if (artifact['kind'] != 'reassessment_draft' or artifact['meta'].get('job_id') != job_id
-                or value['snapshot_sha256'] != snap['snapshot_sha256'] or aid not in delivered):
+        if artifact['kind'] != 'reassessment_draft' or artifact['meta'].get('job_id') != job_id:
+            raise ValueError('실제 받은 같은 작업·입력의 재검토 초안만 게시할 수 있습니다.')
+        if value['snapshot_sha256'] != snap['snapshot_sha256']:
+            raise StaleReassessmentContextError(
+                '실제 받은 같은 작업·입력의 재검토 초안만 게시할 수 있습니다.',
+                current_snapshot=snap['snapshot_sha256'],
+                previous_snapshot=value['snapshot_sha256'], draft_id=aid)
+        if aid not in delivered:
             raise ValueError('실제 받은 같은 작업·입력의 재검토 초안만 게시할 수 있습니다.')
         if value['subject'] in reviews:
             raise ValueError('한 평가에는 최종 재검토 초안 하나만 지정하세요.')
