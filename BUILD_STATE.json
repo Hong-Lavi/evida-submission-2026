@@ -1,8 +1,8 @@
 {
   "status": "REVIEWED_SOURCE_PACKAGE",
-  "source_manifest_sha256": "35cece60ddbd4b25608402a3b6392fcd84b5a87d0bc8f098cd8192d71ca76020",
-  "source_commit": "b6ac62250e5141c952737788d1b3bd9eafc9f14c",
-  "frozen_source_file_count": 604,
+  "source_manifest_sha256": "a5f1e3902094ef06ceafe0e1ef4bac4d5fc6ee3ffa63874a70b96ddf924994a8",
+  "source_commit": "1683bd916be1512dd337d739318f676a1c301f16",
+  "frozen_source_file_count": 605,
   "reasoning_core": {
     "original_case_denominator": 500,
     "current_cases": 493,
@@ -14,21 +14,23 @@
   "goal_lifecycle": "Useful conditional checkpoints followed by same-route authored request-coverage review; internal continuation and essential-input waiting preserve original goal and evidence. Not independent scientific validation.",
   "planner_policy": "Explicit goal_completion_stores enables response_limit None; transport/account budgets and manual provider choice remain separate.",
   "model_routes": {
-    "default": "competition API / gpt-6-sol / medium",
-    "manual_subscription": [
-      "claude-opus-5 / medium",
-      "gpt-6-sol / medium"
+    "default": "ChatGPT subscription / gpt-6-sol / medium",
+    "manual_options": [
+      "competition API models",
+      "claude-opus-5 / medium"
     ],
-    "automatic_provider_switch": false
+    "automatic_provider_switch": false,
+    "gpt_subscription_call_limit": null,
+    "gpt_subscription_response_timeout_seconds": null
   },
   "runtime_source_manifest_sha256": "1fe49d8a2bfef99306c656484e3d0f227a47082213b512bc7a3255291ea290c2",
   "packaging_model_calls": 0,
-  "validation_source": "Nine exact source/structure identity checks and eleven depiction tests. Actual Chrome checks of six study displays, including saved molecule structures and the activity-comparison reference structure.",
+  "validation_source": "15 model-route checks; subscription timeout and ledger tests; browser default and explicit manual model choice checks.",
   "publication_verification": {
     "status": "PUBLIC_ENDPOINTS_CONFIRMED",
     "repository": "https://github.com/Hong-Lavi/evida-submission-2026",
     "domain": "https://evida.ndagentevida.com",
-    "research_catalog_count": 45,
+    "research_catalog_count": 49,
     "six_scenario_links_confirmed": true,
     "current_completed_conditional_proposals": 4,
     "additional_review_checkpoints": 2,
@@ -47,5 +49,14 @@
       "Consistent applicable question-frame selection for explicit evidence reading pins"
     ],
     "reasoning_core_and_science_tools_identical": true
+  },
+  "deployment_runtime": {
+    "gpt_subscription_call_limit": null,
+    "gpt_subscription_response_timeout_seconds": null,
+    "model": "gpt-6-sol",
+    "effort": "medium",
+    "competition_api": "manual option",
+    "provider_runtime": "Host-reviewed subscription bridge and owner-managed CLI authentication",
+    "source_package_runtime_note": "runtime/ contains connection reference sources; deployed subscription adapter and credentials are host-managed."
   }
 }

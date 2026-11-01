@@ -125,6 +125,7 @@ def main():
         if (opts.model, opts.effort) != (subscription_gateway.model, subscription_gateway.effort):
             raise SystemExit('Requested subscription identity differs from the approved bridge.')
     route_gateways = quota = None
+    default_route = None
     if opts.model_routes:
         runtime = opts.model_routes.resolve(strict=True)
         if not runtime.is_relative_to(Path(__file__).resolve().parents[1] / 'audit/evida-final-ui-20261002'):
@@ -134,6 +135,12 @@ def main():
         from route_transport import build_subscription_routes
         from evida.model_routes import RouteGateway, QuotaState
         route_gateways = build_subscription_routes(runtime)
+        authorization = json.loads((runtime / 'authorization.json').read_text())
+        default_route = authorization.get('default_route')
+        if default_route == 'competition_api':
+            default_route = None
+        elif default_route not in {r.route_id for r in route_gateways}:
+            raise SystemExit('Default subscription route must be explicitly authorized.')
         quota = QuotaState(release / 'model-routes-state' / 'competition-quota.json')
     os.chdir(product)
     apps = {}
@@ -153,7 +160,8 @@ def main():
                 apps[name].gateway = subscription_gateway
                 apps[name].runner.gateway = subscription_gateway
             if route_gateways is not None:
-                routed = RouteGateway(apps[name].gateway, route_gateways, quota)
+                routed = RouteGateway(apps[name].gateway, route_gateways, quota,
+                                      **({'default_route': default_route} if default_route else {}))
                 apps[name].gateway = routed
                 apps[name].runner.gateway = routed
             if semantic_reader is None:
@@ -198,6 +206,7 @@ def main():
                   'product': str(product), 'release': str(release), 'model_enabled': opts.enable_model,
                   'read_only_preview': opts.read_only,
                   'model': opts.model, 'effort': opts.effort, 'workspaces': len(catalog.list()),
+                  'default_route': default_route or opts.model,
                   'transport_mode': (subscription_gateway.transport_mode if subscription_gateway
                                      else 'model_routes' if route_gateways is not None else 'competition_gateway'),
                   'subscription_routes': [{'id': r.route_id, 'model': r.model, 'effort': r.effort,

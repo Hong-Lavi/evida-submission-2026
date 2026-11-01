@@ -1,9 +1,8 @@
-"""Per-research model routes: the competition API by default, the submitter's subscriptions by choice.
+"""Per-research model routes with an explicitly configured default.
 
-A visitor runs on the competition API unless they pick something else. When that API has spent
-its token allowance (HTTP 403), nothing switches on its own: the visitor is told, and may choose
-one of the submitter's personal subscriptions by hand after a caution. Each route keeps its own
-requested and actual model in the receipt it returns.
+The launcher selects the authorized default. Visitors can select another offered route.
+Failures never select a different provider automatically. Each route retains its own requested
+and actual model in its receipts; existing research model choices remain recorded.
 
 Subscription routes live outside the product (they need the subscription CLIs and their reviewed
 bridge); this module only needs an object with `route_id`, `status()` and `request(payload)`.
@@ -74,7 +73,7 @@ class RouteGateway:
 
     transport_mode = "model_routes"
 
-    def __init__(self, api, subscriptions=(), quota=None):
+    def __init__(self, api, subscriptions=(), quota=None, *, default_route=None):
         self.api = api
         self.subscriptions = {}
         for route in subscriptions:
@@ -84,15 +83,20 @@ class RouteGateway:
         self.quota = quota or QuotaState()
         self.policy = api.policy
         self.requests_dir = None
+        self.default_route = default_route or api.model
+        if self.default_route not in self.approved_models():
+            raise ValueError("기본 모델 경로가 승인된 선택지에 없습니다.")
 
     # The runner's quota-resume check compares receipts with the default route's model/effort.
     @property
     def model(self):
-        return self.api.model
+        route = self.subscriptions.get(self.default_route)
+        return route.model if route else self.api.model
 
     @property
     def effort(self):
-        return self.api.effort
+        route = self.subscriptions.get(self.default_route)
+        return route.status()['effort'] if route else self.api.effort
 
     @property
     def enabled(self):
@@ -100,14 +104,16 @@ class RouteGateway:
 
     @property
     def last_live_success(self):
-        return self.api.last_live_success
+        route = self.subscriptions.get(self.default_route)
+        return route.status().get('last_live_success') if route else self.api.last_live_success
 
     def approved_models(self):
         return [*self.api.approved_models(), *self.subscriptions]
 
     def route(self, model):
         """None for the competition API, otherwise the chosen subscription route."""
-        if model is None or model in self.api.approved_models():
+        model = self.default_route if model is None else model
+        if model in self.api.approved_models():
             return None
         route = self.subscriptions.get(model)
         if route is None:
@@ -134,7 +140,7 @@ class RouteGateway:
                    "사용 가능" if api["available"] else api["message"])
         return [{"id": name, "kind": "competition", "provider": "competition_api",
                  "label": API_LABELS.get(name, name), "model": name,
-                 "effort": api["requested_effort"], "default": name == api["requested_model"],
+                 "effort": api["requested_effort"], "default": name == self.default_route,
                  "available": available, "message": message, "caution": None}
                 for name in api["approved_models"]]
 
@@ -143,7 +149,7 @@ class RouteGateway:
         quota = self.quota.snapshot()
         routes = self._api_routes(api, quota)
         for route in self.subscriptions.values():
-            routes.append({**route.status(), "kind": "subscription", "default": False})
+            routes.append({**route.status(), "kind": "subscription", "default": route.route_id == self.default_route})
         api_available = api["available"] and quota is None
         subscription_available = any(r["available"] for r in routes if r["kind"] == "subscription")
         if api_available:
@@ -154,11 +160,21 @@ class RouteGateway:
             message = "대회 API 사용 불가 · 제출자 구독 모델을 직접 선택할 수 있습니다"
         else:
             message = api["message"] if not quota else QUOTA_EXHAUSTED_MESSAGE
-        return {**api, "available": api_available or subscription_available,
+        default = next(r for r in routes if r['id'] == self.default_route)
+        default_subscription = default['kind'] == 'subscription'
+        return {**api, **({key: default.get(key) for key in (
+                    'maximum_requests', 'requests_made', 'requests_remaining', 'last_live_success')}
+                    if default_subscription else {}),
+                "requested_model": default['model'], "requested_effort": default['effort'],
+                "default_route": self.default_route, "default_model": self.default_route,
+                "resource_exhausted": default.get('requests_remaining') == 0,
+                "resource_scope": 'default_subscription_route' if default_subscription else api.get('resource_scope'),
+                "available": api_available or subscription_available,
                 "competition_available": api_available, "competition_quota": quota,
                 "competition_api": True, "approved_models": self.approved_models(),
                 "routes": routes, "transport_mode": self.transport_mode,
-                "automatic_fallback": False, "message": message}
+                "automatic_fallback": False,
+                "message": default['message'] if default_subscription else message}
 
     def request(self, payload, model=None):
         route = self.route(model)

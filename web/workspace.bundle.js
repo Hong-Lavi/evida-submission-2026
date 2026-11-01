@@ -3313,8 +3313,8 @@ function renderCurrentEvidenceScope(){
   return scope?.mode==='supplied_only'?`<aside class="ui-evidence-boundary" aria-label="현재 근거 범위"><strong>제공한 근거만 검토</strong><span>${scope.as_of?` · 근거 기준일 ${esc(scope.as_of)}`:' · 기준일 미지정'}</span><p class="small muted">추가 조회는 제공된 자료 범위 안에서 진행합니다. 해석에는 모델의 사전지식도 사용됩니다.</p></aside>`:'';
 }
 
-// null keeps the server's default route (the competition API). The server rechecks every choice.
-// A subscription route is only ever chosen by the visitor, after the caution below; never automatically.
+// null keeps the server's explicitly configured default route. The server rechecks every choice.
+// Other subscription routes require the visitor's confirmation; there is no automatic fallback.
 let chosenModel = null, modelChoiceLoaded = false;
 // Per-view acknowledgement only. Existing history/config/routes are untouched.
 const continuationRouteChoices = new Map();
@@ -3329,13 +3329,14 @@ function unresolvedContinuationRoute(){
 }
 const shownQuotaJobs = new Set();
 function loadModelChoice(){if(modelChoiceLoaded)return;modelChoiceLoaded=true;try{chosenModel=evidaStorage.getItem('evida-model-choice')||null}catch{}}
-function rememberModelChoice(name){chosenModel=name||null;if(state?.id)continuationRouteChoices.set(state.id,name||status?.gateway?.requested_model);try{chosenModel?evidaStorage.setItem('evida-model-choice',chosenModel):evidaStorage.removeItem('evida-model-choice')}catch{}}
+function rememberModelChoice(name){chosenModel=name||null;if(state?.id)continuationRouteChoices.set(state.id,name||defaultModel());try{chosenModel?evidaStorage.setItem('evida-model-choice',chosenModel):evidaStorage.removeItem('evida-model-choice')}catch{}}
 function gatewayRoutes(){return Array.isArray(status?.gateway?.routes)?status.gateway.routes:[]}
 function routeFor(name){return gatewayRoutes().find(r=>r.id===name)}
 function isSubscriptionRoute(name){return routeFor(name)?.kind==='subscription'}
 function subscriptionAccount(route){return route?.provider==='anthropic'?'Claude':'ChatGPT'}
 function offeredModels(){return [...new Set((status?.gateway?.approved_models??[]).filter(name=>typeof name==='string'&&name))]}
-function currentModel(){loadModelChoice();const missing=unresolvedContinuationRoute();return missing??(chosenModel&&offeredModels().includes(chosenModel)?chosenModel:status?.gateway?.requested_model)}
+function defaultModel(){const g=status?.gateway??{};return g.default_model??g.default_route??gatewayRoutes().find(r=>r.default===true)?.id??g.requested_model}
+function currentModel(){loadModelChoice();const missing=unresolvedContinuationRoute();return missing??(chosenModel&&offeredModels().includes(chosenModel)?chosenModel:defaultModel())}
 function modelDisplayName(name){const r=routeFor(name);if(r)return r.kind==='subscription'?`${r.label} · 제출자 구독`:`${r.label} · 대회 API`;return name==='claude-opus-5'?'Claude Opus 5':String(name??'모델 확인 필요')}
 function modelEffortLabel(name=currentModel()){return routeFor(name)?.effort??status?.gateway?.requested_effort??'설정 확인 필요'}
 function modelUsable(name){if(offeredModels().length&&!offeredModels().includes(name))return false;const r=routeFor(name);return r?r.available===true:status?.gateway?.available===true}
@@ -3343,9 +3344,9 @@ function modelAccessButton(){
   const name=currentModel(),label=modelDisplayName(name),ok=modelUsable(name);
   return button('model-help',`${esc(label)} · ${esc(modelEffortLabel(name))}${ok?'':' · 확인'}`,`aria-label="모델 이용 안내 · ${esc(label)} · ${esc(modelEffortLabel(name))}${ok?' · 사용 가능':' · 연결 상태 확인 필요'}" title="모델 이용 안내"`,`quiet small${isSubscriptionRoute(name)?' subscription-chip':''}`);
 }
-function resourceAllowanceText(g,shared=false){const max=g?.maximum_requests,left=g?.requests_remaining;return Number.isInteger(max)&&Number.isInteger(left)?`${shared?'모든 저장소가 공유하는 이 구독 경로의 예산':'이 저장소의 이번 서버 실행 예산'} · ${left} / ${max}회 남음`:''}
+function resourceAllowanceText(g,shared=false){const max=g?.maximum_requests,left=g?.requests_remaining;if(g&&Object.hasOwn(g,'maximum_requests')&&max===null)return 'EVIDA 별도 호출 횟수 제한 없음 · 제공자 구독 이용 한도는 적용';return Number.isInteger(max)&&Number.isInteger(left)?`${shared?'모든 저장소가 공유하는 이 구독 경로의 예산':'이 저장소의 이번 서버 실행 예산'} · ${left} / ${max}회 남음`:''}
 function plannerExecutionText(){const p=status?.planner_execution;if(!p)return '';return p.mode==='goal_completion'?'목표 완료까지 계획 계속 · 자원 예산은 별도 적용':`판단 응답 ${p.response_limit}회 · 수정 포함 최대 ${p.maximum_responses_including_corrections}회`}
-function competitionStateText(g){const state=g.competition_quota?'토큰 사용량 한도 소진 (HTTP 403) · 자동 전환 없음':g.competition_available===false||g.available===false?(g.message??'연결 확인 필요'):'기본 실행 경로 · 사용 가능';return [state,resourceAllowanceText(g),plannerExecutionText()].filter(Boolean).join(' · ')}
+function competitionStateText(g){if(g.competition_enabled===false)return '대회 API 사용 안 함';const state=g.competition_quota?'토큰 사용량 한도 소진 (HTTP 403) · 자동 전환 없음':g.competition_available===false||g.available===false?(g.message??'연결 확인 필요'):'사용 가능';return [state,resourceAllowanceText(g),plannerExecutionText()].filter(Boolean).join(' · ')}
 function subscriptionCaution(text){return `<div class="subscription-caution" role="alert"><strong>주의 · 제출자(연구자) 개인 구독으로 운용됩니다</strong><p>${text}</p></div>`}
 function modelRouteRow(r,action,label){const selected=currentModel()===r.id;return `<div class="model-route ${esc(r.kind)}"><div><strong>${esc(r.label)}</strong> <span class="muted">· ${esc(r.effort)} · ${r.kind==='subscription'?'제출자 '+esc(subscriptionAccount(r))+' 구독':'대회 API'}</span>${r.kind==='subscription'&&resourceAllowanceText(r,true)?`<p class="small">${esc(resourceAllowanceText(r,true))}</p>`:''}${r.available?'':`<p class="small">${esc(r.message)}</p>`}</div>${button(action,selected?'선택됨':label,`data-model="${esc(r.id)}" ${r.available&&!selected?'':'disabled'}`,r.kind==='subscription'?'small':'quiet small')}</div>`}
 async function openModelAccessHelp(){
@@ -3356,9 +3357,11 @@ async function openModelAccessHelp(){
     return;
   }
   const competition=routes.filter(r=>r.kind==='competition'),subscriptions=routes.filter(r=>r.kind==='subscription');
+  const defaultName=defaultModel(),defaultRoute=routeFor(defaultName);
+  const defaultNotice=`기본 실행: ${esc(modelDisplayName(defaultName))} · ${esc(modelEffortLabel(defaultName))}. ${defaultRoute?.kind==='subscription'?'제출자(연구자)의 개인 구독으로 실행됩니다. ':''}다른 모델은 직접 선택하며 자동 전환되지 않습니다.`;
   const missing=unresolvedContinuationRoute();
   const continuationNotice=missing?`<p class="notice-inline" role="alert">이 연구의 이전 모델 경로(${esc(missing)})는 현재 제공되지 않습니다. 이전 결과는 보존됩니다. 아래에서 실행 경로를 직접 선택한 뒤 검토를 다시 실행해 주세요.</p>`:'';
-  showDialog('모델 이용 안내',`<dl><dt>현재 선택</dt><dd>${esc(modelDisplayName(name))} · ${esc(modelEffortLabel(name))}</dd><dt>대회 API</dt><dd role="status">${esc(competitionStateText(g))}</dd></dl>${continuationNotice}<p>기본 실행은 대회에서 제공한 API입니다. 대회 API 토큰이 소진되면 아래 제출자 구독 모델을 직접 골라 다시 실행할 수 있습니다. 모델은 자동으로 바뀌지 않습니다.</p><h3 class="model-route-heading">대회 API</h3><div class="model-route-list">${competition.map(r=>modelRouteRow(r,'choose-model','이 모델 선택')).join('')}</div>${subscriptions.length?`<h3 class="model-route-heading">제출자 구독</h3>${subscriptionCaution('아래 모델은 대회 API가 아니라 제출자(연구자)의 개인 Claude·ChatGPT 구독으로 실행됩니다. 확인 후 선택해 주세요.')}<div class="model-route-list">${subscriptions.map(r=>modelRouteRow(r,'confirm-model','확인하고 이 모델 사용')).join('')}</div>`:''}`);
+  showDialog('모델 이용 안내',`<dl><dt>현재 선택</dt><dd>${esc(modelDisplayName(name))} · ${esc(modelEffortLabel(name))}</dd><dt>대회 API</dt><dd role="status">${esc(competitionStateText(g))}</dd></dl>${continuationNotice}<p>${defaultNotice}</p>${competition.length?`<h3 class="model-route-heading">대회 API</h3><div class="model-route-list">${competition.map(r=>modelRouteRow(r,'choose-model','이 모델 선택')).join('')}</div>`:''}${subscriptions.length?`<h3 class="model-route-heading">제출자 구독</h3>${subscriptionCaution('아래 모델은 대회 API가 아니라 제출자(연구자)의 개인 Claude·ChatGPT 구독으로 실행됩니다. 확인 후 선택해 주세요.')}<div class="model-route-list">${subscriptions.map(r=>modelRouteRow(r,'confirm-model','확인하고 이 모델 사용')).join('')}</div>`:''}`);
 }
 function openSubscriptionCaution(name){
   const r=routeFor(name);if(!r)return;
@@ -3366,13 +3369,14 @@ function openSubscriptionCaution(name){
 }
 function openQuotaDialog(message){
   const subscriptions=gatewayRoutes().filter(r=>r.kind==='subscription');
-  showDialog('대회 API 토큰 사용량 한도',`<p role="status">${esc(message||'대회 API의 토큰 사용량 한도에 도달해 이 요청을 실행하지 못했습니다 (HTTP 403).')}</p><p>대회 API 대신 제출자 구독 모델로 바꿔 직접 다시 실행할 수 있습니다. 모델을 바꾼 뒤 실행 버튼을 다시 눌러 주세요.</p>${subscriptionCaution('아래 모델은 제출자(연구자)의 개인 Claude·ChatGPT 구독으로 운용됩니다. 확인 후 선택해 주세요.')}<div class="model-route-list">${subscriptions.map(r=>modelRouteRow(r,'confirm-model','이 모델로 바꾸기')).join('')||'<p>지금 사용할 수 있는 구독 모델이 없습니다. 완료된 연구는 계속 열어볼 수 있습니다.</p>'}</div>`);
+  const competitionQuota=status?.gateway?.competition_quota===true;
+  showDialog(competitionQuota?'대회 API 토큰 사용량 한도':'이전 실행의 이용 한도 안내',`<p role="status">${esc(message||(competitionQuota?'대회 API의 토큰 사용량 한도에 도달해 이 요청을 실행하지 못했습니다 (HTTP 403).':'이전 요청이 이용 한도로 완료되지 못했습니다. 현재 모델별 연결 상태와 예산은 모델 이용 안내에서 확인해 주세요.'))}</p><p>이전 실패 기록은 보존됩니다. 현재 사용 가능한 모델을 직접 선택한 뒤 실행 버튼을 다시 눌러 주세요.</p>${subscriptionCaution('아래 모델은 제출자(연구자)의 개인 Claude·ChatGPT 구독으로 운용됩니다. 확인 후 선택해 주세요.')}<div class="model-route-list">${subscriptions.map(r=>modelRouteRow(r,'confirm-model','이 모델로 바꾸기')).join('')||'<p>지금 사용할 수 있는 구독 모델이 없습니다. 완료된 연구는 계속 열어볼 수 있습니다.</p>'}</div>`);
 }
 async function chooseModelAction(action,node){
   const name=node.dataset.model;
   if(!offeredModels().includes(name)){notice('현재 연결에서 허용된 모델만 선택할 수 있습니다.');return}
   if(action==='choose-model'&&isSubscriptionRoute(name)){openSubscriptionCaution(name);return}
-  rememberModelChoice(name===status.gateway?.requested_model?null:name);
+  rememberModelChoice(name===defaultModel()?null:name);
   if(dialog.open)dialog.close();
   notice(`${modelDisplayName(name)} · ${modelEffortLabel(name)}로 실행합니다. 실행 버튼을 다시 눌러 주세요.`);
   render();
@@ -3389,7 +3393,7 @@ function modelChoice(){
   const offered=offeredModels(),selected=currentModel(),routes=gatewayRoutes();
   const option=name=>{const r=routeFor(name),off=Boolean(r)&&!r.available;return `<option value="${esc(name)}" ${selected===name?'selected':''} ${off&&selected!==name?'disabled':''}>${esc(modelDisplayName(name))} · ${esc(modelEffortLabel(name))}${off?' · '+esc(r.kind==='competition'&&status.gateway?.competition_quota?'토큰 한도 소진':'사용 불가'):''}</option>`};
   const competition=offered.filter(n=>!isSubscriptionRoute(n)),subscriptions=offered.filter(isSubscriptionRoute);
-  const options=routes.length?`<optgroup label="대회 API (기본)">${competition.map(option).join('')}</optgroup>${subscriptions.length?`<optgroup label="제출자 구독 · 선택 시 주의 확인">${subscriptions.map(option).join('')}</optgroup>`:''}`:offered.map(option).join('');
+  const options=routes.length?`${competition.length?`<optgroup label="대회 API">${competition.map(option).join('')}</optgroup>`:''}${subscriptions.length?`<optgroup label="제출자 구독 · 선택 시 주의 확인">${subscriptions.map(option).join('')}</optgroup>`:''}`:offered.map(option).join('');
   return `<label class="model-choice">모델
     <select id="intake-model">${options}${!offered.includes(selected)?'<option value="" selected disabled>연결 모델 확인 필요</option>':''}</select>
   </label>${button('model-help','모델 이용 안내','','quiet small')}`;
@@ -3609,7 +3613,7 @@ document.addEventListener('change',event=>{
     if(!offeredModels().includes(value)){event.target.value=previous??'';notice('현재 연결에서 허용된 모델만 선택할 수 있습니다.')}
     // A subscription route is confirmed in its caution dialog before it becomes the choice.
     else if(isSubscriptionRoute(value)&&value!==previous){event.target.value=previous??'';openSubscriptionCaution(value)}
-    else rememberModelChoice(value===status.gateway?.requested_model?null:value);
+    else rememberModelChoice(value===defaultModel()?null:value);
   }
   if(event.target.id==='upload-kind')updateUploadKind();
 });
@@ -6911,7 +6915,7 @@ const inputContext = a => a.meta.contrast ?? state?.artifacts.find(i=>i.id===a.m
 function notice(message){clearTimeout(noticeTimer);const n=document.querySelector('#notice');n.textContent=message;n.classList.add('visible');noticeTimer=setTimeout(()=>n.classList.remove('visible'),7000)}
 async function api(path,body){const response=await fetch(deploymentURL(path),{method:body?'POST':'GET',headers:body?{'Content-Type':'application/json','X-Evida-Request':'1'}:{},body:body?JSON.stringify(body):undefined});const data=await response.json();if(!response.ok){const error=Error(data.error||'요청을 완료하지 못했습니다.');error.status=data.status;throw error}return data}
 let gatewayStatusPending=null, gatewayStatusContext=null;
-function gatewayDisplayState(value){const g=value?.gateway??{};return JSON.stringify([g.available,g.message,g.requested_model,g.requested_effort,g.approved_models,g.maximum_requests,g.requests_remaining,g.resource_exhausted,value?.planner_execution,Boolean(g.competition_quota),(g.routes??[]).map(r=>[r.id,r.available,r.message,r.maximum_requests,r.requests_remaining]),value?.read_only_preview])}
+function gatewayDisplayState(value){const g=value?.gateway??{};return JSON.stringify([g.default_model,g.default_route,g.competition_enabled,g.available,g.message,g.requested_model,g.requested_effort,g.approved_models,g.maximum_requests,g.requests_remaining,g.resource_exhausted,value?.planner_execution,Boolean(g.competition_quota),(g.routes??[]).map(r=>[r.id,r.default,r.effort,r.available,r.message,r.maximum_requests,r.requests_remaining]),value?.read_only_preview])}
 async function refreshGatewayStatus({force=false,renderChanges=true}={}){
  const context=state?.id??null;
  if(gatewayStatusPending){if(!force&&gatewayStatusContext===context)return gatewayStatusPending;await gatewayStatusPending}

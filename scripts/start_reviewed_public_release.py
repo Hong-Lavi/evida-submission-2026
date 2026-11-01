@@ -40,9 +40,11 @@ def launch_profile(release):
         if not runtime.is_relative_to(BASE) or not (runtime / 'transport/route_transport.py').is_file():
             raise SystemExit('The selected release has no reviewed model-route runtime.')
         authorization = json.loads((runtime / 'authorization.json').read_text())
+        route_ids = {'subscription:' + spec['model'] for spec in authorization.get('routes', [])}
         if (authorization.get('status') != 'AUTHORIZED_BY_RESEARCHER'
-                or authorization.get('default_route') != 'competition_api'
-                or authorization.get('automatic_fallback') is not False):
+                or authorization.get('default_route') not in {'competition_api', *route_ids}
+                or authorization.get('automatic_fallback') is not False
+                or authorization.get('competition_enabled', True) is not True):
             raise SystemExit('The selected release has no explicit model-route authorization.')
         return {'model': 'gpt-6-sol', 'effort': 'medium', 'runtime': None, 'routes': runtime}
     value = manifest.get('subscription_runtime')
