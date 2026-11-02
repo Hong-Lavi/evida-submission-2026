@@ -3493,7 +3493,7 @@ function renderWorkflowStatus(){
   const oldOnly=active&&!state.jobs.some(j=>j.based_rev===state.rev&&['queued','running'].includes(j.status));
   const title=current?'검토 결과가 준비됐습니다.':queued?'검토 실행을 기다리고 있습니다.':oldOnly?'이전 조건의 작업이 실행 중입니다.':active?'입력한 질문을 검토하고 있습니다.':latest?'이번 검토가 끝까지 완료되지 않았습니다.':hasPrevious?'새 근거가 추가됐습니다. 이전 판단과 비교해 보세요.':inputs.length?'자료가 준비됐습니다. 분석을 시작해 주세요.':'질문이 저장됐습니다. 검토를 시작해 주세요.';
   const body=current?'아래에서 판단과 근거를 확인하고, 추가 질문이나 새 관측으로 이어가세요.':queued?'요청은 저장됐습니다. 실행 순서를 기다리고 있으며 같은 질문을 다시 보내지 않아도 됩니다. 기존 자료와 판단은 지금도 확인할 수 있습니다.':oldOnly?'새 입력은 저장됐지만 현재 조건의 검토는 아직 시작되지 않았습니다. 실행 중인 작업의 결과는 원래 조건으로 보존합니다.':active?'진행 중에도 자료를 살펴볼 수 있습니다. 페이지를 새로고침해도 작업은 이어집니다.':latest?(latest.error||'완료한 자료와 이전 판단은 보존돼 있습니다. 실행 기록에서 현재 상태를 확인하세요.'):hasPrevious?'이전 판단과 모든 원자료는 보존돼 있습니다. 추가된 근거로 판단을 갱신하거나, 가정·관측을 더 입력할 수 있습니다.':'입력 저장만으로는 모델이 실행되지 않습니다. 아래 버튼을 누르면 실제 검토와 필요한 도구 실행을 시작합니다.';
-  const content = `<ol class="workflow-steps"><li class="done">1 요청·자료</li><li class="${active&&!queued&&!oldOnly?'now':current?'done':''}">2 분석·근거 검토</li><li class="${current?'done':''}">3 판단·다음 행동</li><li>4 관측·정정 반영</li></ol><strong>${esc(title)}</strong><p>${esc(body)}</p>${workflowActivity(latest)}${renderSavedProgress()}${!current&&!active&&!latest?button('plan',hasPrevious?'새 근거로 판단 갱신':inputs.length?'이 자료 분석하기':'저장한 질문 검토하기',!status.gateway.available||busy?'disabled':'','primary small'):''}${!active&&latest&&!current?button('show-jobs','실행 상태 확인','','small'):''}`;
+  const content = `<ol class="workflow-steps"><li class="done">1 요청·자료</li><li class="${active&&!queued&&!oldOnly?'now':current?'done':''}">2 분석·근거 검토</li><li class="${current?'done':''}">3 판단·다음 행동</li><li>4 관측·정정 반영</li></ol><strong>${esc(title)}</strong><p>${esc(body)}</p>${renderModelRecovery()}${workflowActivity(latest)}${renderSavedProgress()}${!current&&!active&&!latest?button('plan',hasPrevious?'새 근거로 판단 갱신':inputs.length?'이 자료 분석하기':'저장한 질문 검토하기',!status.gateway.available||busy?'disabled':'','primary small'):''}${!active&&latest&&!current?button('show-jobs','실행 상태 확인','','small'):''}`;
   if(current&&!active)return `<details class="workflow-status workflow-complete"><summary>검토 완료 · 조사 과정 보기</summary>${content}</details>`;
   return `<section class="workflow-status ${active?'working':''}" aria-live="polite">${content}</section>`;
 }
@@ -5063,6 +5063,7 @@ function roadmapLiveCard(){
   const call=p.completedCalls+(p.status==='running'?1:0);
   const researchQuestion=latestFrame()?.current_question??'';
   return `<div class="roadmap-activity roadmap-live" role="status" aria-live="polite"><span class="section-mark">${p.status==='queued'?'조사 대기 중':'조사 진행 중'} · 시작 ${esc(time(p.started))}${p.elapsedMinutes===null?'':` · ${p.elapsedMinutes}분 경과`}${call?` · 모델 호출 ${call}회째`:''}</span>
+    ${renderModelRecovery()}
     ${researchQuestion?`<p><strong>연구 질문</strong> · ${esc(roadmapSummary(researchQuestion,240))}</p>`:'<p>질문을 정리하고 필요한 자료를 찾고 있습니다.</p>'}
     ${p.nextGoal?`<details data-detail-key="live-research-notes"><summary>현재 조사 계획 자세히 보기</summary><p>${esc(p.nextGoal)}</p><p class="small muted">조사 중 작성한 잠정 메모입니다.</p></details>`:''}
     ${used?`<details data-detail-key="live-tool-summary"><summary>지금까지 자료 조회·도구 실행 ${toolCalls}회</summary><p class="small">${esc(used)}</p></details>`:''}
@@ -6885,6 +6886,45 @@ function renderEvidenceWorkbench(snapshot=state){
 
 
 ;
+/* Source: visitor-notice.js */
+// First-visit information only: does not read or change model/workspace settings.
+function showVisitorResearchNotice(){
+  const key='evida-research-access-notice-v1';
+  try{if(localStorage.getItem(key)==='dismissed')return}catch{}
+  if(document.getElementById('visitor-research-notice'))return;
+  const previous=document.activeElement;
+  const notice=document.createElement('dialog');
+  notice.id='visitor-research-notice';
+  notice.setAttribute('aria-labelledby','visitor-research-title');
+  notice.setAttribute('aria-describedby','visitor-research-description');
+  notice.innerHTML=`<div class="dialog-title"><h2 id="visitor-research-title">연구 실행 안내</h2><button type="button" class="quiet visitor-notice-close" aria-label="연구 실행 안내 닫기">×</button></div><div id="visitor-research-description"><p>EVIDA의 기본 모델은 제출팀이 제공하는 GPT 구독 모델입니다. 별도 모델 계정 로그인 없이 연구를 요청하실 수 있습니다.</p><p>대회 제공 API도 모델 선택에서 이용할 수 있으며, 잔여 사용량은 확인 중입니다.</p></div><div class="dialog-actions"><button type="button" class="primary visitor-notice-continue" autofocus>연구 계속하기</button></div>`;
+  const dismiss=()=>notice.close();
+  notice.querySelector('.visitor-notice-close').addEventListener('click',dismiss);
+  notice.querySelector('.visitor-notice-continue').addEventListener('click',dismiss);
+  notice.addEventListener('cancel',event=>{event.preventDefault();dismiss()});
+  notice.addEventListener('close',()=>{
+    try{localStorage.setItem(key,'dismissed')}catch{}
+    notice.remove();
+    if(previous?.isConnected)previous.focus();
+  },{once:true});
+  document.body.append(notice);
+  notice.showModal();
+}
+
+
+;
+/* Source: model-recovery.js */
+// Display server-reported waiting state; never changes model or starts a retry.
+function renderModelRecovery(workspace=state){
+  const recovery=workspace?.model_recovery;
+  if(!recovery||!workspace.jobs?.some(job=>job.id===recovery.job_id&&job.status==='running'))return '';
+  const retryAt=new Date(recovery.retry_at);
+  const retryLabel=recovery.retry_at&&!Number.isNaN(retryAt.getTime())?retryAt.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',second:'2-digit'}):'';
+  return `<div class="model-recovery" role="status" aria-live="polite"><p>모델이 혼잡해 같은 모델의 응답을 기다리고 있습니다. 연구 기록을 보존하고 이어서 실행합니다.</p>${retryLabel?`<p class="small muted">다음 응답 요청 예정 · ${esc(retryLabel)} (현재 기기 시각)</p>`:''}</div>`;
+}
+
+
+;
 /* Source: app.js */
 const app = document.querySelector('#app');
 const dialog = document.querySelector('#editor');
@@ -7040,7 +7080,7 @@ async function loadProject(id){
  selected=null;detail=null;offset=0;query='';optionsOffset=0;optionsPage=null;optionsWorkspace=null;
  render();refreshGatewayStatus({force:true}).catch(()=>{});if(optionsOpen)await loadOptions();if(version===projectLoadVersion)window.scrollTo(0,0);
 }
-async function refresh(){if(!state)return;const wid=state.id;const fresh=await api(`/api/workspaces/${wid}`);if(state?.id!==wid)return;const changed=fresh.event_cursor!==state.event_cursor;state=fresh;if(changed){projects=await api('/api/workspaces');render();if(tab==='data'&&state.artifacts.find(a=>a.id===selected)?.kind==='source_file')await readDetail();if(optionsOpen)await loadOptions()}if(typeof checkQuotaJobs==='function')checkQuotaJobs()}
+async function refresh(){if(!state)return;const wid=state.id;const fresh=await api(`/api/workspaces/${wid}`);if(state?.id!==wid)return;const changed=fresh.event_cursor!==state.event_cursor||JSON.stringify(fresh.model_recovery??null)!==JSON.stringify(state.model_recovery??null);state=fresh;if(changed){projects=await api('/api/workspaces');render();if(tab==='data'&&state.artifacts.find(a=>a.id===selected)?.kind==='source_file')await readDetail();if(optionsOpen)await loadOptions()}if(typeof checkQuotaJobs==='function')checkQuotaJobs()}
 async function chooseArtifact(id){selected=id;offset=0;detail=null;tab='data';render();await readDetail()}
 async function openArticleSection(node){articleReferenceModes.delete(selected);const next=Number(node.dataset.offset);if(!Number.isInteger(next)||next<0)return;offset=next;await readDetail();document.querySelector('.data-detail')?.scrollIntoView({block:'start'});}
 async function readDetail(){
@@ -7156,7 +7196,7 @@ document.addEventListener('change',event=>{if(event.target.id==='input-kind')inp
 document.addEventListener('input',event=>{if(event.target.id==='semantic-literature-query'&&state){const view=semanticView(state.id),wasLoading=view.loading;if(wasLoading)semanticStop(state.id,'검색어가 바뀌어 이전 검색 기다림을 닫았습니다.');view.query=event.target.value;if(wasLoading){view.result=null;render()}}});
 document.addEventListener('keydown',event=>{if(event.key==='Enter'&&event.target.id==='semantic-literature-query'){event.preventDefault();act('semantic-literature-search',event.target)}});
 async function init(){[status,projects]=await Promise.all([api('/api/status'),api('/api/workspaces')]);const direct=new URLSearchParams(location.search).get('workspace'),remembered=evidaStorage.getItem('evida-project'),configured=typeof uiDemoResearchIds==='function'?uiDemoResearchIds():null;const id=direct??(configured===null||configured.has(remembered)?remembered:null);if(id&&projects.some(p=>p.id===id))await loadProject(id);else{draft=evidaStorage.getItem(draftKey())??'';render()}setInterval(()=>{if(state&&!busy)refresh().catch(()=>{})},2500);setInterval(checkGatewayWhenVisible,10000)}
-init().catch(e=>{app.innerHTML=`<p class="boot">${esc(e.message)}</p>`});
+init().then(()=>showVisitorResearchNotice()).catch(e=>{app.innerHTML=`<p class="boot">${esc(e.message)}</p>`});
 
 function sourceVisualReviewView(result){return `<p class="limit">보존된 원문 페이지를 읽고 남긴 판독 기록입니다. 새 실험 결과나 독립 검증은 아닙니다.</p>${result.source_artifact_id?sourceLinks([result.source_artifact_id]):''}${result.rows.map(r=>`<article class="source-paragraph"><h3>${esc(r.page)}쪽 · ${esc(r.region_ko??r.region)}</h3><p class="prose">${esc(r.finding_ko??r.finding)}</p><p class="limit">${esc(r.limit_ko??r.limit)}</p></article>`).join('')}`;}
 

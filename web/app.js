@@ -152,7 +152,7 @@ async function loadProject(id){
  selected=null;detail=null;offset=0;query='';optionsOffset=0;optionsPage=null;optionsWorkspace=null;
  render();refreshGatewayStatus({force:true}).catch(()=>{});if(optionsOpen)await loadOptions();if(version===projectLoadVersion)window.scrollTo(0,0);
 }
-async function refresh(){if(!state)return;const wid=state.id;const fresh=await api(`/api/workspaces/${wid}`);if(state?.id!==wid)return;const changed=fresh.event_cursor!==state.event_cursor;state=fresh;if(changed){projects=await api('/api/workspaces');render();if(tab==='data'&&state.artifacts.find(a=>a.id===selected)?.kind==='source_file')await readDetail();if(optionsOpen)await loadOptions()}if(typeof checkQuotaJobs==='function')checkQuotaJobs()}
+async function refresh(){if(!state)return;const wid=state.id;const fresh=await api(`/api/workspaces/${wid}`);if(state?.id!==wid)return;const changed=fresh.event_cursor!==state.event_cursor||JSON.stringify(fresh.model_recovery??null)!==JSON.stringify(state.model_recovery??null);state=fresh;if(changed){projects=await api('/api/workspaces');render();if(tab==='data'&&state.artifacts.find(a=>a.id===selected)?.kind==='source_file')await readDetail();if(optionsOpen)await loadOptions()}if(typeof checkQuotaJobs==='function')checkQuotaJobs()}
 async function chooseArtifact(id){selected=id;offset=0;detail=null;tab='data';render();await readDetail()}
 async function openArticleSection(node){articleReferenceModes.delete(selected);const next=Number(node.dataset.offset);if(!Number.isInteger(next)||next<0)return;offset=next;await readDetail();document.querySelector('.data-detail')?.scrollIntoView({block:'start'});}
 async function readDetail(){
@@ -268,7 +268,7 @@ document.addEventListener('change',event=>{if(event.target.id==='input-kind')inp
 document.addEventListener('input',event=>{if(event.target.id==='semantic-literature-query'&&state){const view=semanticView(state.id),wasLoading=view.loading;if(wasLoading)semanticStop(state.id,'검색어가 바뀌어 이전 검색 기다림을 닫았습니다.');view.query=event.target.value;if(wasLoading){view.result=null;render()}}});
 document.addEventListener('keydown',event=>{if(event.key==='Enter'&&event.target.id==='semantic-literature-query'){event.preventDefault();act('semantic-literature-search',event.target)}});
 async function init(){[status,projects]=await Promise.all([api('/api/status'),api('/api/workspaces')]);const direct=new URLSearchParams(location.search).get('workspace'),remembered=evidaStorage.getItem('evida-project'),configured=typeof uiDemoResearchIds==='function'?uiDemoResearchIds():null;const id=direct??(configured===null||configured.has(remembered)?remembered:null);if(id&&projects.some(p=>p.id===id))await loadProject(id);else{draft=evidaStorage.getItem(draftKey())??'';render()}setInterval(()=>{if(state&&!busy)refresh().catch(()=>{})},2500);setInterval(checkGatewayWhenVisible,10000)}
-init().catch(e=>{app.innerHTML=`<p class="boot">${esc(e.message)}</p>`});
+init().then(()=>showVisitorResearchNotice()).catch(e=>{app.innerHTML=`<p class="boot">${esc(e.message)}</p>`});
 
 function sourceVisualReviewView(result){return `<p class="limit">보존된 원문 페이지를 읽고 남긴 판독 기록입니다. 새 실험 결과나 독립 검증은 아닙니다.</p>${result.source_artifact_id?sourceLinks([result.source_artifact_id]):''}${result.rows.map(r=>`<article class="source-paragraph"><h3>${esc(r.page)}쪽 · ${esc(r.region_ko??r.region)}</h3><p class="prose">${esc(r.finding_ko??r.finding)}</p><p class="limit">${esc(r.limit_ko??r.limit)}</p></article>`).join('')}`;}
 

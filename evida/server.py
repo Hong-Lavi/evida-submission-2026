@@ -227,6 +227,8 @@ def handler_for(app, public_hosts=()):
                             (state["decision"] or {}).get("research_loop", {}).get("next_checks", [])}
                         from .planner_recovery import prepare_quota_resume
                         latest = next((j for j in reversed(state['jobs']) if j['kind'] == 'planner'), None)
+                        from .capacity_recovery import recovery_view
+                        state['model_recovery'] = recovery_view(state)
                         state['quota_resume'] = None
                         if latest and latest['status'] == 'quota_or_rate_limit':
                             try:
@@ -313,6 +315,8 @@ def handler_for(app, public_hosts=()):
                             return self.send(result,202)
                         if route[3] == "jobs":
                             return self.send({"job_id": app.runner.start(wid, body["expected_rev"], body["tool"], body.get("arguments", {}))}, 202)
+                        if route[3] == "resume-subscription":
+                            return self.send({'job_id': app.runner.resume_subscription(wid, body['expected_rev'], body['source_job'])}, 202)
                         if route[3] == "resume-planner":
                             return self.send({"job_id": app.runner.resume_quota(wid, body["expected_rev"], body["source_job"])}, 202)
                         if route[3] == "research-checks":

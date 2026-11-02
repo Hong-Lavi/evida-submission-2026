@@ -1,8 +1,8 @@
 {
   "status": "REVIEWED_SOURCE_PACKAGE",
-  "source_manifest_sha256": "a5f1e3902094ef06ceafe0e1ef4bac4d5fc6ee3ffa63874a70b96ddf924994a8",
-  "source_commit": "1683bd916be1512dd337d739318f676a1c301f16",
-  "frozen_source_file_count": 605,
+  "source_manifest_sha256": "ae167de66593ea772a9f80d9e9ac9481db0211435b825f9fdcf6fd14b6b14b9c",
+  "source_commit": "771fcf114f85583b25ca4e20bec108b6593d8052",
+  "frozen_source_file_count": 612,
   "reasoning_core": {
     "original_case_denominator": 500,
     "current_cases": 493,
@@ -23,9 +23,9 @@
     "gpt_subscription_call_limit": null,
     "gpt_subscription_response_timeout_seconds": null
   },
-  "runtime_source_manifest_sha256": "1fe49d8a2bfef99306c656484e3d0f227a47082213b512bc7a3255291ea290c2",
+  "runtime_source_manifest_sha256": "9ae048f2b83b31686b37f4fa741dca13dee9da7cf52c8a2282732a6258692c78",
   "packaging_model_calls": 0,
-  "validation_source": "15 model-route checks; subscription timeout and ledger tests; browser default and explicit manual model choice checks.",
+  "validation_source": "30 product recovery/navigation/model-route/supervision checks; 13 runtime and input-policy checks; 5 actual Chrome integration checks.",
   "publication_verification": {
     "status": "PUBLIC_ENDPOINTS_CONFIRMED",
     "repository": "https://github.com/Hong-Lavi/evida-submission-2026",
@@ -57,6 +57,8 @@
     "effort": "medium",
     "competition_api": "manual option",
     "provider_runtime": "Host-reviewed subscription bridge and owner-managed CLI authentication",
-    "source_package_runtime_note": "runtime/ contains connection reference sources; deployed subscription adapter and credentials are host-managed."
+    "source_package_runtime_note": "runtime/subscription contains bridge and transport reference sources. Authentication and authorization are host-managed.",
+    "capacity_recovery": "Same explicitly selected GPT model and request; delay30/60/120/300seconds, no total retry count.",
+    "input_size_review_limits": "Indexed GPT input-byte thresholds are advisory; source equality and other checks remain enforced."
   }
 }

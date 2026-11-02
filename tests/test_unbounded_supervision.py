@@ -63,7 +63,10 @@ class UnboundedSupervision(unittest.TestCase):
                 self.assertIsNone(current_call(request)['maximum_responses_remaining_including_current'])
                 self.assertFalse(current_call(request)['unbounded_supervision']['count_forced_synthesis'])
             self.assertEqual(sum(a['kind']=='model_receipt'for a in state['artifacts']),21)
-            self.assertEqual(sum(a['kind']=='supervision_progress'for a in state['artifacts']),21)
+            # The 21st response arrives after a goal revision: preserve its receipt,
+            # but do not accept it as another action in the obsolete plan.
+            self.assertEqual(sum(a['kind']=='supervision_progress'for a in state['artifacts']),20)
+            self.assertEqual(sum(a['kind']=='model_receipt' and a['meta'].get('dispatch_suppressed',False) for a in state['artifacts']),1)
             self.assertEqual(sum(a['kind']=='tool_reading'for a in state['artifacts']),15 if invalid_final or invalid_transport else 19)
             self.assertIsNone(state['decision'])
             self.assertEqual(state['rev'],2)

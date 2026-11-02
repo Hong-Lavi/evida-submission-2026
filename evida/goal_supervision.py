@@ -5,6 +5,8 @@ coordinator chooses which link matters for the actual researcher goal.
 """
 from collections import Counter
 import json
+import re
+from urllib.parse import urlsplit, urlunsplit
 
 GUIDANCE = (
     'Select the next research decision under ORIGINAL_MESSAGES and CURRENT_FRAME, then choose '
@@ -31,7 +33,7 @@ GUIDANCE = (
     'Do not force a final by elapsed calls or infer scientific sufficiency from these counts.')
 
 
-def build(context):
+def build(context, *, source_observations=None):
     catalog = context.get('COMPLETED_VIEWS', [])
     recent = catalog[-8:]
     evidence = context.get('RELEVANT_EVIDENCE', [])
@@ -41,7 +43,11 @@ def build(context):
     def byte_size(value):
         return len(json.dumps(value,ensure_ascii=False,separators=(',',':')).encode())
     return {
-        'version': 'goal-supervision-v1',
+        'version': 'goal-supervision-v2',
+        'source_attempt_observations': source_attempt_observations(catalog) if source_observations is None else source_observations,
+        'strategic_reconsideration': {
+            'instruction': 'Under ORIGINAL_MESSAGES and CURRENT_FRAME, reconsider the research decision before another acquisition. Use existing research_notes.next_goal to say what new information this source/range can add beyond retained readings, why it could change the next action, and what you will do if it remains unavailable. Inspect retained source_navigation link offsets before reacquiring a page to find its links. If an unresolved source only limits a stronger claim, choose whether a useful conditional checkpoint or an independent branch is warranted; if it is essential, explain that dependency. Repeated sources are observations, not a forced switch or scientific sufficiency verdict. Do not fabricate inputs, conclusions or successful access.',
+            'model_decides': True, 'forced_action': None, 'automatic_stop': False},
         'authority': 'ORIGINAL_MESSAGES and current researcher corrections; CURRENT_FRAME is provisional decomposition',
         'guidance': GUIDANCE,
         'retained_artifact_counts_by_kind': dict(kinds),
@@ -57,3 +63,64 @@ def build(context):
         'scientific_sufficiency_assessed': False,
         'automatic_stop': False, 'forced_tool': None, 'automatic_retry': False,
     }
+
+
+def _source_key(arguments):
+    pmc = arguments.get('pmc_id')
+    url = arguments.get('url')
+    if isinstance(pmc, str) and re.fullmatch(r'(?:PMC)?[0-9]+', pmc, re.I):
+        return 'pmc:' + pmc.upper().removeprefix('PMC')
+    if isinstance(url, str):
+        parsed = urlsplit(url)
+        match = re.search(r'/articles/PMC([0-9]+)(?:/|$)', parsed.path, re.I)
+        if parsed.hostname in ('pmc.ncbi.nlm.nih.gov', 'www.ncbi.nlm.nih.gov') and match:
+            return 'pmc:' + match.group(1)
+        return 'url:' + urlunsplit((parsed.scheme.lower(), parsed.netloc.lower(), parsed.path.rstrip('/'), parsed.query, ''))
+    query = arguments.get('query')
+    if isinstance(query, str):
+        return 'query:' + ' '.join(query.casefold().split())
+    return None
+
+
+def source_attempt_observations(catalog):
+    """Group stored view metadata by source, preserving new ranges and failures.
+
+    A repeated document can contain genuinely new information. These are factual
+    retrieval addresses, never a productivity score or a scientific stop gate.
+    """
+    artifact_sources = {}
+    groups = {}
+    for position, view in enumerate(catalog):
+        args = view.get('arguments') or {}
+        if not isinstance(args, dict):
+            continue
+        key = _source_key(args)
+        aid = view.get('source_artifact_id')
+        if key is None:
+            key = artifact_sources.get(args.get('artifact_id'))
+        if key is None:
+            continue
+        if aid:
+            artifact_sources[aid] = key
+        delivery = view.get('delivery') or {}
+        selected = {k: args[k] for k in ('pmc_id','url','engine','query','artifact_id','offset','limit','render_mode') if k in args}
+        signature = json.dumps({'function': view.get('function'), 'arguments': selected}, sort_keys=True)
+        group = groups.setdefault(key, {'source_key': key, 'view_count': 0, 'operations': {}, 'latest_views': [], 'last_position': position})
+        group['view_count'] += 1
+        group['operations'][signature] = group['operations'].get(signature, 0) + 1
+        group['latest_views'].append({'reading_id': view.get('reading_id'), 'function': view.get('function'),
+            'arguments': selected, 'status': delivery.get('status'),
+            'offset': delivery.get('offset'), 'total_rows': delivery.get('total_rows'), 'has_more': delivery.get('has_more')})
+        group['latest_views'] = group['latest_views'][-8:]
+        group['last_position'] = position
+    repeated = []
+    for group in sorted(groups.values(), key=lambda g: g['last_position']):
+        if group['view_count'] < 2:
+            continue
+        repeated.append({'source_key': group['source_key'], 'view_count': group['view_count'],
+            'distinct_operations': len(group['operations']),
+            'repeated_exact_operations': [{'operation': json.loads(k), 'view_count': n} for k, n in group['operations'].items() if n > 1],
+            'latest_views': group['latest_views']})
+    return {'revisited_sources': repeated[-8:], 'canonicalization': 'PMC identity across article and page tools; otherwise URL without fragment or casefolded exact query. Does not equate DOI with PMC, search variants, changed content, or new ranges.',
+        'meaning': 'Retained view addresses and delivery status only. A revisit can be useful; distinct ranges are preserved. These counts do not assess new scientific information, evidence quality, coverage, or completion.',
+        'automatic_stop': False, 'forced_tool': None}

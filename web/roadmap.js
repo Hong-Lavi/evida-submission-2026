@@ -102,6 +102,7 @@ function roadmapLiveCard(){
   const call=p.completedCalls+(p.status==='running'?1:0);
   const researchQuestion=latestFrame()?.current_question??'';
   return `<div class="roadmap-activity roadmap-live" role="status" aria-live="polite"><span class="section-mark">${p.status==='queued'?'조사 대기 중':'조사 진행 중'} · 시작 ${esc(time(p.started))}${p.elapsedMinutes===null?'':` · ${p.elapsedMinutes}분 경과`}${call?` · 모델 호출 ${call}회째`:''}</span>
+    ${renderModelRecovery()}
     ${researchQuestion?`<p><strong>연구 질문</strong> · ${esc(roadmapSummary(researchQuestion,240))}</p>`:'<p>질문을 정리하고 필요한 자료를 찾고 있습니다.</p>'}
     ${p.nextGoal?`<details data-detail-key="live-research-notes"><summary>현재 조사 계획 자세히 보기</summary><p>${esc(p.nextGoal)}</p><p class="small muted">조사 중 작성한 잠정 메모입니다.</p></details>`:''}
     ${used?`<details data-detail-key="live-tool-summary"><summary>지금까지 자료 조회·도구 실행 ${toolCalls}회</summary><p class="small">${esc(used)}</p></details>`:''}

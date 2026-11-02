@@ -18,6 +18,7 @@ from .schema_feedback import schema_feedback
 from .validation_help import correction_reason
 from .provenance_repair import repair_instruction
 from .frame_context import current_research_frame
+from .capacity_recovery import RecoveryCancelled
 from .planner_recovery import completed_rounds, prepare_quota_resume, recorded_response_budget, SYNTHESIS_SUFFIX
 from .context_delivery import apply_context_delivery
 from .catalog_delivery import apply_catalog_delivery
@@ -217,6 +218,14 @@ class Runner:
             raise GatewayError("input_missing", self.gateway.status()["message"])
         prepared = prepare_quota_resume(self, wid, rev, source_id)
         jid = self.store.enqueue(wid, rev, "planner", prepared['arguments'])
+        self.pool.submit(self.run_planner, jid, prepared)
+        return jid
+
+    def resume_subscription(self, wid, rev, source_id):
+        from .capacity_recovery import prepare_subscription_resume
+        prepared = prepare_subscription_resume(self, wid, rev, source_id)
+        self.gateway.check_model_available(prepared['arguments']['model'])
+        jid = self.store.enqueue(wid, rev, 'planner', prepared['arguments'])
         self.pool.submit(self.run_planner, jid, prepared)
         return jid
 
@@ -1020,6 +1029,9 @@ class Runner:
                 raise ValueError('이 자료는 후보/변이 목록 검색을 지원하지 않습니다.')
             value.update(candidate_query=candidate_query, retained_total_rows=original_count)
         if rows is not None:
+            if artifact['kind'] == 'public_research_page':
+                from .source_navigation358 import navigation
+                value['source_navigation'] = navigation(rows, artifact_id=aid)
             if artifact['kind'] == 'article':
                 from .public_evidence import article_sections
                 value['section_navigation'] = article_sections(rows)
@@ -1387,6 +1399,8 @@ class Runner:
                     "content": json.loads(self.store.artifact(wid, previous_reading["id"])["content"])} if previous_reading else None,
                 "IMPORTANT": "응용프로그램이 구성한 현재 연구 상태다. ORIGINAL_MESSAGES가 연구자의 실제 요청이다. 자료 목록은 내용 열람이 아니며 연구 메모는 모델의 잠정 정리다. 원자료·과거 도구 전달본은 ID로 재조회할 수 있다. DECISION_HISTORY는 과거 게시 판단의 목록이며 최신 상태나 독립 과학 근거가 아니다. 가설 ID는 decision_id와 함께 구별하고 원 판단은 inspect_artifact로 읽는다."}
 
+        from .goal_supervision import source_attempt_observations
+        source_observations = source_attempt_observations(context.get('COMPLETED_VIEWS', []))
         context = apply_catalog_delivery(context)
         if getattr(self, 'response_limit', RESEARCH_ROUNDS) is None:
             monitor = next((a for a in reversed(state['artifacts'])
@@ -1476,7 +1490,7 @@ class Runner:
         context = apply_context_delivery(context, native_reading_ids=excluded_readings,
             recent_count=recent, force_full=force_full) if recent is not None else context
         from .goal_supervision import build as goal_supervision
-        context['GOAL_SUPERVISION'] = goal_supervision(context)
+        context['GOAL_SUPERVISION'] = goal_supervision(context, source_observations=source_observations)
         visible = delivery_manifest([{'role': 'user', 'content': model_json(context)}])
         context['DELIVERED_REASSESSMENT_VIEWS'] = [
             {'view_id': key, 'kind': item['kind'], 'sha256': item['sha256'],
@@ -1519,7 +1533,7 @@ class Runner:
         state = self.store.snapshot(job['workspace'])
         source_id = job['request'].get('resume_from_job')
         source = next((j for j in state['jobs'] if j['id'] == source_id), None)
-        if not source or source['kind'] != 'planner' or source['status'] not in ('failed','interrupted','paused','quota_or_rate_limit'):
+        if not source or source['kind'] != 'planner' or source['status'] not in ('failed','interrupted','paused','quota_or_rate_limit','provider_capacity'):
             raise ValueError('중단된 원 판단 작업을 확인해야 합니다.')
         if source['based_rev'] != job['based_rev'] or state['rev'] != job['based_rev']:
             raise ValueError('중단 후 연구 조건이 바뀌었습니다. 현재 조건으로 새 판단이 필요합니다.')
@@ -1529,8 +1543,10 @@ class Runner:
             raise ValueError('보존된 재개 요청의 해시가 다릅니다.')
         receipts = [json.loads(self.store.artifact(job['workspace'], a['id'])['content'])
                     for a in state['artifacts'] if a['kind'] == 'model_receipt' and a['meta'].get('job_id') == source_id]
-        if not any(r.get('request_sha256') == digest and r.get('requested_model') == self.gateway.model
-                   and r.get('requested_effort') == self.gateway.effort for r in receipts):
+        resume_route = (self.gateway.route(job['request']['model'])
+                        if job['request'].get('manual_subscription_continuation') else self.gateway)
+        if not any(r.get('request_sha256') == digest and r.get('requested_model') == resume_route.model
+                   and r.get('requested_effort') == resume_route.effort for r in receipts):
             raise ValueError('동일 모델·설정의 실제 실패 요청을 확인하지 못했습니다.')
         from .goal_completion import pending_from_request
         pending_goal = pending_from_request(request, self.prompt)
@@ -1610,6 +1626,9 @@ class Runner:
                 (self.root / 'evida/goal_supervision.py').read_bytes()).hexdigest()
             protocol['code_sha256']['evida/next_check_guidance.py'] = hashlib.sha256(
                 (self.root / 'evida/next_check_guidance.py').read_bytes()).hexdigest()
+            protocol['code_sha256']['evida/capacity_recovery.py'] = hashlib.sha256((self.root / 'evida/capacity_recovery.py').read_bytes()).hexdigest()
+            protocol['transient_capacity_recovery'] = {'same_model': True, 'attempt_limit': None, 'backoff_seconds': [30, 60, 120, 300]}
+            protocol['code_sha256']['evida/source_navigation358.py'] = hashlib.sha256((self.root / 'evida/source_navigation358.py').read_bytes()).hexdigest()
             protocol['reasoning_core'] = reasoning_context
             if getattr(self, 'response_limit', RESEARCH_ROUNDS) is None:
                 protocol['goal_completion'] = {'version': 'goal-completion-v1',
@@ -1736,7 +1755,9 @@ class Runner:
                 # a preserved quota resume replays its own original route only.
                 inherited_model = (self.workspace_model(wid)
                                    if chosen_model is None and "resume_from_job" not in job["request"] else None)
-                result, receipt = self.gateway.request(payload, model=chosen_model or inherited_model)
+                from .capacity_recovery import request_with_recovery
+                result, receipt = request_with_recovery(self, job, payload,
+                                                       chosen_model or inherited_model, protocol_id)
                 receipt_id = self.store.add_artifact(wid, f"모델 호출 {round_index + 1}", "model_receipt",
                     dump(receipt).encode(), {"based_rev": rev, "job_id": jid,
                                              "requested_model": receipt["requested_model"],
@@ -2007,6 +2028,10 @@ class Runner:
                 self.store.finish_job(jid, "succeeded" if published else "stale", aid)
                 return
             self.store.finish_job(jid, "paused", error=f"{RESEARCH_ROUNDS}회 모델 왕복 결과를 보존했습니다. 추가 조사가 필요하면 이어서 실행할 수 있습니다.")
+        except RecoveryCancelled:
+            return
+        except Conflict as exc:
+            self.store.finish_job(jid, 'stale', error=str(exc))
         except DecisionPreservationError as exc:
             preservation_failed = True
             self.store.finish_job(jid, 'failed', error=str(exc))

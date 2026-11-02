@@ -7,17 +7,31 @@
     "optional_array_normalization.py": "29cf19b151f62eba1b96d60615c6c4b0241479eb09420a0fb7f51535981c270c",
     "process_dispatch.py": "cbe7cf146ef852425ad9154d2b3184bc6096f1a5afaccb20963c2b7c420af70c",
     "product_indexed_input82.py": "be196a843a4eadd99622c7e1cb7d05c772c57ce986feda9a5103b8c96f5230b3",
-    "transport_contract.py": "f8431d7775265f4862ec097a52d2b2732a0b440086c856553e330827c23c14e5",
     "route_transport.py": "2e1e0e4a2e3ea34553c5990c60986160148b725512223f665da24915c76846e2",
-    "single_object_closer.py": "b0cfe2c30cd52a0d7d6cae251d70ae2d928b607a07b4c3084004f7a61f050199"
+    "single_object_closer.py": "b0cfe2c30cd52a0d7d6cae251d70ae2d928b607a07b4c3084004f7a61f050199",
+    "subscription/bridge/claude_transport.py": "1e5ffe26be56cb9727d960e01b80f87813236c0d83c5041642f59bccf899ea74",
+    "subscription/bridge/format_recovery_dispatch.py": "4cf58ab96886b6ab384afb7b78920dc3c26bc362effb4b84b5003278a6abdc94",
+    "subscription/bridge/optional_array_normalization.py": "29cf19b151f62eba1b96d60615c6c4b0241479eb09420a0fb7f51535981c270c",
+    "subscription/bridge/process_dispatch.py": "cbe7cf146ef852425ad9154d2b3184bc6096f1a5afaccb20963c2b7c420af70c",
+    "subscription/bridge/product_indexed_input82.py": "be196a843a4eadd99622c7e1cb7d05c772c57ce986feda9a5103b8c96f5230b3",
+    "subscription/bridge/single_object_closer.py": "b0cfe2c30cd52a0d7d6cae251d70ae2d928b607a07b4c3084004f7a61f050199",
+    "subscription/bridge/supervision_entry359.py": "b297d98198dedeb316f55dd877dcdc312ef431595f3275fedfb0c47a4d8c27d2",
+    "subscription/bridge/transport_contract.py": "cdcf58f8105c06475a2471a6b4d69f6ccf40601f8caa013eaf878a48426d0712",
+    "subscription/transport/codex356.py": "264a19f6e6d897985ee2f7b794520cbeaba84de618a4a407d969aed21af24b0e",
+    "subscription/transport/failure_evidence358.py": "03d38417259199b2d40bc829117f2ad9f735f8861f5e971734acc24ed76de02f",
+    "subscription/transport/native_timeout356.py": "ffa4802aeadfbb35abd2d777d08afa08c74faa7b2676acd6aa4f7b8ae5db9101",
+    "subscription/transport/preflight_policy359.py": "99fa57e9e20f40e980a4310cbc70318ccc0b524b7f385fa4493dd6862cccde9f",
+    "subscription/transport/recording356.py": "fef893c9e523f2fbe9a260c62a59cb35f835ff1d9c6916f537cafd410e111e3e",
+    "subscription/transport/route_transport.py": "734344fb5cee403a490a97bcd0d3c57c33ccfa257920f0c0413fd7df76981d5a",
+    "transport_contract.py": "f8431d7775265f4862ec097a52d2b2732a0b440086c856553e330827c23c14e5"
   },
-  "file_count": 8,
+  "file_count": 22,
   "model": "claude-opus-5",
   "effort": "high",
   "model_effort_scope": "Legacy ClaudeProductGateway source identity only. Active public route settings are current_public_routes, not these legacy fields.",
   "current_public_routes": {
     "default": {
-      "route": "competition_api",
+      "route": "subscription:gpt-6-sol",
       "model": "gpt-6-sol",
       "effort": "medium"
     },
@@ -34,27 +48,48 @@
       }
     ],
     "automatic_fallback": false,
-    "identity_source": "Prepared release/service-launch metadata and route source; no authorization or authentication profiles included."
+    "identity_source": "Prepared release/service-launch metadata and route source; no authorization or authentication profiles included.",
+    "competition": "explicit manual model option"
   },
   "source_roles": {
-    "claude_transport.py": "legacy_single_route_Claude_bridge_review_source",
-    "format_recovery_dispatch.py": "legacy_single_route_Claude_bridge_review_source",
-    "optional_array_normalization.py": "active_final_contract_normalization",
-    "process_dispatch.py": "legacy_single_route_Claude_bridge_review_source",
-    "product_indexed_input82.py": "active_product_input_catalog",
-    "transport_contract.py": "active_public_bridge_contract",
-    "route_transport.py": "active_public_route_factory",
-    "single_object_closer.py": "active_registered_function_syntax_helper"
+    "claude_transport.py": "preserved_connection_reference",
+    "format_recovery_dispatch.py": "preserved_connection_reference",
+    "optional_array_normalization.py": "preserved_connection_reference",
+    "process_dispatch.py": "preserved_connection_reference",
+    "product_indexed_input82.py": "preserved_connection_reference",
+    "route_transport.py": "preserved_connection_reference",
+    "single_object_closer.py": "preserved_connection_reference",
+    "subscription/bridge/claude_transport.py": "current_host_subscription_reference",
+    "subscription/bridge/format_recovery_dispatch.py": "current_host_subscription_reference",
+    "subscription/bridge/optional_array_normalization.py": "current_host_subscription_reference",
+    "subscription/bridge/process_dispatch.py": "current_host_subscription_reference",
+    "subscription/bridge/product_indexed_input82.py": "current_host_subscription_reference",
+    "subscription/bridge/single_object_closer.py": "current_host_subscription_reference",
+    "subscription/bridge/supervision_entry359.py": "current_host_subscription_reference",
+    "subscription/bridge/transport_contract.py": "current_host_subscription_reference",
+    "subscription/transport/codex356.py": "current_host_subscription_reference",
+    "subscription/transport/failure_evidence358.py": "current_host_subscription_reference",
+    "subscription/transport/native_timeout356.py": "current_host_subscription_reference",
+    "subscription/transport/preflight_policy359.py": "current_host_subscription_reference",
+    "subscription/transport/recording356.py": "current_host_subscription_reference",
+    "subscription/transport/route_transport.py": "current_host_subscription_reference",
+    "transport_contract.py": "preserved_connection_reference"
   },
   "source_layout": {
-    "claude_transport.py": "<MODEL_ROUTES_RUNTIME>/bridge/claude_transport.py",
-    "format_recovery_dispatch.py": "<MODEL_ROUTES_RUNTIME>/bridge/format_recovery_dispatch.py",
-    "optional_array_normalization.py": "<MODEL_ROUTES_RUNTIME>/bridge/optional_array_normalization.py",
-    "process_dispatch.py": "<MODEL_ROUTES_RUNTIME>/bridge/process_dispatch.py",
-    "product_indexed_input82.py": "<MODEL_ROUTES_RUNTIME>/bridge/product_indexed_input82.py",
-    "transport_contract.py": "<MODEL_ROUTES_RUNTIME>/bridge/transport_contract.py",
-    "route_transport.py": "<MODEL_ROUTES_RUNTIME>/transport/route_transport.py",
-    "single_object_closer.py": "<MODEL_ROUTES_RUNTIME>/bridge/single_object_closer.py"
+    "subscription/bridge/claude_transport.py": "<MODEL_ROUTES_RUNTIME>/bridge/claude_transport.py",
+    "subscription/bridge/format_recovery_dispatch.py": "<MODEL_ROUTES_RUNTIME>/bridge/format_recovery_dispatch.py",
+    "subscription/bridge/optional_array_normalization.py": "<MODEL_ROUTES_RUNTIME>/bridge/optional_array_normalization.py",
+    "subscription/bridge/process_dispatch.py": "<MODEL_ROUTES_RUNTIME>/bridge/process_dispatch.py",
+    "subscription/bridge/product_indexed_input82.py": "<MODEL_ROUTES_RUNTIME>/bridge/product_indexed_input82.py",
+    "subscription/bridge/single_object_closer.py": "<MODEL_ROUTES_RUNTIME>/bridge/single_object_closer.py",
+    "subscription/bridge/supervision_entry359.py": "<MODEL_ROUTES_RUNTIME>/bridge/supervision_entry359.py",
+    "subscription/bridge/transport_contract.py": "<MODEL_ROUTES_RUNTIME>/bridge/transport_contract.py",
+    "subscription/transport/codex356.py": "<MODEL_ROUTES_RUNTIME>/transport/codex356.py",
+    "subscription/transport/failure_evidence358.py": "<MODEL_ROUTES_RUNTIME>/transport/failure_evidence358.py",
+    "subscription/transport/native_timeout356.py": "<MODEL_ROUTES_RUNTIME>/transport/native_timeout356.py",
+    "subscription/transport/preflight_policy359.py": "<MODEL_ROUTES_RUNTIME>/transport/preflight_policy359.py",
+    "subscription/transport/recording356.py": "<MODEL_ROUTES_RUNTIME>/transport/recording356.py",
+    "subscription/transport/route_transport.py": "<MODEL_ROUTES_RUNTIME>/transport/route_transport.py"
   },
   "external_runtime_required": true,
   "standalone_runtime_provided": false,
@@ -106,5 +141,5 @@
     "provider-call ledgers and original packets",
     "operating databases and model responses"
   ],
-  "setup_document": "runtime/README.md"
+  "setup_document": "runtime/subscription/README.md"
 }
