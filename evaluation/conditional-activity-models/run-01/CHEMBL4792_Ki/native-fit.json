@@ -1,0 +1,60 @@
+{
+  "status": "fitted",
+  "usable": true,
+  "input_review": {
+    "reported_records": 1174,
+    "selected_endpoint": "Ki",
+    "endpoint_selection": "explicit",
+    "tie_order": [
+      "IC50",
+      "Ki",
+      "Kd",
+      "EC50",
+      "AC50",
+      "XC50",
+      "ED50",
+      "Potency"
+    ],
+    "eligible_structure_counts_by_endpoint": {
+      "Ki": 1174
+    },
+    "point_fit_structures": 1174,
+    "retained_bound_records": 0,
+    "retained_approximate_records": 0,
+    "exclusion_counts": {},
+    "conditions": "One reported endpoint. Assay, species and action conditions retain their source-specific meaning; equal endpoint names alone do not establish assay equivalence.",
+    "valid_structure_compounds": 1174,
+    "invalid_structure_compounds": 0
+  },
+  "summary": {
+    "compounds": 1174,
+    "scaffolds": 583,
+    "selected_endpoint": "Ki",
+    "sources": {
+      "chembl": 1174
+    },
+    "pooled_assay_types": [
+      "Ki"
+    ],
+    "trained_on": 881,
+    "held_out": 293,
+    "held_out_spearman": 0.586,
+    "held_out_mean_absolute_error": 0.635,
+    "training_mean_baseline_error": 0.881,
+    "beats_predicting_the_mean": true,
+    "minimum_spearman_to_use": 0.3,
+    "split": "murcko_scaffold_holdout",
+    "seed": 20260930,
+    "versions": {
+      "rdkit": "2026.03.6"
+    }
+  },
+  "meaning": "이 표적에서 이미 회수한 활성 기록으로 맞춘 모델과, 그 모델이 한 번도 보지 못한 골격의 화합물에서 낸 성적입니다. 성적이 기준에 못 미치면 제안에 점수를 붙이지 않습니다.",
+  "limits": [
+    "이 값은 측정 활성이 아니라 공개 assay 기록에 맞춘 모델의 예측입니다.",
+    "홀드아웃은 Murcko 골격으로 나눕니다. 무작위 분할은 같은 계열을 외운 모델도 좋아 보이게 합니다.",
+    "한 측정 종류의 정확한 보고값으로 학습합니다. 각 assay·종·조건의 차이는 원 기록과 함께 해석합니다.",
+    "모델이 기준을 넘겨도 그 표적에서만, 그 화학 공간 안에서만 의미가 있습니다.",
+    "계산으로 제안한 구조의 실제 활성은 후속 실험에서 확인합니다."
+  ]
+}

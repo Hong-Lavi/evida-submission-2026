@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "native_replay_executions": 1,
+  "portable_replay_executions": 1,
+  "portable_matches_all_recorded_scenarios": true,
+  "substantive_input_equivalence": "PASS for original and portable runs",
+  "premature_check": {
+    "operation": "read-only input-equivalence inspection",
+    "attempts": 1,
+    "result": "A required output did not yet exist while the portable replay was still running; no output receipt was written.",
+    "resolution": "Waited for the same replay to finish, then ran the checker successfully. No scenario or product run was repeated."
+  },
+  "original_product_sources_modified": false,
+  "source_test_modules_imported": false,
+  "sqlite_files_distributed": 0,
+  "model_calls": 0,
+  "network_calls_during_replay": 0,
+  "gpu_used": false
+}

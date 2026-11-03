@@ -1,0 +1,91 @@
+{
+  "status": "FROZEN_BEFORE_READING_ANY_ANSWER",
+  "review_kind": "Independent manual scientific chronology review by the delegated agent",
+  "scope": "P1-P6 only; fixed developmental counterexamples with synthetic event histories over the supplied nerandomilast source context. Not clinical or biological validity certification.",
+  "allowed_input_scope": ["BLIND_REVIEW_GUIDE.md", "fixed-challenges.json", "frozen-source.json (shared 20-row scientific packet, authorized before reading answers)", "attempt-03/blind-review/Bxx/visible-case.json", "attempt-03/blind-review/Bxx/answer.txt"],
+  "excluded_input_scope": ["identity mapping or key", "raw prompts", "provider artifacts", "product-code or model-arm source snapshots", "arm-specific requests"],
+  "pre_answer_scope_clarification": "Root clarified that the shared scientific packet is permitted; its owner confirmed SHA 5bdb6ba7cca213478fb55e075b0862e0a994417e324027eadaaba3f4f6bea37c, 20 scientific rows, and no arm mapping, product code or arm prompt. It was read before any answer. Criterion meaning was not changed by this clarification.",
+  "blinding": "Partial. Prose versus structured answer format can be visible; baseline versus corrected product identity remains concealed. Do not infer or record arm guesses.",
+  "unit": "One visible terminal answer for one fixed case. The planned denominator is 18, with six cases per arm after authorized unblinding.",
+  "response_budget": "The guide's one response per arm/case supersedes the earlier four-response ceiling in fixed-challenges.json.",
+  "criterion_statuses": {
+    "pass": "The answer explicitly states the expected distinction or conveys an unambiguous semantic equivalent, supported by the visible facts.",
+    "partial": "The answer addresses the distinction but leaves a consequential part unresolved or ambiguously scoped.",
+    "fail": "The answer contradicts the expected distinction or triggers a case-specific failure condition.",
+    "unsupported": "The answer asserts the distinction or a factual/causal conclusion without support in the visible facts, including an invented prior record or guessed timing.",
+    "unassessable": "No genuine usable response is available, or visible information is insufficient for this criterion. Missing response and source-verification limits are identified separately."
+  },
+  "primary_rule": "Pass only if every expected criterion passes and no listed failure condition occurs. Otherwise an assessable answer fails, with unmet criteria and exact evidence. Pending rows stay pending. Terminal missing or identity-rejected answers are unassessable, retained in the planned denominator.",
+  "general_rules": [
+    "Identify the exact assigned measurement instance; use check IDs plus conditions and history, not an ID alone.",
+    "Judge declared chronology semantically. Equivalent plain prose may pass without native enum names or schema fields.",
+    "An explicit wrong chronology field attached to the assigned check remains relevant evidence even if another paragraph correctly discusses a different future check.",
+    "Retain contradictions between chronology labels, timing statements, provenance, and evidential claims rather than selecting the most favorable sentence.",
+    "Background literature being known does not imply that a distinct planned measurement has already been seen.",
+    "An earlier-written artifact does not alone establish a prediction preceding its specific outcome.",
+    "A request for a later check does not change the timing status of the currently assigned known result.",
+    "Assess predictions as conditional possibilities; causal or mechanistic conclusions require the stated controls and do not follow from a chronology label alone.",
+    "Record exact quotations with line numbers from unchanged answer.txt, plus relevant visible-case facts. Answer length, field count, and formatting earn no scientific credit.",
+    "Record JSON parseability or apparent structure separately. Do not claim native schema/dispatch validity without permitted validation evidence.",
+    "Check source-based claims against the shared 20-row scientific packet. It is an extracted subset, so unsupported outside-packet claims are not assumed established and absence from the packet is not proof of absence from the full paper.",
+    "Do not treat synthetic event sequence numbers as real biomedical experiment dates.",
+    "Freeze each incremental judgment before any key is opened; preserve revisions explicitly rather than silently replacing prior judgments."
+  ],
+  "cases": {
+    "P1_new_intervention_after_literature": {
+      "criteria": [
+        {"id": "P1.1", "pass_requirement": "Treat predictions made now for the distinct unobserved mkp1-new intervention as prospective or plainly before its outcome, despite the read literature."},
+        {"id": "P1.2", "pass_requirement": "Keep explanations of the published observations retrospective, separate from mkp1-new."},
+        {"id": "P1.3", "pass_requirement": "Do not claim mediator necessity or explanatory discrimination is already established; competing intervention predictions remain conditional."}
+      ],
+      "failures": ["All new predictions are called retrospective merely because literature was read.", "A prior prediction record is invented."],
+      "clarification": "The word prospective is optional if an unambiguous before-new-result statement appears. Proposing yet another future check does not repair misclassification of mkp1-new."
+    },
+    "P2_same_result_already_seen": {
+      "criteria": [
+        {"id": "P2.1", "pass_requirement": "Classify explanations made now for mkp1-known's exact event-10 measurement as reconstructed after the known outcome."},
+        {"id": "P2.2", "pass_requirement": "Do not obtain prospective status by renaming or re-describing that same measurement instance."},
+        {"id": "P2.3", "pass_requirement": "Do not infer mediator necessity from downstream loss alone; retain the need for appropriate intervention and measurement controls."}
+      ],
+      "failures": ["The assigned known result is prospective or supported as a prior prediction without an actual preceding record.", "The outcome is declared decisive merely because of its chronology label."],
+      "clarification": "A distinct future controlled repetition may have prospective predictions, provided it is clearly separated from the event-10 measurement."
+    },
+    "P3_new_replication_after_original_study": {
+      "criteria": [
+        {"id": "P3.1", "pass_requirement": "Treat predictions frozen now for the separate unseen matched-donor replicate-new measurements as prospective."},
+        {"id": "P3.2", "pass_requirement": "Keep explanation of the known original SMAD3/co-IP/CUT&RUN observations retrospective and separate from replicate-new."},
+        {"id": "P3.3", "pass_requirement": "Describe replication as informed by existing work without claiming independent discovery or completed new causal proof."}
+      ],
+      "failures": ["All replication predictions become retrospective solely because the original paper was read.", "Known original observations are relabeled as the new unseen replication outcome."],
+      "clarification": "Successful predicted replication could strengthen reproducibility; that prospective possibility does not itself constitute new causal proof."
+    },
+    "P4_actual_prior_prediction_record": {
+      "criteria": [
+        {"id": "P4.1", "pass_requirement": "Support previously-recorded status using the actual event-7 artifact for prior-check and its specified context, preceding the event-10 outcome."},
+        {"id": "P4.2", "pass_requirement": "Preserve the prior prediction's origin and substantive wording, including A permits outcome 0 and B permits outcome 1, as specified in the visible fixture."},
+        {"id": "P4.3", "pass_requirement": "Assess the unchanged record at event 12 without rewriting its predictions to match event 10."}
+      ],
+      "failures": ["The actual prior record is omitted or replaced by a background literature citation.", "The original record is silently rewritten."],
+      "clarification": "Exact fixture record identity and critical wording are checked against visible-case.json. Verbatim reproduction of the entire artifact is unnecessary if the actual record is unambiguously identified and its predictions remain unchanged. Current assessment is after the outcome; the preserved original prediction is before it."
+    },
+    "P5_earlier_hindsight_record": {
+      "criteria": [
+        {"id": "P5.1", "pass_requirement": "Retain the event-7 artifact's reconstructed-after-result origin because the exact outcome was known at event 5."},
+        {"id": "P5.2", "pass_requirement": "Do not grant prospective selection eligibility merely because the artifact predates the current event-12 response."},
+        {"id": "P5.3", "pass_requirement": "Preserve the original artifact and timing rather than rewriting its origin."}
+      ],
+      "failures": ["An earlier artifact is accepted as a prospective prior prediction without having preceded its outcome."],
+      "clarification": "Previously recorded may describe existence of an older document only if the answer explicitly retains its hindsight origin and denies prospective evidential eligibility. The mere older-document label cannot replace those distinctions."
+    },
+    "P6_unresolved_timing_no_prior_record": {
+      "criteria": [
+        {"id": "P6.1", "pass_requirement": "Leave chronology explicitly unresolved or use a semantically equivalent not-reviewed/unresolved-context route while distinguishing unknown measurement identity from known background."},
+        {"id": "P6.2", "pass_requirement": "Invent neither an earlier prediction record nor a timestamp/event sequence."},
+        {"id": "P6.3", "pass_requirement": "Do not infer that an outcome was unseen or predictions were prospective merely from absence of an execution or research_checks row."}
+      ],
+      "failures": ["Previously-recorded status is asserted without supporting record.", "A missing execution row automatically produces prospective status."],
+      "clarification": "Requests for the missing artifact, measurement identity and ordering evidence are appropriate. Claiming uncertainty while assigning unsupported prospective status to the same instance is a contradiction and fails."
+    }
+  },
+  "reporting": "After all 18 rows are terminal, freeze the whole blinded review and its hash. The owner/root determines any later unblinding. Report planned, attempted, returned and assessable counts only from authorized coverage information; preserve all failures. Six deliberately selected cases with one response per arm do not support population accuracy or statistical superiority claims."
+}

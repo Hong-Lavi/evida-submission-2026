@@ -1,0 +1,611 @@
+{
+  "status": "PASS",
+  "protocol_sha256": "d79d47c2078c9bde25b2598766bc1a5b2fa00e73cfdcee4cad178f2a924f9046",
+  "scored_results_sha256": "2500403040530d34187a277e1b483d426f367f54a6722d3c8d2f643482c1917a",
+  "selection_seal_sha256": "7ce488b6f5daba8a9bee0518e944d498c5a9bb809f585d38237167e641a52473",
+  "tasks": 30,
+  "clusters": 29,
+  "candidates": 9802,
+  "selection_rows": 3600,
+  "failed_rows": 0,
+  "original_policy_counts": {
+    "gp": 25,
+    "rf": 5
+  },
+  "baseline_per_task_seed_parity_checks": 450,
+  "all_raw_metric_values_recomputed": 28800,
+  "maximum_metric_numeric_difference": 3.552713678800501e-15,
+  "batch10_id_top10_recall": {
+    "rf_mean": 0.4266666666666667,
+    "gp_mean": 0.4033333333333333,
+    "original_policy": 0.4166666666666667,
+    "random": 0.04800000000000001,
+    "qPO_latent": 0.3873333333333333,
+    "qPO_observation": 0.388,
+    "pTop10_latent": 0.41466666666666663,
+    "pTop10_observation": 0.41733333333333333
+  },
+  "primary_independent_cluster_bootstrap": [
+    {
+      "right": "gp_mean",
+      "tasks": 30,
+      "clusters": 29,
+      "delta": 0.01133333333333333,
+      "ci95": [
+        -0.009704545454545452,
+        0.03172790948275856
+      ],
+      "task_wins": 9,
+      "task_losses": 5,
+      "task_ties": 16
+    },
+    {
+      "right": "original_policy",
+      "tasks": 30,
+      "clusters": 29,
+      "delta": -0.0020000000000000018,
+      "ci95": [
+        -0.03448735632183908,
+        0.028275862068965513
+      ],
+      "task_wins": 8,
+      "task_losses": 7,
+      "task_ties": 15
+    }
+  ],
+  "posterior_diagnostics": [
+    {
+      "task": "CHEMBL1862_Ki",
+      "n": 161,
+      "equality_draw_issues": [],
+      "equality_groups": 0,
+      "candidates_in_equal_groups": 0,
+      "latent_rank": 161,
+      "covariance_projection_max_abs": 1.887379141862766e-15,
+      "saved_marginal_sd_differences": {
+        "mean": 5.268190328422406e-09,
+        "latent_sd": 6.856429868307146e-10,
+        "observation_sd": 6.03893601791583e-10
+      },
+      "saved_marginal_variance_max_abs_error": 1.3663037368161213e-09,
+      "seed0_sample_latent_variance_max_standardized_deviation": 2.3104032212924612,
+      "seed0_sample_observation_variance_max_standardized_deviation": 2.6579270511384214,
+      "latent_nonunique_winner_draws": 0
+    },
+    {
+      "task": "CHEMBL1871_Ki",
+      "n": 134,
+      "equality_draw_issues": [],
+      "equality_groups": 0,
+      "candidates_in_equal_groups": 0,
+      "latent_rank": 134,
+      "covariance_projection_max_abs": 7.129713486264677e-16,
+      "saved_marginal_sd_differences": {
+        "mean": 3.2176998843169713e-09,
+        "latent_sd": 1.1548504708080998e-08,
+        "observation_sd": 1.1210729455868318e-08
+      },
+      "saved_marginal_variance_max_abs_error": 1.9977512755176008e-08,
+      "seed0_sample_latent_variance_max_standardized_deviation": 3.0488549534652183,
+      "seed0_sample_observation_variance_max_standardized_deviation": 3.577542343510225,
+      "latent_nonunique_winner_draws": 0
+    },
+    {
+      "task": "CHEMBL2034_Ki",
+      "n": 152,
+      "equality_draw_issues": [],
+      "equality_groups": 0,
+      "candidates_in_equal_groups": 0,
+      "latent_rank": 152,
+      "covariance_projection_max_abs": 2.8017952541370406e-15,
+      "saved_marginal_sd_differences": {
+        "mean": 2.7973383609491975e-09,
+        "latent_sd": 2.4512093466100282e-08,
+        "observation_sd": 2.4487299299380538e-08
+      },
+      "saved_marginal_variance_max_abs_error": 5.376186051897491e-08,
+      "seed0_sample_latent_variance_max_standardized_deviation": 2.3727903674906488,
+      "seed0_sample_observation_variance_max_standardized_deviation": 2.4205638049809437,
+      "latent_nonunique_winner_draws": 0
+    },
+    {
+      "task": "CHEMBL2047_EC50",
+      "n": 128,
+      "equality_draw_issues": [],
+      "equality_groups": 0,
+      "candidates_in_equal_groups": 0,
+      "latent_rank": 128,
+      "covariance_projection_max_abs": 1.5543122344752192e-15,
+      "saved_marginal_sd_differences": {
+        "mean": 2.8741471425064447e-09,
+        "latent_sd": 4.34207336752479e-09,
+        "observation_sd": 4.238184692084701e-09
+      },
+      "saved_marginal_variance_max_abs_error": 8.683953667265598e-09,
+      "seed0_sample_latent_variance_max_standardized_deviation": 3.019743735540817,
+      "seed0_sample_observation_variance_max_standardized_deviation": 2.4845319997410034,
+      "latent_nonunique_winner_draws": 0
+    },
+    {
+      "task": "CHEMBL204_Ki",
+      "n": 553,
+      "equality_draw_issues": [],
+      "equality_groups": 1,
+      "candidates_in_equal_groups": 2,
+      "latent_rank": 552,
+      "covariance_projection_max_abs": 2.248201624865942e-15,
+      "saved_marginal_sd_differences": {
+        "mean": 1.5105504402868064e-08,
+        "latent_sd": 5.730516505764172e-09,
+        "observation_sd": 5.59688251300372e-09
+      },
+      "saved_marginal_variance_max_abs_error": 1.4318275010083426e-08,
+      "seed0_sample_latent_variance_max_standardized_deviation": 2.8037763485732614,
+      "seed0_sample_observation_variance_max_standardized_deviation": 3.286012140891609,
+      "latent_nonunique_winner_draws": 9
+    },
+    {
+      "task": "CHEMBL2147_Ki",
+      "n": 294,
+      "equality_draw_issues": [],
+      "equality_groups": 0,
+      "candidates_in_equal_groups": 0,
+      "latent_rank": 294,
+      "covariance_projection_max_abs": 1.7763568394002505e-15,
+      "saved_marginal_sd_differences": {
+        "mean": 4.9466946094867126e-09,
+        "latent_sd": 2.872899695915976e-09,
+        "observation_sd": 2.8429532061835516e-09
+      },
+      "saved_marginal_variance_max_abs_error": 6.339668789934194e-09,
+      "seed0_sample_latent_variance_max_standardized_deviation": 3.1854228477919713,
+      "seed0_sample_observation_variance_max_standardized_deviation": 2.892894858076247,
+      "latent_nonunique_winner_draws": 0
+    },
+    {
+      "task": "CHEMBL214_Ki",
+      "n": 666,
+      "equality_draw_issues": [],
+      "equality_groups": 2,
+      "candidates_in_equal_groups": 4,
+      "latent_rank": 664,
+      "covariance_projection_max_abs": 1.4432899320127035e-15,
+      "saved_marginal_sd_differences": {
+        "mean": 2.1419630513719312e-09,
+        "latent_sd": 4.307431411554319e-09,
+        "observation_sd": 3.954714999920839e-09
+      },
+      "saved_marginal_variance_max_abs_error": 7.630681309045428e-09,
+      "seed0_sample_latent_variance_max_standardized_deviation": 3.021405352032947,
+      "seed0_sample_observation_variance_max_standardized_deviation": 2.9441492672258867,
+      "latent_nonunique_winner_draws": 0
+    },
+    {
+      "task": "CHEMBL218_EC50",
+      "n": 208,
+      "equality_draw_issues": [],
+      "equality_groups": 0,
+      "candidates_in_equal_groups": 0,
+      "latent_rank": 208,
+      "covariance_projection_max_abs": 1.5543122344752192e-15,
+      "saved_marginal_sd_differences": {
+        "mean": 1.153588691238383e-08,
+        "latent_sd": 7.372482624390386e-09,
+        "observation_sd": 6.975176880530398e-09
+      },
+      "saved_marginal_variance_max_abs_error": 1.3692825096001116e-08,
+      "seed0_sample_latent_variance_max_standardized_deviation": 2.451676734341974,
+      "seed0_sample_observation_variance_max_standardized_deviation": 2.6132923545399076,
+      "latent_nonunique_winner_draws": 0
+    },
+    {
+      "task": "CHEMBL219_Ki",
+      "n": 374,
+      "equality_draw_issues": [],
+      "equality_groups": 1,
+      "candidates_in_equal_groups": 2,
+      "latent_rank": 373,
+      "covariance_projection_max_abs": 2.4980018054066022e-15,
+      "saved_marginal_sd_differences": {
+        "mean": 2.0526710109436408e-08,
+        "latent_sd": 1.0037221942482688e-08,
+        "observation_sd": 9.405788370386858e-09
+      },
+      "saved_marginal_variance_max_abs_error": 1.962292095480933e-08,
+      "seed0_sample_latent_variance_max_standardized_deviation": 3.283343178224613,
+      "seed0_sample_observation_variance_max_standardized_deviation": 2.885455565112914,
+      "latent_nonunique_winner_draws": 0
+    },
+    {
+      "task": "CHEMBL228_Ki",
+      "n": 342,
+      "equality_draw_issues": [
+        {
+          "indices": [
+            334,
+            336
+          ],
+          "maximum_draw_difference": 1.7763568394002505e-15,
+          "nonidentical_draws": 1270,
+          "split_global_winner_draws": 0,
+          "split_top10_boundary_draws": 0
+        }
+      ],
+      "equality_groups": 1,
+      "candidates_in_equal_groups": 2,
+      "latent_rank": 341,
+      "covariance_projection_max_abs": 1.4432899320127035e-15,
+      "saved_marginal_sd_differences": {
+        "mean": 1.4378465529318873e-08,
+        "latent_sd": 7.45207251462432e-09,
+        "observation_sd": 7.1816628199883326e-09
+      },
+      "saved_marginal_variance_max_abs_error": 1.5185260604511086e-08,
+      "seed0_sample_latent_variance_max_standardized_deviation": 3.8716664077702143,
+      "seed0_sample_observation_variance_max_standardized_deviation": 3.1712188705316713,
+      "latent_nonunique_winner_draws": 0
+    },
+    {
+      "task": "CHEMBL231_Ki",
+      "n": 197,
+      "equality_draw_issues": [],
+      "equality_groups": 0,
+      "candidates_in_equal_groups": 0,
+      "latent_rank": 197,
+      "covariance_projection_max_abs": 1.5057399771478686e-15,
+      "saved_marginal_sd_differences": {
+        "mean": 6.090083992660311e-09,
+        "latent_sd": 1.4309874174500692e-08,
+        "observation_sd": 1.4302998119219978e-08
+      },
+      "saved_marginal_variance_max_abs_error": 2.99385143343045e-08,
+      "seed0_sample_latent_variance_max_standardized_deviation": 2.9096739644699148,
+      "seed0_sample_observation_variance_max_standardized_deviation": 2.922694498719411,
+      "latent_nonunique_winner_draws": 0
+    },
+    {
+      "task": "CHEMBL233_Ki",
+      "n": 630,
+      "equality_draw_issues": [],
+      "equality_groups": 6,
+      "candidates_in_equal_groups": 12,
+      "latent_rank": 624,
+      "covariance_projection_max_abs": 1.3322676295501878e-15,
+      "saved_marginal_sd_differences": {
+        "mean": 2.1379793935238922e-08,
+        "latent_sd": 8.967514730784387e-09,
+        "observation_sd": 8.35541502652859e-09
+      },
+      "saved_marginal_variance_max_abs_error": 1.8190868367184976e-08,
+      "seed0_sample_latent_variance_max_standardized_deviation": 2.8521730668796588,
+      "seed0_sample_observation_variance_max_standardized_deviation": 3.0600229596020956,
+      "latent_nonunique_winner_draws": 0
+    },
+    {
+      "task": "CHEMBL234_Ki",
+      "n": 733,
+      "equality_draw_issues": [],
+      "equality_groups": 1,
+      "candidates_in_equal_groups": 3,
+      "latent_rank": 731,
+      "covariance_projection_max_abs": 1.5543122344752192e-15,
+      "saved_marginal_sd_differences": {
+        "mean": 1.7785574790707415e-08,
+        "latent_sd": 5.3021831925015306e-09,
+        "observation_sd": 3.5785203134075516e-09
+      },
+      "saved_marginal_variance_max_abs_error": 3.3429494727954534e-09,
+      "seed0_sample_latent_variance_max_standardized_deviation": 2.7687821643317854,
+      "seed0_sample_observation_variance_max_standardized_deviation": 3.6138802196319224,
+      "latent_nonunique_winner_draws": 0
+    },
+    {
+      "task": "CHEMBL235_EC50",
+      "n": 472,
+      "equality_draw_issues": [],
+      "equality_groups": 2,
+      "candidates_in_equal_groups": 4,
+      "latent_rank": 470,
+      "covariance_projection_max_abs": 1.3322676295501878e-15,
+      "saved_marginal_sd_differences": {
+        "mean": 6.3549894235848114e-09,
+        "latent_sd": 1.0515480708406244e-08,
+        "observation_sd": 1.010473082985186e-08
+      },
+      "saved_marginal_variance_max_abs_error": 2.259860765185806e-08,
+      "seed0_sample_latent_variance_max_standardized_deviation": 3.113068727126714,
+      "seed0_sample_observation_variance_max_standardized_deviation": 3.3789385178276614,
+      "latent_nonunique_winner_draws": 0
+    },
+    {
+      "task": "CHEMBL236_Ki",
+      "n": 521,
+      "equality_draw_issues": [],
+      "equality_groups": 0,
+      "candidates_in_equal_groups": 0,
+      "latent_rank": 521,
+      "covariance_projection_max_abs": 1.7763568394002505e-15,
+      "saved_marginal_sd_differences": {
+        "mean": 1.1781715159031592e-08,
+        "latent_sd": 9.518679844333633e-09,
+        "observation_sd": 9.018796598425638e-09
+      },
+      "saved_marginal_variance_max_abs_error": 1.9913640070257088e-08,
+      "seed0_sample_latent_variance_max_standardized_deviation": 3.2082295383070005,
+      "seed0_sample_observation_variance_max_standardized_deviation": 3.344129499372537,
+      "latent_nonunique_winner_draws": 0
+    },
+    {
+      "task": "CHEMBL237_EC50",
+      "n": 193,
+      "equality_draw_issues": [],
+      "equality_groups": 1,
+      "candidates_in_equal_groups": 2,
+      "latent_rank": 192,
+      "covariance_projection_max_abs": 5.0283399406075846e-15,
+      "saved_marginal_sd_differences": {
+        "mean": 1.1446425141059535e-08,
+        "latent_sd": 2.500673934591191e-08,
+        "observation_sd": 2.4098105066983067e-08
+      },
+      "saved_marginal_variance_max_abs_error": 6.84667416095408e-08,
+      "seed0_sample_latent_variance_max_standardized_deviation": 2.7798768684237625,
+      "seed0_sample_observation_variance_max_standardized_deviation": 3.3600926207580843,
+      "latent_nonunique_winner_draws": 0
+    },
+    {
+      "task": "CHEMBL237_Ki",
+      "n": 522,
+      "equality_draw_issues": [],
+      "equality_groups": 1,
+      "candidates_in_equal_groups": 2,
+      "latent_rank": 521,
+      "covariance_projection_max_abs": 1.2212453270876722e-15,
+      "saved_marginal_sd_differences": {
+        "mean": 1.729051568588602e-08,
+        "latent_sd": 2.0777993325893362e-08,
+        "observation_sd": 1.96035465638289e-08
+      },
+      "saved_marginal_variance_max_abs_error": 4.405788422978674e-08,
+      "seed0_sample_latent_variance_max_standardized_deviation": 3.6172307828459633,
+      "seed0_sample_observation_variance_max_standardized_deviation": 3.6142395671474477,
+      "latent_nonunique_winner_draws": 0
+    },
+    {
+      "task": "CHEMBL238_Ki",
+      "n": 213,
+      "equality_draw_issues": [],
+      "equality_groups": 0,
+      "candidates_in_equal_groups": 0,
+      "latent_rank": 213,
+      "covariance_projection_max_abs": 1.2212453270876722e-15,
+      "saved_marginal_sd_differences": {
+        "mean": 1.1219141171636693e-08,
+        "latent_sd": 6.321971390832459e-09,
+        "observation_sd": 6.139477926048187e-09
+      },
+      "saved_marginal_variance_max_abs_error": 1.1912421160609199e-08,
+      "seed0_sample_latent_variance_max_standardized_deviation": 3.029847109384516,
+      "seed0_sample_observation_variance_max_standardized_deviation": 2.9476064763306944,
+      "latent_nonunique_winner_draws": 0
+    },
+    {
+      "task": "CHEMBL239_EC50",
+      "n": 347,
+      "equality_draw_issues": [],
+      "equality_groups": 0,
+      "candidates_in_equal_groups": 0,
+      "latent_rank": 347,
+      "covariance_projection_max_abs": 9.992007221626409e-16,
+      "saved_marginal_sd_differences": {
+        "mean": 3.090220346280148e-08,
+        "latent_sd": 2.1571838759726347e-08,
+        "observation_sd": 2.0094173880380595e-08
+      },
+      "saved_marginal_variance_max_abs_error": 4.470155623437222e-08,
+      "seed0_sample_latent_variance_max_standardized_deviation": 3.4693487795086764,
+      "seed0_sample_observation_variance_max_standardized_deviation": 2.681733234517814,
+      "latent_nonunique_winner_draws": 0
+    },
+    {
+      "task": "CHEMBL244_Ki",
+      "n": 621,
+      "equality_draw_issues": [],
+      "equality_groups": 1,
+      "candidates_in_equal_groups": 2,
+      "latent_rank": 620,
+      "covariance_projection_max_abs": 1.9984014443252818e-15,
+      "saved_marginal_sd_differences": {
+        "mean": 5.546750614371376e-09,
+        "latent_sd": 2.0538412748294377e-08,
+        "observation_sd": 1.9997462574750102e-08
+      },
+      "saved_marginal_variance_max_abs_error": 5.169148176165095e-08,
+      "seed0_sample_latent_variance_max_standardized_deviation": 3.020160436924208,
+      "seed0_sample_observation_variance_max_standardized_deviation": 2.847525115824079,
+      "latent_nonunique_winner_draws": 0
+    },
+    {
+      "task": "CHEMBL262_Ki",
+      "n": 173,
+      "equality_draw_issues": [],
+      "equality_groups": 0,
+      "candidates_in_equal_groups": 0,
+      "latent_rank": 173,
+      "covariance_projection_max_abs": 9.992007221626409e-16,
+      "saved_marginal_sd_differences": {
+        "mean": 1.1466199545395739e-08,
+        "latent_sd": 2.7012466818909786e-08,
+        "observation_sd": 2.5727370012162964e-08
+      },
+      "saved_marginal_variance_max_abs_error": 5.37783565457417e-08,
+      "seed0_sample_latent_variance_max_standardized_deviation": 2.7830625624494445,
+      "seed0_sample_observation_variance_max_standardized_deviation": 2.1090520756165287,
+      "latent_nonunique_winner_draws": 0
+    },
+    {
+      "task": "CHEMBL264_Ki",
+      "n": 574,
+      "equality_draw_issues": [],
+      "equality_groups": 2,
+      "candidates_in_equal_groups": 4,
+      "latent_rank": 572,
+      "covariance_projection_max_abs": 2.3314683517128287e-15,
+      "saved_marginal_sd_differences": {
+        "mean": 4.884371129776355e-09,
+        "latent_sd": 2.4367408091308107e-09,
+        "observation_sd": 2.3524688863574283e-09
+      },
+      "saved_marginal_variance_max_abs_error": 4.844445400387087e-09,
+      "seed0_sample_latent_variance_max_standardized_deviation": 3.3165838770086724,
+      "seed0_sample_observation_variance_max_standardized_deviation": 3.0857508254095793,
+      "latent_nonunique_winner_draws": 0
+    },
+    {
+      "task": "CHEMBL2835_Ki",
+      "n": 126,
+      "equality_draw_issues": [],
+      "equality_groups": 0,
+      "candidates_in_equal_groups": 0,
+      "latent_rank": 126,
+      "covariance_projection_max_abs": 7.216449660063518e-16,
+      "saved_marginal_sd_differences": {
+        "mean": 1.682260730717644e-08,
+        "latent_sd": 6.5607179688953465e-09,
+        "observation_sd": 6.560170739966509e-09
+      },
+      "saved_marginal_variance_max_abs_error": 1.0080631329678624e-08,
+      "seed0_sample_latent_variance_max_standardized_deviation": 2.994867619673613,
+      "seed0_sample_observation_variance_max_standardized_deviation": 2.9700491143151293,
+      "latent_nonunique_winner_draws": 0
+    },
+    {
+      "task": "CHEMBL287_Ki",
+      "n": 267,
+      "equality_draw_issues": [],
+      "equality_groups": 3,
+      "candidates_in_equal_groups": 6,
+      "latent_rank": 264,
+      "covariance_projection_max_abs": 1.4432899320127035e-15,
+      "saved_marginal_sd_differences": {
+        "mean": 1.564104579188097e-08,
+        "latent_sd": 6.904948834929314e-09,
+        "observation_sd": 6.610349823077399e-09
+      },
+      "saved_marginal_variance_max_abs_error": 1.366619140075187e-08,
+      "seed0_sample_latent_variance_max_standardized_deviation": 3.211500276202072,
+      "seed0_sample_observation_variance_max_standardized_deviation": 3.2114880422377703,
+      "latent_nonunique_winner_draws": 2
+    },
+    {
+      "task": "CHEMBL2971_Ki",
+      "n": 197,
+      "equality_draw_issues": [],
+      "equality_groups": 0,
+      "candidates_in_equal_groups": 0,
+      "latent_rank": 197,
+      "covariance_projection_max_abs": 1.5543122344752192e-15,
+      "saved_marginal_sd_differences": {
+        "mean": 1.512811120818469e-08,
+        "latent_sd": 2.1643420389239054e-10,
+        "observation_sd": 2.1641077818657095e-10
+      },
+      "saved_marginal_variance_max_abs_error": 3.872508980151679e-10,
+      "seed0_sample_latent_variance_max_standardized_deviation": 3.7865745304745118,
+      "seed0_sample_observation_variance_max_standardized_deviation": 3.6390505551676937,
+      "latent_nonunique_winner_draws": 0
+    },
+    {
+      "task": "CHEMBL3979_EC50",
+      "n": 226,
+      "equality_draw_issues": [],
+      "equality_groups": 0,
+      "candidates_in_equal_groups": 0,
+      "latent_rank": 226,
+      "covariance_projection_max_abs": 1.1285460413401616e-15,
+      "saved_marginal_sd_differences": {
+        "mean": 3.4327376496889883e-09,
+        "latent_sd": 7.978081417725491e-09,
+        "observation_sd": 7.455945416623422e-09
+      },
+      "saved_marginal_variance_max_abs_error": 1.4963933647749172e-08,
+      "seed0_sample_latent_variance_max_standardized_deviation": 2.8666393567226764,
+      "seed0_sample_observation_variance_max_standardized_deviation": 2.533190468365269,
+      "latent_nonunique_winner_draws": 0
+    },
+    {
+      "task": "CHEMBL4005_Ki",
+      "n": 193,
+      "equality_draw_issues": [],
+      "equality_groups": 0,
+      "candidates_in_equal_groups": 0,
+      "latent_rank": 193,
+      "covariance_projection_max_abs": 1.1102230246251565e-15,
+      "saved_marginal_sd_differences": {
+        "mean": 1.5442459755377058e-08,
+        "latent_sd": 2.2322506065819425e-08,
+        "observation_sd": 2.1832933017051914e-08
+      },
+      "saved_marginal_variance_max_abs_error": 4.123576768932935e-08,
+      "seed0_sample_latent_variance_max_standardized_deviation": 3.3871535241188715,
+      "seed0_sample_observation_variance_max_standardized_deviation": 3.0900740927042127,
+      "latent_nonunique_winner_draws": 0
+    },
+    {
+      "task": "CHEMBL4203_Ki",
+      "n": 149,
+      "equality_draw_issues": [],
+      "equality_groups": 0,
+      "candidates_in_equal_groups": 0,
+      "latent_rank": 149,
+      "covariance_projection_max_abs": 1.2212453270876722e-15,
+      "saved_marginal_sd_differences": {
+        "mean": 6.9040329009339985e-09,
+        "latent_sd": 7.283599834373433e-09,
+        "observation_sd": 7.04993630140649e-09
+      },
+      "saved_marginal_variance_max_abs_error": 1.2187052700340928e-08,
+      "seed0_sample_latent_variance_max_standardized_deviation": 2.5331063109720495,
+      "seed0_sample_observation_variance_max_standardized_deviation": 3.0060499767432995,
+      "latent_nonunique_winner_draws": 0
+    },
+    {
+      "task": "CHEMBL4616_EC50",
+      "n": 139,
+      "equality_draw_issues": [],
+      "equality_groups": 0,
+      "candidates_in_equal_groups": 0,
+      "latent_rank": 139,
+      "covariance_projection_max_abs": 7.216449660063518e-16,
+      "saved_marginal_sd_differences": {
+        "mean": 1.9792572913956974e-08,
+        "latent_sd": 9.374304221765328e-09,
+        "observation_sd": 8.722540245642563e-09
+      },
+      "saved_marginal_variance_max_abs_error": 1.7450079492498105e-08,
+      "seed0_sample_latent_variance_max_standardized_deviation": 2.8180877223619913,
+      "seed0_sample_observation_variance_max_standardized_deviation": 3.2101863857735107,
+      "latent_nonunique_winner_draws": 0
+    },
+    {
+      "task": "CHEMBL4792_Ki",
+      "n": 297,
+      "equality_draw_issues": [],
+      "equality_groups": 0,
+      "candidates_in_equal_groups": 0,
+      "latent_rank": 297,
+      "covariance_projection_max_abs": 1.1102230246251565e-15,
+      "saved_marginal_sd_differences": {
+        "mean": 1.4977263873561242e-09,
+        "latent_sd": 1.2289816053723257e-08,
+        "observation_sd": 1.2289250950203723e-08
+      },
+      "saved_marginal_variance_max_abs_error": 2.9692702074868293e-08,
+      "seed0_sample_latent_variance_max_standardized_deviation": 3.1976742069412203,
+      "seed0_sample_observation_variance_max_standardized_deviation": 3.2463189507940564,
+      "latent_nonunique_winner_draws": 0
+    }
+  ],
+  "scientific_interpretation": "No clear advantage over either prespecified comparator. Both intervals include zero. This exploratory replay does not justify automatic selector replacement or retuning on the same test labels.",
+  "scope": "Read-only actual sealed result verification; CPU moment reconstruction only, no candidate reselection/refit, model/GPU/network calls or original mutation."
+}

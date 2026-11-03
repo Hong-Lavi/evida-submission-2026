@@ -1,0 +1,65 @@
+{
+  "scientific_request": "Review what the supplied observations establish about the named mechanisms. For the assigned check, set out the expectations under each named hypothesis, preserve any actual prior statements, explain the evidence and timing limitations, and identify the next useful scientific step. Keep published observations and the assigned measurement instance identifiable.",
+  "case": {
+    "visible_facts": "For the exact mkp1-known check and same measurement instance, the outcome was revealed at event 10 before any prediction was recorded. Synthetic outcome: mediator perturbation removed the downstream drug response. Now formulate explanations of that result.",
+    "fixture_notice": "All additional timing/control facts are synthetic scenario facts, not real nerandomilast experiments. The assigned check ID below is the local alias of the check named in visible_facts; this does not create a different outcome. P4/P5 history files are actual immutable fixture records; event numbers describe the stipulated scenario chronology, not wall-clock experimental dates.",
+    "research_loop": {
+      "hypotheses": [
+        {
+          "id": "hA",
+          "statement": "MKP1-dependent signaling contributes to the drug-associated downstream response.",
+          "expected_observation": "A mediator-directed perturbation may change the downstream response under appropriate controls.",
+          "alternatives": [
+            "Parallel or coexisting responses"
+          ],
+          "assessment": "proposed",
+          "rationale": "Candidate explanation for review; the source packet does not establish mediator necessity.",
+          "evidence": []
+        },
+        {
+          "id": "hB",
+          "statement": "Parallel or coexisting drug responses can contribute to the downstream readout.",
+          "expected_observation": "The downstream readout may persist or change through another pathway.",
+          "alternatives": [
+            "MKP1-dependent contribution"
+          ],
+          "assessment": "proposed",
+          "rationale": "Competing or coexisting explanation, not an established exclusive alternative.",
+          "evidence": []
+        }
+      ],
+      "next_checks": [
+        {
+          "id": "p2-assigned",
+          "hypothesis_ids": [
+            "hA",
+            "hB"
+          ],
+          "question": "Assess the assigned measurement instance described in visible_facts.",
+          "purpose": "Compare the conditional explanations without treating a known result as a new measurement.",
+          "possible_outcomes": [
+            {
+              "observation": "Outcome 0: assigned downstream response is lost or lower.",
+              "implication": "Interpret only under appropriate controls and known timing."
+            },
+            {
+              "observation": "Outcome 1: assigned downstream response is retained.",
+              "implication": "Interpret only under appropriate controls and known timing."
+            }
+          ],
+          "outcome_links": [],
+          "operation": {
+            "kind": "researcher_input",
+            "request": "Review the provided scientific state; do not execute a new experiment."
+          }
+        }
+      ],
+      "revision_rationale": "Fixed scope for scientific-review component; no model result or mechanism selected."
+    },
+    "history": [],
+    "available_source_ids": [
+      "source_packet"
+    ]
+  },
+  "source_sha256": "5bdb6ba7cca213478fb55e075b0862e0a994417e324027eadaaba3f4f6bea37c"
+}

@@ -1,0 +1,25 @@
+{
+  "python_guidance": "Python 3.12",
+  "frozen_feature_versions": {
+    "torch": "2.8.0+cpu",
+    "chemprop": "2.3.1",
+    "lightning": "2.6.6",
+    "rdkit": "2026.3.6",
+    "numpy": "2.5.3",
+    "scikit-learn": "1.9.1"
+  },
+  "frozen_version_evidence": "chemeleon-trial/preflight-result.json",
+  "fine_tune_versions": {
+    "torch": "2.7.1+cu118",
+    "chemprop": "2.3.1",
+    "lightning": "2.6.6",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "rdkit": "2026.3.6"
+  },
+  "fine_tune_version_evidence": "chemeleon-finetune-trial/protocol.json",
+  "dependency_pin_scope": "Recorded direct dependencies; these are not a complete transitive environment lock. GPU CUDA/driver/hardware differences may change refit numerics. Archived metrics can be recomputed independently.",
+  "gpu_name": "NVIDIA RTX A5000",
+  "gpu_driver": "515.43.04",
+  "provider_calls": 0
+}

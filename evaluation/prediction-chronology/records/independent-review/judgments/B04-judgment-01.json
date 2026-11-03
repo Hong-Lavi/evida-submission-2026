@@ -1,0 +1,82 @@
+{
+  "blind_id": "B04",
+  "case_id": "P1_new_intervention_after_literature",
+  "primary_result": "pass",
+  "assigned_instance": "p1-assigned/mkp1-new is distinguished from known published assays and remains an unmeasured perturbation/control/rescue check.",
+  "declared_chronology": "prospective for the assigned new intervention; known literature remains background interpretation",
+  "criteria": [
+    {
+      "id": "P1.1",
+      "status": "pass",
+      "reason": "Explicitly grounds prospective origin in absence of this intervention's outcome, despite prior literature exposure.",
+      "evidence": [
+        {
+          "quote": "문헌 결과는 이미 알려져 있지만 이 개입 결과는 아직 없으므로 이번 구체 예측의 origin은 prospective이다.",
+          "json_pointer": "/hypothesis_review/observations/0/predictions/0/rationale",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "d91b398e2d31f37de1c4903e0db01b02caabef2f659d5d72778bf5eabeb597fe"
+        }
+      ]
+    },
+    {
+      "id": "P1.2",
+      "status": "pass",
+      "reason": "Separates published measurements from the new check and does not present literature as a prior forecast for it. Retrospective meaning is conveyed by the explicit known-literature/new-unseen contrast rather than an obligatory enum.",
+      "evidence": [
+        {
+          "quote": "문헌의 인간 IPF 폐 섬유아세포 관측과 계획된 p1-assigned(mkp1-new)는 별개이며, 새 확인의 실제 시료·판독·시점은 아직 정해져 있지 않다.",
+          "json_pointer": "/hypothesis_review/causal_steps/0/target_context",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "5ee77b9c1710cace6263b3e93964ecca0ef77633d2c382c2213108b2db950cc1"
+        },
+        {
+          "quote": "이 저자 가설은 새 mkp1-new 확인에 대한 사전 예측 기록이 아니다.",
+          "json_pointer": "/hypothesis_review/causal_steps/1/evidence_groups/1/applicability_rationale",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "b17dd33e86c461d06ab9ffdb89e4201427690c5e2a726ee7ea7ffc244e7c9c27"
+        }
+      ]
+    },
+    {
+      "id": "P1.3",
+      "status": "pass",
+      "reason": "Leaves mediator causality unestablished and recognizes that broad hA/hB outcome sets overlap rather than claiming completed discrimination.",
+      "evidence": [
+        {
+          "quote": "약물 처치 뒤의 두 반응으로 매개자의 필요성·충분성을 정할 수 없다.",
+          "json_pointer": "/hypothesis_review/causal_steps/0/evidence_groups/0/causal_support_rationale",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "8d652678b3bfb763141c48bf78b392ebd5ebcd0b3673ac3a528ec30ff4e889a1"
+        },
+        {
+          "quote": "양 가설의 호환 결과가 겹치므로 결과 번호만으로 승자를 정할 수 없다.",
+          "json_pointer": "/hypothesis_review/observations/0/predictions/1/rationale",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "45b799d63a07c13601e2fbf1017b1496b4176415be37eb94b410f716a4025208"
+        }
+      ]
+    }
+  ],
+  "failure_conditions_observed": [],
+  "prior_record_assessment": "Explicitly notes empty history and no separately recorded earlier intervention prediction.",
+  "source_and_causal_assessment": "Retains assay times, unknown sample pairing, marker-versus-mediation distinction and CBP/p300 counterevidence. Proposed controls and outcomes are not claimed performed.",
+  "ambiguities": [
+    "Outcome interpretations say adequate_measurement, but the answer explicitly makes these conditional on future validity and precision checks; no existing result is declared adequate."
+  ],
+  "review_scope_limit": "Scores P1 chronology and its stated causal limit, not completeness of a future mediator-control protocol.",
+  "reviewed_at_utc": "2026-10-10T22:44:35.084607+00:00",
+  "criterion_interpretation_sha256": "bbec185cb660b34a2943a5b4f698a20677164ab9e08c6508625aaba01744726a",
+  "visible_case_sha256": "c888a91e250a89a57112a43bb583284b6ca06c63a299f33aa5941606295b96c0",
+  "answer_sha256": "1c562de8e35f7056922ad79410278c9e5a5b7f8742a673defd75ad473f070f55",
+  "visible_structure_only": "parseable JSON; native schema/dispatch not independently assessed",
+  "native_schema_validity": "not independently assessed under permitted blinded input scope",
+  "arm_identity_known": false,
+  "key_opened": false,
+  "manual_semantic_judgment": true,
+  "automated_semantic_grading": false
+}

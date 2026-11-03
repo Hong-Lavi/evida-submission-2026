@@ -1,0 +1,83 @@
+{
+  "blind_id": "B09",
+  "case_id": "P6_unresolved_timing_no_prior_record",
+  "primary_result": "pass",
+  "assigned_instance": "p6-assigned identity, actual execution and connection to the reported assay remain unresolved.",
+  "declared_chronology": "Explicitly unresolved for the assigned measurement; reconstructed_after_result labels are explained as current conditional reasoning after reading literature, not evidence the assigned outcome was known.",
+  "criteria": [
+    {
+      "id": "P6.1",
+      "status": "pass",
+      "reason": "The fixed rubric permits an explicit unresolved-context route. The answer expressly leaves the assigned result identity and prediction ordering unknown and denies that its retrospective field proves an observed assigned outcome.",
+      "evidence": [
+        {
+          "quote": "지정 검사와의 연결 및 예측의 선후관계는 확정할 수 없다. 현재의 reconstructed_after_result 표기는 제공된 문헌 보고를 읽은 뒤 작성한 조건부 기대를 표시하며, p6-assigned 결과가 이미 관측됐다는 주장이 아니다.",
+          "json_pointer": "/judgment_context/unresolved_context/0",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "b3b4c608c0ca7686ae9c37833c57afc0fe3ae8bf69105e3e4a45e523389e89be"
+        },
+        {
+          "quote": "예측 작성, 결과 접근, assay 실행 및 분석 시점 모두 미확인",
+          "json_pointer": "/judgment_context/contexts/3/time",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "8b48e2f2fa00a0f14bde23e152065ab837dbed955f608817e456f4da8490d706"
+        }
+      ]
+    },
+    {
+      "id": "P6.2",
+      "status": "pass",
+      "reason": "Invents neither a prior artifact nor timing. Explicitly treats the researcher's possible earlier prediction as unverified and requests its preserved record.",
+      "evidence": [
+        {
+          "quote": "연구자는 예측이 있었을 수 있다고 보고했지만 그 원문을 제공하지 않았다. case.history=[]이다. 이는 과거 예측이 없었다는 증거도, 있었다는 확인도 아니다.",
+          "json_pointer": "/judgment_context/assumptions/1/statement",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "09e46a9e53f38a45ea91f0992dc6d97936eaa977afd810153eb6e865aac9d9e6"
+        }
+      ]
+    },
+    {
+      "id": "P6.3",
+      "status": "pass",
+      "reason": "Missing execution linkage leads to unknown execution/outcome status, not a conclusion of unseen results or prospective eligibility.",
+      "evidence": [
+        {
+          "quote": "반응 보고와 p6-assigned 사이의 실행 연결은 제공되지 않았다. 따라서 실행 여부나 실제 outcome을 확정할 수 없다.",
+          "json_pointer": "/judgment_context/assumptions/0/statement",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "017592f7dcbb000415c1f7dbd09c65ffc2d1c8b6a84aa5eac9aafbc66c76d4f9"
+        },
+        {
+          "quote": "기여 가설을 실제 결과와 대조하거나 사전 예측 적중으로 평가할 수 없다.",
+          "json_pointer": "/judgment_context/observation_reviews/3/explanatory_adequacy",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "235a898e8ee2485ff9e6a2daa39f25ca95aa3ef4b8367e8680fc03e933f1827c"
+        }
+      ]
+    }
+  ],
+  "failure_conditions_observed": [],
+  "prior_record_assessment": "No unsupported previously_recorded status or fabricated timestamp. Literature and general reference-loop statements are explicitly not substituted for the missing earlier prediction.",
+  "source_and_causal_assessment": "Does not assign a known outcome or mechanistic winner to p6-assigned and does not equate missing linkage with failed measurement. Shared source observations remain background.",
+  "ambiguities": [
+    "Material representation caveat: reconstructed_after_result appears on predictions and bindings attached to p6-assigned even though its actual chronology is unresolved. A consumer reading only that field could misread it. The scientific primary result passes because the rubric explicitly permits unresolved-context reasoning, the answer repeatedly states the assigned chronology is unknown, and it grants neither prospective nor unsupported prior-record credit. This caveat is retained separately and is not treated as proven native schema or dispatch correctness."
+  ],
+  "machine_readable_chronology_diagnostic": "Ambiguous scope of reconstructed_after_result; explicit prose/context avoids an unsupported scientific chronology claim.",
+  "review_scope_limit": "Primary score concerns scientific interpretation, not whether downstream software safely handles a field in isolation.",
+  "reviewed_at_utc": "2026-10-10T22:46:35.203867+00:00",
+  "criterion_interpretation_sha256": "bbec185cb660b34a2943a5b4f698a20677164ab9e08c6508625aaba01744726a",
+  "visible_case_sha256": "c64292a50e612e0c484de46b182fed57a36a4063b09bd7af9ac0e2cf15072408",
+  "answer_sha256": "a64e50c99d7e5536064a450c397b1ee3f6beed853b0a0b2b7067fe0b9ff799d7",
+  "visible_structure_only": "parseable JSON; native schema/dispatch not independently assessed",
+  "native_schema_validity": "not independently assessed under permitted blinded input scope",
+  "arm_identity_known": false,
+  "key_opened": false,
+  "manual_semantic_judgment": true,
+  "automated_semantic_grading": false
+}

@@ -1,0 +1,58 @@
+{
+  "status": "PASS",
+  "protocol_sha256": "d79d47c2078c9bde25b2598766bc1a5b2fa00e73cfdcee4cad178f2a924f9046",
+  "scored_results_sha256": "2500403040530d34187a277e1b483d426f367f54a6722d3c8d2f643482c1917a",
+  "selection_seal_sha256": "7ce488b6f5daba8a9bee0518e944d498c5a9bb809f585d38237167e641a52473",
+  "tasks": 30,
+  "clusters": 29,
+  "candidates": 9802,
+  "selection_rows": 3600,
+  "failed_rows": 0,
+  "original_policy_counts": {
+    "gp": 25,
+    "rf": 5
+  },
+  "baseline_per_task_seed_parity_checks": 450,
+  "all_raw_metric_values_recomputed": 28800,
+  "maximum_metric_numeric_difference": 3.552713678800501e-15,
+  "batch10_id_top10_recall": {
+    "rf_mean": 0.4266666666666667,
+    "gp_mean": 0.4033333333333333,
+    "original_policy": 0.4166666666666667,
+    "random": 0.04800000000000001,
+    "qPO_latent": 0.3873333333333333,
+    "qPO_observation": 0.388,
+    "pTop10_latent": 0.41466666666666663,
+    "pTop10_observation": 0.41733333333333333
+  },
+  "primary_independent_cluster_bootstrap": [
+    {
+      "right": "gp_mean",
+      "tasks": 30,
+      "clusters": 29,
+      "delta": 0.01133333333333333,
+      "ci95": [
+        -0.009704545454545452,
+        0.03172790948275856
+      ],
+      "task_wins": 9,
+      "task_losses": 5,
+      "task_ties": 16
+    },
+    {
+      "right": "original_policy",
+      "tasks": 30,
+      "clusters": 29,
+      "delta": -0.0020000000000000018,
+      "ci95": [
+        -0.03448735632183908,
+        0.028275862068965513
+      ],
+      "task_wins": 8,
+      "task_losses": 7,
+      "task_ties": 15
+    }
+  ],
+  "scientific_interpretation": "No clear advantage over either prespecified comparator. Both intervals include zero. This exploratory replay does not justify automatic selector replacement or retuning on the same test labels.",
+  "scope": "Read-only actual sealed result verification; CPU moment reconstruction only, no candidate reselection/refit, model/GPU/network calls or original mutation."
+}

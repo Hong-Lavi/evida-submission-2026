@@ -1,0 +1,94 @@
+{
+  "blind_id": "B17",
+  "case_id": "P4_actual_prior_prediction_record",
+  "primary_result": "pass",
+  "assigned_instance": "p4-assigned aliases prior-check for P4_actual_prior_prediction_record-instance; actual fixture prior_prediction_P4 at event 7 precedes outcome 0 at event 10 and current review at event 12.",
+  "declared_chronology": "previously_recorded at current review, with original prospective origin explicitly retained",
+  "criteria": [
+    {
+      "id": "P4.1",
+      "status": "pass",
+      "reason": "Grounds current previously-recorded status in the actual named prior artifact, same assigned measurement and explicit event 7→10→12 ordering.",
+      "evidence": [
+        {
+          "json_pointer": "/hypothesis_review/observations/0/predictions/0/rationale",
+          "quote": "prior_prediction_P4는 event 7에 이 동일 회차에 대해 hA→[0], coverage=complete, 당시 origin=prospective를 기록했다.",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "eefd923b5639dffbe67715b346ad3495c9578b3eeab55719e4b36ae087779e09"
+        },
+        {
+          "json_pointer": "/hypothesis_review/observations/0/predictions/0/rationale",
+          "quote": "event 10에 결과 0이 공개되었고 현재는 event 12이므로 현재 표기는 previously_recorded이다.",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "f7ca1da81cbcb3e05ed56eccada88dbb105cb7c6f4b4f0c021522799939bcfd2"
+        },
+        {
+          "json_pointer": "/hypothesis_review/observations/0/validity_requirements/0",
+          "quote": "prior-check는 p4-assigned의 별칭이며 P4_actual_prior_prediction_record-instance와 같은 회차이다. 별칭 변경은 새 관측을 만들지 않는다.",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "d84d64865ca57d35044fd50ee4507ad3c54254256c840f7fcce2c20b9cac7706"
+        }
+      ]
+    },
+    {
+      "id": "P4.2",
+      "status": "pass",
+      "reason": "Preserves hA [0], hB [1], complete coverage, the original prospective origin and unchanged original rationale while distinguishing the current provenance label from the original prediction.",
+      "evidence": [
+        {
+          "json_pointer": "/judgment_context/assumptions/1/statement",
+          "quote": "원 예측은 hA:[0], hB:[1], 두 항목 모두 complete 및 당시 prospective이다. 현재 재검토는 previously_recorded이며, 해당 선언을 넓은 생물학적 배타성으로 확대하지 않는다.",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "1779b5ee936e31d92f4ace5c0e1dbe0b96b3d1837cb254ebd18cf74d9a80143e"
+        },
+        {
+          "json_pointer": "/hypothesis_review/observations/0/predictions/1/rationale",
+          "quote": "원 문구 ‘Unchanged earlier expectation under the scenario conditions.’를 보존한다.",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "e0f369aef87f7855c48d9af131385234fe572783deb5ee2b5a90f9c93b432ed8"
+        }
+      ]
+    },
+    {
+      "id": "P4.3",
+      "status": "pass",
+      "reason": "Assesses event-10 outcome 0 against unchanged predictions and expressly refuses to broaden hB's [1] into [0,1] after disclosure. Separates disagreement with that prediction from refutation of every broad biological alternative.",
+      "evidence": [
+        {
+          "json_pointer": "/judgment_context/observation_reviews/1/processing_validity",
+          "quote": "원 [1] 예상을 결과 공개 뒤 [0,1]로 바꾸지 않는다. event 7→10→12 순서를 유지한다.",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "93c527c7a14851f4c6ed243d4570ed3491efa0794ba0f542a74ba01a13a0faab"
+        },
+        {
+          "json_pointer": "/hypothesis_review/observations/0/predictions/1/rationale",
+          "quote": "event 10 결과 0은 이 기록된 예상과 어긋난다. 이는 동일 합성 조건의 결과 1 예상에 대한 불일치이며 공존 가능한 경로 전체의 생물학적 반증은 아니다.",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "39ff3fadd079ef810cf0f731bc01acbbe37ccf50c890cd0d7046030e0e6be2ad"
+        }
+      ]
+    }
+  ],
+  "failure_conditions_observed": [],
+  "prior_record_assessment": "Identifies the actual immutable synthetic fixture rather than substituting paper evidence; preserves the supplied original assumption and rationale. Additional present-review caveats do not rewrite the archived prediction.",
+  "source_and_causal_assessment": "Acknowledges that correct synthetic ordering permits comparison to the prior prediction but does not establish biological mediator necessity. The prior artifact is a prediction record, not measurement data; event-10 outcome provenance and publication observations remain distinct.",
+  "ambiguities": [],
+  "review_scope_limit": "The not_applicable measurement-quality entries are explicitly scoped to absence of real experimental-quality certification for this synthetic fixture. They do not erase the known outcome or its clear prediction comparison. Native schema/dispatch was not assessed.",
+  "reviewed_at_utc": "2026-10-10T23:05:54.995902+00:00",
+  "criterion_interpretation_sha256": "bbec185cb660b34a2943a5b4f698a20677164ab9e08c6508625aaba01744726a",
+  "visible_case_sha256": "838c4c4379a3d604b1c88abd73a6f17882c5d24875c01cfc5207ee66ad5f881b",
+  "answer_sha256": "b94b9835a795c194405fe01a0950b0cfcd66b63bbfd007fe72e7592e75c55055",
+  "visible_structure_only": "parseable JSON; native schema/dispatch not independently assessed",
+  "native_schema_validity": "not independently assessed under permitted blinded input scope",
+  "arm_identity_known": false,
+  "key_opened": false,
+  "manual_semantic_judgment": true,
+  "automated_semantic_grading": false
+}

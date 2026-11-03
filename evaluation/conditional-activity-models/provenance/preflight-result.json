@@ -1,0 +1,39 @@
+{
+  "status": "passed",
+  "data": "synthetic binary features; no MoleculeACE labels",
+  "checks": [
+    "author posterior mean equals independent linear algebra",
+    "latent variance equals independent covariance algebra",
+    "observation variance includes fitted likelihood noise",
+    "modern BoTorch fitter executes unchanged author model"
+  ],
+  "posterior_mean_max_error": 1.6653345369377348e-16,
+  "fit": {
+    "center": 0.16666666666666666,
+    "scale": 0.8498365855987975,
+    "fit_seconds": 0.27633770200191066,
+    "optimization": {
+      "status": "OptimizationStatus.SUCCESS",
+      "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+      "fval": 1.4189389865634874,
+      "runtime": 0.27579209400573745,
+      "step": 28,
+      "converged": true
+    },
+    "parameters_standardized": {
+      "outputscale": 3.965805028805591e-06,
+      "noise": 1.0000017231086304,
+      "mean": -7.307230743991788e-07
+    }
+  },
+  "gpu_used": false,
+  "versions": {
+    "torch": "2.8.0+cpu",
+    "botorch": "0.15.1",
+    "gpytorch": "1.14",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "rdkit": "2026.3.6"
+  }
+}

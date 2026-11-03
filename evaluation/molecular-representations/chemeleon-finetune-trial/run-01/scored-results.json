@@ -1,0 +1,1689 @@
+{
+  "planned_tasks": 30,
+  "planned_neural_arms": 60,
+  "completed_neural_arms": 60,
+  "failures": [],
+  "completed_test_rows_by_arm": {
+    "rf": 9802,
+    "gp": 9802,
+    "chemeleon_finetuned": 9802,
+    "matched_random": 9802,
+    "validation_policy": 9802
+  },
+  "task_coverage": {
+    "rf": 30,
+    "gp": 30,
+    "chemeleon_finetuned": 30,
+    "matched_random": 30,
+    "validation_policy": 30
+  },
+  "task_macro": {
+    "rf": {
+      "mae": 0.5553191338299222,
+      "rmse": 0.7461245108110834,
+      "spearman": 0.758238865612593,
+      "top10_recall": 0.4266666666666667,
+      "best_true_activity_in_selected10": 10.02079365885021
+    },
+    "gp": {
+      "mae": 0.532201490223329,
+      "rmse": 0.7121904842610527,
+      "spearman": 0.7827012632272797,
+      "top10_recall": 0.4033333333333334,
+      "best_true_activity_in_selected10": 10.010534879572779
+    },
+    "chemeleon_finetuned": {
+      "mae": 0.5309525898587233,
+      "rmse": 0.7076231632720594,
+      "spearman": 0.7811877828300627,
+      "top10_recall": 0.42,
+      "best_true_activity_in_selected10": 10.046601010257927
+    },
+    "matched_random": {
+      "mae": 0.6779488580693223,
+      "rmse": 0.8680731273186381,
+      "spearman": 0.6380212021677696,
+      "top10_recall": 0.2633333333333333,
+      "best_true_activity_in_selected10": 9.831853461887627
+    },
+    "validation_policy": {
+      "mae": 0.532131883932828,
+      "rmse": 0.7098030003626455,
+      "spearman": 0.7828837146442592,
+      "top10_recall": 0.4166666666666667,
+      "best_true_activity_in_selected10": 10.056933374397811
+    }
+  },
+  "paired_comparisons": {
+    "chemeleon_finetuned_minus_rf": {
+      "mae": {
+        "mean_difference": -0.024366543971198928,
+        "ci95": [
+          -0.04215554073248462,
+          -0.007748388769664708
+        ],
+        "tasks": 30,
+        "target_clusters": 29,
+        "negative": 21,
+        "positive": 9,
+        "ties": 0,
+        "difference_order": "chemeleon_finetuned minus rf"
+      },
+      "rmse": {
+        "mean_difference": -0.03850134753902374,
+        "ci95": [
+          -0.056897618392256266,
+          -0.020768024183880532
+        ],
+        "tasks": 30,
+        "target_clusters": 29,
+        "negative": 25,
+        "positive": 5,
+        "ties": 0,
+        "difference_order": "chemeleon_finetuned minus rf"
+      },
+      "spearman": {
+        "mean_difference": 0.022948917217469684,
+        "ci95": [
+          0.012392909779677679,
+          0.034866877087636375
+        ],
+        "tasks": 30,
+        "target_clusters": 29,
+        "negative": 6,
+        "positive": 24,
+        "ties": 0,
+        "difference_order": "chemeleon_finetuned minus rf"
+      },
+      "top10_recall": {
+        "mean_difference": -0.0066666666666666706,
+        "ci95": [
+          -0.06333333333333334,
+          0.05333333333333332
+        ],
+        "tasks": 30,
+        "target_clusters": 29,
+        "negative": 13,
+        "positive": 9,
+        "ties": 8,
+        "difference_order": "chemeleon_finetuned minus rf"
+      },
+      "best_true_activity_in_selected10": {
+        "mean_difference": 0.025807351407719045,
+        "ci95": [
+          -0.019688910901961836,
+          0.08076380545469775
+        ],
+        "tasks": 30,
+        "target_clusters": 29,
+        "negative": 5,
+        "positive": 5,
+        "ties": 20,
+        "difference_order": "chemeleon_finetuned minus rf"
+      }
+    },
+    "chemeleon_finetuned_minus_gp": {
+      "mae": {
+        "mean_difference": -0.0012489003646056428,
+        "ci95": [
+          -0.014970547532082141,
+          0.012183216094904581
+        ],
+        "tasks": 30,
+        "target_clusters": 29,
+        "negative": 17,
+        "positive": 13,
+        "ties": 0,
+        "difference_order": "chemeleon_finetuned minus gp"
+      },
+      "rmse": {
+        "mean_difference": -0.004567320988993055,
+        "ci95": [
+          -0.021462173671241754,
+          0.012038539739538879
+        ],
+        "tasks": 30,
+        "target_clusters": 29,
+        "negative": 16,
+        "positive": 14,
+        "ties": 0,
+        "difference_order": "chemeleon_finetuned minus gp"
+      },
+      "spearman": {
+        "mean_difference": -0.001513480397217117,
+        "ci95": [
+          -0.014420422758282295,
+          0.010525858740118566
+        ],
+        "tasks": 30,
+        "target_clusters": 29,
+        "negative": 14,
+        "positive": 16,
+        "ties": 0,
+        "difference_order": "chemeleon_finetuned minus gp"
+      },
+      "top10_recall": {
+        "mean_difference": 0.016666666666666653,
+        "ci95": [
+          -0.03870967741935484,
+          0.07241379310344827
+        ],
+        "tasks": 30,
+        "target_clusters": 29,
+        "negative": 9,
+        "positive": 11,
+        "ties": 10,
+        "difference_order": "chemeleon_finetuned minus gp"
+      },
+      "best_true_activity_in_selected10": {
+        "mean_difference": 0.036066130685150695,
+        "ci95": [
+          -0.014929589043274493,
+          0.10138187286007588
+        ],
+        "tasks": 30,
+        "target_clusters": 29,
+        "negative": 5,
+        "positive": 6,
+        "ties": 19,
+        "difference_order": "chemeleon_finetuned minus gp"
+      }
+    },
+    "chemeleon_finetuned_minus_matched_random": {
+      "mae": {
+        "mean_difference": -0.1469962682105988,
+        "ci95": [
+          -0.19816848497203518,
+          -0.10424124002938798
+        ],
+        "tasks": 30,
+        "target_clusters": 29,
+        "negative": 29,
+        "positive": 1,
+        "ties": 0,
+        "difference_order": "chemeleon_finetuned minus matched_random"
+      },
+      "rmse": {
+        "mean_difference": -0.1604499640465784,
+        "ci95": [
+          -0.21624520875378617,
+          -0.1136759634680064
+        ],
+        "tasks": 30,
+        "target_clusters": 29,
+        "negative": 29,
+        "positive": 1,
+        "ties": 0,
+        "difference_order": "chemeleon_finetuned minus matched_random"
+      },
+      "spearman": {
+        "mean_difference": 0.14316658066229299,
+        "ci95": [
+          0.09611059478486746,
+          0.1950830539039464
+        ],
+        "tasks": 30,
+        "target_clusters": 29,
+        "negative": 1,
+        "positive": 29,
+        "ties": 0,
+        "difference_order": "chemeleon_finetuned minus matched_random"
+      },
+      "top10_recall": {
+        "mean_difference": 0.15666666666666665,
+        "ci95": [
+          0.08387096774193549,
+          0.23666666666666666
+        ],
+        "tasks": 30,
+        "target_clusters": 29,
+        "negative": 3,
+        "positive": 21,
+        "ties": 6,
+        "difference_order": "chemeleon_finetuned minus matched_random"
+      },
+      "best_true_activity_in_selected10": {
+        "mean_difference": 0.21474754837029972,
+        "ci95": [
+          0.09278564027527161,
+          0.3543075634579361
+        ],
+        "tasks": 30,
+        "target_clusters": 29,
+        "negative": 2,
+        "positive": 13,
+        "ties": 15,
+        "difference_order": "chemeleon_finetuned minus matched_random"
+      }
+    },
+    "validation_policy_minus_rf": {
+      "mae": {
+        "mean_difference": -0.023187249897094288,
+        "ci95": [
+          -0.0391203451285095,
+          -0.008476065336023922
+        ],
+        "tasks": 30,
+        "target_clusters": 29,
+        "negative": 22,
+        "positive": 8,
+        "ties": 0,
+        "difference_order": "validation_policy minus rf"
+      },
+      "rmse": {
+        "mean_difference": -0.03632151044843767,
+        "ci95": [
+          -0.05402320200655633,
+          -0.019698605266067676
+        ],
+        "tasks": 30,
+        "target_clusters": 29,
+        "negative": 25,
+        "positive": 5,
+        "ties": 0,
+        "difference_order": "validation_policy minus rf"
+      },
+      "spearman": {
+        "mean_difference": 0.024644849031666183,
+        "ci95": [
+          0.011688183738435396,
+          0.03902769084031637
+        ],
+        "tasks": 30,
+        "target_clusters": 29,
+        "negative": 5,
+        "positive": 25,
+        "ties": 0,
+        "difference_order": "validation_policy minus rf"
+      },
+      "top10_recall": {
+        "mean_difference": -0.01,
+        "ci95": [
+          -0.05862068965517241,
+          0.04193548387096773
+        ],
+        "tasks": 30,
+        "target_clusters": 29,
+        "negative": 13,
+        "positive": 8,
+        "ties": 9,
+        "difference_order": "validation_policy minus rf"
+      },
+      "best_true_activity_in_selected10": {
+        "mean_difference": 0.03613971554760376,
+        "ci95": [
+          -0.001364603844164181,
+          0.0866588475624638
+        ],
+        "tasks": 30,
+        "target_clusters": 29,
+        "negative": 3,
+        "positive": 4,
+        "ties": 23,
+        "difference_order": "validation_policy minus rf"
+      }
+    }
+  },
+  "policy_selection": {
+    "chemeleon_finetuned": 24,
+    "gp": 4,
+    "matched_random": 2
+  },
+  "tasks": [
+    {
+      "task": "CHEMBL1862_Ki",
+      "n": 161,
+      "selected_policy_arm": "chemeleon_finetuned",
+      "rf": {
+        "n": 161,
+        "mae": 0.574249287803446,
+        "rmse": 0.7786649843182879,
+        "spearman": 0.846133112767114,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 10.698970004336019
+      },
+      "gp": {
+        "n": 161,
+        "mae": 0.5916504507550299,
+        "rmse": 0.7916546068554389,
+        "spearman": 0.8362846076928709,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.698970004336019
+      },
+      "chemeleon_finetuned": {
+        "n": 161,
+        "mae": 0.5842431570670992,
+        "rmse": 0.7317140261015136,
+        "spearman": 0.8473122300339967,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.698970004336019
+      },
+      "matched_random": {
+        "n": 161,
+        "mae": 1.16756971763808,
+        "rmse": 1.4124603441553807,
+        "spearman": 0.46479652302205504,
+        "top10_recall": 0.0,
+        "best_true_activity_in_selected10": 9.397940008672037
+      },
+      "validation_policy": {
+        "n": 161,
+        "mae": 0.5842431570670992,
+        "rmse": 0.7317140261015136,
+        "spearman": 0.8473122300339967,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.698970004336019
+      }
+    },
+    {
+      "task": "CHEMBL1871_Ki",
+      "n": 134,
+      "selected_policy_arm": "chemeleon_finetuned",
+      "rf": {
+        "n": 134,
+        "mae": 0.5823313591545293,
+        "rmse": 0.7825333090883776,
+        "spearman": 0.7088369891352219,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 9.301029995663981
+      },
+      "gp": {
+        "n": 134,
+        "mae": 0.5597065455773785,
+        "rmse": 0.7044335779419703,
+        "spearman": 0.7805878027789912,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 9.301029995663981
+      },
+      "chemeleon_finetuned": {
+        "n": 134,
+        "mae": 0.5850842133361631,
+        "rmse": 0.7439227548331776,
+        "spearman": 0.741928002525065,
+        "top10_recall": 0.1,
+        "best_true_activity_in_selected10": 9.301029995663981
+      },
+      "matched_random": {
+        "n": 134,
+        "mae": 0.8735935523124166,
+        "rmse": 1.0434584836318443,
+        "spearman": 0.4381535470270325,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 9.602059991327963
+      },
+      "validation_policy": {
+        "n": 134,
+        "mae": 0.5850842133361631,
+        "rmse": 0.7439227548331776,
+        "spearman": 0.741928002525065,
+        "top10_recall": 0.1,
+        "best_true_activity_in_selected10": 9.301029995663981
+      }
+    },
+    {
+      "task": "CHEMBL2034_Ki",
+      "n": 152,
+      "selected_policy_arm": "gp",
+      "rf": {
+        "n": 152,
+        "mae": 0.5509478206445505,
+        "rmse": 0.7813731014889507,
+        "spearman": 0.6793232042282741,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 9.2839966563652
+      },
+      "gp": {
+        "n": 152,
+        "mae": 0.5204982248431572,
+        "rmse": 0.7094500287940808,
+        "spearman": 0.7021490543996501,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 9.2839966563652
+      },
+      "chemeleon_finetuned": {
+        "n": 152,
+        "mae": 0.5829360095423735,
+        "rmse": 0.7769995313323297,
+        "spearman": 0.6393903541380556,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 9.292429823902063
+      },
+      "matched_random": {
+        "n": 152,
+        "mae": 0.8091424330450963,
+        "rmse": 0.9957446315053484,
+        "spearman": 0.23093595565631195,
+        "top10_recall": 0.0,
+        "best_true_activity_in_selected10": 8.769551078621726
+      },
+      "validation_policy": {
+        "n": 152,
+        "mae": 0.5204982248431572,
+        "rmse": 0.7094500287940808,
+        "spearman": 0.7021490543996501,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 9.2839966563652
+      }
+    },
+    {
+      "task": "CHEMBL2047_EC50",
+      "n": 128,
+      "selected_policy_arm": "chemeleon_finetuned",
+      "rf": {
+        "n": 128,
+        "mae": 0.48272329758388166,
+        "rmse": 0.6588473961061421,
+        "spearman": 0.7426101674227544,
+        "top10_recall": 0.7,
+        "best_true_activity_in_selected10": 9.522878745280337
+      },
+      "gp": {
+        "n": 128,
+        "mae": 0.48812288829483486,
+        "rmse": 0.6546857929730523,
+        "spearman": 0.742495712805959,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 9.522878745280337
+      },
+      "chemeleon_finetuned": {
+        "n": 128,
+        "mae": 0.4495606224505011,
+        "rmse": 0.6104977638808556,
+        "spearman": 0.7746002328170688,
+        "top10_recall": 0.7,
+        "best_true_activity_in_selected10": 9.522878745280337
+      },
+      "matched_random": {
+        "n": 128,
+        "mae": 0.6463347757088772,
+        "rmse": 0.8409687603087003,
+        "spearman": 0.5008305121733115,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 9.183758700008218
+      },
+      "validation_policy": {
+        "n": 128,
+        "mae": 0.4495606224505011,
+        "rmse": 0.6104977638808556,
+        "spearman": 0.7746002328170688,
+        "top10_recall": 0.7,
+        "best_true_activity_in_selected10": 9.522878745280337
+      }
+    },
+    {
+      "task": "CHEMBL204_Ki",
+      "n": 553,
+      "selected_policy_arm": "chemeleon_finetuned",
+      "rf": {
+        "n": 553,
+        "mae": 0.6259866298410844,
+        "rmse": 0.8799533500527158,
+        "spearman": 0.8241110236806163,
+        "top10_recall": 0.1,
+        "best_true_activity_in_selected10": 10.397940008672037
+      },
+      "gp": {
+        "n": 553,
+        "mae": 0.5359991309968751,
+        "rmse": 0.7744675438857253,
+        "spearman": 0.8612211122970568,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 10.823908740944319
+      },
+      "chemeleon_finetuned": {
+        "n": 553,
+        "mae": 0.5351049664938667,
+        "rmse": 0.7698624733665078,
+        "spearman": 0.8581489018700289,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.823908740944319
+      },
+      "matched_random": {
+        "n": 553,
+        "mae": 0.6257619730718609,
+        "rmse": 0.8714011587303372,
+        "spearman": 0.822174663958177,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 10.823908740944319
+      },
+      "validation_policy": {
+        "n": 553,
+        "mae": 0.5351049664938667,
+        "rmse": 0.7698624733665078,
+        "spearman": 0.8581489018700289,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.823908740944319
+      }
+    },
+    {
+      "task": "CHEMBL2147_Ki",
+      "n": 294,
+      "selected_policy_arm": "chemeleon_finetuned",
+      "rf": {
+        "n": 294,
+        "mae": 0.5392429439915367,
+        "rmse": 0.729721513949069,
+        "spearman": 0.9116708579870055,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 11.0
+      },
+      "gp": {
+        "n": 294,
+        "mae": 0.517388921599642,
+        "rmse": 0.6750695168939371,
+        "spearman": 0.9214614764941144,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 11.0
+      },
+      "chemeleon_finetuned": {
+        "n": 294,
+        "mae": 0.47973100865139795,
+        "rmse": 0.6333153681761784,
+        "spearman": 0.9298506691314191,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 11.0
+      },
+      "matched_random": {
+        "n": 294,
+        "mae": 0.6092477069004567,
+        "rmse": 0.798869320540564,
+        "spearman": 0.8928032029405296,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 11.0
+      },
+      "validation_policy": {
+        "n": 294,
+        "mae": 0.47973100865139795,
+        "rmse": 0.6333153681761784,
+        "spearman": 0.9298506691314191,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 11.0
+      }
+    },
+    {
+      "task": "CHEMBL214_Ki",
+      "n": 666,
+      "selected_policy_arm": "chemeleon_finetuned",
+      "rf": {
+        "n": 666,
+        "mae": 0.5541945575689551,
+        "rmse": 0.7266692834486546,
+        "spearman": 0.7655657732013467,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 10.100015437450608
+      },
+      "gp": {
+        "n": 666,
+        "mae": 0.521194452479739,
+        "rmse": 0.6830325132478947,
+        "spearman": 0.7879799740661674,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 10.100015437450608
+      },
+      "chemeleon_finetuned": {
+        "n": 666,
+        "mae": 0.5358310531221041,
+        "rmse": 0.7062851491780159,
+        "spearman": 0.773054427137578,
+        "top10_recall": 0.7,
+        "best_true_activity_in_selected10": 10.100015437450608
+      },
+      "matched_random": {
+        "n": 666,
+        "mae": 0.5338958352648309,
+        "rmse": 0.6991256861524231,
+        "spearman": 0.7791948987586038,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.100015437450608
+      },
+      "validation_policy": {
+        "n": 666,
+        "mae": 0.5358310531221041,
+        "rmse": 0.7062851491780159,
+        "spearman": 0.773054427137578,
+        "top10_recall": 0.7,
+        "best_true_activity_in_selected10": 10.100015437450608
+      }
+    },
+    {
+      "task": "CHEMBL218_EC50",
+      "n": 208,
+      "selected_policy_arm": "chemeleon_finetuned",
+      "rf": {
+        "n": 208,
+        "mae": 0.5740574328110062,
+        "rmse": 0.7442120309650828,
+        "spearman": 0.6773841557464186,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 9.522878745280337
+      },
+      "gp": {
+        "n": 208,
+        "mae": 0.5784787214432178,
+        "rmse": 0.7563273009130855,
+        "spearman": 0.6745628137543028,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 9.0
+      },
+      "chemeleon_finetuned": {
+        "n": 208,
+        "mae": 0.5450926582174671,
+        "rmse": 0.721437163212814,
+        "spearman": 0.717723023952869,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 9.522878745280337
+      },
+      "matched_random": {
+        "n": 208,
+        "mae": 0.6175875356678534,
+        "rmse": 0.8159603634945972,
+        "spearman": 0.6400759855156153,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 9.522878745280337
+      },
+      "validation_policy": {
+        "n": 208,
+        "mae": 0.5450926582174671,
+        "rmse": 0.721437163212814,
+        "spearman": 0.717723023952869,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 9.522878745280337
+      }
+    },
+    {
+      "task": "CHEMBL219_Ki",
+      "n": 374,
+      "selected_policy_arm": "gp",
+      "rf": {
+        "n": 374,
+        "mae": 0.5886837144268364,
+        "rmse": 0.7985330417825338,
+        "spearman": 0.687085191899108,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 10.744727494896694
+      },
+      "gp": {
+        "n": 374,
+        "mae": 0.5661454588869977,
+        "rmse": 0.7709302322009643,
+        "spearman": 0.7138772123527307,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 10.744727494896694
+      },
+      "chemeleon_finetuned": {
+        "n": 374,
+        "mae": 0.554167681211728,
+        "rmse": 0.7617273740438119,
+        "spearman": 0.7182092516495365,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 10.744727494896694
+      },
+      "matched_random": {
+        "n": 374,
+        "mae": 0.6257589910648337,
+        "rmse": 0.8187605659828087,
+        "spearman": 0.66272621188356,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 10.744727494896694
+      },
+      "validation_policy": {
+        "n": 374,
+        "mae": 0.5661454588869977,
+        "rmse": 0.7709302322009643,
+        "spearman": 0.7138772123527307,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 10.744727494896694
+      }
+    },
+    {
+      "task": "CHEMBL228_Ki",
+      "n": 342,
+      "selected_policy_arm": "chemeleon_finetuned",
+      "rf": {
+        "n": 342,
+        "mae": 0.5937988557500975,
+        "rmse": 0.7814223972592806,
+        "spearman": 0.7486510983078101,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 10.886056647693163
+      },
+      "gp": {
+        "n": 342,
+        "mae": 0.512976144487514,
+        "rmse": 0.6815312136286791,
+        "spearman": 0.8110716328628343,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 10.886056647693163
+      },
+      "chemeleon_finetuned": {
+        "n": 342,
+        "mae": 0.4751091959355404,
+        "rmse": 0.6734144474957914,
+        "spearman": 0.8193246158807589,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 10.886056647693163
+      },
+      "matched_random": {
+        "n": 342,
+        "mae": 0.5608140032930675,
+        "rmse": 0.7647275169349034,
+        "spearman": 0.7692737144946187,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 10.096910013008056
+      },
+      "validation_policy": {
+        "n": 342,
+        "mae": 0.4751091959355404,
+        "rmse": 0.6734144474957914,
+        "spearman": 0.8193246158807589,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 10.886056647693163
+      }
+    },
+    {
+      "task": "CHEMBL231_Ki",
+      "n": 197,
+      "selected_policy_arm": "matched_random",
+      "rf": {
+        "n": 197,
+        "mae": 0.627421366327833,
+        "rmse": 0.8388548796545164,
+        "spearman": 0.7661183430501916,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 9.522878745280337
+      },
+      "gp": {
+        "n": 197,
+        "mae": 0.5823241572968592,
+        "rmse": 0.8071221383221149,
+        "spearman": 0.7880942433721831,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 9.522878745280337
+      },
+      "chemeleon_finetuned": {
+        "n": 197,
+        "mae": 0.49469226918003834,
+        "rmse": 0.687245305709905,
+        "spearman": 0.846757339574574,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 9.522878745280337
+      },
+      "matched_random": {
+        "n": 197,
+        "mae": 0.6289386494740569,
+        "rmse": 0.8361933257693661,
+        "spearman": 0.772514899751057,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 9.522878745280337
+      },
+      "validation_policy": {
+        "n": 197,
+        "mae": 0.6289386494740569,
+        "rmse": 0.8361933257693661,
+        "spearman": 0.772514899751057,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 9.522878745280337
+      }
+    },
+    {
+      "task": "CHEMBL233_Ki",
+      "n": 630,
+      "selected_policy_arm": "chemeleon_finetuned",
+      "rf": {
+        "n": 630,
+        "mae": 0.6232326497228878,
+        "rmse": 0.8271704601214378,
+        "spearman": 0.769122914809344,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 10.962573502059376
+      },
+      "gp": {
+        "n": 630,
+        "mae": 0.6173943060138706,
+        "rmse": 0.81464198757952,
+        "spearman": 0.7782001137990058,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 10.962573502059376
+      },
+      "chemeleon_finetuned": {
+        "n": 630,
+        "mae": 0.604038383495201,
+        "rmse": 0.8184264146654268,
+        "spearman": 0.7821276953661567,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 10.892790030352131
+      },
+      "matched_random": {
+        "n": 630,
+        "mae": 0.6512898985910728,
+        "rmse": 0.8651044670484358,
+        "spearman": 0.7546333204088206,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.962573502059376
+      },
+      "validation_policy": {
+        "n": 630,
+        "mae": 0.604038383495201,
+        "rmse": 0.8184264146654268,
+        "spearman": 0.7821276953661567,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 10.892790030352131
+      }
+    },
+    {
+      "task": "CHEMBL234_Ki",
+      "n": 733,
+      "selected_policy_arm": "chemeleon_finetuned",
+      "rf": {
+        "n": 733,
+        "mae": 0.5227178721498537,
+        "rmse": 0.7041380469200161,
+        "spearman": 0.7762713942243549,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 9.853871964321762
+      },
+      "gp": {
+        "n": 733,
+        "mae": 0.47547942288656053,
+        "rmse": 0.6578033105555935,
+        "spearman": 0.8038756628235555,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 9.853871964321762
+      },
+      "chemeleon_finetuned": {
+        "n": 733,
+        "mae": 0.4966482772419853,
+        "rmse": 0.6729384146559063,
+        "spearman": 0.8074066298769857,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 9.853871964321762
+      },
+      "matched_random": {
+        "n": 733,
+        "mae": 0.5554720246557816,
+        "rmse": 0.7461390467526849,
+        "spearman": 0.7544302237513034,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 9.853871964321762
+      },
+      "validation_policy": {
+        "n": 733,
+        "mae": 0.4966482772419853,
+        "rmse": 0.6729384146559063,
+        "spearman": 0.8074066298769857,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 9.853871964321762
+      }
+    },
+    {
+      "task": "CHEMBL235_EC50",
+      "n": 472,
+      "selected_policy_arm": "chemeleon_finetuned",
+      "rf": {
+        "n": 472,
+        "mae": 0.5050646479252492,
+        "rmse": 0.6737489416237682,
+        "spearman": 0.7717710194561562,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 9.721246399047171
+      },
+      "gp": {
+        "n": 472,
+        "mae": 0.5210300792627661,
+        "rmse": 0.6861944064620036,
+        "spearman": 0.7673987473463618,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 9.721246399047171
+      },
+      "chemeleon_finetuned": {
+        "n": 472,
+        "mae": 0.5255819280387667,
+        "rmse": 0.6894721320099133,
+        "spearman": 0.7640041373064401,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 9.721246399047171
+      },
+      "matched_random": {
+        "n": 472,
+        "mae": 0.5654540148680173,
+        "rmse": 0.7480305965214558,
+        "spearman": 0.7221468658854638,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 9.721246399047171
+      },
+      "validation_policy": {
+        "n": 472,
+        "mae": 0.5255819280387667,
+        "rmse": 0.6894721320099133,
+        "spearman": 0.7640041373064401,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 9.721246399047171
+      }
+    },
+    {
+      "task": "CHEMBL236_Ki",
+      "n": 521,
+      "selected_policy_arm": "chemeleon_finetuned",
+      "rf": {
+        "n": 521,
+        "mae": 0.5508864523397005,
+        "rmse": 0.7421384653420248,
+        "spearman": 0.8318002654831577,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.838631997765027
+      },
+      "gp": {
+        "n": 521,
+        "mae": 0.5324257602520779,
+        "rmse": 0.7201322384477671,
+        "spearman": 0.8449387788751022,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.838631997765027
+      },
+      "chemeleon_finetuned": {
+        "n": 521,
+        "mae": 0.5335737542529322,
+        "rmse": 0.7566360687949891,
+        "spearman": 0.8312385998058993,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 10.838631997765027
+      },
+      "matched_random": {
+        "n": 521,
+        "mae": 0.60683600691129,
+        "rmse": 0.8336387993599722,
+        "spearman": 0.7879769777462614,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 10.838631997765027
+      },
+      "validation_policy": {
+        "n": 521,
+        "mae": 0.5335737542529322,
+        "rmse": 0.7566360687949891,
+        "spearman": 0.8312385998058993,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 10.838631997765027
+      }
+    },
+    {
+      "task": "CHEMBL237_EC50",
+      "n": 193,
+      "selected_policy_arm": "matched_random",
+      "rf": {
+        "n": 193,
+        "mae": 0.6454951609236127,
+        "rmse": 0.8439443177236987,
+        "spearman": 0.8093147733316516,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 10.653647025549361
+      },
+      "gp": {
+        "n": 193,
+        "mae": 0.617829777795924,
+        "rmse": 0.8051113357301073,
+        "spearman": 0.8204017178964348,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.653647025549361
+      },
+      "chemeleon_finetuned": {
+        "n": 193,
+        "mae": 0.6365815661435198,
+        "rmse": 0.8224708242261956,
+        "spearman": 0.7928763991093225,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.653647025549361
+      },
+      "matched_random": {
+        "n": 193,
+        "mae": 0.7385387456472715,
+        "rmse": 0.9426312000257887,
+        "spearman": 0.7304424395180372,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.653647025549361
+      },
+      "validation_policy": {
+        "n": 193,
+        "mae": 0.7385387456472715,
+        "rmse": 0.9426312000257887,
+        "spearman": 0.7304424395180372,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.653647025549361
+      }
+    },
+    {
+      "task": "CHEMBL237_Ki",
+      "n": 522,
+      "selected_policy_arm": "chemeleon_finetuned",
+      "rf": {
+        "n": 522,
+        "mae": 0.5859620702211071,
+        "rmse": 0.7591142380854746,
+        "spearman": 0.8244163142133607,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 10.221848749616356
+      },
+      "gp": {
+        "n": 522,
+        "mae": 0.5378867720945459,
+        "rmse": 0.7027779517254686,
+        "spearman": 0.8405476097505825,
+        "top10_recall": 0.1,
+        "best_true_activity_in_selected10": 10.221848749616356
+      },
+      "chemeleon_finetuned": {
+        "n": 522,
+        "mae": 0.5268958887900582,
+        "rmse": 0.6845762722071104,
+        "spearman": 0.850202333000786,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 10.397940008672037
+      },
+      "matched_random": {
+        "n": 522,
+        "mae": 0.6552044675724272,
+        "rmse": 0.8499724641160229,
+        "spearman": 0.7721304802141552,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 10.221848749616356
+      },
+      "validation_policy": {
+        "n": 522,
+        "mae": 0.5268958887900582,
+        "rmse": 0.6845762722071104,
+        "spearman": 0.850202333000786,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 10.397940008672037
+      }
+    },
+    {
+      "task": "CHEMBL238_Ki",
+      "n": 213,
+      "selected_policy_arm": "chemeleon_finetuned",
+      "rf": {
+        "n": 213,
+        "mae": 0.5455397489180477,
+        "rmse": 0.7157784559324942,
+        "spearman": 0.781713350475456,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 9.147123710525113
+      },
+      "gp": {
+        "n": 213,
+        "mae": 0.5445813440619524,
+        "rmse": 0.7008946567494698,
+        "spearman": 0.7939042018112371,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 9.147123710525113
+      },
+      "chemeleon_finetuned": {
+        "n": 213,
+        "mae": 0.4959233169623391,
+        "rmse": 0.6268823184131789,
+        "spearman": 0.828120420847648,
+        "top10_recall": 0.7,
+        "best_true_activity_in_selected10": 9.147123710525113
+      },
+      "matched_random": {
+        "n": 213,
+        "mae": 0.9703186391332412,
+        "rmse": 1.1337453196333114,
+        "spearman": 0.4137066049519015,
+        "top10_recall": 0.0,
+        "best_true_activity_in_selected10": 8.199970640755867
+      },
+      "validation_policy": {
+        "n": 213,
+        "mae": 0.4959233169623391,
+        "rmse": 0.6268823184131789,
+        "spearman": 0.828120420847648,
+        "top10_recall": 0.7,
+        "best_true_activity_in_selected10": 9.147123710525113
+      }
+    },
+    {
+      "task": "CHEMBL239_EC50",
+      "n": 347,
+      "selected_policy_arm": "chemeleon_finetuned",
+      "rf": {
+        "n": 347,
+        "mae": 0.5510005601610029,
+        "rmse": 0.7433759879390691,
+        "spearman": 0.7411649662354282,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 10.522878745280337
+      },
+      "gp": {
+        "n": 347,
+        "mae": 0.5415989385096092,
+        "rmse": 0.7376104342725353,
+        "spearman": 0.7523901320966239,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 10.522878745280337
+      },
+      "chemeleon_finetuned": {
+        "n": 347,
+        "mae": 0.5347725259870763,
+        "rmse": 0.7387496513461107,
+        "spearman": 0.7437209120167568,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 10.522878745280337
+      },
+      "matched_random": {
+        "n": 347,
+        "mae": 0.8688028146151919,
+        "rmse": 1.0506574567655875,
+        "spearman": 0.4310673359248481,
+        "top10_recall": 0.1,
+        "best_true_activity_in_selected10": 10.522878745280337
+      },
+      "validation_policy": {
+        "n": 347,
+        "mae": 0.5347725259870763,
+        "rmse": 0.7387496513461107,
+        "spearman": 0.7437209120167568,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 10.522878745280337
+      }
+    },
+    {
+      "task": "CHEMBL244_Ki",
+      "n": 621,
+      "selected_policy_arm": "gp",
+      "rf": {
+        "n": 621,
+        "mae": 0.5916351119092381,
+        "rmse": 0.8107112582795819,
+        "spearman": 0.8662469870397981,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 11.0
+      },
+      "gp": {
+        "n": 621,
+        "mae": 0.5531598472281782,
+        "rmse": 0.7595558093706839,
+        "spearman": 0.8832963775554565,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 11.0
+      },
+      "chemeleon_finetuned": {
+        "n": 621,
+        "mae": 0.6009765816423287,
+        "rmse": 0.7868145809388662,
+        "spearman": 0.8795530625310842,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 10.698970004336019
+      },
+      "matched_random": {
+        "n": 621,
+        "mae": 0.6362015618020385,
+        "rmse": 0.8271121323880597,
+        "spearman": 0.8666656762816325,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 10.619788758288394
+      },
+      "validation_policy": {
+        "n": 621,
+        "mae": 0.5531598472281782,
+        "rmse": 0.7595558093706839,
+        "spearman": 0.8832963775554565,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 11.0
+      }
+    },
+    {
+      "task": "CHEMBL262_Ki",
+      "n": 173,
+      "selected_policy_arm": "chemeleon_finetuned",
+      "rf": {
+        "n": 173,
+        "mae": 0.5760641792019576,
+        "rmse": 0.7660009408837428,
+        "spearman": 0.6810220301724746,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 9.397940008672037
+      },
+      "gp": {
+        "n": 173,
+        "mae": 0.5807614538219684,
+        "rmse": 0.7551739170676873,
+        "spearman": 0.6982885892227755,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 9.397940008672037
+      },
+      "chemeleon_finetuned": {
+        "n": 173,
+        "mae": 0.6366324865063134,
+        "rmse": 0.80400395644173,
+        "spearman": 0.6743919136552404,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 9.397940008672037
+      },
+      "matched_random": {
+        "n": 173,
+        "mae": 0.8585662063934603,
+        "rmse": 1.0503654163937532,
+        "spearman": 0.38434302889851557,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 8.958607314841775
+      },
+      "validation_policy": {
+        "n": 173,
+        "mae": 0.6366324865063134,
+        "rmse": 0.80400395644173,
+        "spearman": 0.6743919136552404,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 9.397940008672037
+      }
+    },
+    {
+      "task": "CHEMBL264_Ki",
+      "n": 574,
+      "selected_policy_arm": "chemeleon_finetuned",
+      "rf": {
+        "n": 574,
+        "mae": 0.509357399527054,
+        "rmse": 0.6880031794119974,
+        "spearman": 0.7547281423033015,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 10.107237765384184
+      },
+      "gp": {
+        "n": 574,
+        "mae": 0.4807895757138423,
+        "rmse": 0.6378087806119502,
+        "spearman": 0.7973407392223357,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.107237765384184
+      },
+      "chemeleon_finetuned": {
+        "n": 574,
+        "mae": 0.46496024395827285,
+        "rmse": 0.6208680387367489,
+        "spearman": 0.8016849540269281,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 10.107237765384184
+      },
+      "matched_random": {
+        "n": 574,
+        "mae": 0.511579850308994,
+        "rmse": 0.6843279018541102,
+        "spearman": 0.7676391359786935,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.107237765384184
+      },
+      "validation_policy": {
+        "n": 574,
+        "mae": 0.46496024395827285,
+        "rmse": 0.6208680387367489,
+        "spearman": 0.8016849540269281,
+        "top10_recall": 0.6,
+        "best_true_activity_in_selected10": 10.107237765384184
+      }
+    },
+    {
+      "task": "CHEMBL2835_Ki",
+      "n": 126,
+      "selected_policy_arm": "chemeleon_finetuned",
+      "rf": {
+        "n": 126,
+        "mae": 0.27649541286252644,
+        "rmse": 0.411513602663816,
+        "spearman": 0.8596464140783016,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 9.638272163982407
+      },
+      "gp": {
+        "n": 126,
+        "mae": 0.27902448915791117,
+        "rmse": 0.40989690052360767,
+        "spearman": 0.8524288723785511,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 9.638272163982407
+      },
+      "chemeleon_finetuned": {
+        "n": 126,
+        "mae": 0.3304161974830003,
+        "rmse": 0.46566402271340573,
+        "spearman": 0.8219088103447767,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 9.602059991327963
+      },
+      "matched_random": {
+        "n": 126,
+        "mae": 0.39938031505192606,
+        "rmse": 0.5649822646917595,
+        "spearman": 0.6805937835817487,
+        "top10_recall": 0.1,
+        "best_true_activity_in_selected10": 9.508638306165727
+      },
+      "validation_policy": {
+        "n": 126,
+        "mae": 0.3304161974830003,
+        "rmse": 0.46566402271340573,
+        "spearman": 0.8219088103447767,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 9.602059991327963
+      }
+    },
+    {
+      "task": "CHEMBL287_Ki",
+      "n": 267,
+      "selected_policy_arm": "chemeleon_finetuned",
+      "rf": {
+        "n": 267,
+        "mae": 0.592403083413285,
+        "rmse": 0.7744233393427552,
+        "spearman": 0.6877516120143686,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 10.179995693191682
+      },
+      "gp": {
+        "n": 267,
+        "mae": 0.571281930794005,
+        "rmse": 0.7468077755420269,
+        "spearman": 0.7175193353823153,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 10.179995693191682
+      },
+      "chemeleon_finetuned": {
+        "n": 267,
+        "mae": 0.5287871374741866,
+        "rmse": 0.6831422500457661,
+        "spearman": 0.7703387750943737,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 10.280006173632396
+      },
+      "matched_random": {
+        "n": 267,
+        "mae": 0.6348419154781916,
+        "rmse": 0.8198785427835444,
+        "spearman": 0.655903065819765,
+        "top10_recall": 0.1,
+        "best_true_activity_in_selected10": 9.259637310505756
+      },
+      "validation_policy": {
+        "n": 267,
+        "mae": 0.5287871374741866,
+        "rmse": 0.6831422500457661,
+        "spearman": 0.7703387750943737,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 10.280006173632396
+      }
+    },
+    {
+      "task": "CHEMBL2971_Ki",
+      "n": 197,
+      "selected_policy_arm": "chemeleon_finetuned",
+      "rf": {
+        "n": 197,
+        "mae": 0.42534127064480814,
+        "rmse": 0.660767725770447,
+        "spearman": 0.8725741932343394,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 9.920818753952375
+      },
+      "gp": {
+        "n": 197,
+        "mae": 0.4474289101247742,
+        "rmse": 0.6478408840193219,
+        "spearman": 0.8878849866906914,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 9.823908740944319
+      },
+      "chemeleon_finetuned": {
+        "n": 197,
+        "mae": 0.4336155628633222,
+        "rmse": 0.636021802258034,
+        "spearman": 0.8905377605687972,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 9.920818753952375
+      },
+      "matched_random": {
+        "n": 197,
+        "mae": 0.7277766176202642,
+        "rmse": 0.9568085852735336,
+        "spearman": 0.7310181479282644,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 9.920818753952375
+      },
+      "validation_policy": {
+        "n": 197,
+        "mae": 0.4336155628633222,
+        "rmse": 0.636021802258034,
+        "spearman": 0.8905377605687972,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 9.920818753952375
+      }
+    },
+    {
+      "task": "CHEMBL3979_EC50",
+      "n": 226,
+      "selected_policy_arm": "chemeleon_finetuned",
+      "rf": {
+        "n": 226,
+        "mae": 0.5219070534549072,
+        "rmse": 0.6756149372168385,
+        "spearman": 0.7993208129351868,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 8.920818753952375
+      },
+      "gp": {
+        "n": 226,
+        "mae": 0.49748019247627945,
+        "rmse": 0.6471666818675197,
+        "spearman": 0.8190128810419766,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 8.920818753952375
+      },
+      "chemeleon_finetuned": {
+        "n": 226,
+        "mae": 0.5041929521594263,
+        "rmse": 0.6710053554397954,
+        "spearman": 0.8073747923783829,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 8.886056647693163
+      },
+      "matched_random": {
+        "n": 226,
+        "mae": 0.5656496963051603,
+        "rmse": 0.7258891144968197,
+        "spearman": 0.7681814274605082,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 8.67778070526608
+      },
+      "validation_policy": {
+        "n": 226,
+        "mae": 0.5041929521594263,
+        "rmse": 0.6710053554397954,
+        "spearman": 0.8073747923783829,
+        "top10_recall": 0.2,
+        "best_true_activity_in_selected10": 8.886056647693163
+      }
+    },
+    {
+      "task": "CHEMBL4005_Ki",
+      "n": 193,
+      "selected_policy_arm": "chemeleon_finetuned",
+      "rf": {
+        "n": 193,
+        "mae": 0.5250340780002141,
+        "rmse": 0.7085477962107019,
+        "spearman": 0.7837645082720333,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.0
+      },
+      "gp": {
+        "n": 193,
+        "mae": 0.5069025129356731,
+        "rmse": 0.6922326769247444,
+        "spearman": 0.8136634277063445,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 9.886056647693163
+      },
+      "chemeleon_finetuned": {
+        "n": 193,
+        "mae": 0.5193948871707074,
+        "rmse": 0.6741874292667177,
+        "spearman": 0.8014683210161898,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.522878745280337
+      },
+      "matched_random": {
+        "n": 193,
+        "mae": 0.5860715919770942,
+        "rmse": 0.7348072408908516,
+        "spearman": 0.7474646393334582,
+        "top10_recall": 0.7,
+        "best_true_activity_in_selected10": 10.522878745280337
+      },
+      "validation_policy": {
+        "n": 193,
+        "mae": 0.5193948871707074,
+        "rmse": 0.6741874292667177,
+        "spearman": 0.8014683210161898,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.522878745280337
+      }
+    },
+    {
+      "task": "CHEMBL4203_Ki",
+      "n": 149,
+      "selected_policy_arm": "chemeleon_finetuned",
+      "rf": {
+        "n": 149,
+        "mae": 0.655176803278337,
+        "rmse": 0.860618957821351,
+        "spearman": 0.571234538670399,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 9.199970640755865
+      },
+      "gp": {
+        "n": 149,
+        "mae": 0.6515902382160459,
+        "rmse": 0.8548668715001357,
+        "spearman": 0.5959418426669075,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 9.199970640755865
+      },
+      "chemeleon_finetuned": {
+        "n": 149,
+        "mae": 0.6500309262500019,
+        "rmse": 0.8489998209995993,
+        "spearman": 0.6065153850635323,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 9.199970640755865
+      },
+      "matched_random": {
+        "n": 149,
+        "mae": 0.8578195456268908,
+        "rmse": 1.072242845580366,
+        "spearman": 0.1400068456388238,
+        "top10_recall": 0.1,
+        "best_true_activity_in_selected10": 8.899974269892137
+      },
+      "validation_policy": {
+        "n": 149,
+        "mae": 0.6500309262500019,
+        "rmse": 0.8489998209995993,
+        "spearman": 0.6065153850635323,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 9.199970640755865
+      }
+    },
+    {
+      "task": "CHEMBL4616_EC50",
+      "n": 139,
+      "selected_policy_arm": "gp",
+      "rf": {
+        "n": 139,
+        "mae": 0.5948624044683629,
+        "rmse": 0.7901857741296954,
+        "spearman": 0.4502637101794591,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 9.309803919971486
+      },
+      "gp": {
+        "n": 139,
+        "mae": 0.542855654760675,
+        "rmse": 0.7117500580901843,
+        "spearman": 0.5910208425044249,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 9.309803919971486
+      },
+      "chemeleon_finetuned": {
+        "n": 139,
+        "mae": 0.6454036508972091,
+        "rmse": 0.8298579252823778,
+        "spearman": 0.4656364646528887,
+        "top10_recall": 0.1,
+        "best_true_activity_in_selected10": 9.292429823902063
+      },
+      "matched_random": {
+        "n": 139,
+        "mae": 0.7377871854886984,
+        "rmse": 0.8814427567183981,
+        "spearman": 0.2599803408083895,
+        "top10_recall": 0.0,
+        "best_true_activity_in_selected10": 8.695186456605892
+      },
+      "validation_policy": {
+        "n": 139,
+        "mae": 0.542855654760675,
+        "rmse": 0.7117500580901843,
+        "spearman": 0.5910208425044249,
+        "top10_recall": 0.3,
+        "best_true_activity_in_selected10": 9.309803919971486
+      }
+    },
+    {
+      "task": "CHEMBL4792_Ki",
+      "n": 297,
+      "selected_policy_arm": "chemeleon_finetuned",
+      "rf": {
+        "n": 297,
+        "mae": 0.5677607898717579,
+        "rmse": 0.7271536107999746,
+        "spearman": 0.757548103823358,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.045757490560675
+      },
+      "gp": {
+        "n": 297,
+        "mae": 0.49205840393196343,
+        "rmse": 0.6687433851343055,
+        "spearman": 0.8031973951708509,
+        "top10_recall": 0.4,
+        "best_true_activity_in_selected10": 10.045757490560675
+      },
+      "chemeleon_finetuned": {
+        "n": 297,
+        "mae": 0.438598593236772,
+        "rmse": 0.5815562623890114,
+        "spearman": 0.850227069528741,
+        "top10_recall": 0.7,
+        "best_true_activity_in_selected10": 10.045757490560675
+      },
+      "matched_random": {
+        "n": 297,
+        "mae": 0.5122294705912201,
+        "rmse": 0.6567475110584078,
+        "spearman": 0.7988256097216281,
+        "top10_recall": 0.5,
+        "best_true_activity_in_selected10": 10.045757490560675
+      },
+      "validation_policy": {
+        "n": 297,
+        "mae": 0.438598593236772,
+        "rmse": 0.5815562623890114,
+        "spearman": 0.850227069528741,
+        "top10_recall": 0.7,
+        "best_true_activity_in_selected10": 10.045757490560675
+      }
+    }
+  ],
+  "protocol_sha256": "338a1e229ab3a848058eb694075159b8802ad3b873beb4949847a773932825ab",
+  "prediction_seal_sha256": "56147cfba9a8e5008b8837092aaaaa5d0d9927d16ddf4e64eaae1adeed843897",
+  "GPU_used": true,
+  "model_calls": 0,
+  "scope": "30 MoleculeACE target/endpoint tasks and9802 official test molecules, reused benchmark follow-up, one training seed, standardized public assay labels across recorded conditions."
+}

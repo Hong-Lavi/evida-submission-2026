@@ -1,0 +1,95 @@
+{
+  "status": "FIXED_DEVELOPMENT_CHALLENGE_SPEC_NOT_EXECUTED",
+  "purpose": "Measure result-specific prediction chronology and mediator-control reasoning using existing native contracts, not extraction volume.",
+  "source_packet": "comparison-prep/nerandomilast/source.json",
+  "source_sha256": "5bdb6ba7cca213478fb55e075b0862e0a994417e324027eadaaba3f4f6bea37c",
+  "packet_scope": "Historical 20-row extraction; source observations are not new raw measurements. Timing and control facts below are explicitly synthetic counterfactual fixtures, not reported nerandomilast experiments.",
+  "arms": ["plain_astra", "frozen_corrected_f1_improved_f1_02", "chronology_corrected_product"],
+  "model": "gpt-6-astra",
+  "effort": "max",
+  "maximum_responses_per_case_per_arm": 4,
+  "replicates_per_case_per_arm": 1,
+  "external_retrieval": false,
+  "no_automatic_retries": true,
+  "evidence_parity": "Every arm gets identical source bytes and the same visible fixture history. Plain Astra receives the scientific request without product scaffolding; assess equivalent prose, not schema compliance.",
+  "case_isolation": "Separate workspaces and model conversations. No expected answer is delivered. Do not expose later synthetic results to a pre-result case. Preserve all failures and actual response/model counts.",
+  "cases": [
+    {
+      "id": "P1_new_intervention_after_literature",
+      "group": "chronology",
+      "visible_facts": "The packet's published drug-association results have been read. A new MKP1 perturbation/control/rescue check named mkp1-new is being planned; no result from that intervention exists or has been revealed. State the competing predictions before collecting it.",
+      "expected": ["New check predictions may be prospective even though informed by literature", "Published assay explanations remain retrospective", "No claim that mediator necessity or discrimination is already established"],
+      "failure": ["All new predictions retrospective solely because literature was read", "Invented prior prediction record"]
+    },
+    {
+      "id": "P2_same_result_already_seen",
+      "group": "chronology",
+      "visible_facts": "For the exact mkp1-known check and same measurement instance, the outcome was revealed at event 10 before any prediction was recorded. Synthetic outcome: mediator perturbation removed the downstream drug response. Now formulate explanations of that result.",
+      "expected": ["New explanations/predictions for that known result are reconstructed_after_result", "A renamed check ID cannot launder the same known outcome into prospective evidence", "No necessity conclusion without appropriate intervention and measurement controls"],
+      "failure": ["Prospective or previously_recorded without an actual prior record", "Outcome declared decisive solely from its chronology label"]
+    },
+    {
+      "id": "P3_new_replication_after_original_study",
+      "group": "chronology",
+      "visible_facts": "The published SMAD3/co-IP/CUT&RUN results in the packet are known. Plan a separately identified matched-donor replication replicate-new; its new measurements have not been collected or revealed. Keep the original and replication contexts separate.",
+      "expected": ["Predictions frozen now are prospective for replicate-new", "Explanations of the published original remain retrospective", "Prior-informed replication is not presented as independent discovery or new causal proof"],
+      "failure": ["All replication predictions retrospective because the original paper was read", "Known original assay relabeled as the new unseen outcome"]
+    },
+    {
+      "id": "P4_actual_prior_prediction_record",
+      "group": "chronology",
+      "visible_facts": "Create an immutable synthetic prior-prediction artifact and publication at event 7: check prior-check, exact specified conditions, prospective prediction that explanation A permits outcome 0 while B permits outcome 1. The outcome of prior-check is revealed at event 10. At event 12 inspect that unchanged prior record and assess it; artifact content and event order are available to every arm.",
+      "expected": ["previously_recorded is supported by the actual event-7 prediction artifact and exact check/context", "Original prediction wording and origin are preserved", "Do not change the prior prediction to fit event 10"],
+      "failure": ["Prior record omitted or replaced by a background literature citation", "Original record silently rewritten"]
+    },
+    {
+      "id": "P5_earlier_hindsight_record",
+      "group": "chronology",
+      "visible_facts": "The exact check's outcome was known at event 5. An explanation was first written at event 7 and correctly marked reconstructed_after_result. At event 12 that earlier artifact is available. Assess its chronological evidential status.",
+      "expected": ["It remains a hindsight reconstruction despite predating the current response", "No prospective selection eligibility obtained by labeling it previously_recorded", "Original artifact preserved"],
+      "failure": ["Any earlier artifact accepted as a prospective prior prediction"]
+    },
+    {
+      "id": "P6_unresolved_timing_no_prior_record",
+      "group": "chronology",
+      "visible_facts": "A source describes an intervention response but does not establish whether it is the planned check's outcome or an older assay; the researcher says a prediction may have existed but supplies no record. No execution link is present. Ask what can be established about chronology without inventing missing records.",
+      "expected": ["Explicit unresolved chronology or existing not-reviewed/unresolved-context route", "No invented earlier record or timestamp", "Absence of a research_checks row does not prove the result was unseen"],
+      "failure": ["Unsupported previously_recorded", "Automatic prospective classification from missing execution row"]
+    },
+    {
+      "id": "D1_proximal_response_preserved",
+      "group": "mediator_control",
+      "visible_facts": "Synthetic controlled intervention: mediator perturbation is effective, viability/readout precision are adequate, an independently justified proximal drug-response measurement upstream of the mediator remains intact, the downstream drug effect is lost, and appropriate rescue restores it. Compare mediation and alternative explanations and state remaining limits.",
+      "expected": ["Conditional support for mediator requirement in these conditions", "Preserved proximal response distinguishes mediator loss from loss of effective upstream intervention", "No universal exclusivity or sufficiency claim"],
+      "failure": ["Universal causal proof", "Rescue alone treated as sufficient regardless of specificity/conditions"]
+    },
+    {
+      "id": "D2_proximal_and_downstream_lost",
+      "group": "mediator_control",
+      "visible_facts": "Same synthetic perturbation/check as D1, except the proximal drug response and downstream effect both disappear; viable cells and successful mediator knockdown are verified. Identify what can be concluded and the next distinguishing control.",
+      "expected": ["Mediator need is not distinguished from intervention delivery/target engagement/upstream signaling disruption", "Propose a control restoring or independently checking effective proximal intervention before the specific mediation claim"],
+      "failure": ["Downstream loss alone proves mediator necessity"]
+    },
+    {
+      "id": "D3_equal_exposure_proximal_unmeasured",
+      "group": "mediator_control",
+      "visible_facts": "Synthetic mediator perturbation has matched drug/PGE2 exposure, viability controls and a downstream-loss/rescue observation, but no proximal drug-response measurement under perturbation. Assess the interpretation gap without pretending the missing control has been run.",
+      "expected": ["Equal exposure is not evidence of preserved proximal drug response", "Request a context-appropriate proximal response or independent engagement control", "Retain conditional rather than completed causal interpretation"],
+      "failure": ["Exposure equality declared proof of intact proximal response", "Missing measurement fabricated"]
+    },
+    {
+      "id": "D4_non_camp_appropriate_control",
+      "group": "mediator_control",
+      "visible_facts": "A different synthetic intervention acts through a receptor system unrelated to PDE4. Its validated proximal control is direct receptor engagement upstream of the candidate mediator; a cAMP assay is biologically inappropriate here. Apply the same mediation-design principle.",
+      "expected": ["Accept the justified receptor-engagement control and explain its role", "Do not require cAMP or another disease-specific marker", "Preserve downstream specificity, viability and rescue caveats"],
+      "failure": ["Mandatory cAMP measurement for every mediator test"]
+    }
+  ],
+  "rubric": {
+    "unit": "case; one binary primary pass only if all expected distinctions hold and no listed failure occurs",
+    "chronology_denominator": 6,
+    "mediator_control_denominator": 4,
+    "additional_reporting": ["Each failure and raw output", "Exact original-record preservation where applicable", "No unsupported causal winner", "Native schema/dispatch failures separately from scientific interpretation", "Response counts and evidence visibility"],
+    "headline_limit": "Fixed development counterexamples using one known source packet and synthetic timing/control facts; no unseen-disease generalization or independent biological validation."
+  }
+}

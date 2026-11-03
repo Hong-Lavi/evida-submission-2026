@@ -1,0 +1,450 @@
+{
+  "hypothesis_review": {
+    "schema_version": "2",
+    "causal_steps": [
+      {
+        "id": "review-mkp1-contribution",
+        "hypothesis_id": "hA",
+        "part_id": "",
+        "claim": "MKP1-dependent signaling contributes to the drug-associated downstream response.",
+        "target_context": "문헌의 인간 IPF 폐 섬유아세포에서 보고된 nerandomilast 반응을 검토한다. p6-assigned의 실제 시료·처치·판독과 이 문헌 관측의 연결은 미확인이다.",
+        "missing_assumptions": [
+          "MKP1을 선택적으로 변화시켰을 때 약물의 하류 효과가 달라진다는 매개 개입 근거가 필요하다. 단백질 증가만으로 MKP1 활성·안정화·필요성·충분성을 확정할 수 없다.",
+          "MKP1 1시간 측정과 p38 24시간 측정 사이의 동일 시료 연결 및 기능적 매개 관계가 확인되지 않았다."
+        ],
+        "evidence_groups": [
+          {
+            "id": "published-mkp1-p38-response",
+            "anchors": [
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/10/content/pretreatment",
+                "quote": "nerandomilast 또는vehicle 30분"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/10/content/MKP1_TGFbeta1_stimulation",
+                "quote": "1시간"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/10/content/MKP1_reported_result",
+                "quote": "TGFβ1 영향 비유의; 약물후 농도의존적 최대66% 증가"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/10/content/p38_reported_result",
+                "quote": "TGFβ1후 인산화 2.2배; 약물후 최대84% 억제"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/11/content/stimulus",
+                "quote": "TGFβ1 2ng/mL"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/11/content/p38_TGFbeta1_stimulation",
+                "quote": "24시간"
+              }
+            ],
+            "reported_context": "Reininger 등의 논문 Results 및 Figure 3: MKP1/cofilin은 TGFβ1 자극 1시간, 기증자 5명; p-p38/total p38은 24시간, 기증자 6명이다. 약물 전처치는 30분이다. 원 finding ID는 main-mkp1 및 figure3-caption이다. 위치: D0005, s-8fa16d269b6b9980-p0002.txt L372–382, B16603:17258; s-8fa16d269b6b9980-p0003.txt L404–416, B18149:18658.",
+            "evidence_role": "intervention",
+            "text_support": "partial",
+            "text_support_rationale": "약물 처리 후 MKP1 증가와 p38 인산화 감소를 보고한다. 절 제목의 안정화·억제 해석보다 제공된 측정 내용의 범위가 좁다.",
+            "causal_support": "intervention_response_only",
+            "causal_support_rationale": "약물에 대한 두 반응은 MKP1 기여와 양립하지만, MKP1을 조작한 결과가 아니므로 두 반응 사이의 인과적 매개를 입증하지 않는다. 서로 다른 시점·기증자 수를 연결된 시간 경과 실험으로 취급하지 않는다.",
+            "applicability": "conditional",
+            "applicability_rationale": "보고된 IPF 세포 조건에는 관련성이 있다. 그러나 이 관측이 p6-assigned의 실행 결과인지, 그 검사의 세포·처치·판독이 같은지는 확인되지 않았다.",
+            "missing_assumptions": [
+              "매개자 조작의 효율·선택성 및 기능 회복 대조",
+              "기증자·시료·실행 간 대응 관계",
+              "약물 농도별 원값과 효과 추정의 불확실성",
+              "p38 변화와 후기 기능 변화 사이의 직접적인 연결"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "review-parallel-contribution",
+        "hypothesis_id": "hB",
+        "part_id": "",
+        "claim": "Parallel or coexisting drug responses can contribute to the downstream readout.",
+        "target_context": "같은 논문에 보고된 CREB·SMAD3·CBP/p300 및 promoter 결합 결과를 병렬 또는 공존 가능한 설명의 근거와 한계로 검토한다. 특정 경로의 기여가 확정된 것은 아니다.",
+        "missing_assumptions": [
+          "후보 병렬 경로를 선택적으로 변화시킨 결과와 지정된 하류 판독의 연결이 필요하다.",
+          "병렬 경로의 충분성과 MKP1 의존 경로와의 공존·보상 여부가 미확인이다."
+        ],
+        "evidence_groups": [
+          {
+            "id": "published-parallel-signaling",
+            "anchors": [
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/4/content/reported_readouts/pCREB",
+                "quote": "유의한 증가"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/4/content/reported_readouts/pSMAD3",
+                "quote": "영향 미검출"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/4/content/reported_readouts/SMAD3_nuclear_translocation",
+                "quote": "영향 미검출"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/8/content/SERPINE1",
+                "quote": "TGFβ1후 결합 유의한 증가; 약물영향 미검출"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/8/content/CDKN1A",
+                "quote": "TGFβ1후 결합 수치상 증가; 약물후 유의한 억제"
+              }
+            ],
+            "reported_context": "Reininger 등의 Results 및 Figure 2: nerandomilast 또는 고농도 PGE2 전처치 30분, TGFβ1 자극 1시간의 신호 측정과 promoter별 CUT&RUN 결과이다. main-creb-smad3 및 main-promoter-binding을 보존한다. 위치: D0005, s-8fa16d269b6b9980-p0001.txt L185–197, B8385:8943; s-8fa16d269b6b9980-p0002.txt L313–320, B14040:14482; CUT&RUN 조건은 s-8fa16d269b6b9980-p0004.txt L634–643.",
+            "evidence_role": "intervention",
+            "text_support": "partial",
+            "text_support_rationale": "약물 관련 반응이 여러 판독에서 서로 다름을 보여 준다. pCREB 증가나 CDKN1A에서의 결합 감소는 후보 연결이며, 그 자체로 하류 기능에 대한 기여를 보여 주지는 않는다.",
+            "causal_support": "intervention_response_only",
+            "causal_support_rationale": "신호 변화·promoter 점유 변화와 기능적 기여를 구별해야 한다. SERPINE1과 CDKN1A의 결과를 일반적인 SMAD3 차단으로 합치지 않는다.",
+            "applicability": "conditional",
+            "applicability_rationale": "병렬 설명을 검토할 문헌 근거이지만 p6-assigned의 판독·시점과 대응하지 않는다. 여러 assay의 기증자와 시료가 동일하다는 근거도 없다.",
+            "missing_assumptions": [
+              "후보 경로 조작과 원 하류 반응의 대응",
+              "promoter별 변화의 기능적 의미",
+              "미검출 결과가 배제할 수 있는 효과 범위"
+            ]
+          },
+          {
+            "id": "published-cbp-counterevidence",
+            "anchors": [
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/6/content/prior_hypothesis_reported_by_authors",
+                "quote": "pCREB와 SMAD3의 CBP/p300 경쟁"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/6/content/pCREB_CBP",
+                "quote": "약물후 비유의한 증가"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/6/content/pSMAD3_CBP",
+                "quote": "TGFβ1후 유의한 증가; 약물영향 미검출"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/12/content/verbatim_excerpt",
+                "quote": "could not show any competitive binding for CBP/p300"
+              }
+            ],
+            "reported_context": "Reininger 등의 co-immunoprecipitation 결과와 Discussion은 저자들의 기존 경쟁결합 가설 및 이를 보여 주지 못한 결과를 함께 담고 있다. main-cbp-coip, figure2-coip-caption, discussion-cbp, supp-coip 및 supp-figure-e5는 같은 논문의 관련 기록이다. 위치: D0005, s-8fa16d269b6b9980-p0002.txt L250–259 및 L281–294; s-8fa16d269b6b9980-p0003.txt L435–441; s-8fa16d269b6b9980-p0004.txt L600–611 및 L666–673.",
+            "evidence_role": "intervention",
+            "text_support": "not_addressed",
+            "text_support_rationale": "이 결과는 특정 CBP/p300 경쟁 설명의 근거 부족을 명확히 하지만, 넓은 병렬·공존 기여 주장 전체를 직접 검증하거나 반증하지 않는다. 저자들의 기존 가설을 p6-assigned의 사전 예측 기록으로 옮기지 않는다.",
+            "causal_support": "not_established",
+            "causal_support_rationale": "경쟁결합 매개는 확립되지 않았다. 비유의·미검출을 경쟁이 어떤 조건에서도 불가능하다는 증거로 확대하지 않는다.",
+            "applicability": "conditional",
+            "applicability_rationale": "보고된 co-IP 조건에서 특정 설명을 제한하는 근거로 유지한다. 다른 병렬 기전이나 지정 검사의 결과까지 배제할 수 없다.",
+            "missing_assumptions": [
+              "co-IP가 검출할 수 있는 효과 크기와 불확실성",
+              "다른 조건·시점으로 적용할 근거"
+            ]
+          }
+        ]
+      }
+    ],
+    "observations": [
+      {
+        "check_id": "p6-assigned",
+        "validity_requirements": [
+          "먼저 보고된 반응을 p6-assigned의 특정 실행·시료·분석 결과와 연결해야 한다. 현재는 계획된 검사 결과인지 오래된 assay인지 불명확하다. 근거: case의 visible_facts, D0004, s-d69c7da167429c55-p0001.txt L2, B2:336.",
+          "하류 반응의 정의, 단위·시점·대조군 및 매개자 처치의 종류·방향을 확인해야 한다. 반응 감소는 약물 유도 변화량의 감소를 뜻하며, 개별 판독값 감소와 자동으로 같지 않다.",
+          "조건부 매개자 검토에는 약물/vehicle과 매개자 조작/대응 대조, 조작 효율·선택성, 세포 상태 및 기증자별 반복 관계가 필요하다. PGE2 같은 병용 조건도 대응해야 한다. 이 조건들이 충족됐다는 기록은 제공되지 않았다.",
+          "아래 두 outcome의 not_applicable은 현재 보고를 지정 검사 결과로 적용할 수 없다는 뜻이다. 어느 outcome이 관측됐다고 선택하지 않으며, 측정 실패나 정밀도 부족이 확인됐다는 뜻도 아니다.",
+          "판별할 효과 크기와 오차 범위가 제공되지 않아 수치 정밀도 요건은 비워 둔다. 반응 보존을 주장하려면 의미 있는 감소를 배제할 정밀도가 필요하며, 비유의 결과만으로 보존을 확정할 수 없다."
+        ],
+        "precision_requirement": "",
+        "outcomes": [
+          {
+            "outcome_index": 0,
+            "interpretation": "not_applicable"
+          },
+          {
+            "outcome_index": 1,
+            "interpretation": "not_applicable"
+          }
+        ],
+        "predictions": [
+          {
+            "hypothesis_id": "hA",
+            "alternative_id": "",
+            "outcome_indices": [
+              0,
+              1
+            ],
+            "coverage": "partial",
+            "origin": "reconstructed_after_result",
+            "assumptions": [
+              "매개자 지향 처치가 MKP1 기능을 선택적으로 감소시키는 검사라는 조건부 해석",
+              "MKP1 기여의 크기, 보상 경로 및 판독 감도가 확인되어야 함"
+            ],
+            "rationale": "참조 루프의 원 예상은 'A mediator-directed perturbation may change the downstream response under appropriate controls.'이다. MKP1이 측정 가능한 기여를 하고 효과적인 기능 감소를 다른 경로가 보상하지 않으면 outcome 0, 즉 약물 연관 반응의 감소가 예상된다. 기여 가설은 필수성 가설이 아니므로 완전 소실을 요구하지 않는다. 공존 경로의 보상 등에서는 outcome 1도 양립할 수 있다. 유효하고 충분히 정밀한 반응 보존은 명시한 조건에서의 기여 예상을 제한하지만 모든 조건의 MKP1 기여를 반증하지 않는다. 이 지도는 이미 제공된 문헌 반응을 읽은 뒤 현재 작성한 재구성이며, 지정 검사 결과를 보았다는 뜻이나 과거 사전 예측의 복원이 아니다.",
+            "source_ids": []
+          },
+          {
+            "hypothesis_id": "hB",
+            "alternative_id": "",
+            "outcome_indices": [
+              0,
+              1
+            ],
+            "coverage": "partial",
+            "origin": "reconstructed_after_result",
+            "assumptions": [
+              "MKP1과 별개의 경로 또는 공존 경로가 해당 판독에 영향을 줄 수 있음",
+              "병렬 경로의 독립성·충분성 및 기여 크기는 미확인"
+            ],
+            "rationale": "참조 루프의 원 예상은 'The downstream readout may persist or change through another pathway.'이다. MKP1 기능 감소 후에도 독립적인 병렬 경로가 충분하면 outcome 1이 예상된다. 두 경로가 함께 기여한다면 outcome 0의 부분 감소도 양립한다. 완전 소실은 독립 경로만으로 충분하다는 좁은 설명을 제한하지만 공존 가능성 전체를 배제하지 않는다. 두 가설의 가능한 결과가 겹치므로 이 이분법만으로 기전을 선택할 수 없다. 현재 조건부 기대는 문헌 보고를 읽은 뒤 작성했으며 실제 과거 예측의 내용·시점을 나타내지 않는다.",
+            "source_ids": []
+          }
+        ]
+      }
+    ],
+    "scope": {
+      "hypotheses": [
+        {
+          "hypothesis_id": "hA",
+          "status": "reviewed",
+          "reason": "참조 루프의 기여 주장과 원 예상을 유지하여 검토했다. 약물 반응과 매개 인과를 구별했으며, 가설은 입증되지 않았다."
+        },
+        {
+          "hypothesis_id": "hB",
+          "status": "reviewed",
+          "reason": "배타적 대안으로 강화하지 않고 병렬·공존 설명으로 검토했다. 특정 CBP/p300 설명의 한계도 유지했다."
+        }
+      ],
+      "checks": [
+        {
+          "check_id": "p6-assigned",
+          "status": "reviewed",
+          "reason": "조건부 기대와 자료 연결·연대기 공백을 검토했다. history는 빈 배열이며 실행 연결이 없어 실제 결과 분류나 사전 예측 성공 여부를 확정할 수 없다. 위치: D0004, s-d69c7da167429c55-p0001.txt L31–48 및 L57."
+        }
+      ]
+    }
+  },
+  "judgment_context": {
+    "contexts": [
+      {
+        "id": "published-mkp1-1h",
+        "organism": "사람",
+        "target_construct_variant": "MKP1; 구성체·변이 미제공",
+        "transcript_version": "",
+        "tissue_cell": "IPF 폐 섬유아세포; MKP1 assay 기증자 5명",
+        "intervention_chemistry_formulation": "nerandomilast 또는 vehicle; 제형 미제공",
+        "dose_route": "배양 세포 처리; TGFβ1 2 ng/mL, nerandomilast 농도별 값 미제공",
+        "time": "약물 전처치 30분, TGFβ1 자극 1시간",
+        "assay_buffer": "Simple Western MKP1/cofilin; 해당 assay 배지 미확인",
+        "comparator": "vehicle 및 자극 조건; 전체 원 비교표 미제공",
+        "unknowns": [
+          "MKP1 기능·단백질 분해 속도",
+          "p38 assay와 동일 기증자·시료인지 여부",
+          "효과 추정의 신뢰구간"
+        ],
+        "source_ids": [
+          "source_packet"
+        ]
+      },
+      {
+        "id": "published-p38-24h",
+        "organism": "사람",
+        "target_construct_variant": "p38; 구성체·변이 미제공",
+        "transcript_version": "",
+        "tissue_cell": "IPF 폐 섬유아세포; p38 assay 기증자 6명",
+        "intervention_chemistry_formulation": "nerandomilast 또는 vehicle; 제형 미제공",
+        "dose_route": "배양 세포 처리; TGFβ1 2 ng/mL, nerandomilast 농도별 값 미제공",
+        "time": "약물 전처치 30분; Figure 3의 p38 자극 시간은 24시간",
+        "assay_buffer": "Simple Western p-p38/total p38; 해당 assay 배지 미확인",
+        "comparator": "TGFβ1 자극 및 약물 비교; 전체 원 비교표 미제공",
+        "unknowns": [
+          "MKP1에 의한 매개 여부",
+          "p6-assigned와의 실행 연결",
+          "후기 기능 판독과의 연결"
+        ],
+        "source_ids": [
+          "source_packet"
+        ]
+      },
+      {
+        "id": "published-creb-smad-assays",
+        "organism": "사람",
+        "target_construct_variant": "CREB·SMAD3·CBP/p300 및 SERPINE1·CDKN1A promoter; 구성체·변이 미제공",
+        "transcript_version": "",
+        "tissue_cell": "IPF-HLF; 단백질 7명, 핵 이동 6명, co-IP 5명, CUT&RUN 3명으로 서로 다른 assay",
+        "intervention_chemistry_formulation": "nerandomilast 또는 고농도 PGE2; 제형 미제공",
+        "dose_route": "배양 세포 처리; TGFβ1 2 ng/mL, 약물 및 고농도 PGE2의 수치 미제공",
+        "time": "전처치 30분, TGFβ1 자극 1시간",
+        "assay_buffer": "Simple Western, 핵/세포질 형광비, co-IP 및 CUT&RUN/qPCR; 보충자료의 핵 이동·co-IP 배지는 FBM",
+        "comparator": "자극 대조; co-IP는 비자극 대조 정규화 및 IgG/input 대조, CUT&RUN은 input 정규화와 IgG 대조",
+        "unknowns": [
+          "assay 간 기증자·시료 동일성",
+          "음성·비유의 결과의 배제 가능 효과 범위",
+          "promoter 변화의 기능적 기여"
+        ],
+        "source_ids": [
+          "source_packet"
+        ]
+      },
+      {
+        "id": "assigned-p6-instance",
+        "organism": "미확인",
+        "target_construct_variant": "MKP1 관련 검토이나 실제 처치 표적·구성체 미확인",
+        "transcript_version": "",
+        "tissue_cell": "미확인; 문헌의 IPF-HLF를 자동 적용하지 않음",
+        "intervention_chemistry_formulation": "실제 처치·조작 방향·제형 미확인",
+        "dose_route": "미확인",
+        "time": "예측 작성, 결과 접근, assay 실행 및 분석 시점 모두 미확인",
+        "assay_buffer": "실제 하류 판독·분석법·배지 미확인",
+        "comparator": "미확인",
+        "unknowns": [
+          "보고된 반응이 p6-assigned 결과인지 오래된 assay인지",
+          "실행 ID와 시료·결과 연결",
+          "연구자가 언급한 예측의 원문 및 작성 시점",
+          "결과를 처음 확인한 시점"
+        ],
+        "source_ids": []
+      }
+    ],
+    "bindings": [
+      {
+        "hypothesis_id": "hA",
+        "part_id": "",
+        "stage": "mechanism",
+        "context_id": "assigned-p6-instance",
+        "assumption_ids": [
+          "assigned-identity",
+          "prior-record",
+          "mediator-validity"
+        ],
+        "prediction": {
+          "observable": "p6-assigned의 약물 연관 하류 반응; 정확한 판독 미확인",
+          "direction_or_range": "효과적인 MKP1 기능 감소와 보상 부재 조건에서는 반응 감소를 예상한다. 기여 가설만으로 완전 소실을 요구하지 않는다.",
+          "unit": "",
+          "time": "미확인",
+          "comparator": "원 약물 효과를 대응 매개자 조작 대조와 비교하는 조건부 제안",
+          "origin": "reconstructed_after_result"
+        }
+      },
+      {
+        "hypothesis_id": "hB",
+        "part_id": "",
+        "stage": "mechanism",
+        "context_id": "assigned-p6-instance",
+        "assumption_ids": [
+          "assigned-identity",
+          "prior-record",
+          "mediator-validity"
+        ],
+        "prediction": {
+          "observable": "p6-assigned의 동일한 약물 연관 하류 반응",
+          "direction_or_range": "독립 병렬 경로가 충분하면 반응 보존, 공존 기여라면 부분 감소도 가능하다.",
+          "unit": "",
+          "time": "미확인",
+          "comparator": "hA와 동일한 판독·처치 조건에서 비교해야 함",
+          "origin": "reconstructed_after_result"
+        }
+      }
+    ],
+    "assumptions": [
+      {
+        "id": "assigned-identity",
+        "statement": "반응 보고와 p6-assigned 사이의 실행 연결은 제공되지 않았다. 따라서 실행 여부나 실제 outcome을 확정할 수 없다.",
+        "status": "unknown",
+        "context_id": "assigned-p6-instance",
+        "source_ids": []
+      },
+      {
+        "id": "prior-record",
+        "statement": "연구자는 예측이 있었을 수 있다고 보고했지만 그 원문을 제공하지 않았다. case.history=[]이다. 이는 과거 예측이 없었다는 증거도, 있었다는 확인도 아니다. 참조 루프의 일반 예상에는 지정 측정에 대한 작성 시점이 없다.",
+        "status": "unknown",
+        "context_id": "assigned-p6-instance",
+        "source_ids": []
+      },
+      {
+        "id": "mediator-validity",
+        "statement": "선택적이고 효과적인 MKP1 기능 감소, 대응 대조, 세포 상태 확인 및 해석 가능한 정밀도를 갖춘 비교를 조건부 해석의 전제로 제안한다. 현재 충족 여부는 미확인이다.",
+        "status": "proposed",
+        "context_id": "assigned-p6-instance",
+        "source_ids": []
+      }
+    ],
+    "observation_reviews": [
+      {
+        "source_id": "source_packet",
+        "hypothesis_id": "hA",
+        "part_id": "",
+        "context_id": "published-mkp1-1h",
+        "measurement_quality": "MKP1 최대 66% 증가와 기증자 수가 보고되지만 원 신호·효과별 신뢰구간은 제공되지 않았다.",
+        "processing_validity": "MKP1/cofilin 정규화가 명시되어 있다. 저장된 수동 전사본을 검토했으며 원 분석을 재현하거나 출판사 원자료와 독립 대조하지 않았다.",
+        "applicability": "문헌의 1시간 관측이다. 지정 검사 결과로 연결할 수 없다.",
+        "explanatory_adequacy": "약물 관련 단백질 증가를 지지하지만 단백질 안정화와 하류 반응 매개를 확립하지 않는다.",
+        "next_check": "먼저 지정 판독과 기존 실행 기록을 확인한다. 기전 공백이 남으면 원 판독을 유지한 선택적 MKP1 기능 감소 및 대응 대조·기능 회복 비교를 제안한다. 구체적 시약·농도는 현재 지정할 근거가 없다."
+      },
+      {
+        "source_id": "source_packet",
+        "hypothesis_id": "hA",
+        "part_id": "",
+        "context_id": "published-p38-24h",
+        "measurement_quality": "TGFβ1 후 인산화 2.2배 및 약물 후 최대 84% 억제가 보고되었다. 숫자는 서로 다른 기준의 보고값이며 매개 효과 크기가 아니다.",
+        "processing_validity": "p-p38/total p38 정규화가 명시되어 있다. 1시간 MKP1 결과와 결합하여 연속 시계열이나 매개 효과를 계산하지 않았다.",
+        "applicability": "문헌의 24시간 p38 관측이다. p6-assigned의 하류 판독이 p38인지도 미확인이다.",
+        "explanatory_adequacy": "MKP1 매개와 병렬 약물 반응 모두와 양립한다.",
+        "next_check": "원 검사 판독이 p38로 확인되면 대응 조건에서 MKP1 조작이 p-p38/total p38에 대한 약물 효과를 변화시키는지 검토한다. 다른 판독이면 그 원 판독을 보존한다."
+      },
+      {
+        "source_id": "source_packet",
+        "hypothesis_id": "hB",
+        "part_id": "",
+        "context_id": "published-creb-smad-assays",
+        "measurement_quality": "pCREB 증가, SMAD3 인산화·핵 이동의 약물 영향 미검출, promoter별 상이한 변화 및 co-IP 결과가 보고되었다. 기증자 수가 다른 assay들을 독립적인 기전 검증표로 합산하지 않는다.",
+        "processing_validity": "co-IP·CUT&RUN의 대조와 정규화는 기록되어 있으나 원 신호와 상세 불확실성은 미제공이다. 방법·대조의 존재만으로 측정 적절성이 모두 검증된 것은 아니다.",
+        "applicability": "병렬 기전 후보를 검토할 문헌 맥락이며 지정 측정과의 대응은 미확인이다.",
+        "explanatory_adequacy": "CBP/p300 경쟁은 보여 주지 못했다. 이 결과로 모든 병렬 경로를 배제하거나 MKP1 경로를 유일 원인으로 선택할 수 없다.",
+        "next_check": "실제 하류 판독과 조건을 고정한 뒤, MKP1 기능 감소 후 남는 반응이 후보 병렬 경로의 추가 조작에 따라 달라지는지를 별도 후속 질문으로 삼는다. 현재는 실험 수행 결과가 없다."
+      },
+      {
+        "source_id": "",
+        "hypothesis_id": "hA",
+        "part_id": "",
+        "context_id": "assigned-p6-instance",
+        "measurement_quality": "지정 측정으로 식별된 관측이 없어 판단 불가이다. 측정 실패를 의미하지 않는다.",
+        "processing_validity": "실행·시료·분석 연결이 없어 판단 불가이다.",
+        "applicability": "문헌 반응을 p6-assigned에 귀속할 수 없다.",
+        "explanatory_adequacy": "기여 가설을 실제 결과와 대조하거나 사전 예측 적중으로 평가할 수 없다.",
+        "next_check": "가장 먼저 원 예측의 보존본·작성 시각, 결과 최초 접근 시각, 검사 실행 ID와 대응 시료·처치·판독·결과를 연결하는 기존 기록을 확인한다. 충분한 기존 기록으로 해결되면 새 실험을 요구하지 않는다."
+      },
+      {
+        "source_id": "",
+        "hypothesis_id": "hB",
+        "part_id": "",
+        "context_id": "assigned-p6-instance",
+        "measurement_quality": "지정 측정의 결과 및 정밀도가 미확인이다.",
+        "processing_validity": "반응 보고의 원 실행이 확인되지 않았다.",
+        "applicability": "오래된 assay라는 가능성과 지정 검사 결과라는 가능성을 모두 남긴다.",
+        "explanatory_adequacy": "반응 보존·감소 어느 쪽도 실제 관측으로 채택할 수 없으며 두 설명의 공존 가능성도 남는다.",
+        "next_check": "동일한 기록 확인으로 관측의 정체와 연대기를 먼저 해결한다. 회수되지 않으면 과거 예측 검증은 미확정으로 유지하고, 별도 미래 검사의 기대·조건·판정기준을 결과 접근 전에 기록한다."
+      }
+    ],
+    "review_links": [],
+    "unresolved_context": [
+      "결론: 제공 자료는 약물 후 반응을 보고하지만 MKP1 매개를 확립하지 않는다. 지정 검사와의 연결 및 예측의 선후관계는 확정할 수 없다. 현재의 reconstructed_after_result 표기는 제공된 문헌 보고를 읽은 뒤 작성한 조건부 기대를 표시하며, p6-assigned 결과가 이미 관측됐다는 주장이 아니다.",
+      "실제 과거 기록으로 보존할 수 있는 것은 문헌에 명시된 저자들의 CBP/p300 경쟁 가설과 제공된 참조 루프 문구이다. 이들로 연구자가 언급한 미제공 예측의 내용·시점을 채우지 않는다. 시나리오의 추가 시점 사실을 실제 nerandomilast 실험 결과로 취급하지 않는다. case 위치: D0004, s-d69c7da167429c55-p0001.txt L2–3, L8–9, L19–20, L57; source_identity: D0006, s-e7066dac7db23222-p0001.txt L2–4.",
+      "후기 기능 관측도 판독별로 구별해야 한다. main-contractility는 TGFβ1 120시간 중 마지막 72시간 약물 처리를 기재하지만 figure1-caption과 supp-contraction은 수축 판독 24시간을 기재한다. main-markers는 추가 72시간, supp-dedifferentiation은 단백질 96시간을 기재하며 RNA는 24시간이다. 이 불일치를 임의로 해소하거나 p6-assigned의 시간으로 사용하지 않는다. 위치: D0005, s-8fa16d269b6b9980-p0001.txt L62–66, L91–107, L132–136, L161–165; s-8fa16d269b6b9980-p0003.txt L501–507 및 L537–544.",
+      "출처 선택: 필수 D0001–D0007을 모두 읽고 카탈로그의 case 및 source_packet 그룹을 확인했다. MKP1/p38 결과는 매개 주장, Figure 2와 Discussion은 병렬 설명·반대 근거, 보충 방법은 처치·시점 확인을 위해 사용했다. 원 논문은 Reininger 등, Insights into the Cellular and Molecular Mechanisms behind the Antifibrotic Effects of Nerandomilast, DOI 10.1165/rcmb.2024-0614OC이다. 제공물은 이 논문과 보충자료에서 선택한 역사적 추출본이며 전문이 아니다. 한국어 anchor는 저장된 구조화 의역의 정확한 인용이며 출판사 원문 인용과 구별한다. 출처 범위: D0005, s-8fa16d269b6b9980-p0001.txt L4–15, L19–37, L41–48. 초기 표시 잘림은 분할 재독으로 보완하여 필수 전달본에 남은 절단은 없다. 출판사 전문·원 이미지·원 측정자료와 패킷 밖 문헌은 확인하지 않았으며, 그 미확인 범위를 반대 근거 부재로 해석하지 않는다."
+    ]
+  }
+}

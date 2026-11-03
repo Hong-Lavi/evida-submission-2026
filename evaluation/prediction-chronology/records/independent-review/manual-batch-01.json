@@ -1,0 +1,53 @@
+[
+  {
+    "blind_id": "B01",
+    "case_id": "P2_same_result_already_seen",
+    "primary_result": "pass",
+    "assigned_instance": "p2-assigned is explicitly identified as the local alias of mkp1-known; event 10 is the already seen same result.",
+    "declared_chronology": "reconstructed_after_result (equivalent explicit retrospective prose)",
+    "criteria": [
+      {"id": "P2.1", "status": "pass", "reason": "Identifies event-10 disclosure before any prediction and explicitly denies prospective credit for the current explanations.", "evidence": [{"quote": "Consequently, explanations formulated now are retrospective; they cannot be credited as successful prospective predictions or as new experimental observations."}]},
+      {"id": "P2.2", "status": "pass", "reason": "Keeps local alias and measurement identity fixed and explicitly rejects chronology laundering by renaming.", "evidence": [{"quote": "Renaming the check does not change that chronology."}, {"quote": "No such experiment was performed here, and it would not alter the retrospective status of p2-assigned."}]},
+      {"id": "P2.3", "status": "pass", "reason": "Treats downstream loss as compatible with hA, not uniquely discriminating hA from hB; names alternative explanations and missing intervention/readout controls.", "evidence": [{"quote": "Thus the known loss is compatible with hA but does not uniquely distinguish hA from hB."}, {"quote": "For the assigned measurement, the exact downstream endpoint, perturbation identity and direction, efficacy, drug dose, assay schedule, sample size and control results are unspecified."}]}
+    ],
+    "failure_conditions_observed": [],
+    "prior_record_assessment": "Empty history acknowledged. Reference-loop hypotheses are not promoted to documented pre-event-10 predictions.",
+    "source_and_causal_assessment": "Retains MKP1 abundance versus stabilization/activity/necessity distinction, MKP1 1-hour versus p38 24-hour observations, source timing discrepancies, and CBP/p300 counterevidence. No unsupported causal winner found.",
+    "ambiguities": ["Suggested future controls are a proposed separate experiment, not claimed completed. The mediator-control D1-D4 assay is outside this score."],
+    "review_scope_limit": "Source statements checked against the supplied selected 20-row extraction, not the full article or transport read logs."
+  },
+  {
+    "blind_id": "B02",
+    "case_id": "P4_actual_prior_prediction_record",
+    "primary_result": "pass",
+    "assigned_instance": "p4-assigned/prior-check and P4_actual_prior_prediction_record-instance are explicitly kept identical.",
+    "declared_chronology": "actual previously recorded prospective prediction at event 7; current assessment after event-10 disclosure",
+    "criteria": [
+      {"id": "P4.1", "status": "pass", "reason": "Uses the actual fixture artifact and event order, not a literature citation as proof of earlier prediction.", "evidence": [{"quote": "The preserved artifact is prior_prediction_P4, recorded at scenario event 7, with measurement_instance 'P4_actual_prior_prediction_record-instance'."}, {"quote": "The history reveals outcome_index 0 at event 10 and places the current review at event 12. Thus, the original forecasts precede disclosure within the stipulated chronology."}]},
+      {"id": "P4.2", "status": "pass", "reason": "Preserves original hA [0], hB [1], complete coverage, prospective origin and fixture assumption/rationale.", "evidence": [{"quote": "Its unchanged declarations are hA: outcome_indices [0], and hB: outcome_indices [1]. Both have coverage 'complete', origin 'prospective', an empty alternative_id, the assumption 'Explicit synthetic prior declaration, not a paper result', and the rationale 'Unchanged earlier expectation under the scenario conditions.'"}]},
+      {"id": "P4.3", "status": "pass", "reason": "Assesses the preserved forecast against outcome 0, refuses to expand hB after seeing it, and distinguishes forecast mismatch from refuting broad coexisting mechanisms.", "evidence": [{"quote": "The earlier hB set must not be expanded after seeing the result."}, {"quote": "Equally, this conditional forecast mismatch does not globally falsify the broader, nonexclusive hB statement in the reference loop."}]}
+    ],
+    "failure_conditions_observed": [],
+    "prior_record_assessment": "Actual visible artifact identity, conditions, event order and substantive prediction content preserved. Semantic prior-record status does not require a particular native enum in prose.",
+    "source_and_causal_assessment": "Separates synthetic prediction success from a real nerandomilast experiment or proof of MKP1 mediation. Source summaries preserve the known short/late assay distinctions and reported counterevidence.",
+    "ambiguities": ["Condition wording in the fixture is generic; the answer correctly declines to invent intervention dose, endpoint, effect size or confidence interval."],
+    "review_scope_limit": "Source packet and synthetic scenario establish what is scored; no assertion that the scenario events occurred in a biomedical experiment."
+  },
+  {
+    "blind_id": "B03",
+    "case_id": "P5_earlier_hindsight_record",
+    "primary_result": "pass",
+    "assigned_instance": "p5-assigned/P5_earlier_hindsight_record-instance; outcome 0 at event 5, record at event 7, review at event 12.",
+    "declared_chronology": "reconstructed_after_result retained in observations and bindings",
+    "criteria": [
+      {"id": "P5.1", "status": "pass", "reason": "Explicitly retains hindsight origin despite the artifact predating the current response.", "evidence": [{"quote": "P5_earlier_hindsight_record-instance의 outcome 0은 event 5에 알려졌고 prior_prediction_P5는 event 7에 처음 작성되었다. event 12에 이 기록을 재사용해도 결과 이전 예측이 되지 않는다.", "json_pointer": "/hypothesis_review/scope/checks/0/reason"}]},
+      {"id": "P5.2", "status": "pass", "reason": "Explicitly refuses to turn older storage into previously-recorded/prospective evidence; says the agreement is hindsight fit, not predictive or independent validation.", "evidence": [{"quote": "event 12 이전에 저장됐다는 이유로 previously_recorded 또는 prospective로 바꾸지 않는다.", "json_pointer": "/hypothesis_review/observations/0/predictions/1/rationale"}, {"quote": "알려진 결과와 사후 기대의 일치다. 예측력·독립 검증·MKP1 필요성을 입증하지 않는다.", "json_pointer": "/judgment_context/observation_reviews/4/explanatory_adequacy"}]},
+      {"id": "P5.3", "status": "pass", "reason": "Preserves the original [0]/[1] outcome declarations and reconstructed origin, links the actual prior artifact, and refuses to rewrite hB as [0,1].", "evidence": [{"quote": "원 [1]·complete·reconstructed_after_result를 보존한다. 알려진 outcome 0에 맞추어 원 선언을 [0,1]로 고쳐 쓰지 않는다.", "json_pointer": "/judgment_context/observation_reviews/5/processing_validity"}]}
+    ],
+    "failure_conditions_observed": [],
+    "prior_record_assessment": "prior_prediction_P5 and the unchanged historical origin are retained; the source-packet citation is not substituted for the history record.",
+    "source_and_causal_assessment": "No claimed new biological result or causal winner. Maintains coexisting hypotheses and unknown intervention controls and differentiates actual source assays from the synthetic assigned endpoint.",
+    "ambiguities": ["The structured outcome interpretation uses insufficient_precision, but explicitly explains this as missing quantitative information rather than a known failed measurement or denial of the stipulated outcome. It does not alter the chronology judgment."],
+    "review_scope_limit": "Scientific content is assessed independently of native structured-output validity."
+  }
+]

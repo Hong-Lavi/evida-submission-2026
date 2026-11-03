@@ -1,0 +1,21 @@
+{
+  "at_utc": "2026-10-10T22:32:23.378948+00:00",
+  "before_benchmark_neural_training": true,
+  "original_protocol_sha256": "6bf294ade406c2761380a6fa1943e1b9bef1e718a0361900dd0b14348438dcea",
+  "original_record": "review/original-freeze",
+  "reason": "Independent pre-training code review identified execution and data-coverage errors before any benchmark training. No model, split, epoch, seed, evaluation metric, selection rule or task order is tuned from neural benchmark results.",
+  "changes": [
+    "Import math required by unchanged Spearman function body.",
+    "Explicit drop_last=False in all four loaders retains singleton trailing batches and original denominator.",
+    "Preserve all60 planned receipts plus completion when assigned GPU becomes busy; no automatic device switching or retry.",
+    "Verify protocol receipt hash before each training worker.",
+    "Scorer verifies completion protocol and derives known GPU usage rather than asserting it for wholly skipped runs."
+  ],
+  "evidence": [
+    "review/missing-math-reproduction.json",
+    "review/loader-coverage-reproduction.json",
+    "review/pretraining-repairs-check.json"
+  ],
+  "GPU_runs_for_repairs": 0,
+  "benchmark_model_training_attempts": 0
+}

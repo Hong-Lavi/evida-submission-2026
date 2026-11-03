@@ -1,0 +1,573 @@
+{
+  "id": "ws_d068d2c6ad764bab",
+  "title": "Synthetic software-state replay; no scientific result",
+  "rev": 1,
+  "created": "2026-10-10T21:53:42.827358+00:00",
+  "intent": [
+    {
+      "id": "goal",
+      "label": "Goal",
+      "origin": "inferred",
+      "source_refs": [],
+      "text": "Review endpoint A using the supplied source"
+    },
+    {
+      "id": "boundary",
+      "label": "Boundary",
+      "origin": "inferred",
+      "source_refs": [],
+      "text": "Retain source and prior decisions"
+    }
+  ],
+  "decision": {
+    "action": "defer",
+    "alternatives": [],
+    "based_on_state_rev": 1,
+    "changed": [],
+    "evidence_refs": [
+      "art_a430a057ca384a18"
+    ],
+    "intent_records": [
+      {
+        "id": "goal",
+        "label": "Goal",
+        "origin": "inferred",
+        "source_refs": [],
+        "text": "Review endpoint A using the supplied source"
+      },
+      {
+        "id": "boundary",
+        "label": "Boundary",
+        "origin": "inferred",
+        "source_refs": [],
+        "text": "Retain source and prior decisions"
+      }
+    ],
+    "next_actions": [],
+    "preserved": [],
+    "questions": [],
+    "reason": "Scripted state-replay fixture; scientific content is intentionally fixed.",
+    "recommendation": "Intervening published proposal",
+    "research_loop": {
+      "hypotheses": [],
+      "next_checks": [],
+      "revision_rationale": "Software replay only"
+    },
+    "unknowns": []
+  },
+  "decision_rev": 1,
+  "review_status": "reviewed",
+  "events": [
+    {
+      "seq": 1,
+      "workspace": "ws_d068d2c6ad764bab",
+      "kind": "created",
+      "created": "2026-10-10T21:53:42.827637+00:00",
+      "body": {
+        "title": "Synthetic software-state replay; no scientific result"
+      }
+    },
+    {
+      "seq": 2,
+      "workspace": "ws_d068d2c6ad764bab",
+      "kind": "artifact_added",
+      "created": "2026-10-10T21:53:42.972625+00:00",
+      "body": {
+        "artifact_id": "art_a430a057ca384a18",
+        "kind": "source_text",
+        "title": "Fixed synthetic source"
+      }
+    },
+    {
+      "seq": 3,
+      "workspace": "ws_d068d2c6ad764bab",
+      "kind": "work_framed",
+      "created": "2026-10-10T21:53:43.042673+00:00",
+      "body": {
+        "based_rev": 1,
+        "current_question": "What does the supplied record establish about endpoint A?",
+        "hypotheses": [],
+        "intent_dependencies": {
+          "authority_sha256": "eb981c65a222847c7f29c2f2a07a11cc1282faae60ae3299b7c8bff6f353a27d",
+          "consumers": [
+            {
+              "consumer_id": "current_question",
+              "consumer_kind": "question",
+              "content": "What does the supplied record establish about endpoint A?",
+              "content_sha256": "d6c80d5b5ac93d738e43cb2eb07ddc637969b83605190dcfdb174043bc78f4fe",
+              "inputs": [
+                {
+                  "consumption_relation": "model_structured_record",
+                  "content_sha256": "5c1489d2fba1ffd2129f7bdc214c4d90538a54df8dfc50a19abf881497280dc8",
+                  "delivered_input_snapshot_sha256": "b70e5e9509c0ac70c057ac2bf9e2d5f2d47f08f06e2f4508ee23eba0f72a1597",
+                  "delivered_record_sha256": null,
+                  "intent_id": "goal",
+                  "received_record_sha256": null,
+                  "received_snapshot_sha256": "b70e5e9509c0ac70c057ac2bf9e2d5f2d47f08f06e2f4508ee23eba0f72a1597",
+                  "record": {
+                    "id": "goal",
+                    "label": "Goal",
+                    "origin": "inferred",
+                    "source_refs": [],
+                    "text": "Review endpoint A using the supplied source"
+                  },
+                  "record_basis": "model_structured_in_frame",
+                  "state_revision": 1,
+                  "structure_origin": "model_declared_not_researcher_confirmation"
+                },
+                {
+                  "consumption_relation": "model_structured_record",
+                  "content_sha256": "8d58ca085207788e257646308db356580dc461a1ea84c51f5a5cff0f37a067e1",
+                  "delivered_input_snapshot_sha256": "b70e5e9509c0ac70c057ac2bf9e2d5f2d47f08f06e2f4508ee23eba0f72a1597",
+                  "delivered_record_sha256": null,
+                  "intent_id": "boundary",
+                  "received_record_sha256": null,
+                  "received_snapshot_sha256": "b70e5e9509c0ac70c057ac2bf9e2d5f2d47f08f06e2f4508ee23eba0f72a1597",
+                  "record": {
+                    "id": "boundary",
+                    "label": "Boundary",
+                    "origin": "inferred",
+                    "source_refs": [],
+                    "text": "Retain source and prior decisions"
+                  },
+                  "record_basis": "model_structured_in_frame",
+                  "state_revision": 1,
+                  "structure_origin": "model_declared_not_researcher_confirmation"
+                }
+              ],
+              "intent_ids": [
+                "goal",
+                "boundary"
+              ],
+              "linkage_status": "declared",
+              "reason": "Scripted replay declaration; not an actual model judgment.",
+              "reason_origin": "model_declared"
+            }
+          ],
+          "consumption_snapshot_kind": "model_declared_semantic_structure",
+          "input_snapshot": {
+            "authority_sha256": "eb981c65a222847c7f29c2f2a07a11cc1282faae60ae3299b7c8bff6f353a27d",
+            "frame_event_sequence": null,
+            "intents": {
+              "boundary": {
+                "content_sha256": "8d58ca085207788e257646308db356580dc461a1ea84c51f5a5cff0f37a067e1",
+                "received_record_sha256": null,
+                "received_snapshot_sha256": "b70e5e9509c0ac70c057ac2bf9e2d5f2d47f08f06e2f4508ee23eba0f72a1597",
+                "record": {
+                  "id": "boundary",
+                  "label": "Boundary",
+                  "origin": "inferred",
+                  "source_refs": [],
+                  "text": "Retain source and prior decisions"
+                },
+                "record_basis": "model_structured_in_frame",
+                "structure_origin": "model_declared_not_researcher_confirmation"
+              },
+              "goal": {
+                "content_sha256": "5c1489d2fba1ffd2129f7bdc214c4d90538a54df8dfc50a19abf881497280dc8",
+                "received_record_sha256": null,
+                "received_snapshot_sha256": "b70e5e9509c0ac70c057ac2bf9e2d5f2d47f08f06e2f4508ee23eba0f72a1597",
+                "record": {
+                  "id": "goal",
+                  "label": "Goal",
+                  "origin": "inferred",
+                  "source_refs": [],
+                  "text": "Review endpoint A using the supplied source"
+                },
+                "record_basis": "model_structured_in_frame",
+                "structure_origin": "model_declared_not_researcher_confirmation"
+              }
+            },
+            "publication": null,
+            "snapshot_kind": "model_declared_semantic_structure",
+            "snapshot_sha256": "dd7057bb22fb44d33870b6eb0f77e93ead6f0378b1a433980ea4a278739205f6",
+            "state_revision": 1
+          },
+          "reassessments": [
+            {
+              "changed_intent_ids": [],
+              "consumer_id": "current_question",
+              "consumer_kind": "question",
+              "current_content_sha256": "d6c80d5b5ac93d738e43cb2eb07ddc637969b83605190dcfdb174043bc78f4fe",
+              "outcome": "changed",
+              "previous_content_sha256": null,
+              "reason": "Scripted initial framing; no earlier bound question.",
+              "reason_origin": "model_declared",
+              "trigger": "consumption_history_unknown"
+            }
+          ],
+          "received_input_snapshot": {
+            "authority_sha256": "eb981c65a222847c7f29c2f2a07a11cc1282faae60ae3299b7c8bff6f353a27d",
+            "frame_event_sequence": null,
+            "intents": {},
+            "publication": null,
+            "snapshot_sha256": "b70e5e9509c0ac70c057ac2bf9e2d5f2d47f08f06e2f4508ee23eba0f72a1597",
+            "state_revision": 1
+          },
+          "review_status": "declared_review_complete",
+          "schema_version": "1",
+          "scientific_validation": false
+        },
+        "intent_records": [
+          {
+            "id": "goal",
+            "label": "Goal",
+            "origin": "inferred",
+            "source_refs": [],
+            "text": "Review endpoint A using the supplied source"
+          },
+          {
+            "id": "boundary",
+            "label": "Boundary",
+            "origin": "inferred",
+            "source_refs": [],
+            "text": "Retain source and prior decisions"
+          }
+        ],
+        "intent_review": {
+          "reassessments": [
+            {
+              "consumer_id": "current_question",
+              "consumer_kind": "question",
+              "outcome": "changed",
+              "reason": "Scripted initial framing; no earlier bound question."
+            }
+          ],
+          "uses": [
+            {
+              "consumer_id": "current_question",
+              "consumer_kind": "question",
+              "intent_ids": [
+                "goal",
+                "boundary"
+              ],
+              "reason": "Scripted replay declaration; not an actual model judgment."
+            }
+          ]
+        },
+        "questions": [],
+        "task_brief": []
+      }
+    },
+    {
+      "seq": 4,
+      "workspace": "ws_d068d2c6ad764bab",
+      "kind": "artifact_added",
+      "created": "2026-10-10T21:53:45.963042+00:00",
+      "body": {
+        "artifact_id": "art_80476d6da8fc4405",
+        "kind": "intent_dependencies",
+        "title": "의도 정정과 판단 재검토"
+      }
+    },
+    {
+      "seq": 5,
+      "workspace": "ws_d068d2c6ad764bab",
+      "kind": "artifact_added",
+      "created": "2026-10-10T21:53:45.963205+00:00",
+      "body": {
+        "artifact_id": "art_9439c35abcab490b",
+        "kind": "hypothesis_review",
+        "title": "인과 근거·설명별 예상·구별할 관측 검토"
+      }
+    },
+    {
+      "seq": 6,
+      "workspace": "ws_d068d2c6ad764bab",
+      "kind": "artifact_added",
+      "created": "2026-10-10T21:53:45.963255+00:00",
+      "body": {
+        "artifact_id": "art_a8804c2bc0c14be4",
+        "kind": "decision_proposal",
+        "title": "현재 판단 제안"
+      }
+    },
+    {
+      "seq": 7,
+      "workspace": "ws_d068d2c6ad764bab",
+      "kind": "hypothesis_wording_compared",
+      "created": "2026-10-10T21:53:45.963378+00:00",
+      "body": {
+        "comparisons": [],
+        "meaning": "Literal wording comparison only; no automatic scientific reassessment or semantic equivalence judgment.",
+        "receipt_id": "art_a8804c2bc0c14be4",
+        "reference": {
+          "event_sequence": 3,
+          "kind": "latest_frame"
+        }
+      }
+    },
+    {
+      "seq": 8,
+      "workspace": "ws_d068d2c6ad764bab",
+      "kind": "decision_published",
+      "created": "2026-10-10T21:53:45.963587+00:00",
+      "body": {
+        "receipt_id": "art_a8804c2bc0c14be4",
+        "state_rev": 1
+      }
+    },
+    {
+      "seq": 9,
+      "workspace": "ws_d068d2c6ad764bab",
+      "kind": "artifact_added",
+      "created": "2026-10-10T21:53:51.812696+00:00",
+      "body": {
+        "artifact_id": "art_f574152d0708408a",
+        "kind": "intent_dependencies",
+        "title": "의도 정정과 판단 재검토"
+      }
+    },
+    {
+      "seq": 10,
+      "workspace": "ws_d068d2c6ad764bab",
+      "kind": "artifact_added",
+      "created": "2026-10-10T21:53:51.812858+00:00",
+      "body": {
+        "artifact_id": "art_7c9d1d1ff1fb4fdd",
+        "kind": "hypothesis_review",
+        "title": "인과 근거·설명별 예상·구별할 관측 검토"
+      }
+    },
+    {
+      "seq": 11,
+      "workspace": "ws_d068d2c6ad764bab",
+      "kind": "artifact_added",
+      "created": "2026-10-10T21:53:51.812906+00:00",
+      "body": {
+        "artifact_id": "art_58091fe3598b4aff",
+        "kind": "decision_proposal",
+        "title": "현재 판단 제안"
+      }
+    },
+    {
+      "seq": 12,
+      "workspace": "ws_d068d2c6ad764bab",
+      "kind": "hypothesis_wording_compared",
+      "created": "2026-10-10T21:53:51.813004+00:00",
+      "body": {
+        "comparisons": [],
+        "meaning": "Literal wording comparison only; no automatic scientific reassessment or semantic equivalence judgment.",
+        "receipt_id": "art_58091fe3598b4aff",
+        "reference": {
+          "decision_id": "art_a8804c2bc0c14be4",
+          "kind": "previous_published_decision",
+          "state_revision": 1
+        }
+      }
+    },
+    {
+      "seq": 13,
+      "workspace": "ws_d068d2c6ad764bab",
+      "kind": "decision_published",
+      "created": "2026-10-10T21:53:51.813241+00:00",
+      "body": {
+        "receipt_id": "art_58091fe3598b4aff",
+        "state_rev": 1
+      }
+    },
+    {
+      "seq": 14,
+      "workspace": "ws_d068d2c6ad764bab",
+      "kind": "artifact_added",
+      "created": "2026-10-10T21:53:51.824298+00:00",
+      "body": {
+        "artifact_id": "art_244b50061085435f",
+        "kind": "decision_proposal",
+        "title": "현재 판단 제안"
+      }
+    },
+    {
+      "seq": 15,
+      "workspace": "ws_d068d2c6ad764bab",
+      "kind": "decision_intent_snapshot_stale",
+      "created": "2026-10-10T21:53:51.824343+00:00",
+      "body": {
+        "published": false,
+        "reason": "Intent input or published decision changed after preparation, including at the same revision.",
+        "receipt_id": "art_244b50061085435f",
+        "state_rev": 1
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "art_a430a057ca384a18",
+      "workspace": "ws_d068d2c6ad764bab",
+      "title": "Fixed synthetic source",
+      "kind": "source_text",
+      "sha256": "22b4bda83debb9ec5c25fad43c6d875593492c1f8dd84d15795731fe883ca810",
+      "media_type": "application/json",
+      "created": "2026-10-10T21:53:42.972314+00:00",
+      "meta": {
+        "scientific_validation": false,
+        "synthetic": true
+      },
+      "bytes": 75,
+      "source_title": null
+    },
+    {
+      "id": "art_80476d6da8fc4405",
+      "workspace": "ws_d068d2c6ad764bab",
+      "title": "의도 정정과 판단 재검토",
+      "kind": "intent_dependencies",
+      "sha256": "d059b6aae2542a2f63d332d6852eb4a1dfcd57a105c8b61741bf3ad114529aaf",
+      "media_type": "application/json",
+      "created": "2026-10-10T21:53:45.962916+00:00",
+      "meta": {
+        "based_rev": 1,
+        "job_id": "scripted-replay",
+        "reason_origin": "model_declared",
+        "scientific_validation": false,
+        "submission": "same_model_final_bundle"
+      },
+      "bytes": 7256,
+      "source_title": null
+    },
+    {
+      "id": "art_9439c35abcab490b",
+      "workspace": "ws_d068d2c6ad764bab",
+      "title": "인과 근거·설명별 예상·구별할 관측 검토",
+      "kind": "hypothesis_review",
+      "sha256": "c30a2460cba02ef89cdde7607250a152637577750974c1daa041f8f178646c19",
+      "media_type": "application/json",
+      "created": "2026-10-10T21:53:45.963184+00:00",
+      "meta": {
+        "based_rev": 1,
+        "decision_id": "art_a8804c2bc0c14be4",
+        "job_id": "scripted-replay",
+        "loop_sha256": "9a0c402c4ae30aa538c9f73fe712652337cc4d7b4366a4ba386845c34c74550b",
+        "semantic_type": "model_authored_hypothesis_review_not_scientific_validation",
+        "submission": "same_model_final_bundle"
+      },
+      "bytes": 932,
+      "source_title": null
+    },
+    {
+      "id": "art_a8804c2bc0c14be4",
+      "workspace": "ws_d068d2c6ad764bab",
+      "title": "현재 판단 제안",
+      "kind": "decision_proposal",
+      "sha256": "476a3fa1b3eb12314581ddc3e025d20ab81a8e07f5ff8443aabddf9480fb172a",
+      "media_type": "application/json",
+      "created": "2026-10-10T21:53:45.963240+00:00",
+      "meta": {
+        "based_rev": 1,
+        "finalization_records": {
+          "hypothesis_review": "art_9439c35abcab490b",
+          "intent_dependencies": "art_80476d6da8fc4405"
+        },
+        "job_id": "scripted-replay",
+        "model_receipts": [],
+        "protocol_id": null,
+        "scientific_validation": false
+      },
+      "bytes": 705,
+      "source_title": null
+    },
+    {
+      "id": "art_f574152d0708408a",
+      "workspace": "ws_d068d2c6ad764bab",
+      "title": "의도 정정과 판단 재검토",
+      "kind": "intent_dependencies",
+      "sha256": "7d38c7e4dbd229bdee09e01885154cc161657a8ad06fbbf13ecde38e1fe02d8d",
+      "media_type": "application/json",
+      "created": "2026-10-10T21:53:51.812569+00:00",
+      "meta": {
+        "based_rev": 1,
+        "job_id": "scripted-replay",
+        "reason_origin": "model_declared",
+        "scientific_validation": false,
+        "submission": "same_model_final_bundle"
+      },
+      "bytes": 6192,
+      "source_title": null
+    },
+    {
+      "id": "art_7c9d1d1ff1fb4fdd",
+      "workspace": "ws_d068d2c6ad764bab",
+      "title": "인과 근거·설명별 예상·구별할 관측 검토",
+      "kind": "hypothesis_review",
+      "sha256": "1fa681c5518a54364bd0421f28d9eb26ad0708b94cc73c45435fe689e8e21de4",
+      "media_type": "application/json",
+      "created": "2026-10-10T21:53:51.812839+00:00",
+      "meta": {
+        "based_rev": 1,
+        "decision_id": "art_58091fe3598b4aff",
+        "job_id": "scripted-replay",
+        "loop_sha256": "9a0c402c4ae30aa538c9f73fe712652337cc4d7b4366a4ba386845c34c74550b",
+        "semantic_type": "model_authored_hypothesis_review_not_scientific_validation",
+        "submission": "same_model_final_bundle"
+      },
+      "bytes": 932,
+      "source_title": null
+    },
+    {
+      "id": "art_58091fe3598b4aff",
+      "workspace": "ws_d068d2c6ad764bab",
+      "title": "현재 판단 제안",
+      "kind": "decision_proposal",
+      "sha256": "86c13da3ce04caeac553842caaf438edc29d494b7a80beb10845cdf2e2ec956c",
+      "media_type": "application/json",
+      "created": "2026-10-10T21:53:51.812890+00:00",
+      "meta": {
+        "based_rev": 1,
+        "finalization_records": {
+          "hypothesis_review": "art_7c9d1d1ff1fb4fdd",
+          "intent_dependencies": "art_f574152d0708408a"
+        },
+        "job_id": "scripted-replay",
+        "model_receipts": [],
+        "protocol_id": null,
+        "scientific_validation": false
+      },
+      "bytes": 709,
+      "source_title": null
+    },
+    {
+      "id": "art_244b50061085435f",
+      "workspace": "ws_d068d2c6ad764bab",
+      "title": "현재 판단 제안",
+      "kind": "decision_proposal",
+      "sha256": "2fb8b42751859fc399b5df06e125848da452597a033fe51648eb59d6819e851f",
+      "media_type": "application/json",
+      "created": "2026-10-10T21:53:51.824222+00:00",
+      "meta": {
+        "based_rev": 1,
+        "finalization_records": {},
+        "job_id": "scripted-pending",
+        "model_receipts": [],
+        "protocol_id": null,
+        "scientific_validation": false
+      },
+      "bytes": 704,
+      "source_title": null
+    }
+  ],
+  "jobs": [],
+  "event_cursor": 15,
+  "research_checks": [],
+  "followthrough_requests": [],
+  "input_changes": {
+    "phase": "published_review",
+    "since_decision": "art_a8804c2bc0c14be4",
+    "after_event": 8,
+    "through_event": 13,
+    "sources": [
+      {
+        "id": "art_f574152d0708408a",
+        "title": "의도 정정과 판단 재검토",
+        "kind": "intent_dependencies"
+      },
+      {
+        "id": "art_7c9d1d1ff1fb4fdd",
+        "title": "인과 근거·설명별 예상·구별할 관측 검토",
+        "kind": "hypothesis_review"
+      }
+    ],
+    "messages": [],
+    "intent_edits": [],
+    "provenance_corrections": [],
+    "meaning": "Input locations, not proof of reading or claim support. Provenance corrections reclassify the referenced original input without replacing it; use its effective_provenance. Select relevant original ranges; older evidence, conditions and counterevidence remain accessible."
+  }
+}

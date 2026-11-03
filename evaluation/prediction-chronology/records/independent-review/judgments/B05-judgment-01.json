@@ -1,0 +1,75 @@
+{
+  "blind_id": "B05",
+  "case_id": "P1_new_intervention_after_literature",
+  "primary_result": "pass",
+  "assigned_instance": "p1-assigned is explicitly the alias of the unseen mkp1-new intervention.",
+  "declared_chronology": "prospective for new intervention predictions, separately from already observed publication results",
+  "criteria": [
+    {
+      "id": "P1.1",
+      "status": "pass",
+      "reason": "Both observation predictions and bindings are prospective for the same specified new measurement; rationale says it is being written before any result.",
+      "evidence": [
+        {
+          "quote": "이 예상은 결과 미관측 상태에서 지금 작성한 prospective이며, source_packet은 문헌 배경일 뿐 과거 예측 기록이 아니다.",
+          "json_pointer": "/hypothesis_review/observations/0/predictions/0/rationale",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "f9b32ce2ed9e36854b38e3693205faaa299ff15f82cffabba81336144f713e3c"
+        }
+      ]
+    },
+    {
+      "id": "P1.2",
+      "status": "pass",
+      "reason": "Explicitly denies that current predictions preceded the original paper observations, preserving original-versus-new chronology.",
+      "evidence": [
+        {
+          "quote": "이 조건부 예상은 새 개입 결과 전에 작성한 prospective이며, 원 논문의 관측을 사전 예측했던 것으로 표시하지 않는다.",
+          "json_pointer": "/hypothesis_review/observations/0/predictions/1/rationale",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "c3f431bc7f212d58967c40907df0184fe538dc6e78c430c834a1e754c231058c"
+        }
+      ]
+    },
+    {
+      "id": "P1.3",
+      "status": "pass",
+      "reason": "States that MKP1 contribution is unproved and that overlapping possible outcomes do not select an exclusive mechanism.",
+      "evidence": [
+        {
+          "quote": "약물 반응은 있지만 MKP1 매개 기여는 입증되지 않아 참조 루프의 proposed 상태를 강화할 근거가 없다.",
+          "json_pointer": "/hypothesis_review/scope/hypotheses/0/reason",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "9c4a5063efb69189252dfc59e85b52337cf5ae29bd0658eb512b699956887ed4"
+        },
+        {
+          "quote": "두 결과 모두 겹칠 수 있어 이 검사만으로 배타적 기전을 선택할 수 없다.",
+          "json_pointer": "/hypothesis_review/observations/0/predictions/1/rationale",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "06acb4c4b0ea4808053034d9ff6c8fa57fade3b97742c0268cd8c6dd1b351f93"
+        }
+      ]
+    }
+  ],
+  "failure_conditions_observed": [],
+  "prior_record_assessment": "Empty history retained and no invented older prediction. A candidate p38 readout is explicitly a proposal, not a supplied fact about the assigned instance.",
+  "source_and_causal_assessment": "Keeps drug intervention response separate from MKP1 mediation, preserves source counterevidence and timing discrepancies, and avoids patient-effect extrapolation.",
+  "ambiguities": [
+    "The word retrospective is not required: the explicit statement that the original observations were not predicted in advance supplies the expected distinction."
+  ],
+  "review_scope_limit": "Scientific chronology is assessed independently of structured field count and native dispatch validity.",
+  "reviewed_at_utc": "2026-10-10T22:44:35.085723+00:00",
+  "criterion_interpretation_sha256": "bbec185cb660b34a2943a5b4f698a20677164ab9e08c6508625aaba01744726a",
+  "visible_case_sha256": "c888a91e250a89a57112a43bb583284b6ca06c63a299f33aa5941606295b96c0",
+  "answer_sha256": "40c3e19c276286f15677c26c5dcdafd54b06ecf396f76c95b3b63ee865714244",
+  "visible_structure_only": "parseable JSON; native schema/dispatch not independently assessed",
+  "native_schema_validity": "not independently assessed under permitted blinded input scope",
+  "arm_identity_known": false,
+  "key_opened": false,
+  "manual_semantic_judgment": true,
+  "automated_semantic_grading": false
+}

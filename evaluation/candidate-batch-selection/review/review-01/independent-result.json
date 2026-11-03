@@ -1,0 +1,32 @@
+{
+  "scope": "Independent source review and synthetic data only; no actual selection, task packet, gold, GPU, model or network calls.",
+  "checks": {
+    "fractional_ties_match_exhaustive_uniform_orderings": "PASS",
+    "unique_qpo_matches_exhaustive_coverage_optimum": "PASS",
+    "nonunique_qpo_matches_independent_greedy_union_oracle": "PASS",
+    "8192_draw_latent_observation_separation": "PASS",
+    "truncated_worker_json": {
+      "observed_exception": {
+        "type": "JSONDecodeError",
+        "message": "Expecting value: line 1 column 10 (char 9)"
+      },
+      "workers_launched": 1,
+      "planned_tasks": 2,
+      "selection_seal_exists": false,
+      "terminal_receipts": 0,
+      "expected_behavior": "Preserve truncated worker bytes, mark affected/missing rows failed, finish remaining tasks and denominator without provider/worker retry."
+    },
+    "cluster_bootstrap_independent_flattened_cluster_oracle": "PASS",
+    "incomplete_final_task_blocks_hash_and_gold_parser": "PASS"
+  },
+  "source_sha256": {
+    "acquisition.py": "fb5cf954e6605918f6e0db49de1e1ad28c8dbe58300c622f88e44149088dd10f",
+    "selection_worker.py": "1b95ef04792277ffcf3d2a9b2faccf0b5c132c37ec3352722988c5dfa36ebb20",
+    "run_selection.py": "98c762e12fd65357c5de61545b5912db6797fa261e7018ee5485bd27a4adcc95",
+    "score_selection.py": "67a6fb6cf6e325f0f1f0690de12e94aea1daa7d806f5998b47ae2a8bc22d44ea",
+    "freeze_protocol.py": "d240a2845a78ecbb2007a137e980f3b1442a1f9f4487f591178881fc25d21d32",
+    "common.py": "01eb4ee4b6d66e777fbdfd2cf30d744b325c3221cdf41c860b43d25c74b99bcc",
+    "prepare_protocol.py": "b3926df7e56fc420ddfbbb700b4b7f37c72a517cea5962c59383e581382b901b",
+    "protocol-draft.json": "c5df1a98c9a49bdeee6bf1a13e8e3342db6de52c1b40bfea81061212d7ea865f"
+  }
+}

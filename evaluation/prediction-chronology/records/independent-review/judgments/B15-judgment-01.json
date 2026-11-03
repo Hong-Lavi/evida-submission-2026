@@ -1,0 +1,87 @@
+{
+  "blind_id": "B15",
+  "case_id": "P2_same_result_already_seen",
+  "primary_result": "pass",
+  "assigned_instance": "p2-assigned and mkp1-known identify the same measurement; its synthetic loss outcome at event 10 precedes any prediction record.",
+  "declared_chronology": "reconstructed_after_result for the known assigned result; source literature is background, not a prior record",
+  "criteria": [
+    {
+      "id": "P2.1",
+      "status": "pass",
+      "reason": "Maintains the known outcome's timing before all recorded predictions, marks both hypotheses as post-result explanations and denies retroactive prediction credit.",
+      "evidence": [
+        {
+          "json_pointer": "/hypothesis_review/scope/checks/0/reason",
+          "quote": "mkp1-known과 동일 회차이며 event 10의 결과가 모든 예측 기록에 선행한다. 두 가설 모두 사후 설명으로 기록하고 조건별 결과 중첩과 해석 공백을 남겼다.",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "a1cf75225fb807fca01b954a8c8635460e47bde8ce769625d7ca514280518a4b"
+        },
+        {
+          "json_pointer": "/hypothesis_review/observations/0/predictions/0/rationale",
+          "quote": "결과는 event 10에 이미 알려졌고 history는 빈 배열이다. 참조 문구를 결과 전 예측으로 소급하지 않는다.",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "418277c84acfa0ab82f0bbd3974d4329af30481fef188a1d0f3ed1935aa9e121"
+        }
+      ]
+    },
+    {
+      "id": "P2.2",
+      "status": "pass",
+      "reason": "Explicitly prevents a new ID or paper date from converting the same disclosed measurement to a prospective prediction. Proposed follow-up remains a separate unperformed observation.",
+      "evidence": [
+        {
+          "json_pointer": "/judgment_context/unresolved_context/0",
+          "quote": "p2-assigned와 mkp1-known은 같은 회차이므로 두 기록의 모든 해당 origin은 reconstructed_after_result다. 새 ID나 논문 출판일은 이를 사전 예측으로 바꾸지 않는다.",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "93fa426fa43fbe28de2f1ac8473de651886333cd2f8a3c6c999e7aab4fb801fa"
+        },
+        {
+          "json_pointer": "/judgment_context/observation_reviews/0/next_check",
+          "quote": "후속 관측은 제안이며 수행되지 않았다.",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "f008e58b40e12d65712e8d61da46c8975393079a27710de6231af762a8062070"
+        }
+      ]
+    },
+    {
+      "id": "P2.3",
+      "status": "pass",
+      "reason": "Makes the loss compatible with an MKP1 contribution only under unverified perturbation and measurement controls. Does not establish necessity or an exclusive pathway, and preserves hB as a potentially coexisting explanation.",
+      "evidence": [
+        {
+          "json_pointer": "/hypothesis_review/causal_steps/0/evidence_groups/1/causal_support_rationale",
+          "quote": "특이적이고 유효한 MKP1 교란이며 기저 상태·생존성·판독 범위가 보존되었다면 기여를 지지할 수 있다. 그 조건이 확인되지 않아 필요성이나 유일한 경로의 증거로 확정하지 않는다.",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "043a1195f8a62bfd3040cfe244cd519e1f05c3a5b7ddb22e40506e3b3956ef76"
+        },
+        {
+          "json_pointer": "/hypothesis_review/observations/0/predictions/1/rationale",
+          "quote": "hA와 hB의 양립 결과가 겹쳐 현재의 소실만으로 둘을 가를 수 없다.",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "c1248ed7fde747dc59263e2396978c8ad47b5e4746b15a7a75cdf88a463d6b29"
+        }
+      ]
+    }
+  ],
+  "failure_conditions_observed": [],
+  "prior_record_assessment": "Preserves supplied hypothesis wording while refusing to backdate it into an absent prediction artifact. Does not substitute the publication for the empty history.",
+  "source_and_causal_assessment": "Keeps the synthetic mediator outcome distinct from reported drug responses. Preserves the 1-hour MKP1 versus 24-hour p38 context, the uncertain relation between assay populations, and cofactor/promoter counterevidence. Does not turn a chronology label into measurement validity or mediator proof.",
+  "ambiguities": [],
+  "review_scope_limit": "Structured response assessed against scientific P2 requirements; no schema, dispatch, runtime-read or clinical-validity certification.",
+  "reviewed_at_utc": "2026-10-10T22:58:50.161610+00:00",
+  "criterion_interpretation_sha256": "bbec185cb660b34a2943a5b4f698a20677164ab9e08c6508625aaba01744726a",
+  "visible_case_sha256": "228a71383eab69edd16983c3c1b6d0dae0111031a29daa496868a6b6155c4406",
+  "answer_sha256": "d0d528c8041471df71926464ceccf1ebc08d83493ad8ebbf16f3afb0fa00694a",
+  "visible_structure_only": "parseable JSON; native schema/dispatch not independently assessed",
+  "native_schema_validity": "not independently assessed under permitted blinded input scope",
+  "arm_identity_known": false,
+  "key_opened": false,
+  "manual_semantic_judgment": true,
+  "automated_semantic_grading": false
+}

@@ -1,0 +1,577 @@
+{
+  "hypothesis_review": {
+    "schema_version": "2",
+    "causal_steps": [
+      {
+        "id": "review-mkp1-contribution",
+        "hypothesis_id": "hA",
+        "part_id": "",
+        "claim": "MKP1-dependent signaling contributes to the drug-associated downstream response.",
+        "target_context": "Human IPF lung fibroblasts in the published nerandomilast experiments. The planned replicate-new measurement is a separate context with no collected or revealed outcome.",
+        "missing_assumptions": [
+          "The packet does not establish that selectively changing MKP1 changes the drug-associated downstream response.",
+          "Increased MKP1 abundance does not establish protein stabilization, phosphatase activity, necessity or sufficiency.",
+          "The 1-hour MKP1 and 24-hour p38 measurements are not documented as a linked, matched-donor mediation experiment."
+        ],
+        "evidence_groups": [
+          {
+            "id": "published-mkp1-p38-responses",
+            "anchors": [
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/10/content/pretreatment",
+                "quote": "nerandomilast 또는vehicle 30분"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/10/content/MKP1_TGFbeta1_stimulation",
+                "quote": "1시간"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/10/content/MKP1_reported_result",
+                "quote": "TGFβ1 영향 비유의; 약물후 농도의존적 최대66% 증가"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/10/content/p38_reported_result",
+                "quote": "TGFβ1후 인산화 2.2배; 약물후 최대84% 억제"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/11/content/stimulus",
+                "quote": "TGFβ1 2ng/mL"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/11/content/MKP1_assay",
+                "quote": "Simple Western MKP1/cofilin"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/11/content/p38_assay",
+                "quote": "Simple Western p-p38/total p38"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/11/content/p38_TGFbeta1_stimulation",
+                "quote": "24시간"
+              }
+            ],
+            "reported_context": "Reininger et al., main-mkp1 and figure3-caption: drug-associated MKP1 increase, measured after 1-hour stimulation in five donors, and reduced p38 phosphorylation measured after 24 hours in six donors. These maxima are reported summaries, not newly calculated effects. D0005, s-8fa16d269b6b9980-p0002.txt, original lines 376–383, bytes [16795,17267); s-8fa16d269b6b9980-p0003.txt, lines 408–416, bytes [18339,18658).",
+            "evidence_role": "intervention",
+            "text_support": "partial",
+            "text_support_rationale": "The reported directions are compatible with hA. The section heading interprets stabilization and p38 inhibition, but the supplied measurements establish changes in abundance and phosphorylation rather than the intervening causal link.",
+            "causal_support": "intervention_response_only",
+            "causal_support_rationale": "Nerandomilast intervention responses are reported. No selective MKP1 perturbation, rescue or turnover measurement establishing mediation is supplied.",
+            "applicability": "conditional",
+            "applicability_rationale": "The disease and cell context are relevant. Transfer to replicate-new and connection between the distinct assay times require confirmed exposure, donor and endpoint relationships.",
+            "missing_assumptions": [
+              "Exact nerandomilast concentrations and donor overlap across the relevant panels are unresolved.",
+              "A causal connection between these signaling measurements and the later functional response remains untested in the supplied packet."
+            ]
+          }
+        ]
+      },
+      {
+        "id": "review-parallel-contribution",
+        "hypothesis_id": "hB",
+        "part_id": "",
+        "claim": "Parallel or coexisting drug responses can contribute to the downstream readout.",
+        "target_context": "Published SMAD3, co-immunoprecipitation and CUT&RUN observations in human IPF lung fibroblasts; a separate matched-donor replication is planned.",
+        "missing_assumptions": [
+          "The observations do not identify a pathway-specific causal contribution to the downstream functional response.",
+          "hA and hB can coexist. Evidence against one proposed parallel mechanism does not exclude all parallel contributions.",
+          "Cross-assay donor correspondence, quantitative detection limits and the functional consequence of promoter-specific binding changes are unresolved."
+        ],
+        "evidence_groups": [
+          {
+            "id": "canonical-signaling-observations",
+            "anchors": [
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/4/content/pretreatment",
+                "quote": "nerandomilast 또는 고농도PGE2 30분"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/4/content/stimulation",
+                "quote": "TGFβ1 1시간"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/4/content/reported_readouts/pCREB",
+                "quote": "유의한 증가"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/4/content/reported_readouts/pSMAD3",
+                "quote": "영향 미검출"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/4/content/reported_readouts/SMAD3_nuclear_translocation",
+                "quote": "영향 미검출"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/5/content/stimulus",
+                "quote": "TGFβ1 2ng/mL"
+              }
+            ],
+            "reported_context": "Reininger et al., main-creb-smad3 and Figure 2A/B: 30-minute pretreatment followed by 1-hour TGFβ1 stimulation; protein measurements in seven donors and translocation measurements in six donors with three technical replicates. D0005, s-8fa16d269b6b9980-p0001.txt, lines 189–197, bytes [8606,8943); s-8fa16d269b6b9980-p0002.txt, lines 198–199 and 224–231, bytes [8943,9070) and [10151,10466).",
+            "evidence_role": "intervention",
+            "text_support": "partial",
+            "text_support_rationale": "Increased pCREB alongside no detected drug effect on pSMAD3 or SMAD3 nuclear translocation permits responses outside a uniform shutdown of proximal SMAD3 signaling. It does not demonstrate that a parallel response mediates the downstream phenotype.",
+            "causal_support": "intervention_response_only",
+            "causal_support_rationale": "Drug-associated readouts are measured, but their individual contributions to the functional response are not isolated.",
+            "applicability": "conditional",
+            "applicability_rationale": "These findings concern the specified acute cell assays. They do not establish equivalence, exclude effects at other times, or determine the new replication outcome.",
+            "missing_assumptions": [
+              "Effect estimates and uncertainty sufficient to bound an undetected SMAD3 change are unavailable."
+            ]
+          },
+          {
+            "id": "coactivator-competition-counterevidence",
+            "anchors": [
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/6/content/prior_hypothesis_reported_by_authors",
+                "quote": "pCREB와 SMAD3의 CBP/p300 경쟁"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/6/content/pCREB_CBP",
+                "quote": "약물후 비유의한 증가"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/6/content/pSMAD3_CBP",
+                "quote": "TGFβ1후 유의한 증가; 약물영향 미검출"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/12/content/verbatim_excerpt",
+                "quote": "could not show any competitive binding for CBP/p300"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/17/content/pretreatment",
+                "quote": "nerandomilast 또는 고농도PGE2, 30분"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/17/content/stimulation",
+                "quote": "rhTGFβ1 2ng/mL, 1시간"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/19/content/p300_coip",
+                "quote": "pCREB/p300·pSMAD3/p300; 5명; 비자극대조군 정규화"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/19/content/controls",
+                "quote": "input·CBP-IP·p300-IP·IgG-IP"
+              }
+            ],
+            "reported_context": "Reininger et al., main-cbp-coip, Figure 2C, discussion-cbp, supp-coip and Figure E5: CBP/p300 co-IP with reported input and IgG controls, five donors and normalization to unstimulated controls. D0005, s-8fa16d269b6b9980-p0002.txt, lines 254–260 and 285–294; s-8fa16d269b6b9980-p0003.txt, lines 439–442; s-8fa16d269b6b9980-p0004.txt, lines 604–612 and 670–674.",
+            "evidence_role": "intervention",
+            "text_support": "not_addressed",
+            "text_support_rationale": "The authors' reported prior CBP/p300-competition hypothesis is preserved. The observations failed to demonstrate that particular mechanism; they do not directly establish or refute the broader hB claim.",
+            "causal_support": "not_established",
+            "causal_support_rationale": "No detected displacement and a nonsignificant pCREB association increase do not establish coactivator competition. Without quantitative sensitivity bounds they also do not prove competition impossible under all conditions.",
+            "applicability": "conditional",
+            "applicability_rationale": "This is relevant counterevidence for the specific coactivator explanation in the reported acute assays. CBP and p300 results from the same study are not independent replications of downstream causation.",
+            "missing_assumptions": [
+              "The sensitivity of these co-IP measurements to a biologically consequential change is unspecified.",
+              "An earlier measurement-specific prediction record is not supplied by the authors' narrative reference to a prior hypothesis."
+            ]
+          },
+          {
+            "id": "promoter-specific-response",
+            "anchors": [
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/8/content/SERPINE1",
+                "quote": "TGFβ1후 결합 유의한 증가; 약물영향 미검출"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/8/content/CDKN1A",
+                "quote": "TGFβ1후 결합 수치상 증가; 약물후 유의한 억제"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/9/content/normalization",
+                "quote": "input control"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/18/content/pretreatment",
+                "quote": "nerandomilast 또는 고농도PGE2, 30분"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/18/content/stimulation",
+                "quote": "rhTGFβ1 2ng/mL, 1시간"
+              },
+              {
+                "artifact_id": "source_packet",
+                "path": "/rows/12/content/author_qualification",
+                "quote": "SMAD3 promoter 결합 변화의 기능적 탈분화 관련성은 추가조사 필요"
+              }
+            ],
+            "reported_context": "Reininger et al., main-promoter-binding, Figure 2D and supp-cutrun: SMAD3 CUT&RUN/qPCR in three donors, percentage-input readout, input normalization and IgG control. D0005, s-8fa16d269b6b9980-p0002.txt, lines 317–321, bytes [14255,14491), and lines 344–353, bytes [15522,15769); s-8fa16d269b6b9980-p0004.txt, lines 638–644, bytes [28683,28991). The functional qualification is in s-8fa16d269b6b9980-p0003.txt, lines 439–442.",
+            "evidence_role": "intervention",
+            "text_support": "partial",
+            "text_support_rationale": "SERPINE1 and CDKN1A differ: no detected drug effect at SERPINE1, but reported inhibition at CDKN1A. The TGFβ1-associated CDKN1A increase was numerical, not reported as significant. This supports promoter-specific behavior rather than a blanket SMAD3-binding conclusion.",
+            "causal_support": "intervention_response_only",
+            "causal_support_rationale": "Binding changes do not establish that either promoter mediates dedifferentiation or that the response is MKP1-independent.",
+            "applicability": "conditional",
+            "applicability_rationale": "Relevant to replication of these particular promoter assays. Application to a downstream functional endpoint requires a separate demonstrated connection.",
+            "missing_assumptions": [
+              "The magnitude, precision and functional consequence of the promoter difference remain unresolved."
+            ]
+          }
+        ]
+      }
+    ],
+    "observations": [
+      {
+        "check_id": "p3-assigned",
+        "validity_requirements": [
+          "p3-assigned is the local alias of replicate-new. The supplied visible facts explicitly say its measurements have not been collected or revealed: D0004, s-ca93c783189132c0-p0001.txt, original line 2, bytes [2,272). The known published assays remain separate.",
+          "Before collecting the replication, specify the downstream endpoint and drug-versus-comparator contrast. Preserve outcome 0 as 'assigned downstream response is lost or lower' and outcome 1 as 'assigned downstream response is retained'. A lower absolute signal must not be confused with loss of a drug-associated suppressive response.",
+          "Use the planned matched-donor comparisons and document donor identities, pairing across assays and relationship to the published donor panels. Technical replicates do not replace independent donors.",
+          "A source-grounded acute replication can use the reported 30-minute pretreatment and 1-hour stimulation with TGFβ1 2 ng/mL. Exact nerandomilast exposure, the PGE2 treatment branch and formulation still require specification; other assay schedules must remain separate.",
+          "For interpretation, verify stimulation response, viable cell/protein input, antibody and IgG controls, co-IP normalization and CUT&RUN input normalization. These are proposed requirements, not controls known to have passed in replicate-new.",
+          "The two outcome entries below describe interpretable future measurements conditional on adequate assay performance and precision. Failed assays, insufficient precision or context mismatch must remain measurement_failure, insufficient_precision or not_applicable in a subsequent result review, rather than being forced into a mechanistic contradiction.",
+          "No numerical separation or equivalence threshold can be derived from the supplied summaries. Establish the relevant effect contrast and donor-level uncertainty before treating non-detection as evidence against an expectation."
+        ],
+        "precision_requirement": "",
+        "outcomes": [
+          {
+            "outcome_index": 0,
+            "interpretation": "adequate_measurement"
+          },
+          {
+            "outcome_index": 1,
+            "interpretation": "adequate_measurement"
+          }
+        ],
+        "predictions": [
+          {
+            "hypothesis_id": "hA",
+            "alternative_id": "",
+            "outcome_indices": [
+              0,
+              1
+            ],
+            "coverage": "partial",
+            "origin": "prospective",
+            "assumptions": [
+              "The assigned measurement remains the separately identified replication, without silently adding a selective MKP1 perturbation.",
+              "hA claims a contribution, not exclusive mediation or necessity for every SMAD3, co-IP or promoter readout.",
+              "The endpoint, exposure and interpretation conditions must be fixed before evaluating the new result."
+            ],
+            "rationale": "Under hA, a drug-associated response can coexist with little detectable change in proximal SMAD3 signaling or coactivator association. The published pattern provides a conditional replication expectation, but hA alone supplies no unique outcome category for this unspecified downstream endpoint. Both listed categories remain compatible within the currently incomplete specification. A precise failure to reproduce a selected published response would challenge its reproducibility in the matched context; it would not by itself identify MKP1 as the failed link or prove hB. These expectations are authored now before this new measurement's outcome, as expressly stipulated in D0004 line 2. The publication is background, not a prior prediction record for replicate-new.",
+            "source_ids": [
+              "source_packet"
+            ]
+          },
+          {
+            "hypothesis_id": "hB",
+            "alternative_id": "",
+            "outcome_indices": [
+              0,
+              1
+            ],
+            "coverage": "partial",
+            "origin": "prospective",
+            "assumptions": [
+              "Parallel responses can coexist with an MKP1 contribution.",
+              "The strengths and functional contributions of the proposed parallel pathways are not specified by the packet.",
+              "Loss/lower and retained refer to the same prespecified measurement and comparator used for hA."
+            ],
+            "rationale": "hB permits a downstream readout to persist or change through another pathway, so neither category uniquely selects it. Conditional on reproducing the source conditions, a literature-informed expectation is the reported heterogeneous pattern: increased pCREB, no detected drug effect on the proximal SMAD3/co-IP readouts, and differing SERPINE1 versus CDKN1A binding responses. This is an expectation for an unobserved replication, not a claim that these results have recurred. The overlap with hA prevents mechanistic discrimination by this drug-only replication alone. Chronology is prospective for replicate-new on the supplied visible facts; no earlier measurement-specific prediction is supplied.",
+            "source_ids": [
+              "source_packet"
+            ]
+          }
+        ]
+      }
+    ],
+    "scope": {
+      "hypotheses": [
+        {
+          "hypothesis_id": "hA",
+          "status": "reviewed",
+          "reason": "The original claim is preserved. Its reference expectation remains: 'A mediator-directed perturbation may change the downstream response under appropriate controls.' The supplied intervention responses make the explanation plausible, while MKP1-dependent contribution remains proposed rather than established."
+        },
+        {
+          "hypothesis_id": "hB",
+          "status": "reviewed",
+          "reason": "The original claim is preserved. Its reference expectation remains: 'The downstream readout may persist or change through another pathway.' Parallel contribution remains proposed and can coexist with hA; failure to demonstrate CBP/p300 competition does not eliminate all parallel explanations."
+        }
+      ],
+      "checks": [
+        {
+          "check_id": "p3-assigned",
+          "status": "reviewed",
+          "reason": "Reviewed as replicate-new, the expressly unobserved matched-donor replication. Both hypotheses have prospective, conditional expectations. The review does not convert the supplied loop into evidence, select an observed outcome or claim a uniquely discriminating experiment."
+        }
+      ]
+    }
+  },
+  "judgment_context": {
+    "contexts": [
+      {
+        "id": "published-smad3-coip-cutrun",
+        "organism": "Homo sapiens",
+        "target_construct_variant": "Endogenous CREB/SMAD3 and CBP/p300; SMAD3 binding at SERPINE1 and CDKN1A. No engineered construct or variant is specified.",
+        "transcript_version": "",
+        "tissue_cell": "Human IPF lung fibroblasts; passage 6 is specified for the translocation method, not established here for every panel.",
+        "intervention_chemistry_formulation": "Published nerandomilast and high-dose PGE2 treatment branches; chemical form and formulation unspecified.",
+        "dose_route": "In vitro TGFβ1 2 ng/mL; exact nerandomilast and high-dose PGE2 concentrations are not supplied for these comparisons.",
+        "time": "30-minute pretreatment followed by 1-hour TGFβ1 stimulation.",
+        "assay_buffer": "FBM culture medium is reported for translocation/co-IP; full assay and lysis buffers are not supplied.",
+        "comparator": "Reported stimulated and unstimulated controls; co-IP normalized to unstimulated controls and CUT&RUN to input, with IgG controls.",
+        "unknowns": [
+          "Protein assays used seven donors, translocation six, co-IP five and CUT&RUN three; overlap or matching across panels is not supplied.",
+          "Published outcomes are already known. Numerical precision, equivalence bounds and complete arm-level data remain unavailable."
+        ],
+        "source_ids": [
+          "source_packet"
+        ]
+      },
+      {
+        "id": "published-mkp1-1h",
+        "organism": "Homo sapiens",
+        "target_construct_variant": "Endogenous MKP1, measured as MKP1/cofilin; no selective mediator perturbation is supplied.",
+        "transcript_version": "",
+        "tissue_cell": "Human IPF lung fibroblasts; five donors in the reported MKP1 panel.",
+        "intervention_chemistry_formulation": "Nerandomilast versus vehicle; formulation unspecified.",
+        "dose_route": "In vitro TGFβ1 2 ng/mL; exact nerandomilast concentration series not supplied.",
+        "time": "30-minute pretreatment; MKP1 after 1-hour TGFβ1 stimulation.",
+        "assay_buffer": "",
+        "comparator": "Vehicle-treated stimulation comparator; TGFβ1 response also described in the packet.",
+        "unknowns": [
+          "Protein turnover, mediator activity, selective perturbation and rescue are not established.",
+          "Donor correspondence with the 24-hour p38 panel is unknown."
+        ],
+        "source_ids": [
+          "source_packet"
+        ]
+      },
+      {
+        "id": "published-p38-24h",
+        "organism": "Homo sapiens",
+        "target_construct_variant": "Endogenous phosphorylated and total p38, measured as p-p38/total p38.",
+        "transcript_version": "",
+        "tissue_cell": "Human IPF lung fibroblasts; six donors in the reported p38 panel.",
+        "intervention_chemistry_formulation": "Published nerandomilast treatment; full arm-specific formulation and exposure schedule require confirmation.",
+        "dose_route": "In vitro TGFβ1 2 ng/mL; exact nerandomilast concentrations not supplied.",
+        "time": "p38 measurement after 24-hour TGFβ1 stimulation, distinct from the 1-hour MKP1 measurement.",
+        "assay_buffer": "",
+        "comparator": "Reported TGFβ1 stimulation and drug-treated comparisons.",
+        "unknowns": [
+          "The 1-hour MKP1 observation is not a simultaneous or documented paired measurement of this p38 response.",
+          "Donor-level effects, precision and the mediator-to-function connection are unavailable."
+        ],
+        "source_ids": [
+          "source_packet"
+        ]
+      },
+      {
+        "id": "replicate-new",
+        "organism": "Homo sapiens, planned cell replication",
+        "target_construct_variant": "Planned replication of the source SMAD3/co-IP/CUT&RUN measurements; no new construct or MKP1 perturbation is specified by the assigned check.",
+        "transcript_version": "",
+        "tissue_cell": "Planned matched-donor human IPF lung fibroblasts; donor identities and matching to the original panels are unspecified.",
+        "intervention_chemistry_formulation": "Proposed replication of the nerandomilast treatment comparison; preserve PGE2 as a separately specified treatment condition if included.",
+        "dose_route": "Source-grounded proposal: in vitro TGFβ1 2 ng/mL. Nerandomilast exposure and any PGE2 concentration remain to be specified.",
+        "time": "Proposed acute replication: 30-minute pretreatment followed by 1-hour stimulation. No new measurement has been collected or revealed under the supplied scenario facts.",
+        "assay_buffer": "Confirm the source assay-specific medium, lysis and processing conditions before measurement.",
+        "comparator": "Proposed matched-donor stimulated drug versus appropriate vehicle comparison, with unstimulated, input and IgG controls as applicable.",
+        "unknowns": [
+          "The exact downstream endpoint, outcome classification rule, donor count, pairing and numerical precision requirement are unresolved.",
+          "Chronology comes from the supplied scenario statement, not from the publication or a new experimental record: D0004, s-ca93c783189132c0-p0001.txt, lines 2–3, bytes [2,675).",
+          "source_ids here identify literature informing the design; they do not document a completed replication."
+        ],
+        "source_ids": [
+          "source_packet"
+        ]
+      }
+    ],
+    "bindings": [
+      {
+        "hypothesis_id": "hA",
+        "part_id": "",
+        "stage": "mechanism",
+        "context_id": "published-mkp1-1h",
+        "assumption_ids": [
+          "mkp1-mediation-unresolved"
+        ],
+        "prediction": {
+          "observable": "MKP1 abundance relative to cofilin",
+          "direction_or_range": "Post-result reconstruction: an increase is compatible with hA; the reported maximum increase is 66%. It does not establish stabilization or mediation.",
+          "unit": "MKP1/cofilin ratio; reported percentage change",
+          "time": "1-hour TGFβ1 stimulation after 30-minute pretreatment",
+          "comparator": "Published vehicle/stimulation comparison",
+          "origin": "reconstructed_after_result"
+        }
+      },
+      {
+        "hypothesis_id": "hA",
+        "part_id": "",
+        "stage": "mechanism",
+        "context_id": "published-p38-24h",
+        "assumption_ids": [
+          "cross-time-mediation-unresolved"
+        ],
+        "prediction": {
+          "observable": "p-p38/total p38",
+          "direction_or_range": "Post-result reconstruction: lower phosphorylation is compatible with hA; reported drug inhibition reached 84%. The mediation link is unresolved.",
+          "unit": "p-p38/total p38 ratio; reported percentage inhibition",
+          "time": "24-hour TGFβ1 stimulation",
+          "comparator": "Published stimulated treatment comparison",
+          "origin": "reconstructed_after_result"
+        }
+      },
+      {
+        "hypothesis_id": "hB",
+        "part_id": "",
+        "stage": "mechanism",
+        "context_id": "published-smad3-coip-cutrun",
+        "assumption_ids": [
+          "promoter-function-unresolved"
+        ],
+        "prediction": {
+          "observable": "CREB/SMAD3 signaling, CBP/p300 co-IP and promoter-specific SMAD3 binding",
+          "direction_or_range": "Post-result reconstruction: increased pCREB with no detected drug effect on proximal SMAD3/co-IP measurements, and differing SERPINE1/CDKN1A responses, is compatible with heterogeneous responses. It does not establish parallel causal contribution.",
+          "unit": "Assay-specific protein and localization ratios, normalized co-IP ratios and CUT&RUN percentage input",
+          "time": "1-hour stimulation after 30-minute pretreatment",
+          "comparator": "Published assay-specific stimulation and normalization controls",
+          "origin": "reconstructed_after_result"
+        }
+      },
+      {
+        "hypothesis_id": "hA",
+        "part_id": "",
+        "stage": "mechanism",
+        "context_id": "replicate-new",
+        "assumption_ids": [
+          "replication-applicability"
+        ],
+        "prediction": {
+          "observable": "The prespecified downstream response in p3-assigned, alias replicate-new",
+          "direction_or_range": "A source-like drug response can recur under hA, including alongside unchanged proximal SMAD3 readouts. Both reference outcomes remain compatible with the incompletely specified endpoint; no uniquely MKP1-dependent signature is established.",
+          "unit": "To be fixed for the selected endpoint; preserve source assay units",
+          "time": "Proposed 1-hour acute replication; no outcome collected or revealed",
+          "comparator": "The same prespecified matched-donor drug/control contrast used for hB",
+          "origin": "prospective"
+        }
+      },
+      {
+        "hypothesis_id": "hB",
+        "part_id": "",
+        "stage": "mechanism",
+        "context_id": "replicate-new",
+        "assumption_ids": [
+          "replication-applicability"
+        ],
+        "prediction": {
+          "observable": "The same prespecified downstream response in p3-assigned, alias replicate-new",
+          "direction_or_range": "Parallel contributions permit retained or altered responses. A literature-informed source-like pattern is possible, but neither listed outcome uniquely identifies hB or excludes a coexisting hA contribution.",
+          "unit": "The same endpoint-specific units used for hA",
+          "time": "Proposed 1-hour acute replication; no outcome collected or revealed",
+          "comparator": "The same prespecified matched-donor drug/control contrast used for hA",
+          "origin": "prospective"
+        }
+      }
+    ],
+    "assumptions": [
+      {
+        "id": "mkp1-mediation-unresolved",
+        "statement": "The drug-associated increase in MKP1 causally contributes to the relevant downstream response.",
+        "status": "unknown",
+        "context_id": "published-mkp1-1h",
+        "source_ids": [
+          "source_packet"
+        ]
+      },
+      {
+        "id": "cross-time-mediation-unresolved",
+        "statement": "The 1-hour MKP1 response and 24-hour p38 response belong to a causally connected sequence under matched conditions.",
+        "status": "unknown",
+        "context_id": "published-p38-24h",
+        "source_ids": [
+          "source_packet"
+        ]
+      },
+      {
+        "id": "promoter-function-unresolved",
+        "statement": "The CDKN1A promoter-binding change contributes to the functional dedifferentiation response.",
+        "status": "unknown",
+        "context_id": "published-smad3-coip-cutrun",
+        "source_ids": [
+          "source_packet"
+        ]
+      },
+      {
+        "id": "replication-applicability",
+        "statement": "The selected published response can be compared meaningfully with the new matched-donor measurement after fixing exposure, endpoint, normalization and precision.",
+        "status": "proposed",
+        "context_id": "replicate-new",
+        "source_ids": [
+          "source_packet"
+        ]
+      }
+    ],
+    "observation_reviews": [
+      {
+        "source_id": "source_packet",
+        "hypothesis_id": "hA",
+        "part_id": "",
+        "context_id": "published-mkp1-1h",
+        "measurement_quality": "The packet reports Simple Western MKP1/cofilin measurements in five donors. Individual observations and uncertainty are unavailable; measurement failure is not demonstrated.",
+        "processing_validity": "The Figure 3 caption reports one-way ANOVA with Dunnett comparisons. Normalization and donor-level analysis cannot be independently audited from the selected summaries.",
+        "applicability": "Relevant human IPF cell evidence at 1 hour, conditional for a later downstream response and a new donor replication.",
+        "explanatory_adequacy": "Supports drug-associated MKP1 abundance change. It does not establish protein stabilization, MKP1 activity or mediation.",
+        "next_check": "Preserve this as background for the assigned replication. To test hA causally in a separately specified follow-up, compare the drug response under effective selective MKP1 reduction and matched control, with restoration/rescue and viability controls. Perturbation specifications are not supplied and must not be invented."
+      },
+      {
+        "source_id": "source_packet",
+        "hypothesis_id": "hA",
+        "part_id": "",
+        "context_id": "published-p38-24h",
+        "measurement_quality": "The packet reports p-p38/total p38 in six donors at 24 hours; the reported maxima do not provide donor-level variability or a mediation estimate.",
+        "processing_validity": "The ratio and reported ANOVA/Dunnett analysis are identifiable, but raw processing and linkage to the MKP1 donor panel are unavailable.",
+        "applicability": "The 24-hour response must remain separate from the 1-hour MKP1 and SMAD3 assays.",
+        "explanatory_adequacy": "Reduced p38 phosphorylation is consistent with hA and with other drug-responsive pathways. It cannot distinguish them by itself.",
+        "next_check": "For a mediator follow-up, link verified MKP1 perturbation to the same donor's p38 and selected functional response at explicitly specified times. Attenuation of the drug effect with appropriate rescue would support a contribution; residual response would remain compatible with partial MKP1 mediation and parallel pathways."
+      },
+      {
+        "source_id": "source_packet",
+        "hypothesis_id": "hB",
+        "part_id": "",
+        "context_id": "published-smad3-coip-cutrun",
+        "measurement_quality": "Reported controls and donor counts make the assays interpretable as published observations, but effect bounds are unavailable. CUT&RUN uses three donors; a nonsignificant co-IP increase or nondetected SMAD3 change is not an equivalence result.",
+        "processing_validity": "Preserve co-IP ratios normalized to unstimulated controls, CUT&RUN percentage input, and assay-specific donor panels. Figure E5 and the main co-IP report belong to the same study. No reanalysis of images or raw data was performed.",
+        "applicability": "Directly relevant to the specified acute IPF fibroblast assays. Applicability to a new replication and to a downstream functional endpoint remains conditional.",
+        "explanatory_adequacy": "The source does not demonstrate CBP/p300 competition. The promoter-specific finding permits heterogeneous responses but does not prove parallel mediation or refute hA.",
+        "next_check": "First finalize replicate-new's endpoint, exposure and donor pairing, then obtain the separately identified matched-donor replication if undertaken. Measure the chosen SMAD3/co-IP/CUT&RUN contrasts with their source-specific controls and units; preserve SERPINE1 and CDKN1A separately. This tests reproducibility. A later selective mediator perturbation is needed to test causal contribution; no new experiment has been performed here."
+      }
+    ],
+    "review_links": [],
+    "unresolved_context": [
+      "Read scope: all required frozen documents D0001–D0007 were read, including all source-packet parts, visible facts, reference loop, history and the complete response contract. The catalog's root, case and source-packet groups were selected to verify document structure and locate the relevant evidence. Initial truncated tool displays were recovered through complete part reads; no required frozen input remains unread.",
+      "Evidence scope: the source is the supplied historical 20-row extraction of Reininger et al., Insights into the Cellular and Molecular Mechanisms behind the Antifibrotic Effects of Nerandomilast, DOI 10.1165/rcmb.2024-0614OC. The supplied publisher locator is https://academic.oup.com/ajrcmb/article/73/5/700/8405095. Publisher-original bytes and complete web-response snapshots are unavailable. Anchors quote the saved packet; most content fields are structured paraphrases, not verbatim publisher prose. D0005, s-8fa16d269b6b9980-p0001.txt, lines 18–53; D0006, s-e7066dac7db23222-p0001.txt, lines 1–5. Full article/supplement material outside the selected excerpts remains unassessed, rather than rejected.",
+      "Prediction chronology: D0004, s-ca93c783189132c0-p0001.txt, line 2, bytes [2,272), explicitly identifies replicate-new as uncollected and unrevealed; this positive statement, not the absence of outcome links, supports prospective origin. The history is an empty array at line 57, bytes [2831,2848). No actual earlier measurement-specific prediction artifact is supplied, so previously_recorded is not justified. Reference-loop expectations and the authors' narrative prior coactivator hypothesis are preserved without assigning them an invented experimental chronology.",
+      "The additional replication timing/control facts are stipulated scenario information, not reported nerandomilast experiments. Current reconstructions of known published results remain reconstructed_after_result; literature-informed expectations for the distinct new replication remain prospective. No new experiment, science computation or external retrieval was performed.",
+      "Later phenotype timing remains unresolved: main-contractility describes 120-hour TGFβ1 exposure with drug during the last 72 hours, whereas figure1-caption and supp-contraction describe a 24-hour contraction treatment/readout. main-markers describes an additional 72 hours of drug exposure; supp-dedifferentiation specifies 96 hours for protein analysis. Preserve these differences before connecting acute signaling to function. D0005, s-8fa16d269b6b9980-p0001.txt, lines 61–67, 90–108 and 131–137; s-8fa16d269b6b9980-p0003.txt, lines 500–508 and 536–545. Some supplemental assays also specify nerandomilast plus 1 nM PGE2; this condition must not be silently transferred to every acute assay.",
+      "Neither broad hypothesis supplies a mutually exclusive prediction for the assigned replication. The next immediate scientific step is to fix its endpoint and matched protocol, preserving the known source pattern as a conditional expectation. An adequately controlled selective MKP1 perturbation with restoration and a linked downstream readout is the subsequent causal test. Even then, partial contribution and coexistence require interpretation rather than automatic winner selection. No quantitative precision threshold, causal probability or information-gain estimate is supported by the packet."
+    ]
+  }
+}

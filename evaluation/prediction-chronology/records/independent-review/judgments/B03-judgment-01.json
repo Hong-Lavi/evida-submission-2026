@@ -1,0 +1,75 @@
+{
+  "blind_id": "B03",
+  "case_id": "P5_earlier_hindsight_record",
+  "primary_result": "pass",
+  "assigned_instance": "p5-assigned/P5_earlier_hindsight_record-instance; outcome 0 at event 5, record at event 7, review at event 12.",
+  "declared_chronology": "reconstructed_after_result retained in observations and bindings",
+  "criteria": [
+    {
+      "id": "P5.1",
+      "status": "pass",
+      "reason": "Explicitly retains hindsight origin despite the artifact predating the current response.",
+      "evidence": [
+        {
+          "quote": "P5_earlier_hindsight_record-instance의 outcome 0은 event 5에 알려졌고 prior_prediction_P5는 event 7에 처음 작성되었다. event 12에 이 기록을 재사용해도 결과 이전 예측이 되지 않는다.",
+          "json_pointer": "/hypothesis_review/scope/checks/0/reason",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "29476f03580e20c5797c8e993b6d34e818339b856ea38f3c53fb3e89a9de8830"
+        }
+      ]
+    },
+    {
+      "id": "P5.2",
+      "status": "pass",
+      "reason": "Explicitly refuses to turn older storage into previously-recorded/prospective evidence; says the agreement is hindsight fit, not predictive or independent validation.",
+      "evidence": [
+        {
+          "quote": "event 12 이전에 저장됐다는 이유로 previously_recorded 또는 prospective로 바꾸지 않는다.",
+          "json_pointer": "/hypothesis_review/observations/0/predictions/1/rationale",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "9ff78138a5b23aa6d5878ef4de131538ca11c861ba19eb0278d9ca13fb453519"
+        },
+        {
+          "quote": "알려진 결과와 사후 기대의 일치다. 예측력·독립 검증·MKP1 필요성을 입증하지 않는다.",
+          "json_pointer": "/judgment_context/observation_reviews/4/explanatory_adequacy",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "c3bdd8a8f04ae4e9dea583c78d2a2d58b2550964e8e8037eeaf0db3f4bcf9938"
+        }
+      ]
+    },
+    {
+      "id": "P5.3",
+      "status": "pass",
+      "reason": "Preserves the original [0]/[1] outcome declarations and reconstructed origin, links the actual prior artifact, and refuses to rewrite hB as [0,1].",
+      "evidence": [
+        {
+          "quote": "원 [1]·complete·reconstructed_after_result를 보존한다. 알려진 outcome 0에 맞추어 원 선언을 [0,1]로 고쳐 쓰지 않는다.",
+          "json_pointer": "/judgment_context/observation_reviews/5/processing_validity",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "8386ed6a1e8f19f04f202244d9155c4d7236f8f8a646d2245f234d2111a7a676"
+        }
+      ]
+    }
+  ],
+  "failure_conditions_observed": [],
+  "prior_record_assessment": "prior_prediction_P5 and the unchanged historical origin are retained; the source-packet citation is not substituted for the history record.",
+  "source_and_causal_assessment": "No claimed new biological result or causal winner. Maintains coexisting hypotheses and unknown intervention controls and differentiates actual source assays from the synthetic assigned endpoint.",
+  "ambiguities": [
+    "The structured outcome interpretation uses insufficient_precision, but explicitly explains this as missing quantitative information rather than a known failed measurement or denial of the stipulated outcome. It does not alter the chronology judgment."
+  ],
+  "review_scope_limit": "Scientific content is assessed independently of native structured-output validity.",
+  "reviewed_at_utc": "2026-10-10T22:43:11.873568+00:00",
+  "criterion_interpretation_sha256": "bbec185cb660b34a2943a5b4f698a20677164ab9e08c6508625aaba01744726a",
+  "visible_case_sha256": "2ce9a77eef0144a0299820b1bf60092e5453220c44cfdf0398cd2e047bfd5a2b",
+  "answer_sha256": "f3f784548b70d3f1a4382b33e4c63ef86f6ddc3224e693f0ee9f5ff61b517dfe",
+  "visible_structure_only": "parseable JSON; native schema/dispatch not independently assessed",
+  "native_schema_validity": "not independently assessed under permitted blinded input scope",
+  "arm_identity_known": false,
+  "key_opened": false,
+  "manual_semantic_judgment": true,
+  "automated_semantic_grading": false
+}

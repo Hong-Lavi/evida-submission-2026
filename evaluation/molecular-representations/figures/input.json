@@ -1,0 +1,883 @@
+{
+  "schema": "evida-comparison-figure/1",
+  "purpose": "Compare prediction error and finite top10 recovery for all tried activity representations",
+  "sources": {
+    "gp": {
+      "path": "tanimoto-trial/run-01/scored-results.json",
+      "sha256": "cc595d29d931303afa1ca005a92ce3cbc2e6bb8e465f281e1b73eb13c8f32c3d"
+    },
+    "frozen": {
+      "path": "chemeleon-trial/run-01/scored-results.json",
+      "sha256": "1ef52224e9de798a62a239cf8dcaa042091025e417553fbee8db7aeb78f17815"
+    },
+    "neural": {
+      "path": "chemeleon-finetune-trial/run-01/scored-results.json",
+      "sha256": "d183e17032cc820c0891521563b99bd80d8be7c64696edcb81d4a8f622a64cbf"
+    }
+  },
+  "bootstrap_seed": 20261011,
+  "bootstrap_repetitions": 5000,
+  "tasks": [
+    {
+      "task": "CHEMBL1862_Ki",
+      "target": "CHEMBL1862",
+      "n": 161,
+      "metrics": {
+        "rf": {
+          "mae": 0.574249287803446,
+          "top10_recall": 0.6
+        },
+        "gp": {
+          "mae": 0.5916504507550299,
+          "top10_recall": 0.5
+        },
+        "chemeleon_rf": {
+          "mae": 0.6303865936369262,
+          "top10_recall": 0.7
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.5842431570670992,
+          "top10_recall": 0.5
+        },
+        "matched_random": {
+          "mae": 1.16756971763808,
+          "top10_recall": 0.0
+        }
+      }
+    },
+    {
+      "task": "CHEMBL1871_Ki",
+      "target": "CHEMBL1871",
+      "n": 134,
+      "metrics": {
+        "rf": {
+          "mae": 0.5823313591545293,
+          "top10_recall": 0.2
+        },
+        "gp": {
+          "mae": 0.5597065455773785,
+          "top10_recall": 0.4
+        },
+        "chemeleon_rf": {
+          "mae": 0.5854449815064017,
+          "top10_recall": 0.3
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.5850842133361631,
+          "top10_recall": 0.1
+        },
+        "matched_random": {
+          "mae": 0.8735935523124166,
+          "top10_recall": 0.2
+        }
+      }
+    },
+    {
+      "task": "CHEMBL2034_Ki",
+      "target": "CHEMBL2034",
+      "n": 152,
+      "metrics": {
+        "rf": {
+          "mae": 0.5509478206445505,
+          "top10_recall": 0.6
+        },
+        "gp": {
+          "mae": 0.5204982248431572,
+          "top10_recall": 0.6
+        },
+        "chemeleon_rf": {
+          "mae": 0.5130582352828907,
+          "top10_recall": 0.5
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.5829360095423735,
+          "top10_recall": 0.6
+        },
+        "matched_random": {
+          "mae": 0.8091424330450963,
+          "top10_recall": 0.0
+        }
+      }
+    },
+    {
+      "task": "CHEMBL2047_EC50",
+      "target": "CHEMBL2047",
+      "n": 128,
+      "metrics": {
+        "rf": {
+          "mae": 0.48272329758388166,
+          "top10_recall": 0.7
+        },
+        "gp": {
+          "mae": 0.48812288829483486,
+          "top10_recall": 0.6
+        },
+        "chemeleon_rf": {
+          "mae": 0.49138959495114265,
+          "top10_recall": 0.5
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.4495606224505011,
+          "top10_recall": 0.7
+        },
+        "matched_random": {
+          "mae": 0.6463347757088772,
+          "top10_recall": 0.2
+        }
+      }
+    },
+    {
+      "task": "CHEMBL204_Ki",
+      "target": "CHEMBL204",
+      "n": 553,
+      "metrics": {
+        "rf": {
+          "mae": 0.6259866298410844,
+          "top10_recall": 0.1
+        },
+        "gp": {
+          "mae": 0.5359991309968751,
+          "top10_recall": 0.3
+        },
+        "chemeleon_rf": {
+          "mae": 0.6986813923607402,
+          "top10_recall": 0.2
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.5351049664938667,
+          "top10_recall": 0.5
+        },
+        "matched_random": {
+          "mae": 0.6257619730718609,
+          "top10_recall": 0.3
+        }
+      }
+    },
+    {
+      "task": "CHEMBL2147_Ki",
+      "target": "CHEMBL2147",
+      "n": 294,
+      "metrics": {
+        "rf": {
+          "mae": 0.5392429439915367,
+          "top10_recall": 0.3
+        },
+        "gp": {
+          "mae": 0.517388921599642,
+          "top10_recall": 0.2
+        },
+        "chemeleon_rf": {
+          "mae": 0.5905269825297698,
+          "top10_recall": 0.2
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.47973100865139795,
+          "top10_recall": 0.2
+        },
+        "matched_random": {
+          "mae": 0.6092477069004567,
+          "top10_recall": 0.2
+        }
+      }
+    },
+    {
+      "task": "CHEMBL214_Ki",
+      "target": "CHEMBL214",
+      "n": 666,
+      "metrics": {
+        "rf": {
+          "mae": 0.5541945575689551,
+          "top10_recall": 0.6
+        },
+        "gp": {
+          "mae": 0.521194452479739,
+          "top10_recall": 0.6
+        },
+        "chemeleon_rf": {
+          "mae": 0.5856400928666117,
+          "top10_recall": 0.6
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.5358310531221041,
+          "top10_recall": 0.7
+        },
+        "matched_random": {
+          "mae": 0.5338958352648309,
+          "top10_recall": 0.5
+        }
+      }
+    },
+    {
+      "task": "CHEMBL218_EC50",
+      "target": "CHEMBL218",
+      "n": 208,
+      "metrics": {
+        "rf": {
+          "mae": 0.5740574328110062,
+          "top10_recall": 0.6
+        },
+        "gp": {
+          "mae": 0.5784787214432178,
+          "top10_recall": 0.6
+        },
+        "chemeleon_rf": {
+          "mae": 0.5924652245091239,
+          "top10_recall": 0.5
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.5450926582174671,
+          "top10_recall": 0.6
+        },
+        "matched_random": {
+          "mae": 0.6175875356678534,
+          "top10_recall": 0.4
+        }
+      }
+    },
+    {
+      "task": "CHEMBL219_Ki",
+      "target": "CHEMBL219",
+      "n": 374,
+      "metrics": {
+        "rf": {
+          "mae": 0.5886837144268364,
+          "top10_recall": 0.2
+        },
+        "gp": {
+          "mae": 0.5661454588869977,
+          "top10_recall": 0.4
+        },
+        "chemeleon_rf": {
+          "mae": 0.638325294132826,
+          "top10_recall": 0.4
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.554167681211728,
+          "top10_recall": 0.6
+        },
+        "matched_random": {
+          "mae": 0.6257589910648337,
+          "top10_recall": 0.2
+        }
+      }
+    },
+    {
+      "task": "CHEMBL228_Ki",
+      "target": "CHEMBL228",
+      "n": 342,
+      "metrics": {
+        "rf": {
+          "mae": 0.5937988557500975,
+          "top10_recall": 0.4
+        },
+        "gp": {
+          "mae": 0.512976144487514,
+          "top10_recall": 0.4
+        },
+        "chemeleon_rf": {
+          "mae": 0.6054824109073259,
+          "top10_recall": 0.3
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.4751091959355404,
+          "top10_recall": 0.4
+        },
+        "matched_random": {
+          "mae": 0.5608140032930675,
+          "top10_recall": 0.3
+        }
+      }
+    },
+    {
+      "task": "CHEMBL231_Ki",
+      "target": "CHEMBL231",
+      "n": 197,
+      "metrics": {
+        "rf": {
+          "mae": 0.627421366327833,
+          "top10_recall": 0.5
+        },
+        "gp": {
+          "mae": 0.5823241572968592,
+          "top10_recall": 0.5
+        },
+        "chemeleon_rf": {
+          "mae": 0.582099408947919,
+          "top10_recall": 0.5
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.49469226918003834,
+          "top10_recall": 0.6
+        },
+        "matched_random": {
+          "mae": 0.6289386494740569,
+          "top10_recall": 0.4
+        }
+      }
+    },
+    {
+      "task": "CHEMBL233_Ki",
+      "target": "CHEMBL233",
+      "n": 630,
+      "metrics": {
+        "rf": {
+          "mae": 0.6232326497228878,
+          "top10_recall": 0.6
+        },
+        "gp": {
+          "mae": 0.6173943060138706,
+          "top10_recall": 0.4
+        },
+        "chemeleon_rf": {
+          "mae": 0.6404543158083287,
+          "top10_recall": 0.5
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.604038383495201,
+          "top10_recall": 0.3
+        },
+        "matched_random": {
+          "mae": 0.6512898985910728,
+          "top10_recall": 0.5
+        }
+      }
+    },
+    {
+      "task": "CHEMBL234_Ki",
+      "target": "CHEMBL234",
+      "n": 733,
+      "metrics": {
+        "rf": {
+          "mae": 0.5227178721498537,
+          "top10_recall": 0.4
+        },
+        "gp": {
+          "mae": 0.47547942288656053,
+          "top10_recall": 0.5
+        },
+        "chemeleon_rf": {
+          "mae": 0.5536930681239067,
+          "top10_recall": 0.3
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.4966482772419853,
+          "top10_recall": 0.5
+        },
+        "matched_random": {
+          "mae": 0.5554720246557816,
+          "top10_recall": 0.4
+        }
+      }
+    },
+    {
+      "task": "CHEMBL235_EC50",
+      "target": "CHEMBL235",
+      "n": 472,
+      "metrics": {
+        "rf": {
+          "mae": 0.5050646479252492,
+          "top10_recall": 0.3
+        },
+        "gp": {
+          "mae": 0.5210300792627661,
+          "top10_recall": 0.5
+        },
+        "chemeleon_rf": {
+          "mae": 0.5313419276815826,
+          "top10_recall": 0.3
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.5255819280387667,
+          "top10_recall": 0.2
+        },
+        "matched_random": {
+          "mae": 0.5654540148680173,
+          "top10_recall": 0.2
+        }
+      }
+    },
+    {
+      "task": "CHEMBL236_Ki",
+      "target": "CHEMBL236",
+      "n": 521,
+      "metrics": {
+        "rf": {
+          "mae": 0.5508864523397005,
+          "top10_recall": 0.5
+        },
+        "gp": {
+          "mae": 0.5324257602520779,
+          "top10_recall": 0.5
+        },
+        "chemeleon_rf": {
+          "mae": 0.6346936263655609,
+          "top10_recall": 0.5
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.5335737542529322,
+          "top10_recall": 0.4
+        },
+        "matched_random": {
+          "mae": 0.60683600691129,
+          "top10_recall": 0.3
+        }
+      }
+    },
+    {
+      "task": "CHEMBL237_EC50",
+      "target": "CHEMBL237",
+      "n": 193,
+      "metrics": {
+        "rf": {
+          "mae": 0.6454951609236127,
+          "top10_recall": 0.4
+        },
+        "gp": {
+          "mae": 0.617829777795924,
+          "top10_recall": 0.5
+        },
+        "chemeleon_rf": {
+          "mae": 0.7195449257055966,
+          "top10_recall": 0.5
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.6365815661435198,
+          "top10_recall": 0.5
+        },
+        "matched_random": {
+          "mae": 0.7385387456472715,
+          "top10_recall": 0.5
+        }
+      }
+    },
+    {
+      "task": "CHEMBL237_Ki",
+      "target": "CHEMBL237",
+      "n": 522,
+      "metrics": {
+        "rf": {
+          "mae": 0.5859620702211071,
+          "top10_recall": 0.2
+        },
+        "gp": {
+          "mae": 0.5378867720945459,
+          "top10_recall": 0.1
+        },
+        "chemeleon_rf": {
+          "mae": 0.6189888721636834,
+          "top10_recall": 0.3
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.5268958887900582,
+          "top10_recall": 0.3
+        },
+        "matched_random": {
+          "mae": 0.6552044675724272,
+          "top10_recall": 0.3
+        }
+      }
+    },
+    {
+      "task": "CHEMBL238_Ki",
+      "target": "CHEMBL238",
+      "n": 213,
+      "metrics": {
+        "rf": {
+          "mae": 0.5455397489180477,
+          "top10_recall": 0.5
+        },
+        "gp": {
+          "mae": 0.5445813440619524,
+          "top10_recall": 0.3
+        },
+        "chemeleon_rf": {
+          "mae": 0.60757846246595,
+          "top10_recall": 0.6
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.4959233169623391,
+          "top10_recall": 0.7
+        },
+        "matched_random": {
+          "mae": 0.9703186391332412,
+          "top10_recall": 0.0
+        }
+      }
+    },
+    {
+      "task": "CHEMBL239_EC50",
+      "target": "CHEMBL239",
+      "n": 347,
+      "metrics": {
+        "rf": {
+          "mae": 0.5510005601610029,
+          "top10_recall": 0.3
+        },
+        "gp": {
+          "mae": 0.5415989385096092,
+          "top10_recall": 0.2
+        },
+        "chemeleon_rf": {
+          "mae": 0.6047721030666924,
+          "top10_recall": 0.2
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.5347725259870763,
+          "top10_recall": 0.3
+        },
+        "matched_random": {
+          "mae": 0.8688028146151919,
+          "top10_recall": 0.1
+        }
+      }
+    },
+    {
+      "task": "CHEMBL244_Ki",
+      "target": "CHEMBL244",
+      "n": 621,
+      "metrics": {
+        "rf": {
+          "mae": 0.5916351119092381,
+          "top10_recall": 0.4
+        },
+        "gp": {
+          "mae": 0.5531598472281782,
+          "top10_recall": 0.4
+        },
+        "chemeleon_rf": {
+          "mae": 0.6561578258234441,
+          "top10_recall": 0.5
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.6009765816423287,
+          "top10_recall": 0.3
+        },
+        "matched_random": {
+          "mae": 0.6362015618020385,
+          "top10_recall": 0.3
+        }
+      }
+    },
+    {
+      "task": "CHEMBL262_Ki",
+      "target": "CHEMBL262",
+      "n": 173,
+      "metrics": {
+        "rf": {
+          "mae": 0.5760641792019576,
+          "top10_recall": 0.6
+        },
+        "gp": {
+          "mae": 0.5807614538219684,
+          "top10_recall": 0.6
+        },
+        "chemeleon_rf": {
+          "mae": 0.639622309200552,
+          "top10_recall": 0.4
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.6366324865063134,
+          "top10_recall": 0.4
+        },
+        "matched_random": {
+          "mae": 0.8585662063934603,
+          "top10_recall": 0.2
+        }
+      }
+    },
+    {
+      "task": "CHEMBL264_Ki",
+      "target": "CHEMBL264",
+      "n": 574,
+      "metrics": {
+        "rf": {
+          "mae": 0.509357399527054,
+          "top10_recall": 0.6
+        },
+        "gp": {
+          "mae": 0.4807895757138423,
+          "top10_recall": 0.5
+        },
+        "chemeleon_rf": {
+          "mae": 0.5241686562303204,
+          "top10_recall": 0.4
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.46496024395827285,
+          "top10_recall": 0.6
+        },
+        "matched_random": {
+          "mae": 0.511579850308994,
+          "top10_recall": 0.5
+        }
+      }
+    },
+    {
+      "task": "CHEMBL2835_Ki",
+      "target": "CHEMBL2835",
+      "n": 126,
+      "metrics": {
+        "rf": {
+          "mae": 0.27649541286252644,
+          "top10_recall": 0.4
+        },
+        "gp": {
+          "mae": 0.27902448915791117,
+          "top10_recall": 0.2
+        },
+        "chemeleon_rf": {
+          "mae": 0.28268745559413433,
+          "top10_recall": 0.3
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.3304161974830003,
+          "top10_recall": 0.2
+        },
+        "matched_random": {
+          "mae": 0.39938031505192606,
+          "top10_recall": 0.1
+        }
+      }
+    },
+    {
+      "task": "CHEMBL287_Ki",
+      "target": "CHEMBL287",
+      "n": 267,
+      "metrics": {
+        "rf": {
+          "mae": 0.592403083413285,
+          "top10_recall": 0.3
+        },
+        "gp": {
+          "mae": 0.571281930794005,
+          "top10_recall": 0.2
+        },
+        "chemeleon_rf": {
+          "mae": 0.5875355771180881,
+          "top10_recall": 0.2
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.5287871374741866,
+          "top10_recall": 0.2
+        },
+        "matched_random": {
+          "mae": 0.6348419154781916,
+          "top10_recall": 0.1
+        }
+      }
+    },
+    {
+      "task": "CHEMBL2971_Ki",
+      "target": "CHEMBL2971",
+      "n": 197,
+      "metrics": {
+        "rf": {
+          "mae": 0.42534127064480814,
+          "top10_recall": 0.5
+        },
+        "gp": {
+          "mae": 0.4474289101247742,
+          "top10_recall": 0.2
+        },
+        "chemeleon_rf": {
+          "mae": 0.5180316917325095,
+          "top10_recall": 0.4
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.4336155628633222,
+          "top10_recall": 0.4
+        },
+        "matched_random": {
+          "mae": 0.7277766176202642,
+          "top10_recall": 0.2
+        }
+      }
+    },
+    {
+      "task": "CHEMBL3979_EC50",
+      "target": "CHEMBL3979",
+      "n": 226,
+      "metrics": {
+        "rf": {
+          "mae": 0.5219070534549072,
+          "top10_recall": 0.3
+        },
+        "gp": {
+          "mae": 0.49748019247627945,
+          "top10_recall": 0.3
+        },
+        "chemeleon_rf": {
+          "mae": 0.5562574723513117,
+          "top10_recall": 0.2
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.5041929521594263,
+          "top10_recall": 0.2
+        },
+        "matched_random": {
+          "mae": 0.5656496963051603,
+          "top10_recall": 0.2
+        }
+      }
+    },
+    {
+      "task": "CHEMBL4005_Ki",
+      "target": "CHEMBL4005",
+      "n": 193,
+      "metrics": {
+        "rf": {
+          "mae": 0.5250340780002141,
+          "top10_recall": 0.5
+        },
+        "gp": {
+          "mae": 0.5069025129356731,
+          "top10_recall": 0.5
+        },
+        "chemeleon_rf": {
+          "mae": 0.5607077786686377,
+          "top10_recall": 0.7
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.5193948871707074,
+          "top10_recall": 0.5
+        },
+        "matched_random": {
+          "mae": 0.5860715919770942,
+          "top10_recall": 0.7
+        }
+      }
+    },
+    {
+      "task": "CHEMBL4203_Ki",
+      "target": "CHEMBL4203",
+      "n": 149,
+      "metrics": {
+        "rf": {
+          "mae": 0.655176803278337,
+          "top10_recall": 0.3
+        },
+        "gp": {
+          "mae": 0.6515902382160459,
+          "top10_recall": 0.4
+        },
+        "chemeleon_rf": {
+          "mae": 0.7022689575815009,
+          "top10_recall": 0.4
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.6500309262500019,
+          "top10_recall": 0.3
+        },
+        "matched_random": {
+          "mae": 0.8578195456268908,
+          "top10_recall": 0.1
+        }
+      }
+    },
+    {
+      "task": "CHEMBL4616_EC50",
+      "target": "CHEMBL4616",
+      "n": 139,
+      "metrics": {
+        "rf": {
+          "mae": 0.5948624044683629,
+          "top10_recall": 0.4
+        },
+        "gp": {
+          "mae": 0.542855654760675,
+          "top10_recall": 0.3
+        },
+        "chemeleon_rf": {
+          "mae": 0.5899669271074408,
+          "top10_recall": 0.4
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.6454036508972091,
+          "top10_recall": 0.1
+        },
+        "matched_random": {
+          "mae": 0.7377871854886984,
+          "top10_recall": 0.0
+        }
+      }
+    },
+    {
+      "task": "CHEMBL4792_Ki",
+      "target": "CHEMBL4792",
+      "n": 297,
+      "metrics": {
+        "rf": {
+          "mae": 0.5677607898717579,
+          "top10_recall": 0.5
+        },
+        "gp": {
+          "mae": 0.49205840393196343,
+          "top10_recall": 0.4
+        },
+        "chemeleon_rf": {
+          "mae": 0.5988429825989932,
+          "top10_recall": 0.6
+        },
+        "chemeleon_finetuned": {
+          "mae": 0.438598593236772,
+          "top10_recall": 0.7
+        },
+        "matched_random": {
+          "mae": 0.5122294705912201,
+          "top10_recall": 0.5
+        }
+      }
+    }
+  ],
+  "original_comparisons": {
+    "gp": {
+      "mae": {
+        "mean_difference": -0.02311764360659329,
+        "ci95": [
+          -0.03356313717116934,
+          -0.013331783493353781
+        ]
+      },
+      "top10_recall": {
+        "mean_difference": -0.023333333333333327,
+        "ci95": [
+          -0.06551724137931034,
+          0.020689655172413803
+        ]
+      }
+    },
+    "chemeleon_rf": {
+      "mae": {
+        "mean_difference": 0.03270803773740817,
+        "ci95": [
+          0.020580217148513023,
+          0.04385078140973666
+        ]
+      },
+      "top10_recall": {
+        "mean_difference": -0.013333333333333332,
+        "ci95": [
+          -0.055172413793103454,
+          0.02903225806451612
+        ]
+      }
+    },
+    "chemeleon_finetuned": {
+      "mae": {
+        "mean_difference": -0.024366543971198928,
+        "ci95": [
+          -0.04215554073248462,
+          -0.007748388769664708
+        ]
+      },
+      "top10_recall": {
+        "mean_difference": -0.0066666666666666706,
+        "ci95": [
+          -0.06333333333333334,
+          0.05333333333333332
+        ]
+      }
+    }
+  },
+  "scope": "Development experiments tried sequentially on the same benchmark, one fit per task. Target-cluster intervals use 29 clusters; two endpoints for CHEMBL237 stay together. Random-minus-RF interval is a descriptive post-score summary."
+}

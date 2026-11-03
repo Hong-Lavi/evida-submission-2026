@@ -1,0 +1,75 @@
+{
+  "blind_id": "B07",
+  "case_id": "P4_actual_prior_prediction_record",
+  "primary_result": "pass",
+  "assigned_instance": "p4-assigned/prior-check and the exact P4 fixture measurement remain fixed.",
+  "declared_chronology": "previously_recorded, explicitly preserving original prospective origin at event 7 before outcome event 10",
+  "criteria": [
+    {
+      "id": "P4.1",
+      "status": "pass",
+      "reason": "Cites the actual prior fixture and correct event order for the same instance.",
+      "evidence": [
+        {
+          "quote": "prior-check는 p4-assigned의 별칭이며 동일한 P4_actual_prior_prediction_record-instance를 가리킨다. prior_prediction_P4는 사건 7에 기록·공개되었고, 결과 0은 사건 10에 공개되었으며 현재 검토는 사건 12이다.",
+          "json_pointer": "/hypothesis_review/observations/0/validity_requirements/0",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "1b6ecc1e6b841c48766e27681cecbffe3b240951eadf8bbddb04c74eb914ebc4"
+        }
+      ]
+    },
+    {
+      "id": "P4.2",
+      "status": "pass",
+      "reason": "Preserves the original hA [0], hB [1], complete coverage and prospective origins while explaining that current reuse is previously_recorded.",
+      "evidence": [
+        {
+          "quote": "prior_prediction_P4의 사건 7 기록은 outcome_indices=[0], coverage=complete, origin=prospective이며 원 rationale은 Unchanged earlier expectation under the scenario conditions.이다.",
+          "json_pointer": "/hypothesis_review/observations/0/predictions/0/rationale",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "8787de413d5d3b0ba119eea46e980ef02d2d18df7afed8bba5f46ffb4f5d648e"
+        },
+        {
+          "quote": "prior_prediction_P4의 사건 7 기록은 outcome_indices=[1], coverage=complete, origin=prospective이며 원 rationale은 Unchanged earlier expectation under the scenario conditions.이다.",
+          "json_pointer": "/hypothesis_review/observations/0/predictions/1/rationale",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "4b06f2e5eb5dbabf9b043030ab289977ed3dc3df56de5365c0d1fb0026de28bb"
+        }
+      ]
+    },
+    {
+      "id": "P4.3",
+      "status": "pass",
+      "reason": "Explicitly refuses to broaden the hB prediction after seeing outcome 0 and keeps broad biological coexistence distinct from the fixed narrow forecast.",
+      "evidence": [
+        {
+          "quote": "결과를 본 뒤 [0,1]로 넓히지 않는다. 다만 광범위한 병렬·공존 기여 자체는 이 좁은 예측과 동일하지 않아 전면 기각되지 않는다.",
+          "json_pointer": "/hypothesis_review/observations/0/predictions/1/rationale",
+          "answer_line_start": 1,
+          "answer_line_end": 1,
+          "quote_utf8_sha256": "292211049d3ae29eca5e332251302066fb619d88dafcb9ae97f733d56feee862"
+        }
+      ]
+    }
+  ],
+  "failure_conditions_observed": [],
+  "prior_record_assessment": "Actual record source ID and original forecast retained; the separate outcome is not retroactively inserted into the event-7 document.",
+  "source_and_causal_assessment": "Synthetic forecast correspondence is kept separate from actual MKP1 causality or drug efficacy. Literature counterevidence and unknown measurement controls remain visible.",
+  "ambiguities": [
+    "adequate_measurement is explicitly a conditional interpretation, not proof that the scenario supplied real measurement quality evidence."
+  ],
+  "review_scope_limit": "This is record and chronology assessment under synthetic event ordering, not experimental validation.",
+  "reviewed_at_utc": "2026-10-10T22:46:35.201039+00:00",
+  "criterion_interpretation_sha256": "bbec185cb660b34a2943a5b4f698a20677164ab9e08c6508625aaba01744726a",
+  "visible_case_sha256": "838c4c4379a3d604b1c88abd73a6f17882c5d24875c01cfc5207ee66ad5f881b",
+  "answer_sha256": "05f12df5a605013717c81fcbe2ba7ace2388bcd25b64840012636bfdef25ab3d",
+  "visible_structure_only": "parseable JSON; native schema/dispatch not independently assessed",
+  "native_schema_validity": "not independently assessed under permitted blinded input scope",
+  "arm_identity_known": false,
+  "key_opened": false,
+  "manual_semantic_judgment": true,
+  "automated_semantic_grading": false
+}

@@ -1,0 +1,45 @@
+{
+  "status": "PASS",
+  "relocated_verification": {
+    "status": "PASS",
+    "exported_artifacts": 2355,
+    "source_function_parity_records": 40,
+    "tasks": 30,
+    "gold_source_csv_identity_rows": 9802,
+    "unlicensed_qpo_author_code_included": false,
+    "posterior_npz_included": 30,
+    "model_calls": 0,
+    "GPU": false
+  },
+  "relocated_recomputation": {
+    "status": "PASS",
+    "attempts": [
+      {
+        "attempt": "acquisition-01",
+        "selection_rows": 3600,
+        "raw_metric_values": 28800,
+        "summaries": 24,
+        "paired_intervals": 1008,
+        "maximum_numeric_error": 3.552713678800501e-15,
+        "all_complete": true
+      },
+      {
+        "attempt": "acquisition-02",
+        "selection_rows": 3600,
+        "raw_metric_values": 28800,
+        "summaries": 24,
+        "paired_intervals": 1008,
+        "maximum_numeric_error": 3.552713678800501e-15,
+        "all_complete": true
+      }
+    ],
+    "all_scientific_rows_summaries_intervals_identical_between_attempts": true,
+    "tolerance": 1e-12,
+    "implementation": "Independent sorting/counting and per-task expanded cluster bootstrap; original score functions not imported.",
+    "scope": "Offline metric recomputation from packaged labels and selections; no refit, sampling rerun, provider, network or GPU calls."
+  },
+  "tampered_posterior_rejected": true,
+  "actual_selection_replayed_during_packaging": false,
+  "model_calls": 0,
+  "GPU": false
+}

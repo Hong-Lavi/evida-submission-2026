@@ -1,0 +1,109 @@
+{
+  "status": "PASS",
+  "synthetic_fixture": true,
+  "biological_labels": false,
+  "official_benchmark_data_used": false,
+  "model_calls": 0,
+  "arms": [
+    {
+      "arm": "pretrained",
+      "status": "PASS",
+      "validation_predictions": [
+        0.9015030264854431,
+        0.9014884829521179,
+        0.9019288420677185,
+        0.8969454765319824
+      ],
+      "predictions": [
+        0.8731130361557007,
+        0.8885310888290405,
+        0.8946986198425293,
+        0.9109852313995361
+      ],
+      "fit": {
+        "pretrained": true,
+        "seed": 20260930,
+        "epochs_completed": 1,
+        "maximum_epochs": 1,
+        "best_validation_loss": 6.866911888122559,
+        "best_checkpoint_sha256": "637620044b19c7b59a8e27d9f526bbb0ddc4dcdff676ec78fe54a4b8cd2a3ec1",
+        "initial_encoder_sha256": "5915c012b04675e0334a564a34f8865584daaad89d283e1615d20606f93d96ff",
+        "fitted_encoder_sha256": "b3f346e04a76b0cd4692f8e9e50697da33b706b10f2e42fdbf524da601887572",
+        "initial_head_sha256": "d9c265603843d0b6f36fd0a094c67f4aab30985bdeec912990928c729f3e0619",
+        "fit_seconds": 0.9161503039649688,
+        "training_rows": 8,
+        "validation_rows": 4,
+        "prediction_rows": 4,
+        "batch_size": 4,
+        "target_scaler": {
+          "mean": [
+            0.875
+          ],
+          "scale": [
+            0.57282196186948
+          ]
+        },
+        "device": "NVIDIA RTX A5000",
+        "GPU_used": true,
+        "maximum_allocated_bytes": 251911680,
+        "versions": {
+          "torch": "2.7.1+cu118",
+          "chemprop": "2.3.1",
+          "lightning": "2.6.6",
+          "numpy": "2.5.3",
+          "rdkit": "2026.3.6"
+        }
+      }
+    },
+    {
+      "arm": "matched_random",
+      "status": "PASS",
+      "validation_predictions": [
+        1.0054900646209717,
+        1.0194183588027954,
+        1.0188058614730835,
+        1.0294718742370605
+      ],
+      "predictions": [
+        1.0451716184616089,
+        1.048689365386963,
+        0.9836196899414062,
+        1.0019663572311401
+      ],
+      "fit": {
+        "pretrained": false,
+        "seed": 20260930,
+        "epochs_completed": 1,
+        "maximum_epochs": 1,
+        "best_validation_loss": 5.834312438964844,
+        "best_checkpoint_sha256": "53faf52cefd9f7ffcec4d6029e96c6cb94c4d78a3d7d3b02a4011d9435f7ed5f",
+        "initial_encoder_sha256": "42c604062c287e6b9560a3fb117dfb8583950acf1225f07f98646b02a06ed4bb",
+        "fitted_encoder_sha256": "84ef6da3cff33ffd5bc117d33936564c389f461b78da3d92090c0e6b77fd0fbd",
+        "initial_head_sha256": "d9c265603843d0b6f36fd0a094c67f4aab30985bdeec912990928c729f3e0619",
+        "fit_seconds": 0.37438513501547277,
+        "training_rows": 8,
+        "validation_rows": 4,
+        "prediction_rows": 4,
+        "batch_size": 4,
+        "target_scaler": {
+          "mean": [
+            0.875
+          ],
+          "scale": [
+            0.57282196186948
+          ]
+        },
+        "device": "NVIDIA RTX A5000",
+        "GPU_used": true,
+        "maximum_allocated_bytes": 362785280,
+        "versions": {
+          "torch": "2.7.1+cu118",
+          "chemprop": "2.3.1",
+          "lightning": "2.6.6",
+          "numpy": "2.5.3",
+          "rdkit": "2026.3.6"
+        }
+      }
+    }
+  ]
+}

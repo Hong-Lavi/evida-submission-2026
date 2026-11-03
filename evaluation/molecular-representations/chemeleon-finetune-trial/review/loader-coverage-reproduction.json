@@ -1,0 +1,33 @@
+{
+  "scope": "193 identical synthetic ethane structures; loader iteration only, no neural model or GPU.",
+  "source": "execution-environment/site-packages/chemprop/data/dataloader.py",
+  "source_sha256": "ead35618e19edddd73e615f0b37abf7acd59d42577f12bbd7d20dd78068fa926",
+  "observations": [
+    {
+      "condition": "native_default",
+      "dataset_rows": 193,
+      "drop_last": true,
+      "batches": [
+        64,
+        64,
+        64
+      ],
+      "predicted_row_capacity": 192
+    },
+    {
+      "condition": "explicit_drop_last_false",
+      "dataset_rows": 193,
+      "drop_last": false,
+      "batches": [
+        64,
+        64,
+        64,
+        1
+      ],
+      "predicted_row_capacity": 193
+    }
+  ],
+  "training_runs": 0,
+  "gpu_used": false,
+  "network_calls": 0
+}

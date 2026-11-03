@@ -1,0 +1,4705 @@
+{
+  "task": "CHEMBL214_Ki",
+  "status": "completed",
+  "at": "2026-10-10T21:31:19.542250+00:00",
+  "gpu_used": false,
+  "test_gold_read": false,
+  "training_rows": 1989,
+  "inner_held_out_rows": 662,
+  "test_rows": 666,
+  "training_mean": 7.340536953242835,
+  "inner_mean_mae": 0.9443048010280105,
+  "native_rf": {
+    "usable": true,
+    "inner_mae": 0.6714959201303481,
+    "fit_seconds": 23.200067249999847
+  },
+  "author_gp": {
+    "usable": true,
+    "inner_mae": 0.6474535568232331,
+    "inner_spearman": 0.684,
+    "center": 7.340536953242835,
+    "scale": 1.134437776674983,
+    "fit_seconds": 4.540040416002739,
+    "optimization": {
+      "status": "OptimizationStatus.SUCCESS",
+      "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+      "fval": 0.9199232998971707,
+      "runtime": 4.539720583008602,
+      "step": 7,
+      "converged": true
+    },
+    "parameters_standardized": {
+      "outputscale": 0.8184927186970993,
+      "noise": 0.11359430883230906,
+      "mean": -0.9154696447097178
+    }
+  },
+  "selected_policy_arm": "gp",
+  "train_matrix_sha256": "e51dbcff4b0bda5240f81edb6d4730b4dee11ba3b313a0dfa82bf776923711ff",
+  "train_labels_sha256": "18a9636fd629ed3f6dee5221f65a60e3039b898fd7aefa60353693b50a46c16c",
+  "rows": [
+    {
+      "candidate_id": "CHEMBL214_Ki:2",
+      "rf_prediction": 6.546232059523817,
+      "gp_prediction": 6.478359140970252,
+      "gp_latent_std": 0.6928740227128787,
+      "gp_observation_std": 0.7913687518233806
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:7",
+      "rf_prediction": 7.004284888888886,
+      "gp_prediction": 6.701958845132536,
+      "gp_latent_std": 0.8224644228246586,
+      "gp_observation_std": 0.9069938350531757
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:9",
+      "rf_prediction": 7.234304064814813,
+      "gp_prediction": 7.222822355899226,
+      "gp_latent_std": 0.788863958927165,
+      "gp_observation_std": 0.8766392848295177
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:15",
+      "rf_prediction": 8.436253615079368,
+      "gp_prediction": 8.368082417608578,
+      "gp_latent_std": 0.354857594386447,
+      "gp_observation_std": 0.5216454756881389
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:23",
+      "rf_prediction": 7.249050005291005,
+      "gp_prediction": 7.05434665806986,
+      "gp_latent_std": 0.7822823549096899,
+      "gp_observation_std": 0.8707214094159043
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:26",
+      "rf_prediction": 7.17810197883598,
+      "gp_prediction": 7.22139186586412,
+      "gp_latent_std": 0.5167741044190111,
+      "gp_observation_std": 0.6428417884753911
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:36",
+      "rf_prediction": 6.654718321428569,
+      "gp_prediction": 6.943740517046576,
+      "gp_latent_std": 0.7410398280471917,
+      "gp_observation_std": 0.8338645673995148
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:46",
+      "rf_prediction": 8.328192133597879,
+      "gp_prediction": 8.339758066323093,
+      "gp_latent_std": 0.3072497908971877,
+      "gp_observation_std": 0.4905023180562291
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:56",
+      "rf_prediction": 7.8458236423761445,
+      "gp_prediction": 7.92116435730795,
+      "gp_latent_std": 0.3416633665864638,
+      "gp_observation_std": 0.5127611003960469
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:59",
+      "rf_prediction": 7.893507276455028,
+      "gp_prediction": 6.981623858779826,
+      "gp_latent_std": 0.8377649636315798,
+      "gp_observation_std": 0.9208909947984021
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:65",
+      "rf_prediction": 7.500866932539686,
+      "gp_prediction": 7.983243977145112,
+      "gp_latent_std": 0.5724002063844971,
+      "gp_observation_std": 0.6883546224738986
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:68",
+      "rf_prediction": 7.365472818783068,
+      "gp_prediction": 7.376020156203915,
+      "gp_latent_std": 0.7092083893147075,
+      "gp_observation_std": 0.805708774611851
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:76",
+      "rf_prediction": 6.496430527777775,
+      "gp_prediction": 6.837418260266979,
+      "gp_latent_std": 0.7146398868474517,
+      "gp_observation_std": 0.8104938358096916
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:77",
+      "rf_prediction": 7.474064313492067,
+      "gp_prediction": 7.948015034808943,
+      "gp_latent_std": 0.5939294447712608,
+      "gp_observation_std": 0.706358460966149
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:78",
+      "rf_prediction": 7.740976750000002,
+      "gp_prediction": 8.017697855420574,
+      "gp_latent_std": 0.7792425021853394,
+      "gp_observation_std": 0.8679913405237619
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:79",
+      "rf_prediction": 7.241807540524293,
+      "gp_prediction": 7.317703743227061,
+      "gp_latent_std": 0.37726420353824025,
+      "gp_observation_std": 0.537139059539996
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:83",
+      "rf_prediction": 7.455565679894176,
+      "gp_prediction": 7.5050161760488425,
+      "gp_latent_std": 0.34958766458135626,
+      "gp_observation_std": 0.5180749224191569
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:91",
+      "rf_prediction": 8.172672617724862,
+      "gp_prediction": 8.031450354028518,
+      "gp_latent_std": 0.5227015073661686,
+      "gp_observation_std": 0.647616364690573
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:93",
+      "rf_prediction": 7.62248875781626,
+      "gp_prediction": 7.627681240001116,
+      "gp_latent_std": 0.2894597713314436,
+      "gp_observation_std": 0.479559223904014
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:99",
+      "rf_prediction": 6.462834742063489,
+      "gp_prediction": 6.709858410102354,
+      "gp_latent_std": 0.7569718264755111,
+      "gp_observation_std": 0.8480545006600931
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:107",
+      "rf_prediction": 7.637787866402118,
+      "gp_prediction": 6.694396489949277,
+      "gp_latent_std": 0.7099737264101884,
+      "gp_observation_std": 0.8063825284596249
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:108",
+      "rf_prediction": 7.399676819624823,
+      "gp_prediction": 7.460666533086801,
+      "gp_latent_std": 0.40951621954652784,
+      "gp_observation_std": 0.5602621030230838
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:125",
+      "rf_prediction": 7.12601102910052,
+      "gp_prediction": 7.334052412914922,
+      "gp_latent_std": 0.7421759077756265,
+      "gp_observation_std": 0.8348743426975964
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:130",
+      "rf_prediction": 7.856834969576711,
+      "gp_prediction": 7.674988845492325,
+      "gp_latent_std": 0.549232330195303,
+      "gp_observation_std": 0.6692131518013755
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:131",
+      "rf_prediction": 7.86973763492063,
+      "gp_prediction": 7.616407417053034,
+      "gp_latent_std": 0.5267469061226976,
+      "gp_observation_std": 0.6508858526055108
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:135",
+      "rf_prediction": 7.604072587301585,
+      "gp_prediction": 7.913233696834858,
+      "gp_latent_std": 0.3282507839716031,
+      "gp_observation_std": 0.5039232751026099
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:139",
+      "rf_prediction": 7.628526337301586,
+      "gp_prediction": 7.828218136947957,
+      "gp_latent_std": 0.5074481515008857,
+      "gp_observation_std": 0.635368960898968
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:152",
+      "rf_prediction": 7.675269338624336,
+      "gp_prediction": 7.3612630932351415,
+      "gp_latent_std": 0.5689792725859697,
+      "gp_observation_std": 0.6855125838703675
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:156",
+      "rf_prediction": 7.861483789682543,
+      "gp_prediction": 8.005617666579118,
+      "gp_latent_std": 0.6310470701570152,
+      "gp_observation_std": 0.7378417816618421
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:157",
+      "rf_prediction": 7.509105422438673,
+      "gp_prediction": 7.649747606508283,
+      "gp_latent_std": 0.6075659777715188,
+      "gp_observation_std": 0.7178624571306332
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:174",
+      "rf_prediction": 6.926436982924482,
+      "gp_prediction": 6.506774382230314,
+      "gp_latent_std": 0.746308034603796,
+      "gp_observation_std": 0.8385498032474573
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:181",
+      "rf_prediction": 6.513475583333329,
+      "gp_prediction": 6.779507713758565,
+      "gp_latent_std": 0.2363265363346847,
+      "gp_observation_std": 0.44948895624711144
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:182",
+      "rf_prediction": 6.886367669312173,
+      "gp_prediction": 7.357463122762571,
+      "gp_latent_std": 0.5704288704311434,
+      "gp_observation_std": 0.6867162341415258
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:183",
+      "rf_prediction": 7.832672739417988,
+      "gp_prediction": 7.78377273982626,
+      "gp_latent_std": 0.5495501384912672,
+      "gp_observation_std": 0.6694740060136312
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:185",
+      "rf_prediction": 7.004508974987973,
+      "gp_prediction": 6.813353906183602,
+      "gp_latent_std": 0.7544274916843606,
+      "gp_observation_std": 0.8457842101986325
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:186",
+      "rf_prediction": 7.308742020442514,
+      "gp_prediction": 7.3388090047888195,
+      "gp_latent_std": 0.8366797020925143,
+      "gp_observation_std": 0.919903806876451
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:187",
+      "rf_prediction": 7.7359031455026415,
+      "gp_prediction": 7.563027019900209,
+      "gp_latent_std": 0.5155859616395329,
+      "gp_observation_std": 0.6418870413491228
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:190",
+      "rf_prediction": 8.441666052910055,
+      "gp_prediction": 8.52479977515068,
+      "gp_latent_std": 0.5531523649699269,
+      "gp_observation_std": 0.6724341074662943
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:203",
+      "rf_prediction": 6.871704328162577,
+      "gp_prediction": 7.121415984382005,
+      "gp_latent_std": 0.4387257095274182,
+      "gp_observation_std": 0.5819538969819732
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:211",
+      "rf_prediction": 8.23834758151108,
+      "gp_prediction": 8.503799376551855,
+      "gp_latent_std": 0.5153138187580478,
+      "gp_observation_std": 0.6416684672127584
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:213",
+      "rf_prediction": 6.567174219576719,
+      "gp_prediction": 6.033186140702515,
+      "gp_latent_std": 0.6728208501337253,
+      "gp_observation_std": 0.7738720736574213
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:218",
+      "rf_prediction": 7.302565539682538,
+      "gp_prediction": 7.387004257144565,
+      "gp_latent_std": 0.5410912932905094,
+      "gp_observation_std": 0.6625480191555663
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:227",
+      "rf_prediction": 8.067904428571431,
+      "gp_prediction": 8.33255493131673,
+      "gp_latent_std": 0.7216680088539892,
+      "gp_observation_std": 0.8166974990872997
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:235",
+      "rf_prediction": 6.701411238095248,
+      "gp_prediction": 7.21030906719272,
+      "gp_latent_std": 0.4569287778407845,
+      "gp_observation_std": 0.5957969436236155
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:237",
+      "rf_prediction": 7.6329204047619,
+      "gp_prediction": 7.396096355067539,
+      "gp_latent_std": 0.5337721330293341,
+      "gp_observation_std": 0.6565841758760668
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:238",
+      "rf_prediction": 7.024017220899466,
+      "gp_prediction": 6.728972122396204,
+      "gp_latent_std": 0.5875270424176723,
+      "gp_observation_std": 0.7009836771168255
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:245",
+      "rf_prediction": 6.268833916666666,
+      "gp_prediction": 5.69958529101927,
+      "gp_latent_std": 0.6233618316187524,
+      "gp_observation_std": 0.7312797434164673
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:249",
+      "rf_prediction": 7.053020571428569,
+      "gp_prediction": 7.07318210047802,
+      "gp_latent_std": 0.49637005024806613,
+      "gp_observation_std": 0.6265567147477045
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:250",
+      "rf_prediction": 6.76837298677249,
+      "gp_prediction": 6.628488321574963,
+      "gp_latent_std": 0.8517464431468514,
+      "gp_observation_std": 0.9336284557710745
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:254",
+      "rf_prediction": 5.997796563492057,
+      "gp_prediction": 5.682343369826791,
+      "gp_latent_std": 0.5446497037943732,
+      "gp_observation_std": 0.6654572787606031
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:260",
+      "rf_prediction": 7.628554898148154,
+      "gp_prediction": 7.8985650903056674,
+      "gp_latent_std": 0.5268528556520842,
+      "gp_observation_std": 0.6509715980908264
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:264",
+      "rf_prediction": 7.490852244708996,
+      "gp_prediction": 7.128417188641476,
+      "gp_latent_std": 0.6868424857498516,
+      "gp_observation_std": 0.7860933088655594
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:265",
+      "rf_prediction": 7.390491170634925,
+      "gp_prediction": 6.757755955927163,
+      "gp_latent_std": 0.8458927510248132,
+      "gp_observation_std": 0.9282912453796466
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:267",
+      "rf_prediction": 8.008287093915342,
+      "gp_prediction": 7.7860515540372575,
+      "gp_latent_std": 0.7123574906636873,
+      "gp_observation_std": 0.8084820867012663
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:272",
+      "rf_prediction": 7.863410305074558,
+      "gp_prediction": 7.9752745403080505,
+      "gp_latent_std": 0.35094379541877946,
+      "gp_observation_std": 0.5189909802251931
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:273",
+      "rf_prediction": 7.874556499519003,
+      "gp_prediction": 7.989388412136029,
+      "gp_latent_std": 0.3794793812497938,
+      "gp_observation_std": 0.538697216259649
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:280",
+      "rf_prediction": 7.554542461640218,
+      "gp_prediction": 7.616428058742462,
+      "gp_latent_std": 0.34152114542121387,
+      "gp_observation_std": 0.5126663464496051
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:281",
+      "rf_prediction": 6.683560474867719,
+      "gp_prediction": 6.6793681425749565,
+      "gp_latent_std": 0.7984841119282674,
+      "gp_observation_std": 0.8853061431019456
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:283",
+      "rf_prediction": 6.793110133597886,
+      "gp_prediction": 7.001247763386742,
+      "gp_latent_std": 0.8214662168811869,
+      "gp_observation_std": 0.9060887569599668
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:290",
+      "rf_prediction": 6.960070465608469,
+      "gp_prediction": 7.52388825872749,
+      "gp_latent_std": 0.8247085659343915,
+      "gp_observation_std": 0.9090293222650901
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:299",
+      "rf_prediction": 8.180725678571426,
+      "gp_prediction": 8.133226194440576,
+      "gp_latent_std": 0.3979007951409747,
+      "gp_observation_std": 0.5518288981070025
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:317",
+      "rf_prediction": 7.812007165343924,
+      "gp_prediction": 7.615576874144479,
+      "gp_latent_std": 0.6602089734923656,
+      "gp_observation_std": 0.7629324863262881
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:324",
+      "rf_prediction": 8.010313087301583,
+      "gp_prediction": 8.068260806656689,
+      "gp_latent_std": 0.5588609512780877,
+      "gp_observation_std": 0.6771378389040282
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:325",
+      "rf_prediction": 8.071281107142852,
+      "gp_prediction": 8.036699445072761,
+      "gp_latent_std": 0.49035615314234116,
+      "gp_observation_std": 0.6218032220379078
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:330",
+      "rf_prediction": 8.3113070515873,
+      "gp_prediction": 7.922518168384356,
+      "gp_latent_std": 0.6217458244667691,
+      "gp_observation_std": 0.729902706019118
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:343",
+      "rf_prediction": 8.317910474867729,
+      "gp_prediction": 8.577716536829614,
+      "gp_latent_std": 0.48395353075759456,
+      "gp_observation_std": 0.6167666576144584
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:353",
+      "rf_prediction": 8.14971916005291,
+      "gp_prediction": 7.897400705643302,
+      "gp_latent_std": 0.6201651477068886,
+      "gp_observation_std": 0.7285567242449111
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:355",
+      "rf_prediction": 7.833225487614242,
+      "gp_prediction": 7.728307080857776,
+      "gp_latent_std": 0.3783214048632694,
+      "gp_observation_std": 0.5378821203478383
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:356",
+      "rf_prediction": 8.4574524537037,
+      "gp_prediction": 8.554016863093814,
+      "gp_latent_std": 0.4565615796790657,
+      "gp_observation_std": 0.5955153785178117
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:364",
+      "rf_prediction": 8.18955257010583,
+      "gp_prediction": 8.256810455011774,
+      "gp_latent_std": 0.4326677822914851,
+      "gp_observation_std": 0.5774006406691983
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:369",
+      "rf_prediction": 7.873041956349213,
+      "gp_prediction": 7.636518014356376,
+      "gp_latent_std": 0.5938087173241415,
+      "gp_observation_std": 0.7062569523780355
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:371",
+      "rf_prediction": 6.456665208994706,
+      "gp_prediction": 7.101507334717807,
+      "gp_latent_std": 0.7690412612329743,
+      "gp_observation_std": 0.8588448937328396
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:373",
+      "rf_prediction": 6.372365325396828,
+      "gp_prediction": 5.838517004422901,
+      "gp_latent_std": 0.7298939259064537,
+      "gp_observation_std": 0.8239752624243669
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:376",
+      "rf_prediction": 6.7415406216931215,
+      "gp_prediction": 6.510765385325926,
+      "gp_latent_std": 0.7575207092341584,
+      "gp_observation_std": 0.8485444684462864
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:380",
+      "rf_prediction": 6.66409112962963,
+      "gp_prediction": 6.411585515328663,
+      "gp_latent_std": 0.7928911194621922,
+      "gp_observation_std": 0.8802649699574424
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:381",
+      "rf_prediction": 6.590024939153444,
+      "gp_prediction": 6.237470476576576,
+      "gp_latent_std": 0.7140574962360878,
+      "gp_observation_std": 0.809980368862801
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:383",
+      "rf_prediction": 8.723442898148152,
+      "gp_prediction": 8.432126312600596,
+      "gp_latent_std": 0.502436969414132,
+      "gp_observation_std": 0.6313738973431084
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:396",
+      "rf_prediction": 7.980498047619052,
+      "gp_prediction": 8.552019657481061,
+      "gp_latent_std": 0.5664784951919247,
+      "gp_observation_std": 0.6834383480073942
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:413",
+      "rf_prediction": 7.676490186507936,
+      "gp_prediction": 7.779439264435641,
+      "gp_latent_std": 0.6981299496243928,
+      "gp_observation_std": 0.7959745703065683
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:415",
+      "rf_prediction": 6.88077503174603,
+      "gp_prediction": 6.828990019544764,
+      "gp_latent_std": 0.5909600980738283,
+      "gp_observation_std": 0.7038635716725206
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:418",
+      "rf_prediction": 7.57680403042328,
+      "gp_prediction": 7.811824684427725,
+      "gp_latent_std": 0.6793908202673123,
+      "gp_observation_std": 0.7795909034074604
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:420",
+      "rf_prediction": 7.423578000962008,
+      "gp_prediction": 7.454701494829799,
+      "gp_latent_std": 0.5240497907845516,
+      "gp_observation_std": 0.648705074154273
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:423",
+      "rf_prediction": 7.8801756097883615,
+      "gp_prediction": 7.9213079956106345,
+      "gp_latent_std": 0.5877572064980103,
+      "gp_observation_std": 0.7011765995828108
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:428",
+      "rf_prediction": 6.357274379148629,
+      "gp_prediction": 6.6540215227458654,
+      "gp_latent_std": 0.7894036335071632,
+      "gp_observation_std": 0.8771249549559517
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:431",
+      "rf_prediction": 7.463390176887931,
+      "gp_prediction": 7.385514566524102,
+      "gp_latent_std": 0.5319453417303429,
+      "gp_observation_std": 0.6550999439786114
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:433",
+      "rf_prediction": 6.5208602759740275,
+      "gp_prediction": 6.724142858774696,
+      "gp_latent_std": 0.7645273338620725,
+      "gp_observation_std": 0.8548053194935192
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:438",
+      "rf_prediction": 7.428337523689276,
+      "gp_prediction": 7.4538364485245285,
+      "gp_latent_std": 0.6272601660269203,
+      "gp_observation_std": 0.734605612486243
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:452",
+      "rf_prediction": 7.133088691798943,
+      "gp_prediction": 6.996068492820425,
+      "gp_latent_std": 0.6760144223717651,
+      "gp_observation_std": 0.7766502361209966
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:457",
+      "rf_prediction": 7.682794232804236,
+      "gp_prediction": 7.147816026400163,
+      "gp_latent_std": 0.7813912628030419,
+      "gp_observation_std": 0.8699209134151801
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:461",
+      "rf_prediction": 7.519965908730155,
+      "gp_prediction": 8.23700158605795,
+      "gp_latent_std": 0.6921508269811729,
+      "gp_observation_std": 0.7907356431215745
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:462",
+      "rf_prediction": 6.932714357142859,
+      "gp_prediction": 6.965639093006277,
+      "gp_latent_std": 0.4856717753822193,
+      "gp_observation_std": 0.6181158171532949
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:463",
+      "rf_prediction": 7.277744925925928,
+      "gp_prediction": 7.416975390005936,
+      "gp_latent_std": 0.6068577683308519,
+      "gp_observation_std": 0.7172631602108605
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:464",
+      "rf_prediction": 7.002368956349208,
+      "gp_prediction": 6.98909163628289,
+      "gp_latent_std": 0.4596002762243782,
+      "gp_observation_std": 0.597848228163046
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:466",
+      "rf_prediction": 7.292471506493506,
+      "gp_prediction": 7.125592412088811,
+      "gp_latent_std": 0.4662797480504839,
+      "gp_observation_std": 0.6029982532762357
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:468",
+      "rf_prediction": 7.804313390211637,
+      "gp_prediction": 8.18286816824125,
+      "gp_latent_std": 0.6859726364255846,
+      "gp_observation_std": 0.7853333992240722
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:475",
+      "rf_prediction": 7.970443000000003,
+      "gp_prediction": 7.751188315122921,
+      "gp_latent_std": 0.7805828141136423,
+      "gp_observation_std": 0.8691948111336961
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:476",
+      "rf_prediction": 7.172772444324199,
+      "gp_prediction": 7.005141365996795,
+      "gp_latent_std": 0.36853312102022234,
+      "gp_observation_std": 0.5310430785737391
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:479",
+      "rf_prediction": 6.742435861111116,
+      "gp_prediction": 6.661827486384257,
+      "gp_latent_std": 0.5483054440770597,
+      "gp_observation_std": 0.6684526535340483
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:485",
+      "rf_prediction": 7.21016375793651,
+      "gp_prediction": 7.11704182280281,
+      "gp_latent_std": 0.3773637231129527,
+      "gp_observation_std": 0.5372089626335713
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:490",
+      "rf_prediction": 9.075477826719574,
+      "gp_prediction": 9.22760382973758,
+      "gp_latent_std": 0.41306589768575147,
+      "gp_observation_std": 0.5628619065482263
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:505",
+      "rf_prediction": 7.121633899470895,
+      "gp_prediction": 7.798866705930512,
+      "gp_latent_std": 0.75048701396412,
+      "gp_observation_std": 0.842271243805076
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:506",
+      "rf_prediction": 6.804044189153442,
+      "gp_prediction": 6.491908593063281,
+      "gp_latent_std": 0.7537106616112121,
+      "gp_observation_std": 0.8451448700894892
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:508",
+      "rf_prediction": 8.846965507936503,
+      "gp_prediction": 8.436153127674089,
+      "gp_latent_std": 0.5939786587401468,
+      "gp_observation_std": 0.7063998421934368
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:519",
+      "rf_prediction": 6.196143734126988,
+      "gp_prediction": 6.243595270451305,
+      "gp_latent_std": 0.7080119370979168,
+      "gp_observation_std": 0.8046558227498966
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:520",
+      "rf_prediction": 7.244069869047618,
+      "gp_prediction": 7.522059846237468,
+      "gp_latent_std": 0.8087572372544746,
+      "gp_observation_std": 0.894582784779396
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:532",
+      "rf_prediction": 7.947324883597883,
+      "gp_prediction": 8.141338255587497,
+      "gp_latent_std": 0.7010781254832843,
+      "gp_observation_std": 0.7985615994044067
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:536",
+      "rf_prediction": 7.898332497354495,
+      "gp_prediction": 7.713380937327107,
+      "gp_latent_std": 0.5276103893320211,
+      "gp_observation_std": 0.6515848470792239
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:537",
+      "rf_prediction": 7.34208032936508,
+      "gp_prediction": 6.989820050887579,
+      "gp_latent_std": 0.3649533926505498,
+      "gp_observation_std": 0.5285651036715487
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:538",
+      "rf_prediction": 7.567071884920633,
+      "gp_prediction": 7.266690642019769,
+      "gp_latent_std": 0.5536007687669313,
+      "gp_observation_std": 0.6728030181200929
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:546",
+      "rf_prediction": 7.269939886002882,
+      "gp_prediction": 7.019859488917169,
+      "gp_latent_std": 0.5258168628944212,
+      "gp_observation_std": 0.6501334196273093
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:548",
+      "rf_prediction": 7.8759821746031715,
+      "gp_prediction": 7.315927561865359,
+      "gp_latent_std": 0.3965059146083251,
+      "gp_observation_std": 0.5508239558439275
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:552",
+      "rf_prediction": 7.3124500806878325,
+      "gp_prediction": 7.240351578196095,
+      "gp_latent_std": 0.8076240376602478,
+      "gp_observation_std": 0.8935584346973677
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:555",
+      "rf_prediction": 7.6552232352092355,
+      "gp_prediction": 7.355340830891185,
+      "gp_latent_std": 0.37362044949477113,
+      "gp_observation_std": 0.5345861299106472
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:556",
+      "rf_prediction": 7.454467249999996,
+      "gp_prediction": 7.417853940048827,
+      "gp_latent_std": 0.5944365064191699,
+      "gp_observation_std": 0.7067848683835812
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:561",
+      "rf_prediction": 7.665203382275137,
+      "gp_prediction": 7.768822851572852,
+      "gp_latent_std": 0.6772689788896498,
+      "gp_observation_std": 0.7777424765167436
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:564",
+      "rf_prediction": 7.673181271164026,
+      "gp_prediction": 7.99029898467777,
+      "gp_latent_std": 0.6793876484362634,
+      "gp_observation_std": 0.7795881392504149
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:570",
+      "rf_prediction": 8.536590010582012,
+      "gp_prediction": 8.20970456047158,
+      "gp_latent_std": 0.6089096519739561,
+      "gp_observation_std": 0.7190000377463223
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:571",
+      "rf_prediction": 8.276524641534397,
+      "gp_prediction": 7.809285498187421,
+      "gp_latent_std": 0.6691429034445432,
+      "gp_observation_std": 0.7706765308755431
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:573",
+      "rf_prediction": 8.106693535714289,
+      "gp_prediction": 8.424257752877264,
+      "gp_latent_std": 0.5470486916726087,
+      "gp_observation_std": 0.667422176042182
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:577",
+      "rf_prediction": 7.848889544973546,
+      "gp_prediction": 8.210219679233418,
+      "gp_latent_std": 0.6245194129641856,
+      "gp_observation_std": 0.732266745920706
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:583",
+      "rf_prediction": 7.878129384920636,
+      "gp_prediction": 7.649878553989107,
+      "gp_latent_std": 0.5559131961964128,
+      "gp_observation_std": 0.6747070265807819
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:585",
+      "rf_prediction": 8.31812264285715,
+      "gp_prediction": 8.254715947228599,
+      "gp_latent_std": 0.4306400324737656,
+      "gp_observation_std": 0.5758827377002843
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:596",
+      "rf_prediction": 6.8536305399600375,
+      "gp_prediction": 6.8998111245610545,
+      "gp_latent_std": 0.584635320041091,
+      "gp_observation_std": 0.6985617706772376
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:600",
+      "rf_prediction": 7.745799664021163,
+      "gp_prediction": 7.46516161684845,
+      "gp_latent_std": 0.6160144863862751,
+      "gp_observation_std": 0.7250268529164385
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:632",
+      "rf_prediction": 6.54913391931217,
+      "gp_prediction": 6.595410466837142,
+      "gp_latent_std": 0.5833284106544852,
+      "gp_observation_std": 0.6974683682353316
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:639",
+      "rf_prediction": 7.277401048941797,
+      "gp_prediction": 7.272473696763302,
+      "gp_latent_std": 0.7038433813612391,
+      "gp_observation_std": 0.8009903841483937
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:643",
+      "rf_prediction": 6.082059595238096,
+      "gp_prediction": 5.8316000342978205,
+      "gp_latent_std": 0.7021971717853379,
+      "gp_observation_std": 0.7995442189619633
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:648",
+      "rf_prediction": 7.832373642857145,
+      "gp_prediction": 7.709149485113392,
+      "gp_latent_std": 0.7051602789429792,
+      "gp_observation_std": 0.8021478099521988
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:661",
+      "rf_prediction": 8.255399678571436,
+      "gp_prediction": 8.35091221917744,
+      "gp_latent_std": 0.5700216441721327,
+      "gp_observation_std": 0.6863780043364373
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:665",
+      "rf_prediction": 7.494383742063489,
+      "gp_prediction": 7.573824855552601,
+      "gp_latent_std": 0.43720502729944005,
+      "gp_observation_std": 0.5808083383596285
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:670",
+      "rf_prediction": 7.9111926525974,
+      "gp_prediction": 8.03944251126484,
+      "gp_latent_std": 0.7267229528038714,
+      "gp_observation_std": 0.8211676687158027
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:674",
+      "rf_prediction": 7.243146669793168,
+      "gp_prediction": 7.508891787719662,
+      "gp_latent_std": 0.7170660565792223,
+      "gp_observation_std": 0.8126338778996635
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:676",
+      "rf_prediction": 6.969122335978835,
+      "gp_prediction": 6.972466513877963,
+      "gp_latent_std": 0.604288606568766,
+      "gp_observation_std": 0.7150907704907046
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:679",
+      "rf_prediction": 7.37226777645503,
+      "gp_prediction": 7.044936574730549,
+      "gp_latent_std": 0.560657394421425,
+      "gp_observation_std": 0.6786212521956484
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:691",
+      "rf_prediction": 6.744681773809529,
+      "gp_prediction": 7.107657615225616,
+      "gp_latent_std": 0.5133446416232927,
+      "gp_observation_std": 0.6400881276008137
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:695",
+      "rf_prediction": 7.019595485449737,
+      "gp_prediction": 6.855979023053694,
+      "gp_latent_std": 0.44576586595432305,
+      "gp_observation_std": 0.5872795733397987
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:699",
+      "rf_prediction": 7.318244936507941,
+      "gp_prediction": 7.489390280366401,
+      "gp_latent_std": 0.5783794414111921,
+      "gp_observation_std": 0.6933346005063437
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:706",
+      "rf_prediction": 6.859769025733529,
+      "gp_prediction": 6.340334392693043,
+      "gp_latent_std": 0.5693567812462792,
+      "gp_observation_std": 0.6858259504883816
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:713",
+      "rf_prediction": 7.043875802910055,
+      "gp_prediction": 7.161598755789819,
+      "gp_latent_std": 0.5543512912790488,
+      "gp_observation_std": 0.6734207036874627
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:714",
+      "rf_prediction": 6.950359754171758,
+      "gp_prediction": 6.855230888218984,
+      "gp_latent_std": 0.465838353052764,
+      "gp_observation_std": 0.6026570012760826
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:717",
+      "rf_prediction": 6.586089924603174,
+      "gp_prediction": 6.400902812497139,
+      "gp_latent_std": 0.5698584789865561,
+      "gp_observation_std": 0.6862425053033656
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:724",
+      "rf_prediction": 6.6803856044973555,
+      "gp_prediction": 6.59572424485221,
+      "gp_latent_std": 0.5341041434424659,
+      "gp_observation_std": 0.6568541132204158
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:729",
+      "rf_prediction": 7.346223384920634,
+      "gp_prediction": 7.3684682728033115,
+      "gp_latent_std": 0.4603340460268008,
+      "gp_observation_std": 0.5984125031644755
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:732",
+      "rf_prediction": 7.922319515873015,
+      "gp_prediction": 8.278271893362131,
+      "gp_latent_std": 0.4039170659835138,
+      "gp_observation_std": 0.5561826014942385
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:734",
+      "rf_prediction": 6.63443881746032,
+      "gp_prediction": 7.115514138021267,
+      "gp_latent_std": 0.6617296519421598,
+      "gp_observation_std": 0.7642487960550939
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:736",
+      "rf_prediction": 8.158927475108232,
+      "gp_prediction": 8.166389406696686,
+      "gp_latent_std": 0.5892642338561371,
+      "gp_observation_std": 0.7024403371918707
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:737",
+      "rf_prediction": 8.272484805796058,
+      "gp_prediction": 8.370993515305155,
+      "gp_latent_std": 0.5975238869182001,
+      "gp_observation_std": 0.7093834544518236
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:745",
+      "rf_prediction": 8.437850256012513,
+      "gp_prediction": 8.20779380415088,
+      "gp_latent_std": 0.6010472537052897,
+      "gp_observation_std": 0.7123537682913169
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:755",
+      "rf_prediction": 7.197842051587306,
+      "gp_prediction": 6.886464803490721,
+      "gp_latent_std": 0.7758970307917344,
+      "gp_observation_std": 0.8649891862928683
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:758",
+      "rf_prediction": 7.655642285714291,
+      "gp_prediction": 7.3280021427222275,
+      "gp_latent_std": 0.4379889370362228,
+      "gp_observation_std": 0.5813986575305183
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:761",
+      "rf_prediction": 7.630762511904764,
+      "gp_prediction": 7.416368568228698,
+      "gp_latent_std": 0.511915903561782,
+      "gp_observation_std": 0.6389428631197348
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:762",
+      "rf_prediction": 7.62555662301587,
+      "gp_prediction": 7.411635549548586,
+      "gp_latent_std": 0.5265737668307028,
+      "gp_observation_std": 0.6507457429184181
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:771",
+      "rf_prediction": 8.581034096542348,
+      "gp_prediction": 8.85495292496599,
+      "gp_latent_std": 0.45126497214381445,
+      "gp_observation_std": 0.5914644242015965
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:772",
+      "rf_prediction": 7.588922956349206,
+      "gp_prediction": 7.998619845944672,
+      "gp_latent_std": 0.5576084967200415,
+      "gp_observation_std": 0.6761045227082519
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:778",
+      "rf_prediction": 7.499904205026458,
+      "gp_prediction": 8.30426881147456,
+      "gp_latent_std": 0.5256339324017244,
+      "gp_observation_std": 0.6499854774564345
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:781",
+      "rf_prediction": 8.553035776556777,
+      "gp_prediction": 8.922466425242675,
+      "gp_latent_std": 0.5789837373049729,
+      "gp_observation_std": 0.6938387839230395
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:784",
+      "rf_prediction": 7.698173937830684,
+      "gp_prediction": 7.800397927237481,
+      "gp_latent_std": 0.4683057234150231,
+      "gp_observation_std": 0.6045662416935275
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:793",
+      "rf_prediction": 8.75521413766789,
+      "gp_prediction": 8.764855639584946,
+      "gp_latent_std": 0.46622117137991204,
+      "gp_observation_std": 0.6029529589072649
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:798",
+      "rf_prediction": 8.410532383699636,
+      "gp_prediction": 8.410644313228026,
+      "gp_latent_std": 0.4541322310314179,
+      "gp_observation_std": 0.5936549277768539
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:805",
+      "rf_prediction": 6.543420107142857,
+      "gp_prediction": 6.473268879271923,
+      "gp_latent_std": 0.3393977186805128,
+      "gp_observation_std": 0.5112542434618075
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:806",
+      "rf_prediction": 6.2506153437950935,
+      "gp_prediction": 6.034849019505332,
+      "gp_latent_std": 0.37504527446040203,
+      "gp_observation_std": 0.5355829047936901
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:812",
+      "rf_prediction": 6.620841747234253,
+      "gp_prediction": 6.429534960472049,
+      "gp_latent_std": 0.409111379442081,
+      "gp_observation_std": 0.5599662586274025
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:816",
+      "rf_prediction": 6.151948146825394,
+      "gp_prediction": 6.146193150877537,
+      "gp_latent_std": 0.8485834383903167,
+      "gp_observation_std": 0.9307437573910989
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:817",
+      "rf_prediction": 7.384504690476191,
+      "gp_prediction": 7.869581662348243,
+      "gp_latent_std": 0.5697040942483775,
+      "gp_observation_std": 0.686114309000718
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:821",
+      "rf_prediction": 7.011084107142854,
+      "gp_prediction": 7.140029283901932,
+      "gp_latent_std": 0.48306717434433843,
+      "gp_observation_std": 0.6160714122090003
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:824",
+      "rf_prediction": 7.96631419516595,
+      "gp_prediction": 8.215365506318554,
+      "gp_latent_std": 0.6195945554437147,
+      "gp_observation_std": 0.7280710838562833
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:825",
+      "rf_prediction": 7.816535925324673,
+      "gp_prediction": 7.900146553227366,
+      "gp_latent_std": 0.5210265490530551,
+      "gp_observation_std": 0.6462652356659023
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:829",
+      "rf_prediction": 7.884075044372295,
+      "gp_prediction": 8.189488000845627,
+      "gp_latent_std": 0.4728593867578827,
+      "gp_observation_std": 0.6081003943899473
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:835",
+      "rf_prediction": 7.372387785714287,
+      "gp_prediction": 7.737621248316599,
+      "gp_latent_std": 0.454173294415937,
+      "gp_observation_std": 0.5936863409013163
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:842",
+      "rf_prediction": 6.387530584656076,
+      "gp_prediction": 5.986828655277671,
+      "gp_latent_std": 0.7813131560324653,
+      "gp_observation_std": 0.8698507560504734
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:845",
+      "rf_prediction": 7.082936668109667,
+      "gp_prediction": 7.227104355918621,
+      "gp_latent_std": 0.6548363132210724,
+      "gp_observation_std": 0.7582879974819166
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:847",
+      "rf_prediction": 7.223367810966814,
+      "gp_prediction": 7.176452515722331,
+      "gp_latent_std": 0.717952920647482,
+      "gp_observation_std": 0.8134165515149161
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:852",
+      "rf_prediction": 7.839525657407408,
+      "gp_prediction": 8.01435562139305,
+      "gp_latent_std": 0.4790979260538794,
+      "gp_observation_std": 0.6129640387178493
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:860",
+      "rf_prediction": 7.199451627825875,
+      "gp_prediction": 7.308216542138921,
+      "gp_latent_std": 0.4133147042724922,
+      "gp_observation_std": 0.5630445229109562
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:863",
+      "rf_prediction": 7.253965356661857,
+      "gp_prediction": 7.28139648732537,
+      "gp_latent_std": 0.48337697600462615,
+      "gp_observation_std": 0.6163143604878483
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:865",
+      "rf_prediction": 7.207181826719577,
+      "gp_prediction": 7.168317091214713,
+      "gp_latent_std": 0.46473863283369204,
+      "gp_observation_std": 0.6018073502876962
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:875",
+      "rf_prediction": 6.689323251202508,
+      "gp_prediction": 6.532708132508452,
+      "gp_latent_std": 0.7869252219277445,
+      "gp_observation_std": 0.8748950765195781
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:879",
+      "rf_prediction": 7.552346079365087,
+      "gp_prediction": 7.721286299310174,
+      "gp_latent_std": 0.43931013776856925,
+      "gp_observation_std": 0.5823946146371958
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:892",
+      "rf_prediction": 6.921197169312169,
+      "gp_prediction": 6.996965427700584,
+      "gp_latent_std": 0.5753693283681361,
+      "gp_observation_std": 0.6908255597753812
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:905",
+      "rf_prediction": 7.364490809523811,
+      "gp_prediction": 7.696605141982828,
+      "gp_latent_std": 0.48638422668388176,
+      "gp_observation_std": 0.6186757680554865
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:909",
+      "rf_prediction": 6.9279139470899445,
+      "gp_prediction": 6.779755585212055,
+      "gp_latent_std": 0.2750357476915483,
+      "gp_observation_std": 0.47099336780937545
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:927",
+      "rf_prediction": 6.861106708994708,
+      "gp_prediction": 6.427876771837638,
+      "gp_latent_std": 0.4380972771506735,
+      "gp_observation_std": 0.5814802784781291
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:930",
+      "rf_prediction": 7.091246955026454,
+      "gp_prediction": 6.620456276988744,
+      "gp_latent_std": 0.4854849086039788,
+      "gp_observation_std": 0.6179690012406628
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:931",
+      "rf_prediction": 7.175036681216927,
+      "gp_prediction": 7.229945358722567,
+      "gp_latent_std": 0.3988320456132564,
+      "gp_observation_std": 0.5525007607417597
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:941",
+      "rf_prediction": 7.176540318783067,
+      "gp_prediction": 6.718352115285734,
+      "gp_latent_std": 0.6890598858409288,
+      "gp_observation_std": 0.788031481786916
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:947",
+      "rf_prediction": 7.218724706349203,
+      "gp_prediction": 6.971025132541397,
+      "gp_latent_std": 0.4169982761922799,
+      "gp_observation_std": 0.5657540564233734
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:948",
+      "rf_prediction": 7.218844652116398,
+      "gp_prediction": 7.221433476066647,
+      "gp_latent_std": 0.4047876616442799,
+      "gp_observation_std": 0.556815176725287
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:949",
+      "rf_prediction": 6.414229499999992,
+      "gp_prediction": 6.391593009056828,
+      "gp_latent_std": 0.4388723573359646,
+      "gp_observation_std": 0.5820644603871595
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:950",
+      "rf_prediction": 7.487600529100529,
+      "gp_prediction": 7.450681321468021,
+      "gp_latent_std": 0.396497837843166,
+      "gp_observation_std": 0.5508181418821226
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:951",
+      "rf_prediction": 7.3335634259259255,
+      "gp_prediction": 7.161058113758723,
+      "gp_latent_std": 0.573502781515006,
+      "gp_observation_std": 0.6892717391694059
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:959",
+      "rf_prediction": 6.548133236772486,
+      "gp_prediction": 6.70357680876891,
+      "gp_latent_std": 0.6987582627002785,
+      "gp_observation_std": 0.7965257056141253
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:960",
+      "rf_prediction": 7.762962921957672,
+      "gp_prediction": 7.851531528933605,
+      "gp_latent_std": 0.5166482047024644,
+      "gp_observation_std": 0.6427405833105982
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:970",
+      "rf_prediction": 7.044348027777773,
+      "gp_prediction": 7.16434540246611,
+      "gp_latent_std": 0.5671372693954566,
+      "gp_observation_std": 0.6839844825356078
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:972",
+      "rf_prediction": 6.691087998677239,
+      "gp_prediction": 6.5469903547954,
+      "gp_latent_std": 0.554870986563564,
+      "gp_observation_std": 0.6738485747867925
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:976",
+      "rf_prediction": 8.703738351851852,
+      "gp_prediction": 8.521796105928688,
+      "gp_latent_std": 0.5029562251961895,
+      "gp_observation_std": 0.631787190813306
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:986",
+      "rf_prediction": 8.665457996031751,
+      "gp_prediction": 8.591151121019905,
+      "gp_latent_std": 0.39150993225546776,
+      "gp_observation_std": 0.5472386289973046
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:999",
+      "rf_prediction": 8.17601038095238,
+      "gp_prediction": 8.33765665838774,
+      "gp_latent_std": 0.5492046490086336,
+      "gp_observation_std": 0.6691904336620967
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1000",
+      "rf_prediction": 6.7083629510582,
+      "gp_prediction": 6.231954297744778,
+      "gp_latent_std": 0.8705176271972918,
+      "gp_observation_std": 0.950784428392352
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1001",
+      "rf_prediction": 5.932275662337658,
+      "gp_prediction": 6.341730862841714,
+      "gp_latent_std": 0.8309526395946826,
+      "gp_observation_std": 0.9146979716067699
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1005",
+      "rf_prediction": 8.51750658513708,
+      "gp_prediction": 8.51870114635284,
+      "gp_latent_std": 0.33536581935483667,
+      "gp_observation_std": 0.508586593220574
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1025",
+      "rf_prediction": 8.487966607142853,
+      "gp_prediction": 8.534402735508767,
+      "gp_latent_std": 0.37211246860261304,
+      "gp_observation_std": 0.5335332972755302
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1026",
+      "rf_prediction": 6.495299068783065,
+      "gp_prediction": 6.363971530730451,
+      "gp_latent_std": 0.7200352453124674,
+      "gp_observation_std": 0.8152550794103363
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1034",
+      "rf_prediction": 6.684188996031743,
+      "gp_prediction": 6.692136200730262,
+      "gp_latent_std": 0.5889178537823228,
+      "gp_observation_std": 0.7021497906542064
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1038",
+      "rf_prediction": 6.577941519841273,
+      "gp_prediction": 6.772606511778457,
+      "gp_latent_std": 0.6630113272282309,
+      "gp_observation_std": 0.7653588113068985
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1045",
+      "rf_prediction": 8.89991331349207,
+      "gp_prediction": 8.592096164758532,
+      "gp_latent_std": 0.42485061318816675,
+      "gp_observation_std": 0.5715663859417642
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1059",
+      "rf_prediction": 8.126328028379028,
+      "gp_prediction": 8.985647154293499,
+      "gp_latent_std": 0.6091965313399496,
+      "gp_observation_std": 0.719243007479944
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1060",
+      "rf_prediction": 8.42866949001924,
+      "gp_prediction": 9.148409458566375,
+      "gp_latent_std": 0.5865741162177808,
+      "gp_observation_std": 0.7001851782413272
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1064",
+      "rf_prediction": 8.798284582010588,
+      "gp_prediction": 8.888210108245056,
+      "gp_latent_std": 0.4533234459635776,
+      "gp_observation_std": 0.5930364547584418
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1068",
+      "rf_prediction": 8.521639722222226,
+      "gp_prediction": 8.426130315985317,
+      "gp_latent_std": 0.47457924227802945,
+      "gp_observation_std": 0.6094387148954004
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1072",
+      "rf_prediction": 9.49941672222222,
+      "gp_prediction": 9.599099575168935,
+      "gp_latent_std": 0.47458701703075273,
+      "gp_observation_std": 0.6094447692336988
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1079",
+      "rf_prediction": 6.769850063492065,
+      "gp_prediction": 6.300059527339442,
+      "gp_latent_std": 0.8260986335089405,
+      "gp_observation_std": 0.9102906361692992
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1084",
+      "rf_prediction": 7.296151697089952,
+      "gp_prediction": 7.3965471093826,
+      "gp_latent_std": 0.5082331735213073,
+      "gp_observation_std": 0.6359961074406886
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1088",
+      "rf_prediction": 8.149570484126981,
+      "gp_prediction": 7.985419735215807,
+      "gp_latent_std": 0.4884723602446284,
+      "gp_observation_std": 0.6203187380170994
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1091",
+      "rf_prediction": 8.003662785714285,
+      "gp_prediction": 7.779543968697637,
+      "gp_latent_std": 0.4538700498016563,
+      "gp_observation_std": 0.5934543892491878
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1093",
+      "rf_prediction": 8.369135956349202,
+      "gp_prediction": 8.165143026904607,
+      "gp_latent_std": 0.5780162347882984,
+      "gp_observation_std": 0.6930316426333
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1095",
+      "rf_prediction": 8.055011685906678,
+      "gp_prediction": 7.761938607929148,
+      "gp_latent_std": 0.45126288168781614,
+      "gp_observation_std": 0.5914628292643254
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1097",
+      "rf_prediction": 8.086521537037035,
+      "gp_prediction": 7.913255278345516,
+      "gp_latent_std": 0.4096115176460439,
+      "gp_observation_std": 0.5603317636904622
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1100",
+      "rf_prediction": 6.778832916666674,
+      "gp_prediction": 7.136846395996815,
+      "gp_latent_std": 0.7783001535605477,
+      "gp_observation_std": 0.8671454428436678
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1105",
+      "rf_prediction": 7.070580634920634,
+      "gp_prediction": 7.119371787168693,
+      "gp_latent_std": 0.38827842192381606,
+      "gp_observation_std": 0.5449313928778718
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1108",
+      "rf_prediction": 7.062182288600287,
+      "gp_prediction": 6.9013402966391855,
+      "gp_latent_std": 0.4156407439629808,
+      "gp_observation_std": 0.5647542103023835
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1109",
+      "rf_prediction": 7.792572907407409,
+      "gp_prediction": 7.766704987188774,
+      "gp_latent_std": 0.4149128855334317,
+      "gp_observation_std": 0.5642187453407119
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1133",
+      "rf_prediction": 7.200637894179895,
+      "gp_prediction": 7.356986837897782,
+      "gp_latent_std": 0.7111531524873315,
+      "gp_observation_std": 0.8074211393720371
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1140",
+      "rf_prediction": 9.604462134920642,
+      "gp_prediction": 9.742887868216133,
+      "gp_latent_std": 0.5277774520397333,
+      "gp_observation_std": 0.6517201308028789
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1141",
+      "rf_prediction": 9.61305315079366,
+      "gp_prediction": 9.54212530088843,
+      "gp_latent_std": 0.5072219577781175,
+      "gp_observation_std": 0.635188322046647
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1149",
+      "rf_prediction": 6.054380477633479,
+      "gp_prediction": 6.112600958593114,
+      "gp_latent_std": 0.39785379819774513,
+      "gp_observation_std": 0.5517950115328524
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1156",
+      "rf_prediction": 6.613550499999999,
+      "gp_prediction": 6.636701487871494,
+      "gp_latent_std": 0.4881031105977191,
+      "gp_observation_std": 0.6200280127440516
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1159",
+      "rf_prediction": 6.834613100529104,
+      "gp_prediction": 6.758142014535027,
+      "gp_latent_std": 0.5658825281826085,
+      "gp_observation_std": 0.6829444528763005
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1161",
+      "rf_prediction": 7.5117691746031765,
+      "gp_prediction": 8.222638779679414,
+      "gp_latent_std": 0.8037606519825318,
+      "gp_observation_std": 0.890068129801058
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1169",
+      "rf_prediction": 9.096081544973545,
+      "gp_prediction": 8.587234068599532,
+      "gp_latent_std": 0.4745551471131991,
+      "gp_observation_std": 0.6094199518097505
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1171",
+      "rf_prediction": 9.131518576719573,
+      "gp_prediction": 9.004597778335603,
+      "gp_latent_std": 0.4220175385108604,
+      "gp_observation_std": 0.56946368876596
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1174",
+      "rf_prediction": 8.122987146825396,
+      "gp_prediction": 8.375746852237654,
+      "gp_latent_std": 0.6343587278976158,
+      "gp_observation_std": 0.7406761003786001
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1188",
+      "rf_prediction": 7.883067087301581,
+      "gp_prediction": 7.939824912092759,
+      "gp_latent_std": 0.576970427116998,
+      "gp_observation_std": 0.6921596374968275
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1189",
+      "rf_prediction": 7.941036621212115,
+      "gp_prediction": 7.9002018606829685,
+      "gp_latent_std": 0.5804041926724566,
+      "gp_observation_std": 0.6950245440874263
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1190",
+      "rf_prediction": 7.550712238095242,
+      "gp_prediction": 8.190086446402047,
+      "gp_latent_std": 0.6334931859988945,
+      "gp_observation_std": 0.7399349341119112
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1191",
+      "rf_prediction": 7.869599277777778,
+      "gp_prediction": 7.981614688241576,
+      "gp_latent_std": 0.48313476680273104,
+      "gp_observation_std": 0.6161244134959253
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1193",
+      "rf_prediction": 7.680178226190474,
+      "gp_prediction": 7.664822498512112,
+      "gp_latent_std": 0.4999421130517295,
+      "gp_observation_std": 0.6293903450282637
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1194",
+      "rf_prediction": 7.643518583333335,
+      "gp_prediction": 8.31981385048556,
+      "gp_latent_std": 0.5619367358604198,
+      "gp_observation_std": 0.6796785895713001
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1198",
+      "rf_prediction": 7.560704354497354,
+      "gp_prediction": 8.143948323456366,
+      "gp_latent_std": 0.5611010621838305,
+      "gp_observation_std": 0.6789878437763017
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1202",
+      "rf_prediction": 7.313844669312172,
+      "gp_prediction": 7.57286814732357,
+      "gp_latent_std": 0.7445156120589322,
+      "gp_observation_std": 0.8369549489737516
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1240",
+      "rf_prediction": 8.432061075396824,
+      "gp_prediction": 8.093677589101487,
+      "gp_latent_std": 0.4866048356810014,
+      "gp_observation_std": 0.6188492192128088
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1248",
+      "rf_prediction": 8.340845738095238,
+      "gp_prediction": 7.875582829924779,
+      "gp_latent_std": 0.5371183337656832,
+      "gp_observation_std": 0.6593073596429759
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1259",
+      "rf_prediction": 7.783632764124768,
+      "gp_prediction": 8.097785766812455,
+      "gp_latent_std": 0.33919039579616955,
+      "gp_observation_std": 0.5111166350379635
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1264",
+      "rf_prediction": 7.433348133597888,
+      "gp_prediction": 7.365715320490923,
+      "gp_latent_std": 0.6418738260212842,
+      "gp_observation_std": 0.7471225458673901
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1266",
+      "rf_prediction": 7.493563210317453,
+      "gp_prediction": 6.837261417662987,
+      "gp_latent_std": 0.5708700211752105,
+      "gp_observation_std": 0.6870827250693717
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1269",
+      "rf_prediction": 7.550180099206343,
+      "gp_prediction": 6.860174107224853,
+      "gp_latent_std": 0.5753758285733936,
+      "gp_observation_std": 0.6908309736242925
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1270",
+      "rf_prediction": 7.904950522967779,
+      "gp_prediction": 7.110373852382236,
+      "gp_latent_std": 0.6113576882309112,
+      "gp_observation_std": 0.7210744156959201
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1281",
+      "rf_prediction": 7.662294281746032,
+      "gp_prediction": 7.7494843786977725,
+      "gp_latent_std": 0.4427323557135933,
+      "gp_observation_std": 0.5849803661729822
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1283",
+      "rf_prediction": 7.618496100529097,
+      "gp_prediction": 7.3773419551680375,
+      "gp_latent_std": 0.6780914619272762,
+      "gp_observation_std": 0.7784588112102266
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1286",
+      "rf_prediction": 7.786863681216931,
+      "gp_prediction": 7.767104366922752,
+      "gp_latent_std": 0.6505598414307223,
+      "gp_observation_std": 0.7545980369007961
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1293",
+      "rf_prediction": 7.2292087341269875,
+      "gp_prediction": 6.802749668152327,
+      "gp_latent_std": 0.6042366171883049,
+      "gp_observation_std": 0.7150468373213986
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1294",
+      "rf_prediction": 7.649944146825395,
+      "gp_prediction": 7.461748677701224,
+      "gp_latent_std": 0.5979205173634318,
+      "gp_observation_std": 0.7097175741774487
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1304",
+      "rf_prediction": 7.339217957671963,
+      "gp_prediction": 7.2280360275027995,
+      "gp_latent_std": 0.6036775313643256,
+      "gp_observation_std": 0.7145744551033817
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1306",
+      "rf_prediction": 7.287402824314575,
+      "gp_prediction": 6.8319151915090615,
+      "gp_latent_std": 0.5700838668329358,
+      "gp_observation_std": 0.6864296797453918
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1311",
+      "rf_prediction": 6.722984669312173,
+      "gp_prediction": 6.701078308064054,
+      "gp_latent_std": 0.47838038613644346,
+      "gp_observation_std": 0.6124033669504286
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1313",
+      "rf_prediction": 7.303113261904764,
+      "gp_prediction": 7.109337526849295,
+      "gp_latent_std": 0.5452689703762962,
+      "gp_observation_std": 0.6659642183086075
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1324",
+      "rf_prediction": 6.513884601851857,
+      "gp_prediction": 6.279142081483652,
+      "gp_latent_std": 0.5563360701453839,
+      "gp_observation_std": 0.6750554887984973
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1326",
+      "rf_prediction": 7.847719207671955,
+      "gp_prediction": 7.673211887108653,
+      "gp_latent_std": 0.4165882575413249,
+      "gp_observation_std": 0.5654519133697276
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1328",
+      "rf_prediction": 7.560105720899469,
+      "gp_prediction": 7.5537336642763995,
+      "gp_latent_std": 0.3971005497866474,
+      "gp_observation_std": 0.551252153422575
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1342",
+      "rf_prediction": 7.591328908730153,
+      "gp_prediction": 7.894852396545695,
+      "gp_latent_std": 0.4621666871787032,
+      "gp_observation_std": 0.5998234213082262
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1352",
+      "rf_prediction": 7.180525097883597,
+      "gp_prediction": 7.295813648989916,
+      "gp_latent_std": 0.4251656967615254,
+      "gp_observation_std": 0.5718006293411034
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1353",
+      "rf_prediction": 7.1644798386243425,
+      "gp_prediction": 7.235351530524028,
+      "gp_latent_std": 0.6697697877157454,
+      "gp_observation_std": 0.7712208882991716
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1354",
+      "rf_prediction": 6.687281920634924,
+      "gp_prediction": 7.105955838582256,
+      "gp_latent_std": 0.663922550020301,
+      "gp_observation_std": 0.7661483162140523
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1364",
+      "rf_prediction": 6.809814317460319,
+      "gp_prediction": 6.757243903591034,
+      "gp_latent_std": 0.5462127583598313,
+      "gp_observation_std": 0.6667371801596369
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1367",
+      "rf_prediction": 6.590375981481489,
+      "gp_prediction": 6.754025443566456,
+      "gp_latent_std": 0.6251164688783587,
+      "gp_observation_std": 0.7327760160343109
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1373",
+      "rf_prediction": 6.879723124338625,
+      "gp_prediction": 7.141661868603576,
+      "gp_latent_std": 0.46050991295027094,
+      "gp_observation_std": 0.5985478008794576
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1376",
+      "rf_prediction": 6.963114698412699,
+      "gp_prediction": 6.848776704408521,
+      "gp_latent_std": 0.35077897135009406,
+      "gp_observation_std": 0.5188795397330662
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1382",
+      "rf_prediction": 7.851278866402116,
+      "gp_prediction": 8.256635140290758,
+      "gp_latent_std": 0.4666167129162371,
+      "gp_observation_std": 0.6032588555379214
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1385",
+      "rf_prediction": 7.265682215608469,
+      "gp_prediction": 7.060745075967659,
+      "gp_latent_std": 0.5572414249245109,
+      "gp_observation_std": 0.6758018168546662
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1388",
+      "rf_prediction": 7.332925228835985,
+      "gp_prediction": 7.455169212284349,
+      "gp_latent_std": 0.5034402097337294,
+      "gp_observation_std": 0.6321725514358482
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1397",
+      "rf_prediction": 7.487534210317464,
+      "gp_prediction": 7.5939067132838085,
+      "gp_latent_std": 0.5123279705762361,
+      "gp_observation_std": 0.6392730554676408
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1399",
+      "rf_prediction": 7.659056010582014,
+      "gp_prediction": 7.774573248169014,
+      "gp_latent_std": 0.4387344054117127,
+      "gp_observation_std": 0.5819604526977221
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1401",
+      "rf_prediction": 7.220328496031741,
+      "gp_prediction": 7.245305078103061,
+      "gp_latent_std": 0.6426918594314539,
+      "gp_observation_std": 0.7478254583735621
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1410",
+      "rf_prediction": 8.221822699735448,
+      "gp_prediction": 8.1894094432719,
+      "gp_latent_std": 0.4596141835742869,
+      "gp_observation_std": 0.597858919607985
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1411",
+      "rf_prediction": 8.38392986640211,
+      "gp_prediction": 8.129680193498052,
+      "gp_latent_std": 0.5104498591342331,
+      "gp_observation_std": 0.6377688834541295
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1416",
+      "rf_prediction": 8.564499103174604,
+      "gp_prediction": 8.94193347618708,
+      "gp_latent_std": 0.6677821284931121,
+      "gp_observation_std": 0.7694953288662381
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1418",
+      "rf_prediction": 6.8121342711640205,
+      "gp_prediction": 6.852604802784437,
+      "gp_latent_std": 0.8467838458188042,
+      "gp_observation_std": 0.9291033158652772
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1419",
+      "rf_prediction": 7.385151248076002,
+      "gp_prediction": 8.194661602910513,
+      "gp_latent_std": 0.7555783836039344,
+      "gp_observation_std": 0.8468109492570953
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1420",
+      "rf_prediction": 7.178090499158251,
+      "gp_prediction": 7.546564719121771,
+      "gp_latent_std": 0.8063651822976189,
+      "gp_observation_std": 0.8924208072619334
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1421",
+      "rf_prediction": 7.144894089947092,
+      "gp_prediction": 7.143344059477806,
+      "gp_latent_std": 0.3389161334768815,
+      "gp_observation_std": 0.5109346685664303
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1422",
+      "rf_prediction": 6.750886345238097,
+      "gp_prediction": 6.377378334987376,
+      "gp_latent_std": 0.35157453420644064,
+      "gp_observation_std": 0.5194176961893426
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1434",
+      "rf_prediction": 6.667875304232798,
+      "gp_prediction": 6.615535673850822,
+      "gp_latent_std": 0.4305963305681734,
+      "gp_observation_std": 0.5758500585316843
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1451",
+      "rf_prediction": 7.405091113756616,
+      "gp_prediction": 7.453985684253931,
+      "gp_latent_std": 0.5392207130829934,
+      "gp_observation_std": 0.6610212306952784
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1457",
+      "rf_prediction": 7.238523130952378,
+      "gp_prediction": 7.292959566632033,
+      "gp_latent_std": 0.4936926675113913,
+      "gp_observation_std": 0.6244377790994725
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1458",
+      "rf_prediction": 6.869002587301585,
+      "gp_prediction": 7.018520762791101,
+      "gp_latent_std": 0.6487478847032621,
+      "gp_observation_std": 0.7530364585590299
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1460",
+      "rf_prediction": 6.910066833333332,
+      "gp_prediction": 6.3876807080826925,
+      "gp_latent_std": 0.6615851144599207,
+      "gp_observation_std": 0.7641236507837689
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1464",
+      "rf_prediction": 6.770703817460317,
+      "gp_prediction": 7.127063139657705,
+      "gp_latent_std": 0.557406654714636,
+      "gp_observation_std": 0.6759380657518336
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1467",
+      "rf_prediction": 6.869212499999999,
+      "gp_prediction": 6.907363902598417,
+      "gp_latent_std": 0.5602055056211585,
+      "gp_observation_std": 0.6782479624299851
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1474",
+      "rf_prediction": 6.758839058201057,
+      "gp_prediction": 6.726069151681037,
+      "gp_latent_std": 0.5077955106004862,
+      "gp_observation_std": 0.6356464194803406
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1476",
+      "rf_prediction": 6.797084667989415,
+      "gp_prediction": 6.126698244878486,
+      "gp_latent_std": 0.5064868926749404,
+      "gp_observation_std": 0.6346014989453501
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1477",
+      "rf_prediction": 6.903540154761905,
+      "gp_prediction": 7.03297798002885,
+      "gp_latent_std": 0.49135872303978256,
+      "gp_observation_std": 0.6225941573123333
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1478",
+      "rf_prediction": 7.340761460317453,
+      "gp_prediction": 7.296851513911901,
+      "gp_latent_std": 0.5025609116673055,
+      "gp_observation_std": 0.6314725330115649
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1482",
+      "rf_prediction": 7.2550370476190436,
+      "gp_prediction": 6.693449041539562,
+      "gp_latent_std": 0.6435206862228661,
+      "gp_observation_std": 0.7485378838835861
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1485",
+      "rf_prediction": 8.31119355026455,
+      "gp_prediction": 7.590605924966911,
+      "gp_latent_std": 0.4634357460173702,
+      "gp_observation_std": 0.6008017815376757
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1497",
+      "rf_prediction": 6.574229925925922,
+      "gp_prediction": 6.5787744572564675,
+      "gp_latent_std": 0.5558509664041685,
+      "gp_observation_std": 0.6746557543404019
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1500",
+      "rf_prediction": 6.746721791005289,
+      "gp_prediction": 6.45729999101575,
+      "gp_latent_std": 0.44950721962038365,
+      "gp_observation_std": 0.5901244195108489
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1503",
+      "rf_prediction": 6.8965569907407405,
+      "gp_prediction": 6.121112702089891,
+      "gp_latent_std": 0.5153927521730675,
+      "gp_observation_std": 0.6417318591161713
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1514",
+      "rf_prediction": 8.629106480158727,
+      "gp_prediction": 8.649290177686488,
+      "gp_latent_std": 0.45138270982472134,
+      "gp_observation_std": 0.5915542584927246
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1516",
+      "rf_prediction": 8.891792976190475,
+      "gp_prediction": 8.684042575652398,
+      "gp_latent_std": 0.4799230377369941,
+      "gp_observation_std": 0.6136091689038494
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1520",
+      "rf_prediction": 8.56777961507936,
+      "gp_prediction": 8.58072883001663,
+      "gp_latent_std": 0.5089075930182867,
+      "gp_observation_std": 0.6365351743963839
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1537",
+      "rf_prediction": 5.596115121693127,
+      "gp_prediction": 5.500884368406929,
+      "gp_latent_std": 0.3981002276842229,
+      "gp_observation_std": 0.5519727178895698
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1543",
+      "rf_prediction": 6.321056596560845,
+      "gp_prediction": 6.321644225792809,
+      "gp_latent_std": 0.3978743586746669,
+      "gp_observation_std": 0.5518098361781404
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1548",
+      "rf_prediction": 5.918061335978835,
+      "gp_prediction": 5.961671147952398,
+      "gp_latent_std": 0.427469432736368,
+      "gp_observation_std": 0.5735156544821779
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1555",
+      "rf_prediction": 7.750828506613756,
+      "gp_prediction": 8.353306834428482,
+      "gp_latent_std": 0.4820609573885008,
+      "gp_observation_std": 0.6152827452890961
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1557",
+      "rf_prediction": 7.750828506613756,
+      "gp_prediction": 8.353306834428482,
+      "gp_latent_std": 0.4820609573885008,
+      "gp_observation_std": 0.6152827452890961
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1566",
+      "rf_prediction": 9.542963797619041,
+      "gp_prediction": 9.43057992192232,
+      "gp_latent_std": 0.6029990499722077,
+      "gp_observation_std": 0.7140013615390054
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1573",
+      "rf_prediction": 9.550666535714287,
+      "gp_prediction": 9.391265137328691,
+      "gp_latent_std": 0.44567079624769146,
+      "gp_observation_std": 0.5872074153484609
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1574",
+      "rf_prediction": 9.366281199735448,
+      "gp_prediction": 9.444446965137987,
+      "gp_latent_std": 0.47599784008708484,
+      "gp_observation_std": 0.6105440473706534
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1576",
+      "rf_prediction": 9.64396107010584,
+      "gp_prediction": 9.610631232561156,
+      "gp_latent_std": 0.40310236344965356,
+      "gp_observation_std": 0.5555912215207015
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1577",
+      "rf_prediction": 9.64396107010584,
+      "gp_prediction": 9.54890681885033,
+      "gp_latent_std": 0.3994817045677007,
+      "gp_observation_std": 0.5529699108418868
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1578",
+      "rf_prediction": 9.495857952380955,
+      "gp_prediction": 9.770217540070359,
+      "gp_latent_std": 0.5014333633614745,
+      "gp_observation_std": 0.6305755370327722
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1591",
+      "rf_prediction": 8.03333931216931,
+      "gp_prediction": 7.796785651861695,
+      "gp_latent_std": 0.43572421049506854,
+      "gp_observation_std": 0.5796944692022854
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1593",
+      "rf_prediction": 7.867325146825398,
+      "gp_prediction": 7.757696113040446,
+      "gp_latent_std": 0.4782669698139469,
+      "gp_observation_std": 0.612314775607435
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1603",
+      "rf_prediction": 9.553870671957668,
+      "gp_prediction": 9.34943061757604,
+      "gp_latent_std": 0.6460177100024367,
+      "gp_observation_std": 0.7506856676725358
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1606",
+      "rf_prediction": 9.363823420634931,
+      "gp_prediction": 9.538491594522142,
+      "gp_latent_std": 0.3775013555407543,
+      "gp_observation_std": 0.537305651791674
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1607",
+      "rf_prediction": 9.051613186507936,
+      "gp_prediction": 9.05777563999439,
+      "gp_latent_std": 0.2868753071345916,
+      "gp_observation_std": 0.4780036943954878
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1620",
+      "rf_prediction": 8.89819871957671,
+      "gp_prediction": 8.884585144013833,
+      "gp_latent_std": 0.5943253134600197,
+      "gp_observation_std": 0.7066913528772794
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1627",
+      "rf_prediction": 9.013199232804238,
+      "gp_prediction": 8.97059799100982,
+      "gp_latent_std": 0.27315338176863774,
+      "gp_observation_std": 0.4698966481938467
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1634",
+      "rf_prediction": 8.898756378306885,
+      "gp_prediction": 8.780875473107802,
+      "gp_latent_std": 0.3000327187990734,
+      "gp_observation_std": 0.4860141174514713
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1645",
+      "rf_prediction": 8.502640222222224,
+      "gp_prediction": 8.64533570015544,
+      "gp_latent_std": 0.3014363321156263,
+      "gp_observation_std": 0.48688186691587804
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1658",
+      "rf_prediction": 7.453533330687835,
+      "gp_prediction": 7.106887518916642,
+      "gp_latent_std": 0.7349450724044355,
+      "gp_observation_std": 0.8284529856689091
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1659",
+      "rf_prediction": 6.602034933862437,
+      "gp_prediction": 6.808353933328539,
+      "gp_latent_std": 0.7902136617852583,
+      "gp_observation_std": 0.877854043269287
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1663",
+      "rf_prediction": 8.928429146705144,
+      "gp_prediction": 9.21949999782414,
+      "gp_latent_std": 0.5316481599662265,
+      "gp_observation_std": 0.6548586534570976
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1666",
+      "rf_prediction": 8.847150670514669,
+      "gp_prediction": 8.908159005347386,
+      "gp_latent_std": 0.5638731059793868,
+      "gp_observation_std": 0.681280389897588
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1667",
+      "rf_prediction": 8.855645338624337,
+      "gp_prediction": 9.043170035985598,
+      "gp_latent_std": 0.4491746942206047,
+      "gp_observation_std": 0.5898711689346601
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1670",
+      "rf_prediction": 8.02950943253969,
+      "gp_prediction": 8.451159588892715,
+      "gp_latent_std": 0.5113497251498437,
+      "gp_observation_std": 0.638489335402706
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1671",
+      "rf_prediction": 9.01198468253968,
+      "gp_prediction": 8.667580017986538,
+      "gp_latent_std": 0.5927720006390798,
+      "gp_observation_std": 0.7053855220755708
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1677",
+      "rf_prediction": 8.647319123015869,
+      "gp_prediction": 8.870496506305855,
+      "gp_latent_std": 0.4217907707001229,
+      "gp_observation_std": 0.5692956562806115
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1681",
+      "rf_prediction": 8.861961018518514,
+      "gp_prediction": 8.7353351166221,
+      "gp_latent_std": 0.41677744309016956,
+      "gp_observation_std": 0.5655913074658663
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1688",
+      "rf_prediction": 8.840581235449726,
+      "gp_prediction": 8.864831249787436,
+      "gp_latent_std": 0.35908816555004097,
+      "gp_observation_std": 0.52453255442371
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1693",
+      "rf_prediction": 8.696594137566127,
+      "gp_prediction": 8.934377647225947,
+      "gp_latent_std": 0.42156005501529414,
+      "gp_observation_std": 0.5691247402781454
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1699",
+      "rf_prediction": 8.6599790527898,
+      "gp_prediction": 8.810862509717696,
+      "gp_latent_std": 0.6367087412098706,
+      "gp_observation_std": 0.7426897812311858
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1700",
+      "rf_prediction": 8.543978696007693,
+      "gp_prediction": 8.155572741776087,
+      "gp_latent_std": 0.47364261859257845,
+      "gp_observation_std": 0.6087096353429962
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1711",
+      "rf_prediction": 7.983695326719582,
+      "gp_prediction": 8.056212968890481,
+      "gp_latent_std": 0.45884790440298895,
+      "gp_observation_std": 0.5972700305449649
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1713",
+      "rf_prediction": 8.242143309523822,
+      "gp_prediction": 8.239206184370989,
+      "gp_latent_std": 0.45076390396627636,
+      "gp_observation_std": 0.5910822168963359
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1715",
+      "rf_prediction": 8.256593571428583,
+      "gp_prediction": 8.181715114042044,
+      "gp_latent_std": 0.4841329784775105,
+      "gp_observation_std": 0.6169074735012329
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1717",
+      "rf_prediction": 7.691890035714284,
+      "gp_prediction": 7.724242157491928,
+      "gp_latent_std": 0.5533292685121787,
+      "gp_observation_std": 0.6725796379644505
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1718",
+      "rf_prediction": 8.02740832671958,
+      "gp_prediction": 8.049743150658633,
+      "gp_latent_std": 0.429691398422579,
+      "gp_observation_std": 0.5751737023634862
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1722",
+      "rf_prediction": 7.682428107142856,
+      "gp_prediction": 7.760744232043103,
+      "gp_latent_std": 0.5098511820619102,
+      "gp_observation_std": 0.6372898225000111
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1724",
+      "rf_prediction": 8.030458048941803,
+      "gp_prediction": 8.02162868896323,
+      "gp_latent_std": 0.5031536216130159,
+      "gp_observation_std": 0.6319443464059653
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1729",
+      "rf_prediction": 8.023775854497362,
+      "gp_prediction": 7.588205614731319,
+      "gp_latent_std": 0.7096161223313695,
+      "gp_observation_std": 0.8060676963411806
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1730",
+      "rf_prediction": 8.22821191666667,
+      "gp_prediction": 8.114623305702365,
+      "gp_latent_std": 0.6221928413748268,
+      "gp_observation_std": 0.7302835215655964
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1734",
+      "rf_prediction": 6.841844908730156,
+      "gp_prediction": 6.783850460871539,
+      "gp_latent_std": 0.36230843383715716,
+      "gp_observation_std": 0.5267423385695347
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1735",
+      "rf_prediction": 6.837354657527656,
+      "gp_prediction": 6.895996144631325,
+      "gp_latent_std": 0.40887971056477324,
+      "gp_observation_std": 0.5597970236824248
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1739",
+      "rf_prediction": 6.791842824074077,
+      "gp_prediction": 6.613786182859631,
+      "gp_latent_std": 0.48705671832549347,
+      "gp_observation_std": 0.6192046001752309
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1740",
+      "rf_prediction": 6.084435923280417,
+      "gp_prediction": 5.8321510232624005,
+      "gp_latent_std": 0.4347334572222422,
+      "gp_observation_std": 0.5789501436570956
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1745",
+      "rf_prediction": 8.899144171957671,
+      "gp_prediction": 8.917867278514988,
+      "gp_latent_std": 0.45343343953108634,
+      "gp_observation_std": 0.5931205392642881
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1750",
+      "rf_prediction": 8.999737056878304,
+      "gp_prediction": 8.835119856576387,
+      "gp_latent_std": 0.626835382174784,
+      "gp_observation_std": 0.7342429341562479
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1755",
+      "rf_prediction": 7.899317763227515,
+      "gp_prediction": 7.92193704004392,
+      "gp_latent_std": 0.6486993900332119,
+      "gp_observation_std": 0.7529946803541375
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1757",
+      "rf_prediction": 7.633013195767195,
+      "gp_prediction": 7.555863657918534,
+      "gp_latent_std": 0.6938387340350465,
+      "gp_observation_std": 0.792213531101006
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1774",
+      "rf_prediction": 8.25710333333333,
+      "gp_prediction": 8.241673475158333,
+      "gp_latent_std": 0.40809420858531104,
+      "gp_observation_std": 0.5592235448307233
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1777",
+      "rf_prediction": 8.784735464285719,
+      "gp_prediction": 9.126302379883311,
+      "gp_latent_std": 0.37132479417659464,
+      "gp_observation_std": 0.5329842331462151
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1779",
+      "rf_prediction": 7.805507136243383,
+      "gp_prediction": 7.991564115941419,
+      "gp_latent_std": 0.5161851026742362,
+      "gp_observation_std": 0.642368391372879
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1781",
+      "rf_prediction": 7.7747927744107805,
+      "gp_prediction": 7.3214257002793675,
+      "gp_latent_std": 0.76792804000068,
+      "gp_observation_std": 0.8578482177118831
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1790",
+      "rf_prediction": 6.294613550264544,
+      "gp_prediction": 6.038942548835397,
+      "gp_latent_std": 0.6070253321856465,
+      "gp_observation_std": 0.7174049372058037
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1796",
+      "rf_prediction": 7.242194476190478,
+      "gp_prediction": 6.558681327575154,
+      "gp_latent_std": 0.7529622673276776,
+      "gp_observation_std": 0.8444775106723716
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1801",
+      "rf_prediction": 6.534352089947094,
+      "gp_prediction": 6.41391394630974,
+      "gp_latent_std": 0.572285397609899,
+      "gp_observation_std": 0.6882591563718488
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1805",
+      "rf_prediction": 7.026442067460315,
+      "gp_prediction": 6.460456966726595,
+      "gp_latent_std": 0.7840937675370311,
+      "gp_observation_std": 0.8723491997489219
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1807",
+      "rf_prediction": 6.43075344047619,
+      "gp_prediction": 6.537000657854732,
+      "gp_latent_std": 0.7979459421869889,
+      "gp_observation_std": 0.8848207822292885
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1809",
+      "rf_prediction": 6.949789562169311,
+      "gp_prediction": 6.67712039902085,
+      "gp_latent_std": 0.8741976529401796,
+      "gp_observation_std": 0.9541549278907945
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1812",
+      "rf_prediction": 8.96214862037037,
+      "gp_prediction": 8.998684435511624,
+      "gp_latent_std": 0.45829901959646313,
+      "gp_observation_std": 0.596848457629948
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1815",
+      "rf_prediction": 9.026559018518512,
+      "gp_prediction": 8.765183077885334,
+      "gp_latent_std": 0.45869493262514954,
+      "gp_observation_std": 0.5971525192345412
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1821",
+      "rf_prediction": 6.9920375912698365,
+      "gp_prediction": 6.793281449531893,
+      "gp_latent_std": 0.6101971440329846,
+      "gp_observation_std": 0.7200907197000803
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1827",
+      "rf_prediction": 7.123300167582414,
+      "gp_prediction": 7.455995704668916,
+      "gp_latent_std": 0.46937054985197646,
+      "gp_observation_std": 0.605391446157373
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1829",
+      "rf_prediction": 7.181990249592996,
+      "gp_prediction": 7.422442244865946,
+      "gp_latent_std": 0.46224912173013344,
+      "gp_observation_std": 0.5998869398082011
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1832",
+      "rf_prediction": 6.9827068845136315,
+      "gp_prediction": 7.472345625109439,
+      "gp_latent_std": 0.5664104637555992,
+      "gp_observation_std": 0.6833819601540574
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1841",
+      "rf_prediction": 6.038837445767195,
+      "gp_prediction": 6.307607742341096,
+      "gp_latent_std": 0.39403099706525224,
+      "gp_observation_std": 0.5490450952885432
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1848",
+      "rf_prediction": 7.402349984126982,
+      "gp_prediction": 7.005897656128527,
+      "gp_latent_std": 0.38752505135535625,
+      "gp_observation_std": 0.5443948525106939
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1849",
+      "rf_prediction": 7.634047232804235,
+      "gp_prediction": 7.663062843612546,
+      "gp_latent_std": 0.4589737665123271,
+      "gp_observation_std": 0.5973667285333866
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1851",
+      "rf_prediction": 7.487576973544977,
+      "gp_prediction": 7.605796410469549,
+      "gp_latent_std": 0.4191040043778137,
+      "gp_observation_std": 0.5673079027280398
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1863",
+      "rf_prediction": 6.384434948412697,
+      "gp_prediction": 6.265002081556703,
+      "gp_latent_std": 0.7805394466712757,
+      "gp_observation_std": 0.8691558650909915
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1873",
+      "rf_prediction": 6.801767865079357,
+      "gp_prediction": 6.804253459730986,
+      "gp_latent_std": 0.5320253590850694,
+      "gp_observation_std": 0.6551649202466244
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1878",
+      "rf_prediction": 6.627128600529099,
+      "gp_prediction": 6.4380316508604185,
+      "gp_latent_std": 0.48940199581067595,
+      "gp_observation_std": 0.6210510474314019
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1880",
+      "rf_prediction": 7.379083683862433,
+      "gp_prediction": 7.37682593543856,
+      "gp_latent_std": 0.49498275539013026,
+      "gp_observation_std": 0.6254582465247174
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1881",
+      "rf_prediction": 7.541528846560847,
+      "gp_prediction": 7.621168434618138,
+      "gp_latent_std": 0.5758218364554192,
+      "gp_observation_std": 0.6912024865052643
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1882",
+      "rf_prediction": 7.413415632275134,
+      "gp_prediction": 7.5272039276742095,
+      "gp_latent_std": 0.5012068743791196,
+      "gp_observation_std": 0.6303954480618139
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1883",
+      "rf_prediction": 7.44328892592593,
+      "gp_prediction": 7.4286804145052665,
+      "gp_latent_std": 0.5014162354162311,
+      "gp_observation_std": 0.6305619169844892
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1884",
+      "rf_prediction": 7.305783615079364,
+      "gp_prediction": 7.300778200067651,
+      "gp_latent_std": 0.4444353344520506,
+      "gp_observation_std": 0.5862702930574555
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1886",
+      "rf_prediction": 7.395464261904762,
+      "gp_prediction": 7.335810592328309,
+      "gp_latent_std": 0.5456316461864332,
+      "gp_observation_std": 0.6662611975286311
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1887",
+      "rf_prediction": 7.376123650793651,
+      "gp_prediction": 7.351077648226271,
+      "gp_latent_std": 0.46837313194187674,
+      "gp_observation_std": 0.6046184588128378
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1889",
+      "rf_prediction": 7.430293512626264,
+      "gp_prediction": 7.734917497155873,
+      "gp_latent_std": 0.7075413726429892,
+      "gp_observation_std": 0.8042418069297903
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1896",
+      "rf_prediction": 7.328650925925925,
+      "gp_prediction": 7.47112125676566,
+      "gp_latent_std": 0.37639604830583606,
+      "gp_observation_std": 0.5365296591917523
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1897",
+      "rf_prediction": 7.369652715608466,
+      "gp_prediction": 7.375265652045883,
+      "gp_latent_std": 0.41532046058780153,
+      "gp_observation_std": 0.5645185337923213
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1899",
+      "rf_prediction": 7.629677726190472,
+      "gp_prediction": 7.178856547629108,
+      "gp_latent_std": 0.7039835378820031,
+      "gp_observation_std": 0.8011135447744161
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1906",
+      "rf_prediction": 6.5875497063492086,
+      "gp_prediction": 6.3782271582784835,
+      "gp_latent_std": 0.5716299993973084,
+      "gp_observation_std": 0.6877142911290527
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1918",
+      "rf_prediction": 6.868441611111116,
+      "gp_prediction": 6.856811265518692,
+      "gp_latent_std": 0.6294384896517419,
+      "gp_observation_std": 0.7364664977222213
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1925",
+      "rf_prediction": 7.140877063492064,
+      "gp_prediction": 7.33867180840713,
+      "gp_latent_std": 0.511729792188778,
+      "gp_observation_std": 0.6387937618869948
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1926",
+      "rf_prediction": 7.144794428571425,
+      "gp_prediction": 7.449747067109498,
+      "gp_latent_std": 0.5187970705327688,
+      "gp_observation_std": 0.6444691539597154
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1929",
+      "rf_prediction": 7.244814074074071,
+      "gp_prediction": 7.207025020110881,
+      "gp_latent_std": 0.5652905148249624,
+      "gp_observation_std": 0.6824539956387095
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1930",
+      "rf_prediction": 7.050036611111109,
+      "gp_prediction": 7.05379866474061,
+      "gp_latent_std": 0.5965006038763353,
+      "gp_observation_std": 0.708521743094029
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1936",
+      "rf_prediction": 7.33637372222222,
+      "gp_prediction": 7.454137085015642,
+      "gp_latent_std": 0.40297162348458465,
+      "gp_observation_std": 0.5554963720367312
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1937",
+      "rf_prediction": 7.183109817460316,
+      "gp_prediction": 6.996606034237284,
+      "gp_latent_std": 0.4863892731818833,
+      "gp_observation_std": 0.6186797354678505
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1942",
+      "rf_prediction": 6.543058207671961,
+      "gp_prediction": 5.830129544647427,
+      "gp_latent_std": 0.8437875845352312,
+      "gp_observation_std": 0.9263733468898856
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1949",
+      "rf_prediction": 7.23253687698413,
+      "gp_prediction": 7.364694806257709,
+      "gp_latent_std": 0.5356556037845172,
+      "gp_observation_std": 0.6581162631920929
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1952",
+      "rf_prediction": 7.201700582010579,
+      "gp_prediction": 8.086548386379002,
+      "gp_latent_std": 0.6464413051604302,
+      "gp_observation_std": 0.7510502320282506
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1953",
+      "rf_prediction": 7.38509637169312,
+      "gp_prediction": 8.247114262605493,
+      "gp_latent_std": 0.5088277580580324,
+      "gp_observation_std": 0.6364713484380361
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1955",
+      "rf_prediction": 7.475007892857147,
+      "gp_prediction": 7.717875010710378,
+      "gp_latent_std": 0.6028032206594649,
+      "gp_observation_std": 0.713835984557792
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1959",
+      "rf_prediction": 7.312162082130827,
+      "gp_prediction": 7.306760790750454,
+      "gp_latent_std": 0.5682544809030923,
+      "gp_observation_std": 0.6849111220286991
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1966",
+      "rf_prediction": 6.555279869047616,
+      "gp_prediction": 5.914318782739203,
+      "gp_latent_std": 0.6511079707753253,
+      "gp_observation_std": 0.7550706454493715
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1970",
+      "rf_prediction": 6.666861257936511,
+      "gp_prediction": 6.596006016685089,
+      "gp_latent_std": 0.5502296472201124,
+      "gp_observation_std": 0.6700319057269869
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:1982",
+      "rf_prediction": 7.2271041759259305,
+      "gp_prediction": 6.647715367815955,
+      "gp_latent_std": 0.5699153759750418,
+      "gp_observation_std": 0.686289753518834
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2005",
+      "rf_prediction": 7.542452481601735,
+      "gp_prediction": 7.618760694311735,
+      "gp_latent_std": 0.6211983173293135,
+      "gp_observation_std": 0.7294363847964668
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2009",
+      "rf_prediction": 6.704397146825396,
+      "gp_prediction": 6.667553721106833,
+      "gp_latent_std": 0.7834310204567462,
+      "gp_observation_std": 0.8717535510831413
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2010",
+      "rf_prediction": 8.262747615079366,
+      "gp_prediction": 8.301304998654262,
+      "gp_latent_std": 0.28884291670418827,
+      "gp_observation_std": 0.4791871456355557
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2018",
+      "rf_prediction": 6.981210813492063,
+      "gp_prediction": 7.19674783848135,
+      "gp_latent_std": 0.5995998530186921,
+      "gp_observation_std": 0.7111329508272035
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2021",
+      "rf_prediction": 6.961720400793646,
+      "gp_prediction": 7.076317896432628,
+      "gp_latent_std": 0.6276359143859653,
+      "gp_observation_std": 0.7349264800231895
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2030",
+      "rf_prediction": 5.888370130952381,
+      "gp_prediction": 5.865412386701599,
+      "gp_latent_std": 0.5654682439418858,
+      "gp_observation_std": 0.6826012195410207
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2034",
+      "rf_prediction": 5.838651658730161,
+      "gp_prediction": 6.692052942571278,
+      "gp_latent_std": 0.8045487247460541,
+      "gp_observation_std": 0.8907798496276567
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2046",
+      "rf_prediction": 6.269842015873014,
+      "gp_prediction": 6.00149358919144,
+      "gp_latent_std": 0.3684548284929023,
+      "gp_observation_std": 0.5309887481405822
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2047",
+      "rf_prediction": 6.598900632275132,
+      "gp_prediction": 6.222284998581088,
+      "gp_latent_std": 0.48899902573550363,
+      "gp_observation_std": 0.6207335476534519
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2054",
+      "rf_prediction": 6.980100062650316,
+      "gp_prediction": 7.040351786392858,
+      "gp_latent_std": 0.7024069814651301,
+      "gp_observation_std": 0.7997284899408825
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2063",
+      "rf_prediction": 8.027903099206359,
+      "gp_prediction": 7.846688180419683,
+      "gp_latent_std": 0.3956427400060423,
+      "gp_observation_std": 0.550202933227057
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2064",
+      "rf_prediction": 8.093393535714297,
+      "gp_prediction": 8.106248447248445,
+      "gp_latent_std": 0.3852221566738692,
+      "gp_observation_std": 0.5427579571085399
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2065",
+      "rf_prediction": 8.093393535714297,
+      "gp_prediction": 8.106248447248445,
+      "gp_latent_std": 0.3852221566738692,
+      "gp_observation_std": 0.5427579571085399
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2066",
+      "rf_prediction": 7.36513706481482,
+      "gp_prediction": 7.237122957546148,
+      "gp_latent_std": 0.5868217606879977,
+      "gp_observation_std": 0.7003926533232129
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2069",
+      "rf_prediction": 7.190751014550266,
+      "gp_prediction": 6.8847444753397165,
+      "gp_latent_std": 0.549742794448293,
+      "gp_observation_std": 0.6696321602641159
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2071",
+      "rf_prediction": 7.234642895502649,
+      "gp_prediction": 7.244420223621519,
+      "gp_latent_std": 0.32827470042679363,
+      "gp_observation_std": 0.5039388543786535
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2078",
+      "rf_prediction": 6.677470980158724,
+      "gp_prediction": 6.588462815320533,
+      "gp_latent_std": 0.24813239573466075,
+      "gp_observation_std": 0.4558067307809209
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2094",
+      "rf_prediction": 6.775016784391532,
+      "gp_prediction": 6.756030042075104,
+      "gp_latent_std": 0.323427032032202,
+      "gp_observation_std": 0.5007945038249997
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2095",
+      "rf_prediction": 6.943235474867724,
+      "gp_prediction": 6.968609486998151,
+      "gp_latent_std": 0.29927936607420136,
+      "gp_observation_std": 0.48554940940129293
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2102",
+      "rf_prediction": 8.042478288359792,
+      "gp_prediction": 8.149913933373345,
+      "gp_latent_std": 0.3640281218882442,
+      "gp_observation_std": 0.5279266649238803
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2103",
+      "rf_prediction": 7.334448656565655,
+      "gp_prediction": 7.422869474204459,
+      "gp_latent_std": 0.36714353690838775,
+      "gp_observation_std": 0.5300796795820127
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2105",
+      "rf_prediction": 7.4353828906926385,
+      "gp_prediction": 7.403820095419522,
+      "gp_latent_std": 0.38973607135831234,
+      "gp_observation_std": 0.5459709656474235
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2111",
+      "rf_prediction": 7.8300756468254,
+      "gp_prediction": 8.071796987908346,
+      "gp_latent_std": 0.4284393980756936,
+      "gp_observation_std": 0.5742389814664546
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2112",
+      "rf_prediction": 8.163846408730164,
+      "gp_prediction": 8.273619255632369,
+      "gp_latent_std": 0.4260100401117547,
+      "gp_observation_std": 0.5724287241990809
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2120",
+      "rf_prediction": 7.77212707010583,
+      "gp_prediction": 7.5162828607209065,
+      "gp_latent_std": 0.3635845294500014,
+      "gp_observation_std": 0.5276208866862148
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2122",
+      "rf_prediction": 7.931933734126981,
+      "gp_prediction": 7.921359759562855,
+      "gp_latent_std": 0.37805960689905416,
+      "gp_observation_std": 0.5376980159725679
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2129",
+      "rf_prediction": 6.3622866809764345,
+      "gp_prediction": 6.388620114356692,
+      "gp_latent_std": 0.4911365080945119,
+      "gp_observation_std": 0.6224187975916531
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2131",
+      "rf_prediction": 7.581775933862432,
+      "gp_prediction": 7.014408675225317,
+      "gp_latent_std": 0.7577761521708171,
+      "gp_observation_std": 0.8487725177048192
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2133",
+      "rf_prediction": 7.892366489417982,
+      "gp_prediction": 7.589893146121554,
+      "gp_latent_std": 0.5047224915119104,
+      "gp_observation_std": 0.6331941909478948
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2138",
+      "rf_prediction": 7.839584943121687,
+      "gp_prediction": 7.301901850009417,
+      "gp_latent_std": 0.7313764550266171,
+      "gp_observation_std": 0.8252888033770176
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2139",
+      "rf_prediction": 7.890512232804228,
+      "gp_prediction": 7.399252457905294,
+      "gp_latent_std": 0.6978974715495825,
+      "gp_observation_std": 0.7957706772729621
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2144",
+      "rf_prediction": 7.224649625661375,
+      "gp_prediction": 7.520692046309026,
+      "gp_latent_std": 0.7104670577225621,
+      "gp_observation_std": 0.8068169123916051
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2147",
+      "rf_prediction": 7.511334507936503,
+      "gp_prediction": 7.698881335276519,
+      "gp_latent_std": 0.5866593766301482,
+      "gp_observation_std": 0.7002566059668717
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2150",
+      "rf_prediction": 7.077298811327562,
+      "gp_prediction": 7.242253793073843,
+      "gp_latent_std": 0.5475047787336557,
+      "gp_observation_std": 0.6677960562539718
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2153",
+      "rf_prediction": 7.152017018999523,
+      "gp_prediction": 7.16087504100227,
+      "gp_latent_std": 0.5789329904381446,
+      "gp_observation_std": 0.6937964380348326
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2154",
+      "rf_prediction": 7.21729521560847,
+      "gp_prediction": 7.248958472247969,
+      "gp_latent_std": 0.5312039378808848,
+      "gp_observation_std": 0.6544980623594905
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2159",
+      "rf_prediction": 6.884463138888893,
+      "gp_prediction": 6.621045839460884,
+      "gp_latent_std": 0.5449357692357049,
+      "gp_observation_std": 0.6656914319748136
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2161",
+      "rf_prediction": 7.223219065295818,
+      "gp_prediction": 7.366684501600223,
+      "gp_latent_std": 0.5067964932305251,
+      "gp_observation_std": 0.6348486241324985
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2165",
+      "rf_prediction": 7.3617424898989885,
+      "gp_prediction": 7.326349314436488,
+      "gp_latent_std": 0.35632057389612076,
+      "gp_observation_std": 0.5226417907073921
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2174",
+      "rf_prediction": 7.378236407287161,
+      "gp_prediction": 7.425665762153256,
+      "gp_latent_std": 0.5417578183792077,
+      "gp_observation_std": 0.6630924700124162
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2176",
+      "rf_prediction": 6.255514439153437,
+      "gp_prediction": 6.081173300609213,
+      "gp_latent_std": 0.5096036895286805,
+      "gp_observation_std": 0.6370918382724836
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2190",
+      "rf_prediction": 7.684472129629632,
+      "gp_prediction": 7.971079466289409,
+      "gp_latent_std": 0.553119280987942,
+      "gp_observation_std": 0.6724068924489
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2198",
+      "rf_prediction": 5.766023047619047,
+      "gp_prediction": 5.62292715747517,
+      "gp_latent_std": 0.46621825388425653,
+      "gp_observation_std": 0.6029507030156394
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2202",
+      "rf_prediction": 6.1267759960317445,
+      "gp_prediction": 6.055815639137708,
+      "gp_latent_std": 0.4825395251358968,
+      "gp_observation_std": 0.6156577647772709
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2211",
+      "rf_prediction": 8.014034132275134,
+      "gp_prediction": 7.759954825821043,
+      "gp_latent_std": 0.4172937804808485,
+      "gp_observation_std": 0.5659718979244175
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2219",
+      "rf_prediction": 8.009398497354496,
+      "gp_prediction": 7.835742290708128,
+      "gp_latent_std": 0.48264331266118976,
+      "gp_observation_std": 0.6157391146165198
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2227",
+      "rf_prediction": 7.479085437830688,
+      "gp_prediction": 7.645416046954312,
+      "gp_latent_std": 0.5859775508539213,
+      "gp_observation_std": 0.699685486570165
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2228",
+      "rf_prediction": 7.4933095846560835,
+      "gp_prediction": 7.802299523073793,
+      "gp_latent_std": 0.5783694632325072,
+      "gp_observation_std": 0.6933262767355836
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2231",
+      "rf_prediction": 8.803545440476192,
+      "gp_prediction": 8.982401461780674,
+      "gp_latent_std": 0.4666652658219183,
+      "gp_observation_std": 0.6032964116724135
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2238",
+      "rf_prediction": 8.573212515873013,
+      "gp_prediction": 8.320848137242267,
+      "gp_latent_std": 0.5373400546255509,
+      "gp_observation_std": 0.6594880016476105
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2241",
+      "rf_prediction": 7.882843232804229,
+      "gp_prediction": 8.040075274979097,
+      "gp_latent_std": 0.506261184096042,
+      "gp_observation_std": 0.6344213714358109
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2247",
+      "rf_prediction": 8.175989771164021,
+      "gp_prediction": 8.441065084996215,
+      "gp_latent_std": 0.42443176032739355,
+      "gp_observation_std": 0.5712551174272127
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2248",
+      "rf_prediction": 8.121904006613754,
+      "gp_prediction": 8.116844043248424,
+      "gp_latent_std": 0.537440558776312,
+      "gp_observation_std": 0.6595698933623054
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2259",
+      "rf_prediction": 7.210140523809522,
+      "gp_prediction": 7.197238446922943,
+      "gp_latent_std": 0.476241627521664,
+      "gp_observation_std": 0.610734130204504
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2261",
+      "rf_prediction": 7.143087251322748,
+      "gp_prediction": 7.132440232253323,
+      "gp_latent_std": 0.6435728441744376,
+      "gp_observation_std": 0.7485827247345104
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2264",
+      "rf_prediction": 8.537190757936507,
+      "gp_prediction": 8.52644196227152,
+      "gp_latent_std": 0.25756023320480487,
+      "gp_observation_std": 0.4610069020531928
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2276",
+      "rf_prediction": 7.7727042500000065,
+      "gp_prediction": 7.765210359979042,
+      "gp_latent_std": 0.20531100401397978,
+      "gp_observation_std": 0.4339846752840439
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2291",
+      "rf_prediction": 8.273168892857143,
+      "gp_prediction": 8.3274655490544,
+      "gp_latent_std": 0.6224586293899382,
+      "gp_observation_std": 0.7305099830352554
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2292",
+      "rf_prediction": 7.183364662698414,
+      "gp_prediction": 7.2478318606708,
+      "gp_latent_std": 0.6478502136207718,
+      "gp_observation_std": 0.7522632446827694
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2297",
+      "rf_prediction": 8.189642388888895,
+      "gp_prediction": 8.363403379230874,
+      "gp_latent_std": 0.2932728856312078,
+      "gp_observation_std": 0.4818703928014504
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2303",
+      "rf_prediction": 8.039393450937956,
+      "gp_prediction": 8.297177642915223,
+      "gp_latent_std": 0.4235269690513797,
+      "gp_observation_std": 0.5705831959723463
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2320",
+      "rf_prediction": 6.889240646825397,
+      "gp_prediction": 6.958659653746643,
+      "gp_latent_std": 0.8397717600054492,
+      "gp_observation_std": 0.9227170199550988
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2324",
+      "rf_prediction": 7.160432141534389,
+      "gp_prediction": 6.091615242880276,
+      "gp_latent_std": 0.8761557541106731,
+      "gp_observation_std": 0.9559492640686591
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2329",
+      "rf_prediction": 6.036986293650792,
+      "gp_prediction": 5.617427898921492,
+      "gp_latent_std": 0.8332929467728611,
+      "gp_observation_std": 0.9168245334596838
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2330",
+      "rf_prediction": 6.2885777579365065,
+      "gp_prediction": 6.00222837099444,
+      "gp_latent_std": 0.850923097828604,
+      "gp_observation_std": 0.9328773812406412
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2346",
+      "rf_prediction": 7.807204611111107,
+      "gp_prediction": 7.864834909527221,
+      "gp_latent_std": 0.28999811086165805,
+      "gp_observation_std": 0.47988435514767425
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2347",
+      "rf_prediction": 7.591657756974503,
+      "gp_prediction": 7.502688376354558,
+      "gp_latent_std": 0.2894001518151988,
+      "gp_observation_std": 0.47952324019053416
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2350",
+      "rf_prediction": 7.666746504329004,
+      "gp_prediction": 7.671080282234259,
+      "gp_latent_std": 0.26681026768623456,
+      "gp_observation_std": 0.4662379316990079
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2351",
+      "rf_prediction": 7.474588271164025,
+      "gp_prediction": 7.445305580454656,
+      "gp_latent_std": 0.30007642047883626,
+      "gp_observation_std": 0.4860410971713811
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2353",
+      "rf_prediction": 6.2518721428571435,
+      "gp_prediction": 6.403435269370209,
+      "gp_latent_std": 0.5261414840005775,
+      "gp_observation_std": 0.650395995681476
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2355",
+      "rf_prediction": 6.528451353174599,
+      "gp_prediction": 6.70031360983966,
+      "gp_latent_std": 0.5584250934771433,
+      "gp_observation_std": 0.6767781579196573
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2364",
+      "rf_prediction": 6.530403478835981,
+      "gp_prediction": 6.551212424776097,
+      "gp_latent_std": 0.3474687285124377,
+      "gp_observation_std": 0.5166474690794669
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2368",
+      "rf_prediction": 7.733227030423274,
+      "gp_prediction": 7.932047369249829,
+      "gp_latent_std": 0.5907898312840747,
+      "gp_observation_std": 0.7037206226627397
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2369",
+      "rf_prediction": 6.621870630952381,
+      "gp_prediction": 7.723702186930602,
+      "gp_latent_std": 0.6879075751035081,
+      "gp_observation_std": 0.7870240923230732
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2372",
+      "rf_prediction": 7.379987280423282,
+      "gp_prediction": 7.385563333341822,
+      "gp_latent_std": 0.5415584429688121,
+      "gp_observation_std": 0.6629295868815728
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2373",
+      "rf_prediction": 8.028340886243374,
+      "gp_prediction": 8.208525329748577,
+      "gp_latent_std": 0.4963773100331949,
+      "gp_observation_std": 0.626562466102111
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2374",
+      "rf_prediction": 7.523170436507931,
+      "gp_prediction": 7.606933663557931,
+      "gp_latent_std": 0.6083994585250115,
+      "gp_observation_std": 0.7185680142795781
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2377",
+      "rf_prediction": 6.57130012037037,
+      "gp_prediction": 7.179513162656095,
+      "gp_latent_std": 0.5762065235285257,
+      "gp_observation_std": 0.6915229914970275
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2393",
+      "rf_prediction": 6.558806138888886,
+      "gp_prediction": 6.665098372431132,
+      "gp_latent_std": 0.45709356015103686,
+      "gp_observation_std": 0.5959233279069701
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2399",
+      "rf_prediction": 6.787526899470899,
+      "gp_prediction": 6.898544571993077,
+      "gp_latent_std": 0.34014263302032366,
+      "gp_observation_std": 0.5117490603901166
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2403",
+      "rf_prediction": 5.651443543650789,
+      "gp_prediction": 5.789484474967182,
+      "gp_latent_std": 0.3695402189277907,
+      "gp_observation_std": 0.5317424784774751
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2407",
+      "rf_prediction": 6.899701095238099,
+      "gp_prediction": 6.568331613416587,
+      "gp_latent_std": 0.42860510349387904,
+      "gp_observation_std": 0.5743626247878316
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2411",
+      "rf_prediction": 5.602293179894177,
+      "gp_prediction": 5.706234324487744,
+      "gp_latent_std": 0.4466472095769707,
+      "gp_observation_std": 0.5879488241633475
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2413",
+      "rf_prediction": 6.970661231481483,
+      "gp_prediction": 7.018739983463082,
+      "gp_latent_std": 0.472393333627769,
+      "gp_observation_std": 0.6077380617240664
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2418",
+      "rf_prediction": 7.538323501683505,
+      "gp_prediction": 7.357046544575269,
+      "gp_latent_std": 0.5324490921812378,
+      "gp_observation_std": 0.6555090585009432
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2419",
+      "rf_prediction": 7.035137592953344,
+      "gp_prediction": 7.1500900819807915,
+      "gp_latent_std": 0.525876456950171,
+      "gp_observation_std": 0.6501816192316064
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2424",
+      "rf_prediction": 6.807220670634921,
+      "gp_prediction": 6.66167145803458,
+      "gp_latent_std": 0.5215475155300252,
+      "gp_observation_std": 0.646685318348662
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2432",
+      "rf_prediction": 7.013778201058205,
+      "gp_prediction": 6.934181126813638,
+      "gp_latent_std": 0.49961041561300873,
+      "gp_observation_std": 0.6291269008722898
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2433",
+      "rf_prediction": 7.0200630476190495,
+      "gp_prediction": 6.911320489387387,
+      "gp_latent_std": 0.49358648362660584,
+      "gp_observation_std": 0.6243538314377884
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2446",
+      "rf_prediction": 6.867230984126983,
+      "gp_prediction": 6.9318832543391355,
+      "gp_latent_std": 0.49652382984556453,
+      "gp_observation_std": 0.6266785488722872
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2448",
+      "rf_prediction": 6.805893062169312,
+      "gp_prediction": 7.02256117173157,
+      "gp_latent_std": 0.5369401285590466,
+      "gp_observation_std": 0.6591621891986631
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2450",
+      "rf_prediction": 6.800701470899471,
+      "gp_prediction": 7.0089299694326375,
+      "gp_latent_std": 0.5577627588435085,
+      "gp_observation_std": 0.676231754034732
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2466",
+      "rf_prediction": 7.172915226190482,
+      "gp_prediction": 6.822368051402862,
+      "gp_latent_std": 0.6967640040533478,
+      "gp_observation_std": 0.7947768034842375
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2469",
+      "rf_prediction": 5.66659645899471,
+      "gp_prediction": 5.813930946042509,
+      "gp_latent_std": 0.44539610352059655,
+      "gp_observation_std": 0.5869989600020589
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2470",
+      "rf_prediction": 6.167991638888888,
+      "gp_prediction": 5.689709279982577,
+      "gp_latent_std": 0.48035428933225816,
+      "gp_observation_std": 0.6139465231533341
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2473",
+      "rf_prediction": 5.958996138888891,
+      "gp_prediction": 5.84029685341062,
+      "gp_latent_std": 0.5062265983809504,
+      "gp_observation_std": 0.6343937727630345
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2482",
+      "rf_prediction": 7.095650646464651,
+      "gp_prediction": 6.497222024411584,
+      "gp_latent_std": 0.7345978412872894,
+      "gp_observation_std": 0.8281449622113959
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2486",
+      "rf_prediction": 7.483425253848001,
+      "gp_prediction": 7.306987657037053,
+      "gp_latent_std": 0.5219985172683229,
+      "gp_observation_std": 0.6470491032699885
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2491",
+      "rf_prediction": 7.452294066137563,
+      "gp_prediction": 7.486251747244409,
+      "gp_latent_std": 0.6489597058347347,
+      "gp_observation_std": 0.7532189521044156
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2492",
+      "rf_prediction": 7.485509760582005,
+      "gp_prediction": 7.578578058703141,
+      "gp_latent_std": 0.6961170337665292,
+      "gp_observation_std": 0.7942096793115027
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2493",
+      "rf_prediction": 7.425709571428568,
+      "gp_prediction": 7.582926664116709,
+      "gp_latent_std": 0.7000591288503983,
+      "gp_observation_std": 0.7976671448034872
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2494",
+      "rf_prediction": 7.750878330567584,
+      "gp_prediction": 7.870494168695025,
+      "gp_latent_std": 0.6315059735777236,
+      "gp_observation_std": 0.7382343020183477
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2499",
+      "rf_prediction": 6.236030629629633,
+      "gp_prediction": 5.97872644811952,
+      "gp_latent_std": 0.37467854927375405,
+      "gp_observation_std": 0.5353261672084165
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2504",
+      "rf_prediction": 6.216451058201057,
+      "gp_prediction": 6.0913202576719225,
+      "gp_latent_std": 0.36300418498376136,
+      "gp_observation_std": 0.5272211379752271
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2506",
+      "rf_prediction": 6.180929039682536,
+      "gp_prediction": 6.403387901923873,
+      "gp_latent_std": 0.3618902359624515,
+      "gp_observation_std": 0.526454777637289
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2511",
+      "rf_prediction": 6.878980400793647,
+      "gp_prediction": 7.0449067567522405,
+      "gp_latent_std": 0.3774775513216791,
+      "gp_observation_std": 0.5372889276394773
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2520",
+      "rf_prediction": 6.502637753968252,
+      "gp_prediction": 6.303187278291,
+      "gp_latent_std": 0.44307864384051227,
+      "gp_observation_std": 0.5852424921686019
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2524",
+      "rf_prediction": 7.532524924482926,
+      "gp_prediction": 6.9800468189142775,
+      "gp_latent_std": 0.6717807958050986,
+      "gp_observation_std": 0.7729679990948527
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2530",
+      "rf_prediction": 8.680801043650789,
+      "gp_prediction": 8.896916105297953,
+      "gp_latent_std": 0.3480613109544927,
+      "gp_observation_std": 0.51704619348326
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2533",
+      "rf_prediction": 8.689028746031747,
+      "gp_prediction": 8.615747855443924,
+      "gp_latent_std": 0.49920599685684813,
+      "gp_observation_std": 0.6288057866384565
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2535",
+      "rf_prediction": 8.899808074074077,
+      "gp_prediction": 8.696766520183182,
+      "gp_latent_std": 0.4142923438845988,
+      "gp_observation_std": 0.5637625707809657
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2541",
+      "rf_prediction": 8.91097061772487,
+      "gp_prediction": 8.836467931041797,
+      "gp_latent_std": 0.4468127515022355,
+      "gp_observation_std": 0.5880745912868256
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2547",
+      "rf_prediction": 8.266201711640207,
+      "gp_prediction": 8.287881936104199,
+      "gp_latent_std": 0.4164027295076707,
+      "gp_observation_std": 0.5653152422795683
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2548",
+      "rf_prediction": 8.2028176005291,
+      "gp_prediction": 7.899501359640616,
+      "gp_latent_std": 0.5305129571933606,
+      "gp_observation_std": 0.6539373729664125
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2550",
+      "rf_prediction": 8.46721246164022,
+      "gp_prediction": 8.440108717826252,
+      "gp_latent_std": 0.36486096067636425,
+      "gp_observation_std": 0.5285012872622431
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2558",
+      "rf_prediction": 8.668191444444444,
+      "gp_prediction": 8.997687139294158,
+      "gp_latent_std": 0.3979878836957786,
+      "gp_observation_std": 0.5518916973291166
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2562",
+      "rf_prediction": 8.670037304232801,
+      "gp_prediction": 8.501696363718775,
+      "gp_latent_std": 0.4961597990520335,
+      "gp_observation_std": 0.6263901629236549
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2564",
+      "rf_prediction": 8.458336988095237,
+      "gp_prediction": 8.632232137002616,
+      "gp_latent_std": 0.5025139372388846,
+      "gp_observation_std": 0.6314351487932028
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2569",
+      "rf_prediction": 8.61908762830688,
+      "gp_prediction": 8.810338864103246,
+      "gp_latent_std": 0.5922015763244642,
+      "gp_observation_std": 0.7049062327808918
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2574",
+      "rf_prediction": 8.380464025132278,
+      "gp_prediction": 8.146378472098,
+      "gp_latent_std": 0.5529008893744647,
+      "gp_observation_std": 0.6722272558318673
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2587",
+      "rf_prediction": 7.12724126719576,
+      "gp_prediction": 6.739864876349174,
+      "gp_latent_std": 0.3900605715745132,
+      "gp_observation_std": 0.5462026542495052
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2591",
+      "rf_prediction": 7.705549816137563,
+      "gp_prediction": 7.865852919724873,
+      "gp_latent_std": 0.4321018854974324,
+      "gp_observation_std": 0.576976714835707
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2595",
+      "rf_prediction": 7.88178564550265,
+      "gp_prediction": 8.022723228553216,
+      "gp_latent_std": 0.4008543415228223,
+      "gp_observation_std": 0.5539623571415878
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2603",
+      "rf_prediction": 8.168937743386238,
+      "gp_prediction": 8.151492571972241,
+      "gp_latent_std": 0.6828284989412424,
+      "gp_observation_std": 0.7825885566365757
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2612",
+      "rf_prediction": 8.182090558201054,
+      "gp_prediction": 8.455435271006104,
+      "gp_latent_std": 0.47189492835404995,
+      "gp_observation_std": 0.6073507334468631
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2613",
+      "rf_prediction": 8.603359788359786,
+      "gp_prediction": 8.369930496617883,
+      "gp_latent_std": 0.457714067435212,
+      "gp_observation_std": 0.5963994110830881
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2620",
+      "rf_prediction": 8.515128607142861,
+      "gp_prediction": 7.844676435119291,
+      "gp_latent_std": 0.5165542531324141,
+      "gp_observation_std": 0.6426650655211895
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2621",
+      "rf_prediction": 8.546095351851847,
+      "gp_prediction": 7.683155952961509,
+      "gp_latent_std": 0.6208011717744694,
+      "gp_observation_std": 0.7290981997568797
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2629",
+      "rf_prediction": 6.7153645992063495,
+      "gp_prediction": 6.619550631110027,
+      "gp_latent_std": 0.6893759375513272,
+      "gp_observation_std": 0.7883078543861783
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2643",
+      "rf_prediction": 7.011891964285717,
+      "gp_prediction": 6.836034900616813,
+      "gp_latent_std": 0.4016102806668709,
+      "gp_observation_std": 0.5545096099703696
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2647",
+      "rf_prediction": 7.3875266547619045,
+      "gp_prediction": 7.209961496842157,
+      "gp_latent_std": 0.47496952569400824,
+      "gp_observation_std": 0.6097426837200752
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2649",
+      "rf_prediction": 6.629615449735451,
+      "gp_prediction": 6.700090964421843,
+      "gp_latent_std": 0.42818449669040315,
+      "gp_observation_std": 0.5740488247685753
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2654",
+      "rf_prediction": 7.582654182539677,
+      "gp_prediction": 7.5668846546907345,
+      "gp_latent_std": 0.35569708194003147,
+      "gp_observation_std": 0.5222169128942704
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2656",
+      "rf_prediction": 7.737547985449729,
+      "gp_prediction": 7.706924669405463,
+      "gp_latent_std": 0.31605449513773404,
+      "gp_observation_std": 0.4960650500780483
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2660",
+      "rf_prediction": 7.20083836904761,
+      "gp_prediction": 7.008617004349361,
+      "gp_latent_std": 0.3507070394242512,
+      "gp_observation_std": 0.5188309141848545
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2664",
+      "rf_prediction": 7.669702562169316,
+      "gp_prediction": 7.537507136657544,
+      "gp_latent_std": 0.29913529802581895,
+      "gp_observation_std": 0.4854606230552218
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2667",
+      "rf_prediction": 7.972597538359786,
+      "gp_prediction": 7.907621829384448,
+      "gp_latent_std": 0.28295354810294815,
+      "gp_observation_std": 0.47566038346305023
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2675",
+      "rf_prediction": 8.159185519841271,
+      "gp_prediction": 8.018732629519533,
+      "gp_latent_std": 0.29945244148591016,
+      "gp_observation_std": 0.4856561074711623
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2684",
+      "rf_prediction": 7.738516281746035,
+      "gp_prediction": 7.648762916995313,
+      "gp_latent_std": 0.31000227970986316,
+      "gp_observation_std": 0.49223114838201865
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2691",
+      "rf_prediction": 9.042613066137564,
+      "gp_prediction": 9.087196776853668,
+      "gp_latent_std": 0.5431180596366316,
+      "gp_observation_std": 0.6642042733343623
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2702",
+      "rf_prediction": 8.173210900793652,
+      "gp_prediction": 8.475019505452991,
+      "gp_latent_std": 0.29937650455759446,
+      "gp_observation_std": 0.4856092889281382
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2704",
+      "rf_prediction": 8.682599523809527,
+      "gp_prediction": 8.741673899837158,
+      "gp_latent_std": 0.2908659938765013,
+      "gp_observation_std": 0.4804093217308897
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2705",
+      "rf_prediction": 9.021118108465608,
+      "gp_prediction": 9.138608719693503,
+      "gp_latent_std": 0.30481246650955823,
+      "gp_observation_std": 0.48897927333559776
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2707",
+      "rf_prediction": 7.340883712361715,
+      "gp_prediction": 7.862047741781272,
+      "gp_latent_std": 0.3025822534949288,
+      "gp_observation_std": 0.48759215553804586
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2708",
+      "rf_prediction": 7.692666314213567,
+      "gp_prediction": 7.53033263857389,
+      "gp_latent_std": 0.417693094966573,
+      "gp_observation_std": 0.5662663786548899
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2714",
+      "rf_prediction": 6.126682346681091,
+      "gp_prediction": 6.156821162308519,
+      "gp_latent_std": 0.5842305461118267,
+      "gp_observation_std": 0.6982230453245524
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2716",
+      "rf_prediction": 6.140229329485322,
+      "gp_prediction": 5.956557184901695,
+      "gp_latent_std": 0.5819160673636324,
+      "gp_observation_std": 0.6962875838819217
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2721",
+      "rf_prediction": 6.1148692857142875,
+      "gp_prediction": 5.9584230563950245,
+      "gp_latent_std": 0.5800610304815408,
+      "gp_observation_std": 0.694738000324925
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2743",
+      "rf_prediction": 6.063717650432897,
+      "gp_prediction": 6.0994061241727895,
+      "gp_latent_std": 0.42285602635175124,
+      "gp_observation_std": 0.5700853524115153
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2745",
+      "rf_prediction": 6.200632728835977,
+      "gp_prediction": 6.2694435869208425,
+      "gp_latent_std": 0.452769874042353,
+      "gp_observation_std": 0.5926134059000833
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2750",
+      "rf_prediction": 7.812751560846556,
+      "gp_prediction": 7.587359708167025,
+      "gp_latent_std": 0.6466862660319925,
+      "gp_observation_std": 0.7512610842354138
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2755",
+      "rf_prediction": 8.522758541847043,
+      "gp_prediction": 8.69706776028741,
+      "gp_latent_std": 0.338729705742998,
+      "gp_observation_std": 0.5108110252969357
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2756",
+      "rf_prediction": 8.252737056998559,
+      "gp_prediction": 8.070455698378808,
+      "gp_latent_std": 0.32799322829909944,
+      "gp_observation_std": 0.5037555437136486
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2757",
+      "rf_prediction": 8.852572769841277,
+      "gp_prediction": 8.335624550436114,
+      "gp_latent_std": 0.33130710595900753,
+      "gp_observation_std": 0.505919448599381
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2761",
+      "rf_prediction": 7.886819276455033,
+      "gp_prediction": 7.808624171466661,
+      "gp_latent_std": 0.3410060325162919,
+      "gp_observation_std": 0.5123233395275595
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2766",
+      "rf_prediction": 8.766645999278495,
+      "gp_prediction": 8.875970118247759,
+      "gp_latent_std": 0.302918681655689,
+      "gp_observation_std": 0.4878010021598862
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2767",
+      "rf_prediction": 7.189532763024011,
+      "gp_prediction": 6.163979075566823,
+      "gp_latent_std": 0.8233477210364243,
+      "gp_observation_std": 0.9077948885888496
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2778",
+      "rf_prediction": 5.4333708968253935,
+      "gp_prediction": 5.067198778228758,
+      "gp_latent_std": 0.4068982281298531,
+      "gp_observation_std": 0.5583513750922287
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2780",
+      "rf_prediction": 5.315186119047619,
+      "gp_prediction": 5.064283977275537,
+      "gp_latent_std": 0.6063860627036765,
+      "gp_observation_std": 0.7168641064061134
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2781",
+      "rf_prediction": 6.130723394179892,
+      "gp_prediction": 5.941232948240108,
+      "gp_latent_std": 0.8329532475959406,
+      "gp_observation_std": 0.9165157951136428
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2791",
+      "rf_prediction": 5.431432781746037,
+      "gp_prediction": 5.274031055645367,
+      "gp_latent_std": 0.33699217579910207,
+      "gp_observation_std": 0.5096604914666052
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2793",
+      "rf_prediction": 5.943025015873016,
+      "gp_prediction": 5.743341352568378,
+      "gp_latent_std": 0.43375721552465757,
+      "gp_observation_std": 0.578217443555513
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2800",
+      "rf_prediction": 5.698499406084655,
+      "gp_prediction": 5.740706380751553,
+      "gp_latent_std": 0.4860356911563729,
+      "gp_observation_std": 0.6184017974505102
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2802",
+      "rf_prediction": 5.695741509259258,
+      "gp_prediction": 6.0034336566751225,
+      "gp_latent_std": 0.46543045335026406,
+      "gp_observation_std": 0.6023417608949265
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2803",
+      "rf_prediction": 5.772900580687832,
+      "gp_prediction": 5.967260981775535,
+      "gp_latent_std": 0.46353520258619796,
+      "gp_observation_std": 0.6008785019026692
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2812",
+      "rf_prediction": 6.021202041005293,
+      "gp_prediction": 5.945872689500204,
+      "gp_latent_std": 0.33472609372445056,
+      "gp_observation_std": 0.508164980918794
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2815",
+      "rf_prediction": 8.07929959920635,
+      "gp_prediction": 7.813223630122439,
+      "gp_latent_std": 0.6175013860674816,
+      "gp_observation_std": 0.7262906111243829
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2817",
+      "rf_prediction": 7.094641867724869,
+      "gp_prediction": 6.634428381930788,
+      "gp_latent_std": 0.5363407141549912,
+      "gp_observation_std": 0.6586740101692602
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2822",
+      "rf_prediction": 7.844101197089945,
+      "gp_prediction": 8.140443276233869,
+      "gp_latent_std": 0.32432445059435183,
+      "gp_observation_std": 0.5013745498781292
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2825",
+      "rf_prediction": 7.658124060846564,
+      "gp_prediction": 7.811318154132584,
+      "gp_latent_std": 0.5940778449108834,
+      "gp_observation_std": 0.7064832452550649
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2831",
+      "rf_prediction": 7.905968604497348,
+      "gp_prediction": 8.031021071326755,
+      "gp_latent_std": 0.43201069204726256,
+      "gp_observation_std": 0.5769084225900358
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2834",
+      "rf_prediction": 7.71797660449735,
+      "gp_prediction": 8.052848288542897,
+      "gp_latent_std": 0.46241517102370494,
+      "gp_observation_std": 0.6000149001525303
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2836",
+      "rf_prediction": 6.763188693843189,
+      "gp_prediction": 6.900937812345548,
+      "gp_latent_std": 0.41677683378919805,
+      "gp_observation_std": 0.5655908584794467
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2841",
+      "rf_prediction": 7.31771081000481,
+      "gp_prediction": 7.279495557201486,
+      "gp_latent_std": 0.19126309778891698,
+      "gp_observation_std": 0.4275180260386472
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2846",
+      "rf_prediction": 7.575339128186632,
+      "gp_prediction": 7.547057147097433,
+      "gp_latent_std": 0.7447505800590069,
+      "gp_observation_std": 0.8371639722959869
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2847",
+      "rf_prediction": 7.568643710317461,
+      "gp_prediction": 7.45673891029006,
+      "gp_latent_std": 0.7330669431914999,
+      "gp_observation_std": 0.8267872962330144
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2848",
+      "rf_prediction": 8.04473427645503,
+      "gp_prediction": 7.685895747630235,
+      "gp_latent_std": 0.7275405060157984,
+      "gp_observation_std": 0.8218912810742627
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2862",
+      "rf_prediction": 8.229052605820106,
+      "gp_prediction": 8.078421199581879,
+      "gp_latent_std": 0.32809315894221464,
+      "gp_observation_std": 0.5038206138665328
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2864",
+      "rf_prediction": 7.721190096560851,
+      "gp_prediction": 7.621352801869001,
+      "gp_latent_std": 0.38370610966604246,
+      "gp_observation_std": 0.5416829964169242
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2865",
+      "rf_prediction": 7.994863314814817,
+      "gp_prediction": 7.8800134719775645,
+      "gp_latent_std": 0.5470085974230364,
+      "gp_observation_std": 0.6673893134197507
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2868",
+      "rf_prediction": 7.780038874338631,
+      "gp_prediction": 7.9437733660655745,
+      "gp_latent_std": 0.6791453429248584,
+      "gp_observation_std": 0.7793769863350419
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2870",
+      "rf_prediction": 5.889336494708998,
+      "gp_prediction": 5.239130542107851,
+      "gp_latent_std": 0.5872633303994229,
+      "gp_observation_std": 0.7007626625641455
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2874",
+      "rf_prediction": 6.147830961640217,
+      "gp_prediction": 5.887678029048217,
+      "gp_latent_std": 0.6177582739921361,
+      "gp_observation_std": 0.7265090330463287
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2876",
+      "rf_prediction": 6.957837515873014,
+      "gp_prediction": 7.072197186207707,
+      "gp_latent_std": 0.5834448451916316,
+      "gp_observation_std": 0.6975657513043882
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2882",
+      "rf_prediction": 6.318533675925925,
+      "gp_prediction": 5.979680623540963,
+      "gp_latent_std": 0.6015798166288352,
+      "gp_observation_std": 0.7128031746473579
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2887",
+      "rf_prediction": 6.702976234126987,
+      "gp_prediction": 6.405794809173477,
+      "gp_latent_std": 0.6160643679983759,
+      "gp_observation_std": 0.7250692349902919
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2889",
+      "rf_prediction": 6.649856563492064,
+      "gp_prediction": 6.704043115045069,
+      "gp_latent_std": 0.6611293132408557,
+      "gp_observation_std": 0.7637290480520522
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2894",
+      "rf_prediction": 7.2936406507936455,
+      "gp_prediction": 7.328646971672296,
+      "gp_latent_std": 0.3238486673433098,
+      "gp_observation_std": 0.5010669110530113
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2896",
+      "rf_prediction": 8.140607486531989,
+      "gp_prediction": 8.073882672388898,
+      "gp_latent_std": 0.3075886492308387,
+      "gp_observation_std": 0.4907146494122837
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2905",
+      "rf_prediction": 7.505403734126985,
+      "gp_prediction": 7.736457128228475,
+      "gp_latent_std": 0.2948948383121616,
+      "gp_observation_std": 0.48285925037771055
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2910",
+      "rf_prediction": 8.509497765873014,
+      "gp_prediction": 8.683875486128784,
+      "gp_latent_std": 0.3139855376575868,
+      "gp_observation_std": 0.49474943948456623
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2919",
+      "rf_prediction": 8.727626166666663,
+      "gp_prediction": 8.646989824613605,
+      "gp_latent_std": 0.3155285381431404,
+      "gp_observation_std": 0.4957301164897245
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2926",
+      "rf_prediction": 7.796534809523813,
+      "gp_prediction": 7.94563867669812,
+      "gp_latent_std": 0.3219078012383105,
+      "gp_observation_std": 0.4998146881697778
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2927",
+      "rf_prediction": 6.776491190476186,
+      "gp_prediction": 6.898391802848294,
+      "gp_latent_std": 0.3626019273394856,
+      "gp_observation_std": 0.5269442548529002
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2930",
+      "rf_prediction": 7.345636297619047,
+      "gp_prediction": 7.284153646356727,
+      "gp_latent_std": 0.5115988751733311,
+      "gp_observation_std": 0.6386888906899714
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2932",
+      "rf_prediction": 8.092454105820101,
+      "gp_prediction": 7.8016042220027995,
+      "gp_latent_std": 0.5435842462478793,
+      "gp_observation_std": 0.6645855270625773
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2942",
+      "rf_prediction": 7.127408088624335,
+      "gp_prediction": 6.944526589329414,
+      "gp_latent_std": 0.3768591308878762,
+      "gp_observation_std": 0.5368546307388379
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2955",
+      "rf_prediction": 6.731068071428569,
+      "gp_prediction": 6.299154146993133,
+      "gp_latent_std": 0.6893896757560416,
+      "gp_observation_std": 0.7883198684868908
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2967",
+      "rf_prediction": 6.834237617724865,
+      "gp_prediction": 6.731313012731831,
+      "gp_latent_std": 0.6145436445547567,
+      "gp_observation_std": 0.723777577073794
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2969",
+      "rf_prediction": 6.9339564880952365,
+      "gp_prediction": 6.870340717355394,
+      "gp_latent_std": 0.5704979699587172,
+      "gp_observation_std": 0.6867736335497935
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2974",
+      "rf_prediction": 7.512683452380949,
+      "gp_prediction": 7.408289601625756,
+      "gp_latent_std": 0.6061350977564735,
+      "gp_observation_std": 0.7166518309084393
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2978",
+      "rf_prediction": 7.540291318783067,
+      "gp_prediction": 7.64813335226216,
+      "gp_latent_std": 0.4534699331257072,
+      "gp_observation_std": 0.5931484386401114
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2986",
+      "rf_prediction": 7.356871515873016,
+      "gp_prediction": 7.775892165218104,
+      "gp_latent_std": 0.5652994706288232,
+      "gp_observation_std": 0.6824614139315104
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:2997",
+      "rf_prediction": 6.884552178571424,
+      "gp_prediction": 6.650770059796893,
+      "gp_latent_std": 0.3557189378379812,
+      "gp_observation_std": 0.5222317998252789
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3000",
+      "rf_prediction": 6.7840304909812374,
+      "gp_prediction": 6.590049361798847,
+      "gp_latent_std": 0.33532090299182077,
+      "gp_observation_std": 0.5085569761545099
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3002",
+      "rf_prediction": 7.936593412698415,
+      "gp_prediction": 7.335218920239936,
+      "gp_latent_std": 0.28561059538713796,
+      "gp_observation_std": 0.4772457461408787
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3003",
+      "rf_prediction": 7.832361427248674,
+      "gp_prediction": 7.370049502394463,
+      "gp_latent_std": 0.34035557645716913,
+      "gp_observation_std": 0.5118906215566569
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3015",
+      "rf_prediction": 6.9677319408369405,
+      "gp_prediction": 7.166684468490946,
+      "gp_latent_std": 0.47774054041547914,
+      "gp_observation_std": 0.6119036803032343
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3019",
+      "rf_prediction": 6.79929363227513,
+      "gp_prediction": 6.830646852689023,
+      "gp_latent_std": 0.37018515739737146,
+      "gp_observation_std": 0.5321908875295455
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3026",
+      "rf_prediction": 6.594458748677247,
+      "gp_prediction": 6.596956190859538,
+      "gp_latent_std": 0.4578842980768876,
+      "gp_observation_std": 0.59653006666683
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3033",
+      "rf_prediction": 8.002937202380956,
+      "gp_prediction": 8.078760712760015,
+      "gp_latent_std": 0.3544996652454907,
+      "gp_observation_std": 0.5214020547248865
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3038",
+      "rf_prediction": 7.914536784992784,
+      "gp_prediction": 7.822080923403181,
+      "gp_latent_std": 0.351084028068074,
+      "gp_observation_std": 0.5190858163894221
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3057",
+      "rf_prediction": 5.318253746031746,
+      "gp_prediction": 5.285610181192603,
+      "gp_latent_std": 0.4889390734611987,
+      "gp_observation_std": 0.6206863197858191
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3063",
+      "rf_prediction": 5.908265903439152,
+      "gp_prediction": 5.5884053948464425,
+      "gp_latent_std": 0.6151054831824437,
+      "gp_observation_std": 0.7242546827278897
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3071",
+      "rf_prediction": 7.529140324074074,
+      "gp_prediction": 7.434256684151772,
+      "gp_latent_std": 0.3344940821492239,
+      "gp_observation_std": 0.508012185882406
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3079",
+      "rf_prediction": 7.0815380952380975,
+      "gp_prediction": 7.061434018663867,
+      "gp_latent_std": 0.29545716748824397,
+      "gp_observation_std": 0.4832028847516795
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3082",
+      "rf_prediction": 7.33067924206349,
+      "gp_prediction": 7.287763214732715,
+      "gp_latent_std": 0.29604515975105405,
+      "gp_observation_std": 0.483562639814322
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3101",
+      "rf_prediction": 6.768284974867726,
+      "gp_prediction": 6.936505418205054,
+      "gp_latent_std": 0.38606501233841833,
+      "gp_observation_std": 0.5433564978575592
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3107",
+      "rf_prediction": 6.605928099206347,
+      "gp_prediction": 6.5867457830968466,
+      "gp_latent_std": 0.3628209172891627,
+      "gp_observation_std": 0.527094970602754
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3109",
+      "rf_prediction": 6.688239554232808,
+      "gp_prediction": 6.771887054510291,
+      "gp_latent_std": 0.3282459552704275,
+      "gp_observation_std": 0.5039201297463359
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3116",
+      "rf_prediction": 7.009790941798937,
+      "gp_prediction": 6.757716763152917,
+      "gp_latent_std": 0.8173226275604935,
+      "gp_observation_std": 0.9023338448349135
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3119",
+      "rf_prediction": 5.922049757936503,
+      "gp_prediction": 5.999668237545332,
+      "gp_latent_std": 0.45785608511890674,
+      "gp_observation_std": 0.596508411250487
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3123",
+      "rf_prediction": 7.5312968029100515,
+      "gp_prediction": 7.471393289641451,
+      "gp_latent_std": 0.4074418247433302,
+      "gp_observation_std": 0.5587476447935537
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3128",
+      "rf_prediction": 8.136146499518995,
+      "gp_prediction": 8.234349296175598,
+      "gp_latent_std": 0.6300672583050576,
+      "gp_observation_std": 0.7370039619976414
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3131",
+      "rf_prediction": 7.332833817460319,
+      "gp_prediction": 7.499221622990644,
+      "gp_latent_std": 0.3953552983518596,
+      "gp_observation_std": 0.5499962744847064
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3147",
+      "rf_prediction": 6.12913557407407,
+      "gp_prediction": 6.694317949586099,
+      "gp_latent_std": 0.8857577378201463,
+      "gp_observation_std": 0.9647574099847234
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3148",
+      "rf_prediction": 6.082842375661375,
+      "gp_prediction": 6.8357727449787316,
+      "gp_latent_std": 0.8834445905834949,
+      "gp_observation_std": 0.9626341125492112
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3149",
+      "rf_prediction": 6.700498658730164,
+      "gp_prediction": 6.728439807603015,
+      "gp_latent_std": 0.88550555544327,
+      "gp_observation_std": 0.964525882873582
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3154",
+      "rf_prediction": 5.9260463068783,
+      "gp_prediction": 6.061947838717968,
+      "gp_latent_std": 0.48929087012795874,
+      "gp_observation_std": 0.6209634816981943
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3156",
+      "rf_prediction": 5.761090465608462,
+      "gp_prediction": 6.033607404904613,
+      "gp_latent_std": 0.5440766217991937,
+      "gp_observation_std": 0.6649883159880265
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3161",
+      "rf_prediction": 6.2202184113756545,
+      "gp_prediction": 6.23482997482502,
+      "gp_latent_std": 0.5030451498473099,
+      "gp_observation_std": 0.631857984674619
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3163",
+      "rf_prediction": 6.0209861640211635,
+      "gp_prediction": 6.063972129096804,
+      "gp_latent_std": 0.5208540940946587,
+      "gp_observation_std": 0.6461262085284392
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3170",
+      "rf_prediction": 6.811897214766713,
+      "gp_prediction": 6.474249956372409,
+      "gp_latent_std": 0.8590643856236141,
+      "gp_observation_std": 0.9403093685904902
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3172",
+      "rf_prediction": 6.625769085618085,
+      "gp_prediction": 6.737060976762944,
+      "gp_latent_std": 0.24669567357964367,
+      "gp_observation_std": 0.45502620295438234
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3181",
+      "rf_prediction": 6.78435094047619,
+      "gp_prediction": 6.769434688323355,
+      "gp_latent_std": 0.2832870416714513,
+      "gp_observation_std": 0.4758588425059801
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3183",
+      "rf_prediction": 6.783996658730155,
+      "gp_prediction": 6.836178963143265,
+      "gp_latent_std": 0.2582048126233069,
+      "gp_observation_std": 0.46136733225707
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3186",
+      "rf_prediction": 6.773472453703703,
+      "gp_prediction": 6.69607367149006,
+      "gp_latent_std": 0.3352176233264396,
+      "gp_observation_std": 0.508488883851747
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3188",
+      "rf_prediction": 6.863291310846558,
+      "gp_prediction": 6.9401750744698845,
+      "gp_latent_std": 0.31170589857086595,
+      "gp_observation_std": 0.4933058455117267
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3194",
+      "rf_prediction": 7.2962277341269886,
+      "gp_prediction": 7.365206215764732,
+      "gp_latent_std": 0.3323552650783971,
+      "gp_observation_std": 0.5066064668334783
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3195",
+      "rf_prediction": 7.186133219576723,
+      "gp_prediction": 7.04594411905763,
+      "gp_latent_std": 0.37201070799906405,
+      "gp_observation_std": 0.5334623293899331
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3198",
+      "rf_prediction": 7.107724243386246,
+      "gp_prediction": 7.098139948405137,
+      "gp_latent_std": 0.29746165905985855,
+      "gp_observation_std": 0.4844311391960803
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3207",
+      "rf_prediction": 7.523995883477633,
+      "gp_prediction": 7.243357352697917,
+      "gp_latent_std": 0.59579761629498,
+      "gp_observation_std": 0.7079300033159697
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3222",
+      "rf_prediction": 6.369533490740741,
+      "gp_prediction": 6.308276101427459,
+      "gp_latent_std": 0.37151432197543793,
+      "gp_observation_std": 0.5331162926088809
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3239",
+      "rf_prediction": 6.242102246031744,
+      "gp_prediction": 6.305613202598443,
+      "gp_latent_std": 0.3947148820658083,
+      "gp_observation_std": 0.5495361026687815
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3250",
+      "rf_prediction": 7.009115252645501,
+      "gp_prediction": 6.940562972041244,
+      "gp_latent_std": 0.516321596796375,
+      "gp_observation_std": 0.6424780784824702
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3252",
+      "rf_prediction": 6.898706710317453,
+      "gp_prediction": 7.037930682327189,
+      "gp_latent_std": 0.7801616011628775,
+      "gp_observation_std": 0.8688165594308119
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3257",
+      "rf_prediction": 6.422669489417989,
+      "gp_prediction": 6.177658203277993,
+      "gp_latent_std": 0.42496652577553334,
+      "gp_observation_std": 0.5716525501053027
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3259",
+      "rf_prediction": 6.5196923201058175,
+      "gp_prediction": 6.208508939460552,
+      "gp_latent_std": 0.38789555963851324,
+      "gp_observation_std": 0.5446586593449553
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3264",
+      "rf_prediction": 6.346099411255408,
+      "gp_prediction": 6.412613817704431,
+      "gp_latent_std": 0.42026802031799654,
+      "gp_observation_std": 0.56816837197628
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3268",
+      "rf_prediction": 6.165898297619043,
+      "gp_prediction": 6.075571114308552,
+      "gp_latent_std": 0.49173538129918865,
+      "gp_observation_std": 0.6228914634457812
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3269",
+      "rf_prediction": 6.670872058201061,
+      "gp_prediction": 6.976247978735298,
+      "gp_latent_std": 0.5997098482679113,
+      "gp_observation_std": 0.711225697034134
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3277",
+      "rf_prediction": 6.920870845238096,
+      "gp_prediction": 6.851143075806432,
+      "gp_latent_std": 0.5252490240301553,
+      "gp_observation_std": 0.6496742470321563
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3278",
+      "rf_prediction": 6.797462701058197,
+      "gp_prediction": 6.818987169398771,
+      "gp_latent_std": 0.743541152651553,
+      "gp_observation_std": 0.8360882343978824
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3279",
+      "rf_prediction": 6.651864283068783,
+      "gp_prediction": 6.817275234528533,
+      "gp_latent_std": 0.7247688326269968,
+      "gp_observation_std": 0.8194388023273418
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3281",
+      "rf_prediction": 6.870289730158728,
+      "gp_prediction": 6.831873967799942,
+      "gp_latent_std": 0.7250660493620703,
+      "gp_observation_std": 0.8197016932699901
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3282",
+      "rf_prediction": 6.187767607142857,
+      "gp_prediction": 6.331937875690082,
+      "gp_latent_std": 0.554912433554718,
+      "gp_observation_std": 0.6738827041301682
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3283",
+      "rf_prediction": 6.140460919312168,
+      "gp_prediction": 6.141416554276273,
+      "gp_latent_std": 0.56586862955306,
+      "gp_observation_std": 0.6829329366229359
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3286",
+      "rf_prediction": 6.359922998556997,
+      "gp_prediction": 6.422467269902913,
+      "gp_latent_std": 0.5254930480691736,
+      "gp_observation_std": 0.6498715516016987
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3291",
+      "rf_prediction": 6.66889337301587,
+      "gp_prediction": 6.857691659319592,
+      "gp_latent_std": 0.590828474476007,
+      "gp_observation_std": 0.7037530648344021
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3295",
+      "rf_prediction": 7.228715686507937,
+      "gp_prediction": 7.660825507900787,
+      "gp_latent_std": 0.5202586869615816,
+      "gp_observation_std": 0.6456463361401175
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3298",
+      "rf_prediction": 7.330493011904761,
+      "gp_prediction": 7.725483201026663,
+      "gp_latent_std": 0.5222212441432249,
+      "gp_observation_std": 0.6472287986845658
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3299",
+      "rf_prediction": 7.48010873412699,
+      "gp_prediction": 7.938690994513073,
+      "gp_latent_std": 0.5254313568568936,
+      "gp_observation_std": 0.649821668445001
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3300",
+      "rf_prediction": 7.714494613756608,
+      "gp_prediction": 8.16685142109659,
+      "gp_latent_std": 0.535035047519598,
+      "gp_observation_std": 0.6576112773413082
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3305",
+      "rf_prediction": 7.983720899951901,
+      "gp_prediction": 8.428492269971382,
+      "gp_latent_std": 0.6674448749015899,
+      "gp_observation_std": 0.7692026722812185
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3310",
+      "rf_prediction": 8.0247588483646,
+      "gp_prediction": 8.241557600762654,
+      "gp_latent_std": 0.7235246509080507,
+      "gp_observation_std": 0.8183385671491875
+    },
+    {
+      "candidate_id": "CHEMBL214_Ki:3314",
+      "rf_prediction": 7.951182400793654,
+      "gp_prediction": 8.107752794435585,
+      "gp_latent_std": 0.5841566083024923,
+      "gp_observation_std": 0.6981611798400423
+    }
+  ]
+}
