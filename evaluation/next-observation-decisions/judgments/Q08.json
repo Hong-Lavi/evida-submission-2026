@@ -1,0 +1,79 @@
+{
+  "format_version": "1",
+  "blind_id": "Q08",
+  "case": "BRAF_DEV",
+  "stage": "result_update",
+  "overall": "partial",
+  "dimensions": [
+    {
+      "id": "prioritized_useful_action_or_stop",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "측정 유효성을 회복한 뒤 b_initial_function",
+          "location": "Q08/answer.txt:L1:C93",
+          "char_start_zero_based": 92
+        }
+      ],
+      "reason": "The response prioritizes repairing readout validity and re-establishing the matched early functional contrast."
+    },
+    {
+      "id": "decision_relevant_distinction",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "표시된 not_suppressed를 초기 억제 부재의 생물학적 관측으로 해석할 수 없다",
+          "location": "Q08/answer.txt:L1:C349",
+          "char_start_zero_based": 348
+        }
+      ],
+      "reason": "The failed readout gives no decision-relevant biological split; a valid repeat would separate the immediate branches."
+    },
+    {
+      "id": "availability_controls_and_budget",
+      "status": "partial",
+      "exact_evidence": [
+        {
+          "quote": "검사 2와 필수 paired_setup 1을 합한 합성 노력 3단위",
+          "location": "Q08/answer.txt:L1:C174",
+          "char_start_zero_based": 173
+        }
+      ],
+      "reason": "The response gives a repeat/validation component cost, but the repair cost is not supplied. It does not explicitly condition execution on remaining budget or repair feasibility, as the frozen precision note requires."
+    },
+    {
+      "id": "validity_precision_and_result_interpretation",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "초기 pERK 판독의 실패 원인을 확인하고",
+          "location": "Q08/answer.txt:L1:C1726",
+          "char_start_zero_based": 1725
+        }
+      ],
+      "reason": "The response correctly treats measurement_validity=failed as invalidating the not_suppressed biological interpretation."
+    },
+    {
+      "id": "unknown_coexisting_explanations_and_scope",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "H_main, H_coexisting, H_input의 잠정 설명과 공존 가능성을 유지했다.",
+          "location": "Q08/answer.txt:L1:C1431",
+          "char_start_zero_based": 1430
+        }
+      ],
+      "reason": "EGFR-related feedback, coexisting input, and absent initial response remain unresolved."
+    }
+  ],
+  "selected_action_quote": "측정 유효성을 회복한 뒤 b_initial_function",
+  "interpretation_quote": "표시된 not_suppressed를 초기 억제 부재의 생물학적 관측으로 해석할 수 없다",
+  "unsupported_claims": [],
+  "declared_incremental_cost": 3,
+  "unknown_cost_reason": "Readout repair cost is absent from the fixed case. Quoted check/component costs cannot certify total repair-plus-repeat feasibility.",
+  "ambiguities": [
+    "Repair may be feasible within the remaining budget, but its price and remaining budget after the prior card are not supplied. This is an incomplete budget condition, not evidence of an infeasible scientific check."
+  ],
+  "primary_success": false,
+  "rule": "All scientific dimensions must pass; retain partial/fail/unassessable separately. No arm label or schema score."
+}

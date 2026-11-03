@@ -1,0 +1,79 @@
+{
+  "format_version": "1",
+  "blind_id": "Q07",
+  "case": "BRAF_DEV",
+  "stage": "result_update",
+  "overall": "partial",
+  "dimensions": [
+    {
+      "id": "prioritized_useful_action_or_stop",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "Prioritize **b_initial_function again**",
+          "location": "Q07/answer.txt:L1:C1",
+          "char_start_zero_based": 0
+        }
+      ],
+      "reason": "The response prioritizes repairing readout validity and re-establishing the matched early functional contrast."
+    },
+    {
+      "id": "decision_relevant_distinction",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "The supplied result card says “not_suppressed” but also marks measurement validity “failed,”",
+          "location": "Q07/answer.txt:L1:C202",
+          "char_start_zero_based": 201
+        }
+      ],
+      "reason": "The failed readout gives no decision-relevant biological split; a valid repeat would separate the immediate branches."
+    },
+    {
+      "id": "availability_controls_and_budget",
+      "status": "partial",
+      "exact_evidence": [
+        {
+          "quote": "The stated synthetic cost is **3 effort units**",
+          "location": "Q07/answer.txt:L1:C448",
+          "char_start_zero_based": 447
+        }
+      ],
+      "reason": "The response gives a repeat/validation component cost, but the repair cost is not supplied. It does not explicitly condition execution on remaining budget or repair feasibility, as the frozen precision note requires."
+    },
+    {
+      "id": "validity_precision_and_result_interpretation",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "Another measurement failure, intervention failure or insufficient precision leaves the decision unresolved.",
+          "location": "Q07/answer.txt:L3:C393",
+          "char_start_zero_based": 1033
+        }
+      ],
+      "reason": "The response correctly treats measurement_validity=failed as invalidating the not_suppressed biological interpretation."
+    },
+    {
+      "id": "unknown_coexisting_explanations_and_scope",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "EGFR is not uniquely identified, and other or coexisting inputs remain possible.",
+          "location": "Q07/answer.txt:L3:C179",
+          "char_start_zero_based": 819
+        }
+      ],
+      "reason": "EGFR-related feedback, coexisting input, and absent initial response remain unresolved."
+    }
+  ],
+  "selected_action_quote": "Prioritize **b_initial_function again**",
+  "interpretation_quote": "The supplied result card says “not_suppressed” but also marks measurement validity “failed,”",
+  "unsupported_claims": [],
+  "declared_incremental_cost": 3,
+  "unknown_cost_reason": "Readout repair cost is absent from the fixed case. Quoted check/component costs cannot certify total repair-plus-repeat feasibility.",
+  "ambiguities": [
+    "Repair may be feasible within the remaining budget, but its price and remaining budget after the prior card are not supplied. This is an incomplete budget condition, not evidence of an infeasible scientific check."
+  ],
+  "primary_success": false,
+  "rule": "All scientific dimensions must pass; retain partial/fail/unassessable separately. No arm label or schema score."
+}

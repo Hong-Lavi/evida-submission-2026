@@ -1,0 +1,29 @@
+{
+  "scope": "Recorded final responses were rejected by their frozen delivered/request schemas. This is a response-contract diagnostic separate from scientific scores. Current publication-schema structural checks are identified per case; no product publication was attempted or inferred.",
+  "source_diagnostic_sha256": "1ed4b7a5a27a525598ffdd3fe9f53a5c717b2db2fdf9a54638cdef331c2446e1",
+  "source_verification_sha256": "fa474ae8a66ce0fcb1fbe23ebdd0cf3a44cf64fb9e3f0767cd225302cd602fc6",
+  "diagnostics": [
+    {
+      "code": "Q09",
+      "arm": "current_native",
+      "scientific_status": "pass",
+      "frozen_delivered_request_schema": "rejected",
+      "frozen_error_count": 6,
+      "cause": "Six evidence-anchor path values are arrays; the requested string type is required at those paths.",
+      "current_publication_schema": "rejected_structurally",
+      "current_publication_schema_error_count": 6,
+      "publication_status": "not_attempted"
+    },
+    {
+      "code": "Q11",
+      "arm": "native_with_conditional_selector",
+      "scientific_status": "partial",
+      "frozen_delivered_request_schema": "rejected",
+      "frozen_error_count": 1,
+      "cause": "The stricter requested next-check schema rejected the check because outcome_links is missing. One anyOf branch requires outcome_links; the other requires outcome_links and scope_targets. The branches are alternatives, not cumulative requirements.",
+      "current_publication_schema": "accepted_structurally_under_legacy_next_check_branch",
+      "current_publication_schema_error_count": 0,
+      "publication_status": "not_attempted; structural acceptance does not establish semantic or publication success"
+    }
+  ]
+}

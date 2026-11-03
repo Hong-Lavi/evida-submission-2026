@@ -1,0 +1,918 @@
+{
+  "cases": [
+    {
+      "case_stage": "NERA_DEV/initial",
+      "case": "NERA_DEV",
+      "stage": "initial",
+      "request": "Choose one prioritized feasible next check or a justified stop for the stated immediate decision. Explain what its possible outcomes would change, preserve unknown and coexisting explanations, and include required shared controls in its stated synthetic cost.",
+      "literature_background": {
+        "title": "Insights into the Cellular and Molecular Mechanisms behind the Antifibrotic Effects of Nerandomilast",
+        "doi": "10.1165/rcmb.2024-0614OC",
+        "background": "Selected article and supplement excerpts report IPF lung-fibroblast effects, including MKP1 increase and p38 phosphorylation reduction; they do not establish the synthetic perturbation/rescue result or mediation."
+      },
+      "synthetic_scenario": "Synthetic new donor-paired drug/vehicle by control/MKP1 perturbation/WT rescue comparison: intervention and phenotype measurement are adequate; the drug-associated phenotype response is lost under perturbation and restored with rescue. The corresponding upstream functional contrast is unmeasured. Reporter specificity/dynamic-range and independence from the perturbation are stipulated as validated for this synthetic instance, including rescue; these are not claims about the historical paper. The goal is to decide whether to retain a limited mediator-contribution interpretation or first repair/localize altered drug function.",
+      "worlds": [
+        {
+          "id": "m_contribution",
+          "description": "MKP1-related contribution with intact measured upstream function; other mechanisms are not ruled out.",
+          "adequate_next_decisions": [
+            "retain_conditional_contribution_and_continue_goal"
+          ]
+        },
+        {
+          "id": "m_plus_parallel",
+          "description": "MKP1 contribution and coexisting pathway(s), including shared dependencies, with intact measured upstream function.",
+          "adequate_next_decisions": [
+            "retain_conditional_contribution_and_continue_goal"
+          ]
+        },
+        {
+          "id": "upstream_disrupted",
+          "description": "Mediator manipulation also changes the drug-associated upstream functional response; downstream loss cannot isolate mediator necessity.",
+          "adequate_next_decisions": [
+            "repair_or_localize_upstream_response_before_mediation_claim"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "n_repeat_phenotype",
+          "label": "Repeat the already adequate late phenotype readout",
+          "available": true,
+          "design_validated": true,
+          "precision_plan_defined": true,
+          "incremental_cost": 1,
+          "shared_controls": [],
+          "readout": "",
+          "valid_outcome_domain": [
+            "loss"
+          ],
+          "predictions": {
+            "m_contribution": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "loss"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            },
+            "m_plus_parallel": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "loss"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            },
+            "upstream_disrupted": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "loss"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            }
+          },
+          "operational_outcomes": [
+            "measurement_failure",
+            "insufficient_precision",
+            "intervention_failure"
+          ],
+          "precision_rule": "Use a justified preregistered equivalence margin and paired uncertainty interval; nonsignificance alone is not preserved function. No biological sample size is supplied by this fixture."
+        },
+        {
+          "id": "n_upstream_function",
+          "label": "Measure a validated non-cAMP proximal functional contrast in paired cells",
+          "available": true,
+          "design_validated": true,
+          "precision_plan_defined": true,
+          "incremental_cost": 2,
+          "shared_controls": [
+            "paired_setup"
+          ],
+          "readout": "synthetically validated PKA-dependent reporter; measures this functional response, not all PDE4B binding",
+          "valid_outcome_domain": [
+            "preserved",
+            "lost"
+          ],
+          "predictions": {
+            "m_contribution": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "preserved"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            },
+            "m_plus_parallel": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "preserved"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            },
+            "upstream_disrupted": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "lost"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            }
+          },
+          "operational_outcomes": [
+            "measurement_failure",
+            "insufficient_precision",
+            "intervention_failure"
+          ],
+          "precision_rule": "Use a justified preregistered equivalence margin and paired uncertainty interval; nonsignificance alone is not preserved function. No biological sample size is supplied by this fixture."
+        },
+        {
+          "id": "n_camp",
+          "label": "Direct cAMP assay (not available at this synthetic site)",
+          "available": false,
+          "design_validated": true,
+          "precision_plan_defined": true,
+          "incremental_cost": 2,
+          "shared_controls": [
+            "paired_setup"
+          ],
+          "readout": "cAMP",
+          "valid_outcome_domain": [
+            "preserved",
+            "lost"
+          ],
+          "predictions": {
+            "m_contribution": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "preserved"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            },
+            "m_plus_parallel": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "preserved"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            },
+            "upstream_disrupted": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "lost"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            }
+          },
+          "operational_outcomes": [
+            "measurement_failure",
+            "insufficient_precision",
+            "intervention_failure"
+          ],
+          "precision_rule": "Use a justified preregistered equivalence margin and paired uncertainty interval; nonsignificance alone is not preserved function. No biological sample size is supplied by this fixture."
+        },
+        {
+          "id": "n_wide_panel",
+          "label": "Broader pathway panel with the same functional contrast",
+          "available": true,
+          "design_validated": true,
+          "precision_plan_defined": true,
+          "incremental_cost": 5,
+          "shared_controls": [
+            "paired_setup",
+            "reporter_validation"
+          ],
+          "readout": "",
+          "valid_outcome_domain": [
+            "preserved",
+            "lost"
+          ],
+          "predictions": {
+            "m_contribution": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "preserved"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            },
+            "m_plus_parallel": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "preserved"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            },
+            "upstream_disrupted": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "lost"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            }
+          },
+          "operational_outcomes": [
+            "measurement_failure",
+            "insufficient_precision",
+            "intervention_failure"
+          ],
+          "precision_rule": "Use a justified preregistered equivalence margin and paired uncertainty interval; nonsignificance alone is not preserved function. No biological sample size is supplied by this fixture."
+        }
+      ],
+      "control_costs": {
+        "paired_setup": 1,
+        "reporter_validation": 1
+      },
+      "budget": 8,
+      "max_checks": 3,
+      "world_scope": "Explicit limited conditional configurations. Open-world omissions remain possible; these are not mutually exclusive claims that all biology has been enumerated.",
+      "stopping_scope": "Stop further discrimination only for this declared next decision; do not declare one uniquely true biological mechanism.",
+      "result_card": null,
+      "boundary": "Actions, costs, conditional predictions, validation cards, and result cards are authored synthetic development assumptions, not published or performed biological experiments."
+    },
+    {
+      "case_stage": "BRAF_DEV/initial",
+      "case": "BRAF_DEV",
+      "stage": "initial",
+      "request": "Choose one prioritized feasible next check or a justified stop for the stated immediate decision. Explain what its possible outcomes would change, preserve unknown and coexisting explanations, and include required shared controls in its stated synthetic cost.",
+      "literature_background": {
+        "title": "EGFR-mediated re-activation of MAPK signaling contributes to insensitivity of BRAF mutant colorectal cancers to RAF inhibition with vemurafenib",
+        "doi": "10.1158/2159-8290.CD-11-0341",
+        "background": "The primary abstract connects EGFR-related MAPK reactivation to RAF-inhibitor resistance in BRAF-mutant colorectal cancer models; it does not supply outcomes or assay settings for the synthetic new sample."
+      },
+      "synthetic_scenario": "Synthetic new BRAF-mutant colorectal-cell observation: a late MAPK readout is high during RAF-inhibitor treatment, but no matched initial functional-response observation is available. A validated paired early-response assay is available. No dose or time value is borrowed from the abstract. The goal is to decide whether feedback-input comparisons are justified or initial drug/pathway function must first be established. All assay availability, conditional predictions and results in this case are synthetic.",
+      "worlds": [
+        {
+          "id": "egfr_feedback",
+          "description": "Initial functional pathway suppression followed by an EGFR-related feedback contribution; coexisting inputs remain possible.",
+          "adequate_next_decisions": [
+            "compare_feedback_inputs_under_confirmed_initial_response"
+          ]
+        },
+        {
+          "id": "feedback_coexisting",
+          "description": "Initial functional pathway suppression followed by EGFR and/or another receptor contribution; broad pathway coexistence remains possible.",
+          "adequate_next_decisions": [
+            "compare_feedback_inputs_under_confirmed_initial_response"
+          ]
+        },
+        {
+          "id": "no_initial_response",
+          "description": "Initial pathway response was absent under the new conditions; exposure, intervention or input conditions need checking before calling late signal adaptive feedback.",
+          "adequate_next_decisions": [
+            "verify_drug_input_and_initial_pathway_response"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "b_repeat_late",
+          "label": "Repeat the already adequate late MAPK signal",
+          "available": true,
+          "design_validated": true,
+          "precision_plan_defined": true,
+          "incremental_cost": 1,
+          "shared_controls": [],
+          "readout": "",
+          "valid_outcome_domain": [
+            "high"
+          ],
+          "predictions": {
+            "egfr_feedback": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "high"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            },
+            "feedback_coexisting": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "high"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            },
+            "no_initial_response": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "high"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            }
+          },
+          "operational_outcomes": [
+            "measurement_failure",
+            "insufficient_precision",
+            "intervention_failure"
+          ],
+          "precision_rule": "Use a justified preregistered equivalence margin and paired uncertainty interval; nonsignificance alone is not preserved function. No biological sample size is supplied by this fixture."
+        },
+        {
+          "id": "b_initial_function",
+          "label": "Recover or measure the paired early functional MAPK contrast before late rebound",
+          "available": true,
+          "design_validated": true,
+          "precision_plan_defined": true,
+          "incremental_cost": 2,
+          "shared_controls": [
+            "paired_setup"
+          ],
+          "readout": "validated phosphorylated-ERK response; functional context, not direct RAF target engagement",
+          "valid_outcome_domain": [
+            "suppressed",
+            "not_suppressed"
+          ],
+          "predictions": {
+            "egfr_feedback": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "suppressed"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            },
+            "feedback_coexisting": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "suppressed"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            },
+            "no_initial_response": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "not_suppressed"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            }
+          },
+          "operational_outcomes": [
+            "measurement_failure",
+            "insufficient_precision",
+            "intervention_failure"
+          ],
+          "precision_rule": "Use a justified preregistered equivalence margin and paired uncertainty interval; nonsignificance alone is not preserved function. No biological sample size is supplied by this fixture."
+        },
+        {
+          "id": "b_broad_time_panel",
+          "label": "Broader signaling time panel including the initial functional contrast",
+          "available": true,
+          "design_validated": true,
+          "precision_plan_defined": true,
+          "incremental_cost": 5,
+          "shared_controls": [
+            "paired_setup"
+          ],
+          "readout": "",
+          "valid_outcome_domain": [
+            "suppressed",
+            "not_suppressed"
+          ],
+          "predictions": {
+            "egfr_feedback": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "suppressed"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            },
+            "feedback_coexisting": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "suppressed"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            },
+            "no_initial_response": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "not_suppressed"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            }
+          },
+          "operational_outcomes": [
+            "measurement_failure",
+            "insufficient_precision",
+            "intervention_failure"
+          ],
+          "precision_rule": "Use a justified preregistered equivalence margin and paired uncertainty interval; nonsignificance alone is not preserved function. No biological sample size is supplied by this fixture."
+        }
+      ],
+      "control_costs": {
+        "paired_setup": 1,
+        "reporter_validation": 1
+      },
+      "budget": 8,
+      "max_checks": 3,
+      "world_scope": "Explicit limited conditional configurations. Open-world omissions remain possible; these are not mutually exclusive claims that all biology has been enumerated.",
+      "stopping_scope": "Stop further discrimination only for this declared next decision; do not declare one uniquely true biological mechanism.",
+      "result_card": null,
+      "boundary": "Actions, costs, conditional predictions, validation cards, and result cards are authored synthetic development assumptions, not published or performed biological experiments."
+    },
+    {
+      "case_stage": "NERA_DEV/result_update",
+      "case": "NERA_DEV",
+      "stage": "result_update",
+      "request": "Choose one prioritized feasible next check or a justified stop for the stated immediate decision. Explain what its possible outcomes would change, preserve unknown and coexisting explanations, and include required shared controls in its stated synthetic cost.",
+      "literature_background": {
+        "title": "Insights into the Cellular and Molecular Mechanisms behind the Antifibrotic Effects of Nerandomilast",
+        "doi": "10.1165/rcmb.2024-0614OC",
+        "background": "Selected article and supplement excerpts report IPF lung-fibroblast effects, including MKP1 increase and p38 phosphorylation reduction; they do not establish the synthetic perturbation/rescue result or mediation."
+      },
+      "synthetic_scenario": "Synthetic new donor-paired drug/vehicle by control/MKP1 perturbation/WT rescue comparison: intervention and phenotype measurement are adequate; the drug-associated phenotype response is lost under perturbation and restored with rescue. The corresponding upstream functional contrast is unmeasured. Reporter specificity/dynamic-range and independence from the perturbation are stipulated as validated for this synthetic instance, including rescue; these are not claims about the historical paper. The goal is to decide whether to retain a limited mediator-contribution interpretation or first repair/localize altered drug function.",
+      "worlds": [
+        {
+          "id": "m_contribution",
+          "description": "MKP1-related contribution with intact measured upstream function; other mechanisms are not ruled out.",
+          "adequate_next_decisions": [
+            "retain_conditional_contribution_and_continue_goal"
+          ]
+        },
+        {
+          "id": "m_plus_parallel",
+          "description": "MKP1 contribution and coexisting pathway(s), including shared dependencies, with intact measured upstream function.",
+          "adequate_next_decisions": [
+            "retain_conditional_contribution_and_continue_goal"
+          ]
+        },
+        {
+          "id": "upstream_disrupted",
+          "description": "Mediator manipulation also changes the drug-associated upstream functional response; downstream loss cannot isolate mediator necessity.",
+          "adequate_next_decisions": [
+            "repair_or_localize_upstream_response_before_mediation_claim"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "n_repeat_phenotype",
+          "label": "Repeat the already adequate late phenotype readout",
+          "available": true,
+          "design_validated": true,
+          "precision_plan_defined": true,
+          "incremental_cost": 1,
+          "shared_controls": [],
+          "readout": "",
+          "valid_outcome_domain": [
+            "loss"
+          ],
+          "predictions": {
+            "m_contribution": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "loss"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            },
+            "m_plus_parallel": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "loss"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            },
+            "upstream_disrupted": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "loss"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            }
+          },
+          "operational_outcomes": [
+            "measurement_failure",
+            "insufficient_precision",
+            "intervention_failure"
+          ],
+          "precision_rule": "Use a justified preregistered equivalence margin and paired uncertainty interval; nonsignificance alone is not preserved function. No biological sample size is supplied by this fixture."
+        },
+        {
+          "id": "n_upstream_function",
+          "label": "Measure a validated non-cAMP proximal functional contrast in paired cells",
+          "available": true,
+          "design_validated": true,
+          "precision_plan_defined": true,
+          "incremental_cost": 2,
+          "shared_controls": [
+            "paired_setup"
+          ],
+          "readout": "synthetically validated PKA-dependent reporter; measures this functional response, not all PDE4B binding",
+          "valid_outcome_domain": [
+            "preserved",
+            "lost"
+          ],
+          "predictions": {
+            "m_contribution": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "preserved"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            },
+            "m_plus_parallel": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "preserved"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            },
+            "upstream_disrupted": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "lost"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            }
+          },
+          "operational_outcomes": [
+            "measurement_failure",
+            "insufficient_precision",
+            "intervention_failure"
+          ],
+          "precision_rule": "Use a justified preregistered equivalence margin and paired uncertainty interval; nonsignificance alone is not preserved function. No biological sample size is supplied by this fixture."
+        },
+        {
+          "id": "n_camp",
+          "label": "Direct cAMP assay (not available at this synthetic site)",
+          "available": false,
+          "design_validated": true,
+          "precision_plan_defined": true,
+          "incremental_cost": 2,
+          "shared_controls": [
+            "paired_setup"
+          ],
+          "readout": "cAMP",
+          "valid_outcome_domain": [
+            "preserved",
+            "lost"
+          ],
+          "predictions": {
+            "m_contribution": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "preserved"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            },
+            "m_plus_parallel": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "preserved"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            },
+            "upstream_disrupted": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "lost"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            }
+          },
+          "operational_outcomes": [
+            "measurement_failure",
+            "insufficient_precision",
+            "intervention_failure"
+          ],
+          "precision_rule": "Use a justified preregistered equivalence margin and paired uncertainty interval; nonsignificance alone is not preserved function. No biological sample size is supplied by this fixture."
+        },
+        {
+          "id": "n_wide_panel",
+          "label": "Broader pathway panel with the same functional contrast",
+          "available": true,
+          "design_validated": true,
+          "precision_plan_defined": true,
+          "incremental_cost": 5,
+          "shared_controls": [
+            "paired_setup",
+            "reporter_validation"
+          ],
+          "readout": "",
+          "valid_outcome_domain": [
+            "preserved",
+            "lost"
+          ],
+          "predictions": {
+            "m_contribution": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "preserved"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            },
+            "m_plus_parallel": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "preserved"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            },
+            "upstream_disrupted": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "lost"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            }
+          },
+          "operational_outcomes": [
+            "measurement_failure",
+            "insufficient_precision",
+            "intervention_failure"
+          ],
+          "precision_rule": "Use a justified preregistered equivalence margin and paired uncertainty interval; nonsignificance alone is not preserved function. No biological sample size is supplied by this fixture."
+        }
+      ],
+      "control_costs": {
+        "paired_setup": 1,
+        "reporter_validation": 1
+      },
+      "budget": 8,
+      "max_checks": 3,
+      "world_scope": "Explicit limited conditional configurations. Open-world omissions remain possible; these are not mutually exclusive claims that all biology has been enumerated.",
+      "stopping_scope": "Stop further discrimination only for this declared next decision; do not declare one uniquely true biological mechanism.",
+      "result_card": {
+        "case_id": "NERA_DEV",
+        "check_id": "n_upstream_function",
+        "context_match": true,
+        "intervention_status": "validated",
+        "measurement_validity": "validated",
+        "precision": "adequate",
+        "synthetic": true,
+        "not_a_published_result": true,
+        "id": "NERA_DEV:function_preserved",
+        "outcome": "preserved"
+      },
+      "boundary": "Actions, costs, conditional predictions, validation cards, and result cards are authored synthetic development assumptions, not published or performed biological experiments."
+    },
+    {
+      "case_stage": "BRAF_DEV/result_update",
+      "case": "BRAF_DEV",
+      "stage": "result_update",
+      "request": "Choose one prioritized feasible next check or a justified stop for the stated immediate decision. Explain what its possible outcomes would change, preserve unknown and coexisting explanations, and include required shared controls in its stated synthetic cost.",
+      "literature_background": {
+        "title": "EGFR-mediated re-activation of MAPK signaling contributes to insensitivity of BRAF mutant colorectal cancers to RAF inhibition with vemurafenib",
+        "doi": "10.1158/2159-8290.CD-11-0341",
+        "background": "The primary abstract connects EGFR-related MAPK reactivation to RAF-inhibitor resistance in BRAF-mutant colorectal cancer models; it does not supply outcomes or assay settings for the synthetic new sample."
+      },
+      "synthetic_scenario": "Synthetic new BRAF-mutant colorectal-cell observation: a late MAPK readout is high during RAF-inhibitor treatment, but no matched initial functional-response observation is available. A validated paired early-response assay is available. No dose or time value is borrowed from the abstract. The goal is to decide whether feedback-input comparisons are justified or initial drug/pathway function must first be established. All assay availability, conditional predictions and results in this case are synthetic.",
+      "worlds": [
+        {
+          "id": "egfr_feedback",
+          "description": "Initial functional pathway suppression followed by an EGFR-related feedback contribution; coexisting inputs remain possible.",
+          "adequate_next_decisions": [
+            "compare_feedback_inputs_under_confirmed_initial_response"
+          ]
+        },
+        {
+          "id": "feedback_coexisting",
+          "description": "Initial functional pathway suppression followed by EGFR and/or another receptor contribution; broad pathway coexistence remains possible.",
+          "adequate_next_decisions": [
+            "compare_feedback_inputs_under_confirmed_initial_response"
+          ]
+        },
+        {
+          "id": "no_initial_response",
+          "description": "Initial pathway response was absent under the new conditions; exposure, intervention or input conditions need checking before calling late signal adaptive feedback.",
+          "adequate_next_decisions": [
+            "verify_drug_input_and_initial_pathway_response"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "b_repeat_late",
+          "label": "Repeat the already adequate late MAPK signal",
+          "available": true,
+          "design_validated": true,
+          "precision_plan_defined": true,
+          "incremental_cost": 1,
+          "shared_controls": [],
+          "readout": "",
+          "valid_outcome_domain": [
+            "high"
+          ],
+          "predictions": {
+            "egfr_feedback": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "high"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            },
+            "feedback_coexisting": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "high"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            },
+            "no_initial_response": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "high"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            }
+          },
+          "operational_outcomes": [
+            "measurement_failure",
+            "insufficient_precision",
+            "intervention_failure"
+          ],
+          "precision_rule": "Use a justified preregistered equivalence margin and paired uncertainty interval; nonsignificance alone is not preserved function. No biological sample size is supplied by this fixture."
+        },
+        {
+          "id": "b_initial_function",
+          "label": "Recover or measure the paired early functional MAPK contrast before late rebound",
+          "available": true,
+          "design_validated": true,
+          "precision_plan_defined": true,
+          "incremental_cost": 2,
+          "shared_controls": [
+            "paired_setup"
+          ],
+          "readout": "validated phosphorylated-ERK response; functional context, not direct RAF target engagement",
+          "valid_outcome_domain": [
+            "suppressed",
+            "not_suppressed"
+          ],
+          "predictions": {
+            "egfr_feedback": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "suppressed"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            },
+            "feedback_coexisting": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "suppressed"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            },
+            "no_initial_response": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "not_suppressed"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            }
+          },
+          "operational_outcomes": [
+            "measurement_failure",
+            "insufficient_precision",
+            "intervention_failure"
+          ],
+          "precision_rule": "Use a justified preregistered equivalence margin and paired uncertainty interval; nonsignificance alone is not preserved function. No biological sample size is supplied by this fixture."
+        },
+        {
+          "id": "b_broad_time_panel",
+          "label": "Broader signaling time panel including the initial functional contrast",
+          "available": true,
+          "design_validated": true,
+          "precision_plan_defined": true,
+          "incremental_cost": 5,
+          "shared_controls": [
+            "paired_setup"
+          ],
+          "readout": "",
+          "valid_outcome_domain": [
+            "suppressed",
+            "not_suppressed"
+          ],
+          "predictions": {
+            "egfr_feedback": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "suppressed"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            },
+            "feedback_coexisting": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "suppressed"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            },
+            "no_initial_response": {
+              "coverage": "complete",
+              "conditions_satisfied": true,
+              "outcomes": [
+                "not_suppressed"
+              ],
+              "origin": "prospective",
+              "basis": "explicit synthetic conditional prediction, not a measured biological law"
+            }
+          },
+          "operational_outcomes": [
+            "measurement_failure",
+            "insufficient_precision",
+            "intervention_failure"
+          ],
+          "precision_rule": "Use a justified preregistered equivalence margin and paired uncertainty interval; nonsignificance alone is not preserved function. No biological sample size is supplied by this fixture."
+        }
+      ],
+      "control_costs": {
+        "paired_setup": 1,
+        "reporter_validation": 1
+      },
+      "budget": 8,
+      "max_checks": 3,
+      "world_scope": "Explicit limited conditional configurations. Open-world omissions remain possible; these are not mutually exclusive claims that all biology has been enumerated.",
+      "stopping_scope": "Stop further discrimination only for this declared next decision; do not declare one uniquely true biological mechanism.",
+      "result_card": {
+        "case_id": "BRAF_DEV",
+        "check_id": "b_initial_function",
+        "context_match": true,
+        "intervention_status": "validated",
+        "measurement_validity": "failed",
+        "precision": "adequate",
+        "synthetic": true,
+        "not_a_published_result": true,
+        "id": "BRAF_DEV:readout_failed",
+        "outcome": "not_suppressed"
+      },
+      "boundary": "Actions, costs, conditional predictions, validation cards, and result cards are authored synthetic development assumptions, not published or performed biological experiments."
+    }
+  ]
+}

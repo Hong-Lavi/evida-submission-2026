@@ -1,0 +1,258 @@
+{
+  "status": "recorded_development_comparison",
+  "arms": [
+    {
+      "arm": "current_native",
+      "planned": 4,
+      "primary_success": 3,
+      "statuses": {
+        "pass": 3,
+        "partial": 1
+      }
+    },
+    {
+      "arm": "native_with_conditional_selector",
+      "planned": 4,
+      "primary_success": 3,
+      "statuses": {
+        "pass": 3,
+        "partial": 1
+      }
+    },
+    {
+      "arm": "plain_sol",
+      "planned": 4,
+      "primary_success": 3,
+      "statuses": {
+        "pass": 3,
+        "partial": 1
+      }
+    }
+  ],
+  "rows": [
+    {
+      "code": "Q01",
+      "arm": "plain_sol",
+      "case": "NERA_DEV",
+      "stage": "initial",
+      "overall": "pass",
+      "primary_success": true,
+      "dimensions": {
+        "prioritized_useful_action_or_stop": "pass",
+        "decision_relevant_distinction": "pass",
+        "availability_controls_and_budget": "pass",
+        "validity_precision_and_result_interpretation": "pass",
+        "unknown_coexisting_explanations_and_scope": "pass"
+      },
+      "actual_model": "gpt-6-sol",
+      "native_contract_status": "not_applicable_plain",
+      "case_stage": "NERA_DEV/initial"
+    },
+    {
+      "code": "Q02",
+      "arm": "current_native",
+      "case": "BRAF_DEV",
+      "stage": "initial",
+      "overall": "pass",
+      "primary_success": true,
+      "dimensions": {
+        "prioritized_useful_action_or_stop": "pass",
+        "decision_relevant_distinction": "pass",
+        "availability_controls_and_budget": "pass",
+        "validity_precision_and_result_interpretation": "pass",
+        "unknown_coexisting_explanations_and_scope": "pass"
+      },
+      "actual_model": "gpt-6-sol",
+      "native_contract_status": "valid_decision_schema_only",
+      "case_stage": "BRAF_DEV/initial"
+    },
+    {
+      "code": "Q03",
+      "arm": "current_native",
+      "case": "NERA_DEV",
+      "stage": "initial",
+      "overall": "pass",
+      "primary_success": true,
+      "dimensions": {
+        "prioritized_useful_action_or_stop": "pass",
+        "decision_relevant_distinction": "pass",
+        "availability_controls_and_budget": "pass",
+        "validity_precision_and_result_interpretation": "pass",
+        "unknown_coexisting_explanations_and_scope": "pass"
+      },
+      "actual_model": "gpt-6-sol",
+      "native_contract_status": "valid_decision_schema_only",
+      "case_stage": "NERA_DEV/initial"
+    },
+    {
+      "code": "Q04",
+      "arm": "native_with_conditional_selector",
+      "case": "BRAF_DEV",
+      "stage": "initial",
+      "overall": "pass",
+      "primary_success": true,
+      "dimensions": {
+        "prioritized_useful_action_or_stop": "pass",
+        "decision_relevant_distinction": "pass",
+        "availability_controls_and_budget": "pass",
+        "validity_precision_and_result_interpretation": "pass",
+        "unknown_coexisting_explanations_and_scope": "pass"
+      },
+      "actual_model": "gpt-6-sol",
+      "native_contract_status": "valid_decision_schema_only",
+      "case_stage": "BRAF_DEV/initial"
+    },
+    {
+      "code": "Q05",
+      "arm": "native_with_conditional_selector",
+      "case": "NERA_DEV",
+      "stage": "initial",
+      "overall": "pass",
+      "primary_success": true,
+      "dimensions": {
+        "prioritized_useful_action_or_stop": "pass",
+        "decision_relevant_distinction": "pass",
+        "availability_controls_and_budget": "pass",
+        "validity_precision_and_result_interpretation": "pass",
+        "unknown_coexisting_explanations_and_scope": "pass"
+      },
+      "actual_model": "gpt-6-sol",
+      "native_contract_status": "valid_decision_schema_only",
+      "case_stage": "NERA_DEV/initial"
+    },
+    {
+      "code": "Q06",
+      "arm": "plain_sol",
+      "case": "BRAF_DEV",
+      "stage": "initial",
+      "overall": "pass",
+      "primary_success": true,
+      "dimensions": {
+        "prioritized_useful_action_or_stop": "pass",
+        "decision_relevant_distinction": "pass",
+        "availability_controls_and_budget": "pass",
+        "validity_precision_and_result_interpretation": "pass",
+        "unknown_coexisting_explanations_and_scope": "pass"
+      },
+      "actual_model": "gpt-6-sol",
+      "native_contract_status": "not_applicable_plain",
+      "case_stage": "BRAF_DEV/initial"
+    },
+    {
+      "code": "Q07",
+      "arm": "plain_sol",
+      "case": "BRAF_DEV",
+      "stage": "result_update",
+      "overall": "partial",
+      "primary_success": false,
+      "dimensions": {
+        "prioritized_useful_action_or_stop": "pass",
+        "decision_relevant_distinction": "pass",
+        "availability_controls_and_budget": "partial",
+        "validity_precision_and_result_interpretation": "pass",
+        "unknown_coexisting_explanations_and_scope": "pass"
+      },
+      "actual_model": "gpt-6-sol",
+      "native_contract_status": "not_applicable_plain",
+      "case_stage": "BRAF_DEV/result_update"
+    },
+    {
+      "code": "Q08",
+      "arm": "current_native",
+      "case": "BRAF_DEV",
+      "stage": "result_update",
+      "overall": "partial",
+      "primary_success": false,
+      "dimensions": {
+        "prioritized_useful_action_or_stop": "pass",
+        "decision_relevant_distinction": "pass",
+        "availability_controls_and_budget": "partial",
+        "validity_precision_and_result_interpretation": "pass",
+        "unknown_coexisting_explanations_and_scope": "pass"
+      },
+      "actual_model": "gpt-6-sol",
+      "native_contract_status": "valid_decision_schema_only",
+      "case_stage": "BRAF_DEV/result_update"
+    },
+    {
+      "code": "Q09",
+      "arm": "current_native",
+      "case": "NERA_DEV",
+      "stage": "result_update",
+      "overall": "pass",
+      "primary_success": true,
+      "dimensions": {
+        "prioritized_useful_action_or_stop": "pass",
+        "decision_relevant_distinction": "pass",
+        "availability_controls_and_budget": "pass",
+        "validity_precision_and_result_interpretation": "pass",
+        "unknown_coexisting_explanations_and_scope": "pass"
+      },
+      "actual_model": "gpt-6-sol",
+      "native_contract_status": "invalid_scientific_content_still_reviewable",
+      "case_stage": "NERA_DEV/result_update"
+    },
+    {
+      "code": "Q10",
+      "arm": "native_with_conditional_selector",
+      "case": "NERA_DEV",
+      "stage": "result_update",
+      "overall": "pass",
+      "primary_success": true,
+      "dimensions": {
+        "prioritized_useful_action_or_stop": "pass",
+        "decision_relevant_distinction": "pass",
+        "availability_controls_and_budget": "pass",
+        "validity_precision_and_result_interpretation": "pass",
+        "unknown_coexisting_explanations_and_scope": "pass"
+      },
+      "actual_model": "gpt-6-sol",
+      "native_contract_status": "valid_decision_schema_only",
+      "case_stage": "NERA_DEV/result_update"
+    },
+    {
+      "code": "Q11",
+      "arm": "native_with_conditional_selector",
+      "case": "BRAF_DEV",
+      "stage": "result_update",
+      "overall": "partial",
+      "primary_success": false,
+      "dimensions": {
+        "prioritized_useful_action_or_stop": "pass",
+        "decision_relevant_distinction": "pass",
+        "availability_controls_and_budget": "partial",
+        "validity_precision_and_result_interpretation": "pass",
+        "unknown_coexisting_explanations_and_scope": "pass"
+      },
+      "actual_model": "gpt-6-sol",
+      "native_contract_status": "invalid_scientific_content_still_reviewable",
+      "case_stage": "BRAF_DEV/result_update"
+    },
+    {
+      "code": "Q12",
+      "arm": "plain_sol",
+      "case": "NERA_DEV",
+      "stage": "result_update",
+      "overall": "pass",
+      "primary_success": true,
+      "dimensions": {
+        "prioritized_useful_action_or_stop": "pass",
+        "decision_relevant_distinction": "pass",
+        "availability_controls_and_budget": "pass",
+        "validity_precision_and_result_interpretation": "pass",
+        "unknown_coexisting_explanations_and_scope": "pass"
+      },
+      "actual_model": "gpt-6-sol",
+      "native_contract_status": "not_applicable_plain",
+      "case_stage": "NERA_DEV/result_update"
+    }
+  ],
+  "model_response_generations": 12,
+  "reviewer_sessions": 1,
+  "reviewer_model": "gpt-6-sol",
+  "reviewer_effort": "medium",
+  "blinding": "partial_format",
+  "scientific_scoring": "all_five_dimensions_must_pass",
+  "scientific_conclusion": "All three methods have the same 3/4 pass, 1/4 partial pattern on these fixed development cases. No superiority estimate.",
+  "product_decision": "Retain the inspectable conditional decision aid without a better-choice claim; add explicit repair-cost and remaining-budget handling before execution recommendations."
+}

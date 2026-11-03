@@ -1,0 +1,79 @@
+{
+  "format_version": "1",
+  "blind_id": "Q11",
+  "case": "BRAF_DEV",
+  "stage": "result_update",
+  "overall": "partial",
+  "dimensions": [
+    {
+      "id": "prioritized_useful_action_or_stop",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "손상된 초기 pERK 판독을 먼저 점검하고",
+          "location": "Q11/answer.txt:L1:C93",
+          "char_start_zero_based": 92
+        }
+      ],
+      "reason": "The response prioritizes repairing readout validity and re-establishing the matched early functional contrast."
+    },
+    {
+      "id": "decision_relevant_distinction",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "그 값을 생물학적 음성 결과로 해석할 수 없다",
+          "location": "Q11/answer.txt:L1:C318",
+          "char_start_zero_based": 317
+        }
+      ],
+      "reason": "The failed readout gives no decision-relevant biological split; a valid repeat would separate the immediate branches."
+    },
+    {
+      "id": "availability_controls_and_budget",
+      "status": "partial",
+      "exact_evidence": [
+        {
+          "quote": "추가 수리 비용은 제시되지 않았다.",
+          "location": "Q11/answer.txt:L1:C1627",
+          "char_start_zero_based": 1626
+        }
+      ],
+      "reason": "The response explicitly notes unknown repair cost, but quotes 4 units for repeat plus added reporter validation without conditioning execution on the full unknown repair cost fitting the budget. The added validation is reasonable; it is not a required shared control for this action."
+    },
+    {
+      "id": "validity_precision_and_result_interpretation",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "판독이 유효해지면 같은 조건의 짝지은 초기 기능 반응을 다시 확인한다.",
+          "location": "Q11/answer.txt:L1:C118",
+          "char_start_zero_based": 117
+        }
+      ],
+      "reason": "The response correctly treats measurement_validity=failed as invalidating the not_suppressed biological interpretation."
+    },
+    {
+      "id": "unknown_coexisting_explanations_and_scope",
+      "status": "pass",
+      "exact_evidence": [
+        {
+          "quote": "다른 수용체, 병존 경로 및 초기 반응 부재 가능성을 모두 유지한다.",
+          "location": "Q11/answer.txt:L1:C1306",
+          "char_start_zero_based": 1305
+        }
+      ],
+      "reason": "EGFR-related feedback, coexisting input, and absent initial response remain unresolved."
+    }
+  ],
+  "selected_action_quote": "손상된 초기 pERK 판독을 먼저 점검하고",
+  "interpretation_quote": "그 값을 생물학적 음성 결과로 해석할 수 없다",
+  "unsupported_claims": [],
+  "declared_incremental_cost": 4,
+  "unknown_cost_reason": "Readout repair cost is absent from the fixed case. Quoted check/component costs cannot certify total repair-plus-repeat feasibility.",
+  "ambiguities": [
+    "Repair may be feasible within the remaining budget, but its price and remaining budget after the prior card are not supplied. This is an incomplete budget condition, not evidence of an infeasible scientific check."
+  ],
+  "primary_success": false,
+  "rule": "All scientific dimensions must pass; retain partial/fail/unassessable separately. No arm label or schema score."
+}
