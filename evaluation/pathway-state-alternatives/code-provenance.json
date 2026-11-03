@@ -1,0 +1,17 @@
+{
+  "source_sha256": "bf585e2e21a84e14da9cd5ccc3f7f0da1bd2bba254343a6e6ad5626db2fbb34e",
+  "source_role": "Independent backend reviewer Decimal expression and full LP evaluator; no owner validator imported for arithmetic checks.",
+  "portable_file": "arithmetic.py",
+  "portable_sha256": "452d0b7f3ca920018fbb35659adff2507d0717ba693517253056e5e6850a64aa",
+  "changes": [
+    "Extracted the independent expression/full-primal routines into a standalone module.",
+    "Removed project-path, Store, product imports and mutation/control tests.",
+    "Added explicit CSV/header/section checks and exceptions for invalid input.",
+    "State-penalty term classification uses exact nU/nD numeric variable patterns.",
+    "Added CLI drivers to verify packaged vectors and optionally an authorized exact LP."
+  ],
+  "scientific_difference": "No changed objective, constraints, vectors or tolerances. These portable checks are a new packaging replay of stored results, not a new solver experiment.",
+  "scripts_not_executed": [
+    "replay_solve.py"
+  ]
+}

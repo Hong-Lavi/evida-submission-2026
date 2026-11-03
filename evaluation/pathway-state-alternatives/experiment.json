@@ -1,0 +1,363 @@
+{
+  "purpose": "Computational alternatives in one fixed explanation problem.",
+  "problem_count": 1,
+  "planned_experiment_solves": 3,
+  "completed_experiment_solves": 3,
+  "separate_native_queries": 1,
+  "native_queries_do_not_expand_scientific_denominator": true,
+  "retries": 0,
+  "query_nodes": [
+    "GSK3B",
+    "MDM2"
+  ],
+  "joint_query_performed": false,
+  "baseline_original_lp_sha256": "d57807fb747828b2ca558689455f1d7c52447adf3a2c138831ced7d6151b5000",
+  "original_protocol_sha256": "891ae29055ed1aa60b617b0068c6a426daf6b171760ff3de179a24f73a6efa71",
+  "native_protocol_sha256": "09e602743b8f46e6cbe260e00430f0d6a5932d94f354fac0ee584e6d9470e984",
+  "solver_settings": {
+    "seconds": 120,
+    "outer_wall_seconds": 180,
+    "termination_grace_seconds": 3,
+    "ratioGap": 0.0001,
+    "threads_requested": 1,
+    "threads_flag_supported": false
+  },
+  "comparison_tolerance": 1e-06,
+  "solution_variables": 11791,
+  "original_constraints": 30992,
+  "integer_variables": 11030,
+  "method": "Add only the selected original nU and nD equalities to zero. Original nAc is already fixed to zero. Do not delete a node/edge, change input signs, or change objective.",
+  "objective": "3.31852768703992*aD1 + 4.50268497794566*aD2 + 0.2*sum(original nU and nD variables)",
+  "measurements": [
+    {
+      "nodes": "E2F4",
+      "value": "3.31852768703992",
+      "measurementsVars": "aD1",
+      "nodesVars": "n180"
+    },
+    {
+      "nodes": "IRF1",
+      "value": "-4.50268497794566",
+      "measurementsVars": "aD2",
+      "nodesVars": "n746"
+    }
+  ],
+  "small_query_mapping": {
+    "GSK3B": {
+      "nodesVars": "n262",
+      "nodesUpVars": "nU262",
+      "nodesDownVars": "nD262",
+      "nodesActStateVars": "nAc262"
+    },
+    "MDM2": {
+      "nodesVars": "n406",
+      "nodesUpVars": "nU406",
+      "nodesDownVars": "nD406",
+      "nodesActStateVars": "nAc406"
+    },
+    "Perturbation": {
+      "nodesVars": "n727",
+      "nodesUpVars": "nU727",
+      "nodesDownVars": "nD727",
+      "nodesActStateVars": "nAc727"
+    }
+  },
+  "scope": [
+    "Two inferred TF signs; magnitudes weight mismatch, not a numeric activity fit.",
+    "0 means unused contrast state, not gene knockout.",
+    "The artificial source remains free; its sign/edge may change.",
+    "Equal-objective feasible witness and numerical optimality report are distinct.",
+    "No final numeric bound/gap printed; values remain null.",
+    "Previously examined development problem, no clinical, intervention-effect, biological-superiority or model-arm-uplift claim."
+  ],
+  "slots": [
+    {
+      "slot": "00-baseline",
+      "role": "fixed_three_run_experiment",
+      "query_node": null,
+      "added_constraints": [],
+      "query_lp_sha256": "d57807fb747828b2ca558689455f1d7c52447adf3a2c138831ced7d6151b5000",
+      "source_lp_sha256": "d57807fb747828b2ca558689455f1d7c52447adf3a2c138831ced7d6151b5000",
+      "solution_sha256": "c1fef437958c668a45ed18ceeee096e5391b67b204427f4624a1d3f939b95d45",
+      "solver_log_original_sha256": "d43f217230fb5246960163aeb7130ebf33a091fab3cee5a1ab7aeecea192e45e",
+      "solver_log_public_sha256": "4dbeee6ee54ac8096cbd5d6dbca8f2eae2deba5ba8a4230781b892dd3f3620d7",
+      "solver": {
+        "termination": "optimal_reported",
+        "elapsed_seconds": 48.271216102002654,
+        "returncode": 0,
+        "outer_timeout": false,
+        "reported_objective": 1.2,
+        "final_lower_bound": null,
+        "final_gap": null,
+        "threads_option_supported": false,
+        "max_observed_process_threads": 1
+      },
+      "validation": {
+        "independent_decimal": {
+          "variables": 11791,
+          "constraints": 30992,
+          "bounds": 11791,
+          "integer_variables": 11030,
+          "binary_variables": 9506,
+          "max_constraint_violation": "0",
+          "max_bound_violation": "0",
+          "max_integrality_violation": "0",
+          "objective_decimal": "1.20000000000000",
+          "weighted_sign_error_decimal": "0E-14",
+          "nonzero_state_penalty_decimal": "1.2",
+          "lp_original_recovered_byte_exact": true
+        }
+      },
+      "measurements": [
+        {
+          "node": "E2F4",
+          "input_score": 3.31852768703992,
+          "target_sign": 1,
+          "fitted_sign": 1.0,
+          "absolute_error": 0.0,
+          "weight": 3.31852768703992
+        },
+        {
+          "node": "IRF1",
+          "input_score": -4.50268497794566,
+          "target_sign": -1,
+          "fitted_sign": -1.0,
+          "absolute_error": 0.0,
+          "weight": 4.50268497794566
+        }
+      ],
+      "total_objective": 1.2,
+      "weighted_sign_error": 0.0,
+      "state_penalty": 1.2,
+      "nonzero_biological_nodes": 6,
+      "biological_edge_count": 5,
+      "artificial_edge_count": 1,
+      "artificial_root_state": 1.0,
+      "graph_sha256_original": "fde8ff13ebb0775138b8bffa12e04508f1ca4ee3af41cb81b5efa62aa6d7a97f",
+      "graph_distribution": "Withheld from this candidate pending resource-level redistribution verification."
+    },
+    {
+      "slot": "01-without-GSK3B",
+      "role": "fixed_three_run_experiment",
+      "query_node": "GSK3B",
+      "added_constraints": [
+        "query_GSK3B_up: nU262 = 0\n",
+        "query_GSK3B_down: nD262 = 0\n"
+      ],
+      "query_lp_sha256": "536621ac3c2a79e822d7c6acb98f22d46067c8e448d26e8bd988f5c7ecce604d",
+      "source_lp_sha256": "d57807fb747828b2ca558689455f1d7c52447adf3a2c138831ced7d6151b5000",
+      "solution_sha256": "ecd7f85b69e676d6780c6b5d162a904e0f1ff73d419504b0e4ebce55e042959e",
+      "solver_log_original_sha256": "70cacbf5801e0b3ceb5460c042cd235a0a32dea1b8933a6420db62e438f42352",
+      "solver_log_public_sha256": "f9feb340a780ae32a04f60c7ab2371c1f6c8aa254467be9f57eebb507414d5ab",
+      "solver": {
+        "termination": "optimal_reported",
+        "elapsed_seconds": 68.10156319499947,
+        "returncode": 0,
+        "outer_timeout": false,
+        "reported_objective": 1.2,
+        "final_lower_bound": null,
+        "final_gap": null,
+        "threads_option_supported": false,
+        "max_observed_process_threads": 1
+      },
+      "validation": {
+        "independent_decimal": {
+          "variables": 11791,
+          "constraints": 30994,
+          "bounds": 11791,
+          "integer_variables": 11030,
+          "binary_variables": 9506,
+          "max_constraint_violation": "0",
+          "max_bound_violation": "0",
+          "max_integrality_violation": "0",
+          "objective_decimal": "1.20000000000000",
+          "weighted_sign_error_decimal": "0E-14",
+          "nonzero_state_penalty_decimal": "1.2",
+          "lp_original_recovered_byte_exact": true
+        }
+      },
+      "measurements": [
+        {
+          "node": "E2F4",
+          "input_score": 3.31852768703992,
+          "target_sign": 1,
+          "fitted_sign": 1.0,
+          "absolute_error": 0.0,
+          "weight": 3.31852768703992
+        },
+        {
+          "node": "IRF1",
+          "input_score": -4.50268497794566,
+          "target_sign": -1,
+          "fitted_sign": -1.0,
+          "absolute_error": 0.0,
+          "weight": 4.50268497794566
+        }
+      ],
+      "total_objective": 1.2,
+      "weighted_sign_error": 0.0,
+      "state_penalty": 1.2,
+      "nonzero_biological_nodes": 6,
+      "biological_edge_count": 5,
+      "artificial_edge_count": 1,
+      "artificial_root_state": -1.0,
+      "graph_sha256_original": "5fdac3d0356a801c659111442f5a83f4d5a46452ba9cc35775b19545a7f7cef0",
+      "graph_distribution": "Withheld from this candidate pending resource-level redistribution verification."
+    },
+    {
+      "slot": "02-without-MDM2",
+      "role": "fixed_three_run_experiment",
+      "query_node": "MDM2",
+      "added_constraints": [
+        "query_MDM2_up: nU406 = 0\n",
+        "query_MDM2_down: nD406 = 0\n"
+      ],
+      "query_lp_sha256": "35ba608cf13d6b28ce279db9d8fa9f08d25d697091f90f5fd6fd272355251b39",
+      "source_lp_sha256": "d57807fb747828b2ca558689455f1d7c52447adf3a2c138831ced7d6151b5000",
+      "solution_sha256": "0e10b3c7cf40527ed3fc35d982fb547ff352beff33799bfa278768c51dc0b78a",
+      "solver_log_original_sha256": "4fcd26c3e9e89957e515b1bb5dc9d56ae9c59c8799db61400d3b389e36a4f2c4",
+      "solver_log_public_sha256": "34b98ba036338b7bdc55daaa245b542c00f89049427346241dad215074d3ee28",
+      "solver": {
+        "termination": "optimal_reported",
+        "elapsed_seconds": 22.235669606016017,
+        "returncode": 0,
+        "outer_timeout": false,
+        "reported_objective": 1.2,
+        "final_lower_bound": null,
+        "final_gap": null,
+        "threads_option_supported": false,
+        "max_observed_process_threads": 1
+      },
+      "validation": {
+        "independent_decimal": {
+          "variables": 11791,
+          "constraints": 30994,
+          "bounds": 11791,
+          "integer_variables": 11030,
+          "binary_variables": 9506,
+          "max_constraint_violation": "0",
+          "max_bound_violation": "0",
+          "max_integrality_violation": "0",
+          "objective_decimal": "1.20000000000000",
+          "weighted_sign_error_decimal": "0E-14",
+          "nonzero_state_penalty_decimal": "1.2",
+          "lp_original_recovered_byte_exact": true
+        }
+      },
+      "measurements": [
+        {
+          "node": "E2F4",
+          "input_score": 3.31852768703992,
+          "target_sign": 1,
+          "fitted_sign": 1.0,
+          "absolute_error": 0.0,
+          "weight": 3.31852768703992
+        },
+        {
+          "node": "IRF1",
+          "input_score": -4.50268497794566,
+          "target_sign": -1,
+          "fitted_sign": -1.0,
+          "absolute_error": 0.0,
+          "weight": 4.50268497794566
+        }
+      ],
+      "total_objective": 1.2,
+      "weighted_sign_error": 0.0,
+      "state_penalty": 1.2,
+      "nonzero_biological_nodes": 6,
+      "biological_edge_count": 5,
+      "artificial_edge_count": 1,
+      "artificial_root_state": 1.0,
+      "graph_sha256_original": "caf5a45f3684bd77230a428d7188f1552d38b562a952c19982efdb49fce8af85",
+      "graph_distribution": "Withheld from this candidate pending resource-level redistribution verification."
+    },
+    {
+      "slot": "03-native-GSK3B",
+      "role": "native_product_path_confirmation",
+      "query_node": "GSK3B",
+      "added_constraints": [
+        "evida_query_1: nU262 = 0\n",
+        "evida_query_2: nD262 = 0\n"
+      ],
+      "query_lp_sha256": "d471e5ce5685dd1cb3a1830f73d61a47ffca3429fd9357ee54aa713ba617a532",
+      "source_lp_sha256": "d57807fb747828b2ca558689455f1d7c52447adf3a2c138831ced7d6151b5000",
+      "solution_sha256": "ecd7f85b69e676d6780c6b5d162a904e0f1ff73d419504b0e4ebce55e042959e",
+      "solver_log_original_sha256": "a3212ea6cd71fc2b778f3f2b0711dbc0bb5eac6f24a27b893c98d1f88415323b",
+      "solver_log_public_sha256": "57e401906329cf5d404305cb2f1275261ae48a1b5938977922e2904f15779c68",
+      "solver": {
+        "termination": "optimal_reported",
+        "reported_objective": 1.2,
+        "final_lower_bound": null,
+        "final_gap": null,
+        "final_absolute_gap": null,
+        "ratio_gap_setting": 0.0001,
+        "search_completed_reported": true,
+        "threads_option_supported": false,
+        "certificate_scope": "Numerical CBC report; no formal exact-arithmetic proof. Missing final bound/gap stays null.",
+        "elapsed_seconds": 68.46578581997892,
+        "solver_seconds": 120,
+        "outer_seconds": 180,
+        "returncode": 0,
+        "outer_timeout": false
+      },
+      "validation": {
+        "independent_decimal": {
+          "slot": "GSK3B",
+          "valid": true,
+          "variables": 11791,
+          "constraints": 30994,
+          "integer_variables": 11030,
+          "objective": "1.20000000000000",
+          "weighted_sign_error": "0E-14",
+          "state_penalty": "1.2",
+          "max_constraint_violation": "0",
+          "max_bound_violation": "0",
+          "max_integrality_violation": "0"
+        },
+        "product_full_primal": {
+          "valid": true,
+          "variables": 11791,
+          "constraints_checked": 30994,
+          "bounds_checked": 11791,
+          "integer_variables_checked": 11030,
+          "max_constraint_violation": 0.0,
+          "max_bound_violation": 0.0,
+          "max_integrality_violation": 0.0,
+          "violations": [],
+          "objective": 1.2000000000000002,
+          "weighted_measurement_error": 0.0,
+          "nonzero_state_penalty": 1.2000000000000002,
+          "objective_decomposition_residual": 0.0
+        }
+      },
+      "measurements": [
+        {
+          "node": "E2F4",
+          "input_score": 3.31852768703992,
+          "target_sign": 1,
+          "fitted_sign": 1.0,
+          "absolute_error": 0.0,
+          "weight": 3.31852768703992
+        },
+        {
+          "node": "IRF1",
+          "input_score": -4.50268497794566,
+          "target_sign": -1,
+          "fitted_sign": -1.0,
+          "absolute_error": 0.0,
+          "weight": 4.50268497794566
+        }
+      ],
+      "total_objective": 1.2,
+      "weighted_sign_error": 0.0,
+      "state_penalty": 1.2,
+      "nonzero_biological_nodes": 6,
+      "biological_edge_count": 5,
+      "artificial_edge_count": 1,
+      "artificial_root_state": -1.0,
+      "graph_sha256_original": "d9691f1976232ccf3f6299c08a1c97e103264da7f94aba02914266eb09762979",
+      "graph_distribution": "Withheld from this candidate pending resource-level redistribution verification."
+    }
+  ]
+}
