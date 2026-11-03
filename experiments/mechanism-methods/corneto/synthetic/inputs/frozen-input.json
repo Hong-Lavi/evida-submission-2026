@@ -1,0 +1,112 @@
+{
+  "format_version": "1",
+  "case_id": "abstract-two-branch-sign-control",
+  "classification": "new_authored_synthetic_adapter_control_not_empirical_result",
+  "rights": "New EVIDA-authored abstract rows, no imported biological database. No new blanket license asserted.",
+  "network": [
+    {
+      "source": "ROOT",
+      "interaction": 1,
+      "target": "A"
+    },
+    {
+      "source": "ROOT",
+      "interaction": 1,
+      "target": "B"
+    },
+    {
+      "source": "A",
+      "interaction": 1,
+      "target": "TF_POS"
+    },
+    {
+      "source": "A",
+      "interaction": -1,
+      "target": "TF_NEG"
+    },
+    {
+      "source": "B",
+      "interaction": 1,
+      "target": "TF_POS"
+    },
+    {
+      "source": "B",
+      "interaction": -1,
+      "target": "TF_NEG"
+    }
+  ],
+  "measurements": [
+    {
+      "node": "TF_POS",
+      "raw_score": 2.0,
+      "target_sign": 1,
+      "mismatch_weight": 2.0,
+      "measurement_kind": "synthetic"
+    },
+    {
+      "node": "TF_NEG",
+      "raw_score": -3.0,
+      "target_sign": -1,
+      "mismatch_weight": 3.0,
+      "measurement_kind": "synthetic"
+    }
+  ],
+  "observed_perturbations": [],
+  "source_conditions": [
+    "Abstract adapter control; no organism, disease, assay, or real intervention."
+  ],
+  "artificial_source": {
+    "node": "ROOT",
+    "state_policy": "free_algorithmic_source"
+  },
+  "reference_cost_loss": {
+    "measurement_loss": "sum(abs(raw_score_i)*abs(fitted_discrete_state_i-target_sign_i))",
+    "state_domain": [
+      -1,
+      0,
+      1
+    ],
+    "state_zero_meaning": "unused contrast state, not gene knockout or biological inactivity",
+    "sparsity_coefficient": 0.2,
+    "sparsity_penalty": "0.2*sum(original nU+nD variables)",
+    "no_supplied_edge_specific_costs": true,
+    "comparison": "retain and report reference fit and complexity separately; alternative native objective is not directly comparable"
+  },
+  "hand_constructed_compatible_witnesses": [
+    {
+      "states": {
+        "ROOT": 1,
+        "A": 1,
+        "B": 0,
+        "TF_POS": 1,
+        "TF_NEG": -1
+      },
+      "selected_edges": [
+        0,
+        2,
+        3
+      ]
+    },
+    {
+      "states": {
+        "ROOT": 1,
+        "A": 0,
+        "B": 1,
+        "TF_POS": 1,
+        "TF_NEG": -1
+      },
+      "selected_edges": [
+        1,
+        4,
+        5
+      ]
+    }
+  ],
+  "expected_adapter_checks": [
+    "Both hand-constructed branches fit both target signs with weighted error zero.",
+    "Changing TF_NEG predicted state from -1 to +1 gives weighted sign error 6; zero gives 3.",
+    "Constrain A to state zero: branch B is a sign-consistent alternative. This is not proof of author-specific full LP feasibility.",
+    "Preserve missing observed perturbation; do not manufacture treatment, probability, or evidence."
+  ],
+  "execution_status": "not_run"
+}

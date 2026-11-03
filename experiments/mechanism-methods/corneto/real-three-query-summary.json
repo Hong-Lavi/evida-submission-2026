@@ -1,0 +1,62 @@
+{
+  "scope": "One matched IPF/DoRothEA source-prior diagnostic, three CORNETO ILP queries; computational results, not biological confirmation.",
+  "official_corneto_commit": "d9f6d238d6c41cc20ecc0b4a17d105cbf209b360",
+  "method": "Unmodified CarnivalILP(beta_weight=0.2, penalize=nodes), HiGHS; four CPU threads, seed 0, relative MIP gap 1e-6.",
+  "original_input_sha256": "cab85ee9657b305bd91439a60bbbfb7322bc4650bd1178bf28812c7abb754844",
+  "source_network_canonical_sha256": "60679634d76fee6769dc00ff51047e11ed131b0933bd3109637f60196734a382",
+  "source_mapping_sha256": "f441a7c53bd1aab620e3e941637a22d0deb0f68247de17a761cd32a33a0ec73d",
+  "prior_edges": 3520,
+  "prior_nodes": 760,
+  "artificial_source_edges": 472,
+  "artificial_source_targets": 236,
+  "algorithmic_augmentation_matches_private_mapping": true,
+  "observed_perturbations": [],
+  "measurement_targets": {
+    "E2F4": {
+      "raw_tf_score": 3.31852768703992,
+      "target_sign": 1
+    },
+    "IRF1": {
+      "raw_tf_score": -4.50268497794566,
+      "target_sign": -1
+    }
+  },
+  "queries": [
+    {
+      "query": "real-baseline",
+      "status": "optimal",
+      "weighted_absolute_sign_error": 0.0,
+      "corneto_native_objective": 1.4000000000000001,
+      "elapsed_seconds": 22.78651364397956,
+      "original_raw_result_sha256": "b0b2d4b033b23144b300b4df50e0e2c4f58782a409f1b24c3ec2c0b64193f386"
+    },
+    {
+      "query": "real-without-GSK3B",
+      "status": "optimal",
+      "weighted_absolute_sign_error": 0.0,
+      "corneto_native_objective": 1.4000000000000001,
+      "elapsed_seconds": 19.664594325993676,
+      "original_raw_result_sha256": "e3eb477ab214e241cb3f1a581a191ef9bad7e190a8540df37ddf7a5fc6b0875e"
+    },
+    {
+      "query": "real-without-MDM2",
+      "status": "optimal",
+      "weighted_absolute_sign_error": 0.0,
+      "corneto_native_objective": 1.4000000000000001,
+      "elapsed_seconds": 7.792225528974086,
+      "original_raw_result_sha256": "11abc6af28bcc3ab7fc381bec7ac3b55514b21d28b8e5f5d95a01f2b50f2a846"
+    }
+  ],
+  "whole_subprocess_seconds": 53.9,
+  "method_internal_pruning": {
+    "retained_vertices": 717,
+    "retained_augmented_edges": 3825
+  },
+  "saved_result_verification": {
+    "checks_passed": 114,
+    "meaning": "checks across saved synthetic and real outputs, not 114 biological cases"
+  },
+  "raw_selected_edge_semantic_limit": "A selected edge may lead to a target with inactive node state; raw edge list cannot be read as an entirely active explanatory network.",
+  "comparison_limit": "The CORNETO native objective 1.4 is not directly comparable with the current CARNIVAL objective 1.2. Same-fit GSK3B=0 and MDM2=0 queries show alternatives within this one input, not exhaustive enumeration.",
+  "replay_scope": "The three real solves require the original prior and mapping inputs matching the listed private SHA256 values; public author API and this summary alone do not regenerate them."
+}
