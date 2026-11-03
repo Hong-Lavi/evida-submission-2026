@@ -1,0 +1,90 @@
+{
+  "experiment": "ReaSyn v2 public-ZINC reaction-path trial, two EVIDA proposed candidates",
+  "manifest_schema": "file SHA256/byte counts; excludes this manifest itself",
+  "archived_runs": {
+    "run-01-proposed-2": {
+      "rows": 75,
+      "original_raw_csv_sha256": "e3c21c850cc49cd2a3ea380dab17ae9afa7ff6702a69c97dd67376f35d55466e"
+    },
+    "run-02-proposed-1": {
+      "rows": 100,
+      "original_raw_csv_sha256": "c58f887a2479bf598c68e85e070222a5e018788060bcf1299c2be3659e65c8ca"
+    }
+  },
+  "counts": {
+    "products": 175,
+    "reaction_routes": 108,
+    "stock_only": 67,
+    "independently_replayed_products": 175,
+    "separately_gp_predicted_rows": 183,
+    "original_crem_comparison_rows": 8
+  },
+  "official_sources": {
+    "reasyn_author_commit": "8a0b02178e90424266be424765b2e410dd10ab10",
+    "synformer_template_commit": "bef02bc4481adf3ed792090fc6169331d4d0553a",
+    "synformer_115_template_sha256": "ebadaa9069eb6ec117356a6eed97bfa3a8f55f1b7e883f551e2266ead20700ab",
+    "reasyn_zinc_37386_stock_sha256": "96da92294b151cc7cd90d1baf055f913aa4d77d047fe80997fca06d759aad775",
+    "reasyn_ar_checkpoint_sha256": "1a5055c0b8eee2ca40e70f0a12047d02803173c6602413204c5a357ca8c2b65e",
+    "reasyn_eb_checkpoint_sha256": "fc75057a1f1f3cdd9b122532ffd34ae38d73ed7f3dfc1f6059fda7b3a4b27eeb",
+    "moleculeace_commit": "7e6de0bd2968c56589c580f2a397f01c531ede26",
+    "moleculeace_chembl1862_ki_source_csv_sha256": "c69adcbb021591ba2c564df1e9eb55d465b3c51e78d0237ec0527942eb20cfdb"
+  },
+  "files": {
+    "MoleculeACE-LICENSE.txt": {
+      "bytes": 1056,
+      "sha256": "80318d8dd1069e1ba338d662221e98d6f8ae2e33223bc9a35bf99b74a0be60bc"
+    },
+    "NOTICE.md": {
+      "bytes": 2303,
+      "sha256": "e33f133a3bad666f94149513176302b0e24f11fd6b4521c7dfa0826213566ba8"
+    },
+    "README.md": {
+      "bytes": 6536,
+      "sha256": "7701de8cb0165930a6d816e07745fff78f08e12d3bc7eaaba7eb0554ad11fae2"
+    },
+    "inputs/candidates.csv": {
+      "bytes": 168,
+      "sha256": "7eac9524d3ef7bd77750b305bfdd19f0cabbafa6f570d8651230de2c1a5f1ef0"
+    },
+    "inputs/parent-moleculeace-rows.csv": {
+      "bytes": 323,
+      "sha256": "c66669ae448e59059b90fe0a6847776f4066d4f651085bef7cea6be6ef0945be"
+    },
+    "reproduce.py": {
+      "bytes": 11946,
+      "sha256": "584a75a5609709eae34129030983e59a36b037fafbe0563b9f029a857a050810"
+    },
+    "requirements-infer.txt": {
+      "bytes": 236,
+      "sha256": "c8c8868d752e4383b0804abb59bfd424b4e0e8fb362a7c33178332556b221cb8"
+    },
+    "results/activity-predictions.csv": {
+      "bytes": 23516,
+      "sha256": "84774e8cb7d4d3a13279f1da6a0f99c6b43c75cf831db02ded3ea01308fd8a4a"
+    },
+    "results/run-01-proposed-2.csv": {
+      "bytes": 11206,
+      "sha256": "e3c21c850cc49cd2a3ea380dab17ae9afa7ff6702a69c97dd67376f35d55466e"
+    },
+    "results/run-02-proposed-1.csv": {
+      "bytes": 18338,
+      "sha256": "c58f887a2479bf598c68e85e070222a5e018788060bcf1299c2be3659e65c8ca"
+    },
+    "verification/activity-scoring-summary.json": {
+      "bytes": 1723,
+      "sha256": "c93cdaec22aa20ab5f9e44f965c462328ee69cde022a5833df3aa68b879efe40"
+    },
+    "verification/route-summary.json": {
+      "bytes": 2128,
+      "sha256": "532fef188afecbc675cb4cf2e2abe8a6ce43fe606ad50b41146ba676b8724ff1"
+    },
+    "verification/run-01-replay.jsonl": {
+      "bytes": 118577,
+      "sha256": "84f879076c1e18f05513472c689421b5a4b60c8e502bee3d9ab1d222504a37d2"
+    },
+    "verification/run-02-replay.jsonl": {
+      "bytes": 255818,
+      "sha256": "c2b7f9307d6ffc828d0251f01164b990c4f4f47d1e9815377ea10e2218e05930"
+    }
+  }
+}
