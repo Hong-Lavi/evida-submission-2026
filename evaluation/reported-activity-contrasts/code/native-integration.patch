@@ -1,0 +1,97 @@
+diff --git a/product/evida/contracts.py b/product/evida/contracts.py
+index 8b9a86c..1ccc2b8 100644
+--- a/product/evida/contracts.py
++++ b/product/evida/contracts.py
+@@ -748,3 +748,21 @@ CAPABILITIES.append({'id': 'source_document', 'name': TOOL_NAMES['source_documen
+ from .check_subject_binding import REFS as CHECK_SUBJECT_REFS
+ NEXT_CHECK['anyOf'].extend([obj({**variant['properties'], 'subject_refs': CHECK_SUBJECT_REFS})
+                            for variant in list(NEXT_CHECK['anyOf'])])
++
++
++from .reported_activity_comparison import SCHEMA as REPORTED_ACTIVITY_COMPARISON
++_reported_activity = function('compare_reported_activity_pairs',
++    '보존된 활성 원행 두 개를 명시 선택하여 두 표적의 같은 endpoint 보고 농도를 대비한다. '
++    'bioactivities /rows/N, compound_candidates /rows/N/activities/M 또는 proposal_qualification의 '
++    '/rows/N/actual_parents/P/reported_measurements/M를 연결한다. 원 문헌·record·입체구조와 단위·관계기호를 '
++    '확인하고 comparator/reference 및 log10 대비를 계산한다. 조건 불일치와 미확인을 구별하며 '
++    '미측정을 0으로 바꾸지 않는다. source record 대응이며 선택성·효능 인증이나 통계적 신뢰구간이 아니다.',
++    REPORTED_ACTIVITY_COMPARISON)
++FUNCTIONS.append(_reported_activity)
++FUNCTION_BY_NAME[_reported_activity['name']] = _reported_activity
++CHECK_OPERATION['anyOf'].append(obj({'kind': {'type': 'string', 'enum': ['tool']},
++    'name': {'type': 'string', 'enum': [_reported_activity['name']]}, 'arguments': REPORTED_ACTIVITY_COMPARISON}))
++TOOL_NAMES['reported_activity_comparison'] = '보고 농도 대비'
++CAPABILITIES.append({'id': 'reported_activity_comparison', 'name': TOOL_NAMES['reported_activity_comparison'],
++    'input_kind': None, 'license': 'EVIDA arithmetic; source-specific terms retained; ChEMBL CC BY-SA 3.0',
++    'support': 'source_record_activity_contrast_not_selectivity_certification'})
+diff --git a/product/evida/runner.py b/product/evida/runner.py
+index 0bfa7e0..545e16e 100644
+--- a/product/evida/runner.py
++++ b/product/evida/runner.py
+@@ -73,6 +73,7 @@ FUNCTION_TO_TOOL['query_pathway_node_states'] = 'pathway_node_states'
+ FUNCTION_TO_TOOL['compare_pathway_explanations'] = 'pathway_robustness'
+ FUNCTION_TO_TOOL['select_next_observation'] = 'next_observation_selection'
+ FUNCTION_TO_TOOL['extract_source_document'] = 'source_document'
++FUNCTION_TO_TOOL['compare_reported_activity_pairs'] = 'reported_activity_comparison'
+ 
+ 
+ 
+@@ -205,6 +206,9 @@ class Runner:
+             jsonschema.validate(arguments, FUNCTION_BY_NAME[name]["parameters"])
+         except jsonschema.ValidationError as exc:
+             raise ValueError("도구 입력 형식을 확인해 주세요: " + exc.message[:400]) from None
++        if tool == 'reported_activity_comparison':
++            from .reported_activity_comparison import prepare
++            prepare(self.store, wid, arguments)
+         if tool == 'next_observation_selection':
+             from .next_observation_binding import prepare
+             prepare(self.store, wid, arguments)
+@@ -331,6 +335,10 @@ class Runner:
+                      for name in ('next_observation.py', 'next_observation_binding.py', 'measurement_report.py', 'check_subject_binding.py', 'contracts.py', 'runner.py', 'science.py')}})
+ 
+     def cache_key(self, wid, tool, arguments):
++        if tool == 'reported_activity_comparison':
++            # Small exact arithmetic: retain each explicit selection and its fresh
++            # transitive source binding without cross-version reuse.
++            return None
+         if tool == 'source_document':
+             # Retain each requested extraction with its actual parser version.
+             # Do not reuse across optional parser upgrades outside the pinned core.
+@@ -614,6 +622,11 @@ class Runner:
+                 request['figure_cache_dir'] = str(self.root / '.figure-cache')
+             if inp:
+                 (attempt / "input").write_bytes(inp["content"])
++            if tool == 'reported_activity_comparison':
++                from .reported_activity_comparison import prepare, digest
++                bundle = prepare(self.store, wid, args)
++                request['reported_activity_input'] = bundle
++                request['reported_activity_input_sha256'] = digest(bundle)
+             if tool == 'source_document':
+                 request['source_sha256'] = inp['sha256']
+             if tool == 'next_observation_selection':
+@@ -748,7 +761,7 @@ class Runner:
+             aid = self.store.add_artifact(wid, TOOL_NAMES[tool], artifact_kind, result_bytes,
+                 {"result_status": status, "summary": result.get("summary"), "limits": result.get("limits", []),
+                  "semantic_type": result.get("semantic_type"), "based_rev": job["based_rev"],
+-                 "consumed_artifacts": (args_for_consumption if args_for_consumption is not None else list(dict.fromkeys([args['artifact_id'], *(args.get('source_artifact_ids') or [])])) if tool=='analogue_proposal' else [args['artifact_id'],args['source_artifact_id'],*([args['generation_contract_artifact_id']] if args.get('generation_contract_artifact_id') else []), *([request['qualification_source_pool']['artifact_id']] if request.get('qualification_source_pool') else [])] if tool=='proposal_qualification' else [args['artifact_id'],*[r['artifact_id'] for r in json.loads(inp['content'])['reference_panel']]] if tool=='rna_region_annotation' else [args['artifact_id'],args['catalog_id'],parent_id] if tool=='rna_allele_scenario' else [*args['reference_ids'], *args['prior_candidate_artifact_ids']] if tool=='rna_candidate_space' else [args['artifact_id'],args['reference_id']] if tool=='rna_candidate_selection' else [args['artifact_id'],*args['reference_ids']] if tool=='rna_reference_panel' else [args[k] for k in ['artifact_id','reference_id','guide_id']] if tool=='rna_seed_analysis' else [args['artifact_id'],args['reference_id']] if tool in ('rna_activity_score','rna_author_full') else [args['artifact_id'], args['structure_id']] if tool in ('molecular_docking','binding_pose_review') else args.get("source_artifact_ids",args.get("artifact_ids", [inp["id"]] if inp else []))), "attempt_id": job["attempt"],
++                 "consumed_artifacts": list(request['reported_activity_input']['source_hashes']) if tool == 'reported_activity_comparison' else (args_for_consumption if args_for_consumption is not None else list(dict.fromkeys([args['artifact_id'], *(args.get('source_artifact_ids') or [])])) if tool=='analogue_proposal' else [args['artifact_id'],args['source_artifact_id'],*([args['generation_contract_artifact_id']] if args.get('generation_contract_artifact_id') else []), *([request['qualification_source_pool']['artifact_id']] if request.get('qualification_source_pool') else [])] if tool=='proposal_qualification' else [args['artifact_id'],*[r['artifact_id'] for r in json.loads(inp['content'])['reference_panel']]] if tool=='rna_region_annotation' else [args['artifact_id'],args['catalog_id'],parent_id] if tool=='rna_allele_scenario' else [*args['reference_ids'], *args['prior_candidate_artifact_ids']] if tool=='rna_candidate_space' else [args['artifact_id'],args['reference_id']] if tool=='rna_candidate_selection' else [args['artifact_id'],*args['reference_ids']] if tool=='rna_reference_panel' else [args[k] for k in ['artifact_id','reference_id','guide_id']] if tool=='rna_seed_analysis' else [args['artifact_id'],args['reference_id']] if tool in ('rna_activity_score','rna_author_full') else [args['artifact_id'], args['structure_id']] if tool in ('molecular_docking','binding_pose_review') else args.get("source_artifact_ids",args.get("artifact_ids", [inp["id"]] if inp else []))), "attempt_id": job["attempt"],
+                  "arguments": args, "runtime_fingerprint": self.fingerprint, "elapsed_seconds": result.get("elapsed_seconds"),
+                  **({'next_observation_input_binding': next_observation_binding,
+                      'consumed_source_messages': request['next_observation_input']['consumed_source_messages']}
+diff --git a/product/evida/science.py b/product/evida/science.py
+index 4b6dd41..de526ee 100644
+--- a/product/evida/science.py
++++ b/product/evida/science.py
+@@ -424,6 +424,12 @@ def main():
+                 raise ValueError('원 경로 계산 전달 해시가 다릅니다.')
+             result = run(json.loads(content), request['arguments'], Path(__file__).parents[1],
+                          Path(request['output_path']).parent/'node-states', request['input_sha256'])
++        elif tool == 'reported_activity_comparison':
++            from .reported_activity_comparison import evaluate, digest
++            bundle = request['reported_activity_input']
++            if digest(bundle) != request['reported_activity_input_sha256']:
++                raise ValueError('보고 농도 대비의 원자료 전달 해시가 다릅니다.')
++            result = evaluate(bundle)
+         elif tool == 'next_observation_selection':
+             from .next_observation_binding import run
+             result = run(request)

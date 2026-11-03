@@ -1,0 +1,140 @@
+{
+  "status": "PASS",
+  "closed_findings": [
+    "F1",
+    "F2"
+  ],
+  "checks": [
+    {
+      "case": "exact_preserved_original_wrong_context_copy",
+      "status": "PASS_REJECTED",
+      "message": "assay 조건 사본이 보존 원응답과 다릅니다."
+    },
+    {
+      "case": "true_copies_preserve_known_HEK293_CHO_conflict",
+      "status": "PASS",
+      "condition_review": {
+        "status": "known_mismatch",
+        "matched_fields": [
+          "activity.target_organism"
+        ],
+        "mismatches": [
+          {
+            "field": "assay_cell_type",
+            "reference": "HEK293",
+            "comparator": "CHO"
+          }
+        ],
+        "unknown_fields": [
+          "activity.target_tax_id",
+          "activity.assay_type",
+          "activity.bao_format",
+          "activity.bao_endpoint",
+          "assay_organism",
+          "assay_tax_id",
+          "assay_type",
+          "bao_format",
+          "assay_tissue",
+          "assay_strain",
+          "assay_subcellular_fraction",
+          "cell_chembl_id",
+          "tissue_chembl_id",
+          "assay_test_type",
+          "assay_parameters",
+          "complete_protocol_and_construct_comparability"
+        ],
+        "complete_protocol_verified": false,
+        "assay_context_authority": {
+          "reference": "retained_assay_response",
+          "comparator": "retained_assay_response"
+        }
+      }
+    },
+    {
+      "case": "unbacked_copy_retained_but_not_condition_authority",
+      "status": "PASS",
+      "condition_review": {
+        "status": "unknown_remaining",
+        "matched_fields": [
+          "activity.target_organism"
+        ],
+        "mismatches": [],
+        "unknown_fields": [
+          "activity.target_tax_id",
+          "activity.assay_type",
+          "activity.bao_format",
+          "activity.bao_endpoint",
+          "assay_organism",
+          "assay_tax_id",
+          "assay_type",
+          "bao_format",
+          "assay_cell_type",
+          "assay_tissue",
+          "assay_strain",
+          "assay_subcellular_fraction",
+          "cell_chembl_id",
+          "tissue_chembl_id",
+          "assay_test_type",
+          "assay_parameters",
+          "complete_protocol_and_construct_comparability"
+        ],
+        "complete_protocol_verified": false,
+        "assay_context_authority": {
+          "reference": "unverified_copy",
+          "comparator": "unverified_copy"
+        }
+      }
+    },
+    {
+      "case": "duplicate_assay_identity",
+      "status": "PASS_REJECTED",
+      "message": "assay 원응답의 식별자가 중복됐습니다."
+    },
+    {
+      "case": "unmatched_assay_with_nonnull_copy",
+      "status": "PASS_REJECTED",
+      "message": "조건 사본에 대응하는 보존 assay 원응답이 없습니다."
+    },
+    {
+      "case": "verified_matching_context_has_original_pointer_and_SHA",
+      "status": "PASS"
+    },
+    {
+      "case": "admitted_exact_decimal_1.0000000000000000000000000001",
+      "status": "PASS",
+      "direction": "reference_lower",
+      "point_decimal": "1.0000000000000000000000000001",
+      "display_float": 1.0
+    },
+    {
+      "case": "admitted_exact_decimal_0.9999999999999999999999999999",
+      "status": "PASS",
+      "direction": "comparator_lower",
+      "point_decimal": "0.9999999999999999999999999999",
+      "display_float": 1.0
+    },
+    {
+      "case": "admitted_exact_decimal_1.0000000000000000000000000000000000000000000000001",
+      "status": "PASS",
+      "direction": "reference_lower",
+      "point_decimal": "1.0000000000000000000000000000000000000000000000001",
+      "display_float": 1.0
+    },
+    {
+      "case": "51_significant_digits_unresolved",
+      "status": "PASS",
+      "reasons": [
+        "comparator_concentration_exceeds_50_significant_digits"
+      ]
+    }
+  ],
+  "original_fixture_hashes_unchanged": {
+    "scratch.sqlite": "375ead1c19377c2b8505caa906284435594c7363233754b550bcb5faed251fdc",
+    "context-copy-repro.json": "30bdf378a944305857b32932fbf781518047a9ba352c67e5a07daee1aa7fde7d",
+    "numeric-identity-checks.json": "64325005a38e8cc2a9512f76293ec8995b86514557307d31fada3e03a4f45920",
+    "seal.json": "ee56b852257ea0012c1b92c8a0ce9b831f47b42e7484782fe30e19a20d107f28"
+  },
+  "v2_source_pins_sha256": "17c265e4c0b86caa8b0cf33c81f2ab7cfe546a4ed009f95864d1cc2c1947b1f9",
+  "original221_recomputations": 0,
+  "native42_calls": 0
+}

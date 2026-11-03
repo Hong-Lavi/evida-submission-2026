@@ -1,0 +1,36 @@
+{
+  "rscript": "${WORKSPACE}/audit/evida-codex-hypothesis-20261009/runtime/carnival-r44/bin/Rscript",
+  "rscript_sha256": "58ff1223b064c0ff520193469c72c35a67c1bf49e235250d1f4277eb95524a0b",
+  "required_versions": {
+    "R": "4.4.3",
+    "decoupleR": "2.12.0"
+  },
+  "runtime_files": {
+    "lib/R/library/decoupleR/R/decoupleR.rdb": {
+      "path": "${WORKSPACE}/audit/evida-codex-hypothesis-20261009/runtime/carnival-r44/lib/R/library/decoupleR/R/decoupleR.rdb",
+      "sha256": "e9a361964851caac18692984a40760b377fa85529845a24172aa4c6998e0de16"
+    },
+    "lib/R/library/decoupleR/R/decoupleR.rdx": {
+      "path": "${WORKSPACE}/audit/evida-codex-hypothesis-20261009/runtime/carnival-r44/lib/R/library/decoupleR/R/decoupleR.rdx",
+      "sha256": "328b94e7cfbf20ef47041386e6aeb525c95cbe02a1ec5ed5cfa492bd7b95b59f"
+    },
+    "lib/R/library/decoupleR/DESCRIPTION": {
+      "path": "${WORKSPACE}/audit/evida-codex-hypothesis-20261009/runtime/carnival-r44/lib/R/library/decoupleR/DESCRIPTION",
+      "sha256": "08c577788f0a75a79e1584b0a389175ab19bde41e7831bd011935ce61a793804"
+    }
+  },
+  "resources": {
+    "dorothea": {
+      "path": "${WORKSPACE}/audit/evida-four-priority-execution-20260928-82/ipf-pathway-trial-01/get_dorothea-network.tsv",
+      "sha256": "a50a2692d7ac21f316d19856b6fd4e92810e9996803a128e55e33d2bf752c520",
+      "provenance": "Frozen public OmniPath TSV, author decoupleR get_dorothea transformation with transport-only adaptation; prior source/manifests preserved. Human mRNA interactions; TF-miRNA omitted."
+    },
+    "collectri": {
+      "path": "${WORKSPACE}/audit/evida-four-priority-execution-20260928-82/ipf-pathway-trial-01/get_collectri-network.tsv",
+      "sha256": "39f7eef18dedcfa318469fe62875c50a994c0fdf0d335d194fa8ef5c22216e90",
+      "provenance": "Frozen public OmniPath TSV, author decoupleR get_collectri transformation with transport-only adaptation; prior source/manifests preserved. Human mRNA interactions; TF-miRNA omitted."
+    }
+  },
+  "licensing": "Existing public academic-research resources. Preserve author attribution and separate commercial/redistribution review before public release.",
+  "runtime_condition": "Private exact-manifest runtime. Missing or changed runtime is reported explicitly; no automatic install or fallback."
+}
